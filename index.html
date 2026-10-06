@@ -895,21 +895,36 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
   <div class="planet6-rule">पहाटे ०५:३० पूर्वी जन्मलेला जातक असल्यास जन्मतारखेच्या मागील तारखेतील ग्रहस्थिती वजा करावी. या प्रक्रियेत जन्मवेळ ही ००:००:०० ते ०५:३०:०० या वेळेत असल्यास जन्मतारखेच्या मागील तारखेतील ग्रहस्थिती व जन्मतारखेतील ग्रहस्थितीचा फरक काढून घ्यावा.</div>
   <div class="planet6-heading" style="margin-top:10px">※जातकाच्या जन्मवेळी निरयन स्पष्ट ग्रहस्थिती काढणे: ( <span id="planet6RuleDates"></span> )</div>
   <table class="planet6-table">
-    <thead><tr><th class="rowlabel"></th><th>रवी</th><th>चंद्र</th><th>मंगळ</th><th>बुध</th><th>गुरु</th><th>शुक्र</th><th>शनि</th><th>राहु</th><th>केतु</th></tr></thead>
+    <thead><tr><th class="rowlabel"></th><th>रवी</th><th>चंद्र</th><th>मंगळ</th><th>बुध</th><th>गुरु</th><th>शुक्र</th><th>शनि</th><th>राहु</th></tr></thead>
     <tbody>
-      <tr><td class="rowlabel">दि:</td><td><input id="p6_d_0"></td><td><input id="p6_d_1"></td><td><input id="p6_d_2"></td><td><input id="p6_d_3"></td><td><input id="p6_d_4"></td><td><input id="p6_d_5"></td><td><input id="p6_d_6"></td><td><input id="p6_d_7"></td><td><input id="p6_d_8"></td></tr>
-      <tr><td class="rowlabel">दि:</td><td><input id="p6_t_0"></td><td><input id="p6_t_1"></td><td><input id="p6_t_2"></td><td><input id="p6_t_3"></td><td><input id="p6_t_4"></td><td><input id="p6_t_5"></td><td><input id="p6_t_6"></td><td><input id="p6_t_7"></td><td><input id="p6_t_8"></td></tr>
-      <tr><td class="rowlabel">दैनिक गती:</td><td><input id="p6_motion_0" readonly></td><td><input id="p6_motion_1" readonly></td><td><input id="p6_motion_2" readonly></td><td><input id="p6_motion_3" readonly></td><td><input id="p6_motion_4" readonly></td><td><input id="p6_motion_5" readonly></td><td><input id="p6_motion_6" readonly></td><td><input id="p6_motion_7" readonly></td><td><input id="p6_motion_8" readonly></td></tr>
-      <tr><td class="rowlabel">___ तास:</td><td><input id="p6_hours_0"></td><td><input id="p6_hours_1"></td><td><input id="p6_hours_2"></td><td><input id="p6_hours_3"></td><td><input id="p6_hours_4"></td><td><input id="p6_hours_5"></td><td><input id="p6_hours_6"></td><td><input id="p6_hours_7"></td><td><input id="p6_hours_8"></td></tr>
-      <tr><td class="rowlabel">___ मिनिटे:</td><td><input id="p6_minutes_0"></td><td><input id="p6_minutes_1"></td><td><input id="p6_minutes_2"></td><td><input id="p6_minutes_3"></td><td><input id="p6_minutes_4"></td><td><input id="p6_minutes_5"></td><td><input id="p6_minutes_6"></td><td><input id="p6_minutes_7"></td><td><input id="p6_minutes_8"></td></tr>
-      <tr><td class="rowlabel">एकूण:</td><td><input id="p6_total_0" readonly></td><td><input id="p6_total_1" readonly></td><td><input id="p6_total_2" readonly></td><td><input id="p6_total_3" readonly></td><td><input id="p6_total_4" readonly></td><td><input id="p6_total_5" readonly></td><td><input id="p6_total_6" readonly></td><td><input id="p6_total_7" readonly></td><td><input id="p6_total_8" readonly></td></tr>
-      <tr><td class="rowlabel">जन्मवेळची स्थिती:</td><td><input id="p6_birth_0" readonly></td><td><input id="p6_birth_1" readonly></td><td><input id="p6_birth_2" readonly></td><td><input id="p6_birth_3" readonly></td><td><input id="p6_birth_4" readonly></td><td><input id="p6_birth_5" readonly></td><td><input id="p6_birth_6" readonly></td><td><input id="p6_birth_7" readonly></td><td><input id="p6_birth_8" readonly></td></tr>
-      <tr><td class="rowlabel">बेरीज:</td><td><input id="p6_add_0" readonly></td><td><input id="p6_add_1" readonly></td><td><input id="p6_add_2" readonly></td><td><input id="p6_add_3" readonly></td><td><input id="p6_add_4" readonly></td><td><input id="p6_add_5" readonly></td><td><input id="p6_add_6" readonly></td><td><input id="p6_add_7" readonly></td><td><input id="p6_add_8" readonly></td></tr>
-      <tr><td class="rowlabel">वजा राशी अंश:</td><td><input id="p6_ayan_0" readonly></td><td><input id="p6_ayan_1" readonly></td><td><input id="p6_ayan_2" readonly></td><td><input id="p6_ayan_3" readonly></td><td><input id="p6_ayan_4" readonly></td><td><input id="p6_ayan_5" readonly></td><td><input id="p6_ayan_6" readonly></td><td><input id="p6_ayan_7" readonly></td><td><input id="p6_ayan_8" readonly></td></tr>
-      <tr><td class="rowlabel">पत्रिकेतील स्थिती (ग्रह अंश):</td><td><input id="p6_final_0" readonly></td><td><input id="p6_final_1" readonly></td><td><input id="p6_final_2" readonly></td><td><input id="p6_final_3" readonly></td><td><input id="p6_final_4" readonly></td><td><input id="p6_final_5" readonly></td><td><input id="p6_final_6" readonly></td><td><input id="p6_final_7" readonly></td><td><input id="p6_final_8" readonly></td></tr>
-      <tr><td class="rowlabel">राशीचे नाव:</td><td><input id="p6_rashi_0" readonly></td><td><input id="p6_rashi_1" readonly></td><td><input id="p6_rashi_2" readonly></td><td><input id="p6_rashi_3" readonly></td><td><input id="p6_rashi_4" readonly></td><td><input id="p6_rashi_5" readonly></td><td><input id="p6_rashi_6" readonly></td><td><input id="p6_rashi_7" readonly></td><td><input id="p6_rashi_8" readonly></td></tr>
+      <tr><td class="rowlabel">दि:</td><td><input id="p6_d_0"></td><td><input id="p6_d_1"></td><td><input id="p6_d_2"></td><td><input id="p6_d_3"></td><td><input id="p6_d_4"></td><td><input id="p6_d_5"></td><td><input id="p6_d_6"></td><td><input id="p6_d_7"></td></tr>
+      <tr><td class="rowlabel">दि:</td><td><input id="p6_t_0"></td><td><input id="p6_t_1"></td><td><input id="p6_t_2"></td><td><input id="p6_t_3"></td><td><input id="p6_t_4"></td><td><input id="p6_t_5"></td><td><input id="p6_t_6"></td><td><input id="p6_t_7"></td></tr>
+      <tr><td class="rowlabel">दैनिक गती:</td><td><input id="p6_motion_0" readonly></td><td><input id="p6_motion_1" readonly></td><td><input id="p6_motion_2" readonly></td><td><input id="p6_motion_3" readonly></td><td><input id="p6_motion_4" readonly></td><td><input id="p6_motion_5" readonly></td><td><input id="p6_motion_6" readonly></td><td><input id="p6_motion_7" readonly></td></tr>
+      <tr><td class="rowlabel"><span id="p6-hours-label">तास:</span></td><td><input id="p6_hours_0" readonly data-calculation-locked="true"></td><td><input id="p6_hours_1" readonly data-calculation-locked="true"></td><td><input id="p6_hours_2" readonly data-calculation-locked="true"></td><td><input id="p6_hours_3" readonly data-calculation-locked="true"></td><td><input id="p6_hours_4" readonly data-calculation-locked="true"></td><td><input id="p6_hours_5" readonly data-calculation-locked="true"></td><td><input id="p6_hours_6" readonly data-calculation-locked="true"></td><td><input id="p6_hours_7" readonly data-calculation-locked="true"></td></tr>
+      <tr><td class="rowlabel"><span id="p6-minutes-label">मिनिटे:</span></td><td><input id="p6_minutes_0" readonly data-calculation-locked="true"></td><td><input id="p6_minutes_1" readonly data-calculation-locked="true"></td><td><input id="p6_minutes_2" readonly data-calculation-locked="true"></td><td><input id="p6_minutes_3" readonly data-calculation-locked="true"></td><td><input id="p6_minutes_4" readonly data-calculation-locked="true"></td><td><input id="p6_minutes_5" readonly data-calculation-locked="true"></td><td><input id="p6_minutes_6" readonly data-calculation-locked="true"></td><td><input id="p6_minutes_7" readonly data-calculation-locked="true"></td></tr>
+      <tr><td class="rowlabel">एकूण:</td><td><input id="p6_total_0" readonly></td><td><input id="p6_total_1" readonly></td><td><input id="p6_total_2" readonly></td><td><input id="p6_total_3" readonly></td><td><input id="p6_total_4" readonly></td><td><input id="p6_total_5" readonly></td><td><input id="p6_total_6" readonly></td><td><input id="p6_total_7" readonly></td></tr>
+      <tr><td class="rowlabel">जन्मवेळची स्थिती:</td><td><input id="p6_birth_0" readonly></td><td><input id="p6_birth_1" readonly></td><td><input id="p6_birth_2" readonly></td><td><input id="p6_birth_3" readonly></td><td><input id="p6_birth_4" readonly></td><td><input id="p6_birth_5" readonly></td><td><input id="p6_birth_6" readonly></td><td><input id="p6_birth_7" readonly></td></tr>
+      <tr><td class="rowlabel">बेरीज:</td><td><input id="p6_add_0" readonly></td><td><input id="p6_add_1" readonly></td><td><input id="p6_add_2" readonly></td><td><input id="p6_add_3" readonly></td><td><input id="p6_add_4" readonly></td><td><input id="p6_add_5" readonly></td><td><input id="p6_add_6" readonly></td><td><input id="p6_add_7" readonly></td></tr>
+      <tr><td class="rowlabel">वजा राशी अंश:</td><td><input id="p6_ayan_0" readonly></td><td><input id="p6_ayan_1" readonly></td><td><input id="p6_ayan_2" readonly></td><td><input id="p6_ayan_3" readonly></td><td><input id="p6_ayan_4" readonly></td><td><input id="p6_ayan_5" readonly></td><td><input id="p6_ayan_6" readonly></td><td><input id="p6_ayan_7" readonly></td></tr>
+      <tr><td class="rowlabel">पत्रिकेतील स्थिती (ग्रह अंश):</td><td><input id="p6_final_0" readonly></td><td><input id="p6_final_1" readonly></td><td><input id="p6_final_2" readonly></td><td><input id="p6_final_3" readonly></td><td><input id="p6_final_4" readonly></td><td><input id="p6_final_5" readonly></td><td><input id="p6_final_6" readonly></td><td><input id="p6_final_7" readonly></td></tr>
+      <tr><td class="rowlabel">राशीचे नाव:</td><td><input id="p6_rashi_0" readonly></td><td><input id="p6_rashi_1" readonly></td><td><input id="p6_rashi_2" readonly></td><td><input id="p6_rashi_3" readonly></td><td><input id="p6_rashi_4" readonly></td><td><input id="p6_rashi_5" readonly></td><td><input id="p6_rashi_6" readonly></td><td><input id="p6_rashi_7" readonly></td></tr>
     </tbody>
   </table>
+
+  <div hidden aria-hidden="true" class="planet6-derived-ketu">
+    <input id="p6_d_8" readonly data-calculation-locked="true">
+    <input id="p6_t_8" readonly data-calculation-locked="true">
+    <input id="p6_motion_8" readonly data-calculation-locked="true">
+    <input id="p6_hours_8" readonly data-calculation-locked="true">
+    <input id="p6_minutes_8" readonly data-calculation-locked="true">
+    <input id="p6_total_8" readonly data-calculation-locked="true">
+    <input id="p6_birth_8" readonly data-calculation-locked="true">
+    <input id="p6_add_8" readonly data-calculation-locked="true">
+    <input id="p6_ayan_8" readonly data-calculation-locked="true">
+    <input id="p6_final_8" readonly data-calculation-locked="true">
+    <input id="p6_rashi_8" readonly data-calculation-locked="true">
+  </div>
+  <div class="planet6-info">तास व मिनिटांचे ग्रहअंश दैनिक गती आणि जन्मवेळ − सकाळी ०५:३० यांवरून automatic मिळतात. केतूची स्थिती राहूपासून ६ राशी (१८०°) पुढे, त्याच अंश-मिनिट-सेकंदांसह automatic काढली जाते.</div>
   <div id="ephDateInfo" class="planet6-info"></div>
 </div></div>
 <div id="planetTable" class="calc-sink" aria-hidden="true"></div></section>
@@ -999,49 +1014,32 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 
 
 <section id="karyesh" class="tab">
-<div class="card">
-<div class="karyesh-page">
-  <div class="karyesh-title">कार्येश</div>
-  <div class="karyesh-grid">
-
-    <div class="karyesh-box">
-      <h3>भावांचे कार्येश ग्रह</h3>
-      <table class="karyesh-table">
-        <thead><tr><th class="bhavcol">भाव</th><th>कार्येश भाव</th></tr></thead>
-        <tbody><tr><td>1</td><td><input id="karyesh_bhava_graha_1" readonly></td></tr><tr><td>2</td><td><input id="karyesh_bhava_graha_2" readonly></td></tr><tr><td>3</td><td><input id="karyesh_bhava_graha_3" readonly></td></tr><tr><td>4</td><td><input id="karyesh_bhava_graha_4" readonly></td></tr><tr><td>5</td><td><input id="karyesh_bhava_graha_5" readonly></td></tr><tr><td>6</td><td><input id="karyesh_bhava_graha_6" readonly></td></tr><tr><td>7</td><td><input id="karyesh_bhava_graha_7" readonly></td></tr><tr><td>8</td><td><input id="karyesh_bhava_graha_8" readonly></td></tr><tr><td>9</td><td><input id="karyesh_bhava_graha_9" readonly></td></tr><tr><td>10</td><td><input id="karyesh_bhava_graha_10" readonly></td></tr><tr><td>11</td><td><input id="karyesh_bhava_graha_11" readonly></td></tr><tr><td>12</td><td><input id="karyesh_bhava_graha_12" readonly></td></tr></tbody>
-      </table>
-    </div>
-
-    <div class="karyesh-box">
-      <h3>ग्रहांचे कार्येश भाव</h3>
-      <table class="karyesh-table">
-        <thead><tr><th class="grahcol">ग्रह</th><th>कार्येश भाव</th></tr></thead>
-        <tbody><tr><td>रवी</td><td><input id="karyesh_graha_bhava_1" readonly></td></tr><tr><td>चंद्र</td><td><input id="karyesh_graha_bhava_2" readonly></td></tr><tr><td>मंगळ</td><td><input id="karyesh_graha_bhava_3" readonly></td></tr><tr><td>राहु</td><td><input id="karyesh_graha_bhava_4" readonly></td></tr><tr><td>गुरु</td><td><input id="karyesh_graha_bhava_5" readonly></td></tr><tr><td>शनि</td><td><input id="karyesh_graha_bhava_6" readonly></td></tr><tr><td>बुध</td><td><input id="karyesh_graha_bhava_7" readonly></td></tr><tr><td>केतु</td><td><input id="karyesh_graha_bhava_8" readonly></td></tr><tr><td>शुक्र</td><td><input id="karyesh_graha_bhava_9" readonly></td></tr></tbody>
-      </table>
-    </div>
-
-    <div class="karyesh-box">
-      <h3>पत्रिकेतील १ ते १२ भावांचे उपनक्षत्रस्वामींचे कार्येश</h3>
-      <table class="karyesh-table">
-        <thead><tr><th class="bhavcol">भाव</th><th>कार्येश भाव</th></tr></thead>
-        <tbody><tr><td>1</td><td><input id="karyesh_sublord_bhava_1" readonly></td></tr><tr><td>2</td><td><input id="karyesh_sublord_bhava_2" readonly></td></tr><tr><td>3</td><td><input id="karyesh_sublord_bhava_3" readonly></td></tr><tr><td>4</td><td><input id="karyesh_sublord_bhava_4" readonly></td></tr><tr><td>5</td><td><input id="karyesh_sublord_bhava_5" readonly></td></tr><tr><td>6</td><td><input id="karyesh_sublord_bhava_6" readonly></td></tr><tr><td>7</td><td><input id="karyesh_sublord_bhava_7" readonly></td></tr><tr><td>8</td><td><input id="karyesh_sublord_bhava_8" readonly></td></tr><tr><td>9</td><td><input id="karyesh_sublord_bhava_9" readonly></td></tr><tr><td>10</td><td><input id="karyesh_sublord_bhava_10" readonly></td></tr><tr><td>11</td><td><input id="karyesh_sublord_bhava_11" readonly></td></tr><tr><td>12</td><td><input id="karyesh_sublord_bhava_12" readonly></td></tr></tbody>
-      </table>
-    </div>
-
-    <div class="karyesh-box">
-      <h3>पत्रिकेतील ९ ग्रहांचे उपनक्षत्रस्वामींचे कार्येश</h3>
-      <table class="karyesh-table">
-        <thead><tr><th class="grahcol">ग्रह</th><th>कार्येश भाव</th></tr></thead>
-        <tbody><tr><td>रवी</td><td><input id="karyesh_sublord_graha_1" readonly></td></tr><tr><td>चंद्र</td><td><input id="karyesh_sublord_graha_2" readonly></td></tr><tr><td>मंगळ</td><td><input id="karyesh_sublord_graha_3" readonly></td></tr><tr><td>राहु</td><td><input id="karyesh_sublord_graha_4" readonly></td></tr><tr><td>गुरु</td><td><input id="karyesh_sublord_graha_5" readonly></td></tr><tr><td>शनि</td><td><input id="karyesh_sublord_graha_6" readonly></td></tr><tr><td>बुध</td><td><input id="karyesh_sublord_graha_7" readonly></td></tr><tr><td>केतु</td><td><input id="karyesh_sublord_graha_8" readonly></td></tr><tr><td>शुक्र</td><td><input id="karyesh_sublord_graha_9" readonly></td></tr></tbody>
-      </table>
-    </div>
-
-  </div>
-</div>
-</div>
+<div class="card"><div class="karyesh-page">
+  <div class="karyesh-title">कार्येश · Significators</div>
+  <p class="kp-intro">Four-fold, six-fold and four-step calculations update automatically from the current house cusps and planet positions.</p>
+  <div id="kp-status" role="status" aria-live="polite" data-ready="false">Complete Tab 5 and Tab 6 to calculate significators.</div>
+  <label class="kp-settings no-print" for="kp-conjunction-orb">House-cusp conjunction range <input id="kp-conjunction-orb" type="number" min="0" max="10" step="0.5" value="3"> degrees</label>
+  <section id="kp-fourfold" class="kp-method" aria-label="Four-fold significators">
+    <h3>Four-fold significators · चार स्तर</h3>
+    <p class="kp-key">A: star lord's occupied house · B: planet's occupied house · C: star lord's owned houses · D: planet's owned houses. House rows show the corresponding planets.</p>
+    <h4>Planets</h4><div class="kp-table-scroll"><table id="kp-fourfold-planet" class="kp-table" aria-label="Four-fold planet significators"></table></div>
+    <h4>Houses</h4><div class="kp-table-scroll"><table id="kp-fourfold-house" class="kp-table" aria-label="Four-fold house significators"></table></div>
+    <p class="kp-aspect-rule"></p>
+  </section>
+  <section id="kp-sixfold" class="kp-method" aria-label="Six-fold significators">
+    <h3>Six-fold significators · सहा स्तर</h3>
+    <p class="kp-key">A / B / C: sub lord / star lord / planet occupied houses. D / E / F: sub lord / star lord / planet owned houses. CSL: cusp sub lord.</p>
+    <h4>Planets</h4><div class="kp-table-scroll"><table id="kp-sixfold-planet" class="kp-table" aria-label="Six-fold planet significators"></table></div>
+    <h4>Houses</h4><div class="kp-table-scroll"><table id="kp-sixfold-house" class="kp-table" aria-label="Six-fold house significators"></table></div>
+  </section>
+  <section id="kp-fourstep-section" class="kp-method" aria-label="Four-step theory">
+    <h3>Four-step theory · चार पायरी पद्धत</h3>
+    <p class="kp-key">Planet → its star lord → its sub lord → the sub lord's star lord. Planet and sub-lord levels contribute when in their own star or when no planet occupies their star. Owned houses contribute when empty; Nil indicates an inactive level.</p>
+    <div id="kp-fourstep" class="kp-step-grid"></div>
+    <p class="kp-intro">Su रवी · Mo चंद्र · Ma मंगळ · Me बुध · Ju गुरु · Ve शुक्र · Sa शनि · Ra राहू · Ke केतू</p>
+  </section>
+</div></div>
 </section>
-
-
 
 <section id="south9" class="tab">
   <div class="card">
@@ -1053,6 +1051,13 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
         <span id="kundaliEditStatus">Automatic calculation mode</span>
       </div>
       <div id="kundali" class="south9-chart" aria-label="South Indian Kundali"></div>
+      <div id="kp-basic-calculations" class="kp-basic-calculations">
+        <h3>Basic calculations · मूलभूत ग्रह व भाव माहिती</h3>
+        <h4>Planets</h4><div class="kp-table-scroll"><table id="kp-basic-planet" class="kp-table" aria-label="Basic planet calculations"></table></div>
+        <h4>Houses</h4><div class="kp-table-scroll"><table id="kp-basic-house" class="kp-table" aria-label="Basic house calculations"></table></div>
+        <p class="kp-key">Occ: occupied house / planets · Own: owned houses · SgL: sign lord · StL: star lord · SL: sub lord · SSL: sub-sub lord · CSL / CStL: cusp sub / star lord · Aspd: aspects received · Aspg: aspects given · Conj: cusp conjunction.</p>
+        <p class="kp-aspect-rule"></p>
+      </div>
       <div id="chartAscValidation" class="south9-validation">गणना सुरू झाल्यावर १२ भावांची निरयन स्थिती व ग्रहस्थिती येथे दिसेल.</div>
       <div class="kundali-note no-print">टीप: Auto Fill केल्यावर रॅफेल टेबल व ग्रहस्थितीतील नवीन गणना कुंडलीत भरली जाईल. Manual Edit केल्यावर कुंडलीतील मजकूर तुम्ही स्वतः बदलू शकता.</div>
     </div>
@@ -3826,6 +3831,7 @@ document.addEventListener("DOMContentLoaded", function(){
     return match ? Number(match[1])*3600+Number(match[2])*60+Number(match[3]) : NaN;
   }
   function syncWorksheetPositions(){
+    if(typeof window.updatePlanet6Automatic==='function')window.updatePlanet6Automatic();
     // The current worksheets are authoritative: their calculators can update
     // these fields without rebuilding the older global chart caches.
     const cusps=Array(12).fill(null), lp={};
@@ -3835,12 +3841,13 @@ document.addEventListener("DOMContentLoaded", function(){
       cusps[h-1]=lon;
       cusps[(h+5)%12]=norm(lon+648000);
     });
-    P9.forEach((p,i)=>{
+    P9.slice(0,8).forEach((p,i)=>{
       const degree=worksheetDms(document.getElementById('p6_final_'+i)?.value);
       const sign=String(document.getElementById('p6_rashi_'+i)?.value||'').trim().replace(/^तुला$/,'तुळ');
       const si=R9.indexOf(sign);
       if(si>=0&&Number.isFinite(degree)&&degree<108000)lp[p]=si*108000+degree;
     });
+    if(Object.hasOwn(lp,'राहू'))lp['केतू']=norm(lp['राहू']+648000);
     window.cuspResults=cusps.map((nir,i)=>({i:i+1,nir,rashi:nir===null?'':R9[signIndex(nir)]}));
     window.lastPlanetPositions=lp;
     return {cusps,lp};
@@ -4079,6 +4086,466 @@ document.addEventListener("DOMContentLoaded", function(){
   };
   function refresh(){try{window.renderChart(true)}catch(e){console.error('v38 chart',e)}}
   document.addEventListener('DOMContentLoaded',()=>{setTimeout(refresh,200);setTimeout(refresh,800);document.querySelectorAll('nav button[data-tab="south9"]').forEach(b=>b.addEventListener('click',()=>setTimeout(refresh,80)));document.querySelectorAll('#planet input,#raphael5 input,#raphael5 select').forEach(e=>e.addEventListener('input',()=>setTimeout(refresh,60)));});
+})();
+</script>
+<script id="planet6-automatic-corrections">
+/* Tab 6 authoritative calculation: signed angular corrections from the exact
+   DOB 05:30 position, with Ketu always derived from Rahu + 180 degrees. */
+(function(){
+  const FULL=1296000, HALF=648000, RASHI=108000, DAY=86400, FIVE30=19800;
+  const names=['रवी','चंद्र','मंगळ','बुध','गुरु','शुक्र','शनि','राहू','केतू'];
+  const signs=['मेष','वृषभ','मिथुन','कर्क','सिंह','कन्या','तुला','वृश्चिक','धनु','मकर','कुंभ','मीन'];
+  const outputs=['motion','hours','minutes','total','birth','add','ayan','final','rashi'];
+  const get=id=>String(document.getElementById(id)?.value||'').trim();
+  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value??'';};
+  const norm=value=>((value%FULL)+FULL)%FULL;
+  function dms(value){
+    if(!Number.isFinite(value))return '';
+    const rounded=Math.round(Math.abs(value));
+    return (value<0&&rounded>0?'-':'')+Math.floor(rounded/3600)+':'+String(Math.floor(rounded%3600/60)).padStart(2,'0')+':'+String(rounded%60).padStart(2,'0');
+  }
+  const longitude=value=>dms(norm(Math.round(value)));
+  function angle(value){
+    const match=/^(\d{1,3}):([0-5]?\d):([0-5]?\d)(?:\s+R)?$/i.exec(String(value||'').trim());
+    if(!match)return NaN;
+    const result=Number(match[1])*3600+Number(match[2])*60+Number(match[3]);
+    // The embedded ephemeris uses unwrapped longitudes such as 364:42:00.
+    // Normalize those values before taking a signed daily difference.
+    return norm(result);
+  }
+  function birthSeconds(){
+    const match=/^(\d{1,2}):([0-5]\d)(?::([0-5]\d))?$/.exec(get('birthTime'));
+    if(!match||Number(match[1])>23)return NaN;
+    return Number(match[1])*3600+Number(match[2])*60+Number(match[3]||0);
+  }
+  function calendarDay(value){
+    const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+    if(!match)return NaN;
+    const y=Number(match[1]),m=Number(match[2]),d=Number(match[3]);
+    const date=new Date(0);date.setUTCFullYear(y,m-1,d);date.setUTCHours(0,0,0,0);
+    return date.getUTCFullYear()===y&&date.getUTCMonth()===m-1&&date.getUTCDate()===d?date.getTime()/86400000:NaN;
+  }
+  function finalPosition(index,position,retro){
+    const absolute=norm(Math.round(position)),si=Math.floor(absolute/RASHI);
+    set('p6_add_'+index,longitude(absolute));
+    set('p6_ayan_'+index,longitude(si*RASHI));
+    set('p6_final_'+index,dms(absolute%RASHI)+(retro&&index<7?' R':''));
+    set('p6_rashi_'+index,signs[si]);
+    const field=document.getElementById('p6_final_'+index);
+    if(field)field.dataset.rashi=signs[si];
+    return absolute;
+  }
+  function clear(index){
+    outputs.forEach(field=>set('p6_'+field+'_'+index,''));
+    const final=document.getElementById('p6_final_'+index);
+    if(final)delete final.dataset.rashi;
+  }
+  function calculate(){
+    const bt=birthSeconds(),dob=get('dob');
+    const row1=get('p6_row_date_1')||get('p6_date_1'),row2=get('p6_row_date_2')||get('p6_date_2');
+    const day1=calendarDay(row1),day2=calendarDay(row2),interval=day2-day1;
+    const validDates=Number.isFinite(calendarDay(dob))&&Number.isFinite(interval)&&interval!==0;
+    const source=row1===dob?0:row2===dob?1:-1;
+    const elapsed=Number.isFinite(bt)?bt-FIVE30:NaN;
+    const direction=elapsed<0?-1:1,absoluteElapsed=Math.abs(elapsed);
+    const hours=Math.floor(absoluteElapsed/3600),remaining=absoluteElapsed-hours*3600;
+    const hoursLabel=document.getElementById('p6-hours-label'),minutesLabel=document.getElementById('p6-minutes-label');
+    if(hoursLabel)hoursLabel.textContent=Number.isFinite(elapsed)?`${elapsed<0?'−':''}${hours} तास:`:'तास:';
+    if(minutesLabel)minutesLabel.textContent=Number.isFinite(elapsed)?`${elapsed<0?'−':''}${Math.floor(remaining/60)} मिनिटे${remaining%60?' '+remaining%60+' सेकंद':''}:`:'मिनिटे:';
+    if(Number.isFinite(bt)){
+      const h=Math.floor(bt/3600),m=Math.floor(bt%3600/60),s=bt%60;
+      set('planet6BirthTime',String(h%12||12).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'));
+      set('planet6BirthAmPm',h>=12?'PM':'AM');
+    }else set('planet6BirthTime','');
+    const positions={};
+    for(let i=0;i<8;i++){
+      const first=angle(get('p6_d_'+i)),second=angle(get('p6_t_'+i));
+      if(!Number.isFinite(first)||!Number.isFinite(second)||!validDates||source<0||!Number.isFinite(elapsed)){
+        clear(i);continue;
+      }
+      // Use the shortest signed change across 0 degrees, then normalize to one
+      // day. The date controls determine chronology even if rows are swapped.
+      let difference=second-first;
+      if(difference>HALF)difference-=FULL;
+      if(difference<-HALF)difference+=FULL;
+      const daily=difference/interval;
+      const roundCorrection=value=>Math.sign(value)*Math.round(Math.abs(value));
+      const total=roundCorrection(daily*elapsed/DAY);
+      const hourCorrection=roundCorrection(daily*direction*hours/24);
+      // Round once for the final correction; keep the displayed components
+      // additive, including any one-second rounding remainder.
+      const minuteCorrection=total-hourCorrection;
+      const base=source===0?first:second;
+      set('p6_motion_'+i,dms(Math.abs(daily))+(daily<0&&i<7?' R':''));
+      set('p6_hours_'+i,dms(hourCorrection));
+      set('p6_minutes_'+i,dms(minuteCorrection));
+      set('p6_total_'+i,dms(total));
+      set('p6_birth_'+i,get((source===0?'p6_d_':'p6_t_')+i));
+      positions[names[i]]=finalPosition(i,base+total,daily<0);
+    }
+    // Hidden legacy index-8 fields remain for old save/worksheet helpers, but
+    // none is an independent source: every Ketu value follows Rahu.
+    for(const prefix of ['d','t']){
+      const rahu=angle(get('p6_'+prefix+'_7'));
+      set('p6_'+prefix+'_8',Number.isFinite(rahu)?longitude(rahu+HALF):'');
+    }
+    if(Object.hasOwn(positions,'राहू')){
+      for(const field of ['motion','hours','minutes','total'])set('p6_'+field+'_8',get('p6_'+field+'_7').replace(/\s+R$/i,''));
+      const birth=angle(get('p6_birth_7'));
+      set('p6_birth_8',Number.isFinite(birth)?longitude(birth+HALF):'');
+      positions['केतू']=finalPosition(8,positions['राहू']+HALF,false);
+    }else clear(8);
+    const baseDate=document.getElementById('p6_birth_pos_date');
+    if(baseDate){baseDate.value=dob;baseDate.disabled=true;}
+    window.lastPlanetPositions=positions;
+    return positions;
+  }
+  window.updatePlanet6Automatic=calculate;
+  window.calculateTab6SunMethod=calculate;
+  let timer;
+  function refresh(event){
+    if(event&&!event.target?.closest('#basic,#planet'))return;
+    calculate();
+    clearTimeout(timer);timer=setTimeout(calculate,70);
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    document.addEventListener('input',refresh);
+    document.addEventListener('change',refresh);
+    // All older worksheet initialization timers have finished before this last
+    // pass; main Calculate and load/import also call the authoritative function.
+    calculate();setTimeout(calculate,650);setTimeout(calculate,1250);
+  });
+})();
+</script>
+
+<style id="kp-display-style">
+.kp-method { margin:24px 0 32px; }
+.kp-method h3,.kp-basic-calculations h3 { margin:0 0 10px; font-size:18px; color:#353047; }
+.kp-method h4,.kp-basic-calculations h4 { margin:14px 0 8px; font-size:14px; }
+.kp-intro,.kp-key,.kp-aspect-rule { color:#686379; font-size:12px; line-height:1.55; }
+.kp-key { margin:8px 0 14px; }
+.kp-table-scroll { width:100%; overflow-x:auto; border:1px solid #c4cdb9; border-radius:8px; margin:8px 0 16px; }
+.kp-table { width:100%; min-width:720px; border-collapse:collapse; font-size:12px; color:#26342b; }
+.kp-table th,.kp-table td { padding:8px 9px; border:1px solid #c4cdb9; text-align:left; vertical-align:top; white-space:normal; }
+.kp-table thead th { color:white; background:#637d38; font-weight:700; }
+body.app-ready .kp-table th,body.app-ready .kp-table td { font-size:inherit; color:inherit; border-color:#c4cdb9; }
+body.app-ready .kp-table thead th { color:white; background:#637d38; }
+body.app-ready .kp-table tbody th { background:#e8eddc; }
+.kp-table tbody th { background:#e8eddc; font-weight:750; width:45px; }
+.kp-table tbody td { background:#fafcf7; }
+.kp-table tbody tr:nth-child(even) td { background:#f0f4e7; }
+.kp-table td[data-field="own"],.kp-table td[data-field="csl"],.kp-table td[data-field="CSL"] { color:#50691f; font-weight:650; }
+body.app-ready .kp-table td[data-field="own"],body.app-ready .kp-table td[data-field="csl"],body.app-ready .kp-table td[data-field="CSL"] { color:#50691f; }
+.kp-basic-calculations { margin:22px 0 0; }
+.kp-basic-calculations .kp-table { min-width:1050px; font-size:11px; }
+.kp-basic-calculations .kp-table th,.kp-basic-calculations .kp-table td { padding:7px; }
+.kp-settings { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:12px 0; font-size:12px; color:#686379; }
+.kp-settings input { width:68px!important; min-height:34px!important; padding:4px 8px!important; }
+#kp-status { padding:10px 12px; border:1px solid #ded9ec; background:#f5f2fb; border-radius:8px; font-size:13px; line-height:1.5; }
+#kp-status[data-ready="true"] { color:#42602f; background:#f1f7ec; border-color:#d3e2c8; }
+.kp-step-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:16px 0; }
+.kp-step-card { border:1px solid #c4cdb9; border-radius:8px; background:#f2f6ec; padding:14px; min-width:0; }
+.kp-step-card:nth-child(even) { background:#fafcf7; }
+.kp-step-card h4 { margin:0 0 14px; font-size:15px; }
+.kp-step-card h4 span { color:#686379; font-size:12px; font-weight:500; margin-left:5px; }
+.kp-step { display:flex; flex-direction:column; gap:4px; margin:0 0 13px; font-size:12px; line-height:1.5; }
+.kp-step:last-child { margin-bottom:0; }
+.kp-step-label { color:#686379; font-size:11px; }
+.kp-step strong { font-weight:550; }
+.kp-csl { color:#57782a; }
+.kp-own-star { color:#57782a; font-size:10px; }
+.kp-nil { color:#858192; }
+@media(max-width:1000px) { .kp-step-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:600px) { .kp-step-grid { grid-template-columns:1fr; } }
+@media print {
+  .kp-method { margin:0; }
+  .kp-method h3,.kp-basic-calculations h3 { font-size:10px!important; margin:0 0 2mm!important; }
+  .kp-method h4,.kp-basic-calculations h4 { font-size:8px!important; margin:1mm 0!important; }
+  .kp-intro,.kp-key,.kp-aspect-rule { font-size:7px!important; line-height:1.3!important; margin:1mm 0!important; }
+  .kp-table-scroll { overflow:visible!important; border-radius:0!important; margin:1mm 0 3mm!important; border:0!important; }
+  .kp-table { min-width:0!important; width:100%!important; table-layout:fixed; font-size:8px!important; }
+  .kp-table th,.kp-table td { padding:1.4mm 1mm!important; overflow-wrap:anywhere; }
+  .kp-step-grid { grid-template-columns:repeat(3,minmax(0,1fr))!important; gap:3mm!important; }
+  .kp-step-card { padding:3mm!important; border-radius:0!important; }
+  .kp-step { font-size:9px!important; margin-bottom:5mm!important; }
+  .kp-step-label { font-size:8px!important; }
+  .kp-basic-calculations { margin:2mm 0 0!important; }
+  .kp-basic-calculations .kp-table { font-size:6.5px!important; }
+  .kp-basic-calculations .kp-table th,.kp-basic-calculations .kp-table td { padding:.65mm .55mm!important; line-height:1.2!important; }
+  .kp-basic-calculations .kp-table-scroll { margin:0 0 1mm!important; }
+  .kp-kundali-report :is(#kundali,[data-report-id="kundali"]).v38-chart { width:125mm!important; height:125mm!important; min-width:0!important; margin:1mm auto 2mm!important; }
+  .kp-kundali-report .south9-title,.kp-kundali-report .south9-validation { display:none!important; }
+  .kp-kundali-report .card,.kp-kundali-report .south9-sheet { padding:0!important; margin:0!important; border:0!important; }
+}
+</style>
+<script id="kp-display-engine">
+/*
+ * KP table models. Longitudes are absolute zodiac arcseconds, not degrees.
+ * Fourfold: star occupancy, own occupancy, star ownership, own ownership.
+ * Sixfold: sub occupancy, star occupancy, own occupancy, sub ownership,
+ *          star ownership, own ownership.
+ * Rahu and Ketu do not own signs. Ketu is always derived opposite Rahu.
+ * Four-step strength follows the reference's empty-star / own-star rule.
+ * The basic aspect columns use whole-sign Vedic aspects, with a configurable
+ * cusp-conjunction orb; this convention is separate from KP star/sub levels.
+ */
+(function () {
+  'use strict';
+
+  const CIRCLE = 1296000, SIGN = 108000, NAK = 48000;
+  const IDS = ['Su', 'Mo', 'Ma', 'Me', 'Ju', 'Ve', 'Sa', 'Ra', 'Ke'];
+  const NAMES = ['रवी', 'चंद्र', 'मंगळ', 'बुध', 'गुरु', 'शुक्र', 'शनि', 'राहू', 'केतू'];
+  const SIGNS = ['मेष', 'वृषभ', 'मिथुन', 'कर्क', 'सिंह', 'कन्या', 'तुळ', 'वृश्चिक', 'धनु', 'मकर', 'कुंभ', 'मीन'];
+  const SIGN_CODES = ['Ar', 'Ta', 'Ge', 'Ca', 'Le', 'Vi', 'Li', 'Sc', 'Sg', 'Cp', 'Aq', 'Pi'];
+  const SIGN_LORDS = ['Ma', 'Ve', 'Me', 'Mo', 'Su', 'Me', 'Ve', 'Ma', 'Ju', 'Sa', 'Sa', 'Ju'];
+  const ORDER = ['Ke', 'Ve', 'Su', 'Mo', 'Ma', 'Ra', 'Ju', 'Sa', 'Me'];
+  const YEARS = {Ke: 7, Ve: 20, Su: 6, Mo: 10, Ma: 7, Ra: 18, Ju: 16, Sa: 19, Me: 17};
+  const NAK_NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishta', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'];
+  const NAK_CODES = ['Asw', 'Bha', 'Kri', 'Roh', 'Mri', 'Ard', 'Pun', 'Pus', 'Asl', 'Mag', 'Pph', 'Uph', 'Has', 'Cht', 'Swa', 'Vis', 'Anu', 'Jye', 'Mul', 'Psh', 'Ush', 'Shr', 'Dha', 'Sat', 'Pbh', 'Ubh', 'Rev'];
+  const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+  const NAME_BY_ID = Object.fromEntries(IDS.map((id, i) => [id, NAMES[i]]));
+  const ID_BY_NAME = Object.fromEntries(IDS.map((id, i) => [NAMES[i], id]));
+  ID_BY_NAME['राहु'] = 'Ra'; ID_BY_NAME['केतु'] = 'Ke';
+  const norm = value => ((value % CIRCLE) + CIRCLE) % CIRCLE;
+  const validNumber = value => (typeof value === 'number' || typeof value === 'string' && value.trim() !== '') && Number.isFinite(Number(value));
+  const sorted = values => [...new Set(values)].sort((a, b) => a - b);
+
+  function formatDegree(longitude) {
+    const value = Math.round(norm(longitude) % SIGN);
+    return Math.floor(value / 3600) + '°' + String(Math.floor(value % 3600 / 60)).padStart(2, '0') + '′' + String(value % 60).padStart(2, '0') + '″';
+  }
+
+  // Half-open intervals assign an exact sub/sub-sub boundary to its new lord.
+  function divideVimshottari(offset, total, startLord) {
+    const start = ORDER.indexOf(startLord);
+    let lower = 0;
+    for (let i = 0; i < 9; i++) {
+      const lord = ORDER[(start + i) % 9], span = total * YEARS[lord] / 120;
+      if (offset < lower + span - 1e-7 || i === 8) return {lord, lower, span};
+      lower += span;
+    }
+    return null;
+  }
+
+  function longitudeDetails(longitude) {
+    const value = norm(longitude), si = Math.floor(value / SIGN), ni = Math.floor(value / NAK);
+    const withinNak = value - ni * NAK, stl = ORDER[ni % 9];
+    const sub = divideVimshottari(withinNak, NAK, stl);
+    const subsub = divideVimshottari(withinNak - sub.lower, sub.span, sub.lord);
+    return {
+      longitude: value, signIndex: si, sign: SIGNS[si], signCode: SIGN_CODES[si],
+      degree: formatDegree(value), nakshatra: NAK_NAMES[ni], nakCode: NAK_CODES[ni],
+      nakIndex: ni, pada: Math.floor(withinNak / 12000) + 1,
+      sgl: SIGN_LORDS[si], stl, sl: sub.lord, ssl: subsub.lord,
+    };
+  }
+
+  function occupiedHouse(cusps, longitude) {
+    for (let i = 0; i < 12; i++) {
+      if (norm(longitude - cusps[i]) < norm(cusps[(i + 1) % 12] - cusps[i])) return i + 1;
+    }
+    return null;
+  }
+
+  function build(cuspValues, positions, configuration) {
+    const rawOrb = configuration?.conjunctionOrb;
+    const options = {
+      conjunctionOrb: validNumber(rawOrb) ? Math.max(0, Math.min(15, Number(rawOrb))) : 3,
+      aspectMode: 'vedic-whole-sign', ketuAspects: Boolean(configuration?.ketuAspects),
+    };
+    const empty = reason => ({ready: false, reason, planets: [], houses: [], fourfold: {planets: [], houses: []}, sixfold: {planets: [], houses: []}, fourstep: [], options});
+    if (!Array.isArray(cuspValues) || cuspValues.length !== 12 || cuspValues.some(v => !validNumber(v))) return empty('Complete all twelve cusp longitudes.');
+    const cusps = cuspValues.map(v => norm(Number(v)));
+    const gaps = cusps.map((v, i) => norm(cusps[(i + 1) % 12] - v));
+    if (gaps.some(g => g === 0) || Math.abs(gaps.reduce((a, b) => a + b, 0) - CIRCLE) > 1e-6) return empty('Cusps must form one ordered zodiac cycle.');
+    const lp = {};
+    for (let i = 0; i < 8; i++) {
+      const id = IDS[i], value = positions?.[id] ?? positions?.[NAMES[i]] ?? (id === 'Ra' ? positions?.['राहु'] : undefined);
+      if (!validNumber(value)) return empty('Complete all seven classical planets and Rahu.');
+      lp[id] = norm(Number(value));
+    }
+    lp.Ke = norm(lp.Ra + CIRCLE / 2);
+
+    const houses = cusps.map((lon, i) => ({id: i + 1, index: i, name: ROMAN[i], ...longitudeDetails(lon), occ: [], aspd: [], conj: []}));
+    const planets = IDS.map((id, i) => ({id, index: i, name: NAMES[i], ...longitudeDetails(lp[id]), occ: occupiedHouse(cusps, lp[id]), own: [], csl: [], cstl: [], aspd: [], aspg: {planets: [], houses: []}, conj: []}));
+    const byId = Object.fromEntries(planets.map(p => [p.id, p]));
+    for (const house of houses) {
+      byId[house.sgl].own.push(house.id);
+      byId[house.sl].csl.push(house.id);
+      byId[house.stl].cstl.push(house.id);
+      house.occ = planets.filter(p => p.occ === house.id).map(p => p.id);
+    }
+
+    const aspects = {Su: [7], Mo: [7], Ma: [4, 7, 8], Me: [7], Ju: [5, 7, 9], Ve: [7], Sa: [3, 7, 10], Ra: [5, 7, 9], Ke: options.ketuAspects ? [5, 7, 9] : []};
+    const orb = options.conjunctionOrb * 3600;
+    for (const p of planets) {
+      const targetSigns = new Set(aspects[p.id].map(step => (p.signIndex + step - 1) % 12));
+      p.aspg.planets = planets.filter(q => q.id !== p.id && (q.id !== 'Ke' || options.ketuAspects) && targetSigns.has(q.signIndex)).map(q => q.id);
+      p.aspg.houses = houses.filter(h => targetSigns.has(h.signIndex)).map(h => h.id);
+      for (const q of p.aspg.planets) byId[q].aspd.push(p.id);
+      for (const h of p.aspg.houses) houses[h - 1].aspd.push(p.id);
+      for (const house of houses) {
+        const separation = norm(p.longitude - house.longitude);
+        if (Math.min(separation, CIRCLE - separation) <= orb + 1e-6) {
+          p.conj.push(house.id);
+          house.conj.push(p.id);
+        }
+      }
+    }
+
+    const fourPlanets = planets.map(p => ({
+      id: p.id, index: p.index, name: p.name,
+      A: [byId[p.stl].occ], B: [p.occ], C: [...byId[p.stl].own], D: [...p.own],
+      CSL: [...p.csl], Aspd: [...p.aspd], Aspg: p.aspg, Conj: [...p.conj],
+    }));
+    const sixPlanets = planets.map(p => ({
+      id: p.id, index: p.index, name: p.name,
+      A: [byId[p.sl].occ], B: [byId[p.stl].occ], C: [p.occ],
+      D: [...byId[p.sl].own], E: [...byId[p.stl].own], F: [...p.own], CSL: [...p.csl],
+    }));
+    function houseLevels(rows, fields) {
+      return houses.map(h => {
+        const row = {id: h.id, index: h.index, name: h.name, CSL: h.sl, Aspd: [...h.aspd], Conj: [...h.conj]};
+        for (const field of fields) row[field] = rows.filter(p => p[field].includes(h.id)).map(p => p.id);
+        return row;
+      });
+    }
+
+    function step(planetId, label, forceStarLevel) {
+      const p = byId[planetId], ownStar = p.stl === p.id;
+      const hasStarOccupants = planets.some(q => q.stl === p.id);
+      const active = Boolean(forceStarLevel || ownStar || !hasStarOccupants);
+      const emptyOwned = p.own.filter(h => houses[h - 1].occ.length === 0);
+      return {label, planet: planetId, name: p.name, houses: active ? sorted([p.occ, ...emptyOwned]) : [], csl: active && !forceStarLevel ? [...p.csl] : [], ownStar: active && ownStar && !forceStarLevel, nil: !active};
+    }
+    const fourstep = planets.map(p => ({id: p.id, index: p.index, name: p.name, steps: [
+      step(p.id, 'Planet', false),
+      step(p.stl, 'Star lord', true),
+      step(p.sl, 'Sub lord', false),
+      step(byId[p.sl].stl, 'Star lord of sub lord', true),
+    ]}));
+    return {
+      ready: true, planets, houses,
+      fourfold: {planets: fourPlanets, houses: houseLevels(fourPlanets, ['A', 'B', 'C', 'D'])},
+      sixfold: {planets: sixPlanets, houses: houseLevels(sixPlanets, ['A', 'B', 'C', 'D', 'E', 'F'])},
+      fourstep, options,
+      definitions: {
+        fourfold: {A: 'Star lord occupied house', B: 'Planet occupied house', C: 'Star lord owned houses', D: 'Planet owned houses'},
+        sixfold: {A: 'Sub lord occupied house', B: 'Star lord occupied house', C: 'Planet occupied house', D: 'Sub lord owned houses', E: 'Star lord owned houses', F: 'Planet owned houses'},
+        fourstep: 'Planet → star lord → sub lord → sub lord’s star lord. Planet/sub levels are active for own-star planets or planets with no graha in their star. Ownership contributes only empty houses.',
+        aspects: 'Whole-sign Vedic aspects: all planets 7th; Mars 4/7/8, Jupiter and Rahu 5/7/9, Saturn 3/7/10. Ketu aspects are omitted unless enabled.',
+      },
+    };
+  }
+
+  window.KPDisplay = Object.freeze({build, ids: Object.freeze([...IDS]), names: Object.freeze({...NAME_BY_ID}), idByName: Object.freeze({...ID_BY_NAME}), longitudeDetails, formatDegree});
+})();
+</script>
+<script id="kp-display-workspace">
+(function () {
+  'use strict';
+  const codes = ['Su', 'Mo', 'Ma', 'Me', 'Ju', 'Ve', 'Sa', 'Ra', 'Ke'];
+  const names = ['रवी', 'चंद्र', 'मंगळ', 'बुध', 'गुरु', 'शुक्र', 'शनि', 'राहू', 'केतू'];
+  const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+  const escape = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[character]));
+  const cell = value => Array.isArray(value) ? (value.length ? value.join(', ') : '—') : (value === null || value === undefined || value === '' ? '—' : String(value));
+  const aspect = value => value ? cell([...(value.planets || []), ...(value.houses || [])]) : '—';
+  const placeholderPlanets = codes.map((id, index) => ({id, index, name: names[index]}));
+  const placeholderHouses = roman.map((name, index) => ({id: index + 1, index, name}));
+  const columns = {
+    basicPlanet: [['signCode', 'Sign', 'राशी'], ['degree', 'Deg', 'राशीतील अंश'], ['nak', 'Nak', 'नक्षत्र व चरण'], ['occ', 'Occ', 'ग्रहाचा भाव'], ['own', 'Own', 'स्वामित्वाचे भाव'], ['sgl', 'SgL', 'राशीस्वामी'], ['stl', 'StL', 'नक्षत्रस्वामी'], ['sl', 'SL', 'उपनक्षत्रस्वामी'], ['ssl', 'SSL', 'उप-उपनक्षत्रस्वामी'], ['csl', 'CSL', 'हा ग्रह उपनक्षत्रस्वामी असलेले भाव'], ['cstl', 'CStL', 'हा ग्रह नक्षत्रस्वामी असलेले भाव'], ['aspd', 'Aspd', 'या ग्रहावर दृष्टी असणारे ग्रह'], ['aspg', 'Aspg', 'या ग्रहाची दृष्टी असलेले ग्रह व भाव'], ['conj', 'Conj', 'भावमध्याशी युती']],
+    basicHouse: [['signCode', 'Sign', 'राशी'], ['degree', 'Deg', 'भावमध्य अंश'], ['nak', 'Nak', 'नक्षत्र व चरण'], ['occ', 'Occ', 'भावातील ग्रह'], ['sgl', 'SgL', 'राशीस्वामी'], ['stl', 'StL', 'नक्षत्रस्वामी'], ['sl', 'SL', 'उपनक्षत्रस्वामी'], ['ssl', 'SSL', 'उप-उपनक्षत्रस्वामी'], ['aspd', 'Aspd', 'भावावर दृष्टी असणारे ग्रह'], ['conj', 'Conj', 'भावमध्याशी युतीतील ग्रह']],
+    fourPlanet: [['A', 'A', 'नक्षत्रस्वामीचा भाव'], ['B', 'B', 'ग्रहाचा भाव'], ['C', 'C', 'नक्षत्रस्वामीचे स्वामित्व'], ['D', 'D', 'ग्रहाचे स्वामित्व'], ['CSL', 'CSL', 'भाव उपनक्षत्रस्वामी'], ['Aspd', 'Aspd', 'ग्रहावर दृष्टी'], ['Aspg', 'Aspg', 'ग्रहाची दृष्टी'], ['Conj', 'Conj', 'भावमध्याशी युती']],
+    fourHouse: [['A', 'A', 'भावातील ग्रहांच्या नक्षत्रातील ग्रह'], ['B', 'B', 'भावातील ग्रह'], ['C', 'C', 'भावस्वामीच्या नक्षत्रातील ग्रह'], ['D', 'D', 'भावस्वामी'], ['CSL', 'CSL', 'भाव उपनक्षत्रस्वामी'], ['Aspd', 'Aspd', 'भावावर दृष्टी'], ['Conj', 'Conj', 'भावमध्याशी युती']],
+    sixPlanet: ['A', 'B', 'C', 'D', 'E', 'F', 'CSL'].map(key => [key, key, key === 'CSL' ? 'भाव उपनक्षत्रस्वामी' : 'Six-fold ' + key]),
+    sixHouse: ['A', 'B', 'C', 'D', 'E', 'F', 'CSL'].map(key => [key, key, key === 'CSL' ? 'भाव उपनक्षत्रस्वामी' : 'Six-fold ' + key])
+  };
+  function valueFor(row, key) {
+    if (key === 'nak') return row.nakCode ? row.nakCode + ' (' + row.pada + ')' : '—';
+    if (key.toLowerCase() === 'aspg') return aspect(row[key]);
+    return cell(row[key]);
+  }
+  function table(id, rows, fields, houses, ready) {
+    const table = document.getElementById(id);
+    if (!table) return;
+    table.innerHTML = '<thead><tr><th scope="col">' + (houses ? 'Hou' : 'Pln') + '</th>' + fields.map(([key, title, description]) => '<th scope="col" title="' + escape(description) + '">' + title + '</th>').join('') + '</tr></thead><tbody>' + rows.map(row => '<tr data-' + (houses ? 'house' : 'planet') + '="' + escape(row.id) + '"><th scope="row" title="' + escape(row.name) + '">' + escape(houses ? row.name : row.id) + '</th>' + fields.map(([key]) => '<td data-field="' + key + '">' + escape(ready ? valueFor(row, key) : '—') + '</td>').join('') + '</tr>').join('') + '</tbody>';
+  }
+  function renderSteps(cards, ready) {
+    const target = document.getElementById('kp-fourstep');
+    if (!target) return;
+    const stepKeys = ['planet', 'star', 'sub', 'sub-star'];
+    const stepLabels = ['Planet', 'Star lord', 'Sub lord', 'Star lord of sub'];
+    target.innerHTML = cards.map(card => '<article class="kp-step-card" data-planet="' + card.id + '"><h4>' + escape(card.id) + ' <span>' + escape(card.name) + '</span></h4>' + stepKeys.map((key, index) => {
+      const step = card.steps?.[index];
+      let result = '—';
+      if (ready && step) {
+        result = escape(step.planet) + ': ' + (step.nil ? '<span class="kp-nil">Nil</span>' : escape(cell(step.houses)));
+        if (step.ownStar) result += ' <span class="kp-own-star">Own Star</span>';
+        if (step.csl?.length) result += ' <span class="kp-csl">CSL (' + escape(cell(step.csl)) + ')</span>';
+      }
+      return '<div class="kp-step" data-step="' + key + '"><span class="kp-step-label">' + stepLabels[index] + '</span><strong>' + result + '</strong></div>';
+    }).join('') + '</article>').join('');
+  }
+  window.updateKaryeshTables = function () {
+    if (!window.KPDisplay || !window.syncKPWorksheetPositions) return;
+    const positions = window.syncKPWorksheetPositions();
+    const enteredOrb = Number(document.getElementById('kp-conjunction-orb')?.value);
+    const conjunctionOrb = Number.isFinite(enteredOrb) && enteredOrb >= 0 && enteredOrb <= 10 ? enteredOrb : 3;
+    const model = window.KPDisplay.build(positions.cusps, positions.lp, {conjunctionOrb});
+    window.currentKPModel = model;
+    const ready = model.ready;
+    const status = document.getElementById('kp-status');
+    if (status) {
+      status.dataset.ready = String(ready);
+      status.textContent = ready ? 'Calculated automatically from Tab 5 and Tab 6. कार्येश गणना पूर्ण.' : 'Complete the house cusps in Tab 5 and planet positions in Tab 6. Rahu supplies Ketu automatically.';
+    }
+    table('kp-basic-planet', ready ? model.planets : placeholderPlanets, columns.basicPlanet, false, ready);
+    table('kp-basic-house', ready ? model.houses : placeholderHouses, columns.basicHouse, true, ready);
+    table('kp-fourfold-planet', ready ? model.fourfold.planets : placeholderPlanets, columns.fourPlanet, false, ready);
+    table('kp-fourfold-house', ready ? model.fourfold.houses : placeholderHouses, columns.fourHouse, true, ready);
+    table('kp-sixfold-planet', ready ? model.sixfold.planets : placeholderPlanets, columns.sixPlanet, false, ready);
+    table('kp-sixfold-house', ready ? model.sixfold.houses : placeholderHouses, columns.sixHouse, true, ready);
+    renderSteps(ready ? model.fourstep : placeholderPlanets, ready);
+    document.querySelectorAll('.kp-aspect-rule').forEach(element => {
+      element.textContent = 'Vedic sign aspects · Conj: house cusps within ' + conjunctionOrb + '° · Rahu and Ketu are exactly 180° apart.';
+    });
+  };
+  // Print each significator method on its own page. The basic calculations
+  // stay directly below the kundali on the final page, as on screen.
+  window.renderReport = function () {
+    const pages = [
+      ['1. मूलभूत माहिती', 'basic'], ['2. स्थळ रेखांश गणना', 'ayan'],
+      ['3. स्थानिक जन्मवेळ (L.M.T.) गणना', 'lmt'], ['4. सांपत्तिक काळ गणना', 'stcalc'],
+      ['5. रॅफेल टेबल ऑफ हाऊसेस', 'raphael5'], ['6. ग्रहस्थिती गणना', 'planet'],
+      ['7. महादशा (MD) गणना', 'mdcalc'], ['8. Four-fold significators', 'kp-fourfold'],
+      ['9. Six-fold significators', 'kp-sixfold'], ['10. Four-step theory', 'kp-fourstep-section'],
+      ['11. South Indian kundali and basic calculations', 'south9']
+    ];
+    const target = document.getElementById('printReport');
+    if (!target) return;
+    target.innerHTML = '';
+    for (const [title, id] of pages) {
+      if (!document.getElementById(id)) continue;
+      const page = document.createElement('div');
+      page.className = 'report-page' + (id === 'south9' ? ' kp-kundali-report' : '');
+      page.dataset.reportSection = id;
+      const heading = document.createElement('div');
+      heading.className = 'report-page-title';
+      heading.textContent = title;
+      const cover = document.createElement('div');
+      cover.className = 'report-cover';
+      cover.innerHTML = snapshotSection(id);
+      const footer = document.createElement('div');
+      footer.className = 'report-developer-footer';
+      footer.textContent = 'Software developer Name: ' + (document.getElementById('astroName')?.value || 'Astro.Nitin Talegaonkar') + ' | Mob: ' + (document.getElementById('astroMobile')?.value || '8412098690');
+      page.append(heading, cover, footer);
+      target.appendChild(page);
+    }
+  };
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('kp-conjunction-orb')?.addEventListener('input', window.updateKaryeshTables);
+    setTimeout(window.updateKaryeshTables, 250);
+  });
 })();
 </script>
 <script id="workspace-ui-script">

@@ -114,7 +114,7 @@ class CalculatorBrowserTests(unittest.TestCase):
             self.page.locator(f"#r5_large_{house}").fill(f"{40 + index * 30}:00:00")
             self.page.locator(f"#r5_small_{house}").fill(f"{38 + index * 30}:00:00")
         self.go("planet")
-        for index in range(9):
+        for index in range(8):
             self.page.locator(f"#p6_d_{index}").fill(f"{20 + index * 30}:00:00")
             self.page.locator(f"#p6_t_{index}").fill(f"{21 + index * 30}:00:00")
         self.go("astrosettings")
@@ -125,6 +125,26 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#workspace-toast")).to_contain_text("Chart calculations updated.")
         self.page.wait_for_timeout(650)
         self.assertTrue(all(self.outputs().values()), "Completed worksheets should produce nonempty outputs.")
+
+    def prepare_exact_kp_worksheets(self):
+        """Zero motion and equal interpolation endpoints give exact positions."""
+        self.page.locator("#dob").fill("1990-06-15")
+        self.page.locator("#birthTime").fill("12:00:00")
+        self.page.locator("#dayAyan").fill("00:00:00")
+        self.page.locator("#daySum").fill("00:00:00")
+        self.go("stcalc")
+        self.page.locator("#baseSidereal0530").fill("06:00:00")
+        self.page.locator("#stLargeTime").fill("14:00:00")
+        self.page.locator("#stSmallTime").fill("12:00:00")
+        self.go("raphael5")
+        for house, degree in ((1, 0), (2, 30), (3, 60), (10, 270), (11, 300), (12, 330)):
+            self.page.locator(f"#r5_large_{house}").fill(f"{degree:02d}:00:00")
+            self.page.locator(f"#r5_small_{house}").fill(f"{degree:02d}:00:00")
+        self.go("planet")
+        for index in range(8):
+            degree = 5 + index * 30
+            self.page.locator(f"#p6_d_{index}").fill(f"{degree:02d}:00:00")
+            self.page.locator(f"#p6_t_{index}").fill(f"{degree:02d}:00:00")
 
     def import_file(self, contents):
         self.action("import")
@@ -362,81 +382,204 @@ class CalculatorBrowserTests(unittest.TestCase):
                 self.assertEqual(self.editable_values(), baseline, "Rejected import must leave current inputs unchanged.")
                 expect(self.page.locator("#import-chart-file")).to_have_value("")
 
-    def test_significators_update_from_worksheets_without_calculate_or_opening_tab(self):
-        kp_fields = self.page.locator("#karyesh input[id]")
-        self.assertEqual(kp_fields.count(), 42)
-        self.assertTrue(all(value in ("", "—") for value in kp_fields.evaluate_all("fields => fields.map(field => field.value)")),
-                        "Empty worksheets must not produce significators for fictional zero-degree planets.")
-        self.page.locator("#dob").fill("1990-06-15")
-        self.page.locator("#birthTime").fill("12:00:00")
-        self.page.locator("#dayAyan").fill("00:00:00")
-        self.page.locator("#daySum").fill("00:00:00")
-        self.go("stcalc")
-        self.page.locator("#baseSidereal0530").fill("06:00:00")
-        self.page.locator("#stLargeTime").fill("14:00:00")
-        self.page.locator("#stSmallTime").fill("12:00:00")
-        self.go("raphael5")
-        # Equal interpolation endpoints give exact cusps at 0°, 30°, ... 330°.
-        # The worksheet generates each of the six opposite houses itself.
-        for house, degree in ((1, 0), (2, 30), (3, 60), (10, 270), (11, 300), (12, 330)):
-            self.page.locator(f"#r5_large_{house}").fill(f"{degree:02d}:00:00")
-            self.page.locator(f"#r5_small_{house}").fill(f"{degree:02d}:00:00")
-        self.go("planet")
-        for index in range(9):
-            degree = 5 + index * 30
-            self.page.locator(f"#p6_d_{index}").fill(f"{degree:02d}:00:00")
-            self.page.locator(f"#p6_t_{index}").fill(f"{degree:02d}:00:00")
-
-        # Independently derived KP expectations: Sun occupies house 1 and owns
-        # house 5; its star lord Ketu occupies house 9. Cusp 1's sub-lord Ketu
-        # represents Jupiter's houses 5, 9, 12. Sun's sub-lord Mars owns 1, 8
-        # and occupies 3. Check all four table types while Tab 8 remains hidden.
-        baseline = {
-            "karyesh_bhava_graha_1": "रवी, चंद्र, मंगळ, शुक्र, शनि, राहू",
-            "karyesh_graha_bhava_1": "1, 5, 9",
-            "karyesh_graha_bhava_7": "3, 4, 6, 7, 10, 11",
-            "karyesh_sublord_bhava_1": "5, 9, 12",
-            "karyesh_sublord_graha_1": "1, 3, 8",
-        }
+    def test_fourfold_sixfold_and_fourstep_significators_update_from_hidden_worksheets(self):
+        expect(self.page.locator("#kp-status")).to_have_attribute("data-ready", "false")
+        self.prepare_exact_kp_worksheets()
         expect(self.page.locator("main > #karyesh")).to_be_hidden()
-        for field, expected in baseline.items():
-            expect(self.page.locator(f"#{field}")).to_have_value(expected)
+        expect(self.page.locator("#kp-status")).to_have_attribute("data-ready", "true")
+        for table in ("kp-fourfold-planet", "kp-sixfold-planet"):
+            expect(self.page.locator(f"#{table} tbody tr[data-planet]")).to_have_count(9)
+        for table in ("kp-fourfold-house", "kp-sixfold-house"):
+            expect(self.page.locator(f"#{table} tbody tr[data-house]")).to_have_count(12)
+        expect(self.page.locator("#kp-fourstep [data-planet]")).to_have_count(9)
 
-        # Rapid events from multiple worksheets must retain a pending Tab 5
-        # refresh. A 1° ayanamsha rotates the cusp signs/owners by one sign;
-        # the Sun at 64° now represents houses 2, 3, 6, 9.
-        self.page.evaluate("""() => {
-            for (const [id, value] of [['dayAyan', '01:00:00'], ['p6_d_0', '65:00:00'], ['p6_t_0', '65:00:00']]) {
-                const field = document.getElementById(id);
-                field.value = value;
-                field.dispatchEvent(new Event('input', {bubbles: true}));
-            }
-        }""")
-        expect(self.page.locator("#r5_nirayan_1")).to_have_value("359:00:00")
-        expect(self.page.locator("#karyesh_graha_bhava_1")).to_have_value("2, 3, 6, 9")
-        self.page.locator("#dayAyan").evaluate("field => { field.value = '00:00:00'; field.dispatchEvent(new Event('input', {bubbles: true})); }")
-        expect(self.page.locator("#karyesh_graha_bhava_1")).to_have_value("1, 3, 5, 8")
+        def field(table, planet, column):
+            return self.page.locator(f'#{table} tbody tr[data-planet="{planet}"] [data-field="{column}"]')
+
+        # Independent KP oracle: exact cusps at 0°,30°,...330°. Sun5°
+        # occupies1, owns5, starKe occupies2 and ownsnone; subMa occupies3
+        # and owns1,8. Rahu215° occupies8, its star/subSa occupies7 and
+        # owns10,11. Ketu is derived35°, not a ninth ephemeris input.
+        for table, planet, values in (
+            ("kp-fourfold-planet", "Su", {"A": "2", "B": "1", "C": "—", "D": "5"}),
+            ("kp-sixfold-planet", "Su", {"A": "3", "B": "2", "C": "1", "D": "1, 8", "E": "—", "F": "5"}),
+            ("kp-fourfold-planet", "Ra", {"A": "7", "B": "8", "C": "10, 11", "D": "—"}),
+            ("kp-sixfold-planet", "Ra", {"A": "7", "B": "7", "C": "8", "D": "10, 11", "E": "10, 11", "F": "—"}),
+        ):
+            for column, value in values.items():
+                expect(field(table, planet, column)).to_have_text(value)
+        expect(field("kp-fourfold-planet", "Ra", "CSL")).to_have_text("2, 6, 10")
+        for step, lord in (("planet", "Su"), ("star", "Ke"), ("sub", "Ma"), ("sub-star", "Ma")):
+            expect(self.page.locator(f'#kp-fourstep [data-planet="Su"] [data-step="{step}"]')).to_contain_text(lord)
+        expect(self.page.locator('#kp-fourstep [data-planet="Su"] [data-step="planet"]')).to_contain_text("Nil")
+        expect(self.page.locator('#kp-fourstep [data-planet="Su"] [data-step="sub"]')).to_contain_text("Own Star")
+
+        # New source positions propagate while Tab8 is hidden, without the
+        # Calculate button. Sun65° now occupies3; its starMa also occupies3
+        # and owns1,8. A subsequent cusp edit moves Saturn from7 to6.
+        self.page.locator("#p6_d_0").fill("65:00:00")
+        self.page.locator("#p6_t_0").fill("65:00:00")
+        for column, value in {"A": "3", "B": "3", "C": "1, 8", "D": "5"}.items():
+            expect(field("kp-fourfold-planet", "Su", column)).to_have_text(value)
         self.go("raphael5")
         self.page.locator("#r5_large_1").fill("10:00:00")
         self.page.locator("#r5_small_1").fill("10:00:00")
-        # The opposite seventh cusp moves to 190°, putting Saturn at 185° in
-        # house 6. Mercury's star lord is Saturn, so house 7 drops from its set.
-        expect(self.page.locator("#karyesh_graha_bhava_7")).to_have_value("3, 4, 6, 10, 11")
-        expected_tables = kp_fields.evaluate_all("fields => Object.fromEntries(fields.map(field => [field.id, field.value]))")
+        expect(field("kp-fourfold-planet", "Me", "A")).to_have_text("6")
+        expect(self.page.locator("main > #karyesh")).to_be_hidden()
+        snapshot_selector = "#kp-fourfold-planet,#kp-fourfold-house,#kp-sixfold-planet,#kp-sixfold-house,#kp-fourstep"
+        expected_tables = self.page.locator(snapshot_selector).all_text_contents()
         self.action("save")
         self.go("planet")
         self.page.locator("#p6_d_0").fill("")
-        expect(self.page.locator("#karyesh_graha_bhava_1")).to_have_value("—")
-        self.assertTrue(all(value in ("", "—") for value in kp_fields.evaluate_all("fields => fields.map(field => field.value)")),
-                        "A missing planetary source must clear stale results in all four tables.")
+        expect(self.page.locator("#kp-status")).to_have_attribute("data-ready", "false")
+        expect(field("kp-fourfold-planet", "Su", "A")).to_have_text("—")
+        for table in ("kp-fourfold-planet", "kp-fourfold-house", "kp-sixfold-planet", "kp-sixfold-house"):
+            values = self.page.locator(f"#{table} tbody [data-field]").all_text_contents()
+            self.assertTrue(values and all(value.strip() == "—" for value in values),
+                            "Incomplete worksheets must clear every stale significator value.")
         self.action("load")
         expect(self.page.locator("#workspace-toast")).to_have_text("Saved chart loaded and recalculated.")
-        expect(self.page.locator("#karyesh_graha_bhava_1")).to_have_value("1, 3, 5, 8")
-        expect(self.page.locator("#karyesh_graha_bhava_7")).to_have_value("3, 4, 6, 10, 11")
-        self.assertEqual(kp_fields.evaluate_all("fields => Object.fromEntries(fields.map(field => [field.id, field.value]))"), expected_tables)
+        expect(self.page.locator("#kp-status")).to_have_attribute("data-ready", "true")
+        expect(field("kp-fourfold-planet", "Su", "C")).to_have_text("1, 8")
+        expect(field("kp-fourfold-planet", "Me", "A")).to_have_text("6")
+        self.assertEqual(self.page.locator(snapshot_selector).all_text_contents(), expected_tables)
         self.go("karyesh")
-        self.assertEqual(kp_fields.evaluate_all("fields => Object.fromEntries(fields.map(field => [field.id, field.value]))"), expected_tables,
-                         "Opening Tab 8 should retain the already-calculated worksheet results.")
+        self.assertEqual(self.page.locator(snapshot_selector).all_text_contents(), expected_tables,
+                         "Opening Tab8 must retain its already-calculated values.")
+
+    def test_planetary_hour_minute_corrections_and_opposite_ketu_are_automatic(self):
+        self.page.locator("#dob").fill("1990-06-15")
+        self.page.locator("#birthTime").fill("13:11:00")
+        self.go("planet")
+        expect(self.page.locator("#p6_d_8:visible, #p6_t_8:visible")).to_have_count(0)
+        expect(self.page.locator("#planet .planet6-table thead th")).to_have_count(9)
+        self.page.locator("#p6_d_0").fill("20:00:00")
+        self.page.locator("#p6_t_0").fill("21:00:00")
+        # Independent angular oracle: 1 degree per day times 7 hours =
+        # 17'30", plus 41 minutes = 1'42.5". Outputs round to arcseconds.
+        expected = {
+            "p6_motion_0": "1:00:00", "p6_hours_0": "0:17:30",
+            "p6_minutes_0": "0:01:43", "p6_total_0": "0:19:13",
+            "p6_birth_0": "20:00:00", "p6_add_0": "20:19:13",
+            "p6_final_0": "20:19:13", "p6_rashi_0": "मेष",
+        }
+        for field, value in expected.items():
+            expect(self.page.locator(f"#{field}")).to_have_value(value)
+        for prefix in ("hours", "minutes"):
+            self.assertTrue(self.page.locator(f"#p6_{prefix}_0").evaluate("field => field.readOnly"),
+                            "Hourly and minute corrections are calculated outputs.")
+        expect(self.page.locator("#p6-hours-label")).to_contain_text("7")
+        expect(self.page.locator("#p6-minutes-label")).to_contain_text("41")
+
+        # Rahu crosses 360 degrees without acquiring a spurious retrograde
+        # daily motion. Ketu must always lie exactly 180 degrees opposite.
+        self.page.locator("#p6_d_7").fill("359:50:00")
+        self.page.locator("#p6_t_7").fill("0:50:00")
+        expect(self.page.locator("#p6_motion_7")).to_have_value("1:00:00")
+        expect(self.page.locator("#p6_final_7")).to_have_value("0:09:13")
+        expect(self.page.locator("#p6_rashi_7")).to_have_value("मेष")
+        expect(self.page.locator("#p6_final_8")).to_have_value("0:09:13")
+        expect(self.page.locator("#p6_rashi_8")).to_have_value("तुला")
+        self.go("south9")
+        rahu = self.page.locator("#kundali .v38-planet").filter(has=self.page.locator(".v38-name", has_text="राहू"))
+        ketu = self.page.locator("#kundali .v38-planet").filter(has=self.page.locator(".v38-name", has_text="केतू"))
+        expect(rahu.locator(".v38-degree")).to_have_text("0°09′13″")
+        expect(ketu.locator(".v38-degree")).to_have_text("0°09′13″")
+        self.assertEqual(rahu.evaluate("row => Number(row.closest('[data-sign-index]').dataset.signIndex)"), 0)
+        self.assertEqual(ketu.evaluate("row => Number(row.closest('[data-sign-index]').dataset.signIndex)"), 6)
+
+        self.go("planet")
+        self.page.locator("#p6_d_0").fill("21:00:00")
+        self.page.locator("#p6_t_0").fill("20:00:00")
+        expect(self.page.locator("#p6_motion_0")).to_have_value("1:00:00 R")
+        expect(self.page.locator("#p6_total_0")).to_have_value("-0:19:13")
+        expect(self.page.locator("#p6_final_0")).to_have_value("20:40:47 R")
+        # At 04:00 the worksheet dates become preceding day, then DOB.
+        # Enter 20° for that preceding day and 21° for DOB. A direct 1° daily
+        # motion gives a negative 1h30 correction from the DOB 05:30 base.
+        self.page.locator("#birthTime").evaluate("field => { field.value = '04:00:00'; field.dispatchEvent(new Event('input', {bubbles: true})); }")
+        expect(self.page.locator("#p6_row_date_1")).to_have_value("1990-06-14")
+        expect(self.page.locator("#p6_row_date_2")).to_have_value("1990-06-15")
+        self.page.locator("#p6_d_0").fill("20:00:00")
+        self.page.locator("#p6_t_0").fill("21:00:00")
+        for field, value in {
+            "p6_motion_0": "1:00:00", "p6_hours_0": "-0:02:30",
+            "p6_minutes_0": "-0:01:15", "p6_total_0": "-0:03:45",
+            "p6_birth_0": "21:00:00", "p6_final_0": "20:56:15",
+        }.items():
+            expect(self.page.locator(f"#{field}")).to_have_value(value)
+        self.page.locator("#birthTime").evaluate("field => { field.value = '05:30:00'; field.dispatchEvent(new Event('input', {bubbles: true})); }")
+        for prefix in ("hours", "minutes", "total"):
+            expect(self.page.locator(f"#p6_{prefix}_0")).to_have_value("0:00:00")
+        self.page.locator("#p6_d_7").fill("")
+        for prefix in ("hours", "minutes", "total", "final", "rashi"):
+            expect(self.page.locator(f"#p6_{prefix}_7")).to_have_value("")
+            expect(self.page.locator(f"#p6_{prefix}_8")).to_have_value("")
+        self.go("south9")
+        expect(self.page.locator("#kundali .v38-name", has_text="केतू")).to_have_count(0)
+
+    def test_basic_planet_and_house_calculations_appear_below_kundali_on_screen_and_report(self):
+        self.prepare_exact_kp_worksheets()
+        self.go("south9")
+        planet_table = self.page.locator("#kp-basic-planet")
+        house_table = self.page.locator("#kp-basic-house")
+        expect(planet_table).to_be_visible()
+        expect(house_table).to_be_visible()
+        expect(planet_table.locator("tbody tr[data-planet]")).to_have_count(9)
+        expect(house_table.locator("tbody tr[data-house]")).to_have_count(12)
+        sun = planet_table.locator('tr[data-planet="Su"]')
+        for column, value in {"signCode": "Ar", "degree": "5°00′00″", "nak": "Asw (2)", "occ": "1", "own": "5", "stl": "Ke", "sl": "Ma", "ssl": "Ju", "cstl": "2, 6, 10"}.items():
+            expect(sun.locator(f'[data-field="{column}"]')).to_have_text(value)
+        ketu = planet_table.locator('tr[data-planet="Ke"]')
+        expect(ketu.locator('[data-field="occ"]')).to_have_text("2")
+        expect(ketu.locator('[data-field="own"]')).to_have_text("—")
+
+        def assert_placement(target, chart_selector, planet_selector, house_selector, printed=False):
+            positions = target.evaluate("""({chartSelector, planetSelector, houseSelector, printed}) => {
+                const chart = document.querySelector(chartSelector), planet = document.querySelector(planetSelector), house = document.querySelector(houseSelector);
+                const box = element => { const r = element.getBoundingClientRect(); return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height}; };
+                const page = printed ? chart.closest('.report-page') : null;
+                return {chart:box(chart),planet:box(planet),house:box(house),page:page?box(page):null,
+                    visible:[chart,planet,house].every(element => getComputedStyle(element).display !== 'none' && element.getBoundingClientRect().height > 0)};
+            }""", {"chartSelector": chart_selector, "planetSelector": planet_selector, "houseSelector": house_selector, "printed": printed})
+            self.assertTrue(positions["visible"], "The chart and both calculation tables must be visible.")
+            self.assertGreaterEqual(positions["planet"]["top"], positions["chart"]["bottom"] - 1, positions)
+            self.assertGreaterEqual(positions["house"]["top"], positions["planet"]["bottom"] - 1, positions)
+            if printed:
+                for key in ("chart", "planet", "house"):
+                    self.assertLessEqual(positions[key]["bottom"], positions["page"]["bottom"] + 1,
+                                         f"{key} is clipped outside its printable A4 page: {positions}")
+                    self.assertGreaterEqual(positions[key]["left"], positions["page"]["left"] - 1)
+                    self.assertLessEqual(positions[key]["right"], positions["page"]["right"] + 1)
+
+        assert_placement(self.page, "#kundali", "#kp-basic-planet", "#kp-basic-house")
+        self.page.set_viewport_size({"width": 390, "height": 844})
+        assert_placement(self.page, "#kundali", "#kp-basic-planet", "#kp-basic-house")
+        self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), 391,
+                             "Wide calculation tables must scroll inside their mobile container.")
+        self.page.set_viewport_size({"width": 1280, "height": 900})
+        self.page.evaluate("""() => {
+            const original = window.open;
+            window.open = function (...args) {
+                const popup = original.apply(window, args);
+                if (popup) popup.print = () => { popup.testPrintCalled = true; };
+                return popup;
+            };
+        }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.evaluate("window.printReport()")
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Basic calculation report: " + str(error)))
+        popup.wait_for_load_state("domcontentloaded")
+        popup.wait_for_function("window.testPrintCalled === true")
+        popup.emulate_media(media="print")
+        printed_planets = popup.locator('[data-report-id="kp-basic-planet"]')
+        printed_houses = popup.locator('[data-report-id="kp-basic-house"]')
+        expect(printed_planets.locator("tbody tr[data-planet]")).to_have_count(9)
+        expect(printed_houses.locator("tbody tr[data-house]")).to_have_count(12)
+        expect(printed_planets.locator('tr[data-planet="Su"] [data-field="ssl"]')).to_have_text("Ju")
+        assert_placement(popup, '[data-report-id="kundali"]', '[data-report-id="kp-basic-planet"]', '[data-report-id="kp-basic-house"]', printed=True)
+        popup.close()
 
     def test_dense_kundali_lanes_keep_labels_and_degrees_visible_on_screen_and_print(self):
         self.go("south9")
@@ -536,10 +679,10 @@ class CalculatorBrowserTests(unittest.TestCase):
                 assert_geometry(popup, '[data-report-id="kundali"]', sign, degree_text)
                 popup.close()
 
-    def test_print_popup_has_nine_a4_pages_without_duplicate_ids(self):
+    def test_print_popup_has_eleven_a4_pages_without_duplicate_ids(self):
         self.prepare_worksheets()
         self.go("report")
-        expect(self.page.locator("#printReport > .report-page")).to_have_count(9)
+        expect(self.page.locator("#printReport > .report-page")).to_have_count(11)
         # Stub the print dialog on the actual newly opened window, before the
         # app's deferred print call; still exercise popup creation and rendering.
         self.page.evaluate("""() => {
@@ -556,7 +699,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         popup.on("pageerror", lambda error: self.errors.append("Print popup: " + str(error)))
         popup.wait_for_load_state("domcontentloaded")
         popup.wait_for_function("window.testPrintCalled === true")
-        expect(popup.locator("body > .report-page")).to_have_count(9)
+        expect(popup.locator("body > .report-page")).to_have_count(11)
         expect(popup.locator("body > .report-page").first).to_contain_text("Regression chart · मीरा")
         for target, label in ((self.page, "calculator"), (popup, "print popup")):
             duplicates = target.evaluate("""() => {
@@ -574,8 +717,20 @@ class CalculatorBrowserTests(unittest.TestCase):
                 self.assertNotEqual(geometry["display"], "none", "Every report page must be visible when printing.")
                 self.assertAlmostEqual(geometry["width"], 190 * 96 / 25.4, delta=1)
                 self.assertAlmostEqual(geometry["height"], 277 * 96 / 25.4, delta=1)
-                if index < 8:
+                if index < 10:
                     self.assertEqual(geometry["breakAfter"], "page")
+        content_errors = popup.locator("body > .report-page").evaluate_all("""pages => pages.flatMap((page, index) => {
+            const bounds = page.getBoundingClientRect(), errors = [];
+            for (const element of page.querySelectorAll('.report-developer-footer,.kp-key,.kp-table')) {
+                const rect = element.getBoundingClientRect();
+                if (getComputedStyle(element).display === 'none' || rect.width <= 0 || rect.height <= 0)
+                    errors.push(`Page ${index+1}: hidden ${element.className}`);
+                else if (rect.top < bounds.top-1 || rect.bottom > bounds.bottom+1 || rect.left < bounds.left-1 || rect.right > bounds.right+1)
+                    errors.push(`Page ${index+1}: clipped ${element.className} (${rect.top},${rect.bottom}) outside (${bounds.top},${bounds.bottom})`);
+            }
+            return errors;
+        })""")
+        self.assertEqual(content_errors, [], "Report tables, legends and developer footers must fit their printed A4 pages.")
         paper_sizes = popup.evaluate("""() => [...document.styleSheets].flatMap(sheet => [...sheet.cssRules])
             .filter(rule => rule.constructor.name === 'CSSPageRule').map(rule => rule.style.size.toLowerCase())""")
         # Chromium normalizes explicit "A4 portrait" to "a4", whose default
