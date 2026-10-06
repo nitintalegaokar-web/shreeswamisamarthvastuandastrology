@@ -20,3 +20,7 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
+
+# Local Python browser-test caches
+__pycache__/
+*.py[cod]
