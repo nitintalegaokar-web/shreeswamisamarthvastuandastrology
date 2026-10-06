@@ -31,6 +31,10 @@ OUTPUT_IDS = (
     "r5_nirayan_1", "r5_rashi_1", "p6_motion_0", "p6_final_0",
     "mdBirthDasha", "mdBhogyaDuration",
 )
+REPORT_PAGE_SECTIONS = (
+    "cover", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet",
+    "mdcalc", "adcalc", "kp-fourfold", "kp-sixfold", "kp-fourstep-section", "south9",
+)
 # A tiny local fixture tests the cover's image binding and print readiness.
 # It deliberately does not stand in for the user's requested devotional photo.
 COVER_IMAGE_FIXTURE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aCfoAAAAASUVORK5CYII="
@@ -152,6 +156,26 @@ class CalculatorBrowserTests(unittest.TestCase):
             degree = 5 + index * 30
             self.page.locator(f"#p6_d_{index}").fill(f"{degree:02d}:00:00")
             self.page.locator(f"#p6_t_{index}").fill(f"{degree:02d}:00:00")
+
+    def prepare_exact_dasha(self, moon="00:00:00", dob="2000-01-01"):
+        self.prepare_exact_kp_worksheets()
+        self.go("basic")
+        self.page.locator("#dob").fill(dob)
+        self.go("planet")
+        self.page.locator("#p6_d_1").fill(moon)
+        self.page.locator("#p6_t_1").fill(moon)
+        self.action("calculate")
+        degrees, minutes, seconds = moon.split(":")
+        expect(self.page.locator("#p6_final_1")).to_have_value(f"{int(degrees)}:{minutes}:{seconds}")
+        self.go("mdcalc")
+
+    def dasha_rows(self, selector="#adDashaRows"):
+        return self.page.locator(selector).evaluate("""body => [...body.rows].map(row =>
+            [...row.cells].map(cell => {
+                const value = cell.cloneNode(true);
+                value.querySelectorAll('.ad-birth-marker').forEach(marker => marker.remove());
+                return value.textContent.trim();
+            }))""")
 
     def import_file(self, contents):
         self.action("import")
@@ -699,7 +723,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.page.locator("#astroName").fill(astrologer_name)
         self.page.locator("#astroAddress").fill(astrologer_address)
         self.go("report")
-        expect(self.page.locator("#printReport > .report-page")).to_have_count(12)
+        expect(self.page.locator("#printReport > .report-page")).to_have_count(len(REPORT_PAGE_SECTIONS))
         cover = self.page.locator("#printReport > .report-page").first
         expect(cover).to_have_attribute("data-report-section", "cover")
         expect(cover).to_contain_text("Ucchishta Mahaganpati")
@@ -733,7 +757,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(cover.locator('[data-cover-field="name"]')).to_have_text("—")
         expect(cover.locator('[data-cover-field="astroAddress"]')).to_have_text("—")
 
-    def test_selected_cover_photo_survives_backups_printing_and_standalone_software_download(self):
+    def test_selected_cover_photo_survives_backups_printing_and_offline_single_file_use(self):
         self.prepare_worksheets()
         self.go("report")
         photo_input = self.page.locator("#report-cover-photo-input")
@@ -741,6 +765,10 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(photo_input.locator("xpath=ancestor::main").count(), 0,
                          "The image picker must not enter the chart's generic field serialization.")
         expect(self.page.locator("#choose-report-cover-photo")).to_be_visible()
+        expect(self.page.locator("#download-cover-software")).to_have_count(0)
+        expect(self.page.get_by_role("button", name="Download software with photo")).to_have_count(0)
+        self.assertFalse(self.page.evaluate("Boolean(window.KPReportPhoto?.download)"),
+                         "The removed software-download option must not remain available through its old API.")
         original_bytes = base64.b64decode(COVER_IMAGE_FIXTURE.split(",", 1)[1])
         photo_input.set_input_files({
             "name": "ganpati-test.png", "mimeType": "image/png", "buffer": original_bytes,
@@ -751,7 +779,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         photo.evaluate("image => image.decode()")
         self.assertEqual(base64.b64decode(photo.get_attribute("src").split(",", 1)[1]), original_bytes,
                          "The selected photo must retain its original bytes rather than be redrawn or regenerated.")
-        expect(self.page.locator("#printReport > .report-page")).to_have_count(12)
+        expect(self.page.locator("#printReport > .report-page")).to_have_count(len(REPORT_PAGE_SECTIONS))
         self.assertEqual(self.page.evaluate("localStorage.getItem('kpReportCoverPhoto')"), COVER_IMAGE_FIXTURE)
         self.action("save")
 
@@ -833,27 +861,21 @@ class CalculatorBrowserTests(unittest.TestCase):
             };
         }""")
         with self.page.expect_popup() as popup_info:
-            self.page.get_by_role("button", name="Print Report", exact=True).click()
+            self.page.locator("#print-selected-report").click()
         popup = popup_info.value
         popup.on("pageerror", lambda error: self.errors.append("Selected-photo print: " + str(error)))
         popup.wait_for_load_state("domcontentloaded")
         popup.wait_for_function("window.testPrintCalled === true")
-        expect(popup.locator("body > .report-page")).to_have_count(12)
+        expect(popup.locator("body > .report-page")).to_have_count(len(REPORT_PAGE_SECTIONS))
         printed_photo = popup.locator(".report-front-page .report-cover-image")
         expect(printed_photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
         printed_photo.evaluate("image => image.decode()")
         popup.close()
 
-        with self.page.expect_download() as software_info:
-            self.page.locator("#download-cover-software").click()
-        software = software_info.value
-        self.assertTrue(software.suggested_filename.endswith(".html"))
         with tempfile.TemporaryDirectory(prefix="kp-photo-standalone-test-") as directory:
             standalone = Path(directory) / "index.html"
-            software.save_as(standalone)
+            shutil.copyfile(REPOSITORY / "index.html", standalone)
             self.assertEqual(list(Path(directory).iterdir()), [standalone])
-            self.assertIn('id="report-cover-photo-data"', standalone.read_text(encoding="utf-8"),
-                          "The downloaded software must carry its cover photo in the single HTML file.")
             handler = functools.partial(QuietHandler, directory=directory)
             server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
             thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -872,14 +894,19 @@ class CalculatorBrowserTests(unittest.TestCase):
             context.route("**/*", allow_only_html)
             try:
                 page = context.new_page()
-                page.on("pageerror", lambda error: self.errors.append("Downloaded photo software: " + str(error)))
+                page.on("pageerror", lambda error: self.errors.append("Offline photo software: " + str(error)))
                 page.goto(isolated_url, wait_until="load")
                 page.wait_for_timeout(1700)
-                embedded_photo = page.locator("#report-cover-photo-data").text_content()
-                self.assertIn(json.dumps(COVER_IMAGE_FIXTURE), embedded_photo)
                 context.set_offline(True)
+                page.locator(".backup-menu > summary").click()
+                page.locator(".global-actions [data-action='import']").click()
+                page.locator("#import-chart-file").set_input_files({
+                    "name": "chart-with-photo.json", "mimeType": "application/json",
+                    "buffer": json.dumps(exported, ensure_ascii=False).encode("utf-8"),
+                })
+                expect(page.locator("#workspace-toast")).to_contain_text("Chart imported.")
                 page.locator(".app-sidebar [data-tab='report']").click()
-                expect(page.locator("#printReport > .report-page")).to_have_count(12)
+                expect(page.locator("#printReport > .report-page")).to_have_count(len(REPORT_PAGE_SECTIONS))
                 offline_photo = page.locator(".report-front-page .report-cover-image")
                 expect(offline_photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
                 offline_photo.evaluate("image => image.decode()")
@@ -889,7 +916,7 @@ class CalculatorBrowserTests(unittest.TestCase):
                     ("astroName", "Test Astrologer"), ("astroMobile", "1234567890"),
                     ("astroAddress", "Pune\nClient report office"),
                 ):
-                    with self.subTest(downloaded_cover_field=field):
+                    with self.subTest(offline_cover_field=field):
                         expect(page.locator(f'[data-cover-field="{field}"]')).to_have_text(expected)
                 page.locator(".app-sidebar [data-tab='basic']").click()
                 page.locator("#birthTime").fill("13:30:00")
@@ -907,7 +934,7 @@ class CalculatorBrowserTests(unittest.TestCase):
                 expect(menu).to_have_attribute("aria-expanded", "true")
                 page.locator(".app-sidebar [data-tab='report']").click()
                 expect(menu).to_have_attribute("aria-expanded", "false")
-                expect(page.locator("#printReport > .report-page")).to_have_count(12)
+                expect(page.locator("#printReport > .report-page")).to_have_count(len(REPORT_PAGE_SECTIONS))
                 expect(page.locator('.report-front-page [data-cover-field="birthTime"]')).to_have_text("13:30:00")
                 expect(page.locator(".report-front-page .report-cover-image")).to_have_attribute("src", COVER_IMAGE_FIXTURE)
                 self.assertEqual(unexpected_requests, [],
@@ -918,11 +945,11 @@ class CalculatorBrowserTests(unittest.TestCase):
                 thread.join(timeout=5)
                 server.server_close()
 
-    def test_print_popup_has_twelve_a4_pages_without_duplicate_ids(self):
+    def test_print_popup_has_thirteen_a4_pages_without_duplicate_ids(self):
         self.prepare_worksheets()
         self.page.evaluate("source => { window.KP_REPORT_COVER_IMAGE = source; }", COVER_IMAGE_FIXTURE)
         self.go("report")
-        expect(self.page.locator("#printReport > .report-page")).to_have_count(12)
+        expect(self.page.locator("#printReport > .report-page")).to_have_count(len(REPORT_PAGE_SECTIONS))
         # Stub the print dialog on the actual newly opened window, before the
         # app's deferred print call; still exercise popup creation and rendering.
         self.page.evaluate("""() => {
@@ -934,12 +961,12 @@ class CalculatorBrowserTests(unittest.TestCase):
             };
         }""")
         with self.page.expect_popup() as popup_info:
-            self.page.get_by_role("button", name="Print Report", exact=True).click()
+            self.page.locator("#print-selected-report").click()
         popup = popup_info.value
         popup.on("pageerror", lambda error: self.errors.append("Print popup: " + str(error)))
         popup.wait_for_load_state("domcontentloaded")
         popup.wait_for_function("window.testPrintCalled === true")
-        expect(popup.locator("body > .report-page")).to_have_count(12)
+        expect(popup.locator("body > .report-page")).to_have_count(len(REPORT_PAGE_SECTIONS))
         expect(popup.locator("body > .report-page").first).to_have_attribute("data-report-section", "cover")
         expect(popup.locator("body > .report-page").first).to_contain_text("Regression chart · मीरा")
         expect(popup.locator("body > .report-page").first).to_contain_text("Test Astrologer")
@@ -976,11 +1003,11 @@ class CalculatorBrowserTests(unittest.TestCase):
                 self.assertNotEqual(geometry["display"], "none", "Every report page must be visible when printing.")
                 self.assertAlmostEqual(geometry["width"], 190 * 96 / 25.4, delta=1)
                 self.assertAlmostEqual(geometry["height"], 277 * 96 / 25.4, delta=1)
-                if index < 11:
+                if index < len(REPORT_PAGE_SECTIONS) - 1:
                     self.assertEqual(geometry["breakAfter"], "page")
         content_errors = popup.locator("body > .report-page").evaluate_all("""pages => pages.flatMap((page, index) => {
             const bounds = page.getBoundingClientRect(), errors = [];
-            for (const element of page.querySelectorAll('.report-developer-footer,.kp-key,.kp-table,[data-cover-field],.report-cover-image,.report-front-heading,.report-front-footnote')) {
+            for (const element of page.querySelectorAll('.report-developer-footer,.kp-key,.kp-table,[data-cover-field],.report-cover-image,.report-front-heading,.report-front-footnote,.md-dasha-table,.ad-sheet table,.ad-sheet [data-report-id]')) {
                 const rect = element.getBoundingClientRect();
                 if (getComputedStyle(element).display === 'none' || rect.width <= 0 || rect.height <= 0)
                     errors.push(`Page ${index+1}: hidden ${element.className}`);
@@ -995,6 +1022,276 @@ class CalculatorBrowserTests(unittest.TestCase):
         # Chromium normalizes explicit "A4 portrait" to "a4", whose default
         # orientation is portrait; the page dimensions above also enforce it.
         self.assertIn(paper_sizes[-1], ("a4", "a4 portrait"), "The print document must request A4 portrait paper.")
+
+    def test_report_page_selection_prints_only_checked_pages_and_preserves_report_order(self):
+        self.prepare_worksheets()
+        self.page.locator(".backup-menu > summary").click()
+        self.page.locator(".global-actions [data-action='print']").click()
+        expect(self.page.locator("main > #report")).to_be_visible()
+        expect(self.page.locator("#report-page-options")).to_be_focused()
+        self.assertEqual(len(self.context.pages), 1,
+                         "The global print action must let the user choose pages before it opens a print window.")
+        options = self.page.locator("#report-page-options input[type='checkbox'][data-report-page-key]")
+        expect(options).to_have_count(len(REPORT_PAGE_SECTIONS))
+        actual_sections = options.evaluate_all("options => options.map(option => option.dataset.reportPageKey)")
+        self.assertEqual(actual_sections, list(REPORT_PAGE_SECTIONS),
+                         "The page choices must include the current MD and AD report pages in preview order.")
+        self.assertTrue(options.evaluate_all("options => options.every(option => option.checked)"),
+                        "Printing the full report must remain the default.")
+        self.page.locator("#report-clear-pages").click()
+        selected_sections = ["cover", "mdcalc", "adcalc", "south9"]
+        for section in reversed(selected_sections):
+            self.page.locator(f"#report-page-options [data-report-page-key='{section}']").check()
+        self.page.evaluate("window.renderReport()")
+        expect(options).to_have_count(len(REPORT_PAGE_SECTIONS))
+        self.assertEqual(options.evaluate_all("options => options.filter(option => option.checked).map(option => option.dataset.reportPageKey)"),
+                         selected_sections, "Refreshing report data must preserve the selected pages.")
+        expect(self.page.locator("#printReport > .report-page")).to_have_count(len(REPORT_PAGE_SECTIONS))
+
+        self.page.evaluate("""() => {
+            const original = window.open;
+            window.testPopupCalls = 0;
+            window.open = function (...args) {
+                window.testPopupCalls++;
+                const popup = original.apply(window, args);
+                if (popup) popup.print = () => { popup.testPrintCalled = true; };
+                return popup;
+            };
+        }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Selected-pages print: " + str(error)))
+        popup.wait_for_load_state("domcontentloaded")
+        popup.wait_for_function("window.testPrintCalled === true")
+        pages = popup.locator("body > .report-page")
+        expect(pages).to_have_count(len(selected_sections))
+        self.assertEqual(pages.evaluate_all("pages => pages.map(page => page.dataset.reportSection)"),
+                         selected_sections, "Click order must not reorder printed report pages.")
+        popup.emulate_media(media="print")
+        for page in pages.all():
+            expect(page).to_be_visible()
+        self.assertIn(pages.last.evaluate("page => getComputedStyle(page).breakAfter"), ("auto", "avoid"),
+                      "The last selected page must not force an extra blank sheet.")
+        expect(popup.locator('[data-report-section="adcalc"] [data-report-id="adDashaRows"] tr')).to_have_count(9)
+        popup.close()
+        self.assertEqual(self.page.evaluate("window.testPopupCalls"), 1)
+
+        self.page.locator("#report-clear-pages").click()
+        self.page.locator("#print-selected-report").click()
+        expect(self.page.locator("#report-page-selection-status")).to_have_text("Select at least one page to print.")
+        self.assertEqual(self.page.evaluate("window.testPopupCalls"), 1,
+                         "An empty page selection must not open or print a blank document.")
+        self.page.locator("#report-select-all").click()
+        self.assertTrue(options.evaluate_all("options => options.every(option => option.checked)"))
+        self.page.set_viewport_size({"width": 390, "height": 844})
+        self.page.locator("#report-clear-pages").click()
+        self.page.locator("#report-page-options [data-report-page-key='adcalc']").check()
+        expect(self.page.locator("#report-page-selection-status")).to_contain_text("1")
+        dimensions = self.page.evaluate("""() => ({
+            viewport: document.documentElement.clientWidth,
+            document: document.documentElement.scrollWidth,
+            body: document.body.scrollWidth,
+        })""")
+        self.assertLessEqual(dimensions["document"], dimensions["viewport"] + 1)
+        self.assertLessEqual(dimensions["body"], dimensions["viewport"] + 1)
+
+    def test_antardasha_matches_known_ketu_sequence_and_full_md_duration(self):
+        self.prepare_exact_dasha()
+        expect(self.page.locator("#mdBirthDasha")).to_have_value("केतू")
+        expect(self.page.locator("#mdBhogyaDuration")).to_have_value("7 वर्ष 0 महिने 0 दिवस")
+        expect(self.page.locator("#adMDSelect")).to_have_count(1)
+        expect(self.page.locator("#adMDSelect option")).to_have_count(9)
+        expect(self.page.locator("#adBirthLord")).to_have_value("केतू")
+        expect(self.page.locator("#adBirthBalance")).to_have_value("0 वर्ष 4 महिने 27 दिवस")
+        expected = [
+            ["केतू", "0", "4", "27", "01/01/2000", "28/05/2000"],
+            ["शुक्र", "1", "2", "0", "28/05/2000", "28/07/2001"],
+            ["रवी", "0", "4", "6", "28/07/2001", "04/12/2001"],
+            ["चंद्र", "0", "7", "0", "04/12/2001", "04/07/2002"],
+            ["मंगळ", "0", "4", "27", "04/07/2002", "01/12/2002"],
+            ["राहू", "1", "0", "18", "01/12/2002", "19/12/2003"],
+            ["गुरु", "0", "11", "6", "19/12/2003", "25/11/2004"],
+            ["शनि", "1", "1", "9", "25/11/2004", "04/01/2006"],
+            ["बुध", "0", "11", "27", "04/01/2006", "01/01/2007"],
+        ]
+        self.assertEqual(self.dasha_rows(), expected,
+                         "AD must use the Vimshottari sequence and MD × AD years ÷ 120, with cumulative calendar boundaries.")
+        durations = [int(row[1]) * 360 + int(row[2]) * 30 + int(row[3]) for row in self.dasha_rows()]
+        self.assertEqual(durations, [147, 420, 126, 210, 147, 378, 336, 399, 357])
+        self.assertEqual(sum(durations), 7 * 360, "The nine AD durations must cover exactly their complete Ketu MD.")
+        md_table = self.page.locator("#mdDashaRows").locator("xpath=ancestor::table")
+        ad_table = self.page.locator("#adDashaRows").locator("xpath=ancestor::table")
+        self.assertIn("md-dasha-table", ad_table.get_attribute("class").split())
+        self.assertEqual(ad_table.locator("thead th").all_text_contents(), md_table.locator("thead th").all_text_contents(),
+                         "The AD worksheet must retain the MD table's six-column format.")
+
+        self.page.locator("#adMDSelect").select_option(index=1)
+        venus_rows = self.dasha_rows()
+        self.assertEqual([row[0] for row in venus_rows], ["शुक्र", "रवी", "चंद्र", "मंगळ", "राहू", "गुरु", "शनि", "बुध", "केतू"])
+        self.assertEqual(venus_rows[0][1:4], ["3", "4", "0"])
+        self.assertEqual(venus_rows[0][4], "01/01/2007")
+        self.assertEqual(venus_rows[-1][5], "01/01/2027")
+        self.assertEqual(sum(int(row[1]) * 360 + int(row[2]) * 30 + int(row[3]) for row in venus_rows), 20 * 360)
+        self.go("report")
+        report_ad = self.page.locator('#printReport > [data-report-section="adcalc"]')
+        expect(report_ad).to_have_count(1)
+        self.assertEqual(report_ad.locator('[data-report-id="adDashaRows"]').evaluate("""body => [...body.rows].map(row =>
+            [...row.cells].map(cell => cell.textContent.trim()))"""), venus_rows,
+                         "The AD report page must print the currently chosen MD's recalculated table.")
+        expect(self.page.locator('#printReport > [data-report-section="mdcalc"] [data-report-id="adDashaRows"]')).to_have_count(0)
+
+    def test_birth_antardasha_uses_elapsed_md_and_changes_at_exact_nakshatra_boundaries(self):
+        self.prepare_exact_dasha("06:40:00")
+        expect(self.page.locator("#mdBhogyaDuration")).to_have_value("3 वर्ष 6 महिने 0 दिवस")
+        expect(self.page.locator("#adBirthLord")).to_have_value("राहू")
+        expect(self.page.locator("#adBirthBalance")).to_have_value("0 वर्ष 5 महिने 18 दिवस")
+        active = self.page.locator('#adDashaRows tr[data-birth-active="true"]')
+        expect(active).to_have_count(1)
+        expect(active).to_have_attribute("data-ad-lord", "राहू")
+        expect(active.locator(".ad-birth-marker")).to_have_text("जन्मतः / At birth")
+        rows = self.dasha_rows()
+        self.assertEqual(rows[0][4], "01/07/1996", "A partly elapsed birth MD must begin before the native's birth.")
+        self.assertEqual(rows[5][4:6], ["01/06/1999", "19/06/2000"])
+        self.assertEqual(rows[-1][5], "01/07/2003")
+        self.assertEqual(rows[-1][5], self.page.locator("#mdDashaEnd").input_value())
+        periods = self.page.evaluate("window.calculateAntardashas(window.mdDashaPeriods[0])")
+        self.assertTrue(all(periods[index]["end"] == periods[index + 1]["start"] for index in range(8)),
+                        "Adjacent AD periods must meet without a gap or overlap.")
+
+        # 3°40′ of Ashwini is exactly 693 of 2520 Ketu-MD days:
+        # Ketu 147 + Venus 420 + Sun 126. The new Moon AD begins at birth.
+        self.go("planet")
+        self.page.locator("#p6_d_1").fill("03:40:00")
+        self.page.locator("#p6_t_1").fill("03:40:00")
+        self.action("calculate")
+        self.go("mdcalc")
+        expect(self.page.locator("#adBirthLord")).to_have_value("चंद्र")
+        expect(self.page.locator("#adBirthBalance")).to_have_value("0 वर्ष 7 महिने 0 दिवस")
+        self.assertEqual(self.dasha_rows()[3][4], "01/01/2000",
+                         "At an exact AD boundary, the new period must start on the birth date.")
+        self.go("planet")
+        self.page.locator("#p6_d_1").fill("13:20:00")
+        self.page.locator("#p6_t_1").fill("13:20:00")
+        self.action("calculate")
+        self.go("mdcalc")
+        expect(self.page.locator("#mdBirthDasha")).to_have_value("शुक्र")
+        expect(self.page.locator("#mdBhogyaDuration")).to_have_value("20 वर्ष 0 महिने 0 दिवस")
+        expect(self.page.locator("#adBirthLord")).to_have_value("शुक्र")
+        expect(self.page.locator("#adBirthBalance")).to_have_value("3 वर्ष 4 महिने 0 दिवस")
+        self.assertEqual(self.dasha_rows()[0][4], "01/01/2000")
+        self.page.set_viewport_size({"width": 390, "height": 844})
+        dimensions = self.page.evaluate("""() => ({
+            viewport: document.documentElement.clientWidth,
+            document: document.documentElement.scrollWidth,
+            body: document.body.scrollWidth,
+        })""")
+        self.assertLessEqual(dimensions["document"], dimensions["viewport"] + 1)
+        self.assertLessEqual(dimensions["body"], dimensions["viewport"] + 1)
+
+    def test_antardasha_clears_incomplete_inputs_and_keeps_calendar_dates_across_timezones(self):
+        self.prepare_exact_dasha()
+        baseline = self.dasha_rows()
+        self.go("basic")
+        self.page.locator("#dob").fill("")
+        self.go("mdcalc")
+        expect(self.page.locator("#ad-status")).to_have_attribute("data-ready", "false")
+        expect(self.page.locator("#adMDSelect")).to_be_disabled()
+        expect(self.page.locator("#adBirthLord")).to_have_value("")
+        expect(self.page.locator("#adBirthBalance")).to_have_value("")
+        self.assertNotEqual(self.dasha_rows(), baseline, "Incomplete inputs must not leave an earlier valid AD table visible.")
+        self.assertEqual(self.page.evaluate("window.mdDashaPeriods"), [])
+        self.go("basic")
+        self.page.locator("#dob").fill("2000-01-01")
+        self.go("mdcalc")
+        expect(self.page.locator("#ad-status")).to_have_attribute("data-ready", "true")
+        expect(self.page.locator("#adMDSelect")).to_be_enabled()
+        self.assertEqual(self.dasha_rows(), baseline, "Restoring the birth date must recalculate the same periods.")
+        self.go("planet")
+        self.page.locator("#p6_d_1").fill("")
+        self.page.locator("#p6_t_1").fill("")
+        self.go("mdcalc")
+        expect(self.page.locator("#ad-status")).to_have_attribute("data-ready", "false")
+        expect(self.page.locator("#adMDSelect")).to_be_disabled()
+        expect(self.page.locator("#adBirthLord")).to_have_value("")
+        self.assertNotEqual(self.dasha_rows(), baseline)
+
+        timezone_results = []
+        for timezone in ("Etc/UTC", "Asia/Kolkata"):
+            with self.subTest(timezone=timezone):
+                context = self.browser.new_context(viewport={"width": 1280, "height": 900}, timezone_id=timezone)
+                try:
+                    page = context.new_page()
+                    page.on("pageerror", lambda error: self.errors.append("Timezone AD: " + str(error)))
+                    page.goto(self.url, wait_until="load")
+                    page.wait_for_timeout(1700)
+                    # Supply exact already-calculated Moon positions directly
+                    # to isolate calendar calculation from the ephemeris inputs.
+                    result = page.evaluate("""() => {
+                        const collect = (moon, dob) => {
+                            document.getElementById('p6_final_1').value = moon;
+                            document.getElementById('dob').value = dob;
+                            window.updateMDCalculation();
+                            return {
+                                mdEnd: document.getElementById('mdDashaEnd').value,
+                                rows: [...document.getElementById('adDashaRows').rows].map(row => [...row.cells].map(cell => cell.textContent.trim())),
+                                birthLord: document.getElementById('adBirthLord').value,
+                                balance: document.getElementById('adBirthBalance').value,
+                            };
+                        };
+                        return [collect('00:00:00', '2000-02-29'), collect('03:40:00', '2000-01-31')];
+                    }""")
+                    self.assertEqual(result[0]["mdEnd"], "28/02/2007", "A leap-day birth must clamp the non-leap end date.")
+                    self.assertEqual(result[0]["rows"][0][4], "29/02/2000")
+                    self.assertEqual(result[1]["birthLord"], "चंद्र")
+                    self.assertEqual(result[1]["balance"], "0 वर्ष 7 महिने 0 दिवस")
+                    self.assertEqual(result[1]["rows"][3][4], "31/01/2000",
+                                     "The exact birth AD boundary must remain the birth date at a month end.")
+                    timezone_results.append(result)
+                finally:
+                    context.close()
+        self.assertEqual(timezone_results[0], timezone_results[1],
+                         "Logical report dates must not shift by one day when the browser uses India time.")
+
+    def test_saved_future_antardasha_selection_restores_after_incomplete_or_different_moon(self):
+        self.prepare_exact_dasha()
+        select = self.page.locator("#adMDSelect")
+        select.select_option(index=1)
+        expected_key = select.input_value()
+        expected_rows = self.dasha_rows()
+        self.assertEqual(expected_rows[0][0], "शुक्र")
+        self.action("save")
+        saved = self.page.evaluate("JSON.parse(localStorage.getItem('kpRaphaelData'))")
+        self.assertEqual(saved["fields"]["adMDSelect"]["value"], expected_key)
+
+        self.go("planet")
+        self.page.locator("#p6_d_1").fill("")
+        self.page.locator("#p6_t_1").fill("")
+        expect(select).to_be_disabled()
+        self.action("load")
+        expect(select).to_be_enabled()
+        expect(select).to_have_value(expected_key)
+        self.assertEqual(self.dasha_rows(), expected_rows,
+                         "Loading a chart must restore its chosen future MD even when the current AD selector was disabled.")
+        self.page.locator("#p6_d_1").fill("13:20:00")
+        self.page.locator("#p6_t_1").fill("13:20:00")
+        self.action("calculate")
+        self.assertNotEqual(select.input_value(), expected_key)
+        self.import_file(json.dumps(saved, ensure_ascii=False))
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(select).to_have_value(expected_key)
+        self.assertEqual(self.dasha_rows(), expected_rows,
+                         "JSON import must recreate options before restoring a key absent from the previous Moon's MD sequence.")
+        self.page.reload(wait_until="load")
+        self.page.wait_for_timeout(1700)
+        self.action("load")
+        expect(self.page.locator("#adMDSelect")).to_have_value(expected_key)
+        self.assertEqual(self.dasha_rows(), expected_rows)
+        self.go("report")
+        report_rows = self.page.locator('[data-report-section="adcalc"] [data-report-id="adDashaRows"]').evaluate("""body =>
+            [...body.rows].map(row => [...row.cells].map(cell => cell.textContent.trim()))""")
+        self.assertEqual(report_rows, expected_rows,
+                         "The report must keep the restored future MD's AD table after reloading the browser.")
 
 
 if __name__ == "__main__":

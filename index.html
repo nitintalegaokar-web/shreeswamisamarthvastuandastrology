@@ -543,6 +543,20 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 }
 </style>
 
+<style id="antardasha-style">
+  .ad-sheet { margin-top:24px; border-top:1px solid #e1e5ef; padding-top:20px; }
+  .ad-workspace .md-title { margin:0 0 18px; text-align:left; color:#42485f; font-size:17px; font-weight:600; border:0; padding:0; }
+  .ad-selection { display:flex; flex-wrap:wrap; align-items:center; gap:9px 16px; font-size:12px; font-weight:600; color:#555b73; }
+  .ad-selection select { min-width:270px; max-width:100%; }
+  .ad-summary { display:grid; grid-template-columns:2fr 1fr 1.5fr; gap:12px; margin:15px 0; }
+  .ad-summary label { display:grid; gap:7px; color:#797089; font-size:11px; line-height:1.6; }
+  .ad-summary input { width:100%; font-size:12px; }
+  .ad-status { margin:12px 0; color:#797089; font-size:12px; line-height:1.8; }
+  .ad-dasha-table tr[data-birth-active="true"] td { background:#edf3ef; color:#345842; font-weight:700; }
+  .ad-dasha-table .ad-birth-marker { display:block; font-size:9px; font-weight:400; }
+  @media (max-width:650px) { .ad-summary { grid-template-columns:1fr; } .ad-selection select { min-width:0; width:100%; } }
+  @media print { .ad-sheet { margin:0; padding:0; border:0; } .ad-workspace .md-title { font-size:14px; margin-bottom:4mm; } .ad-summary { display:grid; grid-template-columns:2fr 1fr 1.5fr; gap:2mm; margin:3mm 0; } .ad-summary label, .ad-selection, .ad-status { font-size:9px; } .ad-workspace .md-rule { font-size:9px; } }
+</style>
 </head>
 <body class="app-ready">
 <svg class="icon-definitions" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
@@ -601,7 +615,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
     <div class="nav-heading">CALCULATIONS</div>
     <button data-tab="raphael5"><svg><use href="#i-grid"/></svg><span>Raphael houses<small>रॅफेल टेबल ऑफ हाऊसेस</small></span><span class="nav-index">05</span></button>
     <button data-tab="planet"><svg><use href="#i-orbit"/></svg><span>Planet positions<small>ग्रहस्थिती</small></span><span class="nav-index">06</span></button>
-    <button data-tab="mdcalc"><svg><use href="#i-layers"/></svg><span>Mahadasha<small>महादशा</small></span><span class="nav-index">07</span></button>
+    <button data-tab="mdcalc"><svg><use href="#i-layers"/></svg><span>MD &amp; AD<small>महादशा · अंतर्दशा</small></span><span class="nav-index">07</span></button>
     <button data-tab="karyesh"><svg><use href="#i-chart"/></svg><span>Significators<small>कार्येश</small></span><span class="nav-index">08</span></button>
     <div class="nav-heading">CHART &amp; REPORT</div>
     <button data-tab="south9"><svg><use href="#i-grid"/></svg><span>South Indian kundali<small>जन्म / भावचलित कुंडली</small></span><span class="nav-index">09</span></button>
@@ -1009,6 +1023,27 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
     <b>नियम:</b> चंद्राची नक्षत्रस्थिती आणि नक्षत्रस्वामीच्या विंशोत्तरी महादशेच्या कालमानानुसार जन्मतः शिल्लक भोग्य महादशा काढली जाते.
   </div>
 </div>
+
+<section id="adcalc" class="ad-sheet" aria-labelledby="ad-title">
+<div class="ad-workspace">
+  <h2 id="ad-title" class="md-title">अंतर्दशा (AD) गणना · Antardasha</h2>
+  <label class="ad-selection" for="adMDSelect">महादशा निवडा / Select Mahadasha
+    <select id="adMDSelect" disabled><option value="">Complete the Moon position and birth date</option></select>
+  </label>
+  <div class="md-rule">सूत्र: महादशेची पूर्ण वर्षे × अंतर्दशा स्वामीची वर्षे ÷ १२०. कालमानासाठी १ वर्ष = १२ महिने व १ महिना = ३० दिवस; तारखा कॅलेंडरप्रमाणे दाखवल्या आहेत.</div>
+  <div class="ad-summary">
+    <label for="adMDRange">निवडलेली पूर्ण महादशा / Full MD dates<input id="adMDRange" readonly></label>
+    <label for="adBirthLord">जन्मतः अंतर्दशा / AD at birth<input id="adBirthLord" readonly></label>
+    <label for="adBirthBalance">जन्मतः शिल्लक अंतर्दशा / AD balance at birth<input id="adBirthBalance" readonly></label>
+  </div>
+  <p id="ad-status" class="ad-status" role="status" aria-live="polite" data-ready="false">Complete the calculated Moon position in Tab 6 and the birth date to calculate Antardasha.</p>
+  <table class="md-dasha-table ad-dasha-table" aria-label="Vimshottari Antardasha periods">
+    <thead><tr><th>ग्रह</th><th>वर्ष</th><th>महिने</th><th>दिवस</th><th>प्रारंभ तारीख</th><th>समाप्ती तारीख</th></tr></thead>
+    <tbody id="adDashaRows"><tr><td colspan="6">डेटा अपूर्ण / Data incomplete</td></tr></tbody>
+  </table>
+  <div class="md-note">निवडलेल्या पूर्ण महादशेच्या नऊ अंतर्दशा दाखवल्या आहेत. जन्मतः चालू अंतर्दशा ठळक दाखवली आहे; जन्मापूर्वीच्या तारखाही पूर्ण क्रमाचा भाग आहेत. दिवसाच्या अपूर्णांकाला जवळच्या पूर्ण दिवसात रूपांतर केले आहे.</div>
+</div>
+</section>
 </div>
 </section>
 
@@ -1069,11 +1104,22 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 <div class="card no-print">
   <h2>Professional Print Report</h2>
   <div class="actions">
-    <button type="button" onclick="printReport()">Print Report</button>
     <button type="button" id="choose-report-cover-photo" aria-controls="report-cover-photo-input">Choose cover photo</button>
-    <button type="button" id="download-cover-software" disabled>Download software with photo</button>
   </div>
   <p id="report-cover-photo-status" role="status" aria-live="polite" data-ready="false">Choose the supplied Mahaganpati photo for the report front page.</p>
+  <fieldset id="report-page-picker" class="report-page-picker">
+    <legend>Choose pages to print</legend>
+    <p>The full report stays visible below. Only the selected pages will print, in report order.</p>
+    <div class="actions report-page-selection-actions">
+      <button type="button" id="report-select-all">Select all</button>
+      <button type="button" id="report-clear-pages">Clear selection</button>
+    </div>
+    <div id="report-page-options"></div>
+    <p id="report-page-selection-status" role="status" aria-live="polite" tabindex="-1"></p>
+  </fieldset>
+  <div class="actions" style="margin-top:16px">
+    <button type="button" id="print-selected-report" onclick="printReport()">Print selected pages</button>
+  </div>
 </div>
 <div id="printReport"></div>
 </section>
@@ -1482,27 +1528,137 @@ function mdFormatDuration(totalDays){
   return {years,months,days};
 }
 function mdAddYMD(dateStr,years,months,days){
-  const d=new Date(dateStr+"T00:00:00");
-  d.setFullYear(d.getFullYear()+years);
-  d.setMonth(d.getMonth()+months);
-  d.setDate(d.getDate()+days);
+  if(!mdValidDate(dateStr)) return "";
+  const d=new Date(dateStr+"T00:00:00Z");
+  const originalDay=d.getUTCDate();
+  d.setUTCDate(1);
+  d.setUTCFullYear(d.getUTCFullYear()+years);
+  d.setUTCMonth(d.getUTCMonth()+months);
+  const lastDay=new Date(d.getTime());
+  lastDay.setUTCMonth(lastDay.getUTCMonth()+1,0);
+  d.setUTCDate(Math.min(originalDay,lastDay.getUTCDate()));
+  d.setUTCDate(d.getUTCDate()+days);
+  if(!Number.isFinite(d.getTime()) || d.getUTCFullYear()<1 || d.getUTCFullYear()>9999) return "";
   return d.toISOString().slice(0,10);
+}
+function mdValidDate(dateStr){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(String(dateStr||""))) return false;
+  const d=new Date(dateStr+"T00:00:00Z");
+  return Number.isFinite(d.getTime()) && d.getUTCFullYear()>0 && d.toISOString().slice(0,10)===dateStr;
+}
+function mdDuration360(totalDays){
+  const days=Math.max(0,Math.round(totalDays));
+  return {years:Math.floor(days/360),months:Math.floor((days%360)/30),days:days%30};
+}
+function mdAddOffset(dateStr,totalDays){
+  const sign=totalDays<0?-1:1;
+  const duration=mdDuration360(Math.abs(totalDays));
+  return mdAddYMD(dateStr,sign*duration.years,sign*duration.months,sign*duration.days);
 }
 function mdFmtDate(v){
   if(!v) return "";
   const a=v.split("-");
   return a.length===3?`${a[2]}/${a[1]}/${a[0]}`:v;
 }
+
+// Worksheet durations use 12 months of 30 days. Calendar boundaries are
+// cumulative offsets from the MD start, or from birth for the partly elapsed MD.
+// Anchoring the birth MD at DOB retains its elapsed ADs and its exact MD balance.
+window.mdDashaPeriods=[];
+function calculateAntardashas(period){
+  if(!period || !mdLordYears[period.lord] || !mdValidDate(period.start) || !mdValidDate(period.end)) return [];
+  const mdYears=mdLordYears[period.lord];
+  const totalDays=mdYears*360;
+  const elapsedDays=period.isBirth?Math.max(0,Math.min(totalDays,period.birthElapsedDays||0)):0;
+  const anchor=period.start;
+  let cumulativeDays=0;
+  const first=mdSeq.indexOf(period.lord);
+  const periods=[];
+  for(let i=0;i<9;i++){
+    const lord=mdSeq[(first+i)%9];
+    const durationDays=mdYears*mdLordYears[lord]*3;
+    const duration=mdDuration360(durationDays);
+    const start=mdAddOffset(anchor,cumulativeDays-elapsedDays);
+    cumulativeDays+=durationDays;
+    const end=i===8?period.end:mdAddOffset(anchor,cumulativeDays-elapsedDays);
+    // A final fraction of a day can round the MD balance to zero. The natal
+    // Moon still belongs to this MD, so its final AD remains the birth AD.
+    const activeElapsed=Math.min(elapsedDays,totalDays-1e-7);
+    const birthActive=Boolean(period.isBirth && activeElapsed>=cumulativeDays-durationDays && activeElapsed<cumulativeDays);
+    periods.push({lord,mdLord:period.lord,...duration,durationDays,start,end,birthActive,
+      birthBalanceDays:birthActive?Math.max(0,cumulativeDays-elapsedDays):0});
+  }
+  return periods;
+}
+window.calculateAntardashas=calculateAntardashas;
+let pendingAntardashaSelection=null;
+window.requestAntardashaSelection=key=>{pendingAntardashaSelection=String(key||"");};
+
+function updateAntardashaCalculation(message){
+  const select=document.getElementById("adMDSelect");
+  const body=document.getElementById("adDashaRows");
+  const status=document.getElementById("ad-status");
+  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.value=value;};
+  if(!select || !body || !status) return;
+  const periods=window.mdDashaPeriods;
+  if(!periods.length){
+    select.disabled=true;
+    select.innerHTML='<option value="">Complete the Moon position and birth date</option>';
+    body.innerHTML='<tr><td colspan="6">डेटा अपूर्ण / Data incomplete</td></tr>';
+    ["adMDRange","adBirthLord","adBirthBalance"].forEach(id=>set(id,""));
+    status.dataset.ready="false";
+    status.textContent=message||"Complete the calculated Moon position in Tab 6 and the birth date to calculate Antardasha.";
+    return;
+  }
+  const previous=pendingAntardashaSelection??select.value;
+  pendingAntardashaSelection=null;
+  select.replaceChildren(...periods.map((period,index)=>{
+    const option=document.createElement("option");
+    option.value=period.key;
+    option.textContent=`${period.lord} · ${mdFmtDate(period.start)} – ${mdFmtDate(period.end)}${index===0?" · जन्मतः / At birth":""}`;
+    return option;
+  }));
+  if(periods.some(period=>period.key===previous)) select.value=previous;
+  select.disabled=false;
+  const selected=periods.find(period=>period.key===select.value)||periods[0];
+  const adPeriods=calculateAntardashas(selected);
+  const birthPeriod=calculateAntardashas(periods[0]).find(period=>period.birthActive);
+  set("adMDRange",`${selected.lord} · ${mdFmtDate(adPeriods[0]?.start)} – ${mdFmtDate(selected.end)}`);
+  set("adBirthLord",birthPeriod?.lord||"");
+  const balance=mdDuration360(birthPeriod?.birthBalanceDays||0);
+  set("adBirthBalance",`${balance.years} वर्ष ${balance.months} महिने ${balance.days} दिवस`);
+  body.innerHTML=adPeriods.map(period=>`<tr data-ad-lord="${period.lord}" data-birth-active="${period.birthActive}" data-period-start="${period.start}" data-period-end="${period.end}"><td>${period.lord}${period.birthActive?'<span class="ad-birth-marker">जन्मतः / At birth</span>':""}</td><td>${period.years}</td><td>${period.months}</td><td>${period.days}</td><td>${mdFmtDate(period.start)}</td><td>${mdFmtDate(period.end)}</td></tr>`).join("");
+  status.dataset.ready="true";
+  status.textContent=selected.isBirth
+    ? `${selected.lord} MD: all nine AD periods are shown, including those before birth. The AD at birth is highlighted.`
+    : `${selected.lord} MD: all nine AD periods are shown in Vimshottari order. The birth AD and its balance are shown above.`;
+}
+document.addEventListener("change",event=>{
+  if(event.target?.id!=="adMDSelect") return;
+  updateAntardashaCalculation();
+  if(typeof renderReport==="function") renderReport();
+});
+
 function updateMDCalculation(){
   const moonEl=document.getElementById("p6_final_1");
-  if(!moonEl) return;
-  const moonText=(moonEl.value||"").trim();
-  if(!moonText) return;
-  const moonSec=parseDmsAny(moonText);
-  const moonDeg=moonSec/3600;
+  const moonText=(moonEl?.value||"").trim();
+  const moonParts=moonText.split(":").map(Number);
+  const validMoon=/^\d+(?:\.\d+)?(?::\d+(?:\.\d+)?){0,2}$/.test(moonText)
+    && moonParts.every(Number.isFinite) && moonParts[0]<=360
+    && moonParts.slice(1).every(part=>part>=0 && part<60)
+    && (moonParts[0]<360 || moonParts.slice(1).every(part=>part===0));
+  window.mdDashaPeriods=[];
+  if(!validMoon){
+    document.querySelectorAll("#mdcalc input[readonly]").forEach(el=>el.value=el.id==="mdFormulaDenominator"?"800":"");
+    const body=document.getElementById("mdDashaRows");
+    if(body)body.innerHTML='<tr><td colspan="6">डेटा अपूर्ण / Data incomplete</td></tr>';
+    updateAntardashaCalculation();
+    return;
+  }
+  const moonSec=parseDmsAny(moonText)%1296000;
   const nakSpan=13+20/60;
-  const nakIndex=Math.min(26,Math.floor(moonDeg/nakSpan));
-  const withinDeg=moonDeg-nakIndex*nakSpan;
+  const nakIndex=Math.min(26,Math.floor(moonSec/48000));
+  const withinDeg=(moonSec-nakIndex*48000)/3600;
   const remainDeg=Math.max(0,nakSpan-withinDeg);
   const remainKala=remainDeg*60;
   const n=mdNakshatras[nakIndex];
@@ -1530,7 +1686,7 @@ function updateMDCalculation(){
   const yearsWhole=Math.floor(yearFraction+1e-10);
   const yearDecimalRemainder=Math.max(0,yearFraction-yearsWhole);
   const monthFraction=yearDecimalRemainder*12;
-  const monthsWhole=Math.floor(monthFraction+1e-10);
+  let monthsWhole=Math.floor(monthFraction+1e-10);
   const monthDecimalRemainder=Math.max(0,monthFraction-monthsWhole);
   const dayFraction=monthDecimalRemainder*30;
   let daysWhole=Math.floor(dayFraction+1e-10);
@@ -1551,24 +1707,36 @@ function updateMDCalculation(){
   set("mdBhogyaDuration",`${finalYears} वर्ष ${finalMonths} महिने ${daysWhole} दिवस`);
   const dob=document.getElementById("dob")?.value||"";
   set("mdBirthDate",mdFmtDate(dob));
+  if(!mdValidDate(dob)){
+    set("mdDashaEnd","");
+    const body=document.getElementById("mdDashaRows");
+    if(body)body.innerHTML='<tr><td colspan="6">जन्मतारीख आवश्यक / Birth date required</td></tr>';
+    updateAntardashaCalculation("Enter a valid birth date to calculate the MD and AD dates.");
+    return;
+  }
   set("mdDashaEnd",mdFmtDate(mdAddYMD(dob,finalYears,finalMonths,daysWhole)));
 
   const rows=[];
   let curLord=lord;
   let startDate=dob;
   // First row is the birth-time remaining MD.
-  rows.push({lord:curLord,y:finalYears,m:finalMonths,d:daysWhole,end:mdFmtDate(mdAddYMD(startDate,finalYears,finalMonths,daysWhole))});
+  const remainingDays=finalYears*360+finalMonths*30+daysWhole;
+  rows.push({key:`0:${curLord}`,lord:curLord,years:mdYears,y:finalYears,m:finalMonths,d:daysWhole,start:startDate,
+    end:mdAddYMD(startDate,finalYears,finalMonths,daysWhole),isBirth:true,birthElapsedDays:mdYears*360-remainingDays,
+    fullStart:mdAddOffset(dob,remainingDays-mdYears*360)});
   let currentDate=mdAddYMD(startDate,finalYears,finalMonths,daysWhole);
   // Then show the following complete Mahadashas; one Vimshottari cycle contains 9 planets (120 years total).
   for(let i=1;i<9;i++){
     curLord=mdNextLord[curLord];
     const yy=mdLordYears[curLord];
     const end=mdAddYMD(currentDate,yy,0,0);
-    rows.push({lord:curLord,y:yy,m:0,d:0,end:mdFmtDate(end)});
+    rows.push({key:`${i}:${curLord}`,lord:curLord,years:yy,y:yy,m:0,d:0,start:currentDate,end,isBirth:false,fullStart:currentDate});
     currentDate=end;
   }
   const body=document.getElementById("mdDashaRows");
-  if(body) body.innerHTML=rows.map((x,i)=>`<tr><td>${x.lord}</td><td>${x.y}</td><td>${x.m}</td><td>${x.d}</td><td>${i===0?mdFmtDate(dob):mdFmtDate(rows[i-1].end)}</td><td>${x.end}</td></tr>`).join("");
+  if(body) body.innerHTML=rows.map(x=>`<tr><td>${x.lord}</td><td>${x.y}</td><td>${x.m}</td><td>${x.d}</td><td>${mdFmtDate(x.start)}</td><td>${mdFmtDate(x.end)}</td></tr>`).join("");
+  window.mdDashaPeriods=rows;
+  updateAntardashaCalculation();
 }
 
 
@@ -2329,6 +2497,8 @@ function restoreChartData(data){
   renderEph();
   // Loading a saved chart reconstructs a clean calculated layout first.
   window.kundaliManual=false;
+  const savedADSelection=entries.find(([id])=>id==="adMDSelect");
+  window.requestAntardashaSelection?.(String(savedADSelection?.[1].value??""));
   calculateAll();
   if(data.kundali?.manual){
     data.kundali.cells.forEach(cell=>{
@@ -3965,13 +4135,19 @@ document.addEventListener("DOMContentLoaded", function(){
       if(typeof window.renderReport==='function') window.renderReport();
       const src=document.getElementById('printReport');
       if(!src || !src.innerHTML.trim()){ alert('Print report तयार झालेला नाही. कृपया आधी गणना पूर्ण करा.'); return; }
+      const reportHTML=window.KPReportPages ? window.KPReportPages.html() : src.innerHTML;
+      if(!reportHTML.trim()){
+        const status=document.getElementById('report-page-selection-status');
+        if(status){status.textContent='Select at least one page to print.';status.dataset.empty='true';status.dataset.printError='true';status.focus();}
+        return;
+      }
       const w=window.open('','_blank','width=1000,height=800');
       if(!w){ alert('Print window उघडता आली नाही. Browser मध्ये pop-up allow करा.'); return; }
       // Report snapshots deliberately remove IDs and live event handlers.
       // Keep the legacy chart's ID-based print rules targeting its data marker.
       const styles=Array.from(document.querySelectorAll('style')).map(x=>'<style>'+x.textContent.replace(/#kundali\b/g,'[data-report-id="kundali"]')+'</style>').join('\n')+'<style>@media print{body>.report-page{display:block!important}}</style>';
       w.document.open();
-      w.document.write('<!doctype html><html lang="mr"><head><meta charset="UTF-8"><title>KP Report</title>'+styles+'<style>@page{size:A4 portrait;margin:0}html,body{margin:0!important;padding:0!important;background:#fff!important}body{font-family:"Noto Sans Devanagari","Mangal",Arial,sans-serif}.report-page{width:190mm!important;height:277mm!important;min-height:277mm!important;max-height:277mm!important;margin:0!important;padding:6mm!important;box-sizing:border-box!important;page-break-after:always!important;break-after:page!important;overflow:hidden!important;background:#fff!important}.report-page:last-child{page-break-after:auto!important}.report-page-title{font-size:14px!important;margin:0 0 5mm!important;font-weight:800}.no-print{display:none!important}.south9-chart.v29-chart{width:170mm!important;height:170mm!important;margin:12mm auto 20mm!important}.v29-chart .v29-entry{font-size:8px!important}.v29-chart .s9-center-title{font-size:11px!important}.v29-chart .s9-data{font-size:8px!important}.v29-chart .v29-label{display:none!important}.report-developer-footer{text-align:center!important;font-size:9px!important;font-weight:700!important;border-top:1px solid #777!important;padding-top:3mm!important;margin-top:3mm!important}</style></head><body>'+src.innerHTML+'</body></html>');
+      w.document.write('<!doctype html><html lang="mr"><head><meta charset="UTF-8"><title>KP Report</title>'+styles+'<style>@page{size:A4 portrait;margin:0}html,body{margin:0!important;padding:0!important;background:#fff!important}body{font-family:"Noto Sans Devanagari","Mangal",Arial,sans-serif}.report-page{width:190mm!important;height:277mm!important;min-height:277mm!important;max-height:277mm!important;margin:0!important;padding:6mm!important;box-sizing:border-box!important;page-break-after:always!important;break-after:page!important;overflow:hidden!important;background:#fff!important}.report-page:last-child{page-break-after:auto!important;break-after:auto!important}.report-page-title{font-size:14px!important;margin:0 0 5mm!important;font-weight:800}.no-print{display:none!important}.south9-chart.v29-chart{width:170mm!important;height:170mm!important;margin:12mm auto 20mm!important}.v29-chart .v29-entry{font-size:8px!important}.v29-chart .s9-center-title{font-size:11px!important}.v29-chart .s9-data{font-size:8px!important}.v29-chart .v29-label{display:none!important}.report-developer-footer{text-align:center!important;font-size:9px!important;font-weight:700!important;border-top:1px solid #777!important;padding-top:3mm!important;margin-top:3mm!important}</style></head><body>'+reportHTML+'</body></html>');
       w.document.close();
       w.focus();
       setTimeout(function(){w.print();},700);
@@ -4570,13 +4746,11 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
     if (status) {
       status.dataset.ready = String(Boolean(currentPhoto));
       status.textContent = currentPhoto
-        ? (saved ? 'Cover photo ready. Download the software to keep this photo in the HTML file.' : 'Cover photo ready for this session. Download the software to keep it. Browser storage is full or unavailable.')
+        ? (saved ? 'Cover photo ready for the report.' : 'Cover photo ready for this session. Export a chart backup to keep a copy. Browser storage is full or unavailable.')
         : 'Choose the supplied Mahaganpati photo for the report front page.';
     }
     const button = document.getElementById('choose-report-cover-photo');
     if (button) button.textContent = currentPhoto ? 'Replace cover photo' : 'Choose cover photo';
-    const downloadButton = document.getElementById('download-cover-software');
-    if (downloadButton) downloadButton.disabled = !currentPhoto;
   }
 
   function apply(source, options = {}) {
@@ -4623,79 +4797,23 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
       await decodeImage(source);
       if (version !== selectionVersion) return;
       apply(source);
-      notify('Cover photo added to the report. Download the software to keep it in the HTML file.', 'success');
+      notify('Cover photo added to the report.', 'success');
     } catch (error) {
       if (version === selectionVersion) notify(error.message, 'error');
     } finally { input.value = ''; }
   }
 
-  function download() {
-    if (!imageBytes(currentPhoto)) {
-      notify('Choose your cover photo before downloading the software with photo.', 'error');
-      return false;
-    }
-    const copy = document.documentElement.cloneNode(true);
-    copy.querySelector('#printReport')?.replaceChildren();
-    copy.querySelectorAll('#report-cover-photo-data').forEach(element => element.remove());
-    copy.querySelectorAll('.scroll-hint').forEach(element => element.remove());
-    copy.querySelectorAll('.worksheet-scroll, .chart-scroll').forEach(element => element.replaceWith(...element.childNodes));
-    copy.querySelector('body')?.classList.remove('menu-open');
-    copy.querySelectorAll('[inert]').forEach(element => element.removeAttribute('inert'));
-    copy.querySelectorAll('dialog[open], details[open]').forEach(element => element.removeAttribute('open'));
-    const menuToggle = copy.querySelector('#menu-toggle');
-    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
-    const sidebar = copy.querySelector('.app-sidebar');
-    if (sidebar) sidebar.removeAttribute('aria-modal');
-    const backdrop = copy.querySelector('#sidebar-backdrop');
-    if (backdrop) backdrop.hidden = true;
-    const toast = copy.querySelector('#workspace-toast');
-    if (toast) { toast.hidden = true; toast.replaceChildren(); }
-    const liveFields = document.querySelectorAll('input, textarea, select');
-    const copiedFields = copy.querySelectorAll('input, textarea, select');
-    liveFields.forEach((field, index) => {
-      const target = copiedFields[index];
-      if (!target) return;
-      if (field.tagName === 'INPUT') {
-        if (field.type === 'file') { target.removeAttribute('value'); return; }
-        target.setAttribute('value', field.value);
-        if (field.type === 'checkbox' || field.type === 'radio') target.toggleAttribute('checked', field.checked);
-      } else if (field.tagName === 'TEXTAREA') target.textContent = field.value;
-      else [...target.options].forEach((option, optionIndex) => option.toggleAttribute('selected', field.options[optionIndex].selected));
-    });
-    const embedded = document.createElement('script');
-    embedded.id = 'report-cover-photo-data';
-    const astrologer = {
-      name: document.getElementById('astroName')?.value || '',
-      mobile: document.getElementById('astroMobile')?.value || '',
-      address: document.getElementById('astroAddress')?.value || ''
-    };
-    const settingsJSON = JSON.stringify(astrologer).replace(/</g, '\\u003c');
-    embedded.textContent = 'window.KP_REPORT_COVER_IMAGE = ' + JSON.stringify(currentPhoto) + ';\nwindow.KP_EMBEDDED_ASTROLOGER_SETTINGS = ' + settingsJSON + ';';
-    copy.querySelector('#kp-display-workspace').before(embedded);
-    const blob = new Blob(['<!DOCTYPE html>\n', copy.outerHTML], {type: 'text/html;charset=utf-8'});
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'KP_Raphael_With_Cover_Photo.html';
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    notify('Software downloaded with your cover photo. Open the saved HTML file to use it offline.', 'success');
-    return true;
-  }
-
   window.KPReportPhoto = Object.freeze({
     isValid: source => source === '' || Boolean(imageBytes(source)),
     get: () => currentPhoto,
-    apply,
-    download
+    apply
   });
 
   async function initialize() {
     document.getElementById('choose-report-cover-photo')?.addEventListener('click', () => document.getElementById('report-cover-photo-input').click());
     document.getElementById('report-cover-photo-input')?.addEventListener('change', selectPhoto);
-    document.getElementById('download-cover-software')?.addEventListener('click', download);
     let stored = null;
-    try { stored = localStorage.getItem(STORAGE_KEY); } catch (_) { /* Selection and download also work without storage. */ }
+    try { stored = localStorage.getItem(STORAGE_KEY); } catch (_) { /* Photo selection also works without storage. */ }
     if (stored === '') { apply('', {persist: false}); return; }
     const embedded = window.KP_REPORT_COVER_IMAGE;
     const candidates = [stored, embedded].filter(source => source && imageBytes(source));
@@ -4840,9 +4958,10 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
       ['1. मूलभूत माहिती', 'basic'], ['2. स्थळ रेखांश गणना', 'ayan'],
       ['3. स्थानिक जन्मवेळ (L.M.T.) गणना', 'lmt'], ['4. सांपत्तिक काळ गणना', 'stcalc'],
       ['5. रॅफेल टेबल ऑफ हाऊसेस', 'raphael5'], ['6. ग्रहस्थिती गणना', 'planet'],
-      ['7. महादशा (MD) गणना', 'mdcalc'], ['8. Four-fold significators', 'kp-fourfold'],
-      ['9. Six-fold significators', 'kp-sixfold'], ['10. Four-step theory', 'kp-fourstep-section'],
-      ['11. South Indian kundali and basic calculations', 'south9']
+      ['7. महादशा (MD) गणना', 'mdcalc'], ['8. अंतर्दशा (AD) गणना', 'adcalc'],
+      ['9. Four-fold significators', 'kp-fourfold'], ['10. Six-fold significators', 'kp-sixfold'],
+      ['11. Four-step theory', 'kp-fourstep-section'],
+      ['12. South Indian kundali and basic calculations', 'south9']
     ];
     const target = document.getElementById('printReport');
     if (!target) return;
@@ -4857,8 +4976,9 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
       heading.className = 'report-page-title';
       heading.textContent = title;
       const cover = document.createElement('div');
-      cover.className = 'report-cover';
+      cover.className = 'report-cover' + (id === 'adcalc' ? ' ad-sheet' : '');
       cover.innerHTML = snapshotSection(id);
+      if (id === 'mdcalc') cover.querySelector('[data-report-id="adcalc"]')?.remove();
       const footer = document.createElement('div');
       footer.className = 'report-developer-footer';
       footer.textContent = 'Software developer Name: ' + (document.getElementById('astroName')?.value || 'Astro.Nitin Talegaonkar') + ' | Mob: ' + (document.getElementById('astroMobile')?.value || '8412098690');
@@ -4882,7 +5002,7 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
     stcalc: ['Sidereal time', 'Work through the sidereal-time calculation, one step at a time.'],
     raphael5: ['Raphael houses', 'Enter your Raphael table values to calculate the twelve house cusps.'],
     planet: ['Planet positions', 'Enter the two dated ephemeris rows to calculate positions at birth.'],
-    mdcalc: ['Mahadasha', 'Review the Moon-based dasha calculations and remaining periods.'],
+    mdcalc: ['Mahadasha & Antardasha', 'Review the Moon-based MD balance and the AD periods for each Mahadasha.'],
     karyesh: ['Significators', 'Explore the connections between planets, houses, and sub-lords.'],
     south9: ['South Indian kundali', 'Your birth and bhav-chalit chart, with a clear view of every house.'],
     report: ['Your chart report', 'Review the complete worksheets, then print or save them as a PDF.'],
@@ -5055,7 +5175,11 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
     else if (action === 'load') { if (window.loadData()) refreshOverview(); }
     else if (action === 'export') exportChart();
     else if (action === 'import') byId('import-chart-file').click();
-    else if (action === 'print') { goToSection('report'); window.printReport(); }
+    else if (action === 'print') {
+      goToSection('report');
+      window.KPReportPages?.refresh();
+      byId('report-page-options')?.focus();
+    }
   }
 
   function updateScrollHints() {
@@ -5174,6 +5298,100 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
     setTimeout(refreshOverview, 1500);
   }
   initialize();
+})();
+</script>
+<style id="report-page-selection-style">
+.report-page-picker{border:1px solid #e1dceb;border-radius:8px;margin-top:20px;padding:14px 16px}
+.report-page-picker legend{padding:0 7px;font-weight:700;font-size:14px;color:#51456e}
+.report-page-picker>p{font-size:12px;line-height:1.6;color:#797087;margin:4px 0 12px}
+.report-page-selection-actions{margin-bottom:12px}
+#report-page-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:7px 12px;outline-offset:4px}
+#report-page-options label{display:flex;align-items:center;gap:9px;min-height:44px;padding:8px 10px;box-sizing:border-box;border:1px solid #eeeaf4;border-radius:6px;font-size:12px;line-height:1.45;color:#534b65;cursor:pointer;margin:0}
+#report-page-options label:has(input:checked){background:#f7f4fc;border-color:#dcd3ef}
+body.app-ready #report-page-options input[type="checkbox"],#report-page-options input[type="checkbox"]{width:18px;height:18px;min-height:18px;padding:0;margin:0;flex-shrink:0;accent-color:#7762b3}
+#report-page-selection-status{margin:12px 0 0;color:#686074;font-size:12px;font-weight:600}
+#report-page-selection-status[data-empty="true"]{color:#a23c4b}
+@media(max-width:520px){#report-page-options{grid-template-columns:minmax(0,1fr)}.report-page-picker{padding:12px 10px}}
+@media print{.report-page-picker{display:none!important}}
+</style>
+<script id="report-page-selection-script">
+(() => {
+  'use strict';
+  const choices = new Map();
+  let selectNewPages = true;
+  let signature = '';
+  const options = document.getElementById('report-page-options');
+  const report = document.getElementById('printReport');
+  const status = document.getElementById('report-page-selection-status');
+  if (!options || !report || !status) return;
+  options.tabIndex = -1;
+  function pages() {
+    const occurrences = new Map();
+    return [...report.children].filter(page => page.classList.contains('report-page')).map((page, index) => {
+      const section = page.dataset.reportSection || 'page-' + (index + 1);
+      const occurrence = (occurrences.get(section) || 0) + 1;
+      occurrences.set(section, occurrence);
+      const key = occurrence === 1 ? section : section + '::' + occurrence;
+      const title = section === 'cover' ? 'Front page · Ucchishta Mahaganpati' : (page.querySelector('.report-page-title')?.textContent || section).trim().replace(/^\d+\.\s*/, '');
+      return {page, key, title, index};
+    });
+  }
+  function updateStatus(current) {
+    const count = current.filter(item => choices.get(item.key)).length;
+    if (count > 0) delete status.dataset.printError;
+    status.textContent = count === 0 && status.dataset.printError === 'true' ? 'Select at least one page to print.' : count + ' of ' + current.length + ' pages selected.';
+    status.dataset.empty = String(count === 0);
+  }
+  function refresh() {
+    const current = pages();
+    current.forEach(item => { if (!choices.has(item.key)) choices.set(item.key, selectNewPages); });
+    const nextSignature = JSON.stringify(current.map(item => [item.key, item.title]));
+    if (signature !== nextSignature) {
+      options.replaceChildren();
+      current.forEach(item => {
+        const label = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.dataset.reportPageKey = item.key;
+        const text = document.createElement('span');
+        text.textContent = 'Page ' + (item.index + 1) + ' · ' + item.title;
+        label.append(checkbox, text);
+        options.appendChild(label);
+      });
+      signature = nextSignature;
+    }
+    options.querySelectorAll('input[data-report-page-key]').forEach(checkbox => { checkbox.checked = Boolean(choices.get(checkbox.dataset.reportPageKey)); });
+    updateStatus(current);
+    return current;
+  }
+  function setAll(selected) {
+    delete status.dataset.printError;
+    selectNewPages = selected;
+    pages().forEach(item => choices.set(item.key, selected));
+    refresh();
+  }
+  window.KPReportPages = {
+    refresh,
+    selected() { return refresh().filter(item => choices.get(item.key)).map(item => item.page); },
+    html() { return this.selected().map(page => page.outerHTML).join('\n'); },
+    selectAll() { setAll(true); },
+    clear() { setAll(false); }
+  };
+  options.addEventListener('input', event => event.stopPropagation());
+  options.addEventListener('change', event => {
+    const checkbox = event.target.closest('input[data-report-page-key]');
+    if (!checkbox) return;
+    choices.set(checkbox.dataset.reportPageKey, checkbox.checked);
+    delete status.dataset.printError;
+    const current = pages();
+    selectNewPages = current.length > 0 && current.every(item => choices.get(item.key));
+    updateStatus(current);
+    event.stopPropagation();
+  });
+  document.getElementById('report-select-all').addEventListener('click', () => setAll(true));
+  document.getElementById('report-clear-pages').addEventListener('click', () => setAll(false));
+  new MutationObserver(refresh).observe(report, {childList:true});
+  refresh();
 })();
 </script>
 </body>
