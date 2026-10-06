@@ -15,6 +15,8 @@ The cloud environment already includes Python, Chromium, and Python Playwright. 
 - Enter the birth details, then complete the Raphael houses and dated ephemeris worksheets. The included ephemeris sample covers 9–11 October 1931; enter your own dated rows for other births.
 - Use the sidebar to move between all eleven sections. Dense worksheets and the kundali scroll sideways on small screens.
 - **Calculate** refreshes the worksheet results and chart. The overview shows local mean time, ayanamsha, and longitude difference.
+- **Tab 8 — Significators** fills all four tables automatically when the twelve house cusps and nine planet positions are complete. Changes to the worksheets refresh the tables; incomplete data clears the results.
+- Each South Indian kundali cell places cusp numbers and degrees on the left, and planet names and degrees on the right. Crowded entries are spaced independently in each column, including in printed reports.
 - **Save chart** stores the editable worksheet data and manual kundali notes in the current browser. **Load** restores the saved chart and recalculates outputs.
 - The toolbar's backup menu exports/imports a JSON chart file for moving work between browsers or devices. Imported charts must be saved separately to persist in the browser.
 - **Manual Edit** allows plain-text notes in the kundali. They stay in place until **Auto Fill Kundali** returns to calculated chart values.
@@ -31,4 +33,4 @@ With Python Playwright and Chromium installed:
 python3 -m unittest discover -s tests -v
 ```
 
-The suite starts and stops its own temporary local servers. It checks calculations, full worksheet persistence, portable backups, manual chart editing, mobile navigation, invalid data, report printing, and a standalone copy containing only `index.html`. These are software checks; they do not independently certify astrological accuracy.
+The suite starts and stops its own temporary local servers. It checks calculations, automatic significators, crowded kundali cells on desktop/mobile/print, full worksheet persistence, portable backups, manual chart editing, mobile navigation, invalid data, report printing, and a standalone copy containing only `index.html`. These are software checks; they do not independently certify astrological accuracy.

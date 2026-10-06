@@ -177,7 +177,7 @@
   body.app-ready .report-cover .v38-chart { display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(4,1fr); position:relative; }
   body.app-ready .report-cover .v38-cell { position:relative; border:1px solid #aaa5ba; overflow:hidden; }
   body.app-ready .report-cover .v38-center { grid-column:2/4; grid-row:2/4; border:1px solid #aaa5ba; padding:18px; display:flex; align-items:center; justify-content:center; }
-  body.app-ready .report-cover .v38-item { position:absolute; left:5px; right:5px; font-size:10px; }
+  body.app-ready .report-cover .v38-item { position:absolute; left:0; right:0; font-size:10px; }
   body.app-ready .report-cover .v38-title { font-size:12px; font-weight:700; }
   body.app-ready .report-cover .v38-data { font-size:11px; }
   body.app-ready .report-field { display:inline-block; padding:3px; font-variant-numeric:tabular-nums; }
@@ -3820,14 +3820,35 @@ document.addEventListener("DOMContentLoaded", function(){
   const starLord=x=>KO9[Math.min(26,Math.floor(norm(x)/48000))%9];
   function subLord(x){const a=norm(x), n=Math.min(26,Math.floor(a/48000)), w=a-n*48000, s=KO9[n%9], st=KO9.indexOf(s); let acc=0; for(let j=0;j<9;j++){const l=KO9[(st+j)%9], span=48000*VL9[l]/120; if(w<acc+span||j===8)return l; acc+=span;} return s;}
   function houseOf(cusps,lon){const x=norm(lon); for(let h=1;h<=12;h++){const a=norm(cusps[h-1]), b=norm(cusps[h%12]), span=norm(b-a), rel=norm(x-a); if(rel<span || (span===0&&rel===0))return h;} return 12;}
+  function worksheetDms(value){
+    const text=String(value??'').replace(/\s*R\s*$/i,'').trim();
+    const match=/^(\d{1,3}):([0-5]?\d):([0-5]?\d)$/.exec(text);
+    return match ? Number(match[1])*3600+Number(match[2])*60+Number(match[3]) : NaN;
+  }
+  function syncWorksheetPositions(){
+    // The current worksheets are authoritative: their calculators can update
+    // these fields without rebuilding the older global chart caches.
+    const cusps=Array(12).fill(null), lp={};
+    [10,11,12,1,2,3].forEach(h=>{
+      const lon=worksheetDms(document.getElementById('r5_nirayan_'+h)?.value);
+      if(!Number.isFinite(lon)||lon>=1296000)return;
+      cusps[h-1]=lon;
+      cusps[(h+5)%12]=norm(lon+648000);
+    });
+    P9.forEach((p,i)=>{
+      const degree=worksheetDms(document.getElementById('p6_final_'+i)?.value);
+      const sign=String(document.getElementById('p6_rashi_'+i)?.value||'').trim().replace(/^तुला$/,'तुळ');
+      const si=R9.indexOf(sign);
+      if(si>=0&&Number.isFinite(degree)&&degree<108000)lp[p]=si*108000+degree;
+    });
+    window.cuspResults=cusps.map((nir,i)=>({i:i+1,nir,rashi:nir===null?'':R9[signIndex(nir)]}));
+    window.lastPlanetPositions=lp;
+    return {cusps,lp};
+  }
+  window.syncKPWorksheetPositions=syncWorksheetPositions;
   function getData(){
-    let cr=Array.isArray(window.cuspResults)?window.cuspResults:[];
-    let cusps=cr.map(x=>x&&x.nir!=null&&x.nir!==""?Number(x.nir):NaN);
-    if(cusps.length!==12||cusps.some(x=>!Number.isFinite(x))) return null;
-    let lp=window.lastPlanetPositions||{};
-    // Fallback: read Tab 6 final nirayan planet-degree fields if the global cache is empty.
-    const idx=P9.reduce((m,p,i)=>(m[p]=i,m),{});
-    P9.forEach((p,i)=>{if(!Number.isFinite(Number(lp[p]))){const e=document.getElementById('p6_final_'+i);if(e&&e.value)lp[p]=parseDmsAny(e.value.replace(/\s*R\s*$/,''));}});
+    const {cusps,lp}=syncWorksheetPositions();
+    if(cusps.some(x=>x===null)||Object.keys(lp).length!==9)return null;
     const pd={};
     P9.forEach(p=>{const lon=Number(lp[p]);if(!Number.isFinite(lon))return; const n=norm(lon), si=signIndex(n);pd[p]={lon:n,house:houseOf(cusps,n),signLord:SL9[R9[si]],starLord:starLord(n),sublord:subLord(n)};});
     if(Object.keys(pd).length!==9)return null;
@@ -3858,8 +3879,10 @@ document.addEventListener("DOMContentLoaded", function(){
     GP9.forEach((p,i)=>set('karyesh_graha_bhava_'+(i+1),d?list(d.sig[p]):""));
     for(let h=1;h<=12;h++)set('karyesh_sublord_bhava_'+h,d?list(d.subH[h]):"");
     GP9.forEach((p,i)=>set('karyesh_sublord_graha_'+(i+1),d?list(d.subP[p]):""));
-    const note=document.querySelector('#karyesh .karyesh-note');
-    if(note)note.innerHTML=d?'✓ <b>कार्येश गणना पूर्ण.</b> Tab 5 निरयन भाव व Tab 6 निरयन ग्रहस्थितीवरून ४ही कार्येश तक्ते automatic भरले आहेत.':'⚠ <b>कार्येश डेटा उपलब्ध नाही.</b> आधी Tab 5 आणि Tab 6 ची गणना पूर्ण करा.';
+    const page=document.querySelector('#karyesh .karyesh-page');
+    let note=page?.querySelector('.karyesh-note');
+    if(page&&!note){note=document.createElement('div');note.className='karyesh-note';note.setAttribute('role','status');note.setAttribute('aria-live','polite');page.prepend(note);}
+    if(note)note.innerHTML=d?'✓ <b>कार्येश गणना पूर्ण.</b> Tab 5 निरयन भाव व Tab 6 निरयन ग्रहस्थितीवरून ४ही कार्येश तक्ते automatic भरले आहेत.':'<b>कार्येश गणनेसाठी माहिती अपूर्ण आहे.</b> Tab 5 मधील सर्व भाव व Tab 6 मधील सर्व ९ ग्रहांची माहिती भरा. माहिती पूर्ण झाल्यावर ४ही तक्ते automatic भरतील.';
   };
   function localDms(sec){sec=Math.round(norm(sec));let d=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return d+'°'+String(m).padStart(2,'0')+'′'+String(s).padStart(2,'0')+'″';}
   function planetLocal(lon){return localDms(norm(lon)%108000);}
@@ -3889,9 +3912,24 @@ document.addEventListener("DOMContentLoaded", function(){
   };
   // Re-run Tab 8 and Tab 9 after all original calculations have populated their globals.
   function v29Refresh(){try{if(typeof updateKaryeshTables==='function')updateKaryeshTables();if(typeof renderChart==='function')renderChart(true);}catch(e){console.error('v29 refresh',e);}}
+  let refreshTimer, pendingRaphaelUpdate=false;
+  function scheduleRefresh(event){
+    if(!event.target?.closest('#basic,#ayan,#lmt,#stcalc,#raphael5,#planet'))return;
+    pendingRaphaelUpdate=pendingRaphaelUpdate||Boolean(event.target.closest('#basic,#ayan,#lmt,#stcalc'));
+    clearTimeout(refreshTimer);
+    // Existing worksheet handlers run synchronously or on a zero-delay timer.
+    // Read their final outputs once they have settled, for input and change alike.
+    refreshTimer=setTimeout(()=>{
+      if(pendingRaphaelUpdate&&typeof updateRaphaelTable5==='function')updateRaphaelTable5();
+      pendingRaphaelUpdate=false;
+      v29Refresh();
+    },80);
+  }
   document.addEventListener('DOMContentLoaded',()=>{
     setTimeout(v29Refresh,150);setTimeout(v29Refresh,600);setTimeout(v29Refresh,1200);
-    document.querySelectorAll('#planet input,#raphael5 input,#raphael5 select,#raphael5 textarea').forEach(el=>el.addEventListener('input',()=>setTimeout(v29Refresh,50)));
+    document.addEventListener('input',scheduleRefresh);
+    document.addEventListener('change',scheduleRefresh);
+    window.addEventListener('chart-saved',event=>{if(event.detail?.action==='loaded')v29Refresh();});
     document.querySelectorAll('nav button[data-tab]').forEach(b=>b.addEventListener('click',()=>{if(['karyesh','south9'].includes(b.dataset.tab)){setTimeout(v29Refresh,80);setTimeout(v29Refresh,400);}}));
   });
 })();
@@ -3924,34 +3962,45 @@ document.addEventListener("DOMContentLoaded", function(){
 </body></html>
 
 <style id="v38-south-proper-style">
-/* v38 — clean South Indian Kundali: all 10°/20° guides parallel */
-#kundali.south9-chart.v38-chart{
-  width:min(760px,94vw); aspect-ratio:1/1; margin:24px auto 34px;
+/* Keep the same layout in the worksheet, report preview, and print window. */
+:is(#kundali,[data-report-id="kundali"]).south9-chart.v38-chart{
+  width:min(760px,100%); aspect-ratio:1/1; margin:24px auto 34px;
   display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(4,1fr);
   border:2px solid #111; background:#fff; position:relative; overflow:visible;
 }
-#kundali.v38-chart .v38-cell{position:relative;border:1px solid #111;overflow:hidden;background:#fff;min-width:0;min-height:0}
-#kundali.v38-chart .v38-cell::before,#kundali.v38-chart .v38-cell::after{
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-cell{position:relative;border:1px solid #111;overflow:hidden;background:#fff;min-width:0;min-height:0}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-cell::before,:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-cell::after{
   content:"";position:absolute;left:0;right:0;border-top:1px dotted rgba(0,0,0,.34);z-index:1;pointer-events:none
 }
-#kundali.v38-chart .v38-cell::before{top:33.333%}
-#kundali.v38-chart .v38-cell::after{top:66.666%}
-#kundali.v38-chart .v38-item{position:absolute;left:5px;right:5px;z-index:2;font-size:10px;line-height:1.12;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:rgba(255,255,255,.78);padding:1px 2px}
-#kundali.v38-chart .v38-cusp{font-weight:800}
-#kundali.v38-chart .v38-planet{font-weight:700}
-#kundali.v38-chart .v38-center{grid-column:2/4;grid-row:2/4;border:1px solid #111;display:flex;align-items:center;justify-content:center;text-align:left;padding:14px 18px;background:#fff;z-index:4}
-#kundali.v38-chart .v38-title{text-align:center;font-size:15px;font-weight:800;margin-bottom:10px}
-#kundali.v38-chart .v38-data{font-size:12px;line-height:1.55}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-cell::before{top:33.333%}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-cell::after{top:66.666%}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-lane{position:absolute;top:3px;bottom:3px;min-width:0;z-index:2}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-cusp-lane{left:3px;right:calc(50% + 2px);text-align:left}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-planet-lane{left:calc(50% + 2px);right:3px;text-align:right}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-item{position:absolute;left:0;right:0;display:flex;flex-direction:column;justify-content:center;gap:1px;font-size:10px;line-height:1.12;white-space:nowrap;padding:0}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-cusp{font-weight:800;align-items:flex-start}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-planet{font-weight:700;align-items:flex-end}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-name,:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-degree{background:rgba(255,255,255,.88)}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-degree{font-size:9px;line-height:1.15}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .is-dense .v38-item{flex-direction:row;align-items:baseline;gap:2px;font-size:8px;line-height:1.1}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .is-dense .v38-cusp{justify-content:flex-start}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .is-dense .v38-planet{justify-content:flex-end}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .is-dense .v38-degree{font-size:7.5px;line-height:1.1}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-center{grid-column:2/4;grid-row:2/4;border:1px solid #111;display:flex;align-items:center;justify-content:center;text-align:left;padding:14px 18px;background:#fff;z-index:4}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-title{text-align:center;font-size:15px;font-weight:800;margin-bottom:10px}
+:is(#kundali,[data-report-id="kundali"]).v38-chart .v38-data{font-size:12px;line-height:1.55}
 @media print{
- #kundali.south9-chart.v38-chart{width:165mm!important;height:165mm!important;margin:5mm auto!important}
- #kundali.v38-chart .v38-item{font-size:7.2px!important}
- #kundali.v38-chart .v38-title{font-size:10px!important}
- #kundali.v38-chart .v38-data{font-size:7.5px!important}
+ :is(#kundali,[data-report-id="kundali"]).south9-chart.v38-chart{width:165mm!important;height:165mm!important;margin:5mm auto!important}
+ :is(#kundali,[data-report-id="kundali"]).v38-chart .v38-item{font-size:7.2px!important}
+ :is(#kundali,[data-report-id="kundali"]).v38-chart .v38-degree{font-size:6.8px!important}
+ :is(#kundali,[data-report-id="kundali"]).v38-chart .v38-title{font-size:10px!important}
+ :is(#kundali,[data-report-id="kundali"]).v38-chart .v38-data{font-size:7.5px!important}
 }
 </style>
 <script id="v38-south-proper-renderer">
 (function(){
   const P=["रवी","चंद्र","मंगळ","बुध","गुरु","शुक्र","शनि","राहू","केतू"];
+  const SIGNS=["मेष","वृषभ","मिथुन","कर्क","सिंह","कन्या","तुळ","वृश्चिक","धनु","मकर","कुंभ","मीन"];
   const ROM=["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"];
   const norm=x=>((Number(x)||0)%1296000+1296000)%1296000;
   const signIndex=x=>Math.min(11,Math.floor(norm(x)/108000));
@@ -3973,10 +4022,14 @@ document.addEventListener("DOMContentLoaded", function(){
   function getPlanets(){
     const lp=window.lastPlanetPositions||{}, out=[];
     P.forEach((p,i)=>{
-      let n=Number(lp[p]);
+      let n=lp[p]!=null&&lp[p]!==''?Number(lp[p]):NaN;
       if(!Number.isFinite(n)){
         const e=document.getElementById('p6_final_'+i);
-        if(e&&e.value)n=parseAny(e.value.replace(/\s*R\s*$/,''));
+        const si=SIGNS.indexOf(String(document.getElementById('p6_rashi_'+i)?.value||'').trim().replace(/^तुला$/,'तुळ'));
+        if(e&&e.value.trim()&&si>=0){
+          const degree=parseAny(e.value.replace(/\s*R\s*$/i,''));
+          if(Number.isFinite(degree)&&degree>=0&&degree<108000)n=si*108000+degree;
+        }
       }
       if(Number.isFinite(n)){
         const retro=(document.getElementById('p6_motion_'+i)?.value||'').includes('R');
@@ -3985,24 +4038,37 @@ document.addEventListener("DOMContentLoaded", function(){
     });
     return out;
   }
+  function renderLane(si,entries,kind){
+    entries.sort((a,b)=>yPercent(si,a.lon)-yPercent(si,b.lon));
+    // Pack each column independently. Every label receives a complete slot,
+    // including clusters at 0°/30°, so the last labels cannot spill out.
+    const slot=100/Math.max(5,entries.length);
+    const tops=entries.map(it=>Math.max(0,Math.min(100-slot,yPercent(si,it.lon))));
+    for(let i=1;i<tops.length;i++)tops[i]=Math.max(tops[i],tops[i-1]+slot);
+    if(tops.length&&tops[tops.length-1]>100-slot){
+      tops[tops.length-1]=100-slot;
+      for(let i=tops.length-2;i>=0;i--)tops[i]=Math.min(tops[i],tops[i+1]-slot);
+    }
+    let html='<div class="v38-lane v38-'+kind+'-lane'+(entries.length>5?' is-dense':'')+'">';
+    entries.forEach((it,i)=>{
+      html+='<div class="v38-item v38-'+kind+'" data-kind="'+kind+'" style="top:'+Math.max(0,tops[i])+'%;height:'+slot+'%"><span class="v38-name">'+it.name+'</span><span class="v38-degree">'+it.degree+'</span></div>';
+    });
+    return html+'</div>';
+  }
   window.renderChart=function(force=false){
     if(window.kundaliManual)return;
     const chart=document.getElementById('kundali');if(!chart)return;
     chart.className='south9-chart v38-chart';
     const items=Array.from({length:12},()=>[]);
     const cr=Array.isArray(window.cuspResults)?window.cuspResults:[];
-    cr.forEach((c,i)=>{const n=c&&c.nir!=null&&c.nir!==""?Number(c.nir):NaN;if(Number.isFinite(n)){const si=signIndex(n);items[si].push({kind:'cusp',label:ROM[(Number(c.i)||i+1)-1]+'  '+dms(n),lon:n});}});
-    getPlanets().forEach(p=>{const si=signIndex(p.lon);items[si].push({kind:'planet',label:p.name+'  '+dms(p.lon)+(p.retro?' R':''),lon:p.lon});});
+    cr.forEach((c,i)=>{const n=c&&c.nir!=null&&c.nir!==""?Number(c.nir):NaN;if(Number.isFinite(n)){const si=signIndex(n);items[si].push({kind:'cusp',name:ROM[(Number(c.i)||i+1)-1],degree:dms(n),lon:n});}});
+    getPlanets().forEach(p=>{const si=signIndex(p.lon);items[si].push({kind:'planet',name:p.name,degree:dms(p.lon)+(p.retro?' R':''),lon:p.lon});});
     let html='';
     for(let si=0;si<12;si++){
       const rc=POS[si];
       html+='<div class="v38-cell" data-sign-index="'+si+'" style="grid-row:'+rc[0]+';grid-column:'+rc[1]+'">';
-      items[si].sort((a,b)=>yPercent(si,a.lon)-yPercent(si,b.lon));
-      let last=-99,stack=0;
-      items[si].forEach(it=>{
-        let y=yPercent(si,it.lon); if(Math.abs(y-last)<5){stack++;y=Math.min(91,y+stack*4)}else stack=0; last=y;
-        html+='<div class="v38-item '+(it.kind==='cusp'?'v38-cusp':'v38-planet')+'" style="top:'+y+'%">'+it.label+'</div>';
-      });
+      html+=renderLane(si,items[si].filter(it=>it.kind==='cusp'),'cusp');
+      html+=renderLane(si,items[si].filter(it=>it.kind==='planet'),'planet');
       html+='</div>';
     }
     const val=id=>String(document.getElementById(id)?.value||'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
