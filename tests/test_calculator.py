@@ -28,6 +28,9 @@ OUTPUT_IDS = (
     "r5_nirayan_1", "r5_rashi_1", "p6_motion_0", "p6_final_0",
     "mdBirthDasha", "mdBhogyaDuration",
 )
+# A tiny local fixture tests the cover's image binding and print readiness.
+# It deliberately does not stand in for the user's requested devotional photo.
+COVER_IMAGE_FIXTURE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aCfoAAAAASUVORK5CYII="
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -99,6 +102,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.page.locator("#name").fill("Regression chart · मीरा")
         self.page.locator("#dob").fill("1990-06-15")
         self.page.locator("#birthTime").fill("12:30:00")
+        self.page.locator("#birthPlace").fill("Pune, Maharashtra")
         self.page.locator("#lat").fill("18:31:00")
         self.page.locator("#lon").fill("73:51:00")
         self.page.locator("#dayAyan").fill("23:40:00")
@@ -679,10 +683,58 @@ class CalculatorBrowserTests(unittest.TestCase):
                 assert_geometry(popup, '[data-report-id="kundali"]', sign, degree_text)
                 popup.close()
 
-    def test_print_popup_has_eleven_a4_pages_without_duplicate_ids(self):
+    def test_report_front_page_shows_native_and_astrologer_details_as_literal_text(self):
         self.prepare_worksheets()
+        self.page.evaluate("source => { window.KP_REPORT_COVER_IMAGE = source; }", COVER_IMAGE_FIXTURE)
+        native_name = 'मीरा <img src=x onerror="window.coverInjected=true">'
+        astrologer_name = 'Astrologer <script>window.coverInjected=true</script>'
+        astrologer_address = 'Pune office\nSecond floor <b>Address</b>\nMaharashtra'
+        self.go("basic")
+        self.page.locator("#name").fill(native_name)
+        self.page.locator("#birthPlace").fill("Pune <b>India</b>")
+        self.go("astrosettings")
+        self.page.locator("#astroName").fill(astrologer_name)
+        self.page.locator("#astroAddress").fill(astrologer_address)
         self.go("report")
-        expect(self.page.locator("#printReport > .report-page")).to_have_count(11)
+        expect(self.page.locator("#printReport > .report-page")).to_have_count(12)
+        cover = self.page.locator("#printReport > .report-page").first
+        expect(cover).to_have_attribute("data-report-section", "cover")
+        expect(cover).to_contain_text("Ucchishta Mahaganpati")
+        photo = cover.locator('.report-cover-image[data-report-image="ganpati"]')
+        expect(photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+        photo.evaluate("image => image.decode()")
+        self.assertGreater(photo.evaluate("image => image.naturalWidth"), 0)
+        self.assertEqual(photo.evaluate("image => getComputedStyle(image).objectFit"), "contain")
+        for field, expected in (
+            ("name", native_name), ("birthTime", "12:30:00"), ("birthPlace", "Pune <b>India</b>"),
+            ("lat", "18:31:00"), ("lon", "73:51:00"),
+            ("astroName", astrologer_name), ("astroMobile", "1234567890"),
+            ("astroAddress", astrologer_address),
+        ):
+            with self.subTest(cover_field=field):
+                expect(cover.locator(f'[data-cover-field="{field}"]')).to_have_text(expected)
+        expect(cover.locator('[data-cover-field="dob"]')).to_have_text("1990-06-15")
+        self.assertEqual(cover.locator("script, img[src='x'], [data-cover-field] b").count(), 0)
+        self.assertFalse(self.page.evaluate("window.coverInjected === true"))
+        self.assertEqual(cover.locator('[data-cover-field="astroAddress"]').evaluate(
+            "element => getComputedStyle(element).whiteSpace"), "pre-wrap")
+        expect(self.page.locator("#printReport > .report-page").nth(1)).to_have_attribute("data-report-section", "basic")
+        expect(self.page.locator("#printReport > .report-page").last).to_have_attribute("data-report-section", "south9")
+
+        self.go("basic")
+        self.page.locator("#name").fill("")
+        self.go("astrosettings")
+        self.page.locator("#astroAddress").fill("")
+        self.go("report")
+        cover = self.page.locator(".report-front-page")
+        expect(cover.locator('[data-cover-field="name"]')).to_have_text("—")
+        expect(cover.locator('[data-cover-field="astroAddress"]')).to_have_text("—")
+
+    def test_print_popup_has_twelve_a4_pages_without_duplicate_ids(self):
+        self.prepare_worksheets()
+        self.page.evaluate("source => { window.KP_REPORT_COVER_IMAGE = source; }", COVER_IMAGE_FIXTURE)
+        self.go("report")
+        expect(self.page.locator("#printReport > .report-page")).to_have_count(12)
         # Stub the print dialog on the actual newly opened window, before the
         # app's deferred print call; still exercise popup creation and rendering.
         self.page.evaluate("""() => {
@@ -699,8 +751,11 @@ class CalculatorBrowserTests(unittest.TestCase):
         popup.on("pageerror", lambda error: self.errors.append("Print popup: " + str(error)))
         popup.wait_for_load_state("domcontentloaded")
         popup.wait_for_function("window.testPrintCalled === true")
-        expect(popup.locator("body > .report-page")).to_have_count(11)
+        expect(popup.locator("body > .report-page")).to_have_count(12)
+        expect(popup.locator("body > .report-page").first).to_have_attribute("data-report-section", "cover")
         expect(popup.locator("body > .report-page").first).to_contain_text("Regression chart · मीरा")
+        expect(popup.locator("body > .report-page").first).to_contain_text("Test Astrologer")
+        expect(popup.locator("body > .report-page").first).to_contain_text("Client report office")
         for target, label in ((self.page, "calculator"), (popup, "print popup")):
             duplicates = target.evaluate("""() => {
                 const ids = [...document.querySelectorAll('[id]')].map(el => el.id);
@@ -708,6 +763,22 @@ class CalculatorBrowserTests(unittest.TestCase):
             }""")
             self.assertEqual(duplicates, [], f"Duplicate IDs in {label}: {duplicates}")
         popup.emulate_media(media="print")
+        expect(popup.locator(".report-front-heading")).to_be_visible()
+        expect(popup.locator(".report-front-heading h1")).to_be_visible()
+        expect(popup.locator(".report-front-heading")).to_contain_text("Ucchishta Mahaganpati")
+        printed_photo = popup.locator('.report-front-page .report-cover-image[data-report-image="ganpati"]')
+        expect(printed_photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+        printed_photo.evaluate("image => image.decode()")
+        self.assertEqual(printed_photo.evaluate("image => getComputedStyle(image).objectFit"), "contain")
+        image_height = printed_photo.bounding_box()["height"]
+        self.assertGreaterEqual(image_height, 100 * 96 / 25.4, "The devotional image should remain prominent on the cover.")
+        self.assertLessEqual(image_height, 132 * 96 / 25.4 + 1, "The image must leave room for the native and astrologer details.")
+        cover_overflow = popup.locator(".report-front-page").evaluate("""page => ({
+            width: page.scrollWidth - page.clientWidth,
+            height: page.scrollHeight - page.clientHeight
+        })""")
+        self.assertLessEqual(cover_overflow["width"], 1, "The cover must not overflow the printable page horizontally.")
+        self.assertLessEqual(cover_overflow["height"], 1, "The cover must not overflow the printable page vertically.")
         page_geometry = popup.locator("body > .report-page").evaluate_all("""pages => pages.map(page => {
             const style = getComputedStyle(page);
             return {width: parseFloat(style.width), height: parseFloat(style.height), display: style.display, breakAfter: style.breakAfter};
@@ -717,11 +788,11 @@ class CalculatorBrowserTests(unittest.TestCase):
                 self.assertNotEqual(geometry["display"], "none", "Every report page must be visible when printing.")
                 self.assertAlmostEqual(geometry["width"], 190 * 96 / 25.4, delta=1)
                 self.assertAlmostEqual(geometry["height"], 277 * 96 / 25.4, delta=1)
-                if index < 10:
+                if index < 11:
                     self.assertEqual(geometry["breakAfter"], "page")
         content_errors = popup.locator("body > .report-page").evaluate_all("""pages => pages.flatMap((page, index) => {
             const bounds = page.getBoundingClientRect(), errors = [];
-            for (const element of page.querySelectorAll('.report-developer-footer,.kp-key,.kp-table')) {
+            for (const element of page.querySelectorAll('.report-developer-footer,.kp-key,.kp-table,[data-cover-field],.report-cover-image,.report-front-heading,.report-front-footnote')) {
                 const rect = element.getBoundingClientRect();
                 if (getComputedStyle(element).display === 'none' || rect.width <= 0 || rect.height <= 0)
                     errors.push(`Page ${index+1}: hidden ${element.className}`);
@@ -730,7 +801,7 @@ class CalculatorBrowserTests(unittest.TestCase):
             }
             return errors;
         })""")
-        self.assertEqual(content_errors, [], "Report tables, legends and developer footers must fit their printed A4 pages.")
+        self.assertEqual(content_errors, [], "Cover details, report tables, legends and developer footers must fit their printed A4 pages.")
         paper_sizes = popup.evaluate("""() => [...document.styleSheets].flatMap(sheet => [...sheet.cssRules])
             .filter(rule => rule.constructor.name === 'CSSPageRule').map(rule => rule.style.size.toLowerCase())""")
         # Chromium normalizes explicit "A4 portrait" to "a4", whose default

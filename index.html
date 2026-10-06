@@ -627,6 +627,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 <div><label for="dob">जन्मतारीख <span>Date of birth</span></label><input id="dob" type="date" value="1931-10-10" required></div>
 <div><label for="birthTime">जन्मवेळ <span>Time of birth</span></label><input id="birthTime" type="time" step="1" value="13:11:00" required></div>
 <div class="form-divider field-full"><h3>Birth location</h3><p>जन्मस्थळाचे अंश : कला : विकला</p></div>
+<div class="field-full"><label for="birthPlace">जन्मस्थळ <span>Birthplace</span></label><input id="birthPlace" placeholder="City, state, country" autocomplete="address-level2"></div>
 <div><label for="lat">अक्षांश <span>Latitude · D:M:S</span></label><input id="lat" value="13:04:00" placeholder="13:04:00" spellcheck="false"></div>
 <div><label for="lon">रेखांश <span>Longitude · D:M:S</span></label><input id="lon" value="80:15:00" placeholder="80:15:00" spellcheck="false"></div>
 <div class="form-divider field-full"><h3>Ayanamsha</h3><p>जन्मदिवसाचा अयनांश व दैनिक बेरीज</p></div>
@@ -4441,6 +4442,86 @@ body.app-ready .kp-table td[data-field="own"],body.app-ready .kp-table td[data-f
   window.KPDisplay = Object.freeze({build, ids: Object.freeze([...IDS]), names: Object.freeze({...NAME_BY_ID}), idByName: Object.freeze({...ID_BY_NAME}), longitudeDetails, formatDegree});
 })();
 </script>
+<style id="report-front-page-style">
+/* The report cover uses the same supplied photograph in preview and print. */
+.report-page.report-front-page {
+  width:190mm; height:277mm; min-height:277mm; padding:6mm;
+  overflow:hidden; box-sizing:border-box;
+}
+body.app-ready .report-page.report-front-page { padding:6mm; }
+.report-front-surface {
+  width:100%; height:100%; box-sizing:border-box; padding:6mm;
+  display:flex; flex-direction:column; gap:4mm;
+  background:#fffaf0; color:#392c25; border:1px solid #bc913e;
+  outline:1px solid #dbc998; outline-offset:-2mm;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+.report-front-heading { text-align:center; flex:none; position:static; padding:0; border:0; background:transparent; z-index:auto; }
+.report-front-kicker {
+  font-size:10px; line-height:1.5; letter-spacing:.04em;
+  color:#806138; margin:0 0 2mm;
+}
+.report-front-heading h1 {
+  font-size:24px; line-height:1.35; font-weight:800; margin:0;
+  color:#7c2b20;
+}
+.report-front-deity-name { font-size:14px; line-height:1.5; color:#a77525; margin:1mm 0 0; }
+.report-front-document-title {
+  font-size:11px; line-height:1.5; letter-spacing:.03em; margin:2mm 0 0;
+  color:#5b4a3d;
+}
+.report-front-photo {
+  flex:none; height:132mm; margin:0; padding:2mm;
+  display:flex; align-items:center; justify-content:center;
+  box-sizing:border-box; border:1px solid #dbc998; background:white;
+}
+.report-cover-image {
+  display:block; max-width:100%; max-height:100%; width:100%; height:100%;
+  object-fit:contain; object-position:center;
+}
+.report-cover-image[hidden] { display:none; }
+.report-cover-image-placeholder { font-size:16px; color:#806138; text-align:center; }
+.report-cover-image-placeholder small { display:block; margin-top:8px; font-size:11px; font-weight:400; }
+.report-cover-image-placeholder[hidden] { display:none; }
+.report-front-details {
+  display:grid; grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);
+  gap:4mm; flex:1; min-height:0; align-items:start;
+}
+.report-front-panel { min-width:0; border-top:2px solid #bc913e; padding-top:3mm; }
+.report-front-panel h2 {
+  color:#7c2b20; font-size:14px; line-height:1.5; margin:0 0 3mm;
+}
+.report-front-panel h2 span { display:block; color:#806138; font-size:9px; line-height:1.5; font-weight:500; }
+.report-front-fields { margin:0; display:flex; flex-direction:column; gap:2.3mm; }
+.report-front-field { display:grid; grid-template-columns:27mm minmax(0,1fr); gap:2mm; align-items:start; }
+.report-front-field dt { font-size:10px; line-height:1.45; color:#806138; }
+.report-front-field dd {
+  margin:0; min-width:0; font-size:11px; font-weight:600; line-height:1.45;
+  color:#392c25; overflow-wrap:anywhere; white-space:pre-wrap;
+}
+.report-front-astrologer .report-front-field { grid-template-columns:18mm minmax(0,1fr); }
+.report-front-footnote {
+  flex:none; padding-top:2mm; border-top:1px solid #dbc998;
+  color:#806138; font-size:9px; line-height:1.5; text-align:center;
+}
+@media screen and (max-width:760px) {
+  body.app-ready .report-page.report-front-page { width:100%; height:auto; min-height:0; padding:14px; }
+  .report-front-surface { height:auto; min-height:0; padding:18px; gap:18px; }
+  .report-front-heading h1 { font-size:21px; }
+  .report-front-photo { height:auto; aspect-ratio:3/4; max-height:480px; padding:7px; }
+  .report-front-details { grid-template-columns:1fr; gap:18px; }
+  .report-front-field { grid-template-columns:105px minmax(0,1fr); }
+  .report-front-astrologer .report-front-field { grid-template-columns:80px minmax(0,1fr); }
+}
+@media print {
+  .report-front-surface { gap:4mm!important; padding:6mm!important; background:#fffaf0!important; }
+  .report-front-heading { display:block!important; }
+  .report-front-heading h1 { font-size:24px!important; line-height:1.35!important; }
+  .report-front-panel h2 { font-size:14px!important; margin:0 0 3mm!important; }
+  .report-front-photo { height:132mm!important; }
+  .report-front-details { grid-template-columns:minmax(0,1.12fr) minmax(0,1fr)!important; }
+}
+</style>
 <script id="kp-display-workspace">
 (function () {
   'use strict';
@@ -4510,6 +4591,58 @@ body.app-ready .kp-table td[data-field="own"],body.app-ready .kp-table td[data-f
       element.textContent = 'Vedic sign aspects · Conj: house cusps within ' + conjunctionOrb + '° · Rahu and Ketu are exactly 180° apart.';
     });
   };
+  window.renderReportCover = function () {
+    const page = document.createElement('div');
+    page.className = 'report-page report-front-page';
+    page.dataset.reportSection = 'cover';
+    page.innerHTML = `
+      <div class="report-front-surface">
+        <header class="report-front-heading">
+          <p class="report-front-kicker">कृष्णमूर्ती पद्धती · जन्मकुंडली अहवाल</p>
+          <h1>श्री उच्छिष्ट महागणपती</h1>
+          <p class="report-front-deity-name">Ucchishta Mahaganpati</p>
+          <p class="report-front-document-title">Personal Astrology Report · वैयक्तिक ज्योतिष अहवाल</p>
+        </header>
+        <figure class="report-front-photo">
+          <img class="report-cover-image" data-report-image="ganpati" alt="Ucchishta Mahaganpati — the supplied devotional photograph" hidden>
+          <div class="report-cover-image-placeholder">Ucchishta Mahaganpati<small class="no-print">Awaiting the supplied photograph</small></div>
+        </figure>
+        <div class="report-front-details">
+          <section class="report-front-panel report-front-native" aria-label="Native basic data">
+            <h2>जातकाची माहिती <span>Native basic data</span></h2>
+            <dl class="report-front-fields">
+              <div class="report-front-field"><dt>नाव / Name</dt><dd data-cover-field="name"></dd></div>
+              <div class="report-front-field"><dt>जन्मतारीख / Date</dt><dd data-cover-field="dob"></dd></div>
+              <div class="report-front-field"><dt>जन्मवेळ / Time</dt><dd data-cover-field="birthTime"></dd></div>
+              <div class="report-front-field"><dt>जन्मस्थळ / Place</dt><dd data-cover-field="birthPlace"></dd></div>
+              <div class="report-front-field"><dt>अक्षांश / Latitude</dt><dd data-cover-field="lat"></dd></div>
+              <div class="report-front-field"><dt>रेखांश / Longitude</dt><dd data-cover-field="lon"></dd></div>
+            </dl>
+          </section>
+          <section class="report-front-panel report-front-astrologer" aria-label="Astrologer basic information">
+            <h2>ज्योतिषीची माहिती <span>Astrologer basic information</span></h2>
+            <dl class="report-front-fields">
+              <div class="report-front-field"><dt>नाव / Name</dt><dd data-cover-field="astroName"></dd></div>
+              <div class="report-front-field"><dt>मोबाईल / Mobile</dt><dd data-cover-field="astroMobile"></dd></div>
+              <div class="report-front-field"><dt>पत्ता / Address</dt><dd data-cover-field="astroAddress"></dd></div>
+            </dl>
+          </section>
+        </div>
+        <footer class="report-front-footnote">Krishnamurti Paddhati · South Indian Kundali</footer>
+      </div>`;
+    page.querySelectorAll('[data-cover-field]').forEach(element => {
+      const value = document.getElementById(element.dataset.coverField)?.value;
+      element.textContent = typeof value === 'string' && value.trim() ? value.trim() : '—';
+    });
+    const source = window.KP_REPORT_COVER_IMAGE;
+    if (typeof source === 'string' && source.trim()) {
+      const image = page.querySelector('.report-cover-image');
+      image.src = source;
+      image.hidden = false;
+      page.querySelector('.report-cover-image-placeholder').hidden = true;
+    }
+    return page;
+  };
   // Print each significator method on its own page. The basic calculations
   // stay directly below the kundali on the final page, as on screen.
   window.renderReport = function () {
@@ -4524,6 +4657,7 @@ body.app-ready .kp-table td[data-field="own"],body.app-ready .kp-table td[data-f
     const target = document.getElementById('printReport');
     if (!target) return;
     target.innerHTML = '';
+    target.appendChild(window.renderReportCover());
     for (const [title, id] of pages) {
       if (!document.getElementById(id)) continue;
       const page = document.createElement('div');

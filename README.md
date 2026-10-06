@@ -23,7 +23,7 @@ The cloud environment already includes Python, Chromium, and Python Playwright. 
 - **Save chart** stores the editable worksheet data and manual kundali notes in the current browser. **Load** restores the saved chart and recalculates outputs.
 - The toolbar's backup menu exports/imports a JSON chart file for moving work between browsers or devices. Imported charts must be saved separately to persist in the browser.
 - **Manual Edit** allows plain-text notes in the kundali. They stay in place until **Auto Fill Kundali** returns to calculated chart values.
-- **Print report** opens an eleven-page A4 report in a new window, with a page for each significator method and the basic calculation tables directly below the kundali. Use the browser print dialog to print or save a PDF. Allow the report window if your browser blocks popups.
+- **Print report** opens a twelve-page A4 report in a new window. Its front page includes Ucchishta Mahaganpati, the native's name, birth details and birthplace, and the astrologer's name, phone and address. The remaining pages include each significator method and the basic calculation tables directly below the kundali. Use the browser print dialog to print or save a PDF. Allow the report window if your browser blocks popups.
 - Set the astrologer's name, contact number, and address in **Astrologer settings**.
 
 Keyboard shortcuts: **Ctrl/⌘ + S** to save, **Ctrl/⌘ + Enter** to calculate, **?** for help, and **Escape** to close mobile navigation or help.
