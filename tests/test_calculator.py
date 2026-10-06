@@ -5,14 +5,17 @@ Requires Python Playwright and a Chromium executable on PATH (or set
 CALCULATOR_CHROMIUM to its path). No browser or package downloads occur here.
 """
 
+import base64
 import functools
 import json
 import os
 from pathlib import Path
 import shutil
+import struct
 import tempfile
 import threading
 import unittest
+import zlib
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 from playwright.sync_api import expect, sync_playwright
@@ -729,6 +732,191 @@ class CalculatorBrowserTests(unittest.TestCase):
         cover = self.page.locator(".report-front-page")
         expect(cover.locator('[data-cover-field="name"]')).to_have_text("—")
         expect(cover.locator('[data-cover-field="astroAddress"]')).to_have_text("—")
+
+    def test_selected_cover_photo_survives_backups_printing_and_standalone_software_download(self):
+        self.prepare_worksheets()
+        self.go("report")
+        photo_input = self.page.locator("#report-cover-photo-input")
+        status = self.page.locator("#report-cover-photo-status")
+        self.assertEqual(photo_input.locator("xpath=ancestor::main").count(), 0,
+                         "The image picker must not enter the chart's generic field serialization.")
+        expect(self.page.locator("#choose-report-cover-photo")).to_be_visible()
+        original_bytes = base64.b64decode(COVER_IMAGE_FIXTURE.split(",", 1)[1])
+        photo_input.set_input_files({
+            "name": "ganpati-test.png", "mimeType": "image/png", "buffer": original_bytes,
+        })
+        expect(status).to_have_attribute("data-ready", "true")
+        photo = self.page.locator(".report-front-page .report-cover-image")
+        expect(photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+        photo.evaluate("image => image.decode()")
+        self.assertEqual(base64.b64decode(photo.get_attribute("src").split(",", 1)[1]), original_bytes,
+                         "The selected photo must retain its original bytes rather than be redrawn or regenerated.")
+        expect(self.page.locator("#printReport > .report-page")).to_have_count(12)
+        self.assertEqual(self.page.evaluate("localStorage.getItem('kpReportCoverPhoto')"), COVER_IMAGE_FIXTURE)
+        self.action("save")
+
+        self.page.reload(wait_until="load")
+        self.page.wait_for_timeout(1700)
+        self.go("report")
+        photo = self.page.locator(".report-front-page .report-cover-image")
+        expect(photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+        self.action("load")
+        expect(photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+        expect(self.page.locator('[data-cover-field="name"]')).to_have_text("Regression chart · मीरा")
+
+        with self.page.expect_download() as backup_info:
+            self.action("export")
+        exported = json.loads(Path(backup_info.value.path()).read_text(encoding="utf-8"))
+        self.assertEqual(exported["coverPhoto"], COVER_IMAGE_FIXTURE,
+                         "A portable chart backup must include the selected cover photograph.")
+        self.assertNotIn("report-cover-photo-input", exported["fields"])
+        baseline_fields = self.editable_values()
+        invalid_backup = json.loads(json.dumps(exported))
+        invalid_backup["fields"]["name"]["value"] = "Rejected replacement"
+        invalid_backup["coverPhoto"] = '<img src=x onerror="window.photoInjected=true">'
+        self.import_file(json.dumps(invalid_backup))
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Unable to import:")
+        self.assertEqual(self.editable_values(), baseline_fields,
+                         "An invalid cover image must reject the complete import before changing native data.")
+        expect(photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+        self.assertFalse(self.page.evaluate("window.photoInjected === true"))
+
+        # A standards-compliant ancillary PNG text chunk makes a valid local
+        # photo large enough to exercise the backup import's previous 1 MiB cap.
+        metadata = b"Comment\x00" + b"A" * 900_000
+        chunk = b"tEXt" + metadata
+        large_bytes = (original_bytes[:-12] + struct.pack(">I", len(metadata)) + chunk
+                       + struct.pack(">I", zlib.crc32(chunk) & 0xFFFFFFFF) + original_bytes[-12:])
+        large_photo = "data:image/png;base64," + base64.b64encode(large_bytes).decode("ascii")
+        large_backup = json.loads(json.dumps(exported))
+        large_backup["coverPhoto"] = large_photo
+        large_json = json.dumps(large_backup)
+        self.assertGreater(len(large_json.encode("utf-8")), 1024 * 1024)
+        self.import_file(large_json)
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(photo).to_have_attribute("src", large_photo)
+        photo.evaluate("image => image.decode()")
+
+        cleared_backup = json.loads(json.dumps(exported))
+        cleared_backup["coverPhoto"] = ""
+        self.import_file(json.dumps(cleared_backup))
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(photo).to_be_hidden()
+        self.import_file(json.dumps(exported))
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+        expect(photo).to_be_visible()
+
+        for file_name, mime_type, bad_bytes, error in (
+            ("not-a-photo.jpg", "image/jpeg", b"This file is not a JPEG image.",
+             "This file is not a valid PNG, JPG or WebP photo."),
+            ("unreadable.jpg", "image/jpeg", b"\xff\xd8This JPEG header has no real image.\xff\xd9",
+             "This image cannot be read. Choose a valid PNG, JPG or WebP photo."),
+            ("notes.txt", "text/plain", b"These are notes, not a cover photo.",
+             "Choose a PNG, JPG or WebP cover photo."),
+        ):
+            with self.subTest(rejected_photo=file_name):
+                photo_input.set_input_files({"name": file_name, "mimeType": mime_type, "buffer": bad_bytes})
+                expect(self.page.locator("#workspace-toast")).to_have_text(error)
+                expect(self.page.locator("#workspace-toast")).to_have_attribute("data-type", "error")
+                expect(photo_input).to_have_value("")
+                expect(photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+                expect(photo).to_be_visible()
+                self.assertEqual(self.page.evaluate("localStorage.getItem('kpReportCoverPhoto')"), COVER_IMAGE_FIXTURE)
+
+        self.page.evaluate("""() => {
+            const original = window.open;
+            window.open = function (...args) {
+                const popup = original.apply(window, args);
+                if (popup) popup.print = () => { popup.testPrintCalled = true; };
+                return popup;
+            };
+        }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.get_by_role("button", name="Print Report", exact=True).click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Selected-photo print: " + str(error)))
+        popup.wait_for_load_state("domcontentloaded")
+        popup.wait_for_function("window.testPrintCalled === true")
+        expect(popup.locator("body > .report-page")).to_have_count(12)
+        printed_photo = popup.locator(".report-front-page .report-cover-image")
+        expect(printed_photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+        printed_photo.evaluate("image => image.decode()")
+        popup.close()
+
+        with self.page.expect_download() as software_info:
+            self.page.locator("#download-cover-software").click()
+        software = software_info.value
+        self.assertTrue(software.suggested_filename.endswith(".html"))
+        with tempfile.TemporaryDirectory(prefix="kp-photo-standalone-test-") as directory:
+            standalone = Path(directory) / "index.html"
+            software.save_as(standalone)
+            self.assertEqual(list(Path(directory).iterdir()), [standalone])
+            self.assertIn('id="report-cover-photo-data"', standalone.read_text(encoding="utf-8"),
+                          "The downloaded software must carry its cover photo in the single HTML file.")
+            handler = functools.partial(QuietHandler, directory=directory)
+            server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
+            thread = threading.Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            context = self.browser.new_context(viewport={"width": 1280, "height": 900})
+            isolated_url = f"http://127.0.0.1:{server.server_port}/index.html"
+            unexpected_requests = []
+
+            def allow_only_html(route):
+                if route.request.url == isolated_url:
+                    route.continue_()
+                else:
+                    unexpected_requests.append(route.request.url)
+                    route.abort()
+
+            context.route("**/*", allow_only_html)
+            try:
+                page = context.new_page()
+                page.on("pageerror", lambda error: self.errors.append("Downloaded photo software: " + str(error)))
+                page.goto(isolated_url, wait_until="load")
+                page.wait_for_timeout(1700)
+                embedded_photo = page.locator("#report-cover-photo-data").text_content()
+                self.assertIn(json.dumps(COVER_IMAGE_FIXTURE), embedded_photo)
+                context.set_offline(True)
+                page.locator(".app-sidebar [data-tab='report']").click()
+                expect(page.locator("#printReport > .report-page")).to_have_count(12)
+                offline_photo = page.locator(".report-front-page .report-cover-image")
+                expect(offline_photo).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+                offline_photo.evaluate("image => image.decode()")
+                self.assertGreater(offline_photo.evaluate("image => image.naturalWidth"), 0)
+                for field, expected in (
+                    ("name", "Regression chart · मीरा"), ("dob", "1990-06-15"),
+                    ("astroName", "Test Astrologer"), ("astroMobile", "1234567890"),
+                    ("astroAddress", "Pune\nClient report office"),
+                ):
+                    with self.subTest(downloaded_cover_field=field):
+                        expect(page.locator(f'[data-cover-field="{field}"]')).to_have_text(expected)
+                page.locator(".app-sidebar [data-tab='basic']").click()
+                page.locator("#birthTime").fill("13:30:00")
+                page.locator(".global-actions [data-action='calculate']").click()
+                expect(page.locator("#workspace-toast")).to_contain_text("Chart calculations updated.")
+                page.locator(".global-actions [data-action='save']").click()
+                expect(page.locator("#save-state")).to_have_text("Saved in this browser")
+                page.locator("#name").fill("Temporary offline edit")
+                page.locator(".global-actions [data-action='load']").click()
+                expect(page.locator("#name")).to_have_value("Regression chart · मीरा")
+                expect(page.locator("#birthTime")).to_have_value("13:30:00")
+                page.set_viewport_size({"width": 390, "height": 844})
+                menu = page.locator("#menu-toggle")
+                menu.click()
+                expect(menu).to_have_attribute("aria-expanded", "true")
+                page.locator(".app-sidebar [data-tab='report']").click()
+                expect(menu).to_have_attribute("aria-expanded", "false")
+                expect(page.locator("#printReport > .report-page")).to_have_count(12)
+                expect(page.locator('.report-front-page [data-cover-field="birthTime"]')).to_have_text("13:30:00")
+                expect(page.locator(".report-front-page .report-cover-image")).to_have_attribute("src", COVER_IMAGE_FIXTURE)
+                self.assertEqual(unexpected_requests, [],
+                                 "The copied software and cover photo must work without sibling files or network assets.")
+            finally:
+                context.close()
+                server.shutdown()
+                thread.join(timeout=5)
+                server.server_close()
 
     def test_print_popup_has_twelve_a4_pages_without_duplicate_ids(self):
         self.prepare_worksheets()

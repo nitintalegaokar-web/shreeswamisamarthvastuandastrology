@@ -1066,7 +1066,15 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 </section>
 
 <section id="report" class="tab">
-<div class="card no-print"><h2>Professional Print Report</h2><div class="actions"><button onclick="printReport()">Print Report</button></div></div>
+<div class="card no-print">
+  <h2>Professional Print Report</h2>
+  <div class="actions">
+    <button type="button" onclick="printReport()">Print Report</button>
+    <button type="button" id="choose-report-cover-photo" aria-controls="report-cover-photo-input">Choose cover photo</button>
+    <button type="button" id="download-cover-software" disabled>Download software with photo</button>
+  </div>
+  <p id="report-cover-photo-status" role="status" aria-live="polite" data-ready="false">Choose the supplied Mahaganpati photo for the report front page.</p>
+</div>
 <div id="printReport"></div>
 </section>
 
@@ -1099,6 +1107,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 
 </main>
 <input id="import-chart-file" type="file" accept=".json,application/json" hidden>
+<input id="report-cover-photo-input" type="file" accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp" aria-label="Report cover photo" hidden>
 <div id="workspace-toast" class="workspace-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 <dialog id="workspace-help" class="workspace-help"><div class="help-heading"><div><div class="eyebrow">A LITTLE GUIDANCE</div><h2>Your chart, step by step</h2></div><button type="button" id="help-close" class="icon-button" aria-label="Close help"><svg><use href="#i-close"/></svg></button></div><p>Begin with birth details, enter your manual Raphael and ephemeris values, then review the kundali and print report. All Marathi calculation worksheets remain available in the navigation.</p><div class="help-tip"><strong>Keep your work safe.</strong> Save stores the current chart in this browser. Export a chart file for a portable backup or to move it to another device.</div><h3>Keyboard shortcuts</h3><dl><div><dt>Save chart</dt><dd><kbd>Ctrl / ⌘</kbd> + <kbd>S</kbd></dd></div><div><dt>Calculate chart</dt><dd><kbd>Ctrl / ⌘</kbd> + <kbd>Enter</kbd></dd></div><div><dt>Open this guide</dt><dd><kbd>?</kbd></dd></div><div><dt>Close navigation or guide</dt><dd><kbd>Esc</kbd></dd></div></dl></dialog>
 
@@ -2262,6 +2271,7 @@ function getChartData(){
   return {
     version:2,
     savedAt:new Date().toISOString(),
+    coverPhoto:window.KPReportPhoto?window.KPReportPhoto.get():'',
     fields,
     basic:Object.fromEntries(["name","dob","birthTime","lat","lon","dayAyan","daySum"].filter(id=>document.getElementById(id)).map(id=>[id,document.getElementById(id).value])),
     eph:readEph(),
@@ -2284,6 +2294,7 @@ function restoreChartData(data){
     return [id,record];
   });
   if(data.eph!==undefined && (!Array.isArray(data.eph) || data.eph.length>20000 || data.eph.some(row=>!Array.isArray(row)||row.length!==10||row.some(value=>typeof value!=="string"||value.length>100)))) throw new Error("Saved ephemeris data is invalid.");
+  if(data.coverPhoto!==undefined && (!window.KPReportPhoto || !window.KPReportPhoto.isValid(data.coverPhoto))) throw new Error("Saved cover photo is invalid.");
   if(data.kundali!==undefined){
     const chart=data.kundali;
     if(!isObject(chart) || typeof chart.manual!=="boolean") throw new Error("Saved chart edit mode is invalid.");
@@ -2299,6 +2310,7 @@ function restoreChartData(data){
     else if(/^p6_(row_date_[12]|birth_pos_date)$/.test(id)) el.dataset.auto="0";
   });
   if(data.eph!==undefined) window.savedEphemeris=data.eph.map(row=>row.slice());
+  if(data.coverPhoto!==undefined) window.KPReportPhoto.apply(data.coverPhoto,{persist:false});
   if(!isObject(data.fields)){
     // Older saves held only basic data. Keep their date controls synchronized
     // and load the available ephemeris without restoring calculated outputs.
@@ -3048,8 +3060,8 @@ document.addEventListener("DOMContentLoaded",()=>{
   function getSettings(){
     try{
       const s = JSON.parse(localStorage.getItem('kpAstrologerSettings') || '{}');
-      return Object.assign({}, DEFAULTS, s);
-    }catch(e){ return Object.assign({}, DEFAULTS); }
+      return Object.assign({}, DEFAULTS, window.KP_EMBEDDED_ASTROLOGER_SETTINGS || {}, s);
+    }catch(e){ return Object.assign({}, DEFAULTS, window.KP_EMBEDDED_ASTROLOGER_SETTINGS || {}); }
   }
 
   window.applyAstrologerSettings = function(){
@@ -4522,6 +4534,184 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
   .report-front-details { grid-template-columns:minmax(0,1.12fr) minmax(0,1fr)!important; }
 }
 </style>
+<script id="report-cover-photo-controls">
+(function () {
+  'use strict';
+  const MAX_BYTES = 8 * 1024 * 1024;
+  const STORAGE_KEY = 'kpReportCoverPhoto';
+  let currentPhoto = '';
+  let selectionVersion = 0;
+  const notify = (message, type) => {
+    if (typeof window.showToast === 'function') window.showToast(message, type);
+  };
+
+  function imageBytes(source) {
+    if (typeof source !== 'string' || source.length > Math.ceil(MAX_BYTES / 3) * 4 + 64) return null;
+    const match = /^data:image\/(png|jpeg|webp);base64,([A-Za-z0-9+/]+={0,2})$/.exec(source);
+    if (!match || match[2].length % 4 !== 0) return null;
+    let bytes;
+    try { bytes = atob(match[2]); } catch (_) { return null; }
+    if (!bytes.length || bytes.length > MAX_BYTES) return null;
+    const at = index => bytes.charCodeAt(index);
+    if (match[1] === 'png') {
+      if (bytes.length < 33 || bytes.slice(1, 4) !== 'PNG' || at(0) !== 137 || at(4) !== 13 || at(5) !== 10 || at(6) !== 26 || at(7) !== 10 || bytes.slice(12, 16) !== 'IHDR' || bytes.slice(-8, -4) !== 'IEND') return null;
+    } else if (match[1] === 'jpeg') {
+      if (bytes.length < 4 || at(0) !== 255 || at(1) !== 216 || at(bytes.length - 2) !== 255 || at(bytes.length - 1) !== 217) return null;
+    } else {
+      if (bytes.length < 20 || bytes.slice(0, 4) !== 'RIFF' || bytes.slice(8, 12) !== 'WEBP') return null;
+      const declaredLength = at(4) + at(5) * 256 + at(6) * 65536 + at(7) * 16777216;
+      if (declaredLength + 8 !== bytes.length) return null;
+    }
+    return bytes;
+  }
+
+  function refreshStatus(saved = true) {
+    const status = document.getElementById('report-cover-photo-status');
+    if (status) {
+      status.dataset.ready = String(Boolean(currentPhoto));
+      status.textContent = currentPhoto
+        ? (saved ? 'Cover photo ready. Download the software to keep this photo in the HTML file.' : 'Cover photo ready for this session. Download the software to keep it. Browser storage is full or unavailable.')
+        : 'Choose the supplied Mahaganpati photo for the report front page.';
+    }
+    const button = document.getElementById('choose-report-cover-photo');
+    if (button) button.textContent = currentPhoto ? 'Replace cover photo' : 'Choose cover photo';
+    const downloadButton = document.getElementById('download-cover-software');
+    if (downloadButton) downloadButton.disabled = !currentPhoto;
+  }
+
+  function apply(source, options = {}) {
+    if (source !== '' && !imageBytes(source)) return false;
+    selectionVersion++;
+    currentPhoto = source;
+    window.KP_REPORT_COVER_IMAGE = source;
+    let saved = true;
+    if (options.persist !== false) {
+      try {
+        localStorage.setItem(STORAGE_KEY, source);
+      } catch (_) { saved = false; }
+    }
+    refreshStatus(saved);
+    if (typeof window.renderReport === 'function') window.renderReport();
+    window.dispatchEvent(new CustomEvent('report-cover-photo-change', {detail: {ready: Boolean(source)}}));
+    return true;
+  }
+
+  function decodeImage(source) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => image.naturalWidth > 0 && image.naturalHeight > 0 ? resolve() : reject(new Error('This image cannot be read.'));
+      image.onerror = () => reject(new Error('This image cannot be read. Choose a valid PNG, JPG or WebP photo.'));
+      image.src = source;
+    });
+  }
+
+  async function selectPhoto(event) {
+    const input = event.target;
+    const file = input.files?.[0];
+    const version = ++selectionVersion;
+    if (!file) return;
+    try {
+      if (file.size > MAX_BYTES) throw new Error('Choose a cover photo smaller than 8 MB.');
+      if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) throw new Error('Choose a PNG, JPG or WebP cover photo.');
+      const source = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('The cover photo could not be read. Try selecting it again.'));
+        reader.readAsDataURL(file);
+      });
+      if (!imageBytes(source)) throw new Error('This file is not a valid PNG, JPG or WebP photo.');
+      await decodeImage(source);
+      if (version !== selectionVersion) return;
+      apply(source);
+      notify('Cover photo added to the report. Download the software to keep it in the HTML file.', 'success');
+    } catch (error) {
+      if (version === selectionVersion) notify(error.message, 'error');
+    } finally { input.value = ''; }
+  }
+
+  function download() {
+    if (!imageBytes(currentPhoto)) {
+      notify('Choose your cover photo before downloading the software with photo.', 'error');
+      return false;
+    }
+    const copy = document.documentElement.cloneNode(true);
+    copy.querySelector('#printReport')?.replaceChildren();
+    copy.querySelectorAll('#report-cover-photo-data').forEach(element => element.remove());
+    copy.querySelectorAll('.scroll-hint').forEach(element => element.remove());
+    copy.querySelectorAll('.worksheet-scroll, .chart-scroll').forEach(element => element.replaceWith(...element.childNodes));
+    copy.querySelector('body')?.classList.remove('menu-open');
+    copy.querySelectorAll('[inert]').forEach(element => element.removeAttribute('inert'));
+    copy.querySelectorAll('dialog[open], details[open]').forEach(element => element.removeAttribute('open'));
+    const menuToggle = copy.querySelector('#menu-toggle');
+    if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
+    const sidebar = copy.querySelector('.app-sidebar');
+    if (sidebar) sidebar.removeAttribute('aria-modal');
+    const backdrop = copy.querySelector('#sidebar-backdrop');
+    if (backdrop) backdrop.hidden = true;
+    const toast = copy.querySelector('#workspace-toast');
+    if (toast) { toast.hidden = true; toast.replaceChildren(); }
+    const liveFields = document.querySelectorAll('input, textarea, select');
+    const copiedFields = copy.querySelectorAll('input, textarea, select');
+    liveFields.forEach((field, index) => {
+      const target = copiedFields[index];
+      if (!target) return;
+      if (field.tagName === 'INPUT') {
+        if (field.type === 'file') { target.removeAttribute('value'); return; }
+        target.setAttribute('value', field.value);
+        if (field.type === 'checkbox' || field.type === 'radio') target.toggleAttribute('checked', field.checked);
+      } else if (field.tagName === 'TEXTAREA') target.textContent = field.value;
+      else [...target.options].forEach((option, optionIndex) => option.toggleAttribute('selected', field.options[optionIndex].selected));
+    });
+    const embedded = document.createElement('script');
+    embedded.id = 'report-cover-photo-data';
+    const astrologer = {
+      name: document.getElementById('astroName')?.value || '',
+      mobile: document.getElementById('astroMobile')?.value || '',
+      address: document.getElementById('astroAddress')?.value || ''
+    };
+    const settingsJSON = JSON.stringify(astrologer).replace(/</g, '\\u003c');
+    embedded.textContent = 'window.KP_REPORT_COVER_IMAGE = ' + JSON.stringify(currentPhoto) + ';\nwindow.KP_EMBEDDED_ASTROLOGER_SETTINGS = ' + settingsJSON + ';';
+    copy.querySelector('#kp-display-workspace').before(embedded);
+    const blob = new Blob(['<!DOCTYPE html>\n', copy.outerHTML], {type: 'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'KP_Raphael_With_Cover_Photo.html';
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    notify('Software downloaded with your cover photo. Open the saved HTML file to use it offline.', 'success');
+    return true;
+  }
+
+  window.KPReportPhoto = Object.freeze({
+    isValid: source => source === '' || Boolean(imageBytes(source)),
+    get: () => currentPhoto,
+    apply,
+    download
+  });
+
+  async function initialize() {
+    document.getElementById('choose-report-cover-photo')?.addEventListener('click', () => document.getElementById('report-cover-photo-input').click());
+    document.getElementById('report-cover-photo-input')?.addEventListener('change', selectPhoto);
+    document.getElementById('download-cover-software')?.addEventListener('click', download);
+    let stored = null;
+    try { stored = localStorage.getItem(STORAGE_KEY); } catch (_) { /* Selection and download also work without storage. */ }
+    if (stored === '') { apply('', {persist: false}); return; }
+    const embedded = window.KP_REPORT_COVER_IMAGE;
+    const candidates = [stored, embedded].filter(source => source && imageBytes(source));
+    for (const source of candidates) {
+      try {
+        await decodeImage(source);
+        if (selectionVersion === 0) apply(source, {persist: false});
+        return;
+      } catch (_) { /* An unreadable saved image must not block the software. */ }
+    }
+    refreshStatus();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize);
+  else initialize();
+})();
+</script>
 <script id="kp-display-workspace">
 (function () {
   'use strict';
@@ -4605,7 +4795,7 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
         </header>
         <figure class="report-front-photo">
           <img class="report-cover-image" data-report-image="ganpati" alt="Ucchishta Mahaganpati — the supplied devotional photograph" hidden>
-          <div class="report-cover-image-placeholder">Ucchishta Mahaganpati<small class="no-print">Awaiting the supplied photograph</small></div>
+          <div class="report-cover-image-placeholder">Ucchishta Mahaganpati</div>
         </figure>
         <div class="report-front-details">
           <section class="report-front-panel report-front-native" aria-label="Native basic data">
@@ -4634,8 +4824,8 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
       const value = document.getElementById(element.dataset.coverField)?.value;
       element.textContent = typeof value === 'string' && value.trim() ? value.trim() : '—';
     });
-    const source = window.KP_REPORT_COVER_IMAGE;
-    if (typeof source === 'string' && source.trim()) {
+    const source = window.KPReportPhoto?.get() || window.KP_REPORT_COVER_IMAGE;
+    if (window.KPReportPhoto?.isValid(source) && source) {
       const image = page.querySelector('.report-cover-image');
       image.src = source;
       image.hidden = false;
@@ -4966,7 +5156,7 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
       const file = event.target.files[0];
       if (!file) return;
       try {
-        if (file.size > 1024 * 1024) throw new Error('Choose a chart file smaller than 1 MB.');
+        if (file.size > 12 * 1024 * 1024) throw new Error('Choose a chart file smaller than 12 MB, including the cover photo.');
         const data = JSON.parse(await file.text());
         window.restoreChartData(data);
         document.querySelectorAll('#basic [aria-invalid]').forEach(input => showFieldError(input));
