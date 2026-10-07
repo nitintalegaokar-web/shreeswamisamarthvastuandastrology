@@ -34,7 +34,7 @@ OUTPUT_IDS = (
     "mdBirthDasha", "mdBhogyaDuration",
 )
 REPORT_PAGE_SECTIONS = (
-    "cover", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet",
+    "cover", "single-page", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet",
     "mdcalc", "adcalc", "kp-fourfold", "kp-sixfold", "kp-fourstep-section",
     "aspects", "transit", "transit-chart", "south9",
 )
@@ -261,6 +261,49 @@ class CalculatorBrowserTests(unittest.TestCase):
                 value.querySelectorAll('.ad-birth-marker').forEach(marker => marker.remove());
                 return value.textContent.trim();
             }))""")
+
+    def selected_report_popup(self, sections):
+        self.go("report")
+        self.page.locator("#report-clear-pages").click()
+        for section in sections:
+            self.page.locator(f'#report-page-options [data-report-page-key="{section}"]').check()
+        self.page.evaluate("""() => {const original=window.open;window.open=function(...args){
+            const popup=original.apply(window,args);if(popup)popup.print=()=>{popup.testPrintCalled=true;};return popup;};}""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Selected report: " + str(error)))
+        popup.wait_for_function("window.testPrintCalled === true")
+        return popup
+
+    def assert_single_page_geometry(self, popup):
+        # Page count alone can pass when overflow:hidden clips later tables.
+        # Check every printed table cell and footer against the actual A4 page.
+        errors = popup.locator(".report-single-page").evaluate("""page=>{
+            const bounds=page.getBoundingClientRect(),errors=[];
+            for(const element of page.querySelectorAll('.sp-chart,.sp-native-table,.sp-table,.sp-table tr,.sp-table td,.sp-table th,.sp-footer')){
+                const rect=element.getBoundingClientRect(),style=getComputedStyle(element);
+                if(style.display==='none'||rect.width<=0||rect.height<=0)errors.push('Hidden '+element.className);
+                else if(rect.left<bounds.left-1||rect.right>bounds.right+1||rect.top<bounds.top-1||rect.bottom>bounds.bottom+1)
+                    errors.push('Outside A4: '+element.tagName+' '+element.className+' '+element.textContent.slice(0,45));
+                if(/^(TD|TH)$/.test(element.tagName)&&(element.scrollWidth>element.clientWidth+1||element.scrollHeight>element.clientHeight+1))
+                    errors.push('Clipped cell: '+element.textContent);
+            }
+            for(const cell of page.querySelectorAll('.v38-cell'))for(const pseudo of ['::before','::after']){
+                const style=getComputedStyle(cell,pseudo);
+                if(style.display!=='none'&&style.content!=='none'&&style.content!=='normal')errors.push('Visible kundali divider '+pseudo);
+            }
+            for(const element of page.querySelectorAll('.sp-table td,.sp-table th,.v38-cell')){
+                const style=getComputedStyle(element);
+                for(const side of ['Top','Right','Bottom','Left'])if(['dotted','dashed'].includes(style['border'+side+'Style']))
+                    errors.push('Dotted/dashed printed border');
+            }
+            for(const element of page.querySelectorAll('svg path,svg line,svg polygon,svg rect')){
+                if(getComputedStyle(element).strokeDasharray!=='none')errors.push('Dashed SVG rule');
+            }
+            return errors;
+        }""")
+        self.assertEqual(errors, [], "All single-page rows, chart and footer must remain visible inside one A4 sheet.")
 
     def import_file(self, contents, filename="chart.lkp"):
         self.action("import")
@@ -2462,6 +2505,228 @@ class CalculatorBrowserTests(unittest.TestCase):
                 assert_geometry(popup, '[data-report-id="kundali"]', sign, degree_text)
                 popup.close()
 
+    def test_single_page_report_contains_current_native_model_fourfold_and_all_md_ad_starts(self):
+        self.prepare_exact_dasha("186:37:11", dob="1986-07-15")
+        self.go("basic")
+        for id, text in {"name":"Single-page native · मीरा", "birthTime":"15:45:00", "birthPlace":"Nashik",
+                         "lat":"19:59:50", "lon":"73:47:27"}.items():
+            self.page.locator(f"#{id}").fill(text)
+        self.go("astrosettings")
+        self.show_astrologer_fields()
+        for id, text in {"astroName":"Current single-page astrologer", "astroMobile":"9876543210",
+                         "astroAddress":"Current office · Nashik"}.items():
+            self.page.locator(f"#{id}").fill(text)
+        self.action("calculate")
+        model = self.page.evaluate("window.currentKPModel")
+        timeline = self.page.evaluate("""() => window.mdDashaPeriods.map(period=>({key:period.key,
+            lord:window.KPDisplay.idByName[period.lord],end:period.end,
+            ads:window.calculateAntardashas(period).map(ad=>({lord:window.KPDisplay.idByName[ad.lord],
+                start:ad.start,end:ad.end,birthActive:ad.birthActive}))}))""")
+        selected_ad = self.page.locator("#adMDSelect").input_value()
+        self.go("report")
+        report = self.page.locator('#printReport > [data-report-section="single-page"]')
+        expect(report).to_have_attribute("data-ready", "true")
+        expect(report.locator(".sp-chart")).to_have_attribute("data-source-chart", "kundali")
+        expect(report.locator(".sp-chart .v38-center")).to_have_text("ॐ")
+        expect(report.locator(".sp-chart .v38-center")).not_to_contain_text("Single-page native")
+        columns = report.locator(".sp-column").evaluate_all("elements=>elements.map(element=>element.getBoundingClientRect().width)")
+        self.assertEqual(len(columns), 2)
+        self.assertAlmostEqual(columns[0], columns[1], delta=1)
+        native = {"name":"Single-page native · मीरा", "dob":"15/07/1986", "time":"03:45:00 PM",
+                  "place":"Nashik", "latitude":"19° 59′ 50″ N", "longitude":"73° 47′ 27″ E",
+                  "timezone":"+05:30", "dst":"0", "weekday":"Tuesday", "nakshatra":"Chitra",
+                  "star-lord":"Mars", "pada":"4", "rashi":"Libra", "tithi":"Pratipada",
+                  "paksha":"Krishna", "yoga":"Vajra", "karana":"Balava"}
+        for field, expected in native.items():
+            expect(report.locator(f'[data-native-field="{field}"]')).to_have_attribute("data-value", expected)
+            expect(report.locator(f'[data-native-field="{field}"]')).to_contain_text(expected)
+        for field, expected in {"name":"Current single-page astrologer", "mobile":"9876543210", "address":"Current office · Nashik"}.items():
+            expect(report.locator(f'[data-astrologer-field="{field}"]')).to_contain_text(expected)
+        for credits in ("Light of KP Astrology", "Andrew Dutta", "TSRh.ws"):
+            expect(report).not_to_contain_text(credits)
+
+        for key, rows, fields, identity in (
+            ("basic-planet", model["planets"], ("signCode","degree","occ","own","sgl","stl","sl","ssl"), "planet"),
+            ("basic-house", model["houses"], ("signCode","degree","occ","sgl","stl","sl","ssl"), "house"),
+            ("fourfold-planet", model["fourfold"]["planets"], ("A","B","C","D"), "planet"),
+            ("fourfold-house", model["fourfold"]["houses"], ("A","B","C","D"), "house"),
+        ):
+            table = report.locator(f'[data-single-table="{key}"]')
+            expect(table.locator("tbody tr")).to_have_count(len(rows))
+            for row in rows:
+                printed = table.locator(f'tr[data-{identity}="{row["id"]}"]')
+                for field in fields:
+                    cell = printed.locator(f'[data-field="{field}"]')
+                    expected = row[field]
+                    encoded = cell.get_attribute("data-value")
+                    self.assertEqual(json.loads(encoded) if isinstance(expected,list) else encoded,
+                                     expected if isinstance(expected,list) else str(expected), (key,row["id"],field))
+                    text = cell.evaluate(r"""cell=>{const copy=cell.cloneNode(true);copy.querySelectorAll('.sp-marker').forEach(marker=>marker.remove());
+                        return copy.textContent.replace(/\s/g,'');}""")
+                    wanted = ",".join(str(item) for item in expected) if isinstance(expected,list) else re.sub(r"\s", "", str(expected))
+                    self.assertIn(text, (wanted, "—") if wanted == "" else (wanted,), (key,row["id"],field))
+                if key.startswith("basic"):
+                    expect(printed.locator('[data-field="nak"]')).to_have_text(f'{row["nakCode"]} ({row["pada"]})')
+        cards = report.locator("[data-single-md-key]")
+        expect(cards).to_have_count(9)
+        expect(cards.locator("tbody tr[data-ad-lord]")).to_have_count(81)
+        for index, period in enumerate(timeline):
+            card = cards.nth(index)
+            expect(card).to_have_attribute("data-single-md-key", period["key"])
+            expect(card).to_have_attribute("data-md-lord", period["lord"])
+            expect(card).to_have_attribute("data-md-end", period["end"])
+            expect(card).to_have_attribute("data-md-full-start", period["ads"][0]["start"])
+            rows = card.locator("tbody tr")
+            for ordinal, ad in enumerate(period["ads"]):
+                row = rows.nth(ordinal)
+                expect(row).to_have_attribute("data-ad-lord", ad["lord"])
+                expect(row).to_have_attribute("data-period-start", ad["start"])
+                expect(row).to_have_attribute("data-period-end", ad["end"])
+                expect(row).to_have_attribute("data-birth-active", str(ad["birthActive"]).lower())
+                expect(row.locator("td")).to_have_text(datetime.strptime(ad["start"],"%Y-%m-%d").strftime("%d/%m/%Y"))
+        expect(cards.first).to_have_attribute("data-md-lord", "Ma")
+        expect(cards.first).to_have_attribute("data-md-full-start", "1979-07-25")
+        expect(cards.first).to_have_attribute("data-md-end", "1986-07-24")
+        expect(cards.first.locator('tr[data-birth-active="true"]')).to_have_attribute("data-ad-lord", "Mo")
+        self.assertEqual(self.page.evaluate("window.currentKPModel"), model)
+        expect(self.page.locator("#adMDSelect")).to_have_value(selected_ad)
+
+    def test_single_page_panchang_matches_independent_sample_and_exact_lunar_boundaries(self):
+        sample = self.page.evaluate("window.KPSinglePageReport.panchang(320649,671729,'1986-07-15')")
+        for key, expected in {"tithi":"Navami","paksha":"Shukla","yoga":"Siddha","karana":"Balava",
+                              "nakshatra":"Chitra","nakLord":"Mars","pada":4,"rashi":"Libra","weekday":"Tuesday"}.items():
+            self.assertEqual(sample[key], expected)
+        # Independent 12° tithi, 6° karana and 13°20′ yoga/nakshatra boundaries.
+        fixtures = (
+            (21599,{"tithi":"Pratipada","karana":"Kimstughna"}),
+            (21600,{"tithi":"Pratipada","karana":"Bava"}),
+            (43199,{"tithi":"Pratipada","karana":"Bava"}),
+            (43200,{"tithi":"Dwitiya","karana":"Balava"}),
+            (647999,{"tithi":"Purnima","paksha":"Shukla","karana":"Bava"}),
+            (648000,{"tithi":"Pratipada","paksha":"Krishna","karana":"Balava"}),
+            (1231199,{"karana":"Vishti"}), (1231200,{"karana":"Shakuni"}),
+            (1252800,{"tithi":"Amavasya","karana":"Chatushpada"}), (1274400,{"karana":"Naga"}),
+            (47999,{"yoga":"Vishkambha","nakshatra":"Ashwini","pada":4}),
+            (48000,{"yoga":"Priti","nakshatra":"Bharani","pada":1}),
+            (959999,{"yoga":"Shiva"}), (960000,{"yoga":"Siddha"}),
+            (1008000,{"yoga":"Sadhya"}), (1248000,{"yoga":"Vaidhriti"}),
+            (1296000,{"tithi":"Pratipada","paksha":"Shukla","karana":"Kimstughna","yoga":"Vishkambha","rashi":"Aries"}),
+            (11999,{"pada":1}), (12000,{"pada":2}),
+            (107999,{"rashi":"Aries"}), (108000,{"rashi":"Taurus"}),
+        )
+        actual = self.page.evaluate("fixtures=>fixtures.map(([moon])=>window.KPSinglePageReport.panchang(0,moon,'2000-01-01'))", fixtures)
+        for (moon, expected), result in zip(fixtures, actual):
+            with self.subTest(moon_arcseconds=moon):
+                for field, wanted in expected.items():
+                    self.assertEqual(result[field], wanted)
+                self.assertEqual(result["weekday"], "Saturday")
+        invalid = self.page.evaluate("""() => [window.KPSinglePageReport.panchang(null,0,'2000-01-01'),
+            window.KPSinglePageReport.panchang(0,NaN,'2000-01-01'),window.KPSinglePageReport.panchang(0,Infinity,'2000-01-01'),
+            window.KPSinglePageReport.panchang(0,0,'2024-02-30').weekday]""")
+        self.assertEqual(invalid, [None,None,None,"—"])
+
+    def test_single_page_selected_print_is_one_complete_a4_pdf_in_both_styles_with_large_preferences(self):
+        self.prepare_exact_dasha("186:37:11", dob="1986-07-15")
+        model = self.page.evaluate("window.currentKPModel")
+        self.go("report")
+        self.page.emulate_media(media="print")
+        self.page.wait_for_function("""() => {
+            const cell=document.querySelector('.report-single-page [data-single-table="basic-planet"] tbody td');
+            return cell?.isConnected&&parseFloat(getComputedStyle(cell).fontSize)>0;
+        }""")
+        original_font = self.page.evaluate("""() => getComputedStyle(document.querySelector(
+            '.report-single-page [data-single-table="basic-planet"] tbody td')).fontSize""")
+        self.page.emulate_media(media="screen")
+        for style, source in (("south","kundali"),("north","kundali-north")):
+            with self.subTest(chart_style=style):
+                self.save_software_preferences(chartStyle=style,showFortuna=True,notationMarkers=True,
+                                               interpretiveSize="large",planetSize="large",degreeSize="large",tableSize="large")
+                popup = self.selected_report_popup(["single-page"])
+                try:
+                    expect(popup.locator("body > .report-page")).to_have_count(1)
+                    report = popup.locator('body > [data-report-section="single-page"]')
+                    expect(report).to_have_attribute("data-ready", "true")
+                    expect(report.locator(".sp-chart")).to_have_attribute("data-source-chart", source)
+                    expect(report.locator('[data-single-table="basic-planet"] tbody tr')).to_have_count(9)
+                    expect(report.locator('[data-single-table="basic-house"] tbody tr')).to_have_count(12)
+                    expect(report.locator(".sp-md-card tbody tr")).to_have_count(81)
+                    expect(report.locator("input,select,textarea,button,[id]")).to_have_count(0)
+                    expect(report.locator('.sp-chart [data-planet="Fo"]')).to_have_count(1)
+                    for id in ("Su","Mo","Ma","Me","Ju","Ve","Sa","Ra","Ke"):
+                        marker = report.locator(f'[data-single-table="basic-planet"] tr[data-planet="{id}"] th .sp-marker').evaluate_all(
+                            "elements=>elements.map(element=>element.dataset.marker)")
+                        self.assertEqual(marker,self.page.evaluate("id=>window.KPDisplay.getNotations(id)",id))
+                    popup.emulate_media(media="print")
+                    self.assertEqual(report.locator('[data-single-table="basic-planet"] tbody td').first.evaluate(
+                        "element=>getComputedStyle(element).fontSize"), original_font,
+                        "Global large fonts must leave the single-page report's compact metrics intact.")
+                    self.assert_single_page_geometry(popup)
+                    pdf = popup.pdf(format="A4",print_background=True,prefer_css_page_size=True)
+                    self.assertEqual(len(re.findall(rb"/Type\s*/Page\b",pdf)),1,
+                                     "The selected compact report must generate one physical PDF sheet.")
+                    media = re.search(rb"/MediaBox\s*\[\s*0\s+0\s+([\d.]+)\s+([\d.]+)\s*\]",pdf)
+                    self.assertIsNotNone(media, "Chromium's PDF must declare its paper size.")
+                    self.assertAlmostEqual(float(media.group(1)),595.28,delta=1)
+                    self.assertAlmostEqual(float(media.group(2)),841.89,delta=1)
+                finally:
+                    popup.close()
+        self.assertEqual(self.page.evaluate("window.currentKPModel"), model)
+
+    def test_single_page_report_clears_incomplete_data_and_preserves_escaped_long_details_on_mobile(self):
+        self.prepare_exact_dasha("186:37:11",dob="1986-07-15")
+        native = 'मीरा <img src=x onerror="window.singleInjected=true"> & extended native name'
+        astrologer = 'Astrologer <script>window.singleInjected=true</script> & current consultation'
+        address = "Current consultation office, "+"long address details · "*7
+        self.go("basic")
+        self.page.locator("#name").fill(native)
+        self.go("astrosettings")
+        self.show_astrologer_fields()
+        self.page.locator("#astroName").fill(astrologer)
+        self.page.locator("#astroAddress").fill(address)
+        self.action("calculate")
+        self.go("report")
+        report = self.page.locator('.report-single-page')
+        expect(report.locator('[data-native-field="name"]')).to_have_attribute("data-value", native)
+        expect(report.locator('[data-native-field="name"]')).to_contain_text(native)
+        expect(report.locator('[data-astrologer-field="name"]')).to_contain_text(astrologer)
+        expect(report.locator('[data-astrologer-field="address"]')).to_contain_text(address.strip())
+        expect(report.locator("script,img[src='x']")).to_have_count(0)
+        self.assertFalse(self.page.evaluate("window.singleInjected===true"))
+        popup = self.selected_report_popup(["single-page"])
+        try:
+            popup.emulate_media(media="print")
+            self.assert_single_page_geometry(popup)
+            expect(popup.locator('[data-native-field="name"]')).to_contain_text(native)
+            expect(popup.locator('[data-astrologer-field="name"]')).to_contain_text(astrologer)
+            expect(popup.locator("script,img[src='x']")).to_have_count(0)
+        finally:
+            popup.close()
+        self.page.set_viewport_size({"width":390,"height":844})
+        self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"),391)
+        self.assertLessEqual(self.page.evaluate("document.body.scrollWidth"),391)
+        expect(report.locator(".sp-md-card tbody tr")).to_have_count(81)
+        self.page.set_viewport_size({"width":1280,"height":900})
+        self.go("planet")
+        self.page.locator("#p6_d_1").fill("")
+        self.page.locator("#p6_t_1").fill("")
+        self.action("calculate")
+        self.go("report")
+        expect(report).to_have_attribute("data-ready","false")
+        expect(report.locator(".sp-status").first).to_be_visible()
+        expect(report.locator("[data-single-md-key]")).to_have_count(0)
+        expect(report.locator("tr[data-period-start]")).to_have_count(0)
+        for field in ("tithi","nakshatra","yoga","karana"):
+            expect(report.locator(f'[data-native-field="{field}"]')).to_have_attribute("data-value","")
+        values = report.locator('[data-single-table] td[data-value]').evaluate_all("elements=>elements.map(element=>element.dataset.value)")
+        self.assertTrue(values and all(value=="" for value in values), "Incomplete input must clear all stale calculated table values.")
+        self.go("planet")
+        self.page.locator("#p6_d_1").fill("186:37:11")
+        self.page.locator("#p6_t_1").fill("186:37:11")
+        self.action("calculate")
+        self.go("report")
+        expect(report).to_have_attribute("data-ready","true")
+        expect(report.locator(".sp-md-card tbody tr")).to_have_count(81)
+
     def test_report_front_page_shows_native_and_astrologer_details_as_literal_text(self):
         self.prepare_worksheets()
         self.page.evaluate("source => { window.KP_REPORT_COVER_IMAGE = source; }", COVER_IMAGE_FIXTURE)
@@ -2498,7 +2763,8 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertFalse(self.page.evaluate("window.coverInjected === true"))
         self.assertEqual(cover.locator('[data-cover-field="astroAddress"]').evaluate(
             "element => getComputedStyle(element).whiteSpace"), "pre-wrap")
-        expect(self.page.locator("#printReport > .report-page").nth(1)).to_have_attribute("data-report-section", "basic")
+        expect(self.page.locator("#printReport > .report-page").nth(1)).to_have_attribute("data-report-section", "single-page")
+        expect(self.page.locator("#printReport > .report-page").nth(2)).to_have_attribute("data-report-section", "basic")
         expect(self.page.locator("#printReport > .report-page").last).to_have_attribute("data-report-section", "south9")
 
         self.go("basic")
