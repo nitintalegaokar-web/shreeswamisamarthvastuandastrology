@@ -846,6 +846,13 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 <div><label for="lat">अक्षांश <span>Latitude · D:M:S</span></label><input id="lat" value="13:04:00" placeholder="13:04:00" spellcheck="false"></div>
 <div><label for="lon">रेखांश <span>Longitude · D:M:S</span></label><input id="lon" value="80:15:00" placeholder="80:15:00" spellcheck="false"></div>
 <div class="form-divider field-full"><h3>Ayanamsha</h3><p>जन्मदिवसाचा अयनांश व दैनिक बेरीज</p></div>
+<div class="field-full annual-ayanamsha-controls">
+  <label for="kp-ayanamsha-source">Ayanamsha source</label>
+  <select id="kp-ayanamsha-source"><option value="manual">Manual ayanamsha</option><option value="annual">Uploaded annual KP table</option></select>
+  <p id="kp-ayanamsha-status" role="status" aria-live="polite">Manual ayanamsha. Choose the uploaded annual KP table to calculate the birth-date value.</p>
+  <details id="kp-ayanamsha-table-review" class="no-print"><summary>Review uploaded annual ayanamsha table · 287 years</summary><div id="kp-ayanamsha-table-source"></div></details>
+</div>
+
 <div><label for="dayAyan">जन्मदिवसाचे अयनांश <span>D:M:S</span></label><input id="dayAyan" value="22:47:40" placeholder="22:47:40" spellcheck="false"></div>
 <div><label for="daySum">जन्मदिवसाची बेरीज <span>D:M:S</span></label><input id="daySum" value="00:00:38" placeholder="00:00:38" spellcheck="false"></div>
 <div class="ayan-result field-full"><div><label for="ayanValue">जन्मतारखेचे एकूण अयनांश</label><small>Daily ayanamsha + daily addition</small></div><input id="ayanValue" value="22:48:18" readonly aria-label="Total ayanamsha"></div>
@@ -981,11 +988,16 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 <div class="card">
 <div class="stcalc-sheet">
   <div class="sheet-title">४. सांपत्तिक काळ गणना</div>
+  <div class="worksheet-ephemeris-controls">
+    <label for="st-ephemeris-source">05:30 AM sidereal time</label>
+    <select id="st-ephemeris-source"><option value="manual">Manual ephemeris entry</option><option value="automatic">Automatic ephemeris</option></select>
+    <p id="st-ephemeris-status" role="status">Enter the value from your ephemeris, or choose Automatic ephemeris.</p>
+  </div>
   <div class="sheet-note">स्थळ प्रमाणवेळेनुसार जन्मस्थळाच्या वेळेचे सांपत्तिक वेळेत रूपांतर (Side Real Time) करण्यासाठी खालील गणना केली जाते. जन्मवेळ, L.M.T. आणि 82°30′ रेखांशावरील सांपत्तिक काळ यांचा वापर करून अंतिम सांपत्तिक काळ काढला जातो.</div>
   <table class="stcalc-main">
     <thead><tr><th>गणना</th><th>वेळ</th></tr></thead>
     <tbody>
-      <tr><td class="calc-label">जातकाच्या जन्मदिवशी सकाळी 5.30 वाजता 82°30′ या रेखांशावर असणारा सांपत्तिक काळ<br><small>(Manually Editable)</small></td><td class="time-cell"><input id="baseSidereal0530" value=""></td></tr>
+      <tr><td class="calc-label">जातकाच्या जन्मदिवशी सकाळी 5.30 वाजता प्रमाण रेखांशावर असणारा सांपत्तिक काळ (भारत: 82°30′)<br><small>Automatic or manual ephemeris entry</small></td><td class="time-cell"><input id="baseSidereal0530" value=""></td></tr>
       <tr><td class="calc-label">सकाळी 5.30 ते स्थानिक जन्मवेळ यातील फरक<br><b>L.M.T. − 05:30:00</b> <small>(Tab 3 मधून automatic)</small></td><td class="time-cell"><input id="stLmtDifference" readonly></td></tr>
       <tr><td class="calc-label">10 / 6 चा फरक<br><small>प्रत्येक पूर्ण तास × 10 सेकंद; उरलेली मिनिटे ÷ 6 सेकंद; परिणाम वेळेच्या स्वरूपात</small></td><td class="time-cell"><input id="stTenSixCorrection" readonly></td></tr>
       <tr class="total-row"><td class="calc-label">एकूण<br><small>पहिली वेळ + दुसरी वेळ + 10/6 चा फरक</small></td><td class="time-cell"><input id="stGrandTotal" readonly></td></tr>
@@ -1086,6 +1098,11 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 <section id="planet" class="tab">
 <div class="card">
 <div class="planet6-sheet">
+  <div class="worksheet-ephemeris-controls">
+    <label for="p6-ephemeris-source">Planet positions source</label>
+    <select id="p6-ephemeris-source"><option value="manual">Manual ephemeris entry</option><option value="automatic">Automatic KP ephemeris · 05:30 AM</option></select>
+    <p id="p6-ephemeris-status" role="status">Choose Automatic KP ephemeris to fill both dated rows and the 05:30 AM sidereal time. Values use your KP ayanamsha and standard time (IST at 82°30′).</p>
+  </div>
   <div class="planet6-heading">जातकाच्या जन्मवेळेची ग्रहस्थिती तयार करणे. जन्मवेळ:
     <input id="planet6BirthTime" readonly style="width:110px;border:0;border-bottom:1px solid #333;background:#fff;text-align:center;font-family:inherit">
     <select id="planet6BirthAmPm" style="width:78px;margin-left:6px;font-family:inherit">
@@ -1382,7 +1399,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
   </div>
   <div class="tr-actions"><button id="tr-run" class="button-primary" type="button">Find transit dates</button><button id="tr-cancel" type="button" hidden>Cancel search</button></div>
   <p id="tr-status" role="status" aria-live="polite">Choose a date range and calculate the birth worksheets to begin.</p>
-  <details class="tr-model-note"><summary>Calculation conventions</summary><p>Offline geocentric positions use Astronomy Engine 2.1.19. Sidereal positions use your worksheet's birth ayanamsha, advanced by 50.29 arcseconds per year. Rahu is the mean lunar node; Ketu is 180° opposite. Significators are selected from any of the relevant houses using the chosen method. Event house sets are editable KP conventions. Search results are entry–exit intervals, including separate retrograde reentries; interval ends are exclusive. A range edge is marked “range limit”. Crossing times are numerically refined to one second; astronomical and ayanamsha model accuracy is separate from that refinement. Automatic MD / AD / PD dates follow the worksheet's 360-day duration and calendar-offset convention, using the selected reference date.</p></details>
+  <details class="tr-model-note"><summary>Calculation conventions</summary><p>Offline geocentric positions use Astronomy Engine 2.1.19. Sidereal positions use the ayanamsha source selected in Birth details for the requested date. Rahu is the mean lunar node; Ketu is 180° opposite. Significators are selected from any of the relevant houses using the chosen method. Event house sets are editable KP conventions. Search results are entry–exit intervals, including separate retrograde reentries; interval ends are exclusive. A range edge is marked “range limit”. Crossing times are numerically refined to one second; astronomical and ayanamsha model accuracy is separate from that refinement. Automatic MD / AD / PD dates follow the worksheet's 360-day duration and calendar-offset convention, using the selected reference date.</p></details>
   <div class="tr-result-mount"><table class="kp-table tr-result-table"><thead><tr><th>Planet</th><th>Transit condition</th><th>Entry</th><th>Exit</th></tr></thead><tbody id="tr-result-rows"><tr><td colspan="4">No search yet.</td></tr></tbody></table></div>
 </div>
 </section>
@@ -1431,7 +1448,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
           <table id="tc-dasha" class="kp-table tc-table"><thead><tr><th>Period</th><th>Lord</th><th>Start</th><th>End</th></tr></thead><tbody><tr><td colspan="4">Calculate the selected moment.</td></tr></tbody></table>
           <h4>PD periods within this AD</h4><table id="tc-pd-periods" class="kp-table tc-table"><thead><tr><th>PD</th><th>Start</th><th>End</th></tr></thead><tbody><tr><td colspan="3">—</td></tr></tbody></table>
         </article>
-        <details class="tc-note"><summary>Calculation conventions</summary><p>Positions are geocentric and sidereal, using the worksheet's birth ayanamsha advanced by 50.29 arcseconds per year. Rahu is the mean node; Ketu is exactly opposite. R / D comes from planetary motion around the selected moment. Rashi houses start at the selected Ascendant's sign; Bhav houses use the exact selected cusps. Transit cusps use Placidus. MD / AD / PD follow the existing worksheet timeline and local date.</p></details>
+        <details class="tc-note"><summary>Calculation conventions</summary><p>Positions are geocentric and sidereal, using the ayanamsha source selected in Birth details for the requested date. Rahu is the mean node; Ketu is exactly opposite. R / D comes from planetary motion around the selected moment. Rashi houses start at the selected Ascendant's sign; Bhav houses use the exact selected cusps. Transit cusps use Placidus. MD / AD / PD follow the existing worksheet timeline and local date.</p></details>
       </div>
     </div>
   </div>
@@ -1788,19 +1805,30 @@ function updateLMTCalculation(){
 }
 
 function updateTotalAyanamsha(){
+  if(window.KPAnnualAyanamsha?.prepare())return;
   const dayEl=document.getElementById("dayAyan");
   const sumEl=document.getElementById("daySum");
   const totalEl=document.getElementById("ayanValue");
   if(!dayEl || !sumEl || !totalEl) return;
 
-  const day=dmsTextToSeconds(dayEl.value);
-  const sum=dmsTextToSeconds(sumEl.value);
+  const angle=text=>{
+    if(!String(text).trim())return 0;
+    const match=/^([+-]?)(\d+):([0-5]?\d):([0-5]?\d)$/.exec(String(text).trim());
+    if(!match)return NaN;
+    return (match[1]==='-'?-1:1)*(Number(match[2])*3600+Number(match[3])*60+Number(match[4]));
+  };
+  const day=angle(dayEl.value);
+  const sum=angle(sumEl.value);
   const total=day+sum;
-  totalEl.value=secondsToHMS(total);
+  if(!Number.isFinite(total)||total<0||total>=1296000){totalEl.value='';return;}
+  // Ayanamsha is an angle. A clock formatter would wrap 24° back to 0°.
+  const rounded=Math.round(Math.abs(total));
+  totalEl.value=(total<0?'-':'')+String(Math.floor(rounded/3600)).padStart(2,'0')+':'+String(Math.floor(rounded%3600/60)).padStart(2,'0')+':'+String(rounded%60).padStart(2,'0');
 }
 
 
 function updateSiderealTimeCalculation(){
+  window.KPWorksheetEphemeris?.prepareSidereal();
   const baseEl=document.getElementById("baseSidereal0530");
   const lmtDiffEl=document.getElementById("stLmtDifference");
   const tenSixEl=document.getElementById("stTenSixCorrection");
@@ -1813,7 +1841,7 @@ function updateSiderealTimeCalculation(){
   // IMPORTANT: Tab 3 L.M.T. is the only source for this value.
   const lmtText=(document.getElementById("lmtFinal")?.value||"").trim();
 
-  if(!lmtText){
+  if(!lmtText || (document.getElementById('st-ephemeris-source')?.value==='automatic' && !baseEl.value.trim())){
     lmtDiffEl.value="";
     tenSixEl.value="";
     totalEl.value="";
@@ -2364,6 +2392,7 @@ function updateKaryeshTables(){
 function calculateAll(){
   syncPlaceLongitudeFromBasic();
   updateTotalAyanamsha();
+  window.KPWorksheetEphemeris?.prepare();
   updateLongitudeDifference();
   updateLMTCalculation();
   updateTab4SampattikKaal(); updateSampattikTimeDifferences();
@@ -2920,6 +2949,12 @@ function restoreChartData(data){
     if(chart.manual && (!Array.isArray(chart.cells)||chart.cells.length!==12||new Set(chart.cells.map(cell=>cell?.signIndex)).size!==12||chart.cells.some(cell=>!isObject(cell)||!Number.isInteger(cell.signIndex)||cell.signIndex<0||cell.signIndex>11||typeof cell.text!=="string"||cell.text.length>10000)||typeof chart.center!=="string"||chart.center.length>20000)) throw new Error("Saved manual chart text is invalid.");
   }
   const eligible=new Map([...document.querySelectorAll("main > section:not(#report):not(#home) input[id],main > section:not(#report):not(#home) select[id],main > section:not(#report):not(#home) textarea[id]")].filter(el=>!el.readOnly&&(!el.disabled||el.closest('#transit'))&&el.dataset.calculationLocked!=="true").map(el=>[el.id,el]));
+  // Older chart files contain manual ephemeris rows. Do not let an automatic
+  // source left active in the current chart overwrite those imported values.
+  for(const id of ['p6-ephemeris-source','st-ephemeris-source','kp-ayanamsha-source']){
+    const control=eligible.get(id);
+    if(control)control.value='manual';
+  }
   entries.forEach(([id,record])=>{
     const el=eligible.get(id);
     if(!el) return;
@@ -4023,7 +4058,8 @@ document.addEventListener("DOMContentLoaded", function(){
     const diff1Text=get('stDiff1');
     const diff2Text=get('stDiff2');
     const diff1=sec(diff1Text);
-    const diff2=sec(diff2Text);
+    const invalidAutomaticST=document.getElementById('st-ephemeris-source')?.value==='automatic' && !get('birthPlaceSiderealTime');
+    const diff2=invalidAutomaticST?NaN:sec(diff2Text);
     const ayan=sec(get('ayanValue'));
 
     H.forEach(function(h){
@@ -4807,6 +4843,7 @@ document.addEventListener("DOMContentLoaded", function(){
     if(final)delete final.dataset.rashi;
   }
   function calculate(){
+    window.KPWorksheetEphemeris?.preparePositions();
     const bt=birthSeconds(),dob=get('dob');
     const row1=get('p6_row_date_1')||get('p6_date_1'),row2=get('p6_row_date_2')||get('p6_date_2');
     const day1=calendarDay(row1),day2=calendarDay(row2),interval=day2-day1;
@@ -5650,9 +5687,9 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
     basic: ['Birth details', 'A clear starting point for every chart. जन्माची अचूक माहिती येथे भरा.'],
     ayan: ['Longitude calculation', 'Compare the birthplace longitude with the standard meridian.'],
     lmt: ['Local mean time', 'Follow the longitude correction to your exact local birth time.'],
-    stcalc: ['Sidereal time', 'Work through the sidereal-time calculation, one step at a time.'],
+    stcalc: ['Sidereal time', 'Use automatic 05:30 sidereal time or enter your ephemeris value.'],
     raphael5: ['Raphael houses', 'Enter your Raphael table values to calculate the twelve house cusps.'],
-    planet: ['Planet positions', 'Enter the two dated ephemeris rows to calculate positions at birth.'],
+    planet: ['Planet positions', 'Fill the 05:30 ephemeris rows automatically or enter them manually.'],
     mdcalc: ['Mahadasha & Antardasha', 'Review the Moon-based MD balance and the AD periods for each Mahadasha.'],
     karyesh: ['Significators', 'Explore the connections between planets, houses, and sub-lords.'],
     prediction: ['Prediction', 'Review every cusp’s CSL, star lord and sub lord against your event house groups.'],
@@ -6675,7 +6712,8 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
 <script id="kp-ephemeris-api">
 /* Offline ephemeris API. All returned longitudes and coordinates are DEGREES.
  * Astronomy Engine 2.1.19 supplies geocentric tropical positions.
- * Sidereal ayanamsha is the worksheet's value at DOB, advanced 50.29 arcsec/year.
+ * Ayanamsha uses the uploaded annual DMS table when selected, otherwise the
+ * worksheet's value at DOB advanced 50.29 arcsec/year.
  * Nodes use Meeus's mean ascending node polynomial; Ketu is exactly opposite.
  */
 (() => {
@@ -6689,6 +6727,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     return date;
   }
   function ayanamsha(value) {
+    if(window.KPAnnualAyanamsha?.enabled())return window.KPAnnualAyanamsha.at(dateValue(value));
     const date = dateValue(value), birthText = document.getElementById('dob')?.value || '';
     const anchor = new Date(birthText + 'T00:00:00Z');
     const text = (document.getElementById('ayanValue')?.value || '').trim();
@@ -6719,10 +6758,278 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     const r = Math.PI/180, theta=(Astronomy.SiderealTime(date)*15+lon)*r, eps=Astronomy.e_tilt(Astronomy.MakeTime(date)).tobl*r;
     return norm(Math.atan2(Math.cos(theta), -Math.sin(theta)*Math.cos(eps)-Math.tan(lat*r)*Math.sin(eps))/r - ayanamsha(date));
   }
-  window.KPEphemeris = Object.freeze({positions, longitude, tropical, ascendant, ayanamsha, normalize:norm, version:'Astronomy Engine 2.1.19', nodeModel:'mean lunar node', units:'degrees', dateValue});
+  const convention=()=>window.KPAnnualAyanamsha?.enabled()?'Uploaded annual Krishnamurti table · DMS column · interpolation between January 1 values':'Worksheet birth ayanamsha advanced by 50.29″/year';
+  window.KPEphemeris = Object.freeze({positions, longitude, tropical, ascendant, ayanamsha, convention, normalize:norm, version:'Astronomy Engine 2.1.19', nodeModel:'mean lunar node', units:'degrees', dateValue});
   window.dispatchEvent(new CustomEvent('kp-ephemeris-ready'));
 })();
 
+</script>
+<style id="annual-ayanamsha-style">
+.annual-ayanamsha-controls{min-width:0;padding:12px 14px;border:1px solid #ded8e5;border-radius:7px;background:#f8f7fa}
+.annual-ayanamsha-controls>label{font-size:12px;font-weight:600}
+.annual-ayanamsha-controls>select{width:100%;min-height:38px}
+#kp-ayanamsha-status{font-size:12px;line-height:1.6;margin:8px 0;color:#655878;overflow-wrap:anywhere}
+#kp-ayanamsha-status[data-state="error"]{color:#a52e29}
+#kp-ayanamsha-table-review{font-size:12px;line-height:1.6;min-width:0}
+#kp-ayanamsha-table-review summary{cursor:pointer;font-weight:600;color:#655878}
+#kp-ayanamsha-table-source p{margin:8px 0;overflow-wrap:anywhere}
+.annual-ayanamsha-table-wrap{max-height:300px;overflow:auto;border:1px solid #ddd5e7;max-width:100%;margin:9px 0}
+#kp-ayanamsha-table-source table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:11px;background:white}
+#kp-ayanamsha-table-source th,#kp-ayanamsha-table-source td{padding:6px 4px;border:1px solid #ddd5e7;text-align:left;word-break:normal;overflow-wrap:anywhere}
+#kp-ayanamsha-table-source th{background:#ebe5f3;position:sticky;top:0;font-weight:600}
+#kp-ayanamsha-table-source tr[data-conflict="true"]{background:#fff2ee;color:#8a332b}
+#kp-ayanamsha-table-source th:first-child{width:13%}
+@media(max-width:600px){.annual-ayanamsha-controls{padding:10px}#kp-ayanamsha-table-source table{font-size:10px}#kp-ayanamsha-table-source th,#kp-ayanamsha-table-source td{padding:5px 3px}}
+</style>
+<script id="kp-annual-ayanamsha-data" type="application/json">{"title":"TABLE IV-A — PRINTED ANNUAL KRISHNAMURTI AYANAMSA","fileName":"Pasted text.txt","sha256":"b53381e8cca25d69e5ec140244b7a0256bc6206bcb96e4969d67027cb3bccb46","anchor":"January 1, 00:00 UTC","selectedColumn":"dms","rows":[{"year":1861,"dms":"21°49′20″","arcSeconds":78560,"dmsArcSeconds":78560,"consistent":true,"source":"1861\t21°49'20\"\t78560"},{"year":1862,"dms":"21°50′10″","arcSeconds":78610,"dmsArcSeconds":78610,"consistent":true,"source":"1862\t21°50'10\"\t78610"},{"year":1863,"dms":"21°51′00″","arcSeconds":78660,"dmsArcSeconds":78660,"consistent":true,"source":"1863\t21°51'00\"\t78660"},{"year":1864,"dms":"21°51′50″","arcSeconds":78710,"dmsArcSeconds":78710,"consistent":true,"source":"1864\t21°51'50\"\t78710"},{"year":1865,"dms":"21°52′40″","arcSeconds":78760,"dmsArcSeconds":78760,"consistent":true,"source":"1865\t21°52'40\"\t78760"},{"year":1866,"dms":"21°53′30″","arcSeconds":78810,"dmsArcSeconds":78810,"consistent":true,"source":"1866\t21°53'30\"\t78810"},{"year":1867,"dms":"21°54′20″","arcSeconds":78860,"dmsArcSeconds":78860,"consistent":true,"source":"1867\t21°54'20\"\t78860"},{"year":1868,"dms":"21°55′10″","arcSeconds":78910,"dmsArcSeconds":78910,"consistent":true,"source":"1868\t21°55'10\"\t78910"},{"year":1869,"dms":"21°56′00″","arcSeconds":78960,"dmsArcSeconds":78960,"consistent":true,"source":"1869\t21°56'00\"\t78960"},{"year":1870,"dms":"21°56′50″","arcSeconds":79010,"dmsArcSeconds":79010,"consistent":true,"source":"1870\t21°56'50\"\t79010"},{"year":1871,"dms":"21°57′40″","arcSeconds":79060,"dmsArcSeconds":79060,"consistent":true,"source":"1871\t21°57'40\"\t79060"},{"year":1872,"dms":"21°58′30″","arcSeconds":79110,"dmsArcSeconds":79110,"consistent":true,"source":"1872\t21°58'30\"\t79110"},{"year":1873,"dms":"21°59′20″","arcSeconds":79160,"dmsArcSeconds":79160,"consistent":true,"source":"1873\t21°59'20\"\t79160"},{"year":1874,"dms":"22°00′10″","arcSeconds":79210,"dmsArcSeconds":79210,"consistent":true,"source":"1874\t22°00'10\"\t79210"},{"year":1875,"dms":"22°01′00″","arcSeconds":79260,"dmsArcSeconds":79260,"consistent":true,"source":"1875\t22°01'00\"\t79260"},{"year":1876,"dms":"22°01′50″","arcSeconds":79310,"dmsArcSeconds":79310,"consistent":true,"source":"1876\t22°01'50\"\t79310"},{"year":1877,"dms":"22°02′40″","arcSeconds":79360,"dmsArcSeconds":79360,"consistent":true,"source":"1877\t22°02'40\"\t79360"},{"year":1878,"dms":"22°03′30″","arcSeconds":79410,"dmsArcSeconds":79410,"consistent":true,"source":"1878\t22°03'30\"\t79410"},{"year":1879,"dms":"22°04′20″","arcSeconds":79460,"dmsArcSeconds":79460,"consistent":true,"source":"1879\t22°04'20\"\t79460"},{"year":1880,"dms":"22°05′10″","arcSeconds":79510,"dmsArcSeconds":79510,"consistent":true,"source":"1880\t22°05'10\"\t79510"},{"year":1881,"dms":"22°06′00″","arcSeconds":79560,"dmsArcSeconds":79560,"consistent":true,"source":"1881\t22°06'00\"\t79560"},{"year":1882,"dms":"22°06′50″","arcSeconds":79610,"dmsArcSeconds":79610,"consistent":true,"source":"1882\t22°06'50\"\t79610"},{"year":1883,"dms":"22°07′40″","arcSeconds":79660,"dmsArcSeconds":79660,"consistent":true,"source":"1883\t22°07'40\"\t79660"},{"year":1884,"dms":"22°08′30″","arcSeconds":79710,"dmsArcSeconds":79710,"consistent":true,"source":"1884\t22°08'30\"\t79710"},{"year":1885,"dms":"22°09′20″","arcSeconds":79760,"dmsArcSeconds":79760,"consistent":true,"source":"1885\t22°09'20\"\t79760"},{"year":1886,"dms":"22°10′10″","arcSeconds":79810,"dmsArcSeconds":79810,"consistent":true,"source":"1886\t22°10'10\"\t79810"},{"year":1887,"dms":"22°11′00″","arcSeconds":79860,"dmsArcSeconds":79860,"consistent":true,"source":"1887\t22°11'00\"\t79860"},{"year":1888,"dms":"22°11′50″","arcSeconds":79910,"dmsArcSeconds":79910,"consistent":true,"source":"1888\t22°11'50\"\t79910"},{"year":1889,"dms":"22°12′40″","arcSeconds":79960,"dmsArcSeconds":79960,"consistent":true,"source":"1889\t22°12'40\"\t79960"},{"year":1890,"dms":"22°13′30″","arcSeconds":80010,"dmsArcSeconds":80010,"consistent":true,"source":"1890\t22°13'30\"\t80010"},{"year":1891,"dms":"22°14′20″","arcSeconds":80060,"dmsArcSeconds":80060,"consistent":true,"source":"1891\t22°14'20\"\t80060"},{"year":1892,"dms":"22°15′10″","arcSeconds":80110,"dmsArcSeconds":80110,"consistent":true,"source":"1892\t22°15'10\"\t80110"},{"year":1893,"dms":"22°16′00″","arcSeconds":80160,"dmsArcSeconds":80160,"consistent":true,"source":"1893\t22°16'00\"\t80160"},{"year":1894,"dms":"22°16′50″","arcSeconds":80210,"dmsArcSeconds":80210,"consistent":true,"source":"1894\t22°16'50\"\t80210"},{"year":1895,"dms":"22°17′40″","arcSeconds":80260,"dmsArcSeconds":80260,"consistent":true,"source":"1895\t22°17'40\"\t80260"},{"year":1896,"dms":"22°18′30″","arcSeconds":80310,"dmsArcSeconds":80310,"consistent":true,"source":"1896\t22°18'30\"\t80310"},{"year":1897,"dms":"22°19′20″","arcSeconds":80360,"dmsArcSeconds":80360,"consistent":true,"source":"1897\t22°19'20\"\t80360"},{"year":1898,"dms":"22°20′10″","arcSeconds":80410,"dmsArcSeconds":80410,"consistent":true,"source":"1898\t22°20'10\"\t80410"},{"year":1899,"dms":"22°21′00″","arcSeconds":80460,"dmsArcSeconds":80460,"consistent":true,"source":"1899\t22°21'00\"\t80460"},{"year":1900,"dms":"22°21′50″","arcSeconds":80510,"dmsArcSeconds":80510,"consistent":true,"source":"1900\t22°21'50\"\t80510"},{"year":1901,"dms":"22°22′40″","arcSeconds":80560,"dmsArcSeconds":80560,"consistent":true,"source":"1901\t22°22'40\"\t80560"},{"year":1902,"dms":"22°23′30″","arcSeconds":80610,"dmsArcSeconds":80610,"consistent":true,"source":"1902\t22°23'30\"\t80610"},{"year":1903,"dms":"22°24′20″","arcSeconds":80660,"dmsArcSeconds":80660,"consistent":true,"source":"1903\t22°24'20\"\t80660"},{"year":1904,"dms":"22°25′10″","arcSeconds":80710,"dmsArcSeconds":80710,"consistent":true,"source":"1904\t22°25'10\"\t80710"},{"year":1905,"dms":"22°26′00″","arcSeconds":80760,"dmsArcSeconds":80760,"consistent":true,"source":"1905\t22°26'00\"\t80760"},{"year":1906,"dms":"22°26′50″","arcSeconds":80810,"dmsArcSeconds":80810,"consistent":true,"source":"1906\t22°26'50\"\t80810"},{"year":1907,"dms":"22°27′40″","arcSeconds":80860,"dmsArcSeconds":80860,"consistent":true,"source":"1907\t22°27'40\"\t80860"},{"year":1908,"dms":"22°28′30″","arcSeconds":80910,"dmsArcSeconds":80910,"consistent":true,"source":"1908\t22°28'30\"\t80910"},{"year":1909,"dms":"22°29′20″","arcSeconds":80960,"dmsArcSeconds":80960,"consistent":true,"source":"1909\t22°29'20\"\t80960"},{"year":1910,"dms":"22°30′10″","arcSeconds":81010,"dmsArcSeconds":81010,"consistent":true,"source":"1910\t22°30'10\"\t81010"},{"year":1911,"dms":"22°31′00″","arcSeconds":81060,"dmsArcSeconds":81060,"consistent":true,"source":"1911\t22°31'00\"\t81060"},{"year":1912,"dms":"22°31′50″","arcSeconds":81110,"dmsArcSeconds":81110,"consistent":true,"source":"1912\t22°31'50\"\t81110"},{"year":1913,"dms":"22°32′40″","arcSeconds":81160,"dmsArcSeconds":81160,"consistent":true,"source":"1913\t22°32'40\"\t81160"},{"year":1914,"dms":"22°33′30″","arcSeconds":81210,"dmsArcSeconds":81210,"consistent":true,"source":"1914\t22°33'30\"\t81210"},{"year":1915,"dms":"22°34′20″","arcSeconds":81260,"dmsArcSeconds":81260,"consistent":true,"source":"1915\t22°34'20\"\t81260"},{"year":1916,"dms":"22°35′10″","arcSeconds":81310,"dmsArcSeconds":81310,"consistent":true,"source":"1916\t22°35'10\"\t81310"},{"year":1917,"dms":"22°36′00″","arcSeconds":81360,"dmsArcSeconds":81360,"consistent":true,"source":"1917\t22°36'00\"\t81360"},{"year":1918,"dms":"22°36′50″","arcSeconds":81410,"dmsArcSeconds":81410,"consistent":true,"source":"1918\t22°36'50\"\t81410"},{"year":1919,"dms":"22°37′40″","arcSeconds":81460,"dmsArcSeconds":81460,"consistent":true,"source":"1919\t22°37'40\"\t81460"},{"year":1920,"dms":"22°38′30″","arcSeconds":81510,"dmsArcSeconds":81510,"consistent":true,"source":"1920\t22°38'30\"\t81510"},{"year":1921,"dms":"22°39′20″","arcSeconds":81560,"dmsArcSeconds":81560,"consistent":true,"source":"1921\t22°39'20\"\t81560"},{"year":1922,"dms":"22°40′10″","arcSeconds":81610,"dmsArcSeconds":81610,"consistent":true,"source":"1922\t22°40'10\"\t81610"},{"year":1923,"dms":"22°41′00″","arcSeconds":81660,"dmsArcSeconds":81660,"consistent":true,"source":"1923\t22°41'00\"\t81660"},{"year":1924,"dms":"22°41′50″","arcSeconds":81710,"dmsArcSeconds":81710,"consistent":true,"source":"1924\t22°41'50\"\t81710"},{"year":1925,"dms":"22°42′40″","arcSeconds":81760,"dmsArcSeconds":81760,"consistent":true,"source":"1925\t22°42'40\"\t81760"},{"year":1926,"dms":"22°43′30″","arcSeconds":81810,"dmsArcSeconds":81810,"consistent":true,"source":"1926\t22°43'30\"\t81810"},{"year":1927,"dms":"22°44′20″","arcSeconds":81860,"dmsArcSeconds":81860,"consistent":true,"source":"1927\t22°44'20\"\t81860"},{"year":1928,"dms":"22°45′10″","arcSeconds":81910,"dmsArcSeconds":81910,"consistent":true,"source":"1928\t22°45'10\"\t81910"},{"year":1929,"dms":"22°46′00″","arcSeconds":81960,"dmsArcSeconds":81960,"consistent":true,"source":"1929\t22°46'00\"\t81960"},{"year":1930,"dms":"22°46′50″","arcSeconds":82010,"dmsArcSeconds":82010,"consistent":true,"source":"1930\t22°46'50\"\t82010"},{"year":1931,"dms":"22°47′40″","arcSeconds":82060,"dmsArcSeconds":82060,"consistent":true,"source":"1931\t22°47'40\"\t82060"},{"year":1932,"dms":"22°48′30″","arcSeconds":82110,"dmsArcSeconds":82110,"consistent":true,"source":"1932\t22°48'30\"\t82110"},{"year":1933,"dms":"22°49′20″","arcSeconds":82160,"dmsArcSeconds":82160,"consistent":true,"source":"1933\t22°49'20\"\t82160"},{"year":1934,"dms":"22°50′10″","arcSeconds":82210,"dmsArcSeconds":82210,"consistent":true,"source":"1934\t22°50'10\"\t82210"},{"year":1935,"dms":"22°51′00″","arcSeconds":82260,"dmsArcSeconds":82260,"consistent":true,"source":"1935\t22°51'00\"\t82260"},{"year":1936,"dms":"22°51′50″","arcSeconds":82310,"dmsArcSeconds":82310,"consistent":true,"source":"1936\t22°51'50\"\t82310"},{"year":1937,"dms":"22°52′40″","arcSeconds":82360,"dmsArcSeconds":82360,"consistent":true,"source":"1937\t22°52'40\"\t82360"},{"year":1938,"dms":"22°53′30″","arcSeconds":82410,"dmsArcSeconds":82410,"consistent":true,"source":"1938\t22°53'30\"\t82410"},{"year":1939,"dms":"22°54′20″","arcSeconds":82460,"dmsArcSeconds":82460,"consistent":true,"source":"1939\t22°54'20\"\t82460"},{"year":1940,"dms":"22°55′10″","arcSeconds":82510,"dmsArcSeconds":82510,"consistent":true,"source":"1940\t22°55'10\"\t82510"},{"year":1941,"dms":"22°56′00″","arcSeconds":82560,"dmsArcSeconds":82560,"consistent":true,"source":"1941\t22°56'00\"\t82560"},{"year":1942,"dms":"22°56′50″","arcSeconds":82610,"dmsArcSeconds":82610,"consistent":true,"source":"1942\t22°56'50\"\t82610"},{"year":1943,"dms":"22°57′40″","arcSeconds":82660,"dmsArcSeconds":82660,"consistent":true,"source":"1943\t22°57'40\"\t82660"},{"year":1944,"dms":"22°58′30″","arcSeconds":82710,"dmsArcSeconds":82710,"consistent":true,"source":"1944\t22°58'30\"\t82710"},{"year":1945,"dms":"22°59′20″","arcSeconds":82760,"dmsArcSeconds":82760,"consistent":true,"source":"1945\t22°59'20\"\t82760"},{"year":1946,"dms":"23°00′10″","arcSeconds":82810,"dmsArcSeconds":82810,"consistent":true,"source":"1946\t23°00'10\"\t82810"},{"year":1947,"dms":"23°01′00″","arcSeconds":82860,"dmsArcSeconds":82860,"consistent":true,"source":"1947\t23°01'00\"\t82860"},{"year":1948,"dms":"23°01′50″","arcSeconds":82910,"dmsArcSeconds":82910,"consistent":true,"source":"1948\t23°01'50\"\t82910"},{"year":1949,"dms":"23°02′40″","arcSeconds":82960,"dmsArcSeconds":82960,"consistent":true,"source":"1949\t23°02'40\"\t82960"},{"year":1950,"dms":"23°03′30″","arcSeconds":83010,"dmsArcSeconds":83010,"consistent":true,"source":"1950\t23°03'30\"\t83010"},{"year":1951,"dms":"23°04′20″","arcSeconds":83060,"dmsArcSeconds":83060,"consistent":true,"source":"1951\t23°04'20\"\t83060"},{"year":1952,"dms":"23°05′10″","arcSeconds":83110,"dmsArcSeconds":83110,"consistent":true,"source":"1952\t23°05'10\"\t83110"},{"year":1953,"dms":"23°06′00″","arcSeconds":83160,"dmsArcSeconds":83160,"consistent":true,"source":"1953\t23°06'00\"\t83160"},{"year":1954,"dms":"23°06′50″","arcSeconds":83210,"dmsArcSeconds":83210,"consistent":true,"source":"1954\t23°06'50\"\t83210"},{"year":1955,"dms":"23°07′40″","arcSeconds":83260,"dmsArcSeconds":83260,"consistent":true,"source":"1955\t23°07'40\"\t83260"},{"year":1956,"dms":"23°08′30″","arcSeconds":83310,"dmsArcSeconds":83310,"consistent":true,"source":"1956\t23°08'30\"\t83310"},{"year":1957,"dms":"23°09′20″","arcSeconds":83360,"dmsArcSeconds":83360,"consistent":true,"source":"1957\t23°09'20\"\t83360"},{"year":1958,"dms":"23°10′10″","arcSeconds":83410,"dmsArcSeconds":83410,"consistent":true,"source":"1958\t23°10'10\"\t83410"},{"year":1959,"dms":"23°11′00″","arcSeconds":83460,"dmsArcSeconds":83460,"consistent":true,"source":"1959\t23°11'00\"\t83460"},{"year":1960,"dms":"23°11′50″","arcSeconds":83510,"dmsArcSeconds":83510,"consistent":true,"source":"1960\t23°11'50\"\t83510"},{"year":1961,"dms":"23°12′40″","arcSeconds":83560,"dmsArcSeconds":83560,"consistent":true,"source":"1961\t23°12'40\"\t83560"},{"year":1962,"dms":"23°13′30″","arcSeconds":83610,"dmsArcSeconds":83610,"consistent":true,"source":"1962\t23°13'30\"\t83610"},{"year":1963,"dms":"23°14′20″","arcSeconds":83660,"dmsArcSeconds":83660,"consistent":true,"source":"1963\t23°14'20\"\t83660"},{"year":1964,"dms":"23°15′10″","arcSeconds":83710,"dmsArcSeconds":83710,"consistent":true,"source":"1964\t23°15'10\"\t83710"},{"year":1965,"dms":"23°16′00″","arcSeconds":83760,"dmsArcSeconds":83760,"consistent":true,"source":"1965\t23°16'00\"\t83760"},{"year":1966,"dms":"23°16′50″","arcSeconds":83810,"dmsArcSeconds":83810,"consistent":true,"source":"1966\t23°16'50\"\t83810"},{"year":1967,"dms":"23°17′40″","arcSeconds":83860,"dmsArcSeconds":83860,"consistent":true,"source":"1967\t23°17'40\"\t83860"},{"year":1968,"dms":"23°18′30″","arcSeconds":83910,"dmsArcSeconds":83910,"consistent":true,"source":"1968\t23°18'30\"\t83910"},{"year":1969,"dms":"23°19′20″","arcSeconds":83960,"dmsArcSeconds":83960,"consistent":true,"source":"1969\t23°19'20\"\t83960"},{"year":1970,"dms":"23°20′10″","arcSeconds":84010,"dmsArcSeconds":84010,"consistent":true,"source":"1970\t23°20'10\"\t84010"},{"year":1971,"dms":"23°21′00″","arcSeconds":84060,"dmsArcSeconds":84060,"consistent":true,"source":"1971\t23°21'00\"\t84060"},{"year":1972,"dms":"23°21′50″","arcSeconds":84110,"dmsArcSeconds":84110,"consistent":true,"source":"1972\t23°21'50\"\t84110"},{"year":1973,"dms":"23°22′40″","arcSeconds":84160,"dmsArcSeconds":84160,"consistent":true,"source":"1973\t23°22'40\"\t84160"},{"year":1974,"dms":"23°23′30″","arcSeconds":84210,"dmsArcSeconds":84210,"consistent":true,"source":"1974\t23°23'30\"\t84210"},{"year":1975,"dms":"23°24′20″","arcSeconds":84260,"dmsArcSeconds":84260,"consistent":true,"source":"1975\t23°24'20\"\t84260"},{"year":1976,"dms":"23°25′10″","arcSeconds":84310,"dmsArcSeconds":84310,"consistent":true,"source":"1976\t23°25'10\"\t84310"},{"year":1977,"dms":"23°26′00″","arcSeconds":84360,"dmsArcSeconds":84360,"consistent":true,"source":"1977\t23°26'00\"\t84360"},{"year":1978,"dms":"23°26′50″","arcSeconds":84410,"dmsArcSeconds":84410,"consistent":true,"source":"1978\t23°26'50\"\t84410"},{"year":1979,"dms":"23°27′40″","arcSeconds":84460,"dmsArcSeconds":84460,"consistent":true,"source":"1979\t23°27'40\"\t84460"},{"year":1980,"dms":"23°28′30″","arcSeconds":84510,"dmsArcSeconds":84510,"consistent":true,"source":"1980\t23°28'30\"\t84510"},{"year":1981,"dms":"23°29′20″","arcSeconds":84560,"dmsArcSeconds":84560,"consistent":true,"source":"1981\t23°29'20\"\t84560"},{"year":1982,"dms":"23°30′10″","arcSeconds":84610,"dmsArcSeconds":84610,"consistent":true,"source":"1982\t23°30'10\"\t84610"},{"year":1983,"dms":"23°31′00″","arcSeconds":84660,"dmsArcSeconds":84660,"consistent":true,"source":"1983\t23°31'00\"\t84660"},{"year":1984,"dms":"23°31′50″","arcSeconds":84710,"dmsArcSeconds":84710,"consistent":true,"source":"1984\t23°31'50\"\t84710"},{"year":1985,"dms":"23°32′40″","arcSeconds":84760,"dmsArcSeconds":84760,"consistent":true,"source":"1985\t23°32'40\"\t84760"},{"year":1986,"dms":"23°33′30″","arcSeconds":84810,"dmsArcSeconds":84810,"consistent":true,"source":"1986\t23°33'30\"\t84810"},{"year":1987,"dms":"23°34′20″","arcSeconds":84860,"dmsArcSeconds":84860,"consistent":true,"source":"1987\t23°34'20\"\t84860"},{"year":1988,"dms":"23°35′10″","arcSeconds":84910,"dmsArcSeconds":84910,"consistent":true,"source":"1988\t23°35'10\"\t84910"},{"year":1989,"dms":"23°36′00″","arcSeconds":84960,"dmsArcSeconds":84960,"consistent":true,"source":"1989\t23°36'00\"\t84960"},{"year":1990,"dms":"23°36′50″","arcSeconds":85010,"dmsArcSeconds":85010,"consistent":true,"source":"1990\t23°36'50\"\t85010"},{"year":1991,"dms":"23°37′40″","arcSeconds":85060,"dmsArcSeconds":85060,"consistent":true,"source":"1991\t23°37'40\"\t85060"},{"year":1992,"dms":"23°38′30″","arcSeconds":85110,"dmsArcSeconds":85110,"consistent":true,"source":"1992\t23°38'30\"\t85110"},{"year":1993,"dms":"23°39′20″","arcSeconds":85160,"dmsArcSeconds":85160,"consistent":true,"source":"1993\t23°39'20\"\t85160"},{"year":1994,"dms":"23°40′10″","arcSeconds":85210,"dmsArcSeconds":85210,"consistent":true,"source":"1994\t23°40'10\"\t85210"},{"year":1995,"dms":"23°41′00″","arcSeconds":85260,"dmsArcSeconds":85260,"consistent":true,"source":"1995\t23°41'00\"\t85260"},{"year":1996,"dms":"23°41′50″","arcSeconds":85310,"dmsArcSeconds":85310,"consistent":true,"source":"1996\t23°41'50\"\t85310"},{"year":1997,"dms":"23°42′40″","arcSeconds":85360,"dmsArcSeconds":85360,"consistent":true,"source":"1997\t23°42'40\"\t85360"},{"year":1998,"dms":"23°43′30″","arcSeconds":85410,"dmsArcSeconds":85410,"consistent":true,"source":"1998\t23°43'30\"\t85410"},{"year":1999,"dms":"23°44′20″","arcSeconds":85460,"dmsArcSeconds":85460,"consistent":true,"source":"1999\t23°44'20\"\t85460"},{"year":2000,"dms":"23°45′10″","arcSeconds":85510,"dmsArcSeconds":85510,"consistent":true,"source":"2000\t23°45'10\"\t85510"},{"year":2001,"dms":"23°46′00″","arcSeconds":85560,"dmsArcSeconds":85560,"consistent":true,"source":"2001\t23°46'00\"\t85560"},{"year":2002,"dms":"23°46′50″","arcSeconds":85610,"dmsArcSeconds":85610,"consistent":true,"source":"2002\t23°46'50\"\t85610"},{"year":2003,"dms":"23°47′40″","arcSeconds":85660,"dmsArcSeconds":85660,"consistent":true,"source":"2003\t23°47'40\"\t85660"},{"year":2004,"dms":"23°48′30″","arcSeconds":85710,"dmsArcSeconds":85710,"consistent":true,"source":"2004\t23°48'30\"\t85710"},{"year":2005,"dms":"23°49′20″","arcSeconds":85760,"dmsArcSeconds":85760,"consistent":true,"source":"2005\t23°49'20\"\t85760"},{"year":2006,"dms":"23°50′10″","arcSeconds":85810,"dmsArcSeconds":85810,"consistent":true,"source":"2006\t23°50'10\"\t85810"},{"year":2007,"dms":"23°51′00″","arcSeconds":85860,"dmsArcSeconds":85860,"consistent":true,"source":"2007\t23°51'00\"\t85860"},{"year":2008,"dms":"23°51′50″","arcSeconds":85910,"dmsArcSeconds":85910,"consistent":true,"source":"2008\t23°51'50\"\t85910"},{"year":2009,"dms":"23°52′40″","arcSeconds":85960,"dmsArcSeconds":85960,"consistent":true,"source":"2009\t23°52'40\"\t85960"},{"year":2010,"dms":"23°53′30″","arcSeconds":86010,"dmsArcSeconds":86010,"consistent":true,"source":"2010\t23°53'30\"\t86010"},{"year":2011,"dms":"23°54′20″","arcSeconds":86060,"dmsArcSeconds":86060,"consistent":true,"source":"2011\t23°54'20\"\t86060"},{"year":2012,"dms":"23°55′10″","arcSeconds":86110,"dmsArcSeconds":86110,"consistent":true,"source":"2012\t23°55'10\"\t86110"},{"year":2013,"dms":"23°56′00″","arcSeconds":86160,"dmsArcSeconds":86160,"consistent":true,"source":"2013\t23°56'00\"\t86160"},{"year":2014,"dms":"23°56′50″","arcSeconds":86210,"dmsArcSeconds":86210,"consistent":true,"source":"2014\t23°56'50\"\t86210"},{"year":2015,"dms":"23°57′40″","arcSeconds":86260,"dmsArcSeconds":86260,"consistent":true,"source":"2015\t23°57'40\"\t86260"},{"year":2016,"dms":"23°58′30″","arcSeconds":86310,"dmsArcSeconds":86310,"consistent":true,"source":"2016\t23°58'30\"\t86310"},{"year":2017,"dms":"23°59′20″","arcSeconds":86360,"dmsArcSeconds":86360,"consistent":true,"source":"2017\t23°59'20\"\t86360"},{"year":2018,"dms":"24°00′10″","arcSeconds":86410,"dmsArcSeconds":86410,"consistent":true,"source":"2018\t24°00'10\"\t86410"},{"year":2019,"dms":"24°01′00″","arcSeconds":86460,"dmsArcSeconds":86460,"consistent":true,"source":"2019\t24°01'00\"\t86460"},{"year":2020,"dms":"24°01′50″","arcSeconds":86510,"dmsArcSeconds":86510,"consistent":true,"source":"2020\t24°01'50\"\t86510"},{"year":2021,"dms":"24°02′40″","arcSeconds":86560,"dmsArcSeconds":86560,"consistent":true,"source":"2021\t24°02'40\"\t86560"},{"year":2022,"dms":"24°03′30″","arcSeconds":86610,"dmsArcSeconds":86610,"consistent":true,"source":"2022\t24°03'30\"\t86610"},{"year":2023,"dms":"24°04′20″","arcSeconds":86660,"dmsArcSeconds":86660,"consistent":true,"source":"2023\t24°04'20\"\t86660"},{"year":2024,"dms":"24°05′10″","arcSeconds":86710,"dmsArcSeconds":86710,"consistent":true,"source":"2024\t24°05'10\"\t86710"},{"year":2025,"dms":"24°06′00″","arcSeconds":86760,"dmsArcSeconds":86760,"consistent":true,"source":"2025\t24°06'00\"\t86760"},{"year":2026,"dms":"24°06′50″","arcSeconds":86810,"dmsArcSeconds":86810,"consistent":true,"source":"2026\t24°06'50\"\t86810"},{"year":2027,"dms":"24°07′40″","arcSeconds":86860,"dmsArcSeconds":86860,"consistent":true,"source":"2027\t24°07'40\"\t86860"},{"year":2028,"dms":"24°08′30″","arcSeconds":86910,"dmsArcSeconds":86910,"consistent":true,"source":"2028\t24°08'30\"\t86910"},{"year":2029,"dms":"24°09′20″","arcSeconds":86960,"dmsArcSeconds":86960,"consistent":true,"source":"2029\t24°09'20\"\t86960"},{"year":2030,"dms":"24°10′10″","arcSeconds":87010,"dmsArcSeconds":87010,"consistent":true,"source":"2030\t24°10'10\"\t87010"},{"year":2031,"dms":"24°11′00″","arcSeconds":87060,"dmsArcSeconds":87060,"consistent":true,"source":"2031\t24°11'00\"\t87060"},{"year":2032,"dms":"24°11′50″","arcSeconds":87110,"dmsArcSeconds":87110,"consistent":true,"source":"2032\t24°11'50\"\t87110"},{"year":2033,"dms":"24°12′40″","arcSeconds":87160,"dmsArcSeconds":87160,"consistent":true,"source":"2033\t24°12'40\"\t87160"},{"year":2034,"dms":"24°13′30″","arcSeconds":87210,"dmsArcSeconds":87210,"consistent":true,"source":"2034\t24°13'30\"\t87210"},{"year":2035,"dms":"24°14′20″","arcSeconds":87260,"dmsArcSeconds":87260,"consistent":true,"source":"2035\t24°14'20\"\t87260"},{"year":2036,"dms":"24°15′10″","arcSeconds":87310,"dmsArcSeconds":87310,"consistent":true,"source":"2036\t24°15'10\"\t87310"},{"year":2037,"dms":"24°16′00″","arcSeconds":87360,"dmsArcSeconds":87360,"consistent":true,"source":"2037\t24°16'00\"\t87360"},{"year":2038,"dms":"24°16′50″","arcSeconds":87410,"dmsArcSeconds":87410,"consistent":true,"source":"2038\t24°16'50\"\t87410"},{"year":2039,"dms":"24°17′40″","arcSeconds":87460,"dmsArcSeconds":87460,"consistent":true,"source":"2039\t24°17'40\"\t87460"},{"year":2040,"dms":"24°18′30″","arcSeconds":87510,"dmsArcSeconds":87510,"consistent":true,"source":"2040\t24°18'30\"\t87510"},{"year":2041,"dms":"24°19′20″","arcSeconds":87560,"dmsArcSeconds":87560,"consistent":true,"source":"2041\t24°19'20\"\t87560"},{"year":2042,"dms":"24°20′10″","arcSeconds":87610,"dmsArcSeconds":87610,"consistent":true,"source":"2042\t24°20'10\"\t87610"},{"year":2043,"dms":"24°21′00″","arcSeconds":87660,"dmsArcSeconds":87660,"consistent":true,"source":"2043\t24°21'00\"\t87660"},{"year":2044,"dms":"24°21′50″","arcSeconds":87710,"dmsArcSeconds":87710,"consistent":true,"source":"2044\t24°21'50\"\t87710"},{"year":2045,"dms":"24°22′40″","arcSeconds":87760,"dmsArcSeconds":87760,"consistent":true,"source":"2045\t24°22'40\"\t87760"},{"year":2046,"dms":"24°23′30″","arcSeconds":87810,"dmsArcSeconds":87810,"consistent":true,"source":"2046\t24°23'30\"\t87810"},{"year":2047,"dms":"24°24′20″","arcSeconds":87860,"dmsArcSeconds":87860,"consistent":true,"source":"2047\t24°24'20\"\t87860"},{"year":2048,"dms":"24°25′10″","arcSeconds":87910,"dmsArcSeconds":87910,"consistent":true,"source":"2048\t24°25'10\"\t87910"},{"year":2049,"dms":"24°26′00″","arcSeconds":87960,"dmsArcSeconds":87960,"consistent":true,"source":"2049\t24°26'00\"\t87960"},{"year":2050,"dms":"24°26′50″","arcSeconds":88010,"dmsArcSeconds":88010,"consistent":true,"source":"2050\t24°26'50\"\t88010"},{"year":2051,"dms":"24°27′40″","arcSeconds":88060,"dmsArcSeconds":88060,"consistent":true,"source":"2051\t24°27'40\"\t88060"},{"year":2052,"dms":"24°28′30″","arcSeconds":88110,"dmsArcSeconds":88110,"consistent":true,"source":"2052\t24°28'30\"\t88110"},{"year":2053,"dms":"24°29′20″","arcSeconds":88160,"dmsArcSeconds":88160,"consistent":true,"source":"2053\t24°29'20\"\t88160"},{"year":2054,"dms":"24°30′10″","arcSeconds":88210,"dmsArcSeconds":88210,"consistent":true,"source":"2054\t24°30'10\"\t88210"},{"year":2055,"dms":"24°31′00″","arcSeconds":88260,"dmsArcSeconds":88260,"consistent":true,"source":"2055\t24°31'00\"\t88260"},{"year":2056,"dms":"24°31′50″","arcSeconds":88310,"dmsArcSeconds":88310,"consistent":true,"source":"2056\t24°31'50\"\t88310"},{"year":2057,"dms":"24°32′40″","arcSeconds":88360,"dmsArcSeconds":88360,"consistent":true,"source":"2057\t24°32'40\"\t88360"},{"year":2058,"dms":"24°33′30″","arcSeconds":88410,"dmsArcSeconds":88410,"consistent":true,"source":"2058\t24°33'30\"\t88410"},{"year":2059,"dms":"24°34′20″","arcSeconds":88460,"dmsArcSeconds":88460,"consistent":true,"source":"2059\t24°34'20\"\t88460"},{"year":2060,"dms":"24°35′10″","arcSeconds":88510,"dmsArcSeconds":88510,"consistent":true,"source":"2060\t24°35'10\"\t88510"},{"year":2061,"dms":"24°36′00″","arcSeconds":88560,"dmsArcSeconds":88560,"consistent":true,"source":"2061\t24°36'00\"\t88560"},{"year":2062,"dms":"24°36′50″","arcSeconds":88610,"dmsArcSeconds":88610,"consistent":true,"source":"2062\t24°36'50\"\t88610"},{"year":2063,"dms":"24°37′40″","arcSeconds":88660,"dmsArcSeconds":88660,"consistent":true,"source":"2063\t24°37'40\"\t88660"},{"year":2064,"dms":"24°38′30″","arcSeconds":88710,"dmsArcSeconds":88710,"consistent":true,"source":"2064\t24°38'30\"\t88710"},{"year":2065,"dms":"24°39′20″","arcSeconds":88760,"dmsArcSeconds":88760,"consistent":true,"source":"2065\t24°39'20\"\t88760"},{"year":2066,"dms":"24°40′10″","arcSeconds":88810,"dmsArcSeconds":88810,"consistent":true,"source":"2066\t24°40'10\"\t88810"},{"year":2067,"dms":"24°41′00″","arcSeconds":88860,"dmsArcSeconds":88860,"consistent":true,"source":"2067\t24°41'00\"\t88860"},{"year":2068,"dms":"24°41′50″","arcSeconds":88910,"dmsArcSeconds":88910,"consistent":true,"source":"2068\t24°41'50\"\t88910"},{"year":2069,"dms":"24°42′40″","arcSeconds":88960,"dmsArcSeconds":88960,"consistent":true,"source":"2069\t24°42'40\"\t88960"},{"year":2070,"dms":"24°43′30″","arcSeconds":89010,"dmsArcSeconds":89010,"consistent":true,"source":"2070\t24°43'30\"\t89010"},{"year":2071,"dms":"24°44′20″","arcSeconds":89060,"dmsArcSeconds":89060,"consistent":true,"source":"2071\t24°44'20\"\t89060"},{"year":2072,"dms":"24°45′10″","arcSeconds":89110,"dmsArcSeconds":89110,"consistent":true,"source":"2072\t24°45'10\"\t89110"},{"year":2073,"dms":"24°46′00″","arcSeconds":89160,"dmsArcSeconds":89160,"consistent":true,"source":"2073\t24°46'00\"\t89160"},{"year":2074,"dms":"24°46′50″","arcSeconds":89210,"dmsArcSeconds":89210,"consistent":true,"source":"2074\t24°46'50\"\t89210"},{"year":2075,"dms":"24°47′40″","arcSeconds":89260,"dmsArcSeconds":89260,"consistent":true,"source":"2075\t24°47'40\"\t89260"},{"year":2076,"dms":"24°48′30″","arcSeconds":89310,"dmsArcSeconds":89310,"consistent":true,"source":"2076\t24°48'30\"\t89310"},{"year":2077,"dms":"24°49′20″","arcSeconds":89360,"dmsArcSeconds":89360,"consistent":true,"source":"2077\t24°49'20\"\t89360"},{"year":2078,"dms":"24°50′10″","arcSeconds":89410,"dmsArcSeconds":89410,"consistent":true,"source":"2078\t24°50'10\"\t89410"},{"year":2079,"dms":"24°51′00″","arcSeconds":89460,"dmsArcSeconds":89460,"consistent":true,"source":"2079\t24°51'00\"\t89460"},{"year":2080,"dms":"24°51′50″","arcSeconds":89510,"dmsArcSeconds":89510,"consistent":true,"source":"2080\t24°51'50\"\t89510"},{"year":2081,"dms":"24°52′40″","arcSeconds":89560,"dmsArcSeconds":89560,"consistent":true,"source":"2081\t24°52'40\"\t89560"},{"year":2082,"dms":"24°53′30″","arcSeconds":89610,"dmsArcSeconds":89610,"consistent":true,"source":"2082\t24°53'30\"\t89610"},{"year":2083,"dms":"24°54′20″","arcSeconds":89660,"dmsArcSeconds":89660,"consistent":true,"source":"2083\t24°54'20\"\t89660"},{"year":2084,"dms":"24°55′10″","arcSeconds":89710,"dmsArcSeconds":89710,"consistent":true,"source":"2084\t24°55'10\"\t89710"},{"year":2085,"dms":"24°56′00″","arcSeconds":89760,"dmsArcSeconds":89760,"consistent":true,"source":"2085\t24°56'00\"\t89760"},{"year":2086,"dms":"24°56′50″","arcSeconds":89810,"dmsArcSeconds":89810,"consistent":true,"source":"2086\t24°56'50\"\t89810"},{"year":2087,"dms":"24°57′40″","arcSeconds":89860,"dmsArcSeconds":89860,"consistent":true,"source":"2087\t24°57'40\"\t89860"},{"year":2088,"dms":"24°58′30″","arcSeconds":89910,"dmsArcSeconds":89910,"consistent":true,"source":"2088\t24°58'30\"\t89910"},{"year":2089,"dms":"24°59′20″","arcSeconds":89960,"dmsArcSeconds":89960,"consistent":true,"source":"2089\t24°59'20\"\t89960"},{"year":2090,"dms":"25°00′10″","arcSeconds":90010,"dmsArcSeconds":90010,"consistent":true,"source":"2090\t25°00'10\"\t90010"},{"year":2091,"dms":"25°01′00″","arcSeconds":90060,"dmsArcSeconds":90060,"consistent":true,"source":"2091\t25°01'00\"\t90060"},{"year":2092,"dms":"25°01′50″","arcSeconds":90110,"dmsArcSeconds":90110,"consistent":true,"source":"2092\t25°01'50\"\t90110"},{"year":2093,"dms":"25°02′40″","arcSeconds":90160,"dmsArcSeconds":90160,"consistent":true,"source":"2093\t25°02'40\"\t90160"},{"year":2094,"dms":"25°03′30″","arcSeconds":90210,"dmsArcSeconds":90210,"consistent":true,"source":"2094\t25°03'30\"\t90210"},{"year":2095,"dms":"25°04′20″","arcSeconds":90260,"dmsArcSeconds":90260,"consistent":true,"source":"2095\t25°04'20\"\t90260"},{"year":2096,"dms":"25°05′10″","arcSeconds":90310,"dmsArcSeconds":90310,"consistent":true,"source":"2096\t25°05'10\"\t90310"},{"year":2097,"dms":"25°06′00″","arcSeconds":90360,"dmsArcSeconds":90360,"consistent":true,"source":"2097\t25°06'00\"\t90360"},{"year":2098,"dms":"25°06′50″","arcSeconds":90410,"dmsArcSeconds":90410,"consistent":true,"source":"2098\t25°06'50\"\t90410"},{"year":2099,"dms":"25°07′40″","arcSeconds":90460,"dmsArcSeconds":90460,"consistent":true,"source":"2099\t25°07'40\"\t90460"},{"year":2100,"dms":"25°08′30″","arcSeconds":90510,"dmsArcSeconds":90510,"consistent":true,"source":"2100\t25°08'30\"\t90510"},{"year":2101,"dms":"25°09′20″","arcSeconds":90560,"dmsArcSeconds":90560,"consistent":true,"source":"2101\t25°09'20\"\t90560"},{"year":2102,"dms":"25°10′10″","arcSeconds":90610,"dmsArcSeconds":90610,"consistent":true,"source":"2102\t25°10'10\"\t90610"},{"year":2103,"dms":"25°11′00″","arcSeconds":90660,"dmsArcSeconds":90660,"consistent":true,"source":"2103\t25°11'00\"\t90660"},{"year":2104,"dms":"25°09′20″","arcSeconds":90710,"dmsArcSeconds":90560,"consistent":false,"source":"2104\t25°09'20\"\t90710"},{"year":2105,"dms":"25°10′10″","arcSeconds":90760,"dmsArcSeconds":90610,"consistent":false,"source":"2105\t25°10'10\"\t90760"},{"year":2106,"dms":"25°11′00″","arcSeconds":90810,"dmsArcSeconds":90660,"consistent":false,"source":"2106\t25°11'00\"\t90810"},{"year":2107,"dms":"25°10′10″","arcSeconds":90860,"dmsArcSeconds":90610,"consistent":false,"source":"2107\t25°10'10\"\t90860"},{"year":2108,"dms":"25°11′00″","arcSeconds":90910,"dmsArcSeconds":90660,"consistent":false,"source":"2108\t25°11'00\"\t90910"},{"year":2109,"dms":"25°09′20″","arcSeconds":90960,"dmsArcSeconds":90560,"consistent":false,"source":"2109\t25°09'20\"\t90960"},{"year":2110,"dms":"25°10′10″","arcSeconds":91010,"dmsArcSeconds":90610,"consistent":false,"source":"2110\t25°10'10\"\t91010"},{"year":2111,"dms":"25°11′00″","arcSeconds":91060,"dmsArcSeconds":90660,"consistent":false,"source":"2111\t25°11'00\"\t91060"},{"year":2112,"dms":"25°10′10″","arcSeconds":91110,"dmsArcSeconds":90610,"consistent":false,"source":"2112\t25°10'10\"\t91110"},{"year":2113,"dms":"25°11′00″","arcSeconds":91160,"dmsArcSeconds":90660,"consistent":false,"source":"2113\t25°11'00\"\t91160"},{"year":2114,"dms":"25°09′20″","arcSeconds":91210,"dmsArcSeconds":90560,"consistent":false,"source":"2114\t25°09'20\"\t91210"},{"year":2115,"dms":"25°10′10″","arcSeconds":91260,"dmsArcSeconds":90610,"consistent":false,"source":"2115\t25°10'10\"\t91260"},{"year":2116,"dms":"25°11′00″","arcSeconds":91310,"dmsArcSeconds":90660,"consistent":false,"source":"2116\t25°11'00\"\t91310"},{"year":2117,"dms":"25°10′10″","arcSeconds":91360,"dmsArcSeconds":90610,"consistent":false,"source":"2117\t25°10'10\"\t91360"},{"year":2118,"dms":"25°09′20″","arcSeconds":91410,"dmsArcSeconds":90560,"consistent":false,"source":"2118\t25°09'20\"\t91410"},{"year":2119,"dms":"25°10′10″","arcSeconds":91460,"dmsArcSeconds":90610,"consistent":false,"source":"2119\t25°10'10\"\t91460"},{"year":2120,"dms":"25°11′00″","arcSeconds":91510,"dmsArcSeconds":90660,"consistent":false,"source":"2120\t25°11'00\"\t91510"},{"year":2121,"dms":"25°10′10″","arcSeconds":91560,"dmsArcSeconds":90610,"consistent":false,"source":"2121\t25°10'10\"\t91560"},{"year":2122,"dms":"25°09′20″","arcSeconds":91610,"dmsArcSeconds":90560,"consistent":false,"source":"2122\t25°09'20\"\t91610"},{"year":2123,"dms":"25°10′10″","arcSeconds":91660,"dmsArcSeconds":90610,"consistent":false,"source":"2123\t25°10'10\"\t91660"},{"year":2124,"dms":"25°11′00″","arcSeconds":91710,"dmsArcSeconds":90660,"consistent":false,"source":"2124\t25°11'00\"\t91710"},{"year":2125,"dms":"25°10′10″","arcSeconds":91760,"dmsArcSeconds":90610,"consistent":false,"source":"2125\t25°10'10\"\t91760"},{"year":2126,"dms":"25°09′20″","arcSeconds":91810,"dmsArcSeconds":90560,"consistent":false,"source":"2126\t25°09'20\"\t91810"},{"year":2127,"dms":"25°10′10″","arcSeconds":91860,"dmsArcSeconds":90610,"consistent":false,"source":"2127\t25°10'10\"\t91860"},{"year":2128,"dms":"25°11′00″","arcSeconds":91910,"dmsArcSeconds":90660,"consistent":false,"source":"2128\t25°11'00\"\t91910"},{"year":2129,"dms":"25°10′10″","arcSeconds":91960,"dmsArcSeconds":90610,"consistent":false,"source":"2129\t25°10'10\"\t91960"},{"year":2130,"dms":"25°09′20″","arcSeconds":92010,"dmsArcSeconds":90560,"consistent":false,"source":"2130\t25°09'20\"\t92010"},{"year":2131,"dms":"25°10′10″","arcSeconds":92060,"dmsArcSeconds":90610,"consistent":false,"source":"2131\t25°10'10\"\t92060"},{"year":2132,"dms":"25°11′00″","arcSeconds":92110,"dmsArcSeconds":90660,"consistent":false,"source":"2132\t25°11'00\"\t92110"},{"year":2133,"dms":"25°10′10″","arcSeconds":92160,"dmsArcSeconds":90610,"consistent":false,"source":"2133\t25°10'10\"\t92160"},{"year":2134,"dms":"25°09′20″","arcSeconds":92210,"dmsArcSeconds":90560,"consistent":false,"source":"2134\t25°09'20\"\t92210"},{"year":2135,"dms":"25°10′10″","arcSeconds":92260,"dmsArcSeconds":90610,"consistent":false,"source":"2135\t25°10'10\"\t92260"},{"year":2136,"dms":"25°11′00″","arcSeconds":92310,"dmsArcSeconds":90660,"consistent":false,"source":"2136\t25°11'00\"\t92310"},{"year":2137,"dms":"25°10′10″","arcSeconds":92360,"dmsArcSeconds":90610,"consistent":false,"source":"2137\t25°10'10\"\t92360"},{"year":2138,"dms":"25°09′20″","arcSeconds":92410,"dmsArcSeconds":90560,"consistent":false,"source":"2138\t25°09'20\"\t92410"},{"year":2139,"dms":"25°11′00″","arcSeconds":92460,"dmsArcSeconds":90660,"consistent":false,"source":"2139\t25°11'00\"\t92460"},{"year":2140,"dms":"25°10′10″","arcSeconds":92510,"dmsArcSeconds":90610,"consistent":false,"source":"2140\t25°10'10\"\t92510"},{"year":2141,"dms":"25°09′20″","arcSeconds":92560,"dmsArcSeconds":90560,"consistent":false,"source":"2141\t25°09'20\"\t92560"},{"year":2142,"dms":"25°11′00″","arcSeconds":92610,"dmsArcSeconds":90660,"consistent":false,"source":"2142\t25°11'00\"\t92610"},{"year":2143,"dms":"25°10′10″","arcSeconds":92660,"dmsArcSeconds":90610,"consistent":false,"source":"2143\t25°10'10\"\t92660"},{"year":2144,"dms":"25°09′20″","arcSeconds":92710,"dmsArcSeconds":90560,"consistent":false,"source":"2144\t25°09'20\"\t92710"},{"year":2145,"dms":"25°11′00″","arcSeconds":92760,"dmsArcSeconds":90660,"consistent":false,"source":"2145\t25°11'00\"\t92760"},{"year":2146,"dms":"25°10′10″","arcSeconds":92810,"dmsArcSeconds":90610,"consistent":false,"source":"2146\t25°10'10\"\t92810"},{"year":2147,"dms":"25°09′20″","arcSeconds":92860,"dmsArcSeconds":90560,"consistent":false,"source":"2147\t25°09'20\"\t92860"}]}</script>
+<script id="kp-annual-ayanamsha-script">
+/* The uploaded table is calculation data. No instructions in that document run.
+ * Annual anchors are interpreted as January 1, 00:00 UTC. The user selected
+ * the uploaded DMS column as authoritative. Interpolate that column over actual
+ * calendar years, preserving its decreases and the other column for review.
+ */
+(() => {
+  'use strict';
+  const source=JSON.parse(document.getElementById('kp-annual-ayanamsha-data').textContent);
+  const rows=source.rows,byYear=new Map(rows.map(row=>[row.year,row]));
+  const byId=id=>document.getElementById(id),value=id=>(byId(id)?.value||'').trim();
+  let timer;
+  function enabled(){return value('kp-ayanamsha-source')==='annual';}
+  function set(id,text){const field=byId(id);if(field)field.value=text;}
+  function status(text,state='manual'){
+    const target=byId('kp-ayanamsha-status');
+    if(target){target.textContent=text;target.dataset.state=state;target.dataset.ready=String(state==='ready');}
+  }
+  function dms(arcSeconds){
+    if(!Number.isFinite(arcSeconds))throw new Error('The annual ayanamsha is invalid.');
+    const sign=arcSeconds<0?'-':'',total=Math.round(Math.abs(arcSeconds));
+    return sign+String(Math.floor(total/3600)).padStart(2,'0')+':'+String(Math.floor(total%3600/60)).padStart(2,'0')+':'+String(total%60).padStart(2,'0');
+  }
+  function dateValue(value){
+    const date=value instanceof Date?new Date(value.getTime()):new Date(value);
+    if(!Number.isFinite(date.getTime()))throw new Error('Enter a valid date for the annual ayanamsha table.');
+    return date;
+  }
+  function usable(year){
+    const row=byYear.get(year);
+    if(!row)throw new Error('The uploaded annual table covers 1861–2147. No value is available for '+year+'.');
+    return row;
+  }
+  function details(value){
+    const date=dateValue(value),year=date.getUTCFullYear(),row=usable(year),start=Date.UTC(year,0,1);
+    if(date.getTime()===start)return {date:date.toISOString(),year,baseline:row.dmsArcSeconds,correction:0,total:row.dmsArcSeconds,anchor:source.anchor};
+    const next=usable(year+1),end=Date.UTC(year+1,0,1),fraction=(date.getTime()-start)/(end-start);
+    const correction=(next.dmsArcSeconds-row.dmsArcSeconds)*fraction;
+    return {date:date.toISOString(),year,baseline:row.dmsArcSeconds,correction,total:row.dmsArcSeconds+correction,anchor:source.anchor};
+  }
+  function at(value){return details(value).total/3600;}
+  function prepare(){
+    if(!enabled()){
+      status('Manual ayanamsha. Choose the uploaded annual KP table to calculate the birth-date value.');
+      return false;
+    }
+    try{
+      const birth=value('dob');
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(birth))throw new Error('Enter a valid birth date.');
+      const date=dateValue(birth+'T00:00:00Z');
+      if(date.toISOString().slice(0,10)!==birth)throw new Error('Enter a valid birth date.');
+      const result=details(date),daily=Math.round(result.correction);
+      set('dayAyan',dms(result.baseline));set('daySum',dms(daily));set('ayanValue',dms(result.baseline+daily));
+      status('Uploaded annual KP table · DMS column · '+result.year+' January 1: '+dms(result.baseline)+' · birth-date addition: '+dms(daily)+' · total: '+dms(result.baseline+daily)+'. Annual values use January 1 UTC anchors and interpolation over the actual calendar year. Editing either value switches to Manual.','ready');
+      return true;
+    }catch(error){
+      ['dayAyan','daySum','ayanValue'].forEach(id=>set(id,''));
+      status('Annual ayanamsha unavailable: '+error.message,'error');
+      return true;
+    }
+  }
+  function renderReview(){
+    const target=byId('kp-ayanamsha-table-source');if(!target)return;
+    const heading=document.createElement('p');heading.textContent=source.title+' · '+source.fileName;
+    const note=document.createElement('p');note.textContent='287 uploaded annual rows, 1861–2147. Calculations use the uploaded DMS column, as selected by you. The arc-second column disagrees in 44 rows, 2104–2147; both original columns are shown below. Uploaded DMS values, including any decreases, are preserved. January 1 UTC anchors are interpolated over the actual calendar year. Supported dates: January 1, 1861 through January 1, 2147; later dates need the next annual row.';
+    const wrap=document.createElement('div');wrap.className='annual-ayanamsha-table-wrap';wrap.tabIndex=0;wrap.setAttribute('aria-label','Uploaded annual table, scroll to review all years');
+    const table=document.createElement('table');table.setAttribute('aria-label','Uploaded annual KP ayanamsha with source consistency');
+    const thead=document.createElement('thead'),header=document.createElement('tr');
+    ['Year','Uploaded DMS','Uploaded arcseconds','DMS arcseconds','Check'].forEach(text=>{const cell=document.createElement('th');cell.scope='col';cell.textContent=text;header.append(cell);});thead.append(header);table.append(thead);
+    const tbody=document.createElement('tbody');
+    rows.forEach(row=>{
+      const tr=document.createElement('tr');tr.dataset.year=row.year;tr.dataset.conflict=String(!row.consistent);
+      [row.year,row.dms,row.arcSeconds,row.dmsArcSeconds,row.consistent?'Agrees':'DMS used'].forEach(text=>{const cell=document.createElement('td');cell.textContent=text;tr.append(cell);});
+      tbody.append(tr);
+    });table.append(tbody);wrap.append(table);
+    const provenance=document.createElement('p');provenance.textContent='Upload SHA-256: '+source.sha256;
+    target.replaceChildren(heading,note,wrap,provenance);
+  }
+  function capture(event){
+    if(['dayAyan','daySum'].includes(event.target?.id)&&enabled())set('kp-ayanamsha-source','manual');
+  }
+  document.addEventListener('input',capture,true);document.addEventListener('change',capture,true);
+  window.KPAnnualAyanamsha=Object.freeze({enabled,prepare,at,details,format:dms,getTable:()=>JSON.parse(JSON.stringify(source))});
+  document.addEventListener('DOMContentLoaded',()=>{
+    renderReview();prepare();
+    const changed=event=>{
+      if(!['dob','kp-ayanamsha-source','dayAyan','daySum'].includes(event.target?.id))return;
+      prepare();clearTimeout(timer);timer=setTimeout(()=>window.calculateAll(),90);
+    };
+    document.addEventListener('input',changed);document.addEventListener('change',changed);
+  });
+})();
+</script>
+<style id="worksheet-automatic-ephemeris-style">
+.worksheet-ephemeris-controls {display:flex;align-items:center;flex-wrap:wrap;gap:9px 14px;padding:12px 14px;margin:0 0 14px;background:#f3f7ed;border:1px solid #d4dfc5;border-radius:8px;font-size:12px;line-height:1.5;}
+.worksheet-ephemeris-controls label {font-weight:650;}
+.worksheet-ephemeris-controls select {width:auto;max-width:100%;font:inherit;}
+.worksheet-ephemeris-controls p {flex-basis:100%;margin:0;color:#5c6952;}
+.worksheet-ephemeris-controls p[data-ready="false"] {color:#984429;}
+@media print {.worksheet-ephemeris-controls {padding:5px 8px;margin-bottom:8px;font-size:9px;}}
+</style>
+<script id="worksheet-automatic-ephemeris-script">
+/* Automatic 05:30 standard-time rows for the existing daily interpolation.
+ * Rows are sidereal: Tab 6 removes whole signs, not another ayanamsha.
+ * Manual source values and Raphael house-table brackets remain editable.
+ */
+(() => {
+  'use strict';
+  const DAY=86400000, PLANETS=['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke'];
+  const byId=id=>document.getElementById(id), value=id=>String(byId(id)?.value||'').trim();
+  const enabled=id=>value(id)==='automatic';
+  const set=(id,text)=>{const field=byId(id);if(field)field.value=text;};
+  const normalize=(number,total)=>((number%total)+total)%total;
+  let rowCache=new Map(), cacheContext='', planetData=null, siderealData=null, timer;
+  function status(id,text,ready=null){
+    const output=byId(id);if(!output)return;
+    output.textContent=text;
+    if(ready===null)delete output.dataset.ready;else output.dataset.ready=String(ready);
+  }
+  function calendarDate(text){
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(text))throw new Error('Enter a valid birth date and two ephemeris dates.');
+    const date=new Date(text+'T00:00:00Z');
+    if(!Number.isFinite(date.getTime())||date.toISOString().slice(0,10)!==text)throw new Error('Enter valid calendar dates.');
+    return date;
+  }
+  function birthSeconds(){
+    const match=/^(\d{1,2}):([0-5]\d)(?::([0-5]\d))?$/.exec(value('birthTime'));
+    if(!match||Number(match[1])>23)throw new Error('Enter a valid birth time.');
+    return Number(match[1])*3600+Number(match[2])*60+Number(match[3]||0);
+  }
+  function standardOffset(){
+    const text=value('stdLon'),match=/^([+-]?)(\d+(?:\.\d+)?)(?::(\d+(?:\.\d+)?))?(?::(\d+(?:\.\d+)?))?$/.exec(text);
+    if(!match||Number(match[3]||0)>=60||Number(match[4]||0)>=60)throw new Error('Enter a valid standard meridian in the longitude worksheet.');
+    const degrees=(match[1]==='-'?-1:1)*(Number(match[2])+Number(match[3]||0)/60+Number(match[4]||0)/3600);
+    if(Math.abs(degrees)>210)throw new Error('The standard time offset must be between UTC−14 and UTC+14.');
+    return degrees/15;
+  }
+  function instant(dateText,offset){
+    const date=new Date(calendarDate(dateText).getTime()+(5.5-offset)*3600000);
+    return window.KPEphemeris.dateValue(date);
+  }
+  function dms(degrees){
+    const total=normalize(Math.round(degrees*3600),1296000);
+    return Math.floor(total/3600)+':'+String(Math.floor(total%3600/60)).padStart(2,'0')+':'+String(total%60).padStart(2,'0');
+  }
+  function hms(hours){
+    const total=normalize(Math.round(hours*3600),86400);
+    return String(Math.floor(total/3600)).padStart(2,'0')+':'+String(Math.floor(total%3600/60)).padStart(2,'0')+':'+String(total%60).padStart(2,'0');
+  }
+  function offsetLabel(offset){return 'UTC'+(offset>=0?'+':'−')+Math.abs(offset)+(offset===5.5?' (IST)':'');}
+  function row(dateText){
+    const offset=standardOffset(),dob=value('dob');calendarDate(dob);
+    const context=JSON.stringify([dob,value('ayanValue'),value('kp-ayanamsha-source'),offset]);
+    if(context!==cacheContext){cacheContext=context;rowCache.clear();}
+    if(rowCache.has(dateText))return rowCache.get(dateText);
+    const utc=instant(dateText,offset),positions=window.KPEphemeris.positions(utc);
+    if(PLANETS.some(id=>!Number.isFinite(positions[id])))throw new Error('The ephemeris could not calculate all planets.');
+    const result={date:dateText,utc:utc.toISOString(),positions};
+    // Date edits must not leave an unbounded ephemeris cache in this single file.
+    if(rowCache.size>=8)rowCache.clear();
+    rowCache.set(dateText,result);return result;
+  }
+  function syncDates(force=false){
+    const dob=value('dob'),birth=calendarDate(dob),before=birthSeconds()<19800;
+    const dates=[new Date(birth.getTime()+(before?-1:0)*DAY).toISOString().slice(0,10),new Date(birth.getTime()+(before?0:1)*DAY).toISOString().slice(0,10)];
+    dates.forEach((date,index)=>{
+      const field=byId('p6_row_date_'+(index+1));
+      if(field&&(force||!field.value||field.dataset.auto!=='0')){field.value=date;field.dataset.auto='1';}
+    });
+  }
+  function preparePositions(){
+    if(!enabled('p6-ephemeris-source')){
+      planetData=null;
+      status('p6-ephemeris-status','Manual ephemeris entry. Choose Automatic KP ephemeris to fill both dated rows and the 05:30 AM sidereal time.');
+      return null;
+    }
+    try{
+      syncDates();
+      const dates=[value('p6_row_date_1'),value('p6_row_date_2')],dob=value('dob');
+      dates.forEach(calendarDate);
+      if(dates[0]===dates[1]||!dates.includes(dob))throw new Error('Use two different ephemeris dates, including the birth date.');
+      // The existing interpolation takes the shortest angular difference.
+      // Keep even edited endpoints close enough to avoid aliasing lunar motion.
+      if(Math.abs(calendarDate(dates[1])-calendarDate(dates[0]))>7*DAY)throw new Error('Keep automatic ephemeris dates within seven days of each other.');
+      // Calculate both endpoints before changing any worksheet source value.
+      const rows=dates.map(row),offset=standardOffset();
+      rows.forEach((result,index)=>{
+        PLANETS.forEach((id,planet)=>set('p6_'+(index===0?'d':'t')+'_'+planet,dms(result.positions[id])));
+        set('p6_date_'+(index+1),result.date);set('p6_time_'+(index+1),'05:30:00');set('p6_ampm_'+(index+1),'AM');
+      });
+      planetData={ready:true,dates,offset,time:'05:30:00',rows};
+      status('p6-ephemeris-status',dates.join(' → ')+' · 05:30 AM '+offsetLabel(offset)+' · KP ayanamsha '+value('ayanValue')+' · Mean Rahu. Birth positions use the worksheet’s daily interpolation. Editing a position switches to Manual.',true);
+      return planetData;
+    }catch(error){
+      planetData=null;
+      for(let index=0;index<9;index++){set('p6_d_'+index,'');set('p6_t_'+index,'');}
+      status('p6-ephemeris-status','Automatic ephemeris unavailable: '+error.message+' Choose Manual to enter printed ephemeris values.',false);
+      return null;
+    }
+  }
+  function prepareSidereal(){
+    if(!enabled('st-ephemeris-source')){
+      siderealData=null;status('st-ephemeris-status','Manual 05:30 AM sidereal time. Editing this value keeps manual entry active.');return null;
+    }
+    try{
+      const date=value('dob'),offset=standardOffset(),utc=instant(date,offset);
+      const hours=normalize(Astronomy.SiderealTime(utc)+offset,24);
+      set('baseSidereal0530',hms(hours));
+      siderealData={ready:true,date,utc:utc.toISOString(),offset,hours};
+      status('st-ephemeris-status',date+' · 05:30 AM '+offsetLabel(offset)+' · Local sidereal time at the standard meridian: '+hms(hours)+'. The worksheet retains its 10/6 correction; Raphael brackets are entered separately.',true);
+      return siderealData;
+    }catch(error){
+      siderealData=null;set('baseSidereal0530','');
+      status('st-ephemeris-status','Automatic sidereal time unavailable: '+error.message,false);return null;
+    }
+  }
+  function prepare(){prepareSidereal();return preparePositions();}
+  // All legacy dated-row loaders use the same generated source while enabled.
+  const manualFind=window.findEph;
+  window.findEph=function(date){
+    if(!enabled('p6-ephemeris-source'))return manualFind(date);
+    try{const result=row(date);return [date,...PLANETS.map(id=>dms(result.positions[id]))];}catch(error){return undefined;}
+  };
+  window.KPWorksheetEphemeris=Object.freeze({prepare,preparePositions,prepareSidereal,getData:()=>planetData?JSON.parse(JSON.stringify(planetData)):null,getSidereal:()=>siderealData?{...siderealData}:null});
+  function capture(event){
+    const id=event.target?.id||'';
+    if(/^p6_row_date_[12]$/.test(id))event.target.dataset.auto='0';
+    if(/^p6_[dt]_\d$/.test(id)&&enabled('p6-ephemeris-source')){set('p6-ephemeris-source','manual');planetData=null;}
+    if(id==='baseSidereal0530'&&enabled('st-ephemeris-source')){set('st-ephemeris-source','manual');siderealData=null;}
+    if(id==='p6-ephemeris-source'&&enabled(id)){
+      set('st-ephemeris-source','automatic');
+      try{syncDates(true);}catch(error){/* Preparation displays invalid inputs. */}
+    }
+  }
+  document.addEventListener('input',capture,true);document.addEventListener('change',capture,true);
+  document.addEventListener('DOMContentLoaded',()=>{
+    prepare();
+    const changed=event=>{
+      const id=event.target?.id||'';
+      if(!['dob','birthTime','dayAyan','daySum','kp-ayanamsha-source','stdLon','p6-ephemeris-source','st-ephemeris-source','baseSidereal0530','p6_row_date_1','p6_row_date_2'].includes(id)&&!/^p6_[dt]_\d$/.test(id))return;
+      prepare();
+      // Earlier worksheet listeners may queue their own dated-row pass.
+      // Recalculate the complete native model after those listeners settle.
+      clearTimeout(timer);timer=setTimeout(()=>window.calculateAll(),90);
+    };
+    document.addEventListener('input',changed);document.addEventListener('change',changed);
+  });
+})();
 </script>
 <style id="western-aspects-and-ruling-style">
   #aspects .western-explanation { color:#777084; font-size:12px; line-height:1.65; margin:0 0 18px; }
@@ -7037,7 +7344,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       return {record, ready:true, planets:model.planets, cusps:model.houses, ascendant:model.houses[0], retrograde, source:'Birth worksheet longitudes'};
     }
     if (!window.KPEphemeris || !window.KPDisplay) return {record, ready:false, message:'Current ephemeris is not available. Ruling planets cannot be calculated yet.'};
-    const key = JSON.stringify(record) + '|' + byId('dob')?.value + '|' + byId('ayanValue')?.value;
+    const key = JSON.stringify(record) + '|' + byId('dob')?.value + '|' + byId('ayanValue')?.value + '|' + byId('kp-ayanamsha-source')?.value;
     if (currentCache[kind]?.key === key) return currentCache[kind].data;
     let data;
     try {
@@ -7245,7 +7552,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   let results=[], version=0, running=false, refreshTimer, natalSignature=null;
   function invalidateChangedNatalCalculations(){
     const model=window.currentKPModel;
-    const signature=JSON.stringify({birth:value('dob'),ayanamsha:value('ayanValue'),ready:Boolean(model?.ready),
+    const signature=JSON.stringify({birth:value('dob'),ayanamsha:value('ayanValue'),ayanamshaSource:value('kp-ayanamsha-source'),ready:Boolean(model?.ready),
       planets:model?.planets?.map(planet=>[planet.id,planet.longitude]),houses:model?.houses?.map(house=>[house.id,house.longitude]),
       periods:(window.mdDashaPeriods||[]).map(period=>[period.lord,period.start,period.end,period.birthElapsedDays])});
     if(signature===natalSignature)return;
@@ -7611,7 +7918,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   }
   function signature() {
     const natal = window.currentKPModel;
-    return JSON.stringify({controls:['tc-date','tc-time','tc-timezone','tc-latitude','tc-longitude','tc-place','tc-cusp-source'].map(value),birth:value('dob'),ayanamsha:value('ayanValue'),houses:natal?.houses?.map(house => [house.id,house.longitude]),fortuna:[window.KPFortuna?.isVisible(),window.KPPreferences?.get?.().fortunaFormula],periods:(window.mdDashaPeriods || []).map(period => [period.lord,period.start,period.end,period.birthElapsedDays])});
+    return JSON.stringify({controls:['tc-date','tc-time','tc-timezone','tc-latitude','tc-longitude','tc-place','tc-cusp-source'].map(value),birth:value('dob'),ayanamsha:value('ayanValue'),ayanamshaSource:value('kp-ayanamsha-source'),houses:natal?.houses?.map(house => [house.id,house.longitude]),fortuna:[window.KPFortuna?.isVisible(),window.KPPreferences?.get?.().fortunaFormula],periods:(window.mdDashaPeriods || []).map(period => [period.lord,period.start,period.end,period.birthElapsedDays])});
   }
   function occupiedHouse(cusps, longitude) {
     for (let index = 0; index < 12; index++) if (norm(longitude - cusps[index]) < norm(cusps[(index + 1) % 12] - cusps[index])) return index + 1;
@@ -7792,7 +8099,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     if (!model) return '<div class="tc-report"><p>' + escape(byId('tc-status').textContent) + '</p></div>';
     const metadata = dateText(model.localDate) + ' ' + (window.KPPreferences?.isConfigured()?window.KPPreferences.formatTime(model.localTime):model.localTime) + ' · UTC ' + (model.timezone >= 0 ? '+' : '') + model.timezone + (model.place ? ' · ' + model.place : '') + ' · ' + model.latitude.toFixed(6) + '° N, ' + model.longitude.toFixed(6) + '° E · ' + (model.cuspSource === 'natal' ? 'Natal cusps' : 'Transit Placidus cusps');
     const article = (heading,id) => '<article><h3>' + escape(heading) + '</h3>' + staticClone(id) + '</article>';
-    return '<div class="tc-report"><p class="tc-report-summary">' + escape(metadata) + '</p>' + (window.KPFortuna?.getTransit(model)?'<p class="kp-fortuna-info">'+escape(window.KPFortuna.description(window.KPFortuna.getTransit(model)))+'</p>':'') + '<div class="tc-report-grid">' + article('Transit planet positions','tc-planets') + article('Rashi chart','tc-rashi-chart') + article(model.cuspSource === 'natal' ? 'Natal house cusps' : 'Transit house cusps · Placidus','tc-cusps') + article('Bhav chart','tc-bhav-chart') + article('Planet Nakshatra · Pada','tc-planet-nakshatras') + article('Cusp Nakshatra · Pada','tc-cusp-nakshatras') + '<article class="tc-report-dashas"><h3>Native MD / AD / PD at selected date</h3><p class="tc-report-note">' + escape(byId('tc-dasha-status').textContent) + '</p>' + staticClone('tc-dasha') + '<h4>PD periods within this AD</h4>' + staticClone('tc-pd-periods') + '</article></div><p class="tc-report-note">Sidereal geocentric ephemeris; birth ayanamsha advanced by 50.29″/year. Mean lunar nodes. R denotes retrograde motion. Rashi chart uses whole signs from the selected Ascendant; Bhav chart uses exact selected cusps.</p></div>';
+    return '<div class="tc-report"><p class="tc-report-summary">' + escape(metadata) + '</p>' + (window.KPFortuna?.getTransit(model)?'<p class="kp-fortuna-info">'+escape(window.KPFortuna.description(window.KPFortuna.getTransit(model)))+'</p>':'') + '<div class="tc-report-grid">' + article('Transit planet positions','tc-planets') + article('Rashi chart','tc-rashi-chart') + article(model.cuspSource === 'natal' ? 'Natal house cusps' : 'Transit house cusps · Placidus','tc-cusps') + article('Bhav chart','tc-bhav-chart') + article('Planet Nakshatra · Pada','tc-planet-nakshatras') + article('Cusp Nakshatra · Pada','tc-cusp-nakshatras') + '<article class="tc-report-dashas"><h3>Native MD / AD / PD at selected date</h3><p class="tc-report-note">' + escape(byId('tc-dasha-status').textContent) + '</p>' + staticClone('tc-dasha') + '<h4>PD periods within this AD</h4>' + staticClone('tc-pd-periods') + '</article></div><p class="tc-report-note">Sidereal geocentric ephemeris; '+escape(window.KPEphemeris.convention())+'. Mean lunar nodes. R denotes retrograde motion. Rashi chart uses whole signs from the selected Ascendant; Bhav chart uses exact selected cusps.</p></div>';
   }
   function initialize() {
     byId('tc-calculate').addEventListener('click',() => { stopRealTime(); calculate(); });
@@ -8885,7 +9192,7 @@ body.app-ready #report .almanac-report table :is(td,th),.almanac-report table :i
     if(Number.isFinite(longitude))seed('tp-longitude',longitude.toFixed(6));
     seed('tp-place',value('birthPlace'));
   }
-  function signature(ids){return JSON.stringify(ids.map(value).concat([value('dob'),value('ayanValue'),window.KPPreferences?.get().combustionRule||'planet-specific']));}
+  function signature(ids){return JSON.stringify(ids.map(value).concat([value('dob'),value('ayanValue'),value('kp-ayanamsha-source'),window.KPPreferences?.get().combustionRule||'planet-specific']));}
   const tpSignature=()=>signature(['tp-date','tp-time','tp-timezone','tp-latitude','tp-longitude','tp-place']);
   const ephSignature=()=>signature(['eph-start','eph-end','eph-time','eph-timezone']);
   function status(id,text,state='idle'){const element=byId(id);if(element){element.textContent=text;element.dataset.state=state;}}
@@ -8948,7 +9255,7 @@ body.app-ready #report .almanac-report table :is(td,th),.almanac-report table :i
     defaults();if(!getPanchangData())calculatePanchang();
     if(!panchangData)return '<div class="almanac-report"><p>'+escape(byId('tp-status')?.textContent||'Calculate Transit Panchang.')+'</p></div>';
     const d=panchangData;
-    return '<div class="almanac-report"><p>'+escape(dateText(d.localDate)+' '+timeText(d.localTime)+' · UTC '+offsetText(d.timezone)+(d.place?' · '+d.place:'')+' · Latitude '+d.latitude+'°, longitude '+d.longitude+'°')+'</p><dl class="almanac-grid">'+panchangSummary(d)+'</dl><h3>Sidereal transit positions · SGL / STL / SBL / SSL</h3><table>'+byId('tp-positions').querySelector('thead').outerHTML+'<tbody>'+positionRows([...d.planets,d.ascendant])+'</tbody></table><p>Values apply to the selected instant. Sunrise and sunset use the selected local civil date and sea-level location. Sidereal geocentric positions; worksheet birth ayanamsha advanced by 50.29″/year. Mean Rahu; Ketu exactly 180° opposite. R: retrograde; C: combust using your selected limits.</p></div>';
+    return '<div class="almanac-report"><p>'+escape(dateText(d.localDate)+' '+timeText(d.localTime)+' · UTC '+offsetText(d.timezone)+(d.place?' · '+d.place:'')+' · Latitude '+d.latitude+'°, longitude '+d.longitude+'°')+'</p><dl class="almanac-grid">'+panchangSummary(d)+'</dl><h3>Sidereal transit positions · SGL / STL / SBL / SSL</h3><table>'+byId('tp-positions').querySelector('thead').outerHTML+'<tbody>'+positionRows([...d.planets,d.ascendant])+'</tbody></table><p>Values apply to the selected instant. Sunrise and sunset use the selected local civil date and sea-level location. Sidereal geocentric positions; '+escape(window.KPEphemeris.convention())+'. Mean Rahu; Ketu exactly 180° opposite. R: retrograde; C: combust using your selected limits.</p></div>';
   }
   function ephemerisRows(data){return data.rows.map(day=>day.planets.map((planet,index)=>{const d=planet.details;return '<tr data-date="'+day.date+'" data-planet="'+planet.id+'"'+(index===0?' data-first="true"':'')+'><th scope="row">'+escape(dateText(day.date))+'</th><td>'+planet.id+'</td><td>'+escape(d.signCode)+'</td><td>'+escape(d.degree)+'</td><td>'+escape(d.nakCode)+' ('+d.pada+')</td><td>'+d.sgl+'</td><td>'+d.stl+'</td><td>'+d.sl+'</td><td>'+d.ssl+'</td><td>'+(planet.retrograde?'[R]':'D')+'</td><td>'+(planet.combust?'[C]':'—')+'</td></tr>';}).join('')).join('');}
   function ephemerisMetadata(data){return dateText(data.start)+' to '+dateText(data.end)+' · '+data.days+' day'+(data.days===1?'':'s')+' · Daily at '+timeText(data.time)+' · UTC '+offsetText(data.timezone);}
@@ -8982,7 +9289,7 @@ body.app-ready #report .almanac-report table :is(td,th),.almanac-report table :i
   function snapshotEphemeris(){
     defaults();getEphemerisData();
     if(!ephemerisData)return '<div class="almanac-report"><p>'+escape(byId('eph-status')?.textContent||'Choose dates and calculate the daily ephemeris.')+'</p></div>';
-    return '<div class="almanac-report"><p>'+escape(ephemerisMetadata(ephemerisData))+'</p><table>'+byId('eph-table').querySelector('thead').outerHTML+'<tbody>'+ephemerisRows(ephemerisData)+'</tbody></table><p>Daily sidereal geocentric positions at the selected local time and fixed UTC offset. Worksheet birth ayanamsha advanced by 50.29″/year. Mean Rahu; Ketu exactly 180° opposite. SGL: sign lord; STL: star lord; SBL: sub lord; SSL: sub-sub lord. R: retrograde, D: direct; C: combust using your selected limits.</p></div>';
+    return '<div class="almanac-report"><p>'+escape(ephemerisMetadata(ephemerisData))+'</p><table>'+byId('eph-table').querySelector('thead').outerHTML+'<tbody>'+ephemerisRows(ephemerisData)+'</tbody></table><p>Daily sidereal geocentric positions at the selected local time and fixed UTC offset. '+escape(window.KPEphemeris.convention())+'. Mean Rahu; Ketu exactly 180° opposite. SGL: sign lord; STL: star lord; SBL: sub lord; SSL: sub-sub lord. R: retrograde, D: direct; C: combust using your selected limits.</p></div>';
   }
   function csvCell(text){const source=String(text??'');return '"'+(/^[=+\-@\t\r]/.test(source)?"'":'')+source.replace(/"/g,'""')+'"';}
   function exportCSV(){

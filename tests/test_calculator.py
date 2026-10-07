@@ -191,6 +191,25 @@ class CalculatorBrowserTests(unittest.TestCase):
             .filter(el => !el.readOnly && !el.disabled && el.dataset.calculationLocked !== 'true')
             .map(el => [el.id, el.value]))""")
 
+    @staticmethod
+    def worksheet_arcseconds(value):
+        """Read a worksheet angle independently of the calculator's parser."""
+        text = str(value).strip().removesuffix(" R")
+        sign = -1 if text.startswith("-") else 1
+        degrees, minutes, seconds = map(int, text.lstrip("-").split(":"))
+        return sign * (degrees * 3600 + minutes * 60 + seconds)
+
+    def configure_automatic_0530_worksheets(self, date="2026-10-06", time="05:30:00"):
+        self.page.locator("#dob").fill(date)
+        self.page.locator("#birthTime").fill(time)
+        self.page.locator("#dayAyan").fill("23:34:14")
+        self.page.locator("#daySum").fill("00:00:00")
+        self.go("planet")
+        self.page.locator("#p6-ephemeris-source").select_option("automatic")
+        expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
+        self.page.wait_for_function("window.KPWorksheetEphemeris?.getData()?.ready===true")
+        return self.page.evaluate("window.KPWorksheetEphemeris.getData()")
+
     def prepare_worksheets(self):
         self.page.locator("#name").fill("Regression chart · मीरा")
         self.page.locator("#dob").fill("1990-06-15")
@@ -3928,6 +3947,360 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#pred-chain-table")).to_have_count(0)
         self.assertEqual(self.page.evaluate("window.KPPrediction.getData().counts.incomplete"), 1612,
                          "An incomplete natal chart must replace prior house matches.")
+
+    def test_automatic_0530_worksheet_ephemeris_matches_independent_reference_without_double_ayanamsha(self):
+        expect(self.page.locator("#p6-ephemeris-source")).to_have_value("manual")
+        expect(self.page.locator("#st-ephemeris-source")).to_have_value("manual")
+        data = self.configure_automatic_0530_worksheets()
+        self.assertEqual(data["dates"], ["2026-10-06", "2026-10-07"])
+        self.assertEqual(data["offset"], 5.5)
+        self.assertEqual(data["time"], "05:30:00")
+        self.assertEqual(data["rows"][0]["utc"], "2026-10-06T00:00:00.000Z")
+        expect(self.page.locator("#st-ephemeris-source")).to_have_value("automatic")
+        expect(self.page.locator("#st-ephemeris-status")).to_have_attribute("data-ready", "true")
+        ayanamsha = self.worksheet_arcseconds("23:34:14") / 3600
+        ids = ("Su", "Mo", "Ma", "Me", "Ju", "Ve", "Sa", "Ra", "Ke")
+        for index, id in enumerate(ids):
+            with self.subTest(planet=id):
+                first = data["rows"][0]["positions"][id]
+                if id in EPHEMERIS_REFERENCE[1]["tropical"]:
+                    expected = (EPHEMERIS_REFERENCE[1]["tropical"][id] - ayanamsha) % 360
+                    error = abs((first - expected + 180) % 360 - 180)
+                    self.assertLess(error, 0.03, "The worksheet must receive the independently checked KP sidereal longitude.")
+                row = self.worksheet_arcseconds(self.page.locator(f"#p6_d_{index}").input_value()) / 3600
+                final = self.worksheet_arcseconds(self.page.locator(f"#p6_add_{index}").input_value()) / 3600
+                self.assertLessEqual(abs((row - first + 180) % 360 - 180), 0.51 / 3600)
+                self.assertEqual(final, row, "At 05:30, interpolation is zero and must not subtract ayanamsha a second time.")
+                expect(self.page.locator(f"#p6_total_{index}")).to_have_value("0:00:00")
+        self.assertAlmostEqual((data["rows"][0]["positions"]["Ke"] - data["rows"][0]["positions"]["Ra"]) % 360, 180, places=7)
+        self.assertEqual(self.page.locator("#p6_final_7").input_value(), self.page.locator("#p6_final_8").input_value())
+        expect(self.page.locator("#p6_motion_5")).to_have_value(re.compile(r".* R$"))
+        expect(self.page.locator("#p6_motion_6")).to_have_value(re.compile(r".* R$"))
+
+        # Meeus' GMST polynomial is independent of Astronomy Engine. Its mean
+        # sidereal angle differs from apparent sidereal time by only nutation.
+        instant = datetime(2026, 10, 6)
+        days = (instant - datetime(2000, 1, 1, 12)).total_seconds() / 86400
+        centuries = days / 36525
+        gmst = (280.46061837 + 360.98564736629 * days + 0.000387933 * centuries ** 2
+                - centuries ** 3 / 38710000) % 360
+        expected_standard_seconds = ((gmst + 82.5) % 360) * 240
+        self.go("stcalc")
+        actual_standard_seconds = self.worksheet_arcseconds(self.page.locator("#baseSidereal0530").input_value())
+        st_error = abs((actual_standard_seconds - expected_standard_seconds + 43200) % 86400 - 43200)
+        self.assertLess(st_error, 4, "05:30 IST is 00:00 UTC; ST must include the standard meridian exactly once.")
+
+    def test_automatic_0530_rows_interpolate_before_dawn_honor_dates_and_refresh_ayanamsha_offset(self):
+        data = self.configure_automatic_0530_worksheets(time="04:00:00")
+        self.assertEqual(data["dates"], ["2026-10-05", "2026-10-06"])
+        expect(self.page.locator("#p6_row_date_1")).to_have_value("2026-10-05")
+        expect(self.page.locator("#p6_row_date_2")).to_have_value("2026-10-06")
+
+        def assert_before_dawn(interval):
+            for index in (0, 1, 5, 6, 7):
+                first = self.worksheet_arcseconds(self.page.locator(f"#p6_d_{index}").input_value())
+                second = self.worksheet_arcseconds(self.page.locator(f"#p6_t_{index}").input_value())
+                daily = ((second - first + 648000) % 1296000 - 648000) / interval
+                correction = daily * (-1.5 / 24)
+                expected = (second + (1 if correction >= 0 else -1) * int(abs(correction) + 0.5)) % 1296000
+                actual = self.worksheet_arcseconds(self.page.locator(f"#p6_add_{index}").input_value())
+                self.assertEqual(actual, expected, "The correction is signed from the DOB's 05:30 row, using the actual row-date span.")
+                expect(self.page.locator(f"#p6_birth_{index}")).to_have_value(self.page.locator(f"#p6_t_{index}").input_value())
+            expect(self.page.locator("#p6_final_5")).to_have_value(re.compile(r".* R$"))
+
+        assert_before_dawn(1)
+        self.page.locator("#p6_row_date_1").fill("2026-10-04")
+        self.page.wait_for_function("window.KPWorksheetEphemeris.getData()?.dates?.[0]==='2026-10-04'")
+        expect(self.page.locator("#p6-ephemeris-source")).to_have_value("automatic")
+        assert_before_dawn(2)
+        before = self.page.evaluate("window.KPWorksheetEphemeris.getData()")
+        self.go("basic")
+        self.page.locator("#dayAyan").fill("24:34:14")
+        self.page.wait_for_function("previous=>Math.abs((previous-window.KPWorksheetEphemeris.getData().rows[1].positions.Su+360)%360-1)<0.00001", arg=before["rows"][1]["positions"]["Su"])
+        after = self.page.evaluate("window.KPWorksheetEphemeris.getData()")
+        for old, new in zip(before["rows"], after["rows"]):
+            self.assertEqual(old["date"], new["date"])
+            for id in ("Su", "Mo", "Ve", "Ra", "Ke"):
+                self.assertAlmostEqual((old["positions"][id] - new["positions"][id]) % 360, 1, places=7)
+        self.go("ayan")
+        self.page.locator("#stdLon").fill("00:00:00")
+        self.page.wait_for_function("window.KPWorksheetEphemeris.getData()?.offset===0")
+        zero_offset = self.page.evaluate("window.KPWorksheetEphemeris.getData()")
+        self.assertEqual(zero_offset["rows"][0]["utc"], "2026-10-04T05:30:00.000Z")
+        self.assertEqual(zero_offset["rows"][1]["utc"], "2026-10-06T05:30:00.000Z")
+        self.assertNotEqual(zero_offset["rows"][1]["positions"]["Mo"], after["rows"][1]["positions"]["Mo"])
+        self.go("planet")
+        assert_before_dawn(2)
+        self.go("basic")
+        self.page.locator("#birthTime").fill("15:45:00")
+        expect(self.page.locator("#p6_row_date_1")).to_have_value("2026-10-06")
+        expect(self.page.locator("#p6_row_date_2")).to_have_value("2026-10-07")
+        expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
+        self.assertEqual(self.page.evaluate("window.KPWorksheetEphemeris.getData().dates"), ["2026-10-06", "2026-10-07"],
+                         "Changing birth time resets the dated rows to its new chronological DOB pair.")
+        self.go("planet")
+        first = self.worksheet_arcseconds(self.page.locator("#p6_d_1").input_value())
+        second = self.worksheet_arcseconds(self.page.locator("#p6_t_1").input_value())
+        daily = (second - first + 648000) % 1296000 - 648000
+        expected = (first + int(daily * 10.25 / 24 + 0.5)) % 1296000
+        self.assertEqual(self.worksheet_arcseconds(self.page.locator("#p6_add_1").input_value()), expected)
+        self.go("basic")
+        self.page.locator("#dob").fill("2026-10-07")
+        self.page.wait_for_function("window.KPWorksheetEphemeris.getData()?.dates?.[0]==='2026-10-07'")
+        updated = self.page.evaluate("window.KPWorksheetEphemeris.getData()")
+        self.assertEqual(updated["dates"], ["2026-10-07", "2026-10-08"])
+        self.assertEqual(updated["rows"][0]["utc"], "2026-10-07T05:30:00.000Z")
+
+    def test_automatic_0530_modes_roundtrip_lkp_and_manual_edits_preserve_legacy_data(self):
+        original = self.configure_automatic_0530_worksheets()
+        expected_rows = self.page.evaluate("()=>Object.fromEntries([...document.querySelectorAll('#planet input[id^=p6_d_],#planet input[id^=p6_t_]')].map(input=>[input.id,input.value]))")
+        with self.page.expect_download() as download_info:
+            self.action("export")
+        download = download_info.value
+        self.assertTrue(download.suggested_filename.endswith(".lkp"))
+        backup = json.loads(Path(download.path()).read_text(encoding="utf-8"))
+        self.assertEqual(backup["fields"]["p6-ephemeris-source"]["value"], "automatic")
+        self.assertEqual(backup["fields"]["st-ephemeris-source"]["value"], "automatic")
+        self.page.locator("#p6_d_0").fill("11:00:00")
+        expect(self.page.locator("#p6-ephemeris-source")).to_have_value("manual")
+        expect(self.page.locator("#st-ephemeris-source")).to_have_value("automatic")
+        self.assertIsNone(self.page.evaluate("window.KPWorksheetEphemeris.getData()"))
+        self.go("stcalc")
+        self.page.locator("#baseSidereal0530").fill("06:00:00")
+        expect(self.page.locator("#st-ephemeris-source")).to_have_value("manual")
+        self.action("calculate")
+        expect(self.page.locator("#baseSidereal0530")).to_have_value("06:00:00")
+        expect(self.page.locator("#p6_d_0")).to_have_value("11:00:00")
+        self.import_file(json.dumps(backup), filename="automatic-0530.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(self.page.locator("#p6-ephemeris-source")).to_have_value("automatic")
+        expect(self.page.locator("#st-ephemeris-source")).to_have_value("automatic")
+        self.assertEqual(self.page.evaluate("window.KPWorksheetEphemeris.getData()"), original)
+        actual_rows = self.page.evaluate("()=>Object.fromEntries([...document.querySelectorAll('#planet input[id^=p6_d_],#planet input[id^=p6_t_]')].map(input=>[input.id,input.value]))")
+        self.assertEqual(actual_rows, expected_rows)
+        self.page.locator("#baseSidereal0530").fill("06:00:00")
+        expect(self.page.locator("#st-ephemeris-source")).to_have_value("manual")
+        expect(self.page.locator("#p6-ephemeris-source")).to_have_value("automatic")
+        independent_modes = self.page.evaluate("window.getChartData()")
+        self.page.locator("#st-ephemeris-source").select_option("automatic")
+        self.import_file(json.dumps(independent_modes), filename="automatic-planets-manual-st.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(self.page.locator("#st-ephemeris-source")).to_have_value("manual")
+        expect(self.page.locator("#p6-ephemeris-source")).to_have_value("automatic")
+        expect(self.page.locator("#baseSidereal0530")).to_have_value("06:00:00")
+        self.assertEqual(self.page.evaluate("window.KPWorksheetEphemeris.getData()"), original,
+                         "Planet and sidereal sources must retain their independent choices through .lkp import.")
+
+        # Old chart files did not have source-mode fields. Importing one while
+        # automatic mode is active must preserve its own manually entered rows.
+        legacy = json.loads(json.dumps(backup))
+        legacy["version"] = 2
+        legacy.pop("format", None)
+        for id in ("p6-ephemeris-source", "st-ephemeris-source"):
+            legacy["fields"].pop(id)
+        legacy["fields"]["p6_d_0"]["value"] = "11:00:00"
+        legacy["fields"]["p6_t_0"]["value"] = "12:00:00"
+        legacy["fields"]["baseSidereal0530"]["value"] = "06:00:00"
+        self.import_file(json.dumps(legacy), filename="legacy-manual-rows.json")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        for id in ("p6-ephemeris-source", "st-ephemeris-source"):
+            expect(self.page.locator(f"#{id}")).to_have_value("manual")
+        expect(self.page.locator("#p6_d_0")).to_have_value("11:00:00")
+        expect(self.page.locator("#p6_t_0")).to_have_value("12:00:00")
+        expect(self.page.locator("#p6_add_0")).to_have_value("11:00:00")
+        expect(self.page.locator("#baseSidereal0530")).to_have_value("06:00:00")
+        self.assertIsNone(self.page.evaluate("window.KPWorksheetEphemeris.getData()"))
+        self.go("basic")
+        self.page.locator("#birthTime").fill("06:30:00")
+        expect(self.page.locator("#p6_d_0")).to_have_value("11:00:00")
+        expect(self.page.locator("#p6_t_0")).to_have_value("12:00:00")
+        expect(self.page.locator("#p6_add_0")).to_have_value("11:02:30")
+        expect(self.page.locator("#baseSidereal0530")).to_have_value("06:00:00")
+
+    def test_automatic_0530_rejects_missing_or_out_of_range_dates_without_stale_positions(self):
+        self.configure_automatic_0530_worksheets()
+
+        def assert_no_generated_positions():
+            expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "false")
+            self.assertIsNone(self.page.evaluate("window.KPWorksheetEphemeris.getData()"))
+            for index in range(9):
+                for prefix in ("d", "t", "hours", "minutes", "total", "final", "rashi"):
+                    expect(self.page.locator(f"#p6_{prefix}_{index}")).to_have_value("")
+            self.assertEqual(self.page.evaluate("window.lastPlanetPositions"), {})
+
+        def assert_no_generated_sidereal():
+            expect(self.page.locator("#st-ephemeris-status")).to_have_attribute("data-ready", "false")
+            for id in ("baseSidereal0530", "stGrandTotal", "birthPlaceSiderealTime", "stBirthTimeAgain"):
+                expect(self.page.locator(f"#{id}")).to_have_value("")
+
+        self.go("basic")
+        self.page.locator("#dob").fill("")
+        assert_no_generated_positions()
+        assert_no_generated_sidereal()
+        self.page.locator("#dob").fill("2100-12-31")
+        self.page.locator("#birthTime").fill("12:00:00")
+        assert_no_generated_positions()
+        self.page.locator("#dob").fill("1900-01-01")
+        self.page.locator("#birthTime").fill("04:00:00")
+        assert_no_generated_positions()
+        self.page.locator("#dob").fill("2026-10-06")
+        self.page.locator("#birthTime").fill("05:30:00")
+        expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
+        self.go("planet")
+        self.page.locator("#p6_row_date_1").fill("2026-10-07")
+        expect(self.page.locator("#p6_row_date_2")).to_have_value("2026-10-07")
+        assert_no_generated_positions()
+        self.page.locator("#p6_row_date_1").fill("2026-10-06")
+        expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
+        self.page.locator("#p6_row_date_2").fill("2026-10-20")
+        assert_no_generated_positions()
+        self.page.locator("#p6_row_date_2").fill("2026-10-07")
+        expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
+        self.go("ayan")
+        self.page.locator("#stdLon").fill("")
+        assert_no_generated_positions()
+        assert_no_generated_sidereal()
+
+    def test_annual_kp_ayanamsha_uses_supplied_years_calendar_fractions_and_future_ephemeris(self):
+        expect(self.page.locator("#kp-ayanamsha-source")).to_have_value("manual")
+        expect(self.page.locator("#kp-ayanamsha-table-source tbody tr")).to_have_count(287)
+        expect(self.page.locator("#kp-ayanamsha-table-source tbody tr[data-conflict=true]")).to_have_count(44)
+        self.page.locator("#dob").fill("1986-07-15")
+        self.page.locator("#birthTime").fill("15:45:00")
+        self.page.locator("#kp-ayanamsha-source").select_option("annual")
+        expect(self.page.locator("#kp-ayanamsha-status")).to_have_attribute("data-ready", "true")
+        expect(self.page.locator("#dayAyan")).to_have_value("23:33:30")
+        expect(self.page.locator("#daySum")).to_have_value("00:00:27")
+        expect(self.page.locator("#ayanValue")).to_have_value("23:33:57")
+
+        # Independent anchors transcribed from the supplied annual table. Its
+        # epoch is treated as January 1, with the actual calendar year's length.
+        fixtures = (
+            ("1986-01-01", "23:33:30", "00:00:00", "23:33:30"),
+            ("1986-07-01", "23:33:30", "00:00:25", "23:33:55"),
+            ("2000-02-29", "23:45:10", "00:00:08", "23:45:18"),
+            ("2001-01-01", "23:46:00", "00:00:00", "23:46:00"),
+            ("2026-01-01", "24:06:50", "00:00:00", "24:06:50"),
+        )
+        for dob, base, increment, total in fixtures:
+            with self.subTest(date=dob):
+                self.page.locator("#dob").fill(dob)
+                expect(self.page.locator("#kp-ayanamsha-status")).to_have_attribute("data-ready", "true")
+                expect(self.page.locator("#dayAyan")).to_have_value(base)
+                expect(self.page.locator("#daySum")).to_have_value(increment)
+                expect(self.page.locator("#ayanValue")).to_have_value(total)
+
+        exact = self.page.evaluate("""() => {
+            const dates=['2000-01-01T00:00:00Z','2000-02-29T00:00:00Z',
+                '2000-12-31T12:00:00Z','2001-01-01T00:00:00Z','2026-01-01T00:00:00Z',
+                '2103-07-02T00:00:00Z','2104-01-01T00:00:00Z','2147-01-01T00:00:00Z'];
+            return dates.map(date=>window.KPAnnualAyanamsha.at(new Date(date)));
+        }""")
+        expected = (85510, 85510 + 50 * 59 / 366,
+                    85510 + 50 * 365.5 / 366, 85560, 86810,
+                    90660 - 100 * 182 / 365, 90560, 90560)
+        for actual, arcseconds in zip(exact, expected):
+            self.assertAlmostEqual(actual * 3600, arcseconds, places=7,
+                                   msg="Annual interpolation must retain fractional seconds for ephemeris calculations.")
+        # Future rows deliberately check the user's authoritative DMS choice;
+        # their conflicting raw arc-second column must not replace the DMS.
+
+        self.page.locator("#dob").fill("1986-07-15")
+        future_before = self.page.evaluate("window.KPEphemeris.ayanamsha('2026-01-01T00:00:00Z')")
+        self.assertAlmostEqual(future_before * 3600, 86810, places=7)
+        self.page.locator("#dob").fill("2000-02-29")
+        future_after = self.page.evaluate("window.KPEphemeris.ayanamsha('2026-01-01T00:00:00Z')")
+        self.assertEqual(future_before, future_after,
+                         "Transit and daily ephemeris use the requested date's annual value, independent of the native's DOB.")
+        longitudes = self.page.evaluate("""() => {
+            const date=new Date('2026-01-01T00:00:00Z');
+            return {tropical:window.KPEphemeris.tropical(date,'Su'),
+                    sidereal:window.KPEphemeris.longitude(date,'Su')};
+        }""")
+        self.assertAlmostEqual((longitudes["tropical"] - longitudes["sidereal"]) % 360,
+                               86810 / 3600, places=7)
+
+    def test_annual_kp_ayanamsha_manual_edits_and_lkp_restore_preserve_source_choices(self):
+        self.page.locator("#dob").fill("1986-07-15")
+        self.page.locator("#birthTime").fill("05:30:00")
+        self.page.locator("#kp-ayanamsha-source").select_option("annual")
+        expect(self.page.locator("#ayanValue")).to_have_value("23:33:57")
+        self.go("planet")
+        self.page.locator("#p6-ephemeris-source").select_option("automatic")
+        expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
+        generated = self.page.evaluate("window.KPWorksheetEphemeris.getData()")
+        with self.page.expect_download() as download_info:
+            self.action("export")
+        download = download_info.value
+        self.assertTrue(download.suggested_filename.endswith(".lkp"))
+        backup = json.loads(Path(download.path()).read_text(encoding="utf-8"))
+        self.assertEqual(backup["fields"]["kp-ayanamsha-source"]["value"], "annual")
+
+        self.go("basic")
+        self.page.locator("#dayAyan").fill("24:00:00")
+        expect(self.page.locator("#kp-ayanamsha-source")).to_have_value("manual")
+        self.page.locator("#daySum").fill("00:00:10")
+        self.action("calculate")
+        expect(self.page.locator("#ayanValue")).to_have_value("24:00:10")
+        expect(self.page.locator("#dayAyan")).to_have_value("24:00:00")
+        expect(self.page.locator("#p6-ephemeris-source")).to_have_value("automatic")
+        manual = self.page.evaluate("window.KPWorksheetEphemeris.getData()")
+        self.assertNotEqual(manual["rows"][0]["positions"]["Su"], generated["rows"][0]["positions"]["Su"])
+
+        self.import_file(json.dumps(backup), filename="annual-ayanamsha.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(self.page.locator("#kp-ayanamsha-source")).to_have_value("annual")
+        expect(self.page.locator("#kp-ayanamsha-status")).to_have_attribute("data-ready", "true")
+        expect(self.page.locator("#ayanValue")).to_have_value("23:33:57")
+        self.assertEqual(self.page.evaluate("window.KPWorksheetEphemeris.getData()"), generated)
+
+        # A chart created before the annual-source option must preserve its
+        # supplied values even when imported over a currently automatic chart.
+        legacy = json.loads(json.dumps(backup))
+        legacy["fields"].pop("kp-ayanamsha-source")
+        legacy["fields"]["dayAyan"]["value"] = "24:00:00"
+        legacy["fields"]["daySum"]["value"] = "00:00:10"
+        self.import_file(json.dumps(legacy), filename="legacy-manual-ayanamsha.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(self.page.locator("#kp-ayanamsha-source")).to_have_value("manual")
+        expect(self.page.locator("#ayanValue")).to_have_value("24:00:10")
+        expect(self.page.locator("#dayAyan")).to_have_value("24:00:00")
+        expect(self.page.locator("#daySum")).to_have_value("00:00:10")
+        self.assertEqual(self.page.evaluate("window.KPWorksheetEphemeris.getData()"), manual)
+        self.page.locator("#kp-ayanamsha-source").select_option("annual")
+        expect(self.page.locator("#kp-ayanamsha-source")).to_have_value("annual")
+        self.page.locator("#daySum").fill("00:00:12")
+        expect(self.page.locator("#kp-ayanamsha-source")).to_have_value("manual")
+        expect(self.page.locator("#ayanValue")).to_have_value("23:33:42")
+
+    def test_annual_kp_ayanamsha_invalid_birth_dates_clear_generated_values_and_recover(self):
+        self.page.locator("#dob").fill("1986-07-15")
+        self.page.locator("#birthTime").fill("05:30:00")
+        self.page.locator("#kp-ayanamsha-source").select_option("annual")
+        expect(self.page.locator("#ayanValue")).to_have_value("23:33:57")
+        self.go("planet")
+        self.page.locator("#p6-ephemeris-source").select_option("automatic")
+        expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
+        self.go("basic")
+        for date in ("", "1860-01-01"):
+            with self.subTest(date=date):
+                self.page.locator("#dob").fill(date)
+                expect(self.page.locator("#kp-ayanamsha-source")).to_have_value("annual")
+                expect(self.page.locator("#kp-ayanamsha-status")).to_have_attribute("data-ready", "false")
+                expect(self.page.locator("#ayanValue")).to_have_value("")
+                expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "false")
+                self.assertIsNone(self.page.evaluate("window.KPWorksheetEphemeris.getData()"))
+                self.assertEqual(self.page.evaluate("window.lastPlanetPositions"), {})
+                for index in range(9):
+                    for prefix in ("d", "t", "final", "rashi"):
+                        expect(self.page.locator(f"#p6_{prefix}_{index}")).to_have_value("")
+                self.action("calculate")
+                expect(self.page.locator("#ayanValue")).to_have_value("")
+        self.page.locator("#dob").fill("2026-01-01")
+        expect(self.page.locator("#kp-ayanamsha-status")).to_have_attribute("data-ready", "true")
+        expect(self.page.locator("#ayanValue")).to_have_value("24:06:50")
+        expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
+        self.assertTrue(self.page.evaluate("window.KPWorksheetEphemeris.getData().ready"))
 
 if __name__ == "__main__":
     unittest.main()
