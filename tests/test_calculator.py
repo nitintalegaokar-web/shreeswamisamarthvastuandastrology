@@ -6,8 +6,10 @@ CALCULATOR_CHROMIUM to its path). No browser or package downloads occur here.
 """
 
 import base64
+import csv
 from datetime import datetime
 import functools
+import io
 import json
 import os
 from pathlib import Path
@@ -26,7 +28,7 @@ from playwright.sync_api import expect, sync_playwright
 REPOSITORY = Path(__file__).resolve().parents[1]
 SECTIONS = (
     "home", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet", "mdcalc",
-    "karyesh", "aspects", "transit", "transit-chart", "south9", "report", "astrosettings",
+    "karyesh", "prediction", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris", "south9", "report", "astrosettings",
 )
 OUTPUT_IDS = (
     "ayanValue", "lonDifference", "lmtFinal", "birthPlaceSiderealTime",
@@ -36,7 +38,7 @@ OUTPUT_IDS = (
 REPORT_PAGE_SECTIONS = (
     "cover", "single-page", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet",
     "mdcalc", "adcalc", "kp-fourfold", "kp-sixfold", "kp-fourstep-section",
-    "aspects", "transit", "transit-chart", "south9",
+    "prediction", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris", "south9",
 )
 # Angles and short codes transcribed from the requested aspect reference.
 # Keep this fixture independent of the application's catalog.
@@ -3023,7 +3025,7 @@ class CalculatorBrowserTests(unittest.TestCase):
             with self.subTest(print_page=index + 1):
                 self.assertNotEqual(geometry["display"], "none", "Every report page must be visible when printing.")
                 self.assertAlmostEqual(geometry["width"], 190 * 96 / 25.4, delta=1)
-                if geometry["section"] in ("aspects", "transit", "transit-chart"):
+                if geometry["section"] in ("prediction", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris"):
                     self.assertGreaterEqual(geometry["height"], 277 * 96 / 25.4 - 1)
                     self.assertEqual(geometry["maxHeight"], "none", "Variable-length results must continue onto later sheets.")
                     self.assertEqual(geometry["overflow"], "visible", "Aspect and transit results must not be clipped at A4 height.")
@@ -3617,6 +3619,315 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(report_rows, expected_rows,
                          "The report must keep the restored future MD's AD table after reloading the browser.")
 
+
+    def configure_transit_panchang(self, date="2026-10-06", time="05:30:00", offset="5.5", latitude="0", longitude="0"):
+        self.go("transit-panchang")
+        for field, value in {"date": date, "time": time, "timezone": offset,
+                             "latitude": latitude, "longitude": longitude, "place": "Selected transit place"}.items():
+            self.page.locator(f"#tp-{field}").fill(value)
+        self.page.locator("#tp-calculate").click()
+        expect(self.page.locator("#tp-status")).to_have_attribute("data-state", "ready")
+        return self.page.evaluate("window.KPTransitPanchang.getData()")
+
+    def configure_daily_ephemeris(self, start="2026-10-06", end="2026-10-07", time="05:30:00", offset="5.5"):
+        self.go("ephemeris")
+        for field, value in {"start": start, "end": end, "time": time, "timezone": offset}.items():
+            self.page.locator(f"#eph-{field}").fill(value)
+        self.page.locator("#eph-run").click()
+        expect(self.page.locator("#eph-status")).to_have_attribute("data-state", "ready")
+        return self.page.evaluate("window.KPDailyEphemeris.getData()")
+
+    def test_transit_panchang_uses_real_positions_local_weekday_zero_coordinates_and_polar_sunrise(self):
+        self.prepare_exact_dasha()
+        natal = self.outputs()
+        values = self.configure_transit_panchang()
+        self.assertEqual(values["utc"], "2026-10-06T00:00:00.000Z")
+        self.assertEqual(values["latitude"], 0)
+        self.assertEqual(values["longitude"], 0)
+        expect(self.page.locator("#tp-summary > div")).to_have_count(9)
+        expect(self.page.locator("#tp-positions tbody tr[data-planet]")).to_have_count(10)
+        fixture = EPHEMERIS_REFERENCE[1]
+        for id, tropical in fixture["tropical"].items():
+            expected = (tropical - values["ayanamsha"]) % 360
+            delta = abs((values["positions"][id] - expected + 180) % 360 - 180)
+            self.assertLess(delta, 0.03, f"Panchang {id} must use an independently checked transit position.")
+        panchang = values["panchang"]
+        # Sun 192.76015°, Moon 134.56756° gives a 301.8074° elongation.
+        # The worksheet ayanamsha shifts both equally, preserving tithi/karana.
+        self.assertEqual({key: panchang[key] for key in ("tithi", "tithiNumber", "paksha", "karana", "weekday")},
+                         {"tithi": "Ekadashi", "tithiNumber": 26, "paksha": "Krishna", "karana": "Bava", "weekday": "Tuesday"})
+        self.assertEqual({key: panchang[key] for key in ("nakshatra", "nakLord", "pada", "rashi", "yoga")},
+                         {"nakshatra": "P.Phalguni", "nakLord": "Venus", "pada": 1, "rashi": "Leo", "yoga": "Brahma"})
+        for field, hour_range in (("sunrise", (5, 6.5)), ("sunset", (17, 18.5))):
+            stamp = datetime.fromisoformat(values[field].replace("Z", "+00:00"))
+            self.assertEqual(stamp.strftime("%Y-%m-%d"), "2026-10-06")
+            self.assertGreater(stamp.hour + stamp.minute / 60, hour_range[0])
+            self.assertLess(stamp.hour + stamp.minute / 60, hour_range[1])
+        shifted = self.configure_transit_panchang(date="2026-10-05", time="19:00:00", offset="-5")
+        self.assertEqual(shifted["utc"], values["utc"])
+        self.assertEqual(shifted["positions"], values["positions"])
+        self.assertEqual(shifted["panchang"]["weekday"], "Monday",
+                         "Civil weekday must use the entered local date rather than UTC.")
+        polar = self.configure_transit_panchang(date="2026-06-21", time="12:00:00", offset="0", latitude="78")
+        self.assertIsNone(polar["sunrise"])
+        self.assertIsNone(polar["sunset"])
+        expect(self.page.locator("#tp-summary")).to_contain_text("No event on this date")
+        self.page.locator("#tp-latitude").fill("89")
+        self.page.locator("#tp-calculate").click()
+        expect(self.page.locator("#tp-status")).to_have_attribute("data-state", "error")
+        self.assertIsNone(self.page.evaluate("window.KPTransitPanchang.getData()"))
+        expect(self.page.locator("#tp-positions tbody tr[data-planet]")).to_have_count(0)
+        self.assertEqual(self.outputs(), natal)
+
+    def test_daily_ephemeris_checks_two_days_derived_motion_custom_combustion_csv_and_invalid_ranges(self):
+        self.prepare_exact_dasha()
+        natal = self.outputs()
+        data = self.configure_daily_ephemeris()
+        self.assertEqual(data["days"], 2)
+        self.assertEqual([row["date"] for row in data["rows"]], ["2026-10-06", "2026-10-07"])
+        self.assertEqual(data["rows"][0]["utc"], "2026-10-06T00:00:00.000Z")
+        expect(self.page.locator("#eph-table tbody tr[data-planet]")).to_have_count(18)
+        limits = {"Mo": 4, "Ma": 8, "Me": 5, "Ve": 6, "Ju": 5, "Sa": 8}
+        for index, day in enumerate(data["rows"]):
+            planets = {planet["id"]: planet for planet in day["planets"]}
+            self.assertEqual(set(planets), {"Su", "Mo", "Ma", "Me", "Ju", "Ve", "Sa", "Ra", "Ke"})
+            self.assertAlmostEqual((planets["Ke"]["longitude"] - planets["Ra"]["longitude"]) % 360, 180, places=7)
+            self.assertEqual(planets["Ke"]["details"]["degree"], planets["Ra"]["details"]["degree"])
+            self.assertTrue(planets["Sa"]["retrograde"])
+            self.assertTrue(planets["Ve"]["retrograde"])
+            for id, planet in planets.items():
+                if index == 0 and id in EPHEMERIS_REFERENCE[1]["tropical"]:
+                    expected = (EPHEMERIS_REFERENCE[1]["tropical"][id] - day["ayanamsha"]) % 360
+                    delta = abs((planet["longitude"] - expected + 180) % 360 - 180)
+                    self.assertLess(delta, 0.03)
+                self.assertEqual(planet["retrograde"], planet["motionDegreesPerDay"] < 0)
+                threshold = limits.get(id, 0)
+                if id == "Me" and planet["retrograde"]: threshold = 3
+                if id == "Ve" and planet["retrograde"]: threshold = 4
+                separation = abs((planet["longitude"] - planets["Su"]["longitude"] + 180) % 360 - 180)
+                self.assertEqual(planet["combust"], id in limits and separation <= threshold)
+                self.assertEqual("[R]" in planet["markers"], planet["retrograde"])
+                self.assertEqual("[C]" in planet["markers"], planet["combust"])
+        with self.page.expect_download() as download_info:
+            self.page.locator("#eph-csv").click()
+        exported = list(csv.reader(io.StringIO(Path(download_info.value.path()).read_text(encoding="utf-8-sig"))))
+        self.assertEqual(len(exported), 19)
+        self.assertEqual(exported[-1][0:4], ["2026-10-07", "05:30:00", "5.5", "Ke"])
+        self.assertAlmostEqual(float(exported[1][-1]), data["rows"][0]["planets"][0]["longitude"], places=7)
+
+        # Mercury at J2000 is 8.48° from the Sun: outside the user's 5°
+        # threshold, inside the optional uniform 8.5° threshold.
+        j2000 = self.configure_daily_ephemeris(start="2000-01-01", end="2000-01-01", time="12:00:00", offset="0")
+        self.assertFalse(next(p for p in j2000["rows"][0]["planets"] if p["id"] == "Me")["combust"])
+        self.save_software_preferences(combustionRule="uniform")
+        uniform = self.configure_daily_ephemeris(start="2000-01-01", end="2000-01-01", time="12:00:00", offset="0")
+        self.assertTrue(next(p for p in uniform["rows"][0]["planets"] if p["id"] == "Me")["combust"])
+        for start, end, expected in (("2026-10-07", "2026-10-06", "on or after"),
+                                     ("2026-01-01", "2027-01-02", "366")):
+            self.page.locator("#eph-start").fill(start)
+            self.page.locator("#eph-end").fill(end)
+            self.page.locator("#eph-run").click()
+            expect(self.page.locator("#eph-status")).to_have_attribute("data-state", "error")
+            expect(self.page.locator("#eph-status")).to_contain_text(expected)
+            expect(self.page.locator("#eph-table tbody tr[data-planet]")).to_have_count(0)
+            self.assertIsNone(self.page.evaluate("window.KPDailyEphemeris.getData()"))
+            expect(self.page.locator("#eph-csv")).to_be_disabled()
+        self.page.locator("#eph-end").fill("2026-12-31")
+        self.page.evaluate("()=>{window.KPDailyEphemeris.run();window.KPDailyEphemeris.cancel();}")
+        expect(self.page.locator("#eph-status")).to_contain_text("cancelled")
+        self.assertIsNone(self.page.evaluate("window.KPDailyEphemeris.getData()"))
+        expect(self.page.locator("#eph-run")).to_be_enabled()
+        self.assertEqual(self.outputs(), natal)
+
+    def test_new_prediction_almanac_tabs_restore_lkp_and_print_all_rows_in_mobile_navigation(self):
+        self.prepare_exact_dasha()
+        self.configure_transit_panchang(date="2026-10-05", time="19:00:00", offset="-5")
+        self.configure_daily_ephemeris()
+        self.go("prediction")
+        settings = {"pred-language": "marathi", "pred-method": "sixfold", "pred-chain-mode": "cusp-lords",
+                    "pred-match-filter": "all", "pred-main-house": "0"}
+        for id, value in settings.items():
+            self.page.locator(f"#{id}").select_option(value)
+        self.page.locator("#pred-layer-STL").uncheck()
+        self.page.locator("#pred-require-main").check()
+        self.action("save")
+        backup = self.page.evaluate("JSON.parse(localStorage.getItem('kpRaphaelData'))")
+        for id, value in settings.items():
+            self.assertEqual(backup["fields"][id]["value"], value)
+        self.assertFalse(backup["fields"]["pred-layer-STL"]["checked"])
+        self.assertTrue(backup["fields"]["pred-require-main"]["checked"])
+        self.assertEqual(backup["fields"]["tp-timezone"]["value"], "-5")
+        self.assertEqual(backup["fields"]["eph-start"]["value"], "2026-10-06")
+        self.assertFalse(any(key.startswith(("pred-event", "tp-summary", "eph-table")) for key in backup["fields"]),
+                         "Only chosen settings belong in .lkp; calculated sheets are rebuilt from current data.")
+        self.page.locator("#pred-language").select_option("english")
+        self.page.locator("#pred-method").select_option("fourfold")
+        self.page.locator("#pred-layer-STL").check()
+        self.import_file(json.dumps(backup, ensure_ascii=False), filename="prediction-panchang-ephemeris.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        for id, value in settings.items():
+            expect(self.page.locator(f"#{id}")).to_have_value(value)
+        expect(self.page.locator("#pred-layer-STL")).not_to_be_checked()
+        expect(self.page.locator("#pred-require-main")).to_be_checked()
+        self.assertEqual(self.page.evaluate("window.KPPrediction.getData().options"),
+                         {"method": "sixfold", "chainMode": "cusp-lords", "layers": ["CSL", "SBL"],
+                          "requireMain": True, "language": "marathi"})
+        self.assertEqual(self.page.evaluate("window.KPTransitPanchang.getData().utc"), "2026-10-06T00:00:00.000Z")
+        self.assertIsNone(self.page.evaluate("window.KPDailyEphemeris.getData()"),
+                          "Import must clear an old generated ephemeris until it is recalculated.")
+        self.configure_daily_ephemeris()
+        self.go("prediction")
+        self.page.locator("#pred-print").click()
+        expect(self.page.locator("main > #report")).to_be_visible()
+        checked = self.page.locator('#report-page-options input:checked').evaluate_all("items=>items.map(item=>item.dataset.reportPageKey)")
+        self.assertEqual(checked, ["prediction"])
+
+        popup = self.selected_report_popup(["prediction", "transit-panchang", "ephemeris"])
+        try:
+            self.assertEqual(popup.locator("body > .report-page").evaluate_all("pages=>pages.map(page=>page.dataset.reportSection)"),
+                             ["prediction", "transit-panchang", "ephemeris"])
+            expect(popup.locator('[data-report-section="prediction"] [data-pred-event]')).to_have_count(1612)
+            expect(popup.locator('[data-report-section="prediction"] [data-pred-cusp]')).to_have_count(12)
+            expect(popup.locator('[data-report-section="transit-panchang"] tr[data-planet]')).to_have_count(10)
+            expect(popup.locator('[data-report-section="ephemeris"] tr[data-planet]')).to_have_count(18)
+            expect(popup.locator("input,select,button,textarea")).to_have_count(0)
+            popup.emulate_media(media="print")
+            geometry = popup.locator('body > .report-page').evaluate_all("""pages=>pages.map(page=>{
+                const bounds=page.getBoundingClientRect(),style=getComputedStyle(page);
+                const rows=[...page.querySelectorAll('tr')];
+                const clipped=rows.filter(row=>{const rect=row.getBoundingClientRect();return rect.left<bounds.left-1||rect.right>bounds.right+1||rect.bottom>bounds.bottom+1;});
+                return {section:page.dataset.reportSection,maxHeight:style.maxHeight,overflow:style.overflow,clipped:clipped.length};
+            })""")
+            for page in geometry:
+                self.assertEqual(page["maxHeight"], "none")
+                self.assertEqual(page["overflow"], "visible")
+                self.assertEqual(page["clipped"], 0, page)
+        finally:
+            popup.close()
+
+        self.page.set_viewport_size({"width": 390, "height": 844})
+        for section in ("prediction", "transit-panchang", "ephemeris"):
+            self.go(section)
+            expect(self.page.locator("#menu-toggle")).to_have_attribute("aria-expanded", "false")
+            self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), 391,
+                                 "Dense tables may scroll inside their containers while mobile navigation stays within the viewport.")
+        self.page.locator("#menu-toggle").click()
+        expect(self.page.locator(".app-sidebar [data-tab]")).to_have_count(len(SECTIONS))
+
+    def test_prediction_chain_analysis_proves_house_groups_and_selected_layers_independently(self):
+        # This synthetic chart deliberately gives every main cusp CSL Su,
+        # whose own star and sub lords differ from the cusp's star lord Sa.
+        # The expected evidence is authored here, independent of KPDisplay.
+        ids = ("Su", "Mo", "Ma", "Me", "Ju", "Ve", "Sa", "Ra", "Ke")
+        planets = [{"id": id, "stl": "Mo", "sl": "Ma"} for id in ids]
+        four = [{"id": id, "A": [], "B": [], "C": [], "D": []} for id in ids]
+        for row in four:
+            if row["id"] == "Su": row["A"] = [2]
+            if row["id"] == "Mo": row["B"] = [3]
+            if row["id"] == "Ma": row["C"] = [4]
+            if row["id"] == "Sa": row["D"] = [8]
+        six = [{**row, "E": [5] if row["id"] == "Su" else [], "F": []} for row in four]
+        model = {"ready": True, "planets": planets,
+                 "houses": [{"id": i, "sl": "Su", "stl": "Sa"} for i in range(1, 13)],
+                 "fourfold": {"planets": four}, "sixfold": {"planets": six}}
+        groups = ([2, 3, 4], [2, 11], [11], [2], [2, 5])
+        events = [{"id": i, "event": {"en": f"Evidence {i}"}, "mainHouses": [1],
+                   "supportingHouses": list(group), "supportingGroups": [list(group)],
+                   "automaticEligible": True} for i, group in enumerate(groups, 1)]
+        events.append({"id": 6, "event": {"en": "Conditional rule"}, "mainHouses": [1],
+                       "supportingHouses": [2], "supportingGroups": [], "automaticEligible": False})
+        catalogue = {"events": events}
+        actual = self.page.evaluate("""({model,catalogue})=>Object.fromEntries([
+            ['all',{}],['cslOnly',{layers:['CSL']}],['cuspLords',{chainMode:'cusp-lords'}],
+            ['mainRequired',{requireMain:true}],['sixfold',{method:'sixfold'}],
+            ['missing',{model:{...model,ready:false,reason:'Missing natal planets'}}]
+        ].map(([key,options])=>[key,window.KPPrediction.analyze(options.model||model,{...options,catalogue})]))""",
+                                    {"model": model, "catalogue": catalogue})
+        self.assertEqual([row["status"] for row in actual["all"]["results"]],
+                         ["matched", "partial", "unmatched", "matched", "partial", "review"])
+        proof = actual["all"]["results"][0]["proof"]
+        self.assertEqual(proof["chain"], {"CSL": "Su", "STL": "Mo", "SBL": "Ma"})
+        self.assertEqual(proof["signifiedHouses"], [2, 3, 4])
+        self.assertEqual(proof["matchedHouses"], [2, 3, 4])
+        self.assertEqual(proof["missingHouses"], [])
+        self.assertEqual(proof["contributions"], [
+            {"house": 2, "sources": [{"role": "CSL", "planet": "Su", "level": "A"}]},
+            {"house": 3, "sources": [{"role": "STL", "planet": "Mo", "level": "B"}]},
+            {"house": 4, "sources": [{"role": "SBL", "planet": "Ma", "level": "C"}]},
+        ])
+        self.assertEqual(actual["cslOnly"]["results"][0]["proof"]["missingHouses"], [3, 4])
+        self.assertEqual(actual["cslOnly"]["results"][0]["status"], "partial")
+        self.assertEqual(actual["cuspLords"]["chains"][0]["houses"], [2, 8])
+        self.assertEqual(actual["cuspLords"]["results"][0]["proof"]["chain"],
+                         {"CSL": "Su", "STL": "Sa", "SBL": "Su"})
+        self.assertEqual(actual["mainRequired"]["results"][3]["proof"]["requiredHouses"], [1, 2])
+        self.assertEqual(actual["mainRequired"]["results"][3]["status"], "partial")
+        self.assertEqual(actual["sixfold"]["results"][4]["status"], "matched")
+        self.assertEqual(actual["sixfold"]["fields"], list("ABCDEF"))
+        self.assertFalse(actual["missing"]["ready"])
+        self.assertEqual(actual["missing"]["counts"]["incomplete"], 6)
+
+    def test_prediction_workbook_provenance_live_chains_filters_and_csv_include_all_rows(self):
+        self.prepare_exact_dasha()
+        self.go("prediction")
+        expect(self.page.locator("#pred-status")).to_have_attribute("data-ready", "true")
+        data = self.page.evaluate("window.KPPrediction.getData()")
+        catalogue = self.page.evaluate("window.KPPrediction.getCatalogue()")
+        self.assertEqual(len(catalogue["events"]), 1612)
+        self.assertEqual(sum(event["automaticEligible"] for event in catalogue["events"]), 1398)
+        self.assertEqual(data["counts"]["review"], 214)
+        expect(self.page.locator("#pred-chain-table tbody tr")).to_have_count(12)
+        self.page.locator("#pred-match-filter").select_option("all")
+        expect(self.page.locator("#pred-event-rows tr")).to_have_count(60)
+        actual_chains = self.page.evaluate("""()=>window.currentKPModel.houses.map(cusp=>{
+            const csl=window.currentKPModel.planets.find(planet=>planet.id===cusp.sl);
+            return {cusp:cusp.id,CSL:cusp.sl,STL:csl.stl,SBL:csl.sl};
+        })""")
+        self.assertEqual([{key: chain[key] for key in ("cusp", "CSL", "STL", "SBL")}
+                          for chain in data["chains"]], actual_chains)
+        indexed = {event["id"]: event for event in catalogue["events"]}
+        self.assertEqual(indexed[1300]["event"], {"en": None, "mr": "कार्यक्षेत्रात निराशा"})
+        self.assertEqual(indexed[1301]["sources"]["en"]["row"], 1301)
+        self.assertEqual(indexed[1301]["sources"]["mr"]["row"], 1302)
+        self.assertEqual(indexed[700]["sources"]["en"]["supporting"], "11,1")
+        self.assertEqual(indexed[700]["sources"]["mr"]["supporting"], "1, 4, 11")
+        by_id = {row["id"]: row for row in data["results"]}
+        self.assertEqual(by_id[700]["status"], "review")
+        self.assertEqual(by_id[1300]["status"], "review")
+
+        # Screen pagination must not truncate the export or printed sheet.
+        csv_rows = list(csv.reader(io.StringIO(self.page.evaluate("window.KPPrediction.csv()").lstrip("\ufeff"))))
+        self.assertEqual(len(csv_rows), 1613)
+        self.assertEqual(csv_rows[-1][0], "1612")
+        snapshot_rows = self.page.evaluate("""()=>{
+            const root=document.createElement('div');root.innerHTML=window.KPPrediction.snapshot();
+            return {events:root.querySelectorAll('[data-pred-event]').length,
+                    cusps:root.querySelectorAll('[data-pred-cusp]').length,
+                    controls:root.querySelectorAll('input,select,button,textarea').length};
+        }""")
+        self.assertEqual(snapshot_rows, {"events": 1612, "cusps": 12, "controls": 0})
+        self.page.locator("#pred-match-filter").select_option("review")
+        expect(self.page.locator("#pred-print-count")).to_contain_text("214")
+        self.page.locator("#pred-search").fill("कार्यक्षेत्रात निराशा")
+        expect(self.page.locator('#pred-event-rows [data-pred-event="1300"]')).to_have_count(1)
+        self.page.locator("#pred-language").select_option("marathi")
+        expect(self.page.locator('#pred-event-rows [data-pred-event="1300"]')).to_contain_text("कार्यक्षेत्रात निराशा")
+        self.page.locator('#pred-event-rows [data-pred-detail="1300"]').click()
+        expect(self.page.locator("#pred-event-detail")).to_contain_text("Marathi Prediction")
+        expect(self.page.locator("#pred-event-detail")).to_contain_text("1301")
+        self.page.locator("#pred-method").select_option("sixfold")
+        self.page.locator('#pred-layers input[value="STL"]').uncheck()
+        self.assertEqual(self.page.evaluate("window.KPPrediction.getData().options.layers"), ["CSL", "SBL"])
+        self.assertEqual(self.page.evaluate("window.KPPrediction.getData().fields"), list("ABCDEF"))
+        self.go("planet")
+        self.page.locator("#p6_d_1").fill("")
+        self.page.locator("#p6_t_1").fill("")
+        self.action("calculate")
+        self.go("prediction")
+        expect(self.page.locator("#pred-status")).to_have_attribute("data-ready", "false")
+        expect(self.page.locator("#pred-chain-table")).to_have_count(0)
+        self.assertEqual(self.page.evaluate("window.KPPrediction.getData().counts.incomplete"), 1612,
+                         "An incomplete natal chart must replace prior house matches.")
 
 if __name__ == "__main__":
     unittest.main()
