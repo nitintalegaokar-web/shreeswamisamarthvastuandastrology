@@ -28,7 +28,7 @@ from playwright.sync_api import expect, sync_playwright
 REPOSITORY = Path(__file__).resolve().parents[1]
 SECTIONS = (
     "home", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet", "mdcalc",
-    "karyesh", "prediction", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris", "south9", "report", "astrosettings",
+    "karyesh", "prediction", "event-promise", "nadi-astrology", "ruling-planets", "matchmaking", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris", "south9", "report", "astrosettings",
 )
 OUTPUT_IDS = (
     "ayanValue", "lonDifference", "lmtFinal", "birthPlaceSiderealTime",
@@ -38,7 +38,8 @@ OUTPUT_IDS = (
 REPORT_PAGE_SECTIONS = (
     "cover", "single-page", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet",
     "mdcalc", "adcalc", "kp-fourfold", "kp-sixfold", "kp-fourstep-section",
-    "prediction", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris", "south9",
+    "prediction", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris",
+    "event-promise", "nadi-astrology", "ruling-planets", "matchmaking", "south9",
 )
 # Angles and short codes transcribed from the requested aspect reference.
 # Keep this fixture independent of the application's catalog.
@@ -352,15 +353,18 @@ class CalculatorBrowserTests(unittest.TestCase):
                              f"Home must show the current {source_id} calculation rather than example data.")
 
     def assert_home_dasha_dates_match(self):
-        for source_id in ("mdDashaRows", "adDashaRows"):
-            source_rows = self.dasha_rows(f"#{source_id}")
-            source_dates = [[row[0], row[4], row[5]] for row in source_rows]
-            mirror = self.home_source(source_id)
-            expect(mirror).to_be_visible()
-            actual_dates = mirror.locator("tbody tr").evaluate_all("""rows => [...rows].map(row =>
-                [...row.cells].map(cell => cell.textContent.trim()))""")
-            self.assertEqual(actual_dates, source_dates,
-                             f"Home's compact {source_id} table must retain the worksheet's lord and dates.")
+        expect(self.page.locator("#home-vimshottari")).to_be_visible()
+        data = self.page.evaluate("window.KPHomeDasha.getData()")
+        source_rows = self.dasha_rows("#mdDashaRows")
+        self.assertTrue(data["ready"])
+        self.assertEqual(len(data["levels"][0]["rows"]), 9)
+        for period, source in zip(data["levels"][0]["rows"], source_rows):
+            self.assertEqual(period["lord"], source[0])
+            self.assertEqual(period["sourceStart"], datetime.strptime(source[4], "%d/%m/%Y").strftime("%Y-%m-%d"))
+            self.assertEqual(period["sourceEnd"], datetime.strptime(source[5], "%d/%m/%Y").strftime("%Y-%m-%d"))
+            self.assertGreater(period["endMs"], period["startMs"])
+        expect(self.page.locator("#home-md")).to_be_hidden()
+        expect(self.page.locator("#home-ad")).to_be_hidden()
 
     def test_western_aspects_use_shortest_angle_inclusive_orbs_and_unique_pairs(self):
         # These fixtures have known geometric angles independent of the KP
@@ -1622,21 +1626,19 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(mirror).to_be_visible()
         self.assertEqual(mirror.text_content(), self.page.locator("#kp-fourstep").text_content())
         self.page.locator('#home [data-home-view="basic"]').click()
-        home_select = self.page.locator("#home .home-ad-select")
-        expect(home_select.locator("option")).to_have_count(9)
-        source_values = self.page.locator("#adMDSelect option").evaluate_all("options => [...options].map(option => option.value)")
-        home_select.select_option(source_values[1])
-        expect(self.page.locator("#adMDSelect")).to_have_value(source_values[1])
-        expect(self.page.locator("#adBirthLord")).to_have_value("केतू")
-        self.assert_home_dasha_dates_match()
-        self.page.locator(f'#home-md button[data-home-md-key="{source_values[0]}"]').click()
-        expect(self.page.locator("#adMDSelect")).to_have_value(source_values[0])
-        expect(home_select).to_have_value(source_values[0])
-        self.assert_home_dasha_dates_match()
-        self.go("mdcalc")
-        self.page.locator("#adMDSelect").select_option(source_values[2])
-        self.go("home")
-        expect(home_select).to_have_value(source_values[2])
+        self.page.locator('#home-dasha-table [data-dasha-depth="0"]').click()
+        expect(self.page.locator('#home-dasha-table tr[data-dasha-row]')).to_have_count(9)
+        self.page.locator('#home-dasha-table tr[data-dasha-row="0"]').click()
+        data = self.page.evaluate("window.KPHomeDasha.getData()")
+        self.assertEqual((data["level"], data["levels"][0]["rows"][data["path"][0]]["lord"]), ("AD", "केतू"))
+        self.assertEqual(data["rows"][0]["lord"], "केतू")
+        self.assertAlmostEqual(sum(row["durationDays"] for row in data["rows"]), 7 * 360)
+        for expected_level in ("PD", "SD", "PrD"):
+            self.page.locator('#home-dasha-table tr[data-dasha-row="0"]').click()
+            self.assertEqual(self.page.evaluate("window.KPHomeDasha.getData().level"), expected_level)
+            expect(self.page.locator('#home-dasha-table tr[data-dasha-row]')).to_have_count(9)
+        self.page.locator('#home-dasha-table thead [data-dasha-depth="0"]').click()
+        self.assertEqual(self.page.evaluate("window.KPHomeDasha.getData().depth"), 0)
         self.assert_home_dasha_dates_match()
 
     def test_home_preserves_manual_notes_without_exposing_editable_copies(self):
@@ -3044,7 +3046,7 @@ class CalculatorBrowserTests(unittest.TestCase):
             with self.subTest(print_page=index + 1):
                 self.assertNotEqual(geometry["display"], "none", "Every report page must be visible when printing.")
                 self.assertAlmostEqual(geometry["width"], 190 * 96 / 25.4, delta=1)
-                if geometry["section"] in ("prediction", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris"):
+                if geometry["section"] in ("prediction", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris", "event-promise", "nadi-astrology", "ruling-planets", "matchmaking"):
                     self.assertGreaterEqual(geometry["height"], 277 * 96 / 25.4 - 1)
                     self.assertEqual(geometry["maxHeight"], "none", "Variable-length results must continue onto later sheets.")
                     self.assertEqual(geometry["overflow"], "visible", "Aspect and transit results must not be clipped at A4 height.")
@@ -3425,9 +3427,14 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertAlmostEqual(period["birthElapsedDays"], 2511.1275, places=8)
 
         self.go("home")
-        expect(self.page.locator("#home-md tbody tr").first).to_contain_text("मंगळ")
-        expect(self.page.locator("#home-md tbody tr").first).to_contain_text("24/07/1986")
-        expect(self.page.locator('#home-ad tr[data-birth-active="true"]')).to_contain_text("चंद्र")
+        self.page.locator("#home-dasha-date").fill("1986-07-15")
+        self.page.locator("#home-dasha-time").fill("15:45:00")
+        self.page.locator("#home-dasha-time").dispatch_event("change")
+        expect(self.page.locator('#home-dasha-table tr[data-dasha-row]').first).to_contain_text("Ma")
+        expect(self.page.locator('#home-dasha-table tr[data-dasha-row]').first).to_contain_text("24/07/1986")
+        home = self.page.evaluate("window.KPHomeDasha.getData()")
+        self.assertEqual(home["levels"][1]["rows"][home["path"][1]]["lord"], "चंद्र")
+        self.assertEqual(home["levels"][2]["rows"][home["path"][2]]["lord"], "रवी")
         self.go("transit")
         self.page.locator("#tr-mode").select_option("dasha")
         self.page.locator("#tr-reference").fill("1986-07-15")
@@ -4301,6 +4308,393 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#ayanValue")).to_have_value("24:06:50")
         expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
         self.assertTrue(self.page.evaluate("window.KPWorksheetEphemeris.getData().ready"))
+
+    def test_prediction_reference_library_preserves_all_seven_sources_duplicates_and_original_text(self):
+        catalogue = self.page.evaluate("window.KPPredictionLibrary.getCatalogue()")
+        entries = catalogue["entries"]
+        self.assertEqual(len(entries), 6213)
+        self.assertEqual(len({entry["id"] for entry in entries}), 6213)
+        expected = {"Ratna.txt": 18, "Bhavfal.txt": 2869, "Prediction.txt": 824,
+                    "Events.txt": 1046, "Dahs Fal Short.txt": 391,
+                    "dashafal.txt": 1017, "Mahadasha.txt": 48}
+        self.assertEqual({source["file"]: source["entries"] for source in catalogue["sources"]}, expected)
+        self.assertEqual({file: sum(entry["file"] == file for entry in entries) for file in expected}, expected)
+        import hashlib
+        projection = [[entry["file"], entry["line"], entry["key"], entry["value"], entry["rawValue"], entry.get("continuationLines", [])] for entry in entries]
+        digest = hashlib.sha256(json.dumps(projection, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
+        self.assertEqual(digest, "c62d1db97896174b09d550d4ca319cdbd53bea4a3a6ac5cb846057acca6cdc2c")
+        self.assertEqual(len(catalogue["categories"]), 7)
+        repeated = [entry for entry in entries if entry["file"] == "Bhavfal.txt" and entry["key"] == "Bh9R35912"]
+        self.assertEqual([entry["line"] for entry in repeated], [1630, 1748])
+        self.assertEqual([entry["duplicateCount"] for entry in repeated], [2, 2])
+        self.assertNotEqual(repeated[0]["value"], repeated[1]["value"], "A repeated key must not overwrite its other source paragraph.")
+        remedy = next(entry for entry in entries if entry["file"] == "Ratna.txt" and entry["key"] == "RatnaH")
+        self.assertTrue(remedy["rawValue"].startswith(" To get full auspicious result"))
+        self.assertIn("\\n At the time", remedy["rawValue"], "Literal newline markers remain source data.")
+        malformed = next(entry for entry in entries if entry["file"] == "dashafal.txt" and entry["key"] == "DasaC34511HN")
+        self.assertEqual(malformed["value"], "3,4,511")
+        self.assertEqual(malformed["mappingStatus"], "review")
+        self.assertNotIn(511, malformed["houses"], "The invalid source number must not become an inferred house rule.")
+        self.go("prediction")
+        expect(self.page.locator("#pred-reference-view")).to_have_value("analysis")
+        expect(self.page.locator("#pred-analysis-panel")).to_be_visible()
+        self.page.locator("#pred-reference-view").select_option("library")
+        self.page.locator("#pred-library-category").select_option("house-results")
+        self.page.locator("#pred-library-search").fill("Bh9R35912")
+        expect(self.page.locator("#pred-library-records [data-reference-entry]")).to_have_count(2)
+        self.assertEqual(self.page.evaluate("window.KPPredictionLibrary.getData().count"), 2)
+
+    def test_prediction_reference_csv_and_print_include_every_filtered_record_beyond_screen_pagination(self):
+        self.go("prediction")
+        self.page.locator("#pred-reference-view").select_option("library")
+        self.page.locator("#pred-library-category").select_option("events")
+        expect(self.page.locator("#pred-library-records [data-reference-entry]")).to_have_count(30)
+        expect(self.page.locator("#pred-library-page")).to_contain_text("1–30 of 1046")
+        self.page.locator("#pred-library-next").click()
+        expect(self.page.locator("#pred-library-page")).to_contain_text("31–60 of 1046")
+        self.assertEqual(self.page.evaluate("window.KPPredictionLibrary.getData().rows.length"), 1046)
+        with self.page.expect_download() as download_info:
+            self.page.locator("#pred-library-csv").click()
+        download = download_info.value
+        self.assertTrue(download.suggested_filename.endswith(".csv"))
+        exported = list(csv.reader(io.StringIO(Path(download.path()).read_text(encoding="utf-8-sig"))))
+        self.assertEqual(len(exported), 1047, "CSV includes all matching entries, not only the current thirty.")
+        self.assertTrue(all(len(row) == 16 for row in exported))
+        partnership = [row for row in exported[1:] if row[6] == "Profit from partnership"]
+        self.assertEqual(len(partnership), 3, "Source duplicates must remain separate CSV records.")
+        snapshot = self.page.evaluate("""() => {
+            const root = document.createElement('div'); root.innerHTML = window.KPPredictionLibrary.snapshot();
+            return {records:root.querySelectorAll('[data-reference-entry]').length,
+                    controls:root.querySelectorAll('input,select,button,textarea').length};
+        }""")
+        self.assertEqual(snapshot, {"records": 1046, "controls": 0})
+        self.page.locator("#pred-library-print").click()
+        expect(self.page.locator("main > #report")).to_be_visible()
+        expect(self.page.locator('#printReport > [data-report-section="prediction"] [data-reference-entry]')).to_have_count(1046)
+        selected = self.page.evaluate("[...document.querySelectorAll('#report-page-options input:checked')].map(input=>input.dataset.reportPageKey)")
+        self.assertEqual(selected, ["prediction"])
+
+    def test_prediction_reference_filters_restore_across_categories_and_legacy_files_keep_analysis_available(self):
+        self.go("prediction")
+        self.page.locator("#pred-reference-view").select_option("library")
+        self.page.locator("#pred-library-category").select_option("mahadasha-remedies")
+        self.page.locator("#pred-library-subgroup").select_option("MD/AD remedies")
+        self.assertEqual(self.page.evaluate("window.KPPredictionLibrary.getData().count"), 9)
+        backup = self.page.evaluate("window.getChartData()")
+        for field, expected in (("pred-reference-view", "library"), ("pred-library-category", "mahadasha-remedies"),
+                                ("pred-library-subgroup", "MD/AD remedies"), ("pred-library-search", "")):
+            self.assertEqual(backup["fields"][field]["value"], expected)
+        self.page.locator("#pred-library-category").select_option("house-results")
+        self.page.locator("#pred-library-search").fill("changed")
+        self.import_file(json.dumps(backup), filename="reference-filters.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(self.page.locator("#pred-library-category")).to_have_value("mahadasha-remedies")
+        expect(self.page.locator("#pred-library-subgroup")).to_have_value("MD/AD remedies")
+        expect(self.page.locator("#pred-library-search")).to_have_value("")
+        self.assertEqual(self.page.evaluate("window.KPPredictionLibrary.getData().count"), 9)
+        self.page.set_viewport_size({"width": 390, "height": 844})
+        widths = self.page.evaluate("({viewport:innerWidth,document:document.documentElement.scrollWidth})")
+        self.assertLessEqual(widths["document"], widths["viewport"], "Reference paragraphs and controls must fit the mobile screen.")
+        legacy = json.loads(json.dumps(backup))
+        for field in ("pred-reference-view", "pred-library-category", "pred-library-subgroup", "pred-library-search"):
+            legacy["fields"].pop(field)
+        self.import_file(json.dumps(legacy), filename="legacy-before-reference-library.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        self.go("prediction")
+        expect(self.page.locator("#pred-reference-view")).to_have_value("analysis")
+        expect(self.page.locator("#pred-analysis-panel")).to_be_visible()
+        expect(self.page.locator("#pred-library-category")).to_have_value("all")
+        expect(self.page.locator("#pred-library-subgroup")).to_have_value("all")
+
+    def test_horary_249_and_2193_boundaries_exact_planets_dst_and_legacy_import(self):
+        # Independent Vimshottari proportions: Revati's last sub is Saturn
+        # (19/120 of 13°20′); its last sub-sub is Jupiter (16/120 of that).
+        tables = self.page.evaluate("""() => ({
+            coarse:KPHorary.catalogue(249), fine:KPHorary.catalogue(2193)
+        })""")
+        self.assertEqual(len(tables["coarse"]), 249)
+        self.assertEqual(len(tables["fine"]), 2193)
+        self.assertEqual(tables["coarse"][0]["start"], 0)
+        self.assertAlmostEqual(tables["coarse"][-1]["start"], 360 - 7600 / 3600, places=9)
+        self.assertAlmostEqual(tables["fine"][1]["start"], 48000 * 7 / 120 * 7 / 120 / 3600, places=9)
+        self.assertAlmostEqual(tables["fine"][-1]["start"], 360 - 7600 * 16 / 120 / 3600, places=9)
+        # Krittika's Rahu sub crosses the Aries/Taurus seam. Splitting that
+        # physical interval gives 249 number 23 and 2193 number 193 at 30°.
+        self.assertEqual(tables["coarse"][22]["start"], 30)
+        self.assertEqual(tables["fine"][192]["start"], 30)
+        self.page.locator("#dob").fill("2000-01-01")
+        self.page.locator("#birthTime").fill("12:00:00")
+        self.page.locator("#dayAyan").fill("00:00:00")
+        self.page.locator("#daySum").fill("00:00:00")
+        self.page.locator("#birth-utc-offset").fill("0")
+        self.page.locator("#chart-kind").select_option("horary")
+        self.page.locator("#horary-number").fill("1")
+        self.action("calculate")
+        self.page.wait_for_function("KPHorary.getData()?.number===1 && currentKPModel?.ready")
+        first = self.page.evaluate("""() => ({data:KPHorary.getData(),
+            moon:currentKPModel.planets.find(p=>p.id==='Mo').longitude/3600,
+            cusp:currentKPModel.houses.find(h=>h.id===1).longitude/3600,
+            lords:['sgl','stl','sl','ssl'].map(key=>currentKPModel.houses.find(h=>h.id===1)[key])})""")
+        self.assertEqual(first["data"]["utc"], "2000-01-01T12:00:00.000Z")
+        self.assertAlmostEqual(first["cusp"], 0, places=7)
+        self.assertEqual(first["lords"], ["Ma","Ke","Ke","Ke"],
+                         "A zero-degree Ascendant must be Aries/Ashwini, not a previous-sign float at 360°.")
+        self.assertLess(abs(first["moon"] - EPHEMERIS_REFERENCE[0]["tropical"]["Mo"]), .03,
+                        "Horary planets must use the exact query instant, not a fake date implied by the chosen Ascendant.")
+        self.page.locator("#birthTime").fill("13:00:00")
+        self.page.locator("#birth-dst-minutes").fill("60")
+        self.page.locator("#horary-system").select_option("2193")
+        self.page.locator("#horary-number").fill("193")
+        self.action("calculate")
+        self.page.wait_for_function("KPHorary.getData()?.horarySystem===2193 && KPHorary.getData()?.number===193")
+        second = self.page.evaluate("""() => ({data:KPHorary.getData(),
+            moon:currentKPModel.planets.find(p=>p.id==='Mo').longitude/3600,
+            cusp:currentKPModel.houses.find(h=>h.id===1).longitude/3600})""")
+        self.assertEqual(second["data"]["utc"], first["data"]["utc"])
+        self.assertAlmostEqual(second["moon"], first["moon"], places=7)
+        self.assertAlmostEqual(second["cusp"], 30, places=7)
+        saved = self.page.evaluate("getChartData()")
+        self.assertEqual(saved["fields"]["horary-system"]["value"], "2193")
+        self.assertEqual(saved["fields"]["birth-dst-minutes"]["value"], "60")
+        self.import_file(json.dumps({"version":2,"basic":{"dob":"2001-02-03",
+            "birthTime":"12:00:00","dayAyan":"23:00:00","daySum":"00:00:00",
+            "lat":"13:04:00","lon":"80:15:00"}}), "legacy-natal.lkp")
+        expect(self.page.locator("#chart-kind")).to_have_value("natal")
+        expect(self.page.locator("#horary-system")).to_have_value("249")
+        expect(self.page.locator("#birth-dst-minutes")).to_have_value("0")
+        expect(self.page.locator("#birth-dst-minutes")).to_be_disabled()
+
+    def test_matchmaking_hand_scores_timezone_dst_and_validated_notebook_lkp_roundtrip(self):
+        fixtures = self.page.evaluate("""() => {
+            const score=(b,g)=>KPMatchmaking.score(b,g),part=(s,n)=>s.kootas.find(k=>k.name===n).score;
+            return {same:score(1,1),taraGood:part(score(.1,40/3+.1),'Tara'),
+                taraBad:part(score(.1,2*40/3+.1),'Tara'),
+                badBhakoot:part(score(1,31),'Bhakoot'),goodBhakoot:part(score(1,91),'Bhakoot'),
+                sameNadi:part(score(.1,5*40/3+.1),'Nadi'),differentNadi:part(score(.1,40/3+.1),'Nadi')};
+        }""")
+        self.assertEqual(fixtures["same"]["total"], 28)
+        self.assertEqual(next(k["score"] for k in fixtures["same"]["kootas"] if k["name"]=="Nadi"), 0)
+        self.assertEqual(fixtures["taraGood"], 3)
+        self.assertEqual(fixtures["taraBad"], 1.5,
+                         "Inclusive Tara category 3 is unfavorable; the reverse category 8 supplies only 1.5 points.")
+        self.assertEqual([fixtures["badBhakoot"],fixtures["goodBhakoot"]], [0,7])
+        self.assertEqual([fixtures["sameNadi"],fixtures["differentNadi"]], [0,8])
+        self.go("matchmaking")
+        records = {
+            "boy":{"name":"Person A","date":"2026-10-06","time":"05:30:00","timezone":"5.5","dst":"0",
+                   "place":"Nashik","latitude":"19.9975","longitude":"73.7898"},
+            "girl":{"name":"Person B","date":"2026-10-05","time":"18:00:00","timezone":"-7","dst":"60",
+                    "place":"Nashik","latitude":"19.9975","longitude":"73.7898"},
+        }
+        natal = self.page.evaluate("""() => Object.fromEntries(['dob','birthTime','lat','lon','dayAyan','daySum']
+            .map(id=>[id,document.getElementById(id).value]))""")
+        for kind, record in records.items():
+            for key, value in record.items():
+                self.page.locator(f"#mm-{kind}-{key}").fill(value)
+        self.page.locator("#mm-calculate").click()
+        expect(self.page.locator("#mm-status")).to_have_attribute("data-state", "ready")
+        data = self.page.evaluate("KPMatchmaking.getData()")
+        self.assertEqual(data["boy"]["utc"], "2026-10-06T00:00:00.000Z")
+        self.assertEqual(data["girl"]["utc"], data["boy"]["utc"])
+        self.assertEqual(data["girl"]["effectiveOffset"], -6)
+        self.assertEqual(data["ashtakoota"]["total"], 28)
+        self.assertAlmostEqual(data["boy"]["positions"]["Mo"], data["girl"]["positions"]["Mo"], places=9)
+        self.page.locator("#mm-save-memo").click()
+        # A notebook beyond the old 10 KB generic field limit must still load.
+        saved = self.page.evaluate("""() => {
+            const first=KPMatchmaking.getMemos()[0],memos=Array.from({length:16},(_,i)=>({...first,
+                id:'permanent-pair-'+i,boy:{...first.boy,name:'Boy '+i+' '+('A'.repeat(100))},
+                girl:{...first.girl,name:'Girl '+i+' '+('B'.repeat(100))}}));
+            if(!KPMatchmaking.restore(JSON.stringify(memos)))throw Error('Invalid test notebook');
+            return getChartData();
+        }""")
+        self.assertGreater(len(saved["fields"]["mm-memos"]["value"]), 10000)
+        self.page.locator("#mm-girl-time").fill("22:00:00")
+        self.page.evaluate("KPMatchmaking.restore('[]')")
+        self.import_file(json.dumps(saved), "match-pair.lkp")
+        expect(self.page.locator("#mm-girl-time")).to_have_value("18:00:00")
+        self.assertEqual(len(self.page.evaluate("KPMatchmaking.getMemos()")), 16)
+        self.assertEqual(self.page.evaluate("KPMatchmaking.getData().ashtakoota.total"), 28)
+        self.assertEqual(self.page.evaluate("""() => Object.fromEntries(['dob','birthTime','lat','lon','dayAyan','daySum']
+            .map(id=>[id,document.getElementById(id).value]))"""), natal)
+        malformed = self.page.evaluate("""saved => {
+            const bad=JSON.parse(JSON.stringify(saved));bad.fields.dob.value='2000-01-01';
+            bad.fields['mm-memos'].value='{bad JSON';let rejected=false;
+            try{restoreChartData(bad);}catch(error){rejected=true;}
+            return {rejected,dob:document.getElementById('dob').value,memos:KPMatchmaking.getMemos().length};
+        }""", saved)
+        self.assertTrue(malformed["rejected"])
+        self.assertEqual(malformed["dob"], natal["dob"])
+        self.assertEqual(malformed["memos"], 16)
+
+    def test_event_nadi_and_ruling_workspaces_keep_native_chart_and_print_selected_sections(self):
+        self.prepare_exact_kp_worksheets()
+        self.action("calculate")
+        natal = self.page.evaluate("""() => ({inputs:Object.fromEntries(['dob','birthTime','lat','lon','dayAyan','daySum']
+            .map(id=>[id,document.getElementById(id).value])),planets:currentKPModel.planets.map(p=>[p.id,p.longitude]),
+            houses:currentKPModel.houses.map(h=>[h.id,h.longitude])})""")
+        self.go("event-promise")
+        self.page.locator("#ep-event").select_option("custom")
+        self.page.locator("#ep-custom-houses").fill("2,7,11")
+        self.page.locator("#ep-input-mode").select_option("manual")
+        for role, houses in {"CSL":"2","STL":"7","SBL":"11"}.items():
+            self.page.locator(f"#ep-houses-{role}").fill(houses)
+        self.page.locator("#ep-calculate").click()
+        promise = self.page.evaluate("KPEventPromise.getData()")
+        self.assertTrue(promise["ready"])
+        self.assertEqual(promise["status"], "matched")
+        self.assertEqual(promise["best"]["missing"], [])
+        self.page.locator("#ep-houses-SBL").fill("10")
+        self.page.locator("#ep-calculate").click()
+        partial = self.page.evaluate("KPEventPromise.getData()")
+        self.assertEqual(partial["status"], "partial")
+        self.assertEqual(partial["best"]["missing"], [11])
+        self.go("nadi-astrology")
+        self.page.locator("#na-source").select_option("moment")
+        self.page.locator("#na-cusp-source").select_option("transit")
+        for key,value in {"date":"2026-10-06","time":"05:30:00","timezone":"5.5",
+                          "latitude":"0","longitude":"0","place":"Query location"}.items():
+            self.page.locator(f"#na-{key}").fill(value)
+        self.page.locator("#na-update").click()
+        nadi = self.page.evaluate("KPNadiAstrology.getData()")
+        self.assertTrue(nadi["ready"])
+        self.assertEqual(nadi["moment"]["utc"], "2026-10-06T00:00:00.000Z")
+        expect(self.page.locator("#na-grid [data-nadi-planet]")).to_have_count(9)
+        expected_ayan = (datetime(2026,10,6)-datetime(1990,6,15)).total_seconds() / (365.2425*86400) * 50.29/3600
+        expected_moon = EPHEMERIS_REFERENCE[1]["tropical"]["Mo"] - expected_ayan
+        moon = next(card["planet"]["longitude"] / 3600 for card in nadi["cards"] if card["id"]=="Mo")
+        self.assertLess(abs(moon-expected_moon), .03)
+        self.go("ruling-planets")
+        for key,value in {"date":"2026-10-06","time":"05:30:00","offset":"5.5","place":"Query location",
+                          "latitude":"0","longitude":"0"}.items():
+            self.page.locator(f"#rpw-{key}").fill(value)
+        self.page.locator("#rpw-calculate").click()
+        ruling = self.page.evaluate("KPRulingWorkspace.getData()")
+        self.assertEqual(ruling["utc"], "2026-10-06T00:00:00.000Z")
+        self.assertLess(abs(next(row["longitude"] for row in ruling["rows"] if row["id"]=="Mo")-expected_moon), .03)
+        expect(self.page.locator("#rpw-table [data-rpw-planet]")).to_have_count(4)
+        retained = self.page.evaluate("""() => ({inputs:Object.fromEntries(['dob','birthTime','lat','lon','dayAyan','daySum']
+            .map(id=>[id,document.getElementById(id).value])),planets:currentKPModel.planets.map(p=>[p.id,p.longitude]),
+            houses:currentKPModel.houses.map(h=>[h.id,h.longitude])})""")
+        self.assertEqual(retained, natal, "Separate query workspaces must preserve the native inputs and computed chart.")
+        popup = self.selected_report_popup(["event-promise","nadi-astrology","ruling-planets"])
+        sections = popup.locator("body > .report-page").evaluate_all("pages=>pages.map(p=>p.dataset.reportSection)")
+        self.assertEqual(sections, ["event-promise","nadi-astrology","ruling-planets"])
+        self.assertEqual(self.page.locator("#report-page-options [data-report-page-key]").count(), 24)
+        expect(popup.locator('[data-report-section="nadi-astrology"] [data-nadi-planet]')).to_have_count(9)
+        expect(popup.locator('[data-report-section="ruling-planets"] [data-rpw-planet]')).to_have_count(4)
+        popup.close()
+
+    def test_india_offline_gazetteer_keeps_all_populated_rows_and_source_codes(self):
+        import hashlib
+        from collections import Counter
+        self.assertFalse(self.page.evaluate("window.KPIndiaPlaces.getData().ready"), "The large index must remain lazy until a place lookup is requested.")
+        document = (REPOSITORY / "index.html").read_text()
+        metadata = json.loads(re.search(r'<script id="kp-india-places-metadata"[^>]*>(.*?)</script>', document, re.S).group(1))
+        packed = base64.b64decode(re.search(r'<script id="kp-india-places-packed"[^>]*>(.*?)</script>', document, re.S).group(1))
+        self.assertEqual(hashlib.sha256(packed).hexdigest(), metadata["embeddedSHA256"])
+        raw = zlib.decompress(packed, 31)
+        self.assertEqual(hashlib.sha256(raw).hexdigest(), metadata["embeddedTSVSHA256"])
+        rows = raw.decode().splitlines()
+        self.assertEqual(len(rows), 557995)
+        states, features = Counter(), Counter()
+        for line in rows:
+            name, latitude, longitude, state, district, population, feature = line.split("\t")
+            state, district, feature = int(state), int(district), int(feature)
+            self.assertTrue(name)
+            self.assertTrue(-90 <= float(latitude) <= 90 and -180 <= float(longitude) <= 180)
+            self.assertEqual(metadata["districts"][district]["state"], metadata["states"][state]["code"])
+            states[state] += 1
+            features[metadata["featureCodes"][feature]] += 1
+        self.assertEqual(dict(features), metadata["features"])
+        self.assertEqual(sum(state["known"] for state in metadata["states"]), 36)
+        self.assertEqual(sum(states[i] for i, state in enumerate(metadata["states"]) if not state["known"]), 37)
+        self.assertTrue(all(states[i] == state["count"] for i, state in enumerate(metadata["states"])))
+        self.assertEqual(features["PPLQ"], 8969)
+        self.assertEqual(features["PPLH"], 2)
+        self.assertEqual(metadata["mirrorCommit"], "d80fb96ad43f3a9216dbd0cf2b9cdd38ffffd78d")
+        self.assertEqual(metadata["license"], "CC BY 4.0")
+        self.assertIn("not a complete Census", metadata["coverage"])
+        ready = self.page.evaluate("window.KPIndiaPlaces.ready()")
+        self.assertTrue(ready["ready"])
+        for query, expected in (
+            ("Delhi", ("Delhi", 28.65195, 77.23149, "07")),
+            ("Mumbai", ("Mumbai", 19.07283, 72.88261, "16")),
+            ("Nashik", ("Nashik", 19.99727, 73.79096, "16")),
+            ("Uruli Kanchan", ("Uruli Kanchan", 18.48982, 74.13376, "16")),
+        ):
+            result = self.page.evaluate("query=>window.KPIndiaPlaces.search(query)", query)
+            self.assertLessEqual(len(result), 30)
+            self.assertEqual(tuple(result[0][key] for key in ("name", "latitude", "longitude", "stateCode")), expected)
+        self.assertEqual(self.page.evaluate("window.KPIndiaPlaces.search('mu')"), [])
+        district_results = self.page.evaluate("window.KPIndiaPlaces.search('Uruli',{state:'16',district:'521'})")
+        self.assertTrue(district_results)
+        self.assertTrue(all(row["stateCode"] == "16" and row["districtCode"] == "521" for row in district_results))
+        self.assertEqual(self.page.evaluate("window.KPIndiaPlaces.search('Uruli Kanchan',{state:'07'})"), [])
+        delhi = self.page.evaluate("window.KPIndiaPlaces.search('Delhi')")[0]
+        self.assertEqual(delhi["districtCode"], "")
+        self.assertFalse(delhi["districtKnown"], "A missing source district must not be guessed from proximity.")
+
+    def test_india_place_picker_fills_coordinates_offline_and_round_trips_lkp(self):
+        blocked_requests = []
+        def block_network(route):
+            blocked_requests.append(route.request.url)
+            route.abort()
+        # The complete application is already loaded. Every later lookup must
+        # work even when all subsequent network requests are rejected.
+        self.page.route("**/*", block_network)
+        birth_date = self.page.locator("#dob").input_value()
+        birth_time = self.page.locator("#birthTime").input_value()
+        panel = self.page.locator('[data-place-for="birthPlace"]')
+        panel.locator("select").nth(0).select_option("16")
+        panel.locator("select").nth(1).select_option("521")
+        self.page.locator("#birthPlace").fill("Uruli Kanchan")
+        expect(panel.locator(".kp-india-picker-result").first).to_be_visible(timeout=15000)
+        panel.locator(".kp-india-picker-result").first.click()
+        expect(self.page.locator("#lat")).to_have_value("18:29:23")
+        expect(self.page.locator("#lon")).to_have_value("74:08:02")
+        expect(self.page.locator("#birth-utc-offset")).to_have_value("5.5")
+        expect(self.page.locator("#birthPlace")).to_have_value(re.compile(r"^Uruli Kanchan.*India$"))
+        expect(panel.locator(".kp-india-picker-status")).to_have_attribute("data-state", "selected")
+        expect(panel.locator(".kp-india-picker-results")).to_be_hidden()
+        self.assertEqual(self.page.locator("#dob").input_value(), birth_date)
+        self.assertEqual(self.page.locator("#birthTime").input_value(), birth_time)
+        selected_native = self.page.locator("#birthPlace").input_value()
+        for prefix in ("tc", "tp", "na"):
+            local_date = self.page.locator("#" + prefix + "-date").input_value()
+            local_time = self.page.locator("#" + prefix + "-time").input_value()
+            self.page.evaluate("""async prefix=>{
+                const [place]=await window.KPIndiaPlaces.search('Nashik');
+                return window.KPIndiaPlaces.choose(place.id,prefix+'-place');
+            }""", prefix)
+            expect(self.page.locator("#" + prefix + "-latitude")).to_have_value("19.99727")
+            expect(self.page.locator("#" + prefix + "-longitude")).to_have_value("73.79096")
+            self.assertEqual(self.page.locator("#" + prefix + "-date").input_value(), local_date)
+            self.assertEqual(self.page.locator("#" + prefix + "-time").input_value(), local_time)
+            self.assertEqual(self.page.locator("#birthPlace").input_value(), selected_native)
+        self.assertEqual(blocked_requests, [], "Place searches and selections must make no external requests.")
+        with self.page.expect_download() as download:
+            self.action("export")
+        self.assertTrue(download.value.suggested_filename.endswith(".lkp"))
+        backup_text = Path(download.value.path()).read_text()
+        backup = json.loads(backup_text)
+        self.assertEqual(backup["fields"]["birthPlace"]["value"], selected_native)
+        self.assertEqual(backup["fields"]["lat"]["value"], "18:29:23")
+        self.assertEqual(backup["fields"]["lon"]["value"], "74:08:02")
+        self.assertFalse(any(key.startswith("india-") for key in backup["fields"]), "Transient filters must not become chart data.")
+        self.assertNotIn("kp-india-places-packed", backup_text)
+        self.assertLess(len(backup_text), 1000000, "The embedded gazetteer must never be copied into chart backups.")
+        self.page.locator("#birthPlace").fill("Changed place")
+        self.page.locator("#lat").fill("00:00:00")
+        self.import_file(backup_text, filename="india-place-round-trip.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        expect(self.page.locator("#birthPlace")).to_have_value(selected_native)
+        expect(self.page.locator("#lat")).to_have_value("18:29:23")
+        expect(self.page.locator("#lon")).to_have_value("74:08:02")
+        self.assertTrue(self.page.evaluate("window.KPIndiaPlaces.getData().ready"))
+        self.page.set_viewport_size({"width": 390, "height": 844})
+        width = self.page.evaluate("({document:document.documentElement.scrollWidth,viewport:innerWidth})")
+        self.assertLessEqual(width["document"], width["viewport"])
 
 if __name__ == "__main__":
     unittest.main()
