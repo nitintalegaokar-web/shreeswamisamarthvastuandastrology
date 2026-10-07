@@ -26,7 +26,7 @@ from playwright.sync_api import expect, sync_playwright
 REPOSITORY = Path(__file__).resolve().parents[1]
 SECTIONS = (
     "home", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet", "mdcalc",
-    "karyesh", "aspects", "transit", "south9", "report", "astrosettings",
+    "karyesh", "aspects", "transit", "transit-chart", "south9", "report", "astrosettings",
 )
 OUTPUT_IDS = (
     "ayanValue", "lonDifference", "lmtFinal", "birthPlaceSiderealTime",
@@ -35,7 +35,18 @@ OUTPUT_IDS = (
 )
 REPORT_PAGE_SECTIONS = (
     "cover", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet",
-    "mdcalc", "adcalc", "kp-fourfold", "kp-sixfold", "kp-fourstep-section", "south9",
+    "mdcalc", "adcalc", "kp-fourfold", "kp-sixfold", "kp-fourstep-section",
+    "aspects", "transit", "transit-chart", "south9",
+)
+# Angles and short codes transcribed from the requested aspect reference.
+# Keep this fixture independent of the application's catalog.
+WESTERN_ASPECT_REFERENCE = (
+    (0, "कंज."), (22.5, "से.ऑक्ट"), (30, "से.सेक"),
+    (36, "सेक्यूटी"), (40, "नोवा"), (45, "से.स्क"),
+    (60, "सेक."), (67.5, "सेस.ऑ."), (72, "क्यूटी"),
+    (80, "बिनोवा"), (90, "स्क्वा"), (120, "ट्राइन"),
+    (135, "सेसक्व"), (144, "बाइक्यू"), (150, "क्युनि"),
+    (160, "क्वाड्रा"), (180, "अपो."),
 )
 # A tiny local fixture tests the cover's image binding and print readiness.
 # It deliberately does not stand in for the user's requested devotional photo.
@@ -57,6 +68,29 @@ EPHEMERIS_REFERENCE = (
                      "Sa": 11.18566288, "Ra": 327.45047901},
         "ascendantTropical": 178.59436249,
     },
+)
+# Independent Swiss Ephemeris 2.10.03 swe.houses (Placidus) fixtures in UTC.
+# Tropical values let us check the house geometry separately from the
+# calculator's explicit worksheet ayanamsha convention.
+PLACIDUS_REFERENCE = (
+    {"date": "1900-01-01T00:00:00Z", "latitude": 19.9975, "longitude": 73.7898,
+     "cuspsTropical": [256.37367485, 286.81140335, 319.70738122, 353.44040898, 24.62683757, 51.81127149,
+                       76.37367485, 106.81140335, 139.70738122, 173.44040898, 204.62683757, 231.81127149]},
+    {"date": "2000-01-01T12:00:00Z", "latitude": 51.5074, "longitude": -0.1278,
+     "cuspsTropical": [24.01459044, 61.01297153, 81.91142157, 99.49322530, 118.91353522, 147.48548731,
+                       204.01459044, 241.01297153, 261.91142157, 279.49322530, 298.91353522, 327.48548731]},
+    {"date": "2000-01-01T12:00:00Z", "latitude": -33.8688, "longitude": 151.2093,
+     "cuspsTropical": [152.48890914, 195.67756727, 228.13154940, 253.08918682, 275.56340853, 299.97943816,
+                       332.48890914, 15.67756727, 48.13154940, 73.08918682, 95.56340853, 119.97943816]},
+    {"date": "2026-10-06T14:00:00Z", "latitude": 65, "longitude": 25,
+     "cuspsTropical": [271.78200112, 28.75485959, 59.64171701, 71.76556716, 79.31803403, 85.42519881,
+                       91.78200112, 208.75485959, 239.64171701, 251.76556716, 259.31803403, 265.42519881]},
+    {"date": "2026-10-06T14:00:00Z", "latitude": -65, "longitude": -80,
+     "cuspsTropical": [291.88256923, 298.53641564, 307.88660326, 322.90458686, 352.50259610, 64.05316990,
+                       111.88256923, 118.53641564, 127.88660326, 142.90458686, 172.50259610, 244.05316990]},
+    {"date": "2100-12-31T23:00:00Z", "latitude": 0, "longitude": 0,
+     "cuspsTropical": [175.05416547, 207.42480604, 237.72506989, 265.83301906, 293.59905392, 323.12463212,
+                       355.05416547, 27.42480604, 57.72506989, 85.83301906, 113.59905392, 143.12463212]},
 )
 
 
@@ -118,6 +152,33 @@ class CalculatorBrowserTests(unittest.TestCase):
             self.page.locator(".backup-menu > summary").click()
         self.page.locator(f".global-actions [data-action='{action}']").click()
 
+    def show_astrologer_fields(self):
+        # The settings workspace keeps the existing contact fields in its
+        # Astrologer category; older standalone files showed them immediately.
+        tab = self.page.locator("#settings-tab-astrologer")
+        if tab.count():
+            tab.click()
+
+    def change_software_draft(self, **changes):
+        self.go("astrosettings")
+        for key, value in changes.items():
+            control = self.page.locator(f"#setting-{key}")
+            category = control.evaluate("element=>element.closest('[role=tabpanel]').id.replace('settings-pane-','')")
+            self.page.locator(f"#settings-tab-{category}").click()
+            tag = control.evaluate("element=>element.tagName")
+            if tag == "SELECT":
+                control.select_option(str(value))
+            elif control.get_attribute("type") == "checkbox":
+                control.set_checked(bool(value))
+            else:
+                control.fill(str(value))
+
+    def save_software_preferences(self, **changes):
+        self.change_software_draft(**changes)
+        self.page.locator("#settings-save").click()
+        self.page.wait_for_function("changes=>Object.entries(changes).every(([key,value])=>String(window.KPPreferences.get()[key])===String(value))", arg=changes)
+        return self.page.evaluate("window.KPPreferences.get()")
+
     def outputs(self):
         return self.page.evaluate("ids => Object.fromEntries(ids.map(id => [id, document.getElementById(id).value]))", OUTPUT_IDS)
 
@@ -152,6 +213,7 @@ class CalculatorBrowserTests(unittest.TestCase):
             self.page.locator(f"#p6_d_{index}").fill(f"{20 + index * 30}:00:00")
             self.page.locator(f"#p6_t_{index}").fill(f"{21 + index * 30}:00:00")
         self.go("astrosettings")
+        self.show_astrologer_fields()
         self.page.locator("#astroName").fill("Test Astrologer")
         self.page.locator("#astroMobile").fill("1234567890")
         self.page.locator("#astroAddress").fill("Pune\nClient report office")
@@ -189,7 +251,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.page.locator("#p6_t_1").fill(moon)
         self.action("calculate")
         degrees, minutes, seconds = moon.split(":")
-        expect(self.page.locator("#p6_final_1")).to_have_value(f"{int(degrees)}:{minutes}:{seconds}")
+        expect(self.page.locator("#p6_final_1")).to_have_value(f"{int(degrees) % 30}:{minutes}:{seconds}")
         self.go("mdcalc")
 
     def dasha_rows(self, selector="#adDashaRows"):
@@ -303,8 +365,580 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#western-angle-30")).to_be_checked()
         expect(self.page.locator("#western-orb-30")).to_have_value("0")
         self.go("report")
-        expect(self.page.locator('#printReport > [data-report-section="aspects"]')).to_have_count(0)
-        expect(self.page.locator('#printReport > [data-report-section="transit"]')).to_have_count(0)
+        expect(self.page.locator('#printReport > [data-report-section="aspects"]')).to_have_count(1)
+        expect(self.page.locator('#printReport > [data-report-section="transit"]')).to_have_count(1)
+
+    def test_reference_western_catalog_calculates_all_seventeen_angles_and_inclusive_orbs(self):
+        catalog = self.page.evaluate("window.KPWesternAspects.getCatalog()")
+        self.assertEqual([(row["angle"], row["code"]) for row in catalog], list(WESTERN_ASPECT_REFERENCE))
+        fixtures = []
+        for angle, code in WESTERN_ASPECT_REFERENCE:
+            for direction in (-1, 1):
+                fixtures.append({"angle": angle, "code": code, "a": 350 + 720,
+                                 "b": (350 + direction * angle) % 360 - 720})
+        exact = self.page.evaluate("""fixtures => fixtures.map(({angle,a,b}) =>
+            window.KPWesternAspects.calculate([{id:'Su',longitude:a},{id:'Mo',longitude:b}],
+                [{id:1,longitude:b}], {aspects:[{angle,orb:0}]}))""", fixtures)
+        for fixture, result in zip(fixtures, exact):
+            with self.subTest(angle=fixture["angle"], target=fixture["b"]):
+                for family in ("planetToPlanet", "planetToCusp"):
+                    rows = [row for row in result[family] if row["source"] == "Su"]
+                    self.assertEqual(len(rows), 1, "Exact listed angles must match in either direction across zodiac zero.")
+                    self.assertEqual(rows[0]["code"], fixture["code"])
+                    self.assertAlmostEqual(rows[0]["separation"], fixture["angle"], places=8)
+                    self.assertAlmostEqual(rows[0]["orb"], 0, places=8)
+        boundaries = [{"angle": angle, "separation": angle - 1.25 if angle == 180 else angle + 1.25}
+                      for angle, _ in WESTERN_ASPECT_REFERENCE]
+        edge = self.page.evaluate("""fixtures => fixtures.map(({angle,separation}) => {
+            const calculate = value => window.KPWesternAspects.calculate(
+                [{id:'Su',longitude:350},{id:'Mo',longitude:350+value}],
+                [{id:1,longitude:350+value}], {aspects:[{angle,orb:1.25}]});
+            return {inside:calculate(separation), outside:calculate(separation+(angle===180?-0.00001:0.00001))};
+        })""", boundaries)
+        for fixture, result in zip(boundaries, edge):
+            with self.subTest(orb_boundary=fixture["angle"]):
+                self.assertEqual(len(result["inside"]["planetToPlanet"]), 1)
+                self.assertEqual(result["outside"]["planetToPlanet"], [])
+                self.assertEqual(len([row for row in result["inside"]["planetToCusp"] if row["source"] == "Su"]), 1)
+                self.assertEqual([row for row in result["outside"]["planetToCusp"] if row["source"] == "Su"], [])
+        failures = self.page.evaluate("""() => [37,181].map(angle => {
+            try { window.KPWesternAspects.calculate([{id:'Su',longitude:0}],[],{aspects:[{angle,orb:3}]}); return false; }
+            catch { return true; }
+        })""")
+        self.assertEqual(failures, [True, True], "Unlisted angles must not silently become named aspects.")
+
+    def test_aspect_catalog_color_choices_survive_lkp_and_print_without_changing_geometry(self):
+        self.prepare_exact_kp_worksheets()
+        self.page.locator("#p6_d_1").fill("41:00:00")
+        self.page.locator("#p6_t_1").fill("41:00:00")
+        self.action("calculate")
+        self.go("aspects")
+        self.page.locator("#western-select-all").click()
+        self.assertEqual(self.page.evaluate("window.KPWesternAspects.getSettings().aspects.map(aspect=>aspect.angle)"),
+                         [angle for angle, _ in WESTERN_ASPECT_REFERENCE])
+        expect(self.page.locator('.western-angle-options input[type="checkbox"]:checked')).to_have_count(17)
+        for angle, code in WESTERN_ASPECT_REFERENCE:
+            expect(self.page.locator(f'[id="western-angle-{angle}"]')).to_be_checked()
+            expect(self.page.locator(f'[id="western-angle-{angle}"]').locator("xpath=ancestor::div[contains(@class,'western-angle-option')]").first).to_contain_text(code)
+        self.page.locator("#western-orb-36").fill("0.75")
+        self.page.locator("#western-quality-36").select_option("very-bad")
+        selected = self.page.locator('#western-planet-aspects tr[data-source="Su"][data-target="Mo"][data-angle="36"]')
+        expect(selected).to_have_count(1)
+        expect(selected).to_have_attribute("data-quality", "very-bad")
+        expect(selected.locator(".western-aspect-code")).to_have_text("सेक्यूटी")
+        self.assertEqual(selected.locator(".western-aspect-code").evaluate("element=>getComputedStyle(element).color"), "rgb(217, 36, 36)")
+        geometric_rows = self.page.evaluate("""() => Object.keys(window.KPWesternAspects.getPalette()).map(quality => {
+            const result=window.KPWesternAspects.calculate([{id:'Su',longitude:350},{id:'Mo',longitude:26}], [],
+                {aspects:[{angle:36,orb:0,quality}]}).planetToPlanet[0];
+            return {quality:result.quality,separation:result.separation,orb:result.orb,color:result.color};
+        })""")
+        self.assertEqual({row["quality"] for row in geometric_rows}, {"very-good", "good", "bad", "very-bad", "conjunction"})
+        self.assertTrue(all(row["separation"] == 36 and row["orb"] == 0 for row in geometric_rows))
+        self.assertEqual(len({row["color"] for row in geometric_rows}), 5)
+        before = self.page.evaluate("window.KPWesternAspects.getSettings()")
+        backup = self.page.evaluate("window.getChartData()")
+        self.assertEqual(backup["fields"]["western-quality-36"]["value"], "very-bad")
+        self.page.locator("#western-select-major").click()
+        expect(self.page.locator('.western-angle-options input[type="checkbox"]:checked')).to_have_count(5)
+        self.page.locator("#western-quality-36").select_option("good")
+        self.page.locator("#western-orb-36").fill("4")
+        self.import_file(json.dumps(backup, ensure_ascii=False), filename="aspect-reference.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported")
+        self.go("aspects")
+        self.assertEqual(self.page.evaluate("window.KPWesternAspects.getSettings()"), before)
+        expect(selected).to_have_attribute("data-quality", "very-bad")
+        self.go("report")
+        self.page.locator("#report-clear-pages").click()
+        self.page.locator('#report-page-options [data-report-page-key="aspects"]').check()
+        self.page.evaluate("""() => { const original=window.open; window.open=function(...args) {
+            const popup=original.apply(window,args); if(popup)popup.print=()=>{popup.testPrintCalled=true;}; return popup;
+        }; }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Catalog print: " + str(error)))
+        popup.wait_for_function("window.testPrintCalled === true")
+        report = popup.locator('body > [data-report-section="aspects"]')
+        expect(popup.locator("body > .report-page")).to_have_count(1)
+        expect(report).to_contain_text("Semi-quintile · 36°")
+        expect(report).to_contain_text("orb 0.75°")
+        expect(report).to_contain_text("Very bad")
+        printed = report.locator('[data-report-id="western-planet-aspects"] tr[data-source="Su"][data-target="Mo"][data-angle="36"]')
+        expect(printed).to_have_attribute("data-quality", "very-bad")
+        expect(printed.locator(".western-aspect-code")).to_have_text("सेक्यूटी")
+        popup.emulate_media(media="print")
+        self.assertEqual(printed.locator(".western-aspect-code").evaluate("element=>getComputedStyle(element).color"), "rgb(217, 36, 36)")
+        expect(report.locator("input,select,button,textarea")).to_have_count(0)
+        popup.close()
+
+    def test_planet_notation_conditions_count_self_and_nodes_but_exclude_fortuna(self):
+        expected = {
+            "Su": ["[+]", "[*]"], "Mo": [], "Ma": ["[#]"],
+            "Me": ["[*]", "[R]"], "Ju": ["[+]"], "Ve": ["[+]"],
+            "Sa": ["[#]", "[*]"], "Ra": ["[+]", "[R]"], "Ke": ["[*]"],
+        }
+        result = self.page.evaluate("""() => {
+            const ids=['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke'];
+            const stars=['Ke','Ma','Ma','Sa','Ke','Ke','Sa','Me','Mo'];
+            const subs=['Su','Ve','Ra','Me','Sa','Ju','Sa','Mo','Ke'];
+            const model={ready:true,planets:ids.map((id,i)=>({id,longitude:i*40*3600,stl:stars[i],sl:subs[i]})),
+                houses:[{id:1,occ:['Su']},{id:2,occ:[]},{id:3,occ:['Fo']},{id:4,occ:['Ra']}]};
+            model.planets.push({id:'Fo',longitude:0,stl:'Ju',sl:'Fo'});
+            const before=JSON.stringify(model),options={retrograde:new Set(['Me','Ra']),combustionRule:'planet-specific'};
+            return {markers:Object.fromEntries(ids.map(id=>[id,window.KPDisplay.getNotations(id,model,options)])),
+                text:Object.fromEntries(ids.map(id=>[id,window.KPDisplay.notationText(id,model,options)])),
+                houses:[1,2,3,4,5].map(id=>window.KPDisplay.getHouseNotations(id,model)),
+                marathi:window.KPDisplay.getNotations('मंगळ',model,options),
+                fortuna:window.KPDisplay.getNotations('Fo',model,options),
+                notReady:window.KPDisplay.getNotations('Su',{...model,ready:false},options),
+                unchanged:JSON.stringify(model)===before};
+        }""")
+        self.assertEqual(result["markers"], expected,
+                         "Own-star planets count themselves; Rahu supplies Mercury's star occupant and Fortuna supplies none.")
+        self.assertEqual(result["text"], {id: "".join(markers) for id, markers in expected.items()})
+        self.assertEqual(result["houses"], [[], ["[e]"], ["[e]"], [], []],
+                         "An optional Fortuna point cannot make an otherwise empty natal house occupied.")
+        self.assertEqual(result["marathi"], ["[#]"])
+        self.assertEqual(result["fortuna"], [])
+        self.assertEqual(result["notReady"], [])
+        self.assertTrue(result["unchanged"], "Notation calculation must leave numeric and significator data untouched.")
+
+    def test_combustion_markers_match_user_limits_retrograde_and_inclusive_zodiac_wrap(self):
+        # Limits supplied by the user, independent of the application's constants.
+        limits = (("Mo",4,False), ("Ma",8,False), ("Me",5,False), ("Me",3,True),
+                  ("Ve",6,False), ("Ve",4,True), ("Ju",5,False), ("Sa",8,False))
+        cases = []
+        for id, orb, retrograde in limits:
+            for rule, limit in (("planet-specific", orb), ("uniform", 8.5)):
+                for direction in (-1, 1):
+                    for delta in (-1, 0, 1):
+                        cases.append({"id":id, "orb":limit, "retrograde":retrograde, "rule":rule,
+                                      "direction":direction, "delta":delta, "expected":delta <= 0})
+        result = self.page.evaluate("""cases=>cases.map(test=>{
+            const ids=['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke'],sun=test.direction>0?359:1;
+            const model={ready:true,houses:[],planets:ids.map((id,i)=>({id,longitude:(sun+(id===test.id
+                ?test.direction*(test.orb+test.delta/3600):id==='Su'?0:90+i*10)+360)%360*3600,stl:'Ke',sl:'Ke'}))};
+            const before=JSON.stringify(model),markers=window.KPDisplay.getNotations(test.id,model,
+                {retrograde:test.retrograde?[test.id]:[],combustionRule:test.rule});
+            return {combust:markers.includes('[C]'),retrograde:markers.includes('[R]'),unchanged:before===JSON.stringify(model)};
+        })""", cases)
+        for test, actual in zip(cases, result):
+            with self.subTest(**test):
+                self.assertEqual(actual["combust"], test["expected"],
+                                 "The orb boundary is inclusive; one arcsecond beyond it must be excluded.")
+                self.assertEqual(actual["retrograde"], test["retrograde"])
+                self.assertTrue(actual["unchanged"])
+        excluded = self.page.evaluate("""() => {
+            const model={ready:true,houses:[],planets:['Su','Ra','Ke','Fo'].map(id=>({id,longitude:359*3600,stl:'Ke',sl:'Ke'}))};
+            return ['Su','Ra','Ke','Fo'].map(id=>window.KPDisplay.getNotations(id,model,{retrograde:[]}));
+        }""")
+        self.assertTrue(all("[C]" not in markers for markers in excluded),
+                        "The Sun, lunar nodes and optional Fortuna never receive combustion markers.")
+
+    def test_planet_notations_update_live_and_survive_home_print_settings_and_lkp(self):
+        self.prepare_exact_dasha()
+        self.go("basic")
+        self.page.locator("#birthTime").fill("05:30:00")
+        self.go("planet")
+        positions = ("359:00:00", "05:00:00", "53:30:00", "02:00:00",
+                     "125:00:00", "03:00:00", "214:00:00", "300:00:00")
+        for index, longitude in enumerate(positions):
+            self.page.locator(f"#p6_d_{index}").fill(longitude)
+            self.page.locator(f"#p6_t_{index}").fill("01:00:00" if index == 3 else longitude)
+        self.action("calculate")
+        expect(self.page.locator("#p6_final_3")).to_have_value(re.compile(r".*\bR$"))
+        expected = {
+            "Su": ["[+]"], "Mo": ["[+]"], "Ma": ["[#]", "[*]"],
+            "Me": ["[R]", "[C]"], "Ju": ["[+]"], "Ve": ["[+]", "[C]"],
+            "Sa": ["[#]", "[*]"], "Ra": ["[+]"], "Ke": ["[#]", "[*]"],
+        }
+        empty_houses = {3,4,6,7,9,10}
+        native = self.outputs()
+        model = self.page.evaluate("JSON.stringify(window.currentKPModel)")
+        # At 05:30 the base longitude stays 2° while changing tomorrow's
+        # longitude reverses Mercury's motion. Markers must follow that edit
+        # automatically, without pressing Calculate or changing any position.
+        self.page.locator("#p6_t_3").fill("03:00:00")
+        expect(self.page.locator('#kp-basic-planet tr[data-planet="Me"] th [data-marker="[R]"]')).to_have_count(0)
+        expect(self.page.locator('#kp-basic-planet tr[data-planet="Me"] th [data-marker="[C]"]')).to_have_count(1)
+        self.page.locator("#p6_t_3").fill("01:00:00")
+        expect(self.page.locator('#kp-basic-planet tr[data-planet="Me"] th [data-marker="[R]"]')).to_have_count(1)
+        self.assertEqual(self.page.evaluate("JSON.stringify(window.currentKPModel)"), model)
+
+        def assert_references(root, expectations=expected):
+            refs = root.locator("[data-planet-ref]").evaluate_all("""refs=>refs.map(ref=>({id:ref.dataset.planetRef,
+                markers:[...ref.querySelectorAll('.kp-notation-marker')].map(marker=>marker.dataset.marker)}))""")
+            self.assertTrue(refs, "The source and mirrored calculations must expose planet references.")
+            for reference in refs:
+                self.assertEqual(reference["markers"], expectations[reference["id"]], reference)
+
+        for table in ("kp-basic-planet", "kp-fourfold-planet", "kp-sixfold-planet"):
+            assert_references(self.page.locator(f"#{table}"))
+            for id, markers in expected.items():
+                row = self.page.locator(f'#{table} tr[data-planet="{id}"]')
+                expect(row.locator("th .kp-planet-label")).to_have_text(id)
+                self.assertEqual(row.locator("th .kp-notation-marker").evaluate_all(
+                    "markers=>markers.map(marker=>marker.dataset.marker)"), markers)
+        for table in ("kp-basic-house", "kp-fourfold-house", "kp-sixfold-house"):
+            assert_references(self.page.locator(f"#{table}"))
+            for house in range(1,13):
+                markers = self.page.locator(f'#{table} tr[data-house="{house}"] th .kp-notation-marker').evaluate_all(
+                    "markers=>markers.map(marker=>marker.dataset.marker)")
+                self.assertEqual(markers, ["[e]"] if house in empty_houses else [])
+        assert_references(self.page.locator("#kp-fourstep"))
+        for section in ("kp-basic-calculations", "kp-fourfold", "kp-sixfold", "kp-fourstep-section"):
+            self.assertEqual(self.page.locator(f"#{section} > .kp-notation-legend b").all_text_contents(),
+                             ["[+]", "[#]", "[*]", "[R]", "[C]", "[e]"])
+        self.go("home")
+        expect(self.page.locator("#home-notations-legend")).to_be_visible()
+        self.assertEqual(self.page.locator("#home-notations-legend b").all_text_contents(),
+                         ["[+]", "[#]", "[*]", "[R]", "[C]", "[e]"])
+        assert_references(self.home_source("kp-basic-planet"))
+        for view, table in (("fourfold", "kp-fourfold-planet"), ("sixfold", "kp-sixfold-planet"), ("fourstep", "kp-fourstep")):
+            self.page.locator(f'#home [data-home-view="{view}"]').click()
+            assert_references(self.home_source(table))
+        self.go("report")
+        for section in ("south9", "kp-fourfold", "kp-sixfold", "kp-fourstep-section"):
+            assert_references(self.page.locator(f'[data-report-section="{section}"]'))
+        self.page.locator("#report-clear-pages").click()
+        for section in ("south9", "kp-fourfold", "kp-sixfold", "kp-fourstep-section"):
+            self.page.locator(f'#report-page-options [data-report-page-key="{section}"]').check()
+        self.page.evaluate("""() => {const original=window.open;window.open=function(...args){
+            const popup=original.apply(window,args);if(popup)popup.print=()=>{popup.testPrintCalled=true;};return popup;};}""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Notation print: " + str(error)))
+        popup.wait_for_function("window.testPrintCalled === true")
+        popup.emulate_media(media="print")
+        for section in ("south9", "kp-fourfold", "kp-sixfold", "kp-fourstep-section"):
+            printed = popup.locator(f'body > [data-report-section="{section}"]')
+            assert_references(printed)
+            self.assertEqual(printed.locator(".kp-notation-legend b").all_text_contents(),
+                             ["[+]", "[#]", "[*]", "[R]", "[C]", "[e]"])
+            expect(printed.locator("input,select,button,textarea")).to_have_count(0)
+        popup.close()
+        self.save_software_preferences(notationMarkers=False, combustionRule="uniform")
+        expect(self.page.locator("#kp-basic-planet .kp-notation-marker,#kp-basic-house .kp-notation-marker,#kp-fourstep .kp-notation-marker")).to_have_count(0)
+        self.go("home")
+        expect(self.page.locator("#home-notations-legend")).not_to_be_visible()
+        self.assertEqual(self.page.evaluate("window.KPDisplay.getNotations('Mo')"), ["[+]", "[C]"],
+                         "Hiding markers must not disable their calculation or change the selected combustion rule.")
+        self.assertEqual(self.outputs(), native)
+        self.assertEqual(self.page.evaluate("JSON.stringify(window.currentKPModel)"), model)
+        self.action("save")
+        saved = self.page.evaluate("JSON.parse(localStorage.getItem('kpRaphaelData'))")
+        preferences = json.loads(saved["fields"]["kp-software-settings"]["value"])
+        self.assertFalse(preferences["notationMarkers"])
+        self.assertEqual(preferences["combustionRule"], "uniform")
+        self.save_software_preferences(notationMarkers=True, combustionRule="planet-specific")
+        self.import_file(json.dumps(saved, ensure_ascii=False))
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        self.assertFalse(self.page.evaluate("window.KPPreferences.get().notationMarkers"))
+        expect(self.page.locator("#kp-basic-planet .kp-notation-marker")).to_have_count(0)
+        self.save_software_preferences(notationMarkers=True)
+        uniform_expected = {**expected, "Mo":["[+]", "[C]"]}
+        assert_references(self.page.locator("#kp-basic-planet"), uniform_expected)
+        self.assertEqual(self.outputs(), native)
+        self.assertEqual(self.page.evaluate("JSON.stringify(window.currentKPModel)"), model)
+
+    def test_fortuna_uses_day_night_cusp_boundaries_and_absolute_zodiac_wrap(self):
+        # These expected values use Asc + Moon - Sun for day and
+        # Asc + Sun - Moon for night; they do not read the displayed result.
+        fixtures = [
+            {"asc":350,"sun":200,"moon":40,"formula":"sect","expected":190,"sect":"day","house":8,"used":"day"},
+            {"asc":350,"sun":10,"moon":40,"formula":"sect","expected":320,"sect":"night","house":1,"used":"night"},
+            {"asc":350,"sun":10,"moon":40,"formula":"day","expected":20,"sect":"night","house":1,"used":"day"},
+            {"asc":350,"sun":200,"moon":40,"formula":"night","expected":150,"sect":"day","house":8,"used":"night"},
+            {"asc":350,"sun":170,"moon":10,"formula":"sect","expected":190,"sect":"day","house":7,"used":"day"},
+            {"asc":350,"sun":350,"moon":10,"formula":"sect","expected":330,"sect":"night","house":1,"used":"night"},
+            {"asc":350,"sun":170,"moon":10,"formula":"sect","expected":190,"sect":"day","house":7,"used":"day",
+             "cusps":[350,10,40,75,100,140,170,190,220,255,280,310]},
+            {"asc":350,"sun":169.99,"moon":10,"formula":"sect","expected":149.99,"sect":"night","house":6,"used":"night",
+             "cusps":[350,10,40,75,100,140,170,190,220,255,280,310]},
+        ]
+        results = self.page.evaluate("""fixtures=>fixtures.map(fixture=>{
+            const model={ready:true,houses:(fixture.cusps||Array.from({length:12},(_,i)=>(fixture.asc+i*30)%360))
+                .map((longitude,i)=>({id:i+1,longitude})),planets:[{id:'Su',longitude:fixture.sun},{id:'Mo',longitude:fixture.moon}]};
+            const before=JSON.stringify(model),point=window.KPFortuna.calculate(model,{unit:'degrees',formula:fixture.formula});
+            const arcseconds={ready:true,houses:model.houses.map(cusp=>({...cusp,longitude:cusp.longitude*3600})),
+                planets:model.planets.map(planet=>({...planet,longitude:planet.longitude*3600}))};
+            return {point,unchanged:before===JSON.stringify(model),native:window.KPFortuna.calculate(arcseconds,{formula:fixture.formula})};
+        })""", fixtures)
+        for fixture, result in zip(fixtures, results):
+            with self.subTest(sun=fixture["sun"], formula=fixture["formula"], unequal="cusps" in fixture):
+                self.assertTrue(result["unchanged"], "Deriving Fortuna must not mutate the nine-graha model or house cusps.")
+                for point in (result["point"], result["native"]):
+                    self.assertEqual(point["id"], "Fo")
+                    self.assertEqual(point["unit"], "arcseconds")
+                    self.assertAlmostEqual(point["longitude"], fixture["expected"] * 3600, places=6)
+                    self.assertEqual(point["sect"], fixture["sect"])
+                    self.assertEqual(point["formulaUsed"], fixture["used"])
+                    self.assertEqual(point["sunHouse"], fixture["house"])
+        invalid = self.page.evaluate("""() => {
+            const model={ready:true,cusps:Array.from({length:12},(_,i)=>({id:i+1,longitude:i*30})),
+                planets:[{id:'Su',longitude:200},{id:'Mo',longitude:40}]};
+            return [window.KPFortuna.calculate(model),window.KPFortuna.calculate({...model,cusps:model.cusps.slice(1)},{unit:'degrees'}),
+                window.KPFortuna.calculate({...model,cusps:Array(12).fill({longitude:0})},{unit:'degrees'}),
+                window.KPFortuna.calculate({...model,planets:[{id:'Su',longitude:200}]},{unit:'degrees'})];
+        }""")
+        self.assertEqual(invalid, [None,None,None,None], "Missing units, cusps or Moon must not yield an invented point.")
+        self.assertIsNone(self.page.evaluate("window.KPFortuna.getNatal()"), "Fortuna display must remain optional by default.")
+
+    def test_optional_fortuna_appears_on_selected_charts_and_print_without_changing_graha_calculations(self):
+        self.prepare_exact_dasha()
+        native_outputs = self.outputs()
+        native_positions = self.page.evaluate("""() => ({planets:window.currentKPModel.planets.map(point=>[point.id,point.longitude]),
+            cusps:window.currentKPModel.houses.map(point=>point.longitude)})""")
+        transit = self.configure_transit_chart()
+        self.assertIsNone(self.page.evaluate("window.KPFortuna.getNatal()"))
+        expect(self.page.locator('#kundali [data-planet="Fo"]')).to_have_count(0)
+        self.save_software_preferences(showFortuna=True, fortunaFormula="sect")
+        fortuna = self.page.evaluate("window.KPFortuna.getNatal()")
+        self.assertEqual(fortuna["longitude"], 5 * 3600, "Asc0 + Sun5 - Moon0 must give night Fortuna5°.")
+        self.assertEqual(fortuna["formulaUsed"], "night")
+        self.go("south9")
+        point = self.page.locator('#kundali [data-planet="Fo"]')
+        expect(point).to_have_count(1)
+        self.assertAlmostEqual(float(point.get_attribute("data-longitude")), fortuna["longitude"], places=7)
+        expect(point.locator(".v38-lords")).to_have_text(f'({fortuna["sgl"]}-{fortuna["stl"]}-{fortuna["sl"]})')
+        expect(self.page.locator("#kundali-fortuna-info")).to_contain_text("Asc + Sun − Moon")
+        self.go("home")
+        expect(self.home_source("kundali").locator('[data-planet="Fo"]')).to_have_count(1)
+        self.save_software_preferences(chartStyle="north")
+        self.go("home")
+        north = self.home_source("kundali-north").locator('svg [data-planet="Fo"]')
+        expect(north).to_have_count(1)
+        self.assertAlmostEqual(float(north.get_attribute("data-longitude")), fortuna["longitude"], places=7)
+        self.go("transit-chart")
+        tc_fortuna = self.page.evaluate("window.KPFortuna.getTransit(window.KPTransitChart.getData())")
+        for chart in ("tc-rashi-chart", "tc-bhav-chart"):
+            fo = self.page.locator(f'#{chart} svg [data-planet="Fo"]')
+            expect(fo).to_have_count(1)
+            self.assertAlmostEqual(float(fo.get_attribute("data-longitude")), tc_fortuna["longitude"] / 3600, places=7)
+        self.assertEqual(len(self.page.evaluate("window.KPTransitChart.getData().planets")), 9)
+        expect(self.page.locator("#tc-planets tbody tr[data-planet]")).to_have_count(9)
+        self.assertEqual(self.page.evaluate("window.KPTransitChart.getData().utc"), transit["utc"])
+        self.assertEqual(self.outputs(), native_outputs)
+        self.assertEqual(self.page.evaluate("""() => ({planets:window.currentKPModel.planets.map(point=>[point.id,point.longitude]),
+            cusps:window.currentKPModel.houses.map(point=>point.longitude)})"""), native_positions,
+                         "Fortuna visibility must preserve all nine planet longitudes and twelve native cusps.")
+        expect(self.page.locator('#kp-basic-planet tbody tr')).to_have_count(9)
+        expect(self.page.locator('input[id^="p6_d_"]:not([readonly])')).to_have_count(8)
+        backup = self.page.evaluate("window.getChartData()")
+        self.go("report")
+        self.page.locator("#report-clear-pages").click()
+        for section in ("south9", "transit-chart"):
+            self.page.locator(f'#report-page-options [data-report-page-key="{section}"]').check()
+        self.page.evaluate("""() => { const original=window.open; window.open=function(...args) {
+            const popup=original.apply(window,args); if(popup)popup.print=()=>{popup.testPrintCalled=true;}; return popup;
+        }; }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Fortuna print: " + str(error)))
+        popup.wait_for_function("window.testPrintCalled === true")
+        expect(popup.locator('[data-report-section="south9"] svg [data-planet="Fo"]')).to_have_count(1)
+        expect(popup.locator('[data-report-section="transit-chart"] svg [data-planet="Fo"]')).to_have_count(2)
+        expect(popup.locator('[data-report-section="transit-chart"]')).to_contain_text("Fortuna")
+        popup.close()
+        self.save_software_preferences(showFortuna=False)
+        expect(self.page.locator('#kundali [data-planet="Fo"],#kundali-north svg [data-planet="Fo"],#tc-rashi-chart svg [data-planet="Fo"]')).to_have_count(0)
+        self.import_file(json.dumps(backup, ensure_ascii=False), filename="fortuna-display.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported")
+        self.assertTrue(self.page.evaluate("window.KPPreferences.get().showFortuna"))
+        self.assertEqual(self.page.evaluate("window.KPFortuna.getNatal().longitude"), fortuna["longitude"])
+
+    def test_all_settings_categories_keep_drafts_isolated_and_save_cancel_presets_work(self):
+        self.prepare_exact_dasha()
+        self.save_software_preferences(degreeSize="medium")
+        self.show_astrologer_fields()
+        self.page.locator("#astroName").fill("Saved settings astrologer")
+        self.page.locator("#settings-save").click()
+        saved = self.page.evaluate("window.KPPreferences.get()")
+        before_font = self.page.locator("#kundali .v38-degree").first.evaluate("element=>getComputedStyle(element).fontSize")
+        before_hidden = self.page.locator("#kp-software-settings").input_value()
+        self.change_software_draft(degreeSize="large", chartStyle="north", theme="classic")
+        self.show_astrologer_fields()
+        self.page.locator("#astroName").fill("Unsaved settings astrologer")
+        self.assertEqual(self.page.evaluate("window.KPPreferences.get()"), saved,
+                         "Changing settings controls must remain a draft until Save.")
+        self.assertEqual(self.page.locator("#kundali .v38-degree").first.evaluate("element=>getComputedStyle(element).fontSize"), before_font)
+        self.assertEqual(self.page.locator("#kp-software-settings").input_value(), before_hidden)
+        backup = self.page.evaluate("window.getChartData()")
+        self.assertFalse(any(key.startswith("setting-") for key in backup["fields"]),
+                         "Portable backups must not accidentally apply an unsaved settings draft.")
+        self.page.locator("#settings-cancel").click()
+        self.assertEqual(self.page.evaluate("window.KPSettings.getDraft()"), saved)
+        expect(self.page.locator("#astroName")).to_have_value("Saved settings astrologer")
+        self.page.locator("#settings-tab-presets").click()
+        self.page.locator("#settings-preset-compact").click()
+        draft = self.page.evaluate("window.KPSettings.getDraft()")
+        self.assertEqual(draft["tableSize"], "small")
+        self.assertEqual(draft["resolution"], "compact")
+        self.assertEqual(self.page.evaluate("window.KPPreferences.get()"), saved,
+                         "Choosing a preset must wait for Save before changing the software.")
+        self.page.locator("#settings-save").click()
+        self.page.wait_for_function("window.KPPreferences.get().resolution === 'compact'")
+        expect(self.page.locator("body")).to_have_attribute("data-kp-resolution", "compact")
+        compact = self.page.evaluate("window.KPPreferences.get()")
+        self.assertEqual(json.loads(self.page.locator("#kp-software-settings").input_value()), compact)
+        stored = self.page.evaluate("JSON.parse(localStorage.getItem(window.KPPreferences.storageKey))")
+        self.assertEqual(stored, compact)
+        self.page.reload(wait_until="load")
+        self.page.wait_for_function("window.KPPreferences?.get().resolution === 'compact'")
+        self.go("astrosettings")
+        self.assertEqual(self.page.evaluate("window.KPSettings.getDraft()"), compact)
+        categories = ("display", "calculation", "notations", "ruling", "significators", "aspects",
+                      "language", "presets", "themes", "astrologer")
+        expect(self.page.locator("#kp-settings-shell [role=tab]")).to_have_count(10)
+        for width in (1280, 390):
+            self.page.set_viewport_size({"width":width,"height":900})
+            for category in categories:
+                tab = self.page.locator(f"#settings-tab-{category}")
+                tab.click()
+                expect(tab).to_have_attribute("aria-selected", "true")
+                expect(self.page.locator(f"#settings-pane-{category}")).to_be_visible()
+                expect(self.page.locator("#kp-settings-shell [role=tabpanel]:visible")).to_have_count(1)
+                self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), width + 1,
+                                     f"The {category} settings category must fit its screen.")
+        self.page.locator("#settings-tab-display").focus()
+        self.page.keyboard.press("ArrowDown")
+        expect(self.page.locator("#settings-tab-calculation")).to_be_focused()
+        expect(self.page.locator("#settings-pane-calculation")).to_be_visible()
+        self.page.keyboard.press("End")
+        expect(self.page.locator("#settings-tab-astrologer")).to_be_focused()
+        self.page.keyboard.press("Home")
+        expect(self.page.locator("#settings-tab-display")).to_be_focused()
+
+    def test_settings_change_real_aspects_and_significators_and_round_trip_without_losing_natal_data(self):
+        self.prepare_exact_dasha()
+        before = self.outputs()
+        self.assertFalse(self.page.evaluate("window.currentKPModel.options.ketuAspects"))
+        self.save_software_preferences(ketuAspects=True, conjunctionOrb=5, aspectSet="all", aspectOrb=1.25,
+                                       homeView="sixfold", rpOrb=0.5, rpRefresh="manual")
+        actual = self.page.evaluate("window.currentKPModel")
+        self.assertTrue(actual["options"]["ketuAspects"])
+        self.assertEqual(actual["options"]["conjunctionOrb"], 5)
+        ketu = next(planet for planet in actual["planets"] if planet["id"] == "Ke")
+        self.assertGreater(len(ketu["aspg"]["houses"]), 0, "The Ketu option must change actual aspect relationships.")
+        self.assertTrue(any(planet["conj"] for planet in actual["planets"]), "The selected5° cusp conjunction orb must include the exact5° fixture.")
+        settings = self.page.evaluate("window.KPWesternAspects.getSettings()")
+        self.assertEqual([aspect["angle"] for aspect in settings["aspects"]], [angle for angle, _ in WESTERN_ASPECT_REFERENCE])
+        self.assertTrue(all(aspect["orb"] == 1.25 for aspect in settings["aspects"]))
+        self.go("home")
+        expect(self.home_source("kp-sixfold-planet")).to_be_visible()
+        expect(self.page.locator("#home-current-ruling-planets")).to_contain_text("0.5° orb")
+        saved = self.page.evaluate("window.KPPreferences.get()")
+        backup = self.page.evaluate("window.getChartData()")
+        self.assertEqual(json.loads(backup["fields"]["kp-software-settings"]["value"]), saved)
+        self.save_software_preferences(ketuAspects=False, conjunctionOrb=0, aspectSet="major", aspectOrb=3,
+                                       homeView="basic")
+        self.assertFalse(self.page.evaluate("window.currentKPModel.options.ketuAspects"))
+        planets = self.page.evaluate("window.currentKPModel.planets")
+        self.assertEqual(next(planet for planet in planets if planet["id"] == "Su")["conj"], [])
+        self.assertEqual(next(planet for planet in planets if planet["id"] == "Mo")["conj"], [1],
+                         "A zero orb must retain an exact cusp conjunction and exclude the Sun5° away.")
+        self.import_file(json.dumps(backup, ensure_ascii=False), filename="software-settings.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported")
+        self.assertEqual(self.page.evaluate("window.KPPreferences.get()"), saved)
+        self.assertTrue(self.page.evaluate("window.currentKPModel.options.ketuAspects"))
+        self.assertEqual(self.page.evaluate("window.currentKPModel.options.conjunctionOrb"), 5)
+        self.assertEqual(self.outputs(), before, "Settings must preserve every numeric worksheet calculation and native date.")
+        invalid = json.loads(json.dumps(backup))
+        invalid["fields"]["name"] = {"value":"Must not replace native data"}
+        invalid["fields"]["kp-software-settings"]["value"] = "{broken preferences"
+        self.import_file(json.dumps(invalid), filename="broken-preferences.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Unable to import")
+        self.assertEqual(self.page.evaluate("window.KPPreferences.get()"), saved)
+        self.assertEqual(self.outputs(), before)
+        expect(self.page.locator("#name")).not_to_have_value("Must not replace native data")
+
+    def test_display_preferences_change_live_labels_sizes_dates_and_print_while_preserving_raw_values(self):
+        self.prepare_exact_dasha(dob="2000-06-15")
+        self.go("basic")
+        self.page.locator("#birthTime").fill("14:30:00")
+        self.action("calculate")
+        self.configure_transit_chart()
+        before = self.outputs()
+        self.go("south9")
+        degree_font = self.page.evaluate("parseFloat(getComputedStyle(document.querySelector('#kundali .v38-degree')).fontSize)")
+        table_font = self.page.evaluate("parseFloat(getComputedStyle(document.querySelector('#kp-basic-planet tbody td')).fontSize)")
+        self.save_software_preferences(degreeSize="large", tableSize="small", planetNotation="short", houseNotation="numeric",
+                                       degreePrecision="minutes", dateFormat="MM/DD/YYYY", timeFormat="12", birthInfo=False,
+                                       tooltips=False, language="english", theme="classic")
+        self.go("south9")
+        sun = self.page.locator('#kundali .v38-planet[data-planet="Su"]')
+        expect(sun).to_have_count(1)
+        expect(sun.locator(".v38-name")).to_have_text("Su")
+        expect(sun.locator(".v38-degree")).to_have_text("5°00′")
+        expect(self.page.locator("#kundali .v38-cusp .v38-name")).not_to_contain_text(["I", "II", "III"])
+        self.assertEqual(set(self.page.locator("#kundali .v38-cusp .v38-name").all_text_contents()), {str(i) for i in range(1,13)})
+        # A legacy recalculation replaces the chart DOM. Preferences must be
+        # present immediately in the replacement, before any observer/RAF runs.
+        redraw = self.page.evaluate("""() => {
+            window.renderChart(true);
+            const sun=document.querySelector('#kundali .v38-planet[data-planet="Su"]');
+            return {name:sun.querySelector('.v38-name').textContent,
+                degree:sun.querySelector('.v38-degree').textContent,
+                font:parseFloat(getComputedStyle(sun.querySelector('.v38-degree')).fontSize),
+                cusps:[...document.querySelectorAll('#kundali .v38-cusp .v38-name')].map(label=>label.textContent)};
+        }""")
+        self.assertEqual((redraw["name"], redraw["degree"]), ("Su", "5°00′"),
+                         "Configured planet names and precision must survive a synchronous chart redraw.")
+        self.assertEqual(set(redraw["cusps"]), {str(i) for i in range(1,13)})
+        shown_degree_font = redraw["font"]
+        shown_table_font = self.page.evaluate("parseFloat(getComputedStyle(document.querySelector('#kp-basic-planet tbody td')).fontSize)")
+        self.assertGreater(shown_degree_font, degree_font)
+        self.assertLess(shown_table_font, table_font)
+        expect(self.page.locator("#kundali .v38-data")).not_to_be_visible()
+        expect(self.page.locator("#kundali .v38-item[title]")).to_have_count(0)
+        expect(self.page.locator("body")).to_have_attribute("data-kp-theme", "classic")
+        expect(self.page.locator("html")).to_have_attribute("lang", "en")
+        self.assertEqual(self.page.locator(".app-sidebar").evaluate("element=>getComputedStyle(element).backgroundColor"), "rgb(38, 58, 33)")
+        dates = self.page.evaluate("""() => ({leap:window.KPPreferences.formatDate('2024-02-29'),
+            invalid:window.KPPreferences.formatDate('2024-02-30'), midnight:window.KPPreferences.formatTime('00:00:00'),
+            noon:window.KPPreferences.formatTime('12:00:00'),evening:window.KPPreferences.formatTime('23:59:00')})""")
+        self.assertEqual(dates, {"leap":"02/29/2024", "invalid":"2024-02-30", "midnight":"12:00:00 AM",
+                                 "noon":"12:00:00 PM", "evening":"11:59:00 PM"})
+        self.go("home")
+        expect(self.page.locator('#home-native [data-home-field="dob"]')).to_contain_text("06/15/2000")
+        expect(self.page.locator('#home-native [data-home-field="birthTime"]')).to_have_text("2:30:00 PM")
+        self.assertTrue(all("″" not in text for text in self.home_source("kundali").locator(".v38-degree").all_text_contents()))
+        self.go("mdcalc")
+        expect(self.page.locator("#mdDashaRows tr").first).to_contain_text("06/15/2000")
+        self.go("transit-chart")
+        expect(self.page.locator("#tc-status")).to_contain_text("10/06/2026")
+        expect(self.page.locator("#tc-status")).to_contain_text("5:30:00 AM")
+        self.assertEqual(self.outputs(), before)
+        expect(self.page.locator("#dob")).to_have_value("2000-06-15")
+        expect(self.page.locator("#birthTime")).to_have_value("14:30:00")
+        self.go("report")
+        self.page.locator("#report-clear-pages").click()
+        for section in ("cover", "south9", "transit-chart"):
+            self.page.locator(f'#report-page-options [data-report-page-key="{section}"]').check()
+        self.page.evaluate("""() => { const original=window.open; window.open=function(...args) {
+            const popup=original.apply(window,args); if(popup)popup.print=()=>{popup.testPrintCalled=true;}; return popup;
+        }; }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Preferences print: " + str(error)))
+        popup.wait_for_function("window.testPrintCalled === true")
+        expect(popup.locator('[data-report-section="cover"] [data-cover-field="dob"]')).to_have_text("06/15/2000")
+        expect(popup.locator('[data-report-section="cover"] [data-cover-field="birthTime"]')).to_have_text("2:30:00 PM")
+        chart = popup.locator('[data-report-section="south9"] [data-report-id="kundali"]')
+        self.assertTrue(all("″" not in text for text in chart.locator(".v38-degree").all_text_contents()))
+        self.assertEqual(set(chart.locator(".v38-cusp .v38-name").all_text_contents()), {str(i) for i in range(1,13)})
+        expect(popup.locator('[data-report-section="transit-chart"]')).to_contain_text("10/06/2026 5:30:00 AM")
+        popup.emulate_media(media="print")
+        expect(chart.locator(".v38-data")).not_to_be_visible()
+        popup.close()
+        self.save_software_preferences(planetSymbols=True, tooltips=True, birthInfo=True)
+        self.go("south9")
+        expect(self.page.locator("#kundali .v38-name", has_text="☉")).to_have_count(1)
+        expect(self.page.locator("#kundali .v38-item[title]")).to_have_count(21)
+        expect(self.page.locator("#kundali .v38-data")).to_be_visible()
 
     def edit_ruling_planets(self, kind, date, time, ascendant="", moon="", rahu=""):
         self.page.locator(f'#home [data-ruling-edit="{kind}"]').click()
@@ -410,6 +1044,218 @@ class CalculatorBrowserTests(unittest.TestCase):
                 asc_delta = abs((values["ascendantTropical"] - fixture["ascendantTropical"] + 180) % 360 - 180)
                 self.assertLess(asc_delta, 0.01, "Ascendant must use the eastern horizon, including geographic longitude.")
                 self.assertAlmostEqual((values["sidereal"]["Ke"] - values["sidereal"]["Ra"]) % 360, 180, places=7)
+
+    def test_transit_placidus_houses_match_independent_references_and_reject_invalid_locations(self):
+        actual = self.page.evaluate("""fixtures => fixtures.map(fixture => ({
+            ...window.KPTransitHouses.calculate(fixture.date, fixture.latitude, fixture.longitude),
+            ayanamsha:window.KPEphemeris.ayanamsha(fixture.date),
+            horizonAscendant:window.KPEphemeris.ascendant(fixture.date, fixture.latitude, fixture.longitude),
+        }))""", PLACIDUS_REFERENCE)
+        for fixture, values in zip(PLACIDUS_REFERENCE, actual):
+            with self.subTest(date=fixture["date"], latitude=fixture["latitude"]):
+                self.assertEqual(values["system"], "Placidus")
+                self.assertEqual(values["units"], "degrees")
+                self.assertEqual(len(values["cusps"]), 12)
+                self.assertTrue(all(0 <= longitude < 360 for longitude in values["cusps"]))
+                self.assertAlmostEqual(values["ascendant"], values["cusps"][0], places=7)
+                self.assertAlmostEqual(values["mc"], values["cusps"][9], places=7)
+                self.assertLess(abs((values["ascendant"] - values["horizonAscendant"] + 180) % 360 - 180), 0.001)
+                for index, (longitude, expected) in enumerate(zip(values["cusps"], fixture["cuspsTropical"])):
+                    tropical = (longitude + values["ayanamsha"]) % 360
+                    delta = abs((tropical - expected + 180) % 360 - 180)
+                    self.assertLess(delta, 0.001, f"House {index+1} differs from independent Placidus reference by {delta}°.")
+                for index in range(6):
+                    self.assertAlmostEqual((values["cusps"][index+6] - values["cusps"][index]) % 360, 180, places=7)
+                gaps = [(values["cusps"][(index+1) % 12] - values["cusps"][index]) % 360 for index in range(12)]
+                self.assertTrue(all(gap > 0 for gap in gaps), "Cusps must follow the zodiac without duplicates.")
+                self.assertAlmostEqual(sum(gaps), 360, places=7)
+        failures = self.page.evaluate("""() => [
+            ['2026-10-06T00:00:00Z',85,0], ['2026-10-06T00:00:00Z',95,0],
+            ['2026-10-06T00:00:00Z',18.52,181], ['2101-01-01T00:00:00Z',18.52,73.85]
+        ].map(args => { try { window.KPTransitHouses.calculate(...args); return null; }
+                         catch (error) { return error.message; } })""")
+        self.assertTrue(all(isinstance(message, str) and message for message in failures),
+                        "Polar geometry, invalid coordinates and unsupported dates must produce explicit errors instead of fabricated cusps.")
+
+    def configure_transit_chart(self, date="2026-10-06", time="05:30:00", source="transit", place="Pune, Maharashtra"):
+        self.go("transit-chart")
+        for field, value in {"date": date, "time": time, "latitude": "18.52", "longitude": "73.85",
+                             "timezone": "5.5", "place": place}.items():
+            self.page.locator(f"#tc-{field}").fill(value)
+        self.page.locator("#tc-cusp-source").select_option(source)
+        self.page.locator("#tc-calculate").click()
+        expect(self.page.locator("#tc-status")).to_have_attribute("data-state", "ready")
+        return self.page.evaluate("window.KPTransitChart.getData()")
+
+    def test_transit_chart_uses_selected_moment_and_cusp_source_without_editing_natal_data(self):
+        self.prepare_exact_dasha()
+        natal_fields = {key: value for key, value in self.editable_values().items() if not key.startswith("tc-")}
+        natal_outputs = self.outputs()
+        natal_cusps = self.page.evaluate("window.currentKPModel.houses.map(house=>house.longitude/3600)")
+        transit = self.configure_transit_chart()
+        self.assertEqual(transit["utc"], "2026-10-06T00:00:00.000Z", "The entered local time must use its selected UTC offset.")
+        self.assertEqual(transit["cuspSource"], "transit")
+        self.assertEqual(transit["cuspSystem"], "Placidus")
+        self.assertEqual(len(transit["planets"]), 9)
+        self.assertEqual(len(transit["cusps"]), 12)
+        expected = self.page.evaluate("""stamp => ({planets:window.KPEphemeris.positions(stamp),
+            cusps:window.KPTransitHouses.calculate(stamp,18.52,73.85).cusps})""", transit["utc"])
+        for planet in transit["planets"]:
+            self.assertAlmostEqual(planet["longitude"], expected["planets"][planet["id"]], places=7)
+            self.assertEqual(planet["retrograde"], planet["motionDegreesPerDay"] < 0)
+            row = self.page.locator(f'#tc-planets tbody tr[data-planet="{planet["id"]}"]')
+            expect(row).to_have_count(1)
+            self.assertAlmostEqual(float(row.get_attribute("data-longitude")), planet["longitude"], places=7)
+            expect(row.locator("td").nth(2)).to_have_text("R" if planet["retrograde"] else "D")
+        for cusp, longitude in zip(transit["cusps"], expected["cusps"]):
+            self.assertAlmostEqual(cusp["longitude"], longitude, places=7)
+        self.assertNotEqual([cusp["longitude"] for cusp in transit["cusps"]], natal_cusps,
+                            "Transit houses must be calculated for this moment rather than copying natal houses.")
+        for chart in ("tc-rashi-chart", "tc-bhav-chart"):
+            expect(self.page.locator(f"#{chart} svg g[data-house]")).to_have_count(12)
+            expect(self.page.locator(f"#{chart} svg tspan[data-planet]")).to_have_count(9)
+            plotted = self.page.locator(f"#{chart} svg tspan[data-planet]").evaluate_all("""planets => Object.fromEntries(
+                planets.map(planet=>[planet.dataset.planet,Number(planet.dataset.longitude)]))""")
+            self.assertEqual(plotted, expected["planets"], "Both charts must plot the same real transit longitudes as their table.")
+        self.assertTrue(transit["dasha"]["ready"])
+        self.assertEqual(transit["dasha"]["md"]["lord"], "शुक्र")
+        expect(self.page.locator('#tc-dasha tbody tr[data-role="MD"]')).to_contain_text("Ve")
+        expect(self.page.locator("#tc-pd-periods tbody tr")).to_have_count(9)
+
+        self.page.locator("#tc-cusp-source").select_option("natal")
+        expect(self.page.locator("#tc-status")).to_have_attribute("data-state", "ready")
+        natal = self.page.evaluate("window.KPTransitChart.getData()")
+        self.assertEqual([cusp["longitude"] for cusp in natal["cusps"]], natal_cusps)
+        self.assertEqual([planet["longitude"] for planet in natal["planets"]],
+                         [planet["longitude"] for planet in transit["planets"]],
+                         "Changing cusp source must retain the selected moment's planetary positions.")
+        self.page.locator("#tc-date").fill("2026-10-07")
+        self.page.locator("#tc-calculate").click()
+        changed = self.page.evaluate("window.KPTransitChart.getData()")
+        self.assertEqual(changed["utc"], "2026-10-07T00:00:00.000Z")
+        self.assertEqual([cusp["longitude"] for cusp in changed["cusps"]], natal_cusps)
+        first_moon = next(planet["longitude"] for planet in natal["planets"] if planet["id"] == "Mo")
+        next_moon = next(planet["longitude"] for planet in changed["planets"] if planet["id"] == "Mo")
+        self.assertGreater(abs((next_moon - first_moon + 180) % 360 - 180), 10,
+                           "Advancing one day must move the Moon rather than showing fixed natal positions.")
+        self.assertEqual({key: value for key, value in self.editable_values().items() if not key.startswith("tc-")}, natal_fields)
+        self.assertEqual(self.outputs(), natal_outputs, "Transit exploration must leave all birth worksheet results intact.")
+
+    def test_transit_chart_calendar_steps_lkp_restore_and_mobile_charts_preserve_selected_data(self):
+        self.prepare_exact_dasha()
+        self.configure_transit_chart(date="2026-01-31", time="23:45:00")
+        self.page.locator("#tc-step-size").select_option("month")
+        self.page.locator("#tc-forward").click()
+        expect(self.page.locator("#tc-date")).to_have_value("2026-02-28")
+        expect(self.page.locator("#tc-time")).to_have_value("23:45:00")
+        self.assertEqual(self.page.evaluate("window.KPTransitChart.getData().localDate"), "2026-02-28")
+        self.page.locator("#tc-step-size").select_option("hour")
+        self.page.locator("#tc-forward").click()
+        expect(self.page.locator("#tc-date")).to_have_value("2026-03-01")
+        expect(self.page.locator("#tc-time")).to_have_value("00:45:00")
+        self.page.locator("#tc-backward").click()
+        expect(self.page.locator("#tc-date")).to_have_value("2026-02-28")
+        saved = self.page.evaluate("window.KPTransitChart.getData()")
+        self.action("save")
+        backup = self.page.evaluate("JSON.parse(localStorage.getItem('kpRaphaelData'))")
+        self.configure_transit_chart(date="2026-04-01", time="12:00:00", source="natal", place="Other location")
+        self.import_file(json.dumps(backup, ensure_ascii=False), filename="transit-chart.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
+        self.go("transit-chart")
+        for field, value in (("date", "2026-02-28"), ("time", "23:45:00"), ("cusp-source", "transit"),
+                             ("latitude", "18.52"), ("longitude", "73.85"), ("timezone", "5.5"), ("place", "Pune, Maharashtra")):
+            expect(self.page.locator(f"#tc-{field}")).to_have_value(value)
+        self.page.locator("#tc-calculate").click()
+        restored = self.page.evaluate("window.KPTransitChart.getData()")
+        self.assertEqual(restored["utc"], saved["utc"])
+        self.assertEqual(restored["planets"], saved["planets"])
+        self.assertEqual(restored["cusps"], saved["cusps"])
+        for width, height in ((1920, 1080), (1280, 900), (390, 844)):
+            self.page.set_viewport_size({"width": width, "height": height})
+            for chart in ("tc-rashi-chart", "tc-bhav-chart"):
+                with self.subTest(width=width, chart=chart):
+                    dimensions = self.page.locator(f"#{chart}").evaluate("""mount => {
+                        const bounds=mount.getBoundingClientRect(),svg=mount.querySelector('svg'),box=svg.getBoundingClientRect();
+                        const glyphs=[...svg.querySelectorAll('text')].map(text=>text.getBoundingClientRect());
+                        return {left:bounds.left,right:bounds.right,top:bounds.top,bottom:bounds.bottom,
+                                svgLeft:box.left,svgRight:box.right,svgTop:box.top,svgBottom:box.bottom,
+                                clientWidth:mount.clientWidth,scrollWidth:mount.scrollWidth,
+                                clippedGlyphs:glyphs.filter(rect=>rect.left<box.left-1||rect.right>box.right+1||rect.top<box.top-1||rect.bottom>box.bottom+1).length};
+                    }""")
+                    self.assertLessEqual(dimensions["scrollWidth"], dimensions["clientWidth"] + 1, dimensions)
+                    self.assertGreaterEqual(dimensions["svgLeft"], dimensions["left"] - 1, dimensions)
+                    self.assertLessEqual(dimensions["svgRight"], dimensions["right"] + 1, dimensions)
+                    self.assertGreaterEqual(dimensions["svgTop"], dimensions["top"] - 1, dimensions)
+                    self.assertLessEqual(dimensions["svgBottom"], dimensions["bottom"] + 1, dimensions)
+                    self.assertEqual(dimensions["clippedGlyphs"], 0, "Both North Indian charts must show their labels within their fitted SVG.")
+            self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), width + 1)
+        self.page.locator("#tc-latitude").fill("85")
+        self.page.locator("#tc-calculate").click()
+        expect(self.page.locator("#tc-status")).to_have_attribute("data-state", "error")
+        expect(self.page.locator("#tc-planets tbody tr[data-planet]")).to_have_count(0)
+        expect(self.page.locator("#tc-rashi-chart svg")).to_have_count(0)
+        self.assertIsNone(self.page.evaluate("window.KPTransitChart.getData()"),
+                          "Invalid geometry must clear the old chart rather than leaving stale values visible.")
+
+    def test_transit_chart_print_selection_uses_current_date_and_static_chart_data(self):
+        self.prepare_exact_dasha()
+        place = '<img src=x onerror="window.tcInjected=true"> · Pune'
+        data = self.configure_transit_chart(place=place)
+        source_tables = {table_id: self.table_rows(self.page.locator(f"#{table_id}"))
+                         for table_id in ("tc-planets", "tc-cusps", "tc-dasha", "tc-pd-periods")}
+        self.go("report")
+        self.page.locator("#report-clear-pages").click()
+        self.go("transit-chart")
+        self.page.locator("#tc-print").click()
+        expect(self.page.locator("main > #report")).to_be_visible()
+        option = self.page.locator("#report-page-options [data-report-page-key='transit-chart']")
+        expect(option).to_be_checked()
+        self.assertEqual(self.page.locator("#report-page-options input:checked").evaluate_all(
+            "options => options.map(option => option.dataset.reportPageKey)"), ["transit-chart"])
+        self.page.locator("#report-clear-pages").click()
+        option.check()
+        self.page.evaluate("""() => {
+            const original = window.open;
+            window.open = function (...args) {
+                const popup = original.apply(window, args);
+                if (popup) popup.print = () => { popup.testPrintCalled = true; };
+                return popup;
+            };
+        }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Transit Chart print popup: " + str(error)))
+        popup.wait_for_load_state("domcontentloaded")
+        popup.wait_for_function("window.testPrintCalled === true")
+        expect(popup.locator("body > .report-page")).to_have_count(1)
+        report = popup.locator('body > [data-report-section="transit-chart"]')
+        expect(report).to_contain_text("06/10/2026")
+        expect(report).to_contain_text("05:30:00")
+        expect(report).to_contain_text("UTC +5.5")
+        expect(report).to_contain_text(place)
+        expect(report).to_contain_text("Transit Placidus cusps")
+        expect(report.locator("input,select,textarea,button,img")).to_have_count(0)
+        self.assertFalse(popup.evaluate("Boolean(window.tcInjected)"))
+        self.assertFalse(self.page.evaluate("Boolean(window.tcInjected)"))
+        for table_id, expected_rows in source_tables.items():
+            self.assertEqual(self.table_rows(report.locator(f'[data-report-id="{table_id}"]')), expected_rows,
+                             "The printed transit chart must match the current selected moment's calculations.")
+        for chart in ("tc-rashi-chart", "tc-bhav-chart"):
+            expect(report.locator(f'[data-report-id="{chart}"] svg g[data-house]')).to_have_count(12)
+            expect(report.locator(f'[data-report-id="{chart}"] svg tspan[data-planet]')).to_have_count(9)
+        self.assertEqual(self.page.evaluate("window.KPTransitChart.getData().utc"), data["utc"])
+        popup.emulate_media(media="print")
+        expect(report).to_be_visible()
+        clipped = report.evaluate("""page => {
+            const bounds=page.getBoundingClientRect();
+            return [...page.querySelectorAll('table,svg,.tc-report-summary')].filter(element=>{
+                const box=element.getBoundingClientRect();
+                return box.width<=0||box.height<=0||box.left<bounds.left-1||box.right>bounds.right+1||box.top<bounds.top-1||box.bottom>bounds.bottom+1;
+            }).map(element=>element.dataset.reportId||element.className);
+        }""")
+        self.assertEqual(clipped, [], "Selected charts, native dasha and position tables must remain visible inside their printed section.")
+        popup.close()
 
     def test_transit_scan_refines_sun_boundaries_and_preserves_mercury_reentries(self):
         self.prepare_exact_dasha()
@@ -646,7 +1492,7 @@ class CalculatorBrowserTests(unittest.TestCase):
             rp = self.page.locator(f'#home-ruling-planets tr[data-home-rp="{rp_id}"]')
             source = self.page.locator('#kp-basic-house tr[data-house="1"]') if rp_id == "As" else self.page.locator(f'#kp-basic-planet tr[data-planet="{rp_id}"]')
             for field in ("sgl", "stl", "sl", "ssl"):
-                expect(rp.locator(f'[data-field="{field}"]')).to_have_text(source.locator(f'[data-field="{field}"]').text_content())
+                expect(rp.locator(f'[data-field="{field}"]')).to_have_text(source.locator(f'[data-field="{field}"] .kp-planet-label').text_content())
         duplicates = self.page.evaluate("""() => {
             const seen = new Set();
             return [...document.querySelectorAll('[id]')].map(element => element.id)
@@ -749,10 +1595,214 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.action("load")
         expect(mirror.locator(".v38-cell[data-sign-index='0']")).to_have_text(note)
 
+    def test_kundali_context_menu_switches_source_and_home_without_changing_transit_chart(self):
+        self.prepare_exact_dasha()
+        transit = self.configure_transit_chart()
+        native = self.outputs()
+        expected = self.page.evaluate("""() => ({planets:Object.fromEntries(window.currentKPModel.planets.map(point=>[point.id,point.longitude])),
+            cusps:Object.fromEntries(window.currentKPModel.houses.map(point=>[point.id,point.longitude]))})""")
+        self.go("south9")
+        expect(self.page.locator("#kundali")).to_be_visible()
+        self.page.locator("#kundali").click(button="right")
+        menu = self.page.locator("#kundali-style-menu")
+        expect(menu).to_be_visible()
+        expect(menu).to_have_attribute("role", "menu")
+        expect(self.page.locator("#kundali-style-south")).to_have_attribute("aria-checked", "true")
+        expect(self.page.locator("#kundali-style-north")).to_have_attribute("role", "menuitemradio")
+        self.page.locator("#kundali-style-north").click()
+        expect(menu).not_to_be_visible()
+        expect(self.page.locator("#kundali")).not_to_be_visible()
+        expect(self.page.locator("#kundali-north")).to_be_visible()
+        expect(self.page.locator('#south9 [data-kundali-style-control]')).to_have_value("north")
+        expect(self.page.locator('#south9 button[onclick="enableKundaliEdit()"]')).to_be_disabled()
+        self.assertEqual(self.page.evaluate("window.KPChartStyle.getStyle()"), "north")
+        self.assertEqual(self.page.locator('#kundali-north [data-planet]').evaluate_all(
+            "points=>Object.fromEntries(points.map(point=>[point.dataset.planet,Number(point.dataset.longitude)]))"), expected["planets"])
+        self.assertEqual(self.page.locator('#kundali-north [data-cusp]').evaluate_all(
+            "points=>Object.fromEntries(points.map(point=>[point.dataset.cusp,Number(point.dataset.longitude)]))"), expected["cusps"])
+        self.assertEqual(self.page.locator('#kundali-north g[data-rashi-house="1"]').get_attribute("data-sign"), "1")
+        self.go("home")
+        expect(self.page.locator("#home-kundali-title")).to_have_text("North Indian kundali")
+        mirror = self.home_source("kundali-north")
+        expect(mirror).to_be_visible()
+        expect(mirror.locator("svg [data-planet]")).to_have_count(9)
+        expect(mirror.locator("svg [data-cusp]")).to_have_count(12)
+        self.assertEqual(mirror.locator("svg").inner_html(), self.page.locator("#kundali-north svg").inner_html())
+        self.page.locator("#home-kundali").click(button="right")
+        expect(menu).to_be_visible()
+        expect(self.page.locator("#kundali-style-north")).to_have_attribute("aria-checked", "true")
+        self.page.keyboard.press("Escape")
+        expect(menu).not_to_be_visible()
+        expect(self.page.locator("#home-kundali")).to_be_focused()
+        self.page.keyboard.press("Shift+F10")
+        expect(menu).to_be_visible()
+        self.page.keyboard.press("ArrowDown")
+        expect(self.page.locator("#kundali-style-south")).to_be_focused()
+        self.page.keyboard.press("Enter")
+        expect(menu).not_to_be_visible()
+        expect(self.home_source("kundali")).to_be_visible()
+        expect(self.page.locator('#home [data-kundali-style-control]')).to_have_value("south")
+        self.assertEqual(self.outputs(), native, "Changing display layout must retain natal calculations.")
+        self.assertEqual(self.page.evaluate("window.KPTransitChart.getData()"), transit,
+                         "The natal layout menu must not change the separate Transit Chart's selected moment or calculations.")
+        self.page.set_viewport_size({"width":390,"height":844})
+        self.page.locator('#home [data-kundali-style-control]').select_option("north")
+        expect(self.home_source("kundali-north")).to_be_visible()
+        size = self.page.locator("#home-kundali").evaluate("""mount=>({width:mount.clientWidth,height:mount.clientHeight,
+            scrollWidth:mount.scrollWidth,scrollHeight:mount.scrollHeight})""")
+        self.assertLessEqual(size["scrollWidth"], size["width"] + 1, "North Indian Home chart must fit without a horizontal moving bar.")
+        self.assertLessEqual(size["scrollHeight"], size["height"] + 1, "North Indian Home chart must fit without a vertical moving bar.")
+        self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), 391)
+        # Context-menu gestures on the independent transit chart retain normal
+        # browser behavior and must not open the natal chart layout menu.
+        self.go("transit-chart")
+        self.page.locator("#tc-rashi-chart").dispatch_event("contextmenu", {"clientX":100,"clientY":100})
+        expect(menu).not_to_be_visible()
+
+    def test_kundali_layout_backup_print_and_south_manual_notes_survive_north_selection(self):
+        self.prepare_exact_dasha()
+        self.go("south9")
+        self.page.locator('button[onclick="enableKundaliEdit()"]').click()
+        note = '<img src=x onerror="window.noteInjected=true"> · South notes'
+        cell = self.page.locator('#kundali .v38-cell[data-sign-index="0"]')
+        center = self.page.locator("#kundali .v38-center")
+        cell.fill(note)
+        center.fill("Original manual center · मीरा")
+        self.page.locator("#kundali").click(button="right")
+        self.page.locator("#kundali-style-north").click()
+        backup = self.page.evaluate("window.getChartData()")
+        self.assertEqual(backup["fields"]["kundali-chart-style"]["value"], "north")
+        self.assertTrue(backup["kundali"]["manual"])
+        self.assertEqual(next(row["text"] for row in backup["kundali"]["cells"] if row["signIndex"] == 0), note)
+        self.page.locator('#south9 [data-kundali-style-control]').select_option("south")
+        center.fill("Unsaved manual edit")
+        self.import_file(json.dumps(backup, ensure_ascii=False), filename="north-and-south-notes.lkp")
+        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported")
+        self.go("south9")
+        expect(self.page.locator("#kundali-north")).to_be_visible()
+        expect(cell).to_have_text(note)
+        expect(center).to_have_text("Original manual center · मीरा")
+        self.action("save")
+        self.page.locator('#south9 [data-kundali-style-control]').select_option("south")
+        self.action("load")
+        expect(self.page.locator("#kundali-north")).to_be_visible()
+        self.go("report")
+        self.page.locator("#report-clear-pages").click()
+        self.page.locator('#report-page-options [data-report-page-key="south9"]').check()
+        preview = self.page.locator('#printReport > [data-report-section="south9"]')
+        expect(preview).to_contain_text("North Indian kundali and basic calculations")
+        expect(preview.locator("span").filter(has_text=re.compile(r"^(north|south)$"))).to_have_count(0)
+        expect(preview.locator('[data-report-id="kundali-north"] svg [data-planet]')).to_have_count(9)
+        expect(preview.locator('[data-report-id="kundali"]')).to_have_count(0)
+        self.page.evaluate("""() => { const original=window.open; window.open=function(...args) {
+            const popup=original.apply(window,args); if(popup)popup.print=()=>{popup.testPrintCalled=true;}; return popup;
+        }; }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Kundali layout print: " + str(error)))
+        popup.wait_for_function("window.testPrintCalled === true")
+        report = popup.locator('body > [data-report-section="south9"]')
+        expect(popup.locator("body > .report-page")).to_have_count(1)
+        expect(report.locator('[data-report-id="kundali-north"]')).to_be_visible()
+        expect(report.locator('[data-report-id="kundali"]')).to_have_count(0)
+        expect(report.locator('[data-report-id="kundali-north"] svg [data-planet]')).to_have_count(9)
+        expect(report.locator('[data-report-id="kundali-north"] svg [data-cusp]')).to_have_count(12)
+        expect(report.locator("button,select,input,textarea,#kundali-style-menu")).to_have_count(0)
+        expect(report.locator("span").filter(has_text=re.compile(r"^(north|south)$"))).to_have_count(0)
+        popup.emulate_media(media="print")
+        clipping = report.evaluate("""page=>{ const bounds=page.getBoundingClientRect(); return [...page.querySelectorAll('svg,.kp-table,.report-developer-footer')].filter(element=>{
+                const box=element.getBoundingClientRect();return box.width<=0||box.height<=0||box.left<bounds.left-1||
+                    box.right>bounds.right+1||box.top<bounds.top-1||box.bottom>bounds.bottom+1;
+            }).map(element=>element.dataset.reportId||element.className); }""")
+        self.assertEqual(clipping, [], "The selected North Indian chart and both basic tables must fit their printed page.")
+        popup.close()
+        self.go("home")
+        self.page.locator('#home [data-kundali-style-control]').select_option("south")
+        expect(self.home_source("kundali").locator('.v38-cell[data-sign-index="0"]')).to_have_text(note)
+        expect(self.home_source("kundali").locator(".v38-center")).to_have_text("Original manual center · मीरा")
+        self.assertFalse(self.page.evaluate("Boolean(window.noteInjected)"))
+        expect(self.page.locator("#kundali img")).to_have_count(0)
+
+    def test_south_kundali_displays_each_sign_star_and_sub_lord_on_home_and_print(self):
+        self.prepare_exact_dasha()
+        self.go("south9")
+        expected = self.page.evaluate("""() => [
+            ...window.currentKPModel.houses.map(point=>({kind:'cusp',name:point.name,sgl:point.sgl,stl:point.stl,sbl:point.sl})),
+            ...window.currentKPModel.planets.map(point=>({kind:'planet',name:point.name,sgl:point.sgl,stl:point.stl,sbl:point.sl}))
+        ].sort((a,b)=>(a.kind+':'+a.name).localeCompare(b.kind+':'+b.name))""")
+        metadata = """chart => [...chart.querySelectorAll('.v38-item')].map(entry=>{
+            const lords=entry.querySelector('.v38-lords');
+            return {kind:entry.dataset.kind,name:entry.querySelector('.v38-name').textContent,
+                sgl:lords?.dataset.sgl,stl:lords?.dataset.stl,sbl:lords?.dataset.sbl,text:lords?.textContent};
+        }).sort((a,b)=>(a.kind+':'+a.name).localeCompare(b.kind+':'+b.name))"""
+        def assert_labels(chart):
+            expect(chart.locator(".v38-lords")).to_have_count(21)
+            actual = chart.evaluate(metadata)
+            self.assertEqual([{key:value for key,value in row.items() if key != "text"} for row in actual], expected)
+            for row in actual:
+                self.assertEqual(row["text"], f'({row["sgl"]}-{row["stl"]}-{row["sbl"]})',
+                                 "Each small line must list sign, star and sub lord in the requested order.")
+            self.assertEqual(next(row["text"] for row in actual if row["kind"] == "cusp" and row["name"] == "I"), "(Ma-Ke-Ke)")
+            self.assertEqual(next(row["text"] for row in actual if row["kind"] == "planet" and row["name"] == "रवी"), "(Ma-Ke-Ma)")
+        assert_labels(self.page.locator("#kundali"))
+        self.go("home")
+        assert_labels(self.home_source("kundali"))
+        self.go("report")
+        self.page.locator("#report-clear-pages").click()
+        self.page.locator('#report-page-options [data-report-page-key="south9"]').check()
+        preview = self.page.locator('#printReport > [data-report-section="south9"]')
+        expect(preview.locator("span").filter(has_text=re.compile(r"^(north|south)$"))).to_have_count(0)
+        assert_labels(preview.locator('[data-report-id="kundali"]'))
+        self.page.evaluate("""() => { const original=window.open; window.open=function(...args) {
+            const popup=original.apply(window,args); if(popup)popup.print=()=>{popup.testPrintCalled=true;}; return popup;
+        }; }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Lord labels print: " + str(error)))
+        popup.wait_for_function("window.testPrintCalled === true")
+        popup.emulate_media(media="print")
+        report = popup.locator('body > [data-report-section="south9"]')
+        expect(report.locator("span").filter(has_text=re.compile(r"^(north|south)$"))).to_have_count(0)
+        assert_labels(report.locator('[data-report-id="kundali"]'))
+        popup.close()
+
     def test_home_dashboard_fits_desktop_and_mobile_with_separate_chart_lanes(self):
         self.prepare_exact_dasha()
         self.page.set_viewport_size({"width": 1920, "height": 1080})
         self.go("home")
+        viewports = ((1920, 1080), (1536, 960), (1280, 900), (390, 844))
+
+        def assert_chart_fits_mount(width, height):
+            self.page.set_viewport_size({"width": width, "height": height})
+            # Let responsive layout and any ResizeObserver fitting settle.
+            self.page.evaluate("() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))")
+            dimensions = self.page.locator("#home-kundali").evaluate("""mount => {
+                const chart = mount.querySelector('[data-home-source-id="kundali"]');
+                const box = element => {
+                    const rect = element.getBoundingClientRect();
+                    return {left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom,width:rect.width,height:rect.height};
+                };
+                return {clientWidth:mount.clientWidth,scrollWidth:mount.scrollWidth,clientHeight:mount.clientHeight,
+                        scrollHeight:mount.scrollHeight,mount:box(mount),chart:box(chart)};
+            }""")
+            self.assertGreater(dimensions["chart"]["width"], 0, "The fitted kundali must remain visible.")
+            self.assertGreater(dimensions["chart"]["height"], 0, "The fitted kundali must remain visible.")
+            self.assertLessEqual(dimensions["scrollWidth"], dimensions["clientWidth"] + 1,
+                                 f"Home kundali must fit its panel without a horizontal scrollbar: {dimensions}")
+            self.assertLessEqual(dimensions["scrollHeight"], dimensions["clientHeight"] + 1,
+                                 f"Home kundali must fit its panel without a vertical scrollbar: {dimensions}")
+            for near, far in (("left", "right"), ("top", "bottom")):
+                self.assertGreaterEqual(dimensions["chart"][near], dimensions["mount"][near] - 1, dimensions)
+                self.assertLessEqual(dimensions["chart"][far], dimensions["mount"][far] + 1, dimensions)
+            self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), width + 1,
+                                 "Fitting the chart must not introduce horizontal page scrolling.")
+
+        for width, height in viewports:
+            with self.subTest(width=width, chart="regular", expanded=False):
+                assert_chart_fits_mount(width, height)
+        self.page.set_viewport_size({"width": 1920, "height": 1080})
         for mount in ("home-ruling-planets", "home-current-ruling-planets"):
             expect(self.page.locator(f"#{mount}")).to_have_attribute("data-ready", "true")
             expect(self.page.locator(f"#{mount} tbody tr[data-home-rp]")).to_have_count(4)
@@ -777,6 +1827,9 @@ class CalculatorBrowserTests(unittest.TestCase):
             self.assertGreater(column["width"], 150, columns)
             self.assertLessEqual(column["bottom"], 1081, "Expanded Home should show all three columns in one desktop screen.")
         self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), 1921)
+        for width, height in viewports:
+            with self.subTest(width=width, chart="regular", expanded=True):
+                assert_chart_fits_mount(width, height)
 
         # Exercise both the normal two-line layout's five-entry threshold and
         # the dense layout using the real source renderer.
@@ -801,7 +1854,7 @@ class CalculatorBrowserTests(unittest.TestCase):
                             errors.push('Entry outside sign: '+entry.textContent);
                         if(cusp ? rect.right>middle+tolerance : rect.left<middle-tolerance)
                             errors.push('Entry outside assigned lane: '+entry.textContent);
-                        for(const selector of ['.v38-name','.v38-degree']) {
+                        for(const selector of ['.v38-name','.v38-degree',...(entry.querySelector('.v38-lords')?['.v38-lords']:[])]) {
                             const label=entry.querySelector(selector), range=document.createRange();
                             range.selectNodeContents(label); const text=range.getBoundingClientRect();
                             if(text.width<=0 || text.height<=0 || text.left<rect.left-tolerance || text.right>rect.right+tolerance ||
@@ -819,13 +1872,20 @@ class CalculatorBrowserTests(unittest.TestCase):
             crowded = self.home_source("kundali").locator('.v38-cell[data-sign-index="11"]')
             expect(crowded.locator(".v38-cusp")).to_have_count(cusp_count)
             expect(crowded.locator(".v38-planet")).to_have_count(planet_count)
-            for width, height in ((1920, 1080), (390, 844)):
-                with self.subTest(width=width, cusps=cusp_count, planets=planet_count):
-                    self.page.set_viewport_size({"width": width, "height": height})
-                    self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), width + 1)
-                    geometry_errors = crowded.evaluate(geometry_script)
-                    self.assertEqual(geometry_errors, [], "\n".join(geometry_errors))
-                    self.assertTrue(all(text == "29°59′59″" for text in crowded.locator(".v38-degree").all_text_contents()))
+            for expanded in (True, False):
+                if toggle.get_attribute("aria-pressed") != str(expanded).lower():
+                    self.page.set_viewport_size({"width": 1920, "height": 1080})
+                    toggle.click()
+                for width, height in viewports:
+                    with self.subTest(width=width, cusps=cusp_count, planets=planet_count, expanded=expanded):
+                        assert_chart_fits_mount(width, height)
+                        geometry_errors = crowded.evaluate(geometry_script)
+                        self.assertEqual(geometry_errors, [], "\n".join(geometry_errors))
+                        self.assertTrue(all(text == "29°59′59″" for text in crowded.locator(".v38-degree").all_text_contents()))
+        if toggle.get_attribute("aria-pressed") != "true":
+            self.page.set_viewport_size({"width": 1920, "height": 1080})
+            toggle.click()
+        self.page.set_viewport_size({"width": 390, "height": 844})
         for mode in ("basic", "fourfold", "sixfold", "fourstep"):
             self.page.locator(f'#home [data-home-view="{mode}"]').click()
             self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), 391,
@@ -1250,7 +2310,8 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(house_table.locator("tbody tr[data-house]")).to_have_count(12)
         sun = planet_table.locator('tr[data-planet="Su"]')
         for column, value in {"signCode": "Ar", "degree": "5°00′00″", "nak": "Asw (2)", "occ": "1", "own": "5", "stl": "Ke", "sl": "Ma", "ssl": "Ju", "cstl": "2, 6, 10"}.items():
-            expect(sun.locator(f'[data-field="{column}"]')).to_have_text(value)
+            cell = sun.locator(f'[data-field="{column}"]')
+            expect(cell.locator(".kp-planet-label") if column in ("stl", "sl", "ssl") else cell).to_have_text(value)
         ketu = planet_table.locator('tr[data-planet="Ke"]')
         expect(ketu.locator('[data-field="occ"]')).to_have_text("2")
         expect(ketu.locator('[data-field="own"]')).to_have_text("—")
@@ -1298,7 +2359,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         printed_houses = popup.locator('[data-report-id="kp-basic-house"]')
         expect(printed_planets.locator("tbody tr[data-planet]")).to_have_count(9)
         expect(printed_houses.locator("tbody tr[data-house]")).to_have_count(12)
-        expect(printed_planets.locator('tr[data-planet="Su"] [data-field="ssl"]')).to_have_text("Ju")
+        expect(printed_planets.locator('tr[data-planet="Su"] [data-field="ssl"] .kp-planet-label')).to_have_text("Ju")
         assert_placement(popup, '[data-report-id="kundali"]', '[data-report-id="kp-basic-planet"]', '[data-report-id="kp-basic-house"]', printed=True)
         popup.close()
 
@@ -1339,7 +2400,7 @@ class CalculatorBrowserTests(unittest.TestCase):
                     if (kind === 'cusp' && rect.right > midpoint + tolerance) errors.push(`Cusp outside left lane: ${description}`);
                     if (kind === 'planet' && rect.left < midpoint - tolerance) errors.push(`Planet outside right lane: ${description}`);
                     const textRects = [];
-                    for (const selector of ['.v38-name', '.v38-degree']) {
+                    for (const selector of ['.v38-name', '.v38-degree', ...(entry.querySelector('.v38-lords') ? ['.v38-lords'] : [])]) {
                         const label = entry.querySelector(selector);
                         if (!label || !label.textContent.trim()) { errors.push(`Missing ${selector}: ${description}`); continue; }
                         const range = document.createRange(); range.selectNodeContents(label);
@@ -1355,7 +2416,8 @@ class CalculatorBrowserTests(unittest.TestCase):
                         textRects.push(labelRect);
                         allTextRects.push({rect: labelRect, entry, description});
                     }
-                    if (textRects.length === 2 && overlaps(...textRects)) errors.push(`Name overlaps degree: ${description}`);
+                    for (let i=0; i<textRects.length; i++) for (let j=i+1; j<textRects.length; j++)
+                        if (overlaps(textRects[i],textRects[j])) errors.push(`Entry labels overlap: ${description}`);
                 }
                 for (let i = 0; i < entries.length; i++) for (let j = i + 1; j < entries.length; j++)
                     if (overlaps(entries[i].getBoundingClientRect(), entries[j].getBoundingClientRect()))
@@ -1410,6 +2472,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.page.locator("#name").fill(native_name)
         self.page.locator("#birthPlace").fill("Pune <b>India</b>")
         self.go("astrosettings")
+        self.show_astrologer_fields()
         self.page.locator("#astroName").fill(astrologer_name)
         self.page.locator("#astroAddress").fill(astrologer_address)
         self.go("report")
@@ -1441,6 +2504,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.go("basic")
         self.page.locator("#name").fill("")
         self.go("astrosettings")
+        self.show_astrologer_fields()
         self.page.locator("#astroAddress").fill("")
         self.go("report")
         cover = self.page.locator(".report-front-page")
@@ -1635,7 +2699,7 @@ class CalculatorBrowserTests(unittest.TestCase):
                 thread.join(timeout=5)
                 server.server_close()
 
-    def test_print_popup_has_thirteen_a4_pages_without_duplicate_ids(self):
+    def test_print_popup_has_selectable_a4_sections_without_duplicate_ids(self):
         self.prepare_worksheets()
         self.page.evaluate("source => { window.KP_REPORT_COVER_IMAGE = source; }", COVER_IMAGE_FIXTURE)
         self.go("report")
@@ -1686,13 +2750,19 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertLessEqual(cover_overflow["height"], 1, "The cover must not overflow the printable page vertically.")
         page_geometry = popup.locator("body > .report-page").evaluate_all("""pages => pages.map(page => {
             const style = getComputedStyle(page);
-            return {width: parseFloat(style.width), height: parseFloat(style.height), display: style.display, breakAfter: style.breakAfter};
+            return {section: page.dataset.reportSection, width: parseFloat(style.width), height: parseFloat(style.height),
+                    maxHeight: style.maxHeight, overflow: style.overflow, display: style.display, breakAfter: style.breakAfter};
         })""")
         for index, geometry in enumerate(page_geometry):
             with self.subTest(print_page=index + 1):
                 self.assertNotEqual(geometry["display"], "none", "Every report page must be visible when printing.")
                 self.assertAlmostEqual(geometry["width"], 190 * 96 / 25.4, delta=1)
-                self.assertAlmostEqual(geometry["height"], 277 * 96 / 25.4, delta=1)
+                if geometry["section"] in ("aspects", "transit", "transit-chart"):
+                    self.assertGreaterEqual(geometry["height"], 277 * 96 / 25.4 - 1)
+                    self.assertEqual(geometry["maxHeight"], "none", "Variable-length results must continue onto later sheets.")
+                    self.assertEqual(geometry["overflow"], "visible", "Aspect and transit results must not be clipped at A4 height.")
+                else:
+                    self.assertAlmostEqual(geometry["height"], 277 * 96 / 25.4, delta=1)
                 if index < len(REPORT_PAGE_SECTIONS) - 1:
                     self.assertEqual(geometry["breakAfter"], "page")
         content_errors = popup.locator("body > .report-page").evaluate_all("""pages => pages.flatMap((page, index) => {
@@ -1713,6 +2783,172 @@ class CalculatorBrowserTests(unittest.TestCase):
         # orientation is portrait; the page dimensions above also enforce it.
         self.assertIn(paper_sizes[-1], ("a4", "a4 portrait"), "The print document must request A4 portrait paper.")
 
+    def test_selected_aspect_and_transit_reports_preserve_current_results_without_controls(self):
+        self.prepare_exact_dasha()
+        self.go("aspects")
+        self.page.locator("#western-angle-30").check()
+        self.page.locator("#western-orb-30").fill("1.5")
+        self.go("transit")
+        self.page.locator("#tr-mode").select_option("sun")
+        self.page.locator("#tr-dasha-source").select_option("manual")
+        self.page.locator("#tr-md").select_option("Ju")
+        self.page.locator("#tr-ad").select_option("Sa")
+        self.page.locator("#tr-timezone").select_option("0")
+        self.page.locator("#tr-start").fill("2026-01-01")
+        self.page.locator("#tr-end").fill("2026-12-31")
+        results = self.run_transit_search()
+        self.assertEqual(len(results), 2, "This Sun fixture must have both simultaneous MD / AD combinations.")
+        transit_rows = self.page.locator("#tr-result-rows").evaluate("""body => [...body.rows].map(row =>
+            [...row.cells].map(cell => cell.textContent.trim()))""")
+
+        self.go("aspects")
+        self.page.locator("#western-angle-90").uncheck()
+        self.page.locator("#western-orb-30").fill("2.25")
+        self.assertEqual(self.page.evaluate("window.KPTransit.getResults()"), results,
+                         "Changing aspect choices or orbs must preserve an independently completed transit search.")
+        expect(self.page.locator("#tr-result-rows tr[data-entry]")).to_have_count(len(results))
+        aspect_rows = {table_id: self.table_rows(self.page.locator(f"#{table_id}"))
+                       for table_id in ("western-planet-aspects", "western-cusp-aspects")}
+
+        self.page.locator(".backup-menu > summary").click()
+        self.page.locator(".global-actions [data-action='print']").click()
+        expect(self.page.locator("main > #report")).to_be_visible()
+        self.assertEqual(self.page.evaluate("window.KPTransit.getResults()"), results,
+                         "Opening Print must preserve a completed search when natal calculations have not changed.")
+        self.page.locator("#report-clear-pages").click()
+        for section in ("transit", "aspects"):
+            option = self.page.locator(f"#report-page-options [data-report-page-key='{section}']")
+            expect(option).to_be_visible()
+            option.check()
+        self.page.evaluate("window.renderReport()")
+        self.assertEqual(self.page.locator("#report-page-options input:checked").evaluate_all(
+            "options => options.map(option => option.dataset.reportPageKey)"), ["aspects", "transit"])
+
+        def assert_snapshot(target, prefix):
+            aspects = target.locator(f'{prefix}[data-report-section="aspects"]')
+            expect(aspects).to_contain_text("orb 2.25°")
+            expect(aspects).not_to_contain_text("Square · 90°")
+            for table_id, expected_rows in aspect_rows.items():
+                self.assertEqual(self.table_rows(target.locator(f'{prefix}[data-report-section="aspects"] [data-report-id="{table_id}"]')),
+                                 expected_rows, "The aspect report must retain the currently selected angles, orbs and results.")
+            transit = target.locator(f'{prefix}[data-report-section="transit"] [data-report-id="tr-result-rows"]')
+            self.assertEqual(transit.evaluate("""body => [...body.rows].map(row =>
+                [...row.cells].map(cell => cell.textContent.trim()))"""), transit_rows,
+                             "The transit report must retain the computed entry and exit dates without requiring another search.")
+            self.assertEqual(transit.locator("tr[data-entry]").evaluate_all("rows => rows.map(row => row.dataset.entry)"),
+                             [row["start"] for row in results])
+            for section in ("aspects", "transit"):
+                expect(target.locator(f'{prefix}[data-report-section="{section}"] input, '
+                                      f'{prefix}[data-report-section="{section}"] select, '
+                                      f'{prefix}[data-report-section="{section}"] textarea, '
+                                      f'{prefix}[data-report-section="{section}"] button')).to_have_count(0)
+
+        assert_snapshot(self.page, "#printReport > ")
+        self.page.evaluate("""() => {
+            const original = window.open;
+            window.open = function (...args) {
+                const popup = original.apply(window, args);
+                if (popup) popup.print = () => { popup.testPrintCalled = true; };
+                return popup;
+            };
+        }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Aspect / transit print popup: " + str(error)))
+        popup.wait_for_load_state("domcontentloaded")
+        popup.wait_for_function("window.testPrintCalled === true")
+        expect(popup.locator("body > .report-page")).to_have_count(2)
+        self.assertEqual(popup.locator("body > .report-page").evaluate_all("pages => pages.map(page => page.dataset.reportSection)"),
+                         ["aspects", "transit"], "Selected sections must print in report order, regardless of click order.")
+        popup.emulate_media(media="print")
+        assert_snapshot(popup, "body > ")
+        for section in ("aspects", "transit"):
+            expect(popup.locator(f'body > [data-report-section="{section}"]')).to_be_visible()
+        self.assertEqual(self.page.evaluate("window.KPTransit.getResults()"), results,
+                         "The final Print action must preserve the source search results as well as the printed snapshot.")
+        popup.close()
+
+        self.go("planet")
+        self.page.locator("#p6_d_0").fill("10:00:00")
+        self.page.locator("#p6_t_0").fill("10:00:00")
+        expect(self.page.locator("#tr-result-rows tr[data-entry]")).to_have_count(0)
+        self.go("report")
+        expect(self.page.locator('[data-report-section="transit"] [data-report-id="tr-result-rows"] tr[data-entry]')).to_have_count(0)
+        self.assertEqual(self.page.evaluate("window.KPTransit.getResults()"), [],
+                         "Changing a natal calculation must invalidate old transit dates before they can be printed.")
+
+    def test_long_aspect_and_transit_reports_flow_beyond_a4_without_clipping_rows(self):
+        self.prepare_exact_dasha()
+        self.go("aspects")
+        for angle in (0, 30, 45, 60, 90, 120, 135, 150, 180):
+            self.page.locator(f"#western-angle-{angle}").check()
+        self.page.locator("#western-orb").fill("15")
+        aspect_counts = {table_id: self.page.locator(f"#{table_id} tbody tr[data-source]").count()
+                         for table_id in ("western-planet-aspects", "western-cusp-aspects")}
+        self.assertGreaterEqual(sum(aspect_counts.values()), 144,
+                                "The fixture must exercise a long list of planet and cusp aspect rows.")
+        self.go("transit")
+        self.page.locator("#tr-mode").select_option("dasha")
+        self.page.locator("#tr-dasha-source").select_option("manual")
+        for role, planet in (("md", "Mo"), ("ad", "Sa"), ("pd", "Me")):
+            self.page.locator(f"#tr-{role}").select_option(planet)
+        self.page.locator("#tr-direction").select_option("MD>AD")
+        self.page.locator("#tr-level").select_option("sub")
+        self.page.locator("#tr-timezone").select_option("0")
+        self.page.locator("#tr-start").fill("2026-01-01")
+        self.page.locator("#tr-end").fill("2026-03-31")
+        results = self.run_transit_search()
+        self.assertGreater(len(results), 60, "A quarter-year Moon sub-lord search must exercise multiple printed sheets.")
+        self.go("report")
+        self.page.locator("#report-clear-pages").click()
+        for section in ("aspects", "transit"):
+            self.page.locator(f"#report-page-options [data-report-page-key='{section}']").check()
+        self.page.evaluate("""() => {
+            const original = window.open;
+            window.open = function (...args) {
+                const popup = original.apply(window, args);
+                if (popup) popup.print = () => { popup.testPrintCalled = true; };
+                return popup;
+            };
+        }""")
+        with self.page.expect_popup() as popup_info:
+            self.page.locator("#print-selected-report").click()
+        popup = popup_info.value
+        popup.on("pageerror", lambda error: self.errors.append("Long results print popup: " + str(error)))
+        popup.wait_for_load_state("domcontentloaded")
+        popup.wait_for_function("window.testPrintCalled === true")
+        popup.emulate_media(media="print")
+        for table_id, count in aspect_counts.items():
+            expect(popup.locator(f'[data-report-id="{table_id}"] tbody tr[data-source]')).to_have_count(count)
+        expect(popup.locator('[data-report-id="tr-result-rows"] tr[data-entry]')).to_have_count(len(results))
+        layouts = popup.locator("body > .report-page").evaluate_all("""pages => pages.map(page => {
+            const style = getComputedStyle(page), bounds = page.getBoundingClientRect();
+            const errors = [];
+            for (const row of page.querySelectorAll('tbody tr[data-source],tbody tr[data-entry]')) {
+                const rect = row.getBoundingClientRect();
+                if (rect.height <= 0 || rect.left < bounds.left - 1 || rect.right > bounds.right + 1 || rect.bottom > bounds.bottom + 1)
+                    errors.push('Hidden or out-of-bounds result row');
+                for (let parent = row.parentElement; parent && parent !== page.parentElement; parent = parent.parentElement) {
+                    const css = getComputedStyle(parent), outer = parent.getBoundingClientRect();
+                    if (['hidden','clip','auto','scroll'].includes(css.overflowY) && rect.bottom > outer.bottom + 1)
+                        errors.push('Result row clipped by ' + parent.className);
+                }
+            }
+            return {section: page.dataset.reportSection, width: bounds.width, height: bounds.height,
+                    maxHeight: style.maxHeight, overflow: style.overflow, errors};
+        })""")
+        self.assertEqual([layout["section"] for layout in layouts], ["aspects", "transit"])
+        for layout in layouts:
+            with self.subTest(section=layout["section"]):
+                self.assertAlmostEqual(layout["width"], 190 * 96 / 25.4, delta=1)
+                self.assertGreater(layout["height"], 277 * 96 / 25.4,
+                                   "A long results section must expand onto additional A4 sheets.")
+                self.assertEqual(layout["maxHeight"], "none")
+                self.assertEqual(layout["overflow"], "visible")
+                self.assertEqual(layout["errors"], [], "Every current result row must remain visible within the flow layout.")
+        popup.close()
+
     def test_report_page_selection_prints_only_checked_pages_and_preserves_report_order(self):
         self.prepare_worksheets()
         self.page.locator(".backup-menu > summary").click()
@@ -1726,6 +2962,8 @@ class CalculatorBrowserTests(unittest.TestCase):
         actual_sections = options.evaluate_all("options => options.map(option => option.dataset.reportPageKey)")
         self.assertEqual(actual_sections, list(REPORT_PAGE_SECTIONS),
                          "The page choices must include the current MD and AD report pages in preview order.")
+        expect(self.page.locator("#report-page-options label:has([data-report-page-key='mdcalc'])")).to_contain_text("Mahadasha (MD)")
+        expect(self.page.locator("#report-page-options label:has([data-report-page-key='adcalc'])")).to_contain_text("Antardasha (AD)")
         self.assertTrue(options.evaluate_all("options => options.every(option => option.checked)"),
                         "Printing the full report must remain the default.")
         self.page.locator("#report-clear-pages").click()
@@ -1823,6 +3061,17 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(venus_rows[0][4], "01/01/2007")
         self.assertEqual(venus_rows[-1][5], "01/01/2027")
         self.assertEqual(sum(int(row[1]) * 360 + int(row[2]) * 30 + int(row[3]) for row in venus_rows), 20 * 360)
+        selected_md = self.page.locator("#adMDSelect").input_value()
+        self.page.locator('.md-workspace-nav a[href="#adcalc"]').click()
+        self.page.evaluate("() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))")
+        ad_bounds = self.page.locator("#adcalc").bounding_box()
+        self.assertGreaterEqual(ad_bounds["y"], -1, "The AD shortcut must bring its table into view.")
+        self.assertLess(ad_bounds["y"], self.page.viewport_size["height"] - 30,
+                        "The AD shortcut must bring its table into view.")
+        expect(self.page.locator("main > #mdcalc")).to_be_visible()
+        expect(self.page.locator("#adMDSelect")).to_have_value(selected_md)
+        self.assertEqual(self.dasha_rows(), venus_rows,
+                         "Using the AD shortcut must preserve the selected MD and its calculated AD table.")
         self.go("report")
         report_ad = self.page.locator('#printReport > [data-report-section="adcalc"]')
         expect(report_ad).to_have_count(1)
@@ -1830,6 +3079,124 @@ class CalculatorBrowserTests(unittest.TestCase):
             [...row.cells].map(cell => cell.textContent.trim()))"""), venus_rows,
                          "The AD report page must print the currently chosen MD's recalculated table.")
         expect(self.page.locator('#printReport > [data-report-section="mdcalc"] [data-report-id="adDashaRows"]')).to_have_count(0)
+
+    def test_md_reconstructs_absolute_moon_from_all_twelve_signs(self):
+        # Independent zodiac/nakshatra reference at 0° of each sign. The in-sign
+        # Moon degree is identical in every case; its sign must change the MD.
+        fixtures = (
+            (0, "मेष", "अश्विनी", "केतू", "7 वर्ष 0 महिने 0 दिवस", "01/01/2007"),
+            (30, "वृषभ", "कृत्तिका", "रवी", "4 वर्ष 6 महिने 0 दिवस", "01/07/2004"),
+            (60, "मिथुन", "मृगशीर्ष", "मंगळ", "3 वर्ष 6 महिने 0 दिवस", "01/07/2003"),
+            (90, "कर्क", "पुनर्वसू", "गुरु", "4 वर्ष 0 महिने 0 दिवस", "01/01/2004"),
+            (120, "सिंह", "मघा", "केतू", "7 वर्ष 0 महिने 0 दिवस", "01/01/2007"),
+            (150, "कन्या", "उत्तराफाल्गुनी", "रवी", "4 वर्ष 6 महिने 0 दिवस", "01/07/2004"),
+            (180, "तुळ", "चित्रा", "मंगळ", "3 वर्ष 6 महिने 0 दिवस", "01/07/2003"),
+            (210, "वृश्चिक", "विशाखा", "गुरु", "4 वर्ष 0 महिने 0 दिवस", "01/01/2004"),
+            (240, "धनु", "मूळ", "केतू", "7 वर्ष 0 महिने 0 दिवस", "01/01/2007"),
+            (270, "मकर", "उत्तराषाढा", "रवी", "4 वर्ष 6 महिने 0 दिवस", "01/07/2004"),
+            (300, "कुंभ", "धनिष्ठा", "मंगळ", "3 वर्ष 6 महिने 0 दिवस", "01/07/2003"),
+            (330, "मीन", "पूर्वाभाद्रपदा", "गुरु", "4 वर्ष 0 महिने 0 दिवस", "01/01/2004"),
+        )
+        self.prepare_exact_dasha()
+        for absolute, sign, star, lord, balance, end in fixtures:
+            with self.subTest(sign=sign, absolute=absolute):
+                self.go("planet")
+                for suffix in ("d", "t"):
+                    self.page.locator(f"#p6_{suffix}_1").fill(f"{absolute:02d}:00:00")
+                self.action("calculate")
+                expect(self.page.locator("#p6_final_1")).to_have_value("0:00:00")
+                expect(self.page.locator("#p6_rashi_1")).to_have_value("तुला" if sign == "तुळ" else sign)
+                self.go("mdcalc")
+                expect(self.page.locator("#mdMoonInfo")).to_have_value(f"{sign} — {star} — {lord}")
+                expect(self.page.locator("#mdBirthDasha")).to_have_value(lord)
+                expect(self.page.locator("#mdBhogyaDuration")).to_have_value(balance)
+                expect(self.page.locator("#mdDashaEnd")).to_have_value(end)
+                self.assertEqual(self.dasha_rows("#mdDashaRows")[0][0], lord)
+                self.assertAlmostEqual(self.page.evaluate("window.currentKPModel.planets.find(p=>p.id==='Mo').longitude"), absolute*3600)
+
+    def test_libra_chitra_user_fixture_keeps_exact_md_ad_pd_in_home_transit_and_report(self):
+        # Moon 186°37′11″ is 169 arcseconds before Chitra's end. Mars's
+        # remaining balance is 169/48000 × 7 × 360 = 8.8725 symbolic days.
+        # Its elapsed 2511.1275 days fall in Moon AD (2310..2520) and Sun
+        # PD (2509.5..2520). Display dates round the balance to nine days.
+        self.prepare_exact_dasha("186:37:11", dob="1986-07-15")
+        self.go("basic")
+        self.page.locator("#birthTime").fill("15:45:00")
+        self.action("calculate")
+        self.go("mdcalc")
+        expect(self.page.locator("#p6_rashi_1")).to_have_value("तुला")
+        expect(self.page.locator("#mdMoonInfo")).to_have_value("तुळ — चित्रा — मंगळ")
+        expect(self.page.locator("#mdBirthDasha")).to_have_value("मंगळ")
+        expect(self.page.locator("#mdBhogyaDuration")).to_have_value("0 वर्ष 0 महिने 9 दिवस")
+        expect(self.page.locator("#mdDashaEnd")).to_have_value("24/07/1986")
+        expect(self.page.locator("#adBirthLord")).to_have_value("चंद्र")
+        expect(self.page.locator("#adBirthBalance")).to_have_value("0 वर्ष 0 महिने 9 दिवस")
+        self.assertEqual(self.dasha_rows("#mdDashaRows")[0], ["मंगळ", "0", "0", "9", "15/07/1986", "24/07/1986"])
+        self.assertEqual(self.dasha_rows()[-1], ["चंद्र", "0", "7", "0", "25/12/1985", "24/07/1986"])
+        period = self.page.evaluate("window.mdDashaPeriods[0]")
+        self.assertAlmostEqual(period["birthRemainingDays"], 8.8725, places=8)
+        self.assertAlmostEqual(period["birthElapsedDays"], 2511.1275, places=8)
+
+        self.go("home")
+        expect(self.page.locator("#home-md tbody tr").first).to_contain_text("मंगळ")
+        expect(self.page.locator("#home-md tbody tr").first).to_contain_text("24/07/1986")
+        expect(self.page.locator('#home-ad tr[data-birth-active="true"]')).to_contain_text("चंद्र")
+        self.go("transit")
+        self.page.locator("#tr-mode").select_option("dasha")
+        self.page.locator("#tr-reference").fill("1986-07-15")
+        self.page.locator("#tr-reference").dispatch_event("change")
+        automatic = self.page.evaluate("window.KPTransit.autoDasha()")
+        self.assertEqual(tuple(automatic[key] for key in ("MD", "AD", "PD")), ("Ma", "Mo", "Su"))
+        self.assertEqual((automatic["pd"]["start"], automatic["pd"]["end"]), ("1986-07-13", "1986-07-24"))
+        chart = self.configure_transit_chart(date="1986-07-15", time="15:45:00", source="natal")
+        self.assertTrue(chart["dasha"]["ready"])
+        self.assertEqual(tuple(chart["dasha"][key]["lord"] for key in ("md", "ad", "pd")), ("मंगळ", "चंद्र", "रवी"))
+        for role, lord in (("MD", "Ma"), ("AD", "Mo"), ("PD", "Su")):
+            expect(self.page.locator(f'#tc-dasha tr[data-role="{role}"] td').first).to_have_text(lord)
+        self.go("report")
+        md = self.page.locator('[data-report-section="mdcalc"] [data-report-id="mdDashaRows"] tr').first
+        expect(md).to_contain_text("मंगळ")
+        expect(md).to_contain_text("24/07/1986")
+        expect(self.page.locator('[data-report-section="adcalc"] tr[data-birth-active="true"]')).to_contain_text("चंद्र")
+        expect(self.page.locator('[data-report-section="transit-chart"] [data-report-id="tc-dasha"]')).to_contain_text("Su")
+
+    def test_fractional_birth_dasha_boundaries_keep_exact_lords_before_date_rounding(self):
+        # 3°40′ begins Moon AD at Ketu elapsed day 693 exactly. One arcsecond
+        # before it is Sun AD/Venus PD; at it the new Moon AD/Moon PD starts.
+        # At 13°19′59″, 0.0525 day remains in Ketu MD despite its displayed
+        # zero-day end. The birth moment still has Mercury AD/Saturn PD.
+        fixtures = (
+            ("03:39:59", "रवी", ("Ke", "Su", "Ve"), 692.9475, "28/01/2005"),
+            ("03:40:00", "चंद्र", ("Ke", "Mo", "Mo"), 693, "28/01/2005"),
+            ("13:19:59", "बुध", ("Ke", "Me", "Sa"), 2519.9475, "01/01/2000"),
+        )
+        self.prepare_exact_dasha()
+        for moon, ad_lord, expected_codes, elapsed, end in fixtures:
+            with self.subTest(moon=moon):
+                self.go("planet")
+                self.page.locator("#p6_d_1").fill(moon)
+                self.page.locator("#p6_t_1").fill(moon)
+                self.action("calculate")
+                self.go("mdcalc")
+                expect(self.page.locator("#mdBirthDasha")).to_have_value("केतू")
+                expect(self.page.locator("#adBirthLord")).to_have_value(ad_lord)
+                expect(self.page.locator('#adDashaRows tr[data-birth-active="true"]')).to_have_attribute("data-ad-lord", ad_lord)
+                expect(self.page.locator("#mdDashaEnd")).to_have_value(end)
+                self.assertAlmostEqual(self.page.evaluate("window.mdDashaPeriods[0].birthElapsedDays"), elapsed, places=8)
+                self.go("transit")
+                self.page.locator("#tr-mode").select_option("dasha")
+                self.page.locator("#tr-reference").fill("2000-01-01")
+                self.page.locator("#tr-reference").dispatch_event("change")
+                automatic = self.page.evaluate("window.KPTransit.autoDasha()")
+                self.assertEqual(tuple(automatic[key] for key in ("MD", "AD", "PD")), expected_codes)
+                chart = self.configure_transit_chart(date="2000-01-01", time="12:00:00", source="natal")
+                self.assertTrue(chart["dasha"]["ready"])
+                actual_codes = self.page.locator('#tc-dasha tr[data-role] td:first-of-type').all_text_contents()
+                self.assertEqual(tuple(actual_codes), expected_codes)
+                if moon == "13:19:59":
+                    expect(self.page.locator("#mdBhogyaDuration")).to_have_value("0 वर्ष 0 महिने 0 दिवस")
+                    expect(self.page.locator("#adBirthBalance")).to_have_value("0 वर्ष 0 महिने 0 दिवस")
+                    expect(self.page.locator("#tc-dasha-status")).to_contain_text("at birth")
 
     def test_birth_antardasha_uses_elapsed_md_and_changes_at_exact_nakshatra_boundaries(self):
         self.prepare_exact_dasha("06:40:00")
@@ -1920,6 +3287,7 @@ class CalculatorBrowserTests(unittest.TestCase):
                     result = page.evaluate("""() => {
                         const collect = (moon, dob) => {
                             document.getElementById('p6_final_1').value = moon;
+                            document.getElementById('p6_rashi_1').value = 'मेष';
                             document.getElementById('dob').value = dob;
                             window.updateMDCalculation();
                             return {
