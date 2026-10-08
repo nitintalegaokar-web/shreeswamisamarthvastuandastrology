@@ -4144,6 +4144,52 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(updated["dates"], ["2026-10-07", "2026-10-08"])
         self.assertEqual(updated["rows"][0]["utc"], "2026-10-07T05:30:00.000Z")
 
+    def test_tab_tools_significator_selection_nadi_one_page_and_kundali_resources(self):
+        self.prepare_exact_dasha()
+        self.go('karyesh')
+        for method in ['kp-fourfold','kp-sixfold','kp-fourstep-section']:
+            self.page.locator('#sig-method').select_option(method)
+            expect(self.page.locator('#'+method)).to_be_visible()
+            for other in ['kp-fourfold','kp-sixfold','kp-fourstep-section']:
+                if other!=method:expect(self.page.locator('#'+other)).to_be_hidden()
+            with self.page.expect_popup() as opened:self.page.locator('#significators-preview').click()
+            preview=opened.value
+            expect(preview.locator('.report-page')).to_have_attribute('data-report-section',method)
+            expect(preview.get_by_role('button',name='Zoom +',exact=True)).to_be_visible()
+            preview.close()
+        self.go('basic')
+        self.page.locator('#dob').fill('2000-01-02')
+        self.assertEqual(self.page.locator('#na-date').input_value(),'2000-01-02')
+        self.page.locator('#birth-save-kundali').click()
+        self.assertIsNotNone(self.page.evaluate("localStorage.getItem('kpRaphaelData')"))
+        self.page.locator('#birth-open-kundali').click()
+        expect(self.page.locator('#south9')).to_have_class(re.compile('active'))
+        self.assertEqual(self.page.evaluate('KPChartStyle.getStyle()'),'south')
+        self.page.locator('#south-rotate').click()
+        self.assertEqual(self.page.evaluate('KPHomeChartReference.getHouse()'),2)
+        self.page.locator('#south-zoom-in').click()
+        self.assertEqual(self.page.locator('#kundali').evaluate('n=>n.style.zoom'),'1.1')
+        with self.page.expect_popup() as opened:self.page.locator('#south9-preview').click()
+        opened.value.close()
+        self.go('nadi-astrology')
+        with self.page.expect_popup() as opened:self.page.locator('#nadi-astrology-preview').click()
+        preview=opened.value
+        try:
+            expect(preview.locator('[data-nadi-report-planet]')).to_have_count(9)
+            import fitz
+            pdf=fitz.open(stream=preview.pdf(format='A4'),filetype='pdf')
+            self.assertEqual(len(pdf),1)
+            self.assertIn('Planet positions',pdf[0].get_text());pdf.close()
+        finally:preview.close()
+        self.go('resources')
+        self.page.locator('#resource-new-topic').fill('My KP subtopic')
+        self.page.locator('#resource-add').click()
+        self.page.locator('#resource-notes').fill('My reference notes')
+        self.page.locator('#resource-save').click()
+        self.page.reload();self.go('resources')
+        self.page.locator('#resource-topic').select_option(label='My KP subtopic')
+        expect(self.page.locator('#resource-notes')).to_have_value('My reference notes')
+
     def test_dasha_promise_layout_manual_layers_sun_gochar_and_compact_pdf(self):
         self.prepare_exact_dasha()
         self.go('dasha-promise')

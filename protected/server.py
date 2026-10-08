@@ -133,12 +133,13 @@ class Engine:
         elif action=='export':
             chart=page.evaluate("() => {const d=getChartData();for(const id of Object.keys(d.fields)){const n=document.getElementById(id);if(!n||n.closest('[data-private-calculation]')||n.readOnly||(n.type==='hidden'&&!['kp-software-settings','rpw-memos','mm-memos','chart-categories'].includes(n.id)))delete d.fields[id];}d.eph=[];d.kundali={manual:false};return d;}")
             return token, chart
-        elif action in ('print','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview','dasha-promise-preview'):
+        elif action in ('print','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview','dasha-promise-preview','significators-preview','nadi-astrology-preview','south9-preview'):
             if action=='match-preview':
                 if not page.evaluate('()=>Boolean(KPMatchmaking.refresh())'):raise ValueError('Enter valid birth details for both people.')
                 page.evaluate("()=>{renderReport();KPReportPages.selectSections(['matchmaking']);}")
             if action.endswith('-preview') and action!='match-preview':
                 section=action.removesuffix('-preview')
+                if section=='significators':section=page.evaluate("document.getElementById('sig-method').value")
                 page.evaluate("section=>{renderReport();KPReportPages.selectSections([section]);}",section)
             page.evaluate('()=>renderReport()')
             result=page.evaluate("() => {const blocked=KPClientPresentation.privateTabs;const pages=KPReportPages.selected().filter(n=>!blocked.includes(n.dataset.reportSection));return {html:pages.map(n=>{const copy=n.cloneNode(true);copy.querySelectorAll('[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line').forEach(c=>c.remove());return copy.outerHTML;}).join(''),css:[...document.querySelectorAll('style')].map(n=>n.textContent.replace(/#kundali\\b/g,'[data-report-id=\"kundali\"]')).join('\\n')};}")
@@ -180,7 +181,7 @@ class Handler(BaseHTTPRequestHandler):
             if path=='/':
                 self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script></body></html>','text/html');return
             if path=='/client.js':self.respond((ROOT/'protected/client.js').read_bytes(),'text/javascript');return
-            if path not in ('/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview'):
+            if path not in ('/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/significators-preview','/nadi-astrology-preview','/south9-preview'):
                 self.respond({'error':'Not found'},status=404);return
             token,result=self.server.engine.call(self.token(),path[1:])
             if path=='/export':self.respond(result,token=token,extra={'Content-Disposition':'attachment; filename="chart.lkp"'});return
@@ -188,6 +189,8 @@ class Handler(BaseHTTPRequestHandler):
                 safe=result['html']
                 # Report snapshots already remove active controls and handlers.
                 doc='<!doctype html><html><head><meta charset="UTF-8"><title>KP Report</title><style>'+result['css']+'</style><style>html,body{margin:0;background:white}body>.report-page{display:block!important;margin:0 auto!important}@media print{body>.report-page{display:block!important}}@page{size:A4;margin:10mm}</style></head><body>'+safe+('<script>window.onload=()=>setTimeout(()=>window.print(),500)</script>' if path=='/print' else '<div class="preview-tools"><button onclick="window.print()">Print / Save PDF</button><button onclick="var p=document.querySelector(\'.report-page\');p.style.zoom=Math.min(2,(parseFloat(p.style.zoom)||1)+.1)">Zoom +</button><button onclick="var p=document.querySelector(\'.report-page\');p.style.zoom=Math.max(.5,(parseFloat(p.style.zoom)||1)-.1)">Zoom −</button><button onclick="window.close()">Close preview</button></div><style>.preview-tools{position:fixed;top:0;right:0;background:white;padding:8px;z-index:10}@media print{.preview-tools{display:none}}</style>')+'</body></html>'
+                if path=='/nadi-astrology-preview':
+                    doc=doc.replace('</body>','<script>window.addEventListener("beforeprint",()=>{const c=document.querySelector(".report-cover");if(c){c.style.zoom=1;c.style.zoom=Math.min(1,925/c.scrollHeight);}});</script></body>')
                 self.respond(doc,'text/html',token=token);return
             self.respond(result,token=token)
         except Exception as error:self.respond({'error':str(error).split('\n')[0]},status=400)

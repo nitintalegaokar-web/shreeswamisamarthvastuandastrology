@@ -78,13 +78,19 @@ class ProtectedServerTests(unittest.TestCase):
         self.private('()=>KPReportPages.clear()')
         self.assertEqual(self.page.request.get(self.url+'/print').status,400)
     def test_transit_preview_routes_return_only_selected_report_without_auto_print(self):
-        for section in ('transit','transit-chart','transit-panchang','ephemeris','event-promise','education-profession','disease','dasha-promise'):
+        for section in ('transit','transit-chart','transit-panchang','ephemeris','event-promise','education-profession','disease','dasha-promise','nadi-astrology','south9'):
             response=self.page.request.get(self.url+'/'+section+'-preview')
             self.assertEqual(response.status,200,response.text()[:200])
             html=response.text()
             self.assertIn('data-report-section="'+section+'"',html)
             self.assertIn('Print / Save PDF',html)
             self.assertNotIn('window.onload=()=>setTimeout(()=>window.print()',html)
+
+    def test_significator_method_preview_selects_current_method(self):
+        self.private("()=>{document.getElementById('sig-method').value='kp-sixfold';}")
+        response=self.page.request.get(self.url+'/significators-preview')
+        self.assertEqual(response.status,200)
+        self.assertIn('data-report-section="kp-sixfold"',response.text())
 
     def test_matchmaking_preview_does_not_automatically_print(self):
         response=self.page.request.get(self.url+'/match-preview')
