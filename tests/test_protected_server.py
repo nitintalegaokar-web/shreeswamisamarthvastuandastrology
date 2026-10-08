@@ -76,6 +76,51 @@ class ProtectedServerTests(unittest.TestCase):
         self.assertEqual(snapshot['preferences']['fontSize'],13)
         self.engine.executor.submit(lambda:self.engine.sessions.pop(new_token)['context'].close()).result()
 
+    def test_language_and_nadi_context_menu_in_private_interface(self):
+        response=self.post('/preferences',{'settings':{'language':'hindi'}})
+        self.assertEqual(response.status,200)
+        data=response.json();self.assertEqual(data['language'],'hi');self.assertIn('मुखपृष्ठ',data['html'])
+        self.page.reload();expect(self.page.locator('.app-sidebar [data-tab="home"]')).to_contain_text('मुखपृष्ठ')
+        self.assertEqual(self.page.locator('html').get_attribute('lang'),'hi')
+        self.page.locator('#quick-nadi-astrology').click()
+        self.page.locator('#na-native-chart').click(button='right')
+        expect(self.page.locator('#kundali-style-menu')).to_be_visible()
+        self.page.locator('#kundali-style-north').click()
+        expect(self.page.locator('#na-native-chart svg.na-north-chart')).to_be_visible()
+        self.assertEqual(self.page.locator('#na-native-chart [data-nadi-cusp]').count(),12)
+        self.assertEqual(self.page.locator('#na-native-chart [data-nadi-chart-planet]').count(),9)
+        self.page.locator('#na-native-chart').click(button='right');self.page.locator('#kundali-style-south').click()
+        expect(self.page.locator('#na-native-chart .na-reference-rashi')).to_be_visible()
+
+    def test_direct_aspect_pdf_and_a4_preview_routes(self):
+        import fitz
+        for section in ['aspects','single-page','south9','nadi-astrology']:
+            response=self.page.request.get(self.url+'/'+section+'-preview')
+            self.assertEqual(response.status,200,response.text()[:150])
+            self.assertIn('data-report-section="'+section+'"',response.text())
+            self.assertIn('kp-a4-body',response.text())
+            self.assertIn('Zoom +',response.text())
+        response=self.page.request.get(self.url+'/aspects-pdf')
+        self.assertEqual(response.status,200,response.body()[:150])
+        self.assertTrue(response.headers['content-type'].startswith('application/pdf'))
+        doc=fitz.open(stream=response.body(),filetype='pdf');self.assertEqual(len(doc),1)
+        self.assertIn('Native: Instant Prashna',doc[0].get_text());doc.close()
+        self.assertEqual(self.page.request.get(self.url+'/aspects-print').status,200)
+
+    def test_consultation_location_and_clock_keep_natal_coordinates_separate(self):
+        self.assertTrue(self.private('currentKPModel.ready'))
+        data={'settings':{'astroPlace':'Nashik','astroLatitude':'19:59:50 N','astroLongitude':'73:47:28 E','astroUtcOffset':5.5}}
+        self.assertEqual(self.post('/preferences',data).status,200)
+        clock=self.page.request.get(self.url+'/ruling-clock').json()
+        self.assertEqual(clock['place'],'Nashik')
+        self.assertAlmostEqual(clock['latitude'],19+59/60+50/3600)
+        self.assertIn('sgl',clock['asc']);self.assertIn('sl',clock['moon'])
+        self.private("()=>{document.getElementById('instant-prashna').value='0';document.getElementById('birthPlace').value='Native place';document.getElementById('lat').value='18:00:00';}")
+        data['settings']['astroPlace']='New consultation place'
+        self.assertEqual(self.post('/preferences',data).status,200)
+        self.assertEqual(self.private("document.getElementById('birthPlace').value"),'Native place')
+        self.assertEqual(self.private("document.getElementById('lat').value"),'18:00:00')
+
     def test_private_sources_and_calculation_controls_are_not_public(self):
         for path in ['/index.html','/protected/server.py','/../index.html','/tests/test_calculator.py']:
             self.assertEqual(self.page.request.get(self.url+path).status,404)
