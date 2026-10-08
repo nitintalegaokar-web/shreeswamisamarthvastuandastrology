@@ -366,6 +366,16 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#home-md")).to_be_hidden()
         expect(self.page.locator("#home-ad")).to_be_hidden()
 
+    def test_supplied_book_aspects_use_transcribed_angles_and_orb_defaults(self):
+        catalog=self.page.evaluate("KPWesternAspects.getCatalog()")
+        self.assertTrue({18,24,108}.issubset({a["angle"] for a in catalog}))
+        expected={0:6,30:2,45:2,60:3,90:5,120:5,135:2,150:2,18:2,24:2,36:2,72:2,108:2,144:3}
+        for angle,orb in expected.items():
+            expect(self.page.locator(f"#western-orb-{angle}")).to_have_value(str(orb))
+        results=self.page.evaluate("""() => KPWesternAspects.calculate([{id:'Su',longitude:0},{id:'Mo',longitude:20}],[],{aspects:[{angle:18,orb:2,quality:'good'}]})""")
+        self.assertEqual(results["planetToPlanet"][0]["angle"],18)
+        self.assertEqual(results["planetToPlanet"][0]["orb"],2)
+
     def test_reference_aspect_matrices_show_every_separation_and_selected_print_mode(self):
         self.prepare_exact_dasha()
         self.go("aspects")
@@ -378,7 +388,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(cell.inner_text(),reverse.inner_text())
         self.assertAlmostEqual(float(cell.get_attribute("data-separation")),5,places=6)
         expect(table.locator('[data-am-source="Su"] [data-am-target="Su"]')).to_be_empty()
-        expect(self.page.locator("#aspects .am-catalog tbody tr")).to_have_count(17)
+        expect(self.page.locator("#aspects .am-catalog tbody tr")).to_have_count(20)
         self.page.locator("#am-mode").select_option("cusp")
         expect(table).to_have_attribute("aria-label","Planet to cusp aspect matrix")
         expect(table.locator("thead th")).to_have_count(13)
