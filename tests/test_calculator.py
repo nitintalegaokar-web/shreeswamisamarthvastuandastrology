@@ -4358,6 +4358,23 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#birth-dst-minutes")).to_have_value("0")
         expect(self.page.locator("#birth-dst-minutes")).to_be_disabled()
 
+    def test_transit_and_ephemeris_preview_buttons_open_working_print_controls(self):
+        self.prepare_exact_dasha()
+        self.configure_transit_panchang()
+        self.configure_daily_ephemeris()
+        for section in ("transit","transit-chart","transit-panchang","ephemeris"):
+            self.go(section)
+            with self.page.expect_popup() as opened:
+                self.page.locator(f"#{section}-preview").click()
+            preview=opened.value
+            try:
+                expect(preview.locator(f'[data-report-section="{section}"]')).to_be_visible()
+                preview.evaluate("() => {window.printInvocations=0;window.print=()=>{window.printInvocations+=1};}")
+                preview.get_by_role("button",name="Print / Save PDF",exact=True).click()
+                self.assertEqual(preview.evaluate("window.printInvocations"),1)
+            finally:
+                preview.close()
+
     def test_matchmaking_report_only_includes_selected_manglik_references(self):
         self.go("matchmaking")
         for base in ("Lagna","Moon","Venus"):
@@ -4390,6 +4407,9 @@ class CalculatorBrowserTests(unittest.TestCase):
             expect(preview.locator(".mm-format-report")).to_be_visible()
             expect(preview.locator(".mm-format-chart svg")).to_have_count(2)
             expect(preview.locator("#mm-preview-print")).to_be_visible()
+            preview.evaluate("() => {window.printInvocations=0;window.print=()=>{window.printInvocations+=1};}")
+            preview.locator("#mm-preview-print").click()
+            self.assertEqual(preview.evaluate("window.printInvocations"),1)
             expect(preview.locator(".mm-format-footer")).to_contain_text("Nitin and Kavita")
         finally:
             preview.close()
