@@ -2,6 +2,8 @@
 
 A browser-based Krishnamurti Paddhati calculator with Marathi worksheets, South and North Indian kundali layouts, and printable client reports. It runs locally without an application server, build step, or external assets.
 
+The live windows follow the supplied reference layouts: cream forms, square controls, compact green calculation tables, pink position/aspect headers and a white Settings window. Birth and Horary entry keep personal details above two columns and comments below. Event Promise keeps its analysis and rules side by side; Nadi, Transit and matchmaking retain their reference arrangements. Open **Choose Indian city / village**, **Change place**, or **Open / Delete Saved Chart** to use the corresponding tools. These screen styles do not change the existing A4 report templates.
+
 `index.html` is self-contained: its styling and JavaScript are embedded, so no companion files are needed. Open the HTML file in your browser, or start the development server from this directory:
 
 ```sh
@@ -79,3 +81,19 @@ The Home dasha window retains fractional durations through five levels and inclu
 Location data © [GeoNames](https://www.geonames.org/), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The embedded populated-place subset comes from [Dibakar01/reverse-geocoding](https://github.com/Dibakar01/reverse-geocoding), pinned to commit `d80fb96ad43f3a9216dbd0cf2b9cdd38ffffd78d`; the mirror documents extraction from the official `IN.zip`. It retains source coordinates and administrative codes but supplies ASCII names without the original GeoNames aliases/IDs. The software adds a few disclosed search spelling variants, state/district labels, source-code fallbacks, and a compressed offline lookup. All 557,995 source records are retained, including 8,969 abandoned and two historical settlements. There are 37 records with unknown/obsolete state codes, 2,572 without a district code and 212 with unmapped district codes; those are not assigned a guessed district. The dataset loads only when lookup is first used. Metadata, source hashes, licensing and coverage are available in the picker.
 
 Embedded India TSV SHA-256: `1bea1d79cd3fce326a2c1c7e2ac6af91c7311db712c96573ede8e05eeb2c0158`; source mirror TSV SHA-256: `2f16f9c4e94784d79b7a3db6392325b86cbc9a6c278ec543466465d21fd58949`. The mirror archive timestamp is August 28, 2026; the original GeoNames extraction date is unspecified.
+
+## Private calculation server
+
+Run the customer interface with `python3 protected/server.py --port 8080` from this checkout. It requires Python Playwright and Chromium (the same installed tools used by the browser regression suite). `CALCULATOR_CHROMIUM` can override the Chromium executable. The server binds to loopback; use an authenticated HTTPS reverse proxy for a private deployment. Do not serve this checkout as a public static directory.
+
+Customers receive a script-free interface snapshot plus a small interface script. The original calculation code remains in a private Chromium worker. Calculation worksheets, formula rows and their report selections are removed from customer responses. Customer actions are restricted to controls present in their own session; hidden calculation inputs and source-file requests are rejected. Formula edits require developer access to the private source and a server restart. This does not make source already distributed in an HTML file or public repository secret. Keep deployment source private; this ZIP is a developer package, not a buyer installer.
+
+New server charts use automatic 05:30 planet positions, the uploaded annual KP ayanamsha and computed Placidus natal cusps; numbered horary retains its existing calculation method. The standalone developer HTML retains manual Raphael worksheets. Importing a worksheet file into the customer server restores its user data and recomputes the chart automatically, rather than accepting hidden worksheet overrides.
+
+Coordinates in the customer forms and location summaries use DMS with N/S and E/W. Numeric coordinates remain exact internally and in `.lkp` files; display rounding does not change saved coordinates. Themes in Astrologer settings now cover reference window backgrounds and table headers. Reports have double-line frames, including a repeated frame on printed sheets. The desktop Transit Chart is compact without altering its calculation data or report diagrams.
+
+The local server supports up to four isolated sessions, expiring after 30 minutes without requests. Save chart downloads a `.lkp` file; Load imports it. Session data is not a database and should be downloaded before closing the browser. This local worker is not yet a hosted commercial service; customer accounts, HTTPS and capacity must be supplied by the deployment.
+
+Additional checks: `python3 -m unittest discover -s tests -p test_protected_server.py -v` verifies source isolation, protected controls, native recalculation, DMS persistence, selected printing and session separation.
+
+Release verification: all 80 existing calculator cases were exercised. A Transit SVG edge alignment failure was corrected; its affected tests and the enlarged Home font/geometry checks passed on rerun. Seven additional server tests passed. A two-page A4 PDF was rendered and both physical sheets contained repeated double-line frames. Hosting and customer authentication have not been deployed.

@@ -1147,10 +1147,12 @@ class CalculatorBrowserTests(unittest.TestCase):
 
     def configure_transit_chart(self, date="2026-10-06", time="05:30:00", source="transit", place="Pune, Maharashtra"):
         self.go("transit-chart")
+        if not self.page.locator(".tc-reference-location").evaluate("node=>node.open"):
+            self.page.locator(".tc-reference-location > summary").click()
         for field, value in {"date": date, "time": time, "latitude": "18.52", "longitude": "73.85",
                              "timezone": "5.5", "place": place}.items():
             self.page.locator(f"#tc-{field}").fill(value)
-        self.page.locator("#tc-cusp-source").select_option(source)
+        self.page.locator(f'.tc-reference-cusps input[value="{source}"]').check()
         self.page.locator("#tc-calculate").click()
         expect(self.page.locator("#tc-status")).to_have_attribute("data-state", "ready")
         return self.page.evaluate("window.KPTransitChart.getData()")
@@ -1190,7 +1192,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator('#tc-dasha tbody tr[data-role="MD"]')).to_contain_text("Ve")
         expect(self.page.locator("#tc-pd-periods tbody tr")).to_have_count(9)
 
-        self.page.locator("#tc-cusp-source").select_option("natal")
+        self.page.locator('.tc-reference-cusps input[value="natal"]').check()
         expect(self.page.locator("#tc-status")).to_have_attribute("data-state", "ready")
         natal = self.page.evaluate("window.KPTransitChart.getData()")
         self.assertEqual([cusp["longitude"] for cusp in natal["cusps"]], natal_cusps)
@@ -2010,11 +2012,12 @@ class CalculatorBrowserTests(unittest.TestCase):
                 self.assertEqual(failed_resources, [], "Opening index.html alone must not require missing sibling assets.")
                 layout = page.evaluate("""() => ({
                     sidebarPosition: getComputedStyle(document.getElementById('app-sidebar')).position,
+                    sidebarWidth: document.getElementById('app-sidebar').getBoundingClientRect().width,
                     mainMargin: parseFloat(getComputedStyle(document.getElementById('workspace-main')).marginLeft),
                     birthLayout: getComputedStyle(document.querySelector('.birth-layout')).display,
                 })""")
                 self.assertEqual(layout["sidebarPosition"], "fixed", "The professional sidebar styling must load from the HTML file.")
-                self.assertGreaterEqual(layout["mainMargin"], 240, "The desktop workspace must leave room for its sidebar.")
+                self.assertGreaterEqual(layout["mainMargin"], layout["sidebarWidth"], "The desktop workspace must leave room for its navigation.")
                 self.assertEqual(layout["birthLayout"], "grid")
                 expect(page.locator("#overview-lmt")).to_have_text(page.locator("#lmtFinal").input_value())
 
@@ -4646,6 +4649,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         birth_date = self.page.locator("#dob").input_value()
         birth_time = self.page.locator("#birthTime").input_value()
         panel = self.page.locator('[data-place-for="birthPlace"]')
+        self.page.locator(".birth-reference-place-picker > summary").click()
         panel.locator("select").nth(0).select_option("16")
         panel.locator("select").nth(1).select_option("521")
         self.page.locator("#birthPlace").fill("Uruli Kanchan")

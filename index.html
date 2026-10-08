@@ -297,14 +297,14 @@
   #home [data-home-chart] .v38-lane { position:absolute; top:calc(2 * var(--home-chart-unit)); bottom:calc(2 * var(--home-chart-unit)); min-width:0; z-index:2; }
   #home [data-home-chart] .v38-cusp-lane { left:calc(2 * var(--home-chart-unit)); right:calc(50% + var(--home-chart-unit)); text-align:left; }
   #home [data-home-chart] .v38-planet-lane { left:calc(50% + var(--home-chart-unit)); right:calc(2 * var(--home-chart-unit)); text-align:right; }
-  #home [data-home-chart] .v38-item { position:absolute; left:0; right:0; display:flex; flex-direction:column; justify-content:center; gap:calc(var(--home-chart-unit) * var(--v38-lane-scale)); font-size:calc(8 * var(--home-chart-unit) * var(--v38-lane-scale)); line-height:1.15; white-space:nowrap; padding:0; }
+  #home [data-home-chart] .v38-item { position:absolute; left:0; right:0; display:flex; flex-direction:column; justify-content:center; gap:calc(var(--home-chart-unit) * var(--v38-lane-scale)); font-size:calc(16 * var(--home-chart-unit) * var(--v38-lane-scale)); line-height:1.15; white-space:nowrap; padding:0; }
   #home [data-home-chart] .v38-cusp { font-weight:650; align-items:flex-start; color:#778ad0; }
   #home [data-home-chart] .v38-planet { font-weight:650; align-items:flex-end; color:#597332; }
   #home [data-home-chart] .v38-position { display:flex; align-items:baseline; gap:calc(2 * var(--home-chart-unit) * var(--v38-lane-scale)); }
   #home [data-home-chart] .v38-cusp .v38-name,#home [data-home-chart] .v38-degree,#home [data-home-chart] .v38-lords { font-family:Arial,sans-serif; }
   #home [data-home-chart] .v38-name,#home [data-home-chart] .v38-degree,#home [data-home-chart] .v38-lords { background:#ffffffde; }
-  #home [data-home-chart] .v38-degree { font-size:calc(7 * var(--home-chart-unit) * var(--v38-lane-scale)); line-height:1.15; }
-  #home [data-home-chart] .v38-lords { font-size:calc(6.25 * var(--home-chart-unit) * var(--v38-lane-scale)); font-weight:450; line-height:1.15; }
+  #home [data-home-chart] .v38-degree { font-size:calc(14 * var(--home-chart-unit) * var(--v38-lane-scale)); line-height:1.15; }
+  #home [data-home-chart] .v38-lords { font-size:calc(11 * var(--home-chart-unit) * var(--v38-lane-scale)); font-weight:450; line-height:1.15; }
   #home [data-home-chart] .v38-center { grid-column:2/4; grid-row:2/4; min-width:0; border:1px solid #bbb8c7; display:flex; align-items:center; justify-content:center; text-align:left; padding:calc(8 * var(--home-chart-unit)); background:#fff; z-index:4; overflow:hidden; }
   #home [data-home-chart] .v38-title { text-align:center; font-size:calc(10 * var(--home-chart-unit)); line-height:1.4; font-weight:650; color:#71658f; margin-bottom:calc(8 * var(--home-chart-unit)); }
   #home [data-home-chart] .v38-data { font-size:calc(9 * var(--home-chart-unit)); line-height:1.55; color:#747a8d; overflow-wrap:anywhere; }
@@ -5673,7 +5673,8 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
     if (id === 'aspects') {
       const angles = [...document.querySelectorAll('#aspects .western-angle-options input[type="checkbox"]:checked')].map(input => {
         const angle = input.id.replace('western-angle-', '');
-        return input.labels[0].textContent.trim() + ' (orb ' + value('western-orb-' + angle) + '°)';
+        const label = input.labels[0];
+        return (label.getAttribute('aria-label') || label.textContent.trim()) + ' (orb ' + value('western-orb-' + angle) + '°)';
       });
       note('Selected aspects: ' + (angles.join(' · ') || 'None'));
       append('.western-color-legend');
@@ -8888,7 +8889,7 @@ body.app-ready .kundali-context-menu button{display:flex;align-items:center;gap:
    const table=({small:.9,medium:1,large:1.08})[settings.tableSize],interpret=({small:.9,medium:1,large:1.12})[settings.interpretiveSize];
    const chart=':is(#kundali,[data-report-id="kundali"])';
    let css=`${chart} .v38-name{font-size:calc(11 * var(--v38-unit) * var(--v38-lane-scale) * ${p} * var(--kp-preference-fit,1))!important}${chart} .v38-degree{font-size:calc(9.5 * var(--v38-unit) * var(--v38-lane-scale) * ${d} * var(--kp-preference-fit,1))!important}${chart} .v38-lords{font-size:calc(8 * var(--v38-unit) * var(--v38-lane-scale) * var(--kp-preference-fit,1))!important}`;
-   css+=`#home [data-home-chart] .v38-name{font-size:calc(8 * var(--home-chart-unit) * var(--v38-lane-scale) * ${p} * var(--kp-preference-fit,1))!important}#home [data-home-chart] .v38-degree{font-size:calc(7 * var(--home-chart-unit) * var(--v38-lane-scale) * ${d} * var(--kp-preference-fit,1))!important}#home [data-home-chart] .v38-lords{font-size:calc(6.25 * var(--home-chart-unit) * var(--v38-lane-scale) * var(--kp-preference-fit,1))!important}`;
+   css+=`#home [data-home-chart] .v38-name{font-size:calc(16 * var(--home-chart-unit) * var(--v38-lane-scale) * ${p} * var(--kp-preference-fit,1))!important}#home [data-home-chart] .v38-degree{font-size:calc(14 * var(--home-chart-unit) * var(--v38-lane-scale) * ${d} * var(--kp-preference-fit,1))!important}#home [data-home-chart] .v38-lords{font-size:calc(11 * var(--home-chart-unit) * var(--v38-lane-scale) * var(--kp-preference-fit,1))!important}`;
    if(!settings.birthInfo)css+=':is(#kundali,[data-report-id="kundali"],[data-home-chart]).v38-chart .v38-center:not([data-manual-text]) .v38-data{display:none!important}';
    if(table!==1)css+=`@media screen{body.app-ready main:not(#astrosettings) table :is(td,th){font-size:${11*table}px!important}#home table :is(td,th){font-size:${9*table}px!important}}@media print{.report-cover table :is(td,th){font-size:${7.5*table}px!important}.computed-report table :is(td,th),.tc-report table :is(td,th){font-size:${8*table}px!important}.report-cover .kp-basic-calculations :is(td,th){font-size:${6.5*table}px!important}}`;
    if(table>1)css+='@media screen{#home .home-summary-column{gap:8px}}';
@@ -9340,7 +9341,7 @@ body.app-ready #report .almanac-report table :is(td,th),.almanac-report table :i
     defaults();if(!getPanchangData())calculatePanchang();
     if(!panchangData)return '<div class="almanac-report"><p>'+escape(byId('tp-status')?.textContent||'Calculate Transit Panchang.')+'</p></div>';
     const d=panchangData;
-    return '<div class="almanac-report"><p>'+escape(dateText(d.localDate)+' '+timeText(d.localTime)+' · UTC '+offsetText(d.timezone)+(d.place?' · '+d.place:'')+' · Latitude '+d.latitude+'°, longitude '+d.longitude+'°')+'</p><dl class="almanac-grid">'+panchangSummary(d)+'</dl><h3>Sidereal transit positions · SGL / STL / SBL / SSL</h3><table>'+byId('tp-positions').querySelector('thead').outerHTML+'<tbody>'+positionRows([...d.planets,d.ascendant])+'</tbody></table><p>Values apply to the selected instant. Sunrise and sunset use the selected local civil date and sea-level location. Sidereal geocentric positions; '+escape(window.KPEphemeris.convention())+'. Mean Rahu; Ketu exactly 180° opposite. R: retrograde; C: combust using your selected limits.</p></div>';
+    return '<div class="almanac-report"><p>'+escape(dateText(d.localDate)+' '+timeText(d.localTime)+' · UTC '+offsetText(d.timezone)+(d.place?' · '+d.place:'')+' · Latitude '+window.KPClientPresentation.formatCoordinate(Number(d.latitude),false)+', longitude '+window.KPClientPresentation.formatCoordinate(Number(d.longitude),true))+'</p><dl class="almanac-grid">'+panchangSummary(d)+'</dl><h3>Sidereal transit positions · SGL / STL / SBL / SSL</h3><table>'+byId('tp-positions').querySelector('thead').outerHTML+'<tbody>'+positionRows([...d.planets,d.ascendant])+'</tbody></table><p>Values apply to the selected instant. Sunrise and sunset use the selected local civil date and sea-level location. Sidereal geocentric positions; '+escape(window.KPEphemeris.convention())+'. Mean Rahu; Ketu exactly 180° opposite. R: retrograde; C: combust using your selected limits.</p></div>';
   }
   function ephemerisRows(data){return data.rows.map(day=>day.planets.map((planet,index)=>{const d=planet.details;return '<tr data-date="'+day.date+'" data-planet="'+planet.id+'"'+(index===0?' data-first="true"':'')+'><th scope="row">'+escape(dateText(day.date))+'</th><td>'+planet.id+'</td><td>'+escape(d.signCode)+'</td><td>'+escape(d.degree)+'</td><td>'+escape(d.nakCode)+' ('+d.pada+')</td><td>'+d.sgl+'</td><td>'+d.stl+'</td><td>'+d.sl+'</td><td>'+d.ssl+'</td><td>'+(planet.retrograde?'[R]':'D')+'</td><td>'+(planet.combust?'[C]':'—')+'</td></tr>';}).join('')).join('');}
   function ephemerisMetadata(data){return dateText(data.start)+' to '+dateText(data.end)+' · '+data.days+' day'+(data.days===1?'':'s')+' · Daily at '+timeText(data.time)+' · UTC '+offsetText(data.timezone);}
@@ -10053,7 +10054,7 @@ body.app-ready #report .almanac-report table :is(td,th),.almanac-report table :i
       const result=analyzeNadi(model,options);nadiData={...result,model,source,moment,cuspSystem,ayanamsha,notes:val('na-notes')};
       $('na-status').textContent=result.ready?(source==='moment'?'Selected moment '+moment.date+' '+moment.time+' · UTC '+moment.timezone:'Native chart '+moment.date+' '+moment.time)+' · '+cuspSystem+' · '+(result.method==='sixfold'?'Six-fold A–F':'Four-fold A–D')+'.':result.reason;$('na-status').dataset.state=result.ready?'ready':'incomplete';$('na-status').dataset.ready=String(result.ready);
       $('na-grid').innerHTML=result.ready?nadiCardsHTML(nadiData):'<p>'+esc(result.reason)+'</p>';$('na-positions').innerHTML=result.ready?nadiTableHTML(nadiData):'';$('na-source-mount').innerHTML=sourceHTML(result.rule);$('na-custom-control').hidden=val('na-event')!=='custom';$('na-print').disabled=!result.ready;
-      $('na-native-info').textContent='Native: '+(val('name')||'—')+' · Birth: '+val('dob')+' '+val('birthTime')+' · '+val('birthPlace')+'. Nadi coordinates: '+(source==='moment'?moment.place+' · '+moment.latitude+'°, '+moment.longitude+'°':'native worksheet')+'.';return nadiData;
+      $('na-native-info').textContent='Native: '+(val('name')||'—')+' · Birth: '+val('dob')+' '+val('birthTime')+' · '+val('birthPlace')+'. Nadi coordinates: '+(source==='moment'?moment.place+' · '+window.KPClientPresentation.formatCoordinate(Number(moment.latitude),false)+', '+window.KPClientPresentation.formatCoordinate(Number(moment.longitude),true):'native worksheet')+'.';return nadiData;
     }catch(error){nadiData={ready:false,reason:error.message,source,cards:[]};$('na-status').textContent=error.message;$('na-status').dataset.state='error';$('na-status').dataset.ready='false';$('na-grid').innerHTML='';$('na-positions').innerHTML='';$('na-print').disabled=true;return nadiData;}
   }
   function stopRealTime(){if(realTimer)clearInterval(realTimer);realTimer=null;if($('na-real-time')){$('na-real-time').textContent='Start real time';$('na-real-time').setAttribute('aria-pressed','false');}}
@@ -10201,7 +10202,7 @@ body.app-ready #report .almanac-report table :is(td,th),.almanac-report table :i
   function snapshot(){
     if(!getData())refresh();const d=getData();
     if(!d)return '<div class="rpw-report"><p>'+escape($('rpw-status')?.textContent||'Calculate ruling planets.')+'</p></div>';
-    return '<div class="rpw-report"><p>'+escape((d.savedMemo?'Saved memo · original calculation · ':'')+d.fields.date+' '+d.fields.time+' · UTC'+(Number(d.fields.offset)>=0?'+':'')+d.fields.offset+(d.fields.place?' · '+d.fields.place:'')+' · Latitude '+d.fields.latitude+'°, longitude '+d.fields.longitude+'°')+'</p><p>'+escape(d.ascSource==='horary'?'Ascendant from KP horary number '+d.number:'Ascendant from the selected query time and place')+'</p><p>Day lord: '+escape(d.dayLord)+' · Hour lord: '+escape(d.hour?.lord||'—')+(d.hour?' · Planetary hour '+d.hour.number+' / 24 · Sunrise-based day '+d.hour.solarDate:' · Civil-date day lord; no local planetary-hour interval')+'</p><table><thead><tr><th>RP</th><th>Sign / DMS</th><th>SGL</th><th>STL</th><th>SBL</th><th>SSL</th></tr></thead><tbody>'+rowHTML(d.rows)+'</tbody></table><dl><dt>Query</dt><dd>'+escape(d.fields.query||'—')+'</dd><dt>Expected window</dt><dd>'+escape(HORIZONS[d.fields.horizon])+'</dd><dt>Astrologer note</dt><dd>'+escape(d.fields.comment||'—')+'</dd></dl><p>'+escape(d.convention)+'. Mean Rahu; Ketu exactly opposite. The expected window is your query note. It does not calculate an event date or prediction.</p></div>';
+    return '<div class="rpw-report"><p>'+escape((d.savedMemo?'Saved memo · original calculation · ':'')+d.fields.date+' '+d.fields.time+' · UTC'+(Number(d.fields.offset)>=0?'+':'')+d.fields.offset+(d.fields.place?' · '+d.fields.place:'')+' · Latitude '+window.KPClientPresentation.formatCoordinate(Number(d.fields.latitude),false)+', longitude '+window.KPClientPresentation.formatCoordinate(Number(d.fields.longitude),true))+'</p><p>'+escape(d.ascSource==='horary'?'Ascendant from KP horary number '+d.number:'Ascendant from the selected query time and place')+'</p><p>Day lord: '+escape(d.dayLord)+' · Hour lord: '+escape(d.hour?.lord||'—')+(d.hour?' · Planetary hour '+d.hour.number+' / 24 · Sunrise-based day '+d.hour.solarDate:' · Civil-date day lord; no local planetary-hour interval')+'</p><table><thead><tr><th>RP</th><th>Sign / DMS</th><th>SGL</th><th>STL</th><th>SBL</th><th>SSL</th></tr></thead><tbody>'+rowHTML(d.rows)+'</tbody></table><dl><dt>Query</dt><dd>'+escape(d.fields.query||'—')+'</dd><dt>Expected window</dt><dd>'+escape(HORIZONS[d.fields.horizon])+'</dd><dt>Astrologer note</dt><dd>'+escape(d.fields.comment||'—')+'</dd></dl><p>'+escape(d.convention)+'. Mean Rahu; Ketu exactly opposite. The expected window is your query note. It does not calculate an event date or prediction.</p></div>';
   }
   function validSnapshot(d){
     return plain(d)&&d.ready===true&&validFields(d.fields)&&typeof d.utc==='string'&&Number.isFinite(Date.parse(d.utc))&&finite(d.ayanamsha,0,360)&&typeof d.convention==='string'&&d.convention.length<=240&&plain(d.calibration)&&typeof d.calibration.birthDate==='string'&&d.calibration.birthDate.length<=10&&typeof d.calibration.birthAyanamsha==='string'&&d.calibration.birthAyanamsha.length<=30&&['manual','annual'].includes(d.calibration.ayanamshaSource)&&['astronomical','horary'].includes(d.ascSource)&&
@@ -10854,7 +10855,7 @@ async function search(query,options={}){
 }
 function getData(id){return id===undefined?metadata():record(id);}
 function dms(degrees){const total=Math.round(Math.abs(degrees)*3600),deg=Math.floor(total/3600),min=Math.floor(total/60)%60,sec=total%60;return (degrees<0?'-':'')+String(deg).padStart(2,'0')+':'+String(min).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
-function coordinateSummary(row){return row.latitudeText+'° N, '+row.longitudeText+'° E · '+dms(row.latitude)+' / '+dms(row.longitude);}
+function coordinateSummary(row){return dms(row.latitude)+' N / '+dms(row.longitude)+' E';}
 function districtOptions(item){
  const state=item.state.value,select=item.district;select.innerHTML='<option value="*">All districts</option>';
  if(state!=='*'){for(const district of districts.filter(d=>d.state===state&&d.count>0)){const option=document.createElement('option');option.value=district.code;option.textContent=district.name+(district.known?'':' (source code)');select.appendChild(option);}}
@@ -10949,5 +10950,1040 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
 })();
 </script>
+<style id="kp-reference-window-style">
+/* Preserve the compact desktop windows supplied by the user. Print templates
+   have their own layout; these rules apply only to the live software. */
+@media screen {
+ body.app-ready { --accent:#0089f7; --ink:#111; --muted:#555; --line:#b8b8aa; --soft:#ffffe4; --bg:#ffffe4; background:#ffffe4; color:#111; line-height:1.4; }
+ body.app-ready .app-sidebar { width:154px; padding:12px 7px; background:#f5f5eb; color:#111; border-right:1px solid #a6a6a0; scrollbar-color:#aaa #f5f5eb; }
+ body.app-ready .brand { gap:5px; padding:0 4px; margin-bottom:10px; }
+ body.app-ready .brand strong { font-size:17px; letter-spacing:0; color:#000080; }
+ body.app-ready .brand-mark { width:24px; height:30px; color:#000080; }
+ body.app-ready .brand-mark svg { width:23px; height:23px; }
+ body.app-ready .brand div>span { font-size:7px; letter-spacing:.3px; color:#555; }
+ body.app-ready .brand-dot { color:#000080; }
+ body.app-ready .workspace-label,body.app-ready .sidebar-caption { display:none; }
+ body.app-ready .nav-heading { color:#555; letter-spacing:0; padding:10px 5px 4px; font-size:10px; }
+ body.app-ready .app-sidebar nav button { color:#111; border:1px solid transparent; border-radius:0; min-height:31px; padding:6px 5px; gap:7px; margin:0; }
+ body.app-ready .app-sidebar nav button>span:not(.nav-index) { font-size:11px; font-weight:400; }
+ body.app-ready .app-sidebar nav button small,body.app-ready .nav-index { display:none; }
+ body.app-ready .app-sidebar nav button>svg { width:15px; height:15px; color:#555; }
+ body.app-ready .app-sidebar nav button:hover { background:#e9e9e0; color:#111; }
+ body.app-ready .app-sidebar nav button.active { background:#e4f0ff; border-color:#9bbfea; color:#004f99; }
+ body.app-ready .app-sidebar nav button.active>svg { color:#004f99; }
+ body.app-ready .app-sidebar nav .settings-nav { margin-top:9px; padding-top:9px; border-top:1px solid #aaa; }
+ body.app-ready .sidebar-bottom { padding-top:12px; }
+ body.app-ready .sidebar-bottom button { color:#444; font-size:10px; }
+ body.app-ready .workspace-topbar { margin-left:154px; min-height:46px; padding:6px 12px; background:#f5f5eb; border-bottom:1px solid #b8b8aa; gap:8px; }
+ body.app-ready.home-visible .workspace-topbar { min-height:46px; padding:6px 12px; }
+ body.app-ready .workspace-context { font-size:12px; gap:7px; }
+ body.app-ready .workspace-context strong { color:#111; }
+ body.app-ready .breadcrumb-root,body.app-ready .breadcrumb-divider { color:#555; }
+ body.app-ready .button-primary,body.app-ready .button-secondary,body.app-ready .icon-button { min-height:29px; padding:4px 10px; border-radius:2px; font-size:12px; font-weight:400; box-shadow:none; }
+ body.app-ready .button-primary { background:#0089f7; border-color:#0089f7; color:white; }
+ body.app-ready .button-primary:hover { background:#0079db; border-color:#0079db; box-shadow:none; }
+ body.app-ready .button-secondary { background:#fafafa; color:#111; border-color:#c7c7c7; }
+ body.app-ready .button-secondary:hover { background:#edf5ff; border-color:#8cb9e6; }
+ body.app-ready .save-state { color:#555; margin-right:3px; }
+ body.app-ready main,body.app-ready.home-visible main { margin-left:154px; padding:9px 10px 12px; }
+ body.app-ready main>.tab,body.app-ready .page-heading { max-width:none; }
+ body.app-ready .page-heading { margin-bottom:8px; }
+ body.app-ready .page-heading h1,body.app-ready.home-visible .page-heading h1 { font-size:20px; font-weight:400; color:#111; letter-spacing:0; }
+ body.app-ready .page-heading p { margin:3px 0 0; color:#555; font-size:11px; }
+ body.app-ready .eyebrow,body.app-ready .method-badge { display:none; }
+ body.app-ready .card { background:#ffffe4; border:1px solid #c8c8ba; border-radius:0; box-shadow:none; padding:12px; margin-bottom:10px; }
+ body.app-ready .card h2 { color:#0000d0; font-size:18px; font-weight:400; }
+ body.app-ready .card-heading { padding-bottom:8px; margin-bottom:10px; border-bottom:1px solid #c8c8ba; }
+ body.app-ready .section-kicker { letter-spacing:0; color:#555; font-size:10px; }
+ body.app-ready .subtle-tag { border-radius:0; background:#ffffe4; border-color:#bbb; color:#555; }
+ body.app-ready main label { color:#111; font-size:13px; font-weight:400; }
+ body.app-ready main input,body.app-ready main select,body.app-ready main textarea { border:1px solid #ccc; border-radius:0; min-height:28px; padding:3px 6px; background:#fff; color:#111; font-size:13px; transition:none; }
+ body.app-ready main textarea { resize:vertical; }
+ body.app-ready main input[readonly],body.app-ready main input:disabled { background:#eee; color:#555; }
+ body.app-ready main input:focus,body.app-ready main select:focus,body.app-ready main textarea:focus { border-color:#168bff; outline:1px solid #168bff; box-shadow:none; }
+ body.app-ready main :is(input[type=checkbox],input[type=radio]) { min-height:14px; width:14px; padding:0; accent-color:#0089f7; }
+ body.app-ready .actions button,body.app-ready .kundali-toolbar button { background:#fafafa; color:#111; border:1px solid #c7c7c7; border-radius:2px; min-height:29px; }
+ body.app-ready main th,body.app-ready main td { border-color:#777; color:#111; padding:5px 6px; }
+ body.app-ready main th { background:#e4e4da; color:#111; font-weight:400; }
+ body.app-ready main .kp-table thead th { background:#6d943d; color:#fff; }
+ body.app-ready main .kp-table :is(th,td) { border-color:#777; }
+ body.app-ready main .kp-table tbody tr:nth-child(odd) td { background:#e5edda; }
+ body.app-ready main .kp-table tbody tr:nth-child(even) td { background:#f7faf4; }
+ body.app-ready main .kp-step-card { border-radius:0; border-color:#b5bdae; background:#dce6cb; }
+ body.app-ready main .kp-step-card:nth-child(even) { background:#f7faf4; }
+ body.app-ready .worksheet-scroll,body.app-ready .kp-table-scroll { border-radius:0; }
+ body.app-ready .notice { border-radius:0; background:#ffffe4; border-color:#bbb; color:#333; }
+ body.app-ready .software-footer { margin-left:154px; color:#666; padding-top:8px; }
+ body.app-ready .backup-options { border-radius:2px; border-color:#bbb; box-shadow:0 2px 8px #0002; }
+ /* Home retains the reference's chart/RP, calculations, and Dasha columns. */
+ #home .home-toolbar { margin-bottom:5px; gap:6px; }
+ #home .home-status { color:#555; font-size:10px; }
+ body.app-ready #home .home-toolbar-actions button { min-height:26px; padding:3px 7px; font-size:11px; }
+ #home .home-dashboard { gap:8px; }
+ #home .home-chart-column,#home .home-summary-column { gap:8px; }
+ #home .home-panel { border:1px solid #aaa; border-radius:0; box-shadow:none; padding:5px; background:#f7faf4; }
+ #home .home-chart-panel { background:#fff; }
+ #home .home-panel-heading { margin-bottom:4px; }
+ #home .home-panel h2 { font-size:12px; color:#111; font-weight:400; }
+ #home .home-panel-link { color:#006bca; font-size:10px; }
+ #home .home-view-buttons { border-radius:0; background:#f5f5f5; padding:0; border-color:#ccc; }
+ #home .home-view-buttons button { border-radius:0; padding:4px 6px; min-height:25px; color:#333; }
+ #home .home-view-buttons button.active { border-color:#0089f7; color:#527c1c; box-shadow:none; }
+ #home .home-table-mount { border:1px solid #777; border-radius:0; }
+ #home table :is(th,td) { border-color:#777; color:#111; padding:5px 4px; }
+ #home table thead th { background:#6d943d; color:white; }
+ #home table tbody th,#home table tbody tr:nth-child(odd) td { background:#e5edda; }
+ #home table tbody tr:nth-child(even) td { background:#f7faf4; }
+ #home #home-planets table,#home #home-houses table { min-width:0; table-layout:fixed; }
+ #home #home-planets :is(th,td),#home #home-houses :is(th,td) { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+ #home #home-planets th:first-child { width:7%; }
+ #home #home-planets th:nth-child(3) { width:11%; }
+ #home #home-planets th:nth-child(4) { width:10%; }
+ #home #home-houses th:nth-child(3) { width:11%; }
+ #home #home-houses th:nth-child(4) { width:11%; }
+ #home .home-data-heading { margin-bottom:4px; }
+ #home .home-table-title { margin:5px 0 3px; color:#333; }
+ #home .home-chart-mount { max-width:520px; }
+ #home [data-home-chart].v38-chart { border-color:#777; }
+ #home [data-home-chart] :is(.v38-cell,.v38-center) { border-color:#999; }
+ #home [data-home-chart] .v38-cell::before,#home [data-home-chart] .v38-cell::after { display:none; }
+ #home [data-home-chart] .v38-cusp { color:#4088ef; }
+ #home [data-home-chart] .v38-planet { color:#4b8000; }
+ #home [data-home-chart] :is(.v38-title,.v38-data) { color:#4b8000; }
+ #home [data-home-chart] .v38-title { font-size:calc(12 * var(--home-chart-unit)); }
+ #home [data-home-chart] .v38-data { font-size:calc(18 * var(--home-chart-unit)); line-height:1.6; }
+ #home #home-native :is(dt,dd) { color:#333; }
+ #home .home-native-panel { background:#fff; }
+ #home-vimshottari { background:#ffffe4; }
+ #home-vimshottari .home-panel-heading { justify-content:center; }
+ #home-vimshottari .home-panel-heading h2 { color:#0000d0; font-size:15px; text-align:center; }
+ #home-vimshottari .home-vim-table thead th { color:#111; background:#eefeff; border-color:#111; }
+ #home-vimshottari .home-vim-table :is(td,th) { border-color:#111; }
+ #home-vimshottari .home-vim-table tbody td { background:#ffffe4; }
+ #home-vimshottari .home-vim-table tbody tr:nth-child(even) td { background:#fff; }
+ #home-vimshottari .home-vim-table tr.is-selected :is(td,th) { background:#0078d7; color:#fff; }
+ #home-vimshottari .home-vim-table tr.is-selected button,#home-vimshottari .home-vim-table tr.is-selected .home-vim-end-time { color:#fff; }
+ #home-vimshottari .home-vim-table th:last-child { width:112px; }
+ #home-vimshottari .home-vim-path button { background:#ffffe4; color:#006bca; }
+ #home-vimshottari .home-vim-status { color:#0000d0; text-align:center; }
+ #home-vimshottari .home-vim-row-choice { color:inherit; }
+ /* Birth and numbered Horary entry use the supplied two-column form. */
+ body.app-ready #basic .birth-layout { display:grid; grid-template-columns:minmax(0,1fr); gap:0; }
+ body.app-ready #basic .birth-card { padding:10px; }
+ body.app-ready #basic .birth-card>.grid { display:block; }
+ #basic .birth-reference-identity { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto; gap:10px 15px; border:1px solid #d1d1bb; padding:12px; margin-bottom:12px; }
+ #basic .birth-reference-identity .field-full { grid-column:1/-1; }
+ #basic .birth-reference-columns { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+ #basic .birth-reference-left,#basic .birth-reference-right { min-width:0; padding:14px; border:1px solid #c8c8ba; }
+ #basic .birth-reference-left>div:not(.form-divider) { display:grid; grid-template-columns:125px minmax(0,1fr); align-items:center; gap:10px; margin-bottom:12px; }
+ #basic .birth-reference-left label { text-align:right; margin:0; }
+ #basic .birth-reference-left label span { display:block; }
+ #basic .birth-reference-left :is(input,select) { max-width:100%; min-width:0; }
+ #basic .birth-reference-left :is(#dob,#birthTime,#birth-utc-offset,#birth-dst-minutes) { max-width:210px; }
+ #basic .birth-reference-left .kp-india-picker { grid-column:1/-1; }
+ #basic .birth-reference-right>div:first-child { margin-bottom:20px; }
+ #basic .birth-reference-right #horary-inputs .horary-mode-row { gap:15px; margin-bottom:15px; }
+ #basic .birth-reference-right #horary-inputs textarea { min-height:140px; }
+ #basic .birth-reference-comments { margin-top:15px; }
+ #basic .birth-reference-comments textarea { min-height:85px; width:100%; }
+ #basic .birth-reference-calculations { display:grid; grid-template-columns:1fr 1fr; gap:8px 15px; margin-top:15px; border-top:1px solid #aaa; padding-top:10px; }
+ #basic .birth-reference-calculations .field-full { grid-column:1/-1; }
+ #basic .horary-preview { background:#ffffe4; color:#333; border:1px solid #bbb; padding:8px; }
+ #basic .annual-ayanamsha-controls,#basic .ayan-result { background:#ffffe4; border-radius:0; color:#333; }
+ #basic .ayan-result input[readonly] { color:#333; }
+ body.app-ready .kp-india-picker { border-radius:0; background:#ffffe4; border-color:#c8c8ba; }
+ #basic .birth-reference-place-picker { grid-column:1/-1; min-width:0; font-size:12px; color:#006bca; }
+ #basic .birth-reference-place-picker summary { cursor:pointer; }
+ #basic .birth-reference-place-picker .kp-india-picker { margin-top:6px; }
+ #basic #horary-status { font-size:11px; color:#333; line-height:1.5; }
+ #basic .birth-overview { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+ #basic .overview-card { padding:10px; }
+ #basic .snapshot-metric { padding:7px 0; }
+ #basic .workflow-note { padding:10px; }
+ #basic .workflow-note ol { margin:5px 0; }
+ #basic .workflow-note li { margin:7px 0; }
+ #basic .form-footer { margin-top:12px; padding:10px 0 0; justify-content:flex-end; }
+ #basic .form-footer>span { margin-right:auto; color:#555; }
+ @media(min-width:1100px) {
+  #home .home-dashboard { grid-template-columns:minmax(0,.9fr) minmax(0,1.7fr) minmax(0,.55fr); }
+  #home .home-summary-column { grid-column:auto; grid-template-columns:minmax(0,1fr); }
+ }
+ @media(min-width:801px) {
+  body.app-ready.home-expanded .workspace-topbar,body.app-ready.home-expanded main,body.app-ready.home-expanded .software-footer { margin-left:0; }
+ }
+ @media(max-width:800px) {
+  body.app-ready .app-sidebar { width:260px; padding-top:15px; }
+  body.app-ready .workspace-topbar,body.app-ready main,body.app-ready.home-visible main,body.app-ready .software-footer { margin-left:0; }
+  body.app-ready .sidebar-close { color:#333; }
+  body.app-ready .workspace-topbar { min-height:46px; padding:6px 8px; }
+  #basic .birth-reference-columns,#basic .birth-reference-calculations,#basic .birth-overview { grid-template-columns:minmax(0,1fr); }
+  #basic .birth-reference-identity { grid-template-columns:1fr 1fr; }
+  #basic .birth-reference-identity .horary-now-wrap { grid-column:1/-1; }
+  #basic .birth-reference-left,#basic .birth-reference-right { padding:9px; }
+ }
+ @media(max-width:520px) {
+  body.app-ready main,body.app-ready.home-visible main { padding:8px; }
+  body.app-ready .card { padding:9px; }
+  #basic .birth-reference-identity { grid-template-columns:minmax(0,1fr); padding:9px; }
+  #basic .birth-reference-left>div:not(.form-divider) { grid-template-columns:100px minmax(0,1fr); gap:6px; }
+  #home .home-panel { padding:4px; }
+  #home .home-toolbar-actions { flex-wrap:wrap; }
+ }
+}
+</style>
+<script id="kp-reference-birth-layout">
+(() => {
+ 'use strict';
+ function mount(){
+  const byId=id=>document.getElementById(id),grid=document.querySelector('#basic .birth-card>.grid');
+  if(!grid||grid.dataset.referenceLayout)return;grid.dataset.referenceLayout='true';
+  const make=className=>{const node=document.createElement('div');node.className=className;return node;};
+  const field=id=>byId(id)?.closest('div');
+  const identity=make('birth-reference-identity'),columns=make('birth-reference-columns'),left=make('birth-reference-left'),right=make('birth-reference-right'),comments=make('birth-reference-comments'),calculations=make('birth-reference-calculations');
+  const old=document.querySelector('#basic .horary-controls');
+  [field('name'),field('chart-gender'),field('chart-category'),field('chart-add-category')].forEach(node=>{if(node)identity.append(node);});
+  ['dob','birthTime','birth-utc-offset','birth-dst-minutes','birthPlace','lat','lon'].forEach(id=>{const node=field(id);if(node)left.append(node);});
+  const placePicker=grid.querySelector('.kp-india-picker[data-place-for="birthPlace"]');
+  if(placePicker)left.querySelector('#birthPlace').closest('div').after(placePicker);
+  const kind=field('chart-kind');if(kind)right.append(kind);
+  if(byId('horary-inputs'))right.append(byId('horary-inputs'));
+  if(byId('horary-status'))right.append(byId('horary-status'));
+  const notes=byId('chart-notes'),notesLabel=document.querySelector('label[for="chart-notes"]');
+  if(notesLabel)comments.append(notesLabel);if(notes)comments.append(notes);
+  columns.append(left,right);
+  [...grid.children].filter(node=>node!==old&&!node.classList.contains('form-divider')).forEach(node=>calculations.append(node));
+  grid.replaceChildren(identity,columns,comments,calculations);
+  const picker=left.querySelector('.kp-india-picker');
+  if(picker){const disclosure=document.createElement('details');disclosure.className='birth-reference-place-picker no-print';const summary=document.createElement('summary');summary.textContent='Choose Indian city / village';picker.before(disclosure);disclosure.append(summary,picker);byId('birthPlace').addEventListener('focus',()=>{disclosure.open=true;});}
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
+})();
+</script>
+
+<style id="kp-reference-rp-settings-style">
+/* Restore the supplied desktop-window arrangement without changing calculations or print styles. */
+@media screen {
+  body.app-ready #astrosettings .settings-shell { max-width:806px; margin-inline:auto; border:1px solid #d3d3d3; border-radius:0; background:#fff; box-shadow:none; }
+  body.app-ready #astrosettings .settings-heading { padding:19px 20px 7px; border:0; }
+  body.app-ready #astrosettings .settings-heading h2 { color:#242424; font-size:25px; font-weight:400; margin:0; }
+  body.app-ready #astrosettings .settings-heading p { display:none; }
+  body.app-ready #astrosettings .settings-layout { grid-template-columns:165px minmax(0,1fr); min-height:516px; }
+  body.app-ready #astrosettings .settings-rail { padding:0 0 12px; gap:0; border-right:1px solid #e5e5e5; background:#fff; }
+  body.app-ready #astrosettings .settings-tab { color:#292929; font-size:13px; font-weight:400; min-height:53px; padding:12px 21px 12px 10px; border-right:2px solid transparent; background:#fff; text-align:right; }
+  body.app-ready #astrosettings .settings-tab:hover { color:#168aff; background:#f8f8f8; }
+  body.app-ready #astrosettings .settings-tab[aria-selected="true"] { color:#168aff; font-weight:500; border-right-color:#168aff; background:#fff; box-shadow:-3px 4px 8px #0000000c; }
+  body.app-ready #astrosettings .settings-tab:focus-visible,body.app-ready #astrosettings .settings-actions button:focus-visible { outline:2px solid #168aff; }
+  body.app-ready #astrosettings .settings-pane { padding:5px 34px 22px; }
+  body.app-ready #astrosettings .settings-pane h3 { font-size:20px; font-weight:400; color:#242424; margin:0 0 16px; }
+  body.app-ready #astrosettings .settings-grid { gap:24px 60px; }
+  body.app-ready #astrosettings .settings-column { gap:26px; }
+  body.app-ready #astrosettings .settings-field { gap:5px; }
+  body.app-ready #astrosettings .settings-field>label,body.app-ready #astrosettings .settings-field>span { color:#333; font-size:13px; font-weight:400; }
+  body.app-ready #astrosettings .settings-field select,body.app-ready #astrosettings .settings-field input[type="number"],body.app-ready #astrosettings .settings-field input[type="text"] { min-height:32px; padding:5px 10px; border:1px solid #d6d6d6; border-radius:3px; color:#757575; background:#fff; font-size:13px; }
+  body.app-ready #astrosettings #settings-pane-display .settings-field select { max-width:160px; }
+  body.app-ready #astrosettings .settings-field select:focus,body.app-ready #astrosettings .settings-field input:focus { border-color:#168aff; outline:1px solid #168aff; box-shadow:none; }
+  body.app-ready #astrosettings .settings-check { font-size:13px; color:#333; line-height:1.6; gap:7px; }
+  body.app-ready #astrosettings .settings-checks { gap:17px; margin-top:-2px; }
+  body.app-ready #astrosettings .settings-check input[type="checkbox"] { accent-color:#168aff; }
+  body.app-ready #astrosettings .settings-pane-intro,body.app-ready #astrosettings .settings-note { color:#666; }
+  body.app-ready #astrosettings .settings-readonly,body.app-ready #astrosettings .settings-preset-list button,body.app-ready #astrosettings .settings-open-button { color:#333; background:#fafafa; border-color:#d6d6d6; border-radius:3px; box-shadow:none; }
+  body.app-ready #astrosettings .settings-link { color:#168aff; }
+  body.app-ready #astrosettings .settings-actions { border:0; padding:7px 20px 10px; gap:15px; background:#fff; }
+  body.app-ready #astrosettings .settings-actions button { min-width:72px; min-height:30px; padding:5px 16px; border:1px solid #d5d5d5; border-radius:3px; font-size:13px; color:#555; }
+  body.app-ready #astrosettings .settings-actions #settings-save { min-width:61px; color:white; background:#168aff; border-color:#168aff; }
+  body.app-ready #astrosettings .settings-actions #settings-save:hover { background:#0074e9; }
+  body.app-ready #astrosettings #settings-status { font-size:12px; color:#555; }
+
+  body.app-ready #ruling-planets .rpw-layout.kp-rpw-reference { display:grid; grid-template-columns:minmax(0,1fr) minmax(290px,.42fr); gap:12px; align-items:start; }
+  body.app-ready #ruling-planets .rpw-card { padding:12px; margin:0; background:#fffed6; border:1px solid #dbd9be; border-radius:0; box-shadow:none; }
+  body.app-ready #ruling-planets .rpw-card .section-kicker,body.app-ready #ruling-planets .kp-rpw-advanced>h2,body.app-ready #ruling-planets .kp-rpw-advanced>.rpw-note { display:none; }
+  body.app-ready #ruling-planets .kp-rpw-results h2 { margin:2px 0 12px; color:#0000e8; text-align:center; font-size:18px; font-weight:500; }
+  body.app-ready #ruling-planets label { color:#151515; font-size:14px; font-weight:400; margin:0; }
+  body.app-ready #ruling-planets input,body.app-ready #ruling-planets select,body.app-ready #ruling-planets textarea { border:1px solid #c7c7c7; border-radius:0; background:#fff; color:#111; min-height:30px; padding:3px 7px; font-size:14px; box-shadow:none; }
+  body.app-ready #ruling-planets button { min-height:33px; padding:5px 14px; border:1px solid #c9c9c9; border-radius:3px; background:#fdfdfd; color:#111; font-size:14px; box-shadow:none; }
+  body.app-ready #ruling-planets button:hover { background:#f2f2f2; border-color:#969696; }
+  body.app-ready #ruling-planets input:focus,body.app-ready #ruling-planets select:focus,body.app-ready #ruling-planets textarea:focus { border-color:#168aff; outline:1px solid #168aff; box-shadow:none; }
+  body.app-ready #ruling-planets .kp-rpw-place { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:22px; padding:0 22px 12px; border-bottom:3px solid #974e0d; align-items:end; }
+  body.app-ready #ruling-planets .kp-rpw-place label { display:block; }
+  body.app-ready #ruling-planets .kp-rpw-place label>span { position:absolute; width:1px; height:1px; clip-path:inset(50%); overflow:hidden; }
+  body.app-ready #ruling-planets .kp-rpw-place-search { grid-column:1/-1; font-size:12px; }
+  body.app-ready #ruling-planets .kp-rpw-place-search>summary { color:#124b83; cursor:pointer; }
+  body.app-ready #ruling-planets .kp-rpw-place-search .kp-india-picker { border-radius:0; background:#ffffed; box-shadow:none; margin-top:7px; }
+  body.app-ready #ruling-planets .kp-rpw-place-search label { display:block; }
+  body.app-ready #ruling-planets #rpw-place { text-align:center; font-size:18px; }
+  body.app-ready #ruling-planets .kp-rpw-moment { display:grid; grid-template-columns:minmax(0,1fr) minmax(220px,.65fr); gap:24px; padding:9px 22px 8px; }
+  body.app-ready #ruling-planets .kp-rpw-date-time { display:grid; grid-template-columns:1fr; gap:9px; }
+  body.app-ready #ruling-planets .kp-rpw-date-time legend { color:#003400; font-size:17px; padding:0 0 4px; }
+  body.app-ready #ruling-planets .kp-rpw-date-time label { display:grid; grid-template-columns:75px minmax(150px,240px); gap:10px; align-items:center; }
+  body.app-ready #ruling-planets .kp-rpw-seed { display:flex; align-items:start; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-top:19px; }
+  body.app-ready #ruling-planets .kp-rpw-seed label { display:grid; grid-template-columns:1fr; gap:7px; flex:1; }
+  body.app-ready #ruling-planets #rpw-number { max-width:100px; }
+  body.app-ready #ruling-planets #rpw-random { align-self:end; }
+  body.app-ready #ruling-planets .kp-rpw-location { display:grid; grid-template-columns:90px minmax(110px,1fr) minmax(110px,1fr) minmax(170px,1.4fr); gap:10px; padding:6px 22px 12px; }
+  body.app-ready #ruling-planets .kp-rpw-location label { font-size:12px; display:grid; gap:4px; }
+  body.app-ready #ruling-planets .kp-rpw-query { display:grid; grid-template-columns:230px minmax(0,1fr); align-items:start; gap:9px; padding:8px 22px 10px; border-bottom:3px solid #974e0d; }
+  body.app-ready #ruling-planets .kp-rpw-strip { font-family:Georgia,"Times New Roman",serif; font-weight:600; font-size:17px; color:white; background:#840000; padding:1px 12px; margin:3px 0 8px; }
+  body.app-ready #ruling-planets #rpw-query { min-height:90px; height:90px; resize:vertical; }
+  body.app-ready #ruling-planets .kp-rpw-horizon { padding:9px 22px 12px; border-bottom:3px solid #974e0d; }
+  body.app-ready #ruling-planets .kp-rpw-horizon .kp-rpw-strip { width:max-content; min-width:230px; }
+  body.app-ready #ruling-planets .kp-rpw-horizon-choices { display:flex; align-items:center; flex-wrap:wrap; justify-content:space-between; gap:12px; margin-top:12px; }
+  body.app-ready #ruling-planets .kp-rpw-horizon-choices label { display:flex; align-items:center; gap:8px; font-family:Georgia,"Times New Roman",serif; font-size:16px; }
+  body.app-ready #ruling-planets .kp-rpw-horizon-choices input { width:14px; min-height:14px; height:14px; padding:0; margin:0; accent-color:#0874cf; }
+  body.app-ready #ruling-planets .kp-rpw-comment { display:grid; grid-template-columns:160px minmax(0,1fr); gap:10px; align-items:start; padding:10px 22px; }
+  body.app-ready #ruling-planets #rpw-comment { min-height:48px; height:48px; }
+  body.app-ready #ruling-planets .kp-rpw-memos { padding:0 5px; }
+  body.app-ready #ruling-planets .kp-rpw-memos .kp-rpw-strip { width:max-content; min-width:245px; margin:0; }
+  body.app-ready #ruling-planets .rpw-memo-list { border:1px solid #aaa; background:#fff; min-height:285px; max-height:450px; }
+  body.app-ready #ruling-planets .rpw-memo-list table { margin:0; font-family:Georgia,"Times New Roman",serif; table-layout:fixed; }
+  body.app-ready #ruling-planets .rpw-memo-list caption { display:none; }
+  body.app-ready #ruling-planets .rpw-memo-list th,body.app-ready #ruling-planets .rpw-memo-list td { border:1px solid #ededed; background:#fff; color:#111; font-size:13px; padding:5px 6px; font-weight:400; }
+  body.app-ready #ruling-planets .rpw-memo-list th { text-align:left; font-size:14px; }
+  body.app-ready #ruling-planets .rpw-memo-list tr[data-reference-selected="true"] td { background:#e8f2ff; }
+  body.app-ready #ruling-planets .rpw-memo-list th:first-child,body.app-ready #ruling-planets .rpw-memo-list td:first-child { width:7%; }
+  body.app-ready #ruling-planets .rpw-memo-list th:nth-child(2) { width:24%; }
+  body.app-ready #ruling-planets .rpw-memo-list th:nth-child(3) { width:10%; }
+  body.app-ready #ruling-planets .rpw-memo-list th:last-child { width:15%; }
+  body.app-ready #ruling-planets .rpw-memo-list button { margin:3px 4px 0 0; min-height:23px; padding:1px 5px; font:12px "Segoe UI",Arial,sans-serif; }
+  body.app-ready #ruling-planets .rpw-memo-count { margin:5px 0; font-size:11px; color:#555; }
+  body.app-ready #ruling-planets .kp-rpw-footer { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; padding:12px 0 1px; }
+  body.app-ready #ruling-planets .kp-rpw-footer button { min-width:90px; }
+  body.app-ready #ruling-planets .kp-rpw-results .rpw-actions { margin:8px 0; gap:7px; }
+  body.app-ready #ruling-planets .kp-rpw-results .rpw-lords { display:grid; margin:12px 0; gap:7px; }
+  body.app-ready #ruling-planets .kp-rpw-results .rpw-lords span { background:transparent; border-radius:0; padding:0; color:#004000; }
+  body.app-ready #ruling-planets .kp-rpw-results .rpw-note,body.app-ready #ruling-planets .kp-rpw-results .rpw-status { color:#555; font-size:12px; }
+  body.app-ready #ruling-planets .rpw-table-wrap table { background:#fff; }
+  body.app-ready #ruling-planets .rpw-table-wrap caption { color:#0000e8; padding:4px; font-size:13px; }
+  body.app-ready #ruling-planets .rpw-table-wrap th,body.app-ready #ruling-planets .rpw-table-wrap td { border:1px solid #777; padding:5px 3px; font-size:12px; color:#111; }
+  body.app-ready #ruling-planets .rpw-table-wrap thead th { background:#ffc2c9; font-weight:400; }
+  body.app-ready #ruling-planets .rpw-table-wrap tbody th { background:#fff; }
+  body.app-ready #ruling-planets .rpw-live { align-items:start; font-size:12px; gap:7px; }
+  body.app-ready #ruling-planets .rpw-live input { width:14px; min-height:14px; height:14px; margin-top:4px; }
+}
+@media screen and (max-width:1400px) {
+  body.app-ready #ruling-planets .rpw-layout.kp-rpw-reference { grid-template-columns:minmax(0,1fr); }
+  body.app-ready #ruling-planets .kp-rpw-results { display:block; }
+  body.app-ready #ruling-planets .kp-rpw-results .rpw-table-wrap { max-width:800px; }
+}
+@media screen and (max-width:760px) {
+  body.app-ready #astrosettings .settings-layout { grid-template-columns:145px minmax(0,1fr); }
+  body.app-ready #astrosettings .settings-pane { padding:5px 20px 20px; }
+  body.app-ready #astrosettings .settings-tab { padding-right:13px; font-size:12px; }
+  body.app-ready #astrosettings .settings-grid { grid-template-columns:1fr; gap:26px; }
+  body.app-ready #astrosettings .settings-full { grid-column:auto; }
+  body.app-ready #ruling-planets .kp-rpw-place { padding-inline:5px; gap:10px; }
+  body.app-ready #ruling-planets .kp-rpw-moment { grid-template-columns:1fr; gap:8px; padding-inline:5px; }
+  body.app-ready #ruling-planets .kp-rpw-seed { padding-top:0; justify-content:start; }
+  body.app-ready #ruling-planets .kp-rpw-seed label { flex:0 1 220px; }
+  body.app-ready #ruling-planets .kp-rpw-location { grid-template-columns:repeat(2,minmax(0,1fr)); padding-inline:5px; }
+  body.app-ready #ruling-planets .kp-rpw-query { grid-template-columns:1fr; gap:0; padding-inline:5px; }
+  body.app-ready #ruling-planets .kp-rpw-query .kp-rpw-strip { width:max-content; }
+  body.app-ready #ruling-planets .kp-rpw-horizon { padding-inline:5px; }
+  body.app-ready #ruling-planets .kp-rpw-comment { grid-template-columns:1fr; padding-inline:5px; }
+  body.app-ready #ruling-planets .rpw-memo-list { overflow:auto; }
+  body.app-ready #ruling-planets .rpw-memo-list table { min-width:650px; }
+}
+@media screen and (max-width:480px) {
+  body.app-ready #astrosettings .settings-layout { display:block; min-height:0; }
+  body.app-ready #astrosettings .settings-rail { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); border-right:0; border-bottom:1px solid #e5e5e5; padding:7px; gap:3px; }
+  body.app-ready #astrosettings .settings-tab { text-align:left; min-height:37px; padding:7px; border-right:0; border-left:2px solid transparent; }
+  body.app-ready #astrosettings .settings-tab[aria-selected="true"] { border-left-color:#168aff; border-right:0; box-shadow:none; }
+  body.app-ready #astrosettings .settings-heading h2 { font-size:23px; }
+  body.app-ready #astrosettings .settings-pane { padding:17px; }
+  body.app-ready #astrosettings .settings-actions { padding:10px 17px; gap:10px; }
+  body.app-ready #astrosettings #settings-status { flex-basis:100%; }
+  body.app-ready #ruling-planets .rpw-card { padding:8px; }
+  body.app-ready #ruling-planets .kp-rpw-place { grid-template-columns:1fr; gap:8px; }
+  body.app-ready #ruling-planets .kp-rpw-place button { justify-self:end; }
+  body.app-ready #ruling-planets .kp-rpw-date-time label { grid-template-columns:55px minmax(0,1fr); }
+  body.app-ready #ruling-planets .kp-rpw-location { grid-template-columns:1fr; }
+}
+</style>
+<script id="kp-reference-rp-settings-script">
+(() => {
+  'use strict';
+  const byId = id => document.getElementById(id);
+  function element(tag,className,text) {
+    const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;
+  }
+  function moveField(id,destination,labelText) {
+    const control=byId(id),label=control?.closest('label');if(!control||!label)return null;label.classList.remove('rpw-full');
+    if(labelText){for(const child of [...label.childNodes])if(child.nodeType===Node.TEXT_NODE)child.remove();const span=element('span','',labelText);label.insertBefore(span,label.firstChild);}
+    destination.append(label);return label;
+  }
+  function regroupRulingPlanets() {
+    const section=byId('ruling-planets'),layout=section?.querySelector('.rpw-layout');
+    if(!layout||layout.classList.contains('kp-rpw-reference'))return;
+    const cards=[...layout.querySelectorAll(':scope>.rpw-card')];if(cards.length!==2)return;
+    const [results,advanced]=cards;layout.classList.add('kp-rpw-reference');results.classList.add('kp-rpw-results');advanced.classList.add('kp-rpw-advanced');layout.prepend(advanced);
+    const placeInput=byId('rpw-place'),place=element('div','kp-rpw-place');moveField('rpw-place',place,'Query place');
+    const picker=section.querySelector('.kp-india-picker[data-place-for="rpw-place"]'),placeSearch=element('details','kp-rpw-place-search');placeSearch.append(element('summary','','India city / village lookup'));
+    if(picker)placeSearch.append(picker);
+    const changePlace=element('button','','Change Place');changePlace.type='button';changePlace.addEventListener('click',()=>{placeSearch.open=true;byId('rpw-place')?.focus();byId('rpw-place')?.dispatchEvent(new Event('input',{bubbles:true}));});place.append(changePlace);
+    if(picker)place.append(placeSearch);
+    placeInput?.addEventListener('focus',()=>{placeSearch.open=true;});placeInput?.addEventListener('input',()=>{placeSearch.open=true;});
+    const moment=element('div','kp-rpw-moment'),dateTime=element('fieldset','kp-rpw-date-time');dateTime.style.cssText='border:0;padding:0;margin:0;min-width:0';dateTime.append(element('legend','','Select Date and Time'));moveField('rpw-date',dateTime,'Date:');moveField('rpw-time',dateTime,'Time:');
+    const seed=element('div','kp-rpw-seed');moveField('rpw-number',seed,'Select Number (1–249)');const random=byId('rpw-random');if(random){random.textContent='Toss';seed.append(random);}moment.append(dateTime,seed);
+    const location=element('div','kp-rpw-location');moveField('rpw-offset',location,'UTC offset (hours)');moveField('rpw-latitude',location,'Latitude');moveField('rpw-longitude',location,'Longitude');moveField('rpw-asc-source',location,'Ascendant source');
+    const query=element('div','kp-rpw-query');query.append(element('h3','kp-rpw-strip','QUERY ABOUT'));const queryInput=byId('rpw-query');if(queryInput){queryInput.setAttribute('aria-label','Query about');query.append(queryInput);}
+    const horizon=element('div','kp-rpw-horizon');horizon.append(element('h3','kp-rpw-strip','EXPECTED TIME'));const select=byId('rpw-horizon'),choices=element('div','kp-rpw-horizon-choices');
+    if(select){select.hidden=true;select.setAttribute('aria-label','Expected window');horizon.append(select);for(const option of select.options){const label=element('label'),radio=element('input');radio.type='radio';radio.name='kp-reference-rpw-horizon';radio.value=option.value;radio.dataset.calculationLocked='true';radio.checked=select.value===option.value;radio.addEventListener('change',()=>{if(radio.checked){select.value=radio.value;select.dispatchEvent(new Event('change',{bubbles:true}));}});label.append(radio,element('span','',option.textContent));choices.append(label);}horizon.append(choices);}
+    const comment=element('div','kp-rpw-comment');const commentLabel=element('label','','Astrologer Comment');commentLabel.htmlFor='rpw-comment';comment.append(commentLabel);if(byId('rpw-comment'))comment.append(byId('rpw-comment'));
+    const memos=element('div','kp-rpw-memos');memos.append(element('h3','kp-rpw-strip','MEMO RECORDS'));for(const node of [byId('rpw-memo-count'),advanced.querySelector('.rpw-memo-list')])if(node)memos.append(node);
+    let selectedMemoId=null;
+    const footer=element('div','kp-rpw-footer');if(byId('rpw-calculate'))footer.append(byId('rpw-calculate'));
+    const deleteSelected=element('button','','Delete');deleteSelected.type='button';deleteSelected.disabled=true;deleteSelected.addEventListener('click',()=>{if(selectedMemoId){window.KPRulingWorkspace?.deleteMemo?.(selectedMemoId);selectedMemoId=null;deleteSelected.disabled=true;}});footer.append(deleteSelected);
+    if(byId('rpw-save-memo'))footer.append(byId('rpw-save-memo'));
+    const exit=element('button','','Exit');exit.type='button';exit.addEventListener('click',()=>document.querySelector('.app-sidebar [data-tab="home"]')?.click());footer.append(exit);
+    for(const block of advanced.querySelectorAll(':scope>.rpw-grid,:scope>.rpw-actions'))block.remove();
+    advanced.append(place,moment,location,query,horizon,comment,memos,footer);
+    for(const block of results.querySelectorAll(':scope>.rpw-grid'))block.remove();
+    function syncChoices(){if(select)for(const radio of choices.querySelectorAll('input'))radio.checked=radio.value===select.value;}
+    section.addEventListener('change',syncChoices);window.addEventListener('chart-saved',syncChoices);
+    if(byId('rpw-status'))new MutationObserver(syncChoices).observe(byId('rpw-status'),{childList:true,subtree:true});
+    const memoBody=byId('rpw-memo-rows'),memoTable=memoBody?.closest('table');
+    if(memoBody&&memoTable){
+      const head=element('thead'),header=element('tr');for(const title of ['Sr. No.','Date / Time','Seed No.','Query','Astrologer Comment','Place'])header.append(element('th','',title));head.append(header);memoTable.prepend(head);
+      let signature='';
+      function showReferenceMemoRows(){
+        const saved=window.KPRulingWorkspace?.getMemos?.()||[],next=JSON.stringify(saved.map(record=>[record.id,record.snapshot.fields]));
+        if(selectedMemoId&&!saved.some(record=>record.id===selectedMemoId))selectedMemoId=null;deleteSelected.disabled=!selectedMemoId;
+        if(next===signature&&memoBody.dataset.referenceRows==='true')return;signature=next;memoBody.dataset.referenceRows='true';
+        const fragment=document.createDocumentFragment();
+        if(!saved.length){const row=element('tr'),cell=element('td','','No saved query memos.');cell.colSpan=6;row.append(cell);fragment.append(row);}
+        saved.forEach((record,index)=>{const row=element('tr'),fields=record.snapshot.fields,values=[String(index+1),fields.date+' '+fields.time,fields.number||'—',fields.query||'',fields.comment||'',fields.place||''];row.dataset.referenceMemo=record.id;row.dataset.referenceSelected=String(record.id===selectedMemoId);for(const value of values)row.append(element('td','',value));for(const action of ['load','delete']){const button=element('button','',action==='load'?'Load':'Delete');button.type='button';button.dataset[action==='load'?'rpwLoad':'rpwDelete']=record.id;row.lastElementChild.append(button);}fragment.append(row);});
+        memoBody.replaceChildren(fragment);
+      }
+      new MutationObserver(()=>{if(!memoBody.querySelector('td[colspan="6"]')&&memoBody.rows.length&&memoBody.rows[0].cells.length!==6)memoBody.dataset.referenceRows='false';showReferenceMemoRows();}).observe(memoBody,{childList:true});
+      if(byId('rpw-memos'))new MutationObserver(()=>{showReferenceMemoRows();syncChoices();}).observe(byId('rpw-memo-count'),{childList:true});
+      memoBody.addEventListener('click',event=>{const row=event.target.closest('[data-reference-memo]');if(!row||event.target.closest('[data-rpw-delete]'))return;selectedMemoId=row.dataset.referenceMemo;deleteSelected.disabled=false;for(const candidate of memoBody.rows)candidate.dataset.referenceSelected=String(candidate.dataset.referenceMemo===selectedMemoId);});
+      showReferenceMemoRows();
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',regroupRulingPlanets);else regroupRulingPlanets();
+})();
+</script>
+
+<style id="kp-reference-match-transit-style">
+/* The supplied desktop windows use cream surfaces, square controls and thin grids. */
+@media screen {
+  #matchmaking,#transit-chart { background:#ffffe4; color:#000; font-family:Arial,sans-serif; }
+  #matchmaking .card,#transit-chart .card { background:#ffffe4; border:1px solid #d4d4bd; border-radius:0; box-shadow:none; }
+  #matchmaking input,#matchmaking select,#transit-chart input,#transit-chart select { border:1px solid #c8c8c8; border-radius:0; background:#fff; box-shadow:none; color:#000; min-height:27px; }
+  #matchmaking button,#transit-chart button { border:1px solid #c8c8c8; border-radius:3px; background:#fdfdfd; box-shadow:none; color:#000; font-family:Arial,sans-serif; font-weight:400; }
+  #matchmaking button:hover,#transit-chart button:hover { background:#f0f6ff; border-color:#85b5e4; }
+  #matchmaking .section-kicker,#transit-chart .section-kicker { display:none; }
+  #matchmaking .mm-reference-saved { margin:0 0 8px; padding:5px 7px; border:0; background:#ffffe4; }
+  #matchmaking .mm-reference-saved > summary { display:inline-block; padding:6px 10px; border:1px solid #c8c8c8; border-radius:3px; background:#fff; font-size:14px; font-weight:400; }
+  #matchmaking .mm-reference-saved .mm-notebook { margin:12px 0 0; }
+  #matchmaking .mm-pair { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:0; border:1px solid #cfcfb8; }
+  #matchmaking .mm-pair > .mm-card { padding:12px 18px; border:0; margin:0; }
+  #matchmaking .mm-pair > .mm-card + .mm-card { border-left:1px solid #cfcfb8; }
+  #matchmaking .mm-pair h2 { margin:0; color:#000; font-size:20px; font-weight:700; text-align:center; }
+  #matchmaking .mm-grid { grid-template-columns:minmax(0,1fr); margin:5px 0 0; gap:10px; }
+  #matchmaking .mm-grid > label { display:grid; grid-template-columns:125px minmax(0,1fr); align-items:center; gap:10px; margin:0; color:#000; font-size:14px; font-weight:400; text-align:right; }
+  #matchmaking .mm-grid > label[for$="-name"] { font-weight:700; }
+  #matchmaking .mm-grid > label[for$="-date"] input,#matchmaking .mm-grid > label[for$="-time"] input { width:min(100%,175px); }
+  #matchmaking .mm-grid > label[for$="-timezone"] input,#matchmaking .mm-grid > label[for$="-dst"] input { width:min(100%,110px); }
+  #matchmaking .mm-grid > label[for$="-latitude"] input,#matchmaking .mm-grid > label[for$="-longitude"] input { width:min(100%,185px); background:#f5f5f5; }
+  #matchmaking .mm-grid label > .mm-full { grid-column:auto; }
+  #matchmaking .mm-grid input { height:30px; padding:3px 7px; font-size:14px; text-align:left; }
+  #matchmaking .mm-place-instruction { margin:7px 0 -3px; color:#ff3300; text-align:center; font-size:12px; font-weight:400; }
+  #matchmaking .mm-pair .mm-actions { margin:10px 0 0; justify-content:center; }
+  #matchmaking .mm-pair .mm-actions button { padding:4px 8px; font-size:12px; min-height:27px; }
+  #matchmaking .mm-birth-chart-details { padding:4px 0; margin:5px 0 0!important; border:0!important; font-size:11px; }
+  #matchmaking .mm-birth-chart-details > summary { color:#000080; font-weight:400; }
+  #matchmaking .mm-reference-results { margin:8px 0!important; padding:7px; }
+  #matchmaking .mm-reference-results > summary { color:#000080; font-weight:400; }
+  #matchmaking .mm-details { margin:8px 0 0; font-size:11px; }
+  #matchmaking .mm-reference-main { border:1px solid #cfcfb8; margin-top:0!important; padding:10px 16px; }
+  #matchmaking .mm-reference-main > h2 { color:#000; font-size:15px; margin:0 0 6px; }
+  #matchmaking .mm-reference-main > .mm-note { font-size:11px; margin:4px 0; }
+  #matchmaking .mm-controls { margin:8px 0; gap:10px; align-items:center; }
+  #matchmaking .mm-controls > label { color:#000; font-size:13px; font-weight:700; min-width:200px; }
+  #matchmaking .mm-region-native { display:none!important; }
+  #matchmaking .mm-region-radios { display:flex; gap:24px; flex-wrap:wrap; padding:8px 12px; flex:1 1 100%; border:1px solid #bcbcaa; }
+  #matchmaking .mm-region-radios label { display:flex; align-items:center; gap:7px; margin:0; font-size:13px; font-weight:600; color:#000; }
+  #matchmaking .mm-region-radios input,#matchmaking .mm-bases input { width:14px; height:14px; min-height:0; padding:0; }
+  #matchmaking .mm-bases { padding:5px 12px; margin:0; border:1px solid #cfcfb8; }
+  #matchmaking .mm-bases legend { padding:0 5px; color:#000; font-size:12px; }
+  #matchmaking .mm-reference-footer { justify-content:space-evenly; padding:9px 0 0; margin:10px 0 0; border-top:1px solid #cfcfb8; }
+  #matchmaking .mm-reference-footer button { width:120px; min-height:42px; padding:7px 10px; font-size:14px; }
+  #matchmaking .mm-status { color:#000; font-size:11px; margin:7px 0; }
+  #matchmaking .mm-score { color:#000080; }
+  #matchmaking th,#matchmaking td { border:1px solid #858585; border-radius:0; }
+  #matchmaking thead th { background:#ffbec8; color:#000; }
+  #matchmaking tbody th { background:#fff; color:#000; }
+  #matchmaking details:not(.mm-reference-saved) { background:#ffffe4; border-radius:0; border-color:#cfcfb8; }
+  #matchmaking .mm-results-layout { gap:10px; }
+  #matchmaking .kp-reference-place-lookup { grid-column:1/-1; margin:0; padding:0 0 0 135px; border:0!important; font-size:11px; }
+  #matchmaking .kp-reference-place-lookup summary { font-weight:400; color:#000080; }
+  #transit-chart .tc-card { padding:7px; }
+  #transit-chart .tc-card > h2 { margin:0 0 4px; font-size:17px; font-weight:400; color:#000080; }
+  #transit-chart #tc-status { margin:2px 0 7px; font-size:11px; color:#000; }
+  #transit-chart .tc-layout { grid-template-columns:minmax(280px,1.12fr) minmax(270px,1fr) minmax(250px,.95fr); gap:9px; }
+  #transit-chart article { border:0; border-radius:0; background:#ffffe4; margin:0 0 8px; overflow:visible; }
+  #transit-chart article > h3 { padding:2px 0 5px; margin:0; text-align:center; color:#0000ff; background:none; font-size:15px; font-weight:400; }
+  #transit-chart article > h4 { margin:8px 0 3px; font-size:12px; font-weight:400; color:#000080; }
+  #transit-chart .tc-table { border-collapse:collapse; font-size:11px; }
+  #transit-chart .tc-table th,#transit-chart .tc-table td { border:1px solid #989898; padding:3px 4px; line-height:1.25; color:#000; font-size:11px; font-weight:400; }
+  #transit-chart .tc-table thead th { background:#ffbec8; color:#000; font-size:12px; }
+  #transit-chart .tc-table tbody th { font-size:11px; font-weight:400; color:#000; }
+  #transit-chart .tc-table tbody tr:nth-child(odd),#transit-chart .tc-table tbody tr:nth-child(even) { background:#fff; }
+  #transit-chart .tc-table tbody :is(td,th) { background:#fff!important; }
+  #transit-chart .tc-table tbody tr.tc-active-period :is(td,th) { background:#fff9c7!important; }
+  #transit-chart .tc-retro { color:#b50000!important; }
+  #transit-chart .tc-nak-grid { gap:7px; }
+  #transit-chart .tc-diagram { padding:0; color:#000080; border:1px solid #0000ff; background:#ffffe4; }
+  #transit-chart .tc-diagram svg { background:#ffffe4; }
+  #transit-chart .tc-diagram svg > rect { fill:#ffffe4; stroke:#0000ff; }
+  #transit-chart .tc-diagram svg > path { stroke:#ff0000; stroke-width:1; }
+  #transit-chart .tc-diagram svg g > text:first-child { fill:#ff0000; font-weight:400; }
+  #transit-chart .tc-diagram svg tspan { fill:#002d65; }
+  #transit-chart .tc-note { margin:5px 0; color:#0000ff; font-size:11px; }
+  #transit-chart .tc-control-column { display:flex; flex-direction:column; gap:6px; grid-column:auto; }
+  #transit-chart .tc-control-column > article { width:100%; }
+  #transit-chart .tc-reference-dasha { order:0; }
+  #transit-chart .tc-reference-dasha .tc-table thead th { background:#eaffff; }
+  #transit-chart .tc-reference-place { order:1; padding:10px; border:1px solid #cfcfb8; background:#fff; text-align:center; }
+  #transit-chart .tc-reference-place > .tc-wide label { font-size:11px; color:#000; font-weight:400; }
+  #transit-chart .tc-reference-place #tc-place { text-align:center; height:33px; font-size:15px; font-weight:500; width:100%; }
+  #transit-chart .tc-reference-location { text-align:left; margin-top:8px; font-size:12px; }
+  #transit-chart .tc-reference-location > summary { cursor:pointer; display:inline-block; padding:4px 9px; border:1px solid #ccc; border-radius:3px; background:#fff; color:#000; }
+  #transit-chart .tc-reference-location-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+  #transit-chart .tc-reference-location-grid label { font-size:10px; display:block; margin-bottom:3px; color:#000; }
+  #transit-chart .tc-reference-location-grid input { width:100%; height:28px; font-size:11px; padding:3px 5px; }
+  #transit-chart .tc-controls { order:2; padding:0; }
+  #transit-chart .tc-controls > h3 { margin:0 0 4px; text-align:left; font-size:14px; color:#000; }
+  #transit-chart .tc-control-grid { gap:6px; }
+  #transit-chart .tc-controls label { color:#000; font-size:12px; }
+  #transit-chart .tc-controls input,#transit-chart .tc-controls select { height:28px; padding:3px 5px; font-size:12px; }
+  #transit-chart .tc-actions { margin:7px 0; gap:6px; }
+  #transit-chart .tc-actions button { min-height:30px; padding:4px 8px; font-size:12px; }
+  #transit-chart .tc-control-column > details { order:3; padding:4px 0; }
+  #transit-chart .tc-reference-advance { border:0; padding:7px 0; }
+  #transit-chart .tc-reference-advance > label { display:block; color:#000; font-size:14px; margin:5px 0; }
+  #transit-chart .tc-reference-advance > select { width:100%; height:28px; font-size:12px; padding:3px 5px; }
+  #transit-chart .tc-reference-cusps { display:flex; flex-wrap:wrap; gap:9px 20px; margin:8px 0 10px; }
+  #transit-chart .tc-reference-cusps label { display:flex; gap:7px; align-items:center; font-size:12px; color:#000; font-weight:400; }
+  #transit-chart .tc-reference-cusps input { width:14px; height:14px; min-height:0; margin:0; }
+  #transit-chart .tc-reference-native-source { display:none!important; }
+  #transit-chart .kp-reference-place-lookup { border:0; padding:5px 0; margin:0; font-size:11px; text-align:left; }
+  #transit-chart .kp-reference-place-lookup summary { font-size:11px; color:#000080; }
+  #matchmaking .kp-reference-place-lookup .kp-india-picker,#transit-chart .kp-reference-place-lookup .kp-india-picker { border-radius:0; background:#fffff0; padding:7px; }
+  @media(max-width:1100px) {
+    #transit-chart .tc-layout { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+    #transit-chart .tc-control-column { grid-column:1/-1; display:grid; grid-template-columns:1fr 1fr; align-items:start; }
+    #transit-chart .tc-control-column > .tc-reference-dasha { grid-row:1/3; }
+    #transit-chart .tc-control-column > details { grid-column:1/-1; }
+    #matchmaking .mm-grid > label { grid-template-columns:100px minmax(0,1fr); gap:8px; font-size:12px; }
+    #matchmaking .kp-reference-place-lookup { padding-left:108px; }
+  }
+  @media(max-width:700px) {
+    #matchmaking .mm-pair { grid-template-columns:minmax(0,1fr); }
+    #matchmaking .mm-pair > .mm-card + .mm-card { border-left:0; border-top:1px solid #cfcfb8; }
+    #matchmaking .mm-pair > .mm-card { padding:12px; }
+    #matchmaking .mm-results-layout { grid-template-columns:minmax(0,1fr); }
+    #matchmaking .mm-reference-footer { gap:7px; justify-content:center; }
+    #matchmaking .mm-reference-footer button { width:110px; min-height:35px; font-size:12px; }
+    #matchmaking .mm-region-radios { display:grid; gap:12px; }
+    #transit-chart .tc-layout { grid-template-columns:minmax(0,1fr); }
+    #transit-chart .tc-control-column { display:flex; grid-column:auto; }
+    #transit-chart .tc-chart-column { display:block; }
+    #transit-chart .tc-table th,#transit-chart .tc-table td { font-size:10px; padding:3px 2px; }
+    #transit-chart .tc-table thead th { font-size:10px; }
+  }
+}
+</style>
+<script id="kp-reference-match-transit-script">
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  function placeLookup(placeId, target) {
+    const panel=document.querySelector('.kp-india-picker[data-place-for="'+placeId+'"]');
+    if(!panel||panel.parentElement.classList.contains('kp-reference-place-lookup'))return;
+    const details=document.createElement('details');details.className='kp-reference-place-lookup no-print';
+    const summary=document.createElement('summary');summary.textContent='Choose Indian city / village';details.append(summary);
+    if(target)target.append(details);else panel.before(details);
+    details.append(panel);
+    $(placeId)?.addEventListener('focus',()=>{details.open=true;});
+  }
+  function linkedRadios(select, className, labelText) {
+    const group=document.createElement('div');group.className=className;group.setAttribute('role','group');group.setAttribute('aria-label',labelText);
+    for(const option of select.options){
+      const label=document.createElement('label'),input=document.createElement('input');input.type='radio';input.name=select.id+'-reference-options';input.value=option.value;input.dataset.calculationLocked='true';input.checked=select.value===option.value;
+      label.append(input,document.createTextNode(option.textContent));group.append(label);
+      input.addEventListener('change',()=>{if(input.checked){select.value=input.value;select.dispatchEvent(new Event('change',{bubbles:true}));}});
+    }
+    const sync=()=>group.querySelectorAll('input').forEach(input=>input.checked=input.value===select.value);
+    select.addEventListener('change',sync);window.addEventListener('chart-saved',sync);select.closest('section')?.addEventListener('click',()=>setTimeout(sync,0));document.addEventListener('change',event=>{if(event.target?.id==='kp-software-settings')sync();});
+    return group;
+  }
+  function matchmaking() {
+    const section=$('matchmaking'),pair=section?.querySelector('.mm-pair'),main=pair?.nextElementSibling;
+    if(!pair||!main||main.classList.contains('mm-reference-main'))return;
+    main.classList.add('mm-reference-main');
+    const notebook=main.querySelector('.mm-notebook');
+    if(notebook){const details=document.createElement('details');details.className='mm-reference-saved no-print';const summary=document.createElement('summary');summary.textContent='Open / Delete Saved Chart';details.append(summary,notebook);section.prepend(details);}
+    for(const kind of ['boy','girl']){
+      const place=$('mm-'+kind+'-place'),label=place?.closest('label');
+      if(label){const help=document.createElement('p');help.className='mm-place-instruction';help.textContent='Enter a place name and select its coordinates';label.before(help);}
+      placeLookup('mm-'+kind+'-place');
+    }
+    for(const kind of ['boy','girl']){const profile=$('mm-profile-'+kind);if(profile){const details=document.createElement('details');details.className='mm-birth-chart-details';const summary=document.createElement('summary');summary.textContent='Chart positions';profile.before(details);details.append(summary,profile);}}
+    const result=$('mm-result');let results;if(result){results=document.createElement('details');results.className='mm-reference-results';const summary=document.createElement('summary');summary.textContent='Calculated compatibility';result.before(results);results.append(summary,result);$('mm-calculate')?.addEventListener('click',()=>results.open=true);}
+    const region=$('mm-region');
+    if(region){region.closest('label').classList.add('mm-region-native');const radios=linkedRadios(region,'mm-region-radios','Manglik calculation options');radios.querySelectorAll('label').forEach(label=>{const input=label.querySelector('input');label.lastChild.textContent=({north:'1, 4, 7, 8, 12 houses (North)',south:'2, 4, 7, 8, 12 houses (South)',both:'1, 2, 4, 7, 8, 12 houses (Both)'})[input.value];});['north','south','both'].forEach(value=>{const input=radios.querySelector('input[value="'+value+'"]');if(input)radios.append(input.parentElement);});region.closest('.mm-controls').prepend(radios);}
+    const actions=$('mm-calculate')?.closest('.mm-actions');
+    if(actions){
+      actions.classList.add('mm-reference-footer');$('mm-calculate').textContent='View';$('mm-print').textContent='Print';$('mm-save-memo').textContent='Save';
+      const pdf=document.createElement('button');pdf.type='button';pdf.textContent='Export to PDF';pdf.title='Select this report and use Save as PDF in the print dialog';pdf.disabled=$('mm-print').disabled;new MutationObserver(()=>pdf.disabled=$('mm-print').disabled).observe($('mm-print'),{attributes:true,attributeFilter:['disabled']});pdf.addEventListener('click',()=>$('mm-print').click());
+      const close=document.createElement('button');close.type='button';close.textContent='Close';close.addEventListener('click',()=>document.querySelector('.app-sidebar [data-tab="home"]')?.click());
+      if(results&&$('mm-csv')){const exportRow=document.createElement('div');exportRow.className='mm-actions';exportRow.append($('mm-csv'));results.append(exportRow);}
+      actions.prepend($('mm-print'));$('mm-calculate').after(pdf);actions.append(close);main.append(actions);
+    }
+  }
+  function transit() {
+    const section=$('transit-chart'),column=section?.querySelector('.tc-control-column'),controls=column?.querySelector('.tc-controls'),grid=controls?.querySelector('.tc-control-grid');
+    if(!grid||controls.dataset.referenceWindow)return;
+    controls.dataset.referenceWindow='true';const heading=section.querySelector('.tc-card > h2');if(heading)heading.textContent='Transit Chart';
+    const dasha=$('tc-dasha')?.closest('article');if(dasha){dasha.classList.add('tc-reference-dasha');column.prepend(dasha);}
+    const place=document.createElement('article');place.className='tc-reference-place no-print';
+    const placeRow=$('tc-place')?.parentElement;if(placeRow)place.append(placeRow);
+    const location=document.createElement('details');location.className='tc-reference-location';const summary=document.createElement('summary');summary.textContent='Change place';location.append(summary);
+    const locationGrid=document.createElement('div');locationGrid.className='tc-reference-location-grid';location.append(locationGrid);
+    for(const id of ['tc-latitude','tc-longitude','tc-timezone']){const row=$(id)?.parentElement;if(row)locationGrid.append(row);}
+    place.append(location);column.insertBefore(place,controls);placeLookup('tc-place',location);
+    controls.querySelector('h3').textContent='Choose date and time';
+    const advance=document.createElement('article');advance.className='tc-reference-advance no-print';
+    const cuspSelect=$('tc-cusp-source');
+    if(cuspSelect){const original=cuspSelect.parentElement;original.classList.add('tc-reference-native-source');advance.append(original,linkedRadios(cuspSelect,'tc-reference-cusps','House cusps'));}
+    const step=$('tc-step-size'),stepLabel=controls.querySelector('label[for="tc-step-size"]');if(stepLabel)advance.append(stepLabel);if(step)advance.append(step);
+    const direction=$('tc-forward')?.closest('.tc-actions'),realtime=$('tc-realtime')?.closest('.tc-actions');if(direction)advance.append(direction);if(realtime)advance.append(realtime);
+    section.querySelector('.tc-chart-column').append(advance);
+  }
+  function initialize(){matchmaking();transit();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
+})();
+</script>
+
+<style id="kp-reference-aspects-style">
+@media screen {
+  #aspects .western-aspect-card { background:#ffffec; border:1px solid #808080; border-radius:0; box-shadow:none; padding:12px; }
+  #aspects .card-heading { margin-bottom:6px; }
+  #aspects .section-kicker { display:none; }
+  #aspects .card-heading h2 { color:#0000d6; font-size:19px; font-weight:500; }
+  #aspects .western-explanation { color:#333; margin:0 0 10px; line-height:1.35; }
+  #aspects .western-controls { display:grid; gap:8px; align-content:start; min-width:0; }
+  #aspects .western-default-orb { margin:0; gap:6px; font-size:12px; }
+  #aspects .western-default-orb input { width:56px; min-height:26px; height:26px; padding:2px 5px; }
+  #aspects .western-selection-actions { gap:6px; }
+  #aspects .western-selection-actions button { min-height:28px; padding:3px 9px; border-radius:2px; }
+  #aspects .western-selection-actions span { display:block; width:100%; font-size:11px; color:#444; }
+  #aspects .western-angle-options { display:block; min-width:0; margin:0; padding:0; border:1px solid #777; border-radius:0; background:#fff; }
+  #aspects .western-angle-options legend { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+  #aspects .western-angle-options>.reference-aspect-header, #aspects .western-angle-options>.western-angle-option { display:grid; grid-template-columns:70px minmax(120px,1fr) 67px 58px 126px; gap:0; min-width:0; border-radius:0; }
+  #aspects .western-angle-options>.reference-aspect-header { display:grid; flex-direction:initial; padding:0; background:#ffc5ce; color:#111; font-size:14px; line-height:1.3; }
+  #aspects .reference-aspect-header>span { padding:5px 4px; border-right:1px solid #aaa; }
+  #aspects .reference-aspect-header>span:last-child { border-right:0; }
+  #aspects .western-angle-options>.western-angle-option { align-items:stretch; padding:0; border-top:1px solid #aaa; background:#fff; min-height:30px; }
+  #aspects .western-angle-options>.western-angle-option:nth-of-type(odd) { background:#ffffdb; }
+  #aspects .western-angle-options .western-aspect-choice { display:grid; grid-template-columns:70px minmax(120px,1fr) 67px; grid-column:1 / 4; align-items:stretch; gap:0; font-size:14px; font-weight:400; line-height:1.2; min-width:0; cursor:pointer; }
+  #aspects .reference-aspect-angle, #aspects .reference-aspect-name, #aspects .reference-aspect-code { display:flex; align-items:center; gap:4px; padding:3px 4px; border-right:1px solid #aaa; min-width:0; }
+  #aspects .reference-aspect-name { overflow-wrap:anywhere; }
+  #aspects .reference-aspect-code { font-size:13px; }
+  #aspects .reference-aspect-english { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  #aspects .western-aspect-choice input { accent-color:#0078d7!important; margin:0!important; width:13px; min-height:13px; height:13px; accent-color:#0078d7; }
+  #aspects .western-detail-controls { display:grid; grid-template-columns:58px 126px; grid-column:4 / 6; gap:0; min-width:0; }
+  #aspects .western-detail-controls label { display:block; position:relative; font-size:0; min-width:0; margin:0; padding:2px 3px; line-height:1; border-right:1px solid #aaa; }
+  #aspects .western-detail-controls label:last-child { border-right:0; }
+  #aspects .western-orb-label input { display:block; width:100%; height:25px; min-height:25px; padding:2px 3px; margin:0; border-radius:0; font-size:12px; line-height:1; box-sizing:border-box; }
+  #aspects .western-quality-choice { min-width:0; }
+  #aspects .western-quality-choice select { display:block; width:100%; height:25px; min-height:25px; padding:2px 1px; border-radius:0; font-size:10px; line-height:1; box-sizing:border-box; }
+  #aspects .western-angle-option.reference-selected .western-aspect-choice { color:#fff; background:#0078d7; }
+  #aspects .western-angle-option:focus-within .western-aspect-choice { outline:1px solid #005a9e; outline-offset:-1px; }
+  #aspects .western-color-legend { display:flex; flex-direction:column; align-items:center; padding:7px 0; gap:4px; border:0; border-radius:0; background:transparent; font-size:18px; font-weight:400; line-height:1.3; }
+  #aspects .western-color-legend::before { content:'Color code · कलर कोड :'; display:block; color:#f22; font-size:18px; }
+  #aspects .western-color-note { color:#555; text-align:center; font-size:10px; line-height:1.35; }
+  #aspects .western-results { display:grid; grid-template-columns:minmax(0,1fr); gap:16px; min-width:0; }
+  #aspects .western-results article { overflow:auto; }
+  #aspects .western-results h3 { color:#0000d6; text-align:center; font-size:17px; margin:0 0 6px; }
+  #aspects .western-results table { min-width:470px; border:1px solid #777; border-collapse:collapse; }
+  #aspects .western-results th { background:#ffc5ce; color:#111; border:1px solid #aaa; border-radius:0; font-weight:400; }
+  #aspects .western-results td { border:1px solid #aaa; }
+  #aspects .western-results tbody tr:nth-child(odd) { background:#ffffdb; }
+  #aspects .western-results tbody tr:nth-child(even) { background:#fff; }
+  #aspects .western-aspect-status { margin:0; padding:5px 0; line-height:1.35; }
+  @media (min-width:1100px) {
+    #aspects .western-aspect-card { display:grid; grid-template-columns:minmax(470px,44%) minmax(0,1fr); gap:8px 16px; align-items:start; }
+    #aspects .card-heading, #aspects .western-aspect-card>.western-explanation:not(.western-footnote) { grid-column:1 / -1; }
+    #aspects .western-controls { grid-column:1; grid-row:3; }
+    #aspects .reference-aspect-results-column { display:grid; gap:12px; align-content:start; grid-column:2; grid-row:3; }
+  }
+  @media (max-width:580px) {
+    #aspects .western-aspect-card { padding:7px; }
+    #aspects .western-angle-options { overflow-x:auto; }
+    #aspects .western-angle-options>.reference-aspect-header, #aspects .western-angle-options>.western-angle-option { min-width:455px; }
+    #aspects .western-results { margin-top:12px; }
+  }
+}
+</style>
+<script id="kp-reference-aspects-script">
+(function () {
+  'use strict';
+  function prepareReferenceAspectTable() {
+    const fieldset=document.querySelector('#aspects .western-angle-options');
+    if (!fieldset || fieldset.dataset.referenceTable==='true') return;
+    fieldset.dataset.referenceTable='true';
+    const card=fieldset.closest('.western-aspect-card');
+    const resultColumn=document.createElement('div');resultColumn.className='reference-aspect-results-column';
+    [card.querySelector('.western-aspect-status'),card.querySelector('.western-results'),card.querySelector('.western-footnote')].filter(Boolean).forEach(node=>resultColumn.append(node));
+    card.append(resultColumn);
+    const header=document.createElement('div');
+    header.className='reference-aspect-header no-print';
+    header.setAttribute('aria-hidden','true');
+    ['Angle','Name','Code','Orb','Color'].forEach(text=>{const cell=document.createElement('span');cell.textContent=text;header.append(cell);});
+    fieldset.insertBefore(header,fieldset.querySelector('.western-angle-option'));
+    const rows=[...fieldset.querySelectorAll('.western-angle-option')];
+    rows.forEach((row,index)=>{
+      const label=row.querySelector('.western-aspect-choice');
+      const input=label?.querySelector('input[type="checkbox"]');
+      const sourceName=label?.querySelector('.western-marathi-name');
+      if (!label || !input || !sourceName) return;
+      const originalText=label.textContent.trim();
+      const englishText=[...label.childNodes].filter(node=>node.nodeType===Node.ELEMENT_NODE&&node.tagName==='SPAN')[0]?.firstChild?.textContent.trim() || '';
+      const angle=input.id.replace('western-angle-','');
+      const englishName=englishText.split(' · ')[0];
+      const pieces=sourceName.textContent.split(' · ');
+      const name=pieces[0].trim(), code=pieces.slice(1).join(' · ').trim();
+      const angleCell=document.createElement('span');angleCell.className='reference-aspect-angle';angleCell.append(input,document.createTextNode(angle+'° '));
+      const nameCell=document.createElement('span');nameCell.className='reference-aspect-name';nameCell.append(document.createTextNode(name+' '));
+      const english=document.createElement('span');english.className='reference-aspect-english';english.textContent='('+englishName+') ';nameCell.append(english);
+      const codeCell=document.createElement('span');codeCell.className='reference-aspect-code';codeCell.textContent=code;
+      label.replaceChildren(angleCell,nameCell,codeCell);
+      label.setAttribute('aria-label',originalText);
+      label.title=englishText+' · '+name+' · '+code;
+      if(index===0) row.classList.add('reference-selected');
+      const selectRow=()=>{rows.forEach(item=>item.classList.toggle('reference-selected',item===row));};
+      row.addEventListener('click',selectRow);row.addEventListener('focusin',selectRow);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',prepareReferenceAspectTable,{once:true});
+  else prepareReferenceAspectTable();
+})();
+</script>
+
+<style id="kp-reference-event-nadi-style">
+@media screen {
+body.app-ready #event-promise .ep-card,body.app-ready #nadi-astrology .na-card{background:#ffffe4;border:0;border-radius:0;padding:10px;box-shadow:none;color:#111;min-width:0}
+body.app-ready #event-promise h2,body.app-ready #nadi-astrology h2{color:#0000ee;font-size:18px;font-weight:500;letter-spacing:0;margin:0 0 8px;text-align:center}
+body.app-ready #event-promise .ep-intro,body.app-ready #nadi-astrology .na-intro{font-size:11px;line-height:1.4;color:#333;margin-bottom:9px}
+body.app-ready #event-promise input,body.app-ready #event-promise select,body.app-ready #event-promise button,body.app-ready #nadi-astrology input,body.app-ready #nadi-astrology select,body.app-ready #nadi-astrology textarea,body.app-ready #nadi-astrology button{border-radius:0;box-shadow:none}
+body.app-ready #event-promise input:not([type="checkbox"]),body.app-ready #event-promise select,body.app-ready #nadi-astrology input:not([type="checkbox"]),body.app-ready #nadi-astrology select{background:#fff;border:1px solid #a8a8a8;color:#111;min-height:28px;padding:3px 5px;font-size:12px}
+body.app-ready #event-promise button,body.app-ready #nadi-astrology button{background:#fff;border:1px solid #b8b8b8;color:#111;font-size:12px;min-height:30px;padding:4px 10px}
+body.app-ready #event-promise button:hover,body.app-ready #nadi-astrology button:hover{background:#eaf3ff;border-color:#6b97cd}
+body.app-ready #event-promise label,body.app-ready #nadi-astrology label{color:#111;font-size:12px}
+body.app-ready #event-promise .ep-ref-window{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+body.app-ready #event-promise .ep-ref-left,body.app-ready #event-promise .ep-ref-right{min-width:0}
+body.app-ready #event-promise .ep-ref-groups{display:grid;grid-template-columns:72px repeat(3,minmax(0,1fr));gap:9px;align-items:end;margin-bottom:23px}
+body.app-ready #event-promise .ep-ref-groups label{display:block;font-size:13px;font-weight:600;line-height:1.3;text-align:center;margin-bottom:8px}
+body.app-ready #event-promise .ep-ref-groups input,body.app-ready #event-promise .ep-ref-groups select{width:100%;text-align:center;font-size:16px;font-weight:600;height:31px;min-width:0}
+body.app-ready #event-promise .ep-ref-groups #ep-favorable{color:#00aa00}
+body.app-ready #event-promise .ep-ref-groups #ep-neutral{color:#0000ff}
+body.app-ready #event-promise .ep-ref-groups #ep-opposed{color:#ff0000}
+body.app-ready #event-promise .ep-ref-analysis{background:#ffe7c8;border:1px solid #8c8678;padding:13px 10px 15px;min-height:390px}
+body.app-ready #event-promise .ep-ref-analysis h3{font-size:15px;font-weight:600;text-align:center;margin:5px 0 14px;color:#111}
+body.app-ready #event-promise .ep-ref-methods{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:10px}
+body.app-ready #event-promise .ep-ref-methods label{display:block;margin-bottom:5px;font-weight:600}
+body.app-ready #event-promise .ep-ref-methods select{width:100%}
+body.app-ready #event-promise .ep-ref-options{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+body.app-ready #event-promise .ep-ref-options label{display:flex;gap:6px;align-items:center;font-size:11px}
+body.app-ready #event-promise .ep-ref-options input[type="checkbox"],body.app-ready #event-promise .ep-layer-label input[type="checkbox"]{appearance:auto;accent-color:#0876d0;min-height:14px;width:14px;height:14px;padding:0;margin:0;flex:0 0 14px}
+body.app-ready #event-promise #ep-layer-mount{overflow:visible}
+body.app-ready #event-promise #ep-layer-mount .ep-table{table-layout:fixed;font-size:12px;width:100%;background:transparent}
+body.app-ready #event-promise #ep-layer-mount .ep-table col:nth-child(1){width:45%!important}
+body.app-ready #event-promise #ep-layer-mount .ep-table col:nth-child(2){width:10%!important}
+body.app-ready #event-promise #ep-layer-mount .ep-table col:nth-child(3){width:45%!important}
+body.app-ready #event-promise #ep-layer-mount .ep-table col:nth-child(4){width:0!important}
+body.app-ready #event-promise #ep-layer-mount .ep-table thead{display:none}
+body.app-ready #event-promise #ep-layer-mount .ep-table tr,body.app-ready #event-promise #ep-layer-mount .ep-table td{border:0;background:transparent}
+body.app-ready #event-promise #ep-layer-mount .ep-table td{padding:7px 4px;vertical-align:middle}
+body.app-ready #event-promise #ep-layer-mount .ep-table td:nth-child(1){color:#965200;font-weight:600}
+body.app-ready #event-promise #ep-layer-mount .ep-table td:nth-child(2){text-align:center;font-weight:600}
+body.app-ready #event-promise #ep-layer-mount .ep-table td:nth-child(3){background:#fff;border:1px solid #b8b8b8;padding:2px 6px}
+body.app-ready #event-promise #ep-layer-mount .ep-table td:nth-child(3)>small{font-size:8px;line-height:1.2;color:#555;margin-top:2px}
+body.app-ready #event-promise #ep-layer-mount .ep-table td:nth-child(4){display:none}
+body.app-ready #event-promise .ep-card:has(#ep-input-mode>option[value="manual"]:checked) #ep-layer-mount .ep-table td:nth-child(3){display:none}
+body.app-ready #event-promise .ep-card:has(#ep-input-mode>option[value="manual"]:checked) #ep-layer-mount .ep-table col:nth-child(3){width:0!important}
+body.app-ready #event-promise .ep-card:has(#ep-input-mode>option[value="manual"]:checked) #ep-layer-mount .ep-table col:nth-child(4){width:45%!important}
+body.app-ready #event-promise .ep-card:has(#ep-input-mode>option[value="manual"]:checked) #ep-layer-mount .ep-table td:nth-child(4){display:table-cell}
+body.app-ready #event-promise .ep-ref-combined{display:grid;grid-template-columns:45% minmax(0,1fr);gap:8px;align-items:center;margin:18px 5px 0;font-size:14px;font-weight:600}
+body.app-ready #event-promise #ep-ref-combined{background:#fff;border:1px solid #aaa;min-height:29px;padding:2px 6px}
+body.app-ready #event-promise .ep-house,body.app-ready #nadi-astrology .ep-house{background:transparent;border:0;border-radius:0;padding:0 2px;margin:0 1px;font-size:13px;min-width:12px;line-height:1.25}
+body.app-ready #event-promise .ep-house[data-tone="favorable"],body.app-ready #nadi-astrology .ep-house[data-tone="favorable"]{color:#00a900}
+body.app-ready #event-promise .ep-house[data-tone="neutral"],body.app-ready #nadi-astrology .ep-house[data-tone="neutral"]{color:#0000ff}
+body.app-ready #event-promise .ep-house[data-tone="opposed"],body.app-ready #nadi-astrology .ep-house[data-tone="opposed"]{color:#ff0000}
+body.app-ready #event-promise .ep-house[data-relevant="true"],body.app-ready #nadi-astrology .ep-house[data-relevant="true"]{outline:0;text-decoration:underline;text-underline-offset:2px}
+body.app-ready #event-promise .ep-ref-event-controls{display:grid;grid-template-columns:minmax(0,1fr);gap:9px}
+body.app-ready #event-promise .ep-ref-event-controls label{display:block;font-size:14px;font-weight:600;margin:0 0 5px}
+body.app-ready #event-promise .ep-ref-event-controls input,body.app-ready #event-promise .ep-ref-event-controls select{width:100%;min-width:0}
+body.app-ready #event-promise #ep-event-count{font-size:10px;color:#555}
+body.app-ready #event-promise #ep-source-mount>.ep-source{background:#fff8dd;border:1px solid #858171;border-radius:0;min-height:240px;margin:12px 0 5px;padding:10px;line-height:1.5;font-size:12px}
+body.app-ready #event-promise #ep-source-mount h3{font-size:14px;color:#111;margin-bottom:8px}
+body.app-ready #event-promise #ep-source-mount p{margin:7px 0}
+body.app-ready #event-promise #ep-proof-mount>.ep-proof{background:transparent;border:0;border-radius:0;padding:0;margin:0}
+body.app-ready #event-promise #ep-proof-mount h3{background:#fff8dd;border:1px solid #858171;padding:5px 8px;margin:0 0 3px;text-align:center;font-size:17px;color:#d00000}
+body.app-ready #event-promise #ep-proof-mount [data-event-promise-status="matched"] h3{color:#00a600}
+body.app-ready #event-promise #ep-proof-mount .ep-proof>p{background:#fff8dd;border:1px solid #858171;padding:5px 8px;margin:3px 0;text-align:center;font-size:11px}
+body.app-ready #event-promise #ep-proof-mount dl{background:#fff8dd;border:1px solid #858171;padding:7px;grid-template-columns:130px minmax(0,1fr);font-size:11px;gap:4px 8px}
+body.app-ready #event-promise #ep-proof-mount details{margin-top:5px;font-size:11px}
+body.app-ready #event-promise .ep-ref-footer{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 0}
+body.app-ready #event-promise #ep-status{border:1px solid #a4a08c;background:#fff8dd;border-radius:0;padding:7px 9px;margin:8px 0 0;font-size:11px;line-height:1.4}
+body.app-ready #event-promise .ep-legend{margin:10px 0 0;font-size:10px;gap:8px}
+body.app-ready #event-promise #ep-aspect-mount{grid-column:1/-1}
+body.app-ready #event-promise #ep-aspect-mount .ep-table th,body.app-ready #event-promise #ep-aspect-mount .ep-table td{border:1px solid #666}
+body.app-ready #nadi-astrology .na-ref-window{display:grid;grid-template-columns:minmax(250px,1.15fr) minmax(245px,1fr) minmax(260px,.95fr);grid-template-areas:"positions chart controls" "coordinates coordinates controls" "criteria criteria notes";gap:12px;align-items:start}
+body.app-ready #nadi-astrology .na-ref-positions{grid-area:positions;min-width:0}
+body.app-ready #nadi-astrology .na-ref-chart{grid-area:chart;min-width:0}
+body.app-ready #nadi-astrology .na-ref-controls{grid-area:controls;min-width:0;border:1px solid #bbb;padding:10px;background:#ffffe4}
+body.app-ready #nadi-astrology .na-ref-coordinates{grid-area:coordinates;min-width:0}
+body.app-ready #nadi-astrology .na-ref-criteria{grid-area:criteria;min-width:0}
+body.app-ready #nadi-astrology .na-ref-notes{grid-area:notes;min-width:0;border:1px solid #bbb;padding:10px}
+body.app-ready #nadi-astrology .na-ref-window h3{color:#0000ee;font-size:14px;font-weight:500;text-align:center;margin:0 0 7px}
+body.app-ready #nadi-astrology .na-ref-chart #na-native-chart{border:1px solid #ff00ff;border-radius:0;padding:3px;background:#fff;max-width:100%;min-width:0;overflow:hidden}
+body.app-ready #nadi-astrology #na-native-chart [data-nadi-native-chart]{width:100%;min-width:0;max-width:100%;height:auto;aspect-ratio:1;margin:0;border:0;container-type:inline-size}
+body.app-ready #nadi-astrology #na-native-chart [data-nadi-native-chart] :is(.v38-cell,.v38-center){border-color:#ee9b51}
+body.app-ready #nadi-astrology #na-native-chart [data-nadi-native-chart] .v38-cell::before,body.app-ready #nadi-astrology #na-native-chart [data-nadi-native-chart] .v38-cell::after{content:none;display:none}
+body.app-ready #nadi-astrology #na-native-chart .v38-cusp{color:#4289df}
+body.app-ready #nadi-astrology #na-native-chart .v38-planet{color:#4c7800}
+body.app-ready #nadi-astrology #na-native-chart .v38-center{padding:8px;overflow:hidden}
+body.app-ready #nadi-astrology #na-native-chart .v38-title{font-size:11px;margin-bottom:7px}
+body.app-ready #nadi-astrology #na-native-chart .v38-data{font-size:10px;line-height:1.4}
+body.app-ready #nadi-astrology #na-native-chart [data-manual-text]{white-space:pre-wrap;overflow-wrap:anywhere}
+body.app-ready #nadi-astrology .na-ref-trace{font-size:8px;line-height:1.3;margin-top:4px;color:#444}
+body.app-ready #nadi-astrology .na-ref-trace>summary{font-size:8px;color:#555;cursor:pointer}
+body.app-ready #nadi-astrology .na-ref-trace-row{margin:3px 0}
+body.app-ready #nadi-astrology .na-ref-trace small{font-size:8px;line-height:1.35;margin:1px 0;color:#555}
+body.app-ready #nadi-astrology .na-ref-chart .home-chart-content{height:auto;min-height:0;max-height:none;overflow:visible}
+body.app-ready #nadi-astrology .na-ref-chart .south-wrap,body.app-ready #nadi-astrology .na-ref-chart .south-grid{min-width:0;width:100%;max-width:100%}
+body.app-ready #nadi-astrology .na-ref-chart .south-sign{border-color:#f0a563}
+body.app-ready #nadi-astrology .na-ref-chart .na-native-info{background:#fff8dd;border:1px solid #aaa;border-radius:0;padding:7px;font-size:10px;line-height:1.45;margin:8px 0 0}
+body.app-ready #nadi-astrology .na-ref-positions>details{margin-top:0!important}
+body.app-ready #nadi-astrology .na-ref-positions summary{color:#0000ee;font-size:13px;margin-bottom:6px;cursor:pointer}
+body.app-ready #nadi-astrology .na-table{font-size:10px;width:100%;table-layout:fixed}
+body.app-ready #nadi-astrology .na-table th,body.app-ready #nadi-astrology .na-table td{border:1px solid #666;background:#fff;padding:5px 3px;line-height:1.25;overflow-wrap:anywhere;color:#111}
+body.app-ready #nadi-astrology .na-table thead th{background:#ffc1cb;color:#111;font-weight:500}
+body.app-ready #nadi-astrology .na-table tbody th{font-weight:500}
+body.app-ready #nadi-astrology .na-ref-query{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 8px}
+body.app-ready #nadi-astrology .na-ref-query label,body.app-ready #nadi-astrology .na-ref-controls label{display:block;margin-bottom:4px;font-size:11px}
+body.app-ready #nadi-astrology .na-ref-query input,body.app-ready #nadi-astrology .na-ref-query select,body.app-ready #nadi-astrology .na-ref-controls input,body.app-ready #nadi-astrology .na-ref-controls select{width:100%;min-width:0}
+body.app-ready #nadi-astrology .na-ref-query>div:has(#na-event),body.app-ready #nadi-astrology .na-ref-query #na-custom-control{grid-column:1/-1}
+body.app-ready #nadi-astrology .na-ref-query small{font-size:9px}
+body.app-ready #nadi-astrology .na-ref-inputs{display:grid;grid-template-columns:1fr 1fr;gap:9px 8px}
+body.app-ready #nadi-astrology .na-ref-inputs>div:has(#na-place),body.app-ready #nadi-astrology .na-ref-inputs>div:has(#na-cusp-source){grid-column:1/-1}
+body.app-ready #nadi-astrology .na-ref-inputs .kp-india-picker{grid-column:1/-1;border-radius:0;background:#ffffef;border-color:#aaa;padding:8px}
+body.app-ready #nadi-astrology .na-ref-step{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:10px 0;margin:12px 0 0;border-top:1px solid #aaa;border-bottom:1px solid #aaa;align-items:end}
+body.app-ready #nadi-astrology .na-ref-step label{margin:0;display:flex;align-items:center;gap:5px}
+body.app-ready #nadi-astrology .na-ref-step #na-step-count{width:52px!important}
+body.app-ready #nadi-astrology .na-ref-step #na-step{width:100%!important}
+body.app-ready #nadi-astrology .na-ref-step #na-real-time{grid-column:1/-1}
+body.app-ready #nadi-astrology .na-ref-buttons{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+body.app-ready #nadi-astrology .na-ref-buttons button{min-width:0;font-size:11px;padding:5px 4px}
+body.app-ready #nadi-astrology #na-status{background:#fff8dd;border:1px solid #aaa;border-radius:0;padding:7px;font-size:10px;line-height:1.4;margin:9px 0 0}
+body.app-ready #nadi-astrology .na-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid #0000ee}
+body.app-ready #nadi-astrology .na-tile{background:#ffffef;border:1px solid #0000ee;border-radius:0;padding:6px;min-width:0}
+body.app-ready #nadi-astrology .na-tile:nth-child(2n){background:#ffffef}
+body.app-ready #nadi-astrology .na-tile h3{color:#111;font-size:10px;line-height:1.2;font-weight:600;text-align:left;margin:0 0 3px;overflow-wrap:anywhere}
+body.app-ready #nadi-astrology .na-tile>small{font-size:8px;line-height:1.2;margin:0 0 4px;color:#555}
+body.app-ready #nadi-astrology .na-layer{display:grid;grid-template-columns:60px 50px minmax(0,1fr);gap:2px 3px;align-items:start;margin:5px 0;font-size:10px;line-height:1.3}
+body.app-ready #nadi-astrology .na-layer strong{font-size:10px;white-space:nowrap}
+body.app-ready #nadi-astrology .na-layer>small{grid-column:1/-1;font-size:7px;margin:0;line-height:1.2;color:#555}
+body.app-ready #nadi-astrology .na-layer .ep-house{font-size:11px;min-width:9px;padding:0 1px;margin:0;line-height:1.25}
+body.app-ready #nadi-astrology .na-match{font-size:8px;border-top:1px solid #b8b8cf;padding-top:4px;margin-top:5px;line-height:1.35;color:#333}
+body.app-ready #nadi-astrology .na-ref-criteria .ep-source{background:#fff8dd;border:1px solid #aaa;border-radius:0;padding:9px;font-size:11px;line-height:1.45;margin:0}
+body.app-ready #nadi-astrology .na-ref-criteria .ep-source h3{font-size:13px;text-align:left;color:#0000ee}
+body.app-ready #nadi-astrology .na-ref-notes textarea{background:#fff;border:1px solid #aaa;min-height:100px;padding:7px;font-size:12px}
+@media(max-width:1180px){
+body.app-ready #nadi-astrology .na-ref-window{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"positions chart" "coordinates coordinates" "controls notes" "criteria criteria"}
+body.app-ready #event-promise .ep-ref-window{gap:12px}
+body.app-ready #event-promise .ep-ref-groups{grid-template-columns:55px repeat(3,minmax(0,1fr));gap:5px}
+body.app-ready #event-promise .ep-ref-groups label{font-size:11px}
+body.app-ready #event-promise .ep-ref-groups input{font-size:13px}
+body.app-ready #event-promise #ep-layer-mount .ep-table{font-size:10px}
+}
+@media(max-width:760px){
+body.app-ready #event-promise .ep-ref-window,body.app-ready #nadi-astrology .na-ref-window{grid-template-columns:minmax(0,1fr)}
+body.app-ready #nadi-astrology .na-ref-window{grid-template-areas:"positions" "chart" "controls" "coordinates" "notes" "criteria"}
+body.app-ready #event-promise .ep-ref-groups{margin-bottom:10px}
+body.app-ready #event-promise .ep-ref-analysis{min-height:0}
+body.app-ready #event-promise #ep-source-mount>.ep-source{min-height:180px}
+body.app-ready #nadi-astrology .na-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+body.app-ready #nadi-astrology .na-layer{grid-template-columns:1fr 30px;gap:2px}
+body.app-ready #nadi-astrology .na-layer>div{grid-column:1/-1}
+}
+@media(max-width:460px){
+body.app-ready #event-promise .ep-ref-groups{grid-template-columns:55px repeat(3,minmax(0,1fr))}
+body.app-ready #event-promise .ep-ref-groups label{font-size:9px}
+body.app-ready #event-promise .ep-ref-groups input{font-size:11px;padding:3px 1px}
+body.app-ready #event-promise .ep-ref-methods{grid-template-columns:1fr}
+body.app-ready #event-promise .ep-ref-combined{font-size:12px}
+body.app-ready #nadi-astrology .na-grid{grid-template-columns:1fr 1fr}
+body.app-ready #nadi-astrology .na-layer{grid-template-columns:60px 50px minmax(0,1fr)}
+body.app-ready #nadi-astrology .na-layer>div{grid-column:auto}
+}
+}
+</style>
+<script id="kp-reference-event-nadi-script">
+(() => {
+  'use strict';
+  const get=id=>document.getElementById(id);
+  const make=(tag,cls,text)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(text)node.textContent=text;return node;};
+  const group=(parent,id)=>{const input=get(id),wrapper=input?.closest('.ep-controls>div,.na-controls>div');if(wrapper)parent.append(wrapper);};
+  function eventWindow(){
+    const card=document.querySelector('#event-promise .ep-card');if(!card||card.dataset.referenceLayout)return false;
+    card.dataset.referenceLayout='event-promise';
+    const originalControls=card.querySelector('.ep-controls'),actions=card.querySelector('.ep-actions');
+    const windowGrid=make('div','ep-ref-window'),left=make('div','ep-ref-left'),right=make('div','ep-ref-right');
+    const groups=make('div','ep-ref-groups');['ep-cusp','ep-favorable','ep-neutral','ep-opposed'].forEach(id=>group(groups,id));
+    const analysis=make('div','ep-ref-analysis'),methods=make('div','ep-ref-methods');['ep-input-mode','ep-method'].forEach(id=>group(methods,id));
+    const options=make('div','ep-ref-options');actions?.querySelectorAll('label').forEach(node=>options.append(node));
+    analysis.append(methods,options,make('h3','', 'Significator of Cusps'),get('ep-layer-mount'));
+    const combined=make('div','ep-ref-combined'),values=make('div');values.id='ep-ref-combined';values.setAttribute('aria-label','Combined significator houses');combined.append(make('span','', 'Combined Significators'),values);analysis.append(combined);
+    const footer=make('div','ep-ref-footer');actions?.querySelectorAll('button').forEach(node=>footer.append(node));
+    left.append(groups,analysis,footer,get('ep-status'));const legend=card.querySelector('.ep-legend');if(legend)left.append(legend);
+    const eventControls=make('div','ep-ref-event-controls');['ep-category','ep-search','ep-event','ep-custom-houses'].forEach(id=>group(eventControls,id));right.append(eventControls,get('ep-source-mount'),get('ep-proof-mount'));
+    windowGrid.append(left,right,get('ep-aspect-mount'));card.append(windowGrid);originalControls?.remove();actions?.remove();
+    const synchronizeCombined=()=>{const dt=[...get('ep-proof-mount').querySelectorAll('dt')].find(node=>node.textContent.trim()==='Combined houses');values.innerHTML=dt?.nextElementSibling?.innerHTML||'—';};
+    new MutationObserver(synchronizeCombined).observe(get('ep-proof-mount'),{childList:true,subtree:true});synchronizeCombined();return true;
+  }
+  function nadiWindow(){
+    const card=document.querySelector('#nadi-astrology .na-card');if(!card||card.dataset.referenceLayout)return false;
+    card.dataset.referenceLayout='nadi-astrology';
+    const oldControls=card.querySelector('.na-controls'),oldLayout=card.querySelector('.na-layout'),oldActions=card.querySelector('.na-actions');
+    const windowGrid=make('div','na-ref-window'),positions=make('div','na-ref-positions'),chart=make('div','na-ref-chart'),controls=make('div','na-ref-controls'),coordinates=make('div','na-ref-coordinates'),criteria=make('div','na-ref-criteria'),notes=make('div','na-ref-notes');
+    const tableDetails=get('na-positions')?.closest('details');if(tableDetails){tableDetails.open=true;positions.append(make('h3','', 'PLANETARY POSITION'),tableDetails);}
+    chart.append(make('h3','', 'NATAL RASHI CHART'),get('na-native-chart'),get('na-native-info'));
+    const inputGroups=make('div','na-ref-inputs');['na-source','na-method','na-cusp-source','na-date','na-time','na-timezone','na-place','na-latitude','na-longitude'].forEach(id=>group(inputGroups,id));oldControls?.querySelectorAll('.kp-india-picker').forEach(panel=>inputGroups.append(panel));controls.append(make('h3','', 'Time Slice and Chart Inputs'),inputGroups);
+    const step=make('div','na-ref-step'),count=get('na-step-count')?.closest('label');if(count)step.append(count);['na-step','na-backward','na-forward','na-real-time'].forEach(id=>{if(get(id))step.append(get(id));});controls.append(step);
+    const buttons=make('div','na-ref-buttons');['na-update','na-use-native','na-open-transit','na-print','na-export'].forEach(id=>{if(get(id))buttons.append(get(id));});controls.append(buttons,get('na-status'));
+    const query=make('div','na-ref-query');['na-category','na-search','na-event','na-custom-houses'].forEach(id=>group(query,id));coordinates.append(make('h3','', 'Nadi Co-ordinates'),query,get('na-grid'));
+    notes.append(make('h3','', 'Event Notes'),get('na-notes'));const noteIntro=card.querySelector('.na-side .na-intro');if(noteIntro)notes.append(noteIntro);
+    criteria.append(get('na-source-mount'));windowGrid.append(positions,chart,controls,coordinates,criteria,notes);card.append(windowGrid);oldControls?.remove();oldActions?.remove();oldLayout?.remove();
+    const sourceChart=get('kundali'),destination=get('na-native-chart');
+    const synchronizeChart=()=>{if(!sourceChart||!destination)return;const clone=sourceChart.cloneNode(true);[clone,...clone.querySelectorAll('[id]')].forEach(node=>node.removeAttribute('id'));clone.dataset.reportId='kundali';clone.dataset.nadiNativeChart='true';clone.removeAttribute('tabindex');clone.querySelectorAll('[contenteditable]').forEach(node=>{node.removeAttribute('contenteditable');node.setAttribute('aria-readonly','true');});destination.replaceChildren(clone);};
+    if(sourceChart){new MutationObserver(synchronizeChart).observe(sourceChart,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['class']});synchronizeChart();}
+    const compactCoordinateDetails=()=>{get('na-grid').querySelectorAll('.na-tile:not([data-reference-trace])').forEach(tile=>{tile.dataset.referenceTrace='true';const details=make('details','na-ref-trace');details.append(make('summary','', 'Calculation details'));const metadata=tile.querySelector(':scope>small');if(metadata)details.append(metadata);tile.querySelectorAll('.na-layer').forEach(layer=>{const level=layer.querySelector(':scope>small');if(!level)return;const row=make('div','na-ref-trace-row');row.append(make('b','',(layer.querySelector(':scope>span')?.textContent||'')+' '+(layer.querySelector(':scope>strong')?.textContent||'')),level);details.append(row);});const match=tile.querySelector('.na-match');if(match)details.append(match);tile.append(details);});};
+    new MutationObserver(compactCoordinateDetails).observe(get('na-grid'),{childList:true,subtree:true});compactCoordinateDetails();return true;
+  }
+  function initialize(){eventWindow();nadiWindow();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
+})();
+</script>
+
+<style id="kp-client-presentation">
+/* Colour overrides preserve the reference window geometry. */
+@media screen {
+ body.app-ready {--kp-window:#ffffe4;--kp-panel:#ffffe4;--kp-header:#6c913b;--kp-stripe:#e4ecda;--kp-action:#0089f7;}
+ body.app-ready[data-kp-theme="light"] {--kp-window:#f2f6fa;--kp-panel:#fff;--kp-header:#426f9a;--kp-stripe:#e6eef6;--kp-action:#426f9a;}
+ body.app-ready[data-kp-theme="lavender"] {--kp-window:#f5f2fb;--kp-panel:#faf8ff;--kp-header:#74609d;--kp-stripe:#eee8f7;--kp-action:#74609d;}
+ body.app-ready[data-kp-theme="classic"] {--kp-window:#ffffe4;--kp-panel:#ffffe4;--kp-header:#6c913b;--kp-stripe:#e4ecda;--kp-action:#0089f7;}
+ body.app-ready,body.app-ready main,body.app-ready main .tab {background:var(--kp-window)!important;}
+ body.app-ready main :is(.card,.rpw-card,.mm-card,.na-card,.ep-card,.tc-panel,.home-panel) {background:var(--kp-panel)!important;}
+ body.app-ready main :is(table thead th,.home-table th,.kp-table th) {background:var(--kp-header)!important;color:white!important;}
+ body.app-ready main table tbody tr:nth-child(odd) {background:var(--kp-stripe)!important;}
+ body.app-ready .button-primary {background:var(--kp-action)!important;border-color:var(--kp-action)!important;}
+ body.app-ready main button:not(.settings-tab) {min-height:30px;}
+ body.kp-client-mode [data-private-calculation],body.kp-client-mode .kp-coordinate-source {display:none!important;}
+ body:not(.kp-client-mode) .kp-coordinate-dms {display:none!important;}
+ body.kp-client-mode .kp-coordinate-dms {display:block!important;min-width:115px;}
+ .report-page {outline:4px double #5c4434;outline-offset:-4px;}
+}
+@media print {
+ body::before {content:"";position:fixed;inset:3mm;border:3px double #5c4434;pointer-events:none;z-index:2147483647;}
+ .report-page {outline:3px double #5c4434;outline-offset:-3px;}
+}
+</style>
+<script id="kp-client-presentation-script">
+(function(){
+ const privateTabs=['ayan','lmt','stcalc','raphael5','planet'];
+ const coordinates=[];
+ function format(n,longitude){if(!Number.isFinite(n))return '';const total=Math.round(Math.abs(n)*3600),d=Math.floor(total/3600),m=Math.floor(total%3600/60),s=total%60;return `${d}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} ${longitude?(n<0?'W':'E'):(n<0?'S':'N')}`;}
+ function parse(text,longitude){const match=String(text).trim().match(/^(-?\d{1,3})\s*[:°\s]\s*(\d{1,2})\s*[:′'\s]\s*(\d{1,2}(?:\.\d+)?)\s*[″"]?\s*([NSEW])?$/i);if(!match)return NaN;const d=Number(match[1]),m=Number(match[2]),s=Number(match[3]),h=(match[4]||'').toUpperCase();if(m>=60||s>=60||h&&!(longitude?'EW':'NS').includes(h))return NaN;const n=(Math.abs(d)+m/60+s/3600)*(d<0||h==='S'||h==='W'?-1:1);return Math.abs(n)<=(longitude?180:90)?n:NaN;}
+ function installCoordinates(){for(const prefix of ['tc','tp','na','rpw','mm-boy','mm-girl'])for(const axis of ['latitude','longitude']){const source=document.getElementById(prefix+'-'+axis);if(!source||source.dataset.dmsInstalled)continue;source.dataset.dmsInstalled='true';source.classList.add('kp-coordinate-source');const mirror=document.createElement('input');mirror.type='text';mirror.id=source.id+'-dms';mirror.className='kp-coordinate-dms';mirror.dataset.calculationLocked='true';mirror.placeholder=axis==='longitude'?'73:47:28 E':'19:59:50 N';mirror.setAttribute('aria-label',axis+' · degrees:minutes:seconds');source.after(mirror);const label=source.closest('label')||document.querySelector('label[for="'+source.id+'"]');const labelText=label===source.parentElement?[...label.childNodes].find(n=>n.nodeType===3):label;const originalLabel=labelText?.textContent||'';const refresh=()=>{if(labelText)labelText.textContent=document.body.classList.contains('kp-client-mode')?axis+' · D:M:S ':originalLabel;if(document.activeElement!==mirror)mirror.value=source.value===''?'':format(Number(source.value),axis==='longitude');};mirror.addEventListener('change',()=>{const n=parse(mirror.value,axis==='longitude');mirror.setCustomValidity(Number.isFinite(n)?'':'Enter valid degrees:minutes:seconds and N/S or E/W.');if(!Number.isFinite(n)){mirror.reportValidity();return;}source.value=String(n);source.dispatchEvent(new Event('input',{bubbles:true}));source.dispatchEvent(new Event('change',{bubbles:true}));refresh();});source.addEventListener('input',refresh);source.addEventListener('change',refresh);coordinates.push(refresh);refresh();}}
+ function setClient(enabled=true){document.body.classList.toggle('kp-client-mode',enabled);for(const tab of privateTabs){document.getElementById(tab)?.setAttribute('data-private-calculation','true');document.querySelectorAll('[data-tab="'+tab+'"]').forEach(n=>n.dataset.privateCalculation='true');}document.querySelectorAll('.na-ref-calculation,details.na-ref-trace').forEach(n=>n.dataset.privateCalculation='true');installCoordinates();coordinates.forEach(f=>f());}
+ window.KPClientPresentation={setClient,formatCoordinate:format,refreshCoordinates:()=>coordinates.forEach(f=>f()),privateTabs};
+ document.addEventListener('DOMContentLoaded',installCoordinates);
+ window.addEventListener('chart-saved',()=>coordinates.forEach(f=>f()));
+})();
+</script>
+
+<style id="kp-reference-transit-compact-style">
+@media screen and (min-width:901px) {
+  #transit-chart.tc-reference-compact-ready .tc-diagram:has(> svg) { height:var(--tc-reference-diagram-height); min-height:0; overflow:hidden; }
+  #transit-chart.tc-reference-compact-ready .tc-diagram > svg { display:block; width:100%; height:auto; transform:scaleY(var(--tc-reference-diagram-scale)); transform-origin:50% 0; }
+  #transit-chart.tc-reference-compact-ready .tc-diagram > svg text { transform-box:fill-box; transform-origin:center; transform:scaleY(var(--tc-reference-text-scale)); }
+  #transit-chart .tc-chart-column > article:not(.tc-reference-advance) { margin-bottom:7px; }
+  #transit-chart .tc-table th,#transit-chart .tc-table td { padding-block:2px; }
+}
+</style>
+<script id="kp-reference-transit-compact-script">
+(() => {
+  'use strict';
+  function initialize(){
+    const section=document.getElementById('transit-chart');
+    const mounts=['tc-rashi-chart','tc-bhav-chart'].map(id=>document.getElementById(id)).filter(Boolean);
+    if(!section||!mounts.length||section.dataset.referenceCompact)return;
+    section.dataset.referenceCompact='true';
+    const desktop=window.matchMedia('(min-width:901px)');let scheduled=false;
+    function resize(){
+      scheduled=false;
+      const mount=mounts.find(candidate=>candidate.querySelector('svg')&&candidate.clientWidth>0),svg=mount?.querySelector('svg');
+      if(!desktop.matches||!svg){section.classList.remove('tc-reference-compact-ready');return;}
+      const width=mount.clientWidth,box=svg.viewBox.baseVal,nativeHeight=width*box.height/box.width;
+      if(!Number.isFinite(nativeHeight)||nativeHeight<=0)return;
+      const height=Math.max(240,Math.min(280,width*.6)),scale=Math.min(1,(height-3)/nativeHeight);
+      // The section is not cloned into the report; the original SVG and its mount stay unchanged.
+      section.style.setProperty('--tc-reference-diagram-height',height+'px');
+      section.style.setProperty('--tc-reference-diagram-scale',String(scale));
+      section.style.setProperty('--tc-reference-text-scale',String(1/scale));
+      section.classList.add('tc-reference-compact-ready');
+    }
+    function schedule(){if(!scheduled){scheduled=true;requestAnimationFrame(resize);}}
+    const observer=new ResizeObserver(schedule);
+    for(const mount of mounts){observer.observe(mount);new MutationObserver(schedule).observe(mount,{childList:true});}
+    window.addEventListener('resize',schedule);desktop.addEventListener('change',schedule);schedule();
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
+})();
+</script>
+
+<script id="kp-home-readable-fit">
+(()=>{
+ function initialize(){
+  const mount=document.querySelector('#home .home-chart-mount');if(!mount)return;
+  let scheduled=false;
+  function fit(){scheduled=false;if(!mount.clientWidth)return;
+   for(const lane of mount.querySelectorAll('.v38-lane')){
+    if(!lane.dataset.homeBaseScale)lane.dataset.homeBaseScale=lane.style.getPropertyValue('--v38-lane-scale')||'1';
+    let scale=Number(lane.dataset.homeBaseScale)||1;
+    for(let attempt=0;attempt<28;attempt++){
+     lane.style.setProperty('--v38-lane-scale',String(scale));
+     const clipped=[...lane.querySelectorAll('.v38-item')].some(item=>{
+      const box=item.getBoundingClientRect();return [...item.querySelectorAll('.v38-name,.v38-degree,.v38-lords')].some(label=>{
+       const range=document.createRange();range.selectNodeContents(label);const text=range.getBoundingClientRect();
+       return text.left<box.left-.25||text.right>box.right+.25||text.top<box.top-.25||text.bottom>box.bottom+.25;
+      });
+     });
+     if(!clipped)break;scale*=.9;
+    }
+   }
+  }
+  function schedule(){if(!scheduled){scheduled=true;requestAnimationFrame(fit);}}
+  new MutationObserver(schedule).observe(mount,{childList:true,subtree:true});new ResizeObserver(schedule).observe(mount);
+  window.addEventListener('resize',schedule);document.addEventListener('change',schedule);schedule();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
+})();
+</script>
+
 </body>
 </html>
