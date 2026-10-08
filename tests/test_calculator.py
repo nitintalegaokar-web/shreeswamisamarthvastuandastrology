@@ -4144,6 +4144,36 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(updated["dates"], ["2026-10-07", "2026-10-08"])
         self.assertEqual(updated["rows"][0]["utc"], "2026-10-07T05:30:00.000Z")
 
+    def test_dasha_promise_layout_manual_layers_sun_gochar_and_compact_pdf(self):
+        self.prepare_exact_dasha()
+        self.go('dasha-promise')
+        expect(self.page.locator('#dp-result')).to_contain_text('Result:')
+        expect(self.page.locator('#dp-layers .dp-layer')).to_have_count(5)
+        expect(self.page.locator('#dp-sun-transits')).to_contain_text('Sun')
+        self.page.locator('input[name="dp-mode-radio"][value="manual"]').check()
+        self.page.locator('#dp-house-0').fill('1 11')
+        self.page.locator('#dp-house-0').dispatch_event('change')
+        self.assertEqual(self.page.evaluate('KPDashaPromise.refresh().layers[0].houses'),[1,11])
+        self.page.locator('#dp-use-0').uncheck()
+        self.assertFalse(self.page.evaluate('KPDashaPromise.refresh().layers[0].enabled'))
+        self.page.locator('#dp-calculate').click()
+        expect(self.page.locator('#dp-calculate')).to_be_enabled(timeout=60000)
+        expect(self.page.locator('#dp-sun-transits')).to_contain_text('Transit opportunities')
+        with self.page.expect_popup() as opened:self.page.locator('#dasha-promise-preview').click()
+        preview=opened.value
+        try:
+            expect(preview.locator('.dp-report')).to_be_visible()
+            preview.emulate_media(media='print')
+            frame=preview.locator('.report-page').evaluate('n=>({outline:getComputedStyle(n).outlineStyle,minHeight:getComputedStyle(n).minHeight})')
+            self.assertEqual(frame['outline'],'none')
+            self.assertEqual(frame['minHeight'],'0px')
+            import fitz
+            pdf=fitz.open(stream=preview.pdf(format='A4'),filetype='pdf')
+            self.assertIn('Sun gochar',''.join(p.get_text() for p in pdf));pdf.close()
+            preview.emulate_media(media='screen')
+            expect(preview.get_by_role('button',name='Print / Save PDF',exact=True)).to_have_count(1)
+        finally:preview.close()
+
     def test_linked_profession_and_sixth_bhava_disease_references_and_preview(self):
         self.prepare_exact_dasha()
         self.go('education-profession')
