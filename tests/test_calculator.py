@@ -4341,7 +4341,17 @@ class CalculatorBrowserTests(unittest.TestCase):
                     "latitude":"19.9975", "longitude":"73.7898"}
             for key,value in record.items():
                 self.page.locator(f"#mm-{kind}-{key}").fill(value)
-        self.page.locator("#mm-calculate").click()
+        with self.page.expect_popup() as opened:
+            self.page.locator("#mm-calculate").click()
+        preview=opened.value
+        try:
+            expect(preview.locator(".mm-format-report")).to_be_visible()
+            expect(preview.locator(".mm-format-chart svg")).to_have_count(2)
+            expect(preview.locator("#mm-preview-print")).to_be_visible()
+            expect(preview.locator(".mm-format-footer")).to_contain_text("Nitin and Kavita")
+        finally:
+            preview.close()
+        expect(self.page.locator("#matchmaking .mm-format-chart svg")).to_have_count(2)
         expect(self.page.locator("#mm-status")).to_have_attribute("data-state", "ready")
         popup=self.selected_report_popup(["matchmaking"])
         try:

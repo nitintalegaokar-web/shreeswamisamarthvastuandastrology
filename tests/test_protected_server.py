@@ -77,6 +77,15 @@ class ProtectedServerTests(unittest.TestCase):
         self.assertIn('border:3px double',report)
         self.private('()=>KPReportPages.clear()')
         self.assertEqual(self.page.request.get(self.url+'/print').status,400)
+    def test_matchmaking_preview_does_not_automatically_print(self):
+        response=self.page.request.get(self.url+'/match-preview')
+        self.assertEqual(response.status,200)
+        html=response.text()
+        self.assertIn('mm-format-report',html)
+        self.assertIn('Print / Save PDF',html)
+        self.assertNotIn('window.onload=()=>setTimeout(()=>window.print()',html)
+        self.assertEqual(html.count('class="mm-format-chart"'),2)
+
     def test_nadi_reference_panels_are_available_in_customer_interface(self):
         self.go('nadi-astrology')
         expect(self.page.locator('#na-cusp-table tbody tr')).to_have_count(12)
