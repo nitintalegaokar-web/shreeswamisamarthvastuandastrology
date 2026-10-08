@@ -582,6 +582,28 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(report.locator("input,select,button,textarea")).to_have_count(0)
         popup.close()
 
+    def test_saved_theme_survives_reopening_and_older_chart_restore(self):
+        self.prepare_exact_dasha()
+        self.action("save")
+        self.page.evaluate("KPPreferences.save({...KPPreferences.get(),theme:'royal-blue',themeType:'dark',themeHeader:'#3155b6',themeBackground:'#171d24',planetColorSu:'#ff9944'})")
+        self.page.reload()
+        self.page.wait_for_function("window.KPPreferences?.get().themeType==='dark'")
+        self.action("load")
+        self.assertEqual(self.page.evaluate("KPPreferences.get().theme"),'royal-blue')
+        self.assertEqual(self.page.evaluate("KPPreferences.get().themeType"),'dark')
+        self.assertEqual(self.page.evaluate("KPPreferences.get().planetColorSu"),'#ff9944')
+        self.go("astrosettings")
+        self.page.locator('#settings-tab-themes').click()
+        expect(self.page.locator('#setting-theme option')).to_have_count(5)
+        self.page.locator('#setting-theme').select_option('sky')
+        expect(self.page.locator('#setting-themeHeader')).to_have_value('#227da8')
+        self.page.locator('#setting-themeType').select_option('light')
+        expect(self.page.locator('#setting-themeBackground')).to_have_value('#f0f9ff')
+        self.page.locator('#settings-save').click()
+        self.page.reload()
+        self.page.wait_for_function("window.KPPreferences?.get().theme==='sky'")
+        self.assertEqual(self.page.evaluate("KPPreferences.get().themeType"),'light')
+
     def test_rotation_remaps_home_significators_without_changing_natal_model_and_colours_persist(self):
         self.prepare_exact_dasha()
         model=self.page.evaluate("JSON.stringify(currentKPModel)")
