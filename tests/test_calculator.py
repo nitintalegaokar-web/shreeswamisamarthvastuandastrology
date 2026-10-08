@@ -582,6 +582,31 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(report.locator("input,select,button,textarea")).to_have_count(0)
         popup.close()
 
+    def test_rotation_remaps_home_significators_without_changing_natal_model_and_colours_persist(self):
+        self.prepare_exact_dasha()
+        model=self.page.evaluate("JSON.stringify(currentKPModel)")
+        self.go("home")
+        self.page.locator('[data-home-view="fourfold"]').click()
+        first=self.page.locator('#home-planets tbody tr').first.locator('[data-field="A"]')
+        before=first.inner_text()
+        self.page.evaluate("KPHomeChartReference.setHouse(3)")
+        self.page.wait_for_timeout(150)
+        remapped=re.sub(r"\b(?:1[0-2]|[1-9])\b",lambda m:str((int(m[0])-3+12)%12+1),before)
+        self.assertEqual(first.inner_text(),remapped)
+        self.assertEqual(self.page.locator('#home-houses tbody tr').first.get_attribute('data-house'),'3')
+        self.assertEqual(self.page.evaluate("JSON.stringify(currentKPModel)"),model)
+        self.page.evaluate("KPHomeChartReference.setHouse(1)")
+        self.assertEqual(first.inner_text(),before)
+        self.page.evaluate("KPPreferences.save({...KPPreferences.get(),themeHeader:'#224466',planetColorSu:'#bb2200'})")
+        self.assertEqual(self.page.evaluate("KPPreferences.get().planetColorSu"),'#bb2200')
+        self.assertEqual(self.page.locator('#home-planets thead th').first.evaluate("n=>getComputedStyle(n).backgroundColor"),'rgb(34, 68, 102)')
+        self.assertEqual(self.page.locator('#home-planets [data-planet-ref="Su"] .kp-planet-label').first.evaluate("n=>getComputedStyle(n).color"),'rgb(187, 34, 0)')
+        markers=self.page.locator('#home-planets tbody th .kp-notation-marker').evaluate_all("nodes=>nodes.map(n=>({width:n.getBoundingClientRect().width, parent:n.closest('th').getBoundingClientRect().width}))")
+        self.assertTrue(markers)
+        self.assertTrue(all(m['width']>0 and m['width']<=m['parent'] for m in markers))
+        self.page.reload()
+        self.assertEqual(self.page.evaluate("KPPreferences.get().planetColorSu"),'#bb2200')
+
     def test_significator_notations_only_appear_in_first_column(self):
         self.prepare_exact_dasha()
         for root in ("#kp-fourfold", "#kp-sixfold"):
