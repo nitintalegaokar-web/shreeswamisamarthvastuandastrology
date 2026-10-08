@@ -28,7 +28,7 @@ from playwright.sync_api import expect, sync_playwright
 REPOSITORY = Path(__file__).resolve().parents[1]
 SECTIONS = (
     "home", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet", "mdcalc",
-    "karyesh", "prediction", "event-promise", "nadi-astrology", "ruling-planets", "matchmaking", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris", "south9", "report", "astrosettings",
+    "karyesh", "event-promise", "nadi-astrology", "ruling-planets", "matchmaking", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris", "south9", "report", "astrosettings",
 )
 OUTPUT_IDS = (
     "ayanValue", "lonDifference", "lmtFinal", "birthPlaceSiderealTime",
@@ -38,7 +38,7 @@ OUTPUT_IDS = (
 REPORT_PAGE_SECTIONS = (
     "cover", "single-page", "basic", "ayan", "lmt", "stcalc", "raphael5", "planet",
     "mdcalc", "adcalc", "kp-fourfold", "kp-sixfold", "kp-fourstep-section",
-    "prediction", "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris",
+    "aspects", "transit", "transit-chart", "transit-panchang", "ephemeris",
     "event-promise", "nadi-astrology", "ruling-planets", "matchmaking", "south9",
 )
 # Angles and short codes transcribed from the requested aspect reference.
@@ -1573,6 +1573,57 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.go("report")
         self.assertEqual(self.page.locator("#printReport > .report-page").count(), len(REPORT_PAGE_SECTIONS))
         expect(self.page.locator('#printReport > [data-report-section="home"]')).to_have_count(0)
+
+    def test_prediction_tab_and_uploaded_catalogues_are_removed(self):
+        expect(self.page.locator('[data-tab="prediction"],#prediction,#kp-prediction-catalogue,#kp-prediction-reference-catalogue')).to_have_count(0)
+        self.prepare_exact_dasha()
+        self.go("report")
+        expect(self.page.locator('[data-report-section="prediction"]')).to_have_count(0)
+        self.go("event-promise")
+        expect(self.page.locator("#ep-event")).to_contain_text("Custom")
+        self.assertFalse(self.page.evaluate("Boolean(window.KPPrediction || window.KPPredictionLibrary)"))
+
+    def test_selected_dasha_rows_remain_readable_in_home_and_nadi_all_themes(self):
+        self.prepare_exact_dasha()
+        self.go("home")
+        for depth in range(5):
+            rows = self.page.locator("#home-dasha-table tbody tr")
+            expect(rows).to_have_count(9)
+            for theme in ("classic", "light", "lavender"):
+                self.page.evaluate("theme => document.body.dataset.kpTheme = theme", theme)
+                self.go("home")
+                badges = self.page.locator("#home-notations-legend b").evaluate_all("""nodes => nodes.map(n=>{
+                    const c=getComputedStyle(n);return {text:n.textContent,color:c.color,bg:c.backgroundColor,size:parseFloat(c.fontSize)};
+                })""")
+                self.assertEqual({b["text"] for b in badges}, {"[+]", "[#]", "[*]", "[R]", "[C]", "[e]"})
+                for badge in badges:
+                    self.assertEqual(badge["color"], "rgb(24, 33, 43)")
+                    self.assertEqual(badge["bg"], "rgb(255, 255, 255)")
+                    self.assertGreaterEqual(badge["size"], 9)
+                for tab, selector in (("home", "#home-dasha-table"),
+                                      ("nadi-astrology", "#na-reference-dasha table")):
+                    self.go(tab)
+                    colors = self.page.locator(selector).evaluate("""table => {
+                        const row=table.querySelector('tr.is-selected');
+                        if(!row)return null;
+                        function luminance(color){const rgb=color.match(/[0-9.]+/g).slice(0,3).map(Number).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;});return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];}
+                        return [...row.cells].map(cell=>{
+                            const bg=luminance(getComputedStyle(cell).backgroundColor);
+                            const nodes=[cell,...cell.querySelectorAll('button,span')];
+                            return {text:cell.textContent.trim(), contrasts:nodes.map(n=>{
+                                const fg=luminance(getComputedStyle(n).color);
+                                return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05);
+                            })};
+                        });
+                    }""")
+                    self.assertIsNotNone(colors)
+                    for cell in colors:
+                        self.assertTrue(cell["text"])
+                        self.assertGreaterEqual(min(cell["contrasts"]), 4.5,
+                            f"{tab} {theme} depth {depth}: selected lord/date must be readable")
+            self.go("home")
+            if depth < 4:
+                self.page.locator("#home-dasha-table tr.is-selected button").click()
 
     def test_home_refreshes_after_edits_save_load_and_json_import(self):
         self.prepare_exact_dasha()
@@ -3768,55 +3819,20 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#eph-run")).to_be_enabled()
         self.assertEqual(self.outputs(), natal)
 
-    def test_new_prediction_almanac_tabs_restore_lkp_and_print_all_rows_in_mobile_navigation(self):
+    def test_almanac_tabs_restore_lkp_and_print_all_rows_in_mobile_navigation(self):
         self.prepare_exact_dasha()
         self.configure_transit_panchang(date="2026-10-05", time="19:00:00", offset="-5")
         self.configure_daily_ephemeris()
-        self.go("prediction")
-        settings = {"pred-language": "marathi", "pred-method": "sixfold", "pred-chain-mode": "cusp-lords",
-                    "pred-match-filter": "all", "pred-main-house": "0"}
-        for id, value in settings.items():
-            self.page.locator(f"#{id}").select_option(value)
-        self.page.locator("#pred-layer-STL").uncheck()
-        self.page.locator("#pred-require-main").check()
         self.action("save")
         backup = self.page.evaluate("JSON.parse(localStorage.getItem('kpRaphaelData'))")
-        for id, value in settings.items():
-            self.assertEqual(backup["fields"][id]["value"], value)
-        self.assertFalse(backup["fields"]["pred-layer-STL"]["checked"])
-        self.assertTrue(backup["fields"]["pred-require-main"]["checked"])
         self.assertEqual(backup["fields"]["tp-timezone"]["value"], "-5")
-        self.assertEqual(backup["fields"]["eph-start"]["value"], "2026-10-06")
-        self.assertFalse(any(key.startswith(("pred-event", "tp-summary", "eph-table")) for key in backup["fields"]),
-                         "Only chosen settings belong in .lkp; calculated sheets are rebuilt from current data.")
-        self.page.locator("#pred-language").select_option("english")
-        self.page.locator("#pred-method").select_option("fourfold")
-        self.page.locator("#pred-layer-STL").check()
-        self.import_file(json.dumps(backup, ensure_ascii=False), filename="prediction-panchang-ephemeris.lkp")
-        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
-        for id, value in settings.items():
-            expect(self.page.locator(f"#{id}")).to_have_value(value)
-        expect(self.page.locator("#pred-layer-STL")).not_to_be_checked()
-        expect(self.page.locator("#pred-require-main")).to_be_checked()
-        self.assertEqual(self.page.evaluate("window.KPPrediction.getData().options"),
-                         {"method": "sixfold", "chainMode": "cusp-lords", "layers": ["CSL", "SBL"],
-                          "requireMain": True, "language": "marathi"})
+        self.import_file(json.dumps(backup), filename="panchang-ephemeris.lkp")
         self.assertEqual(self.page.evaluate("window.KPTransitPanchang.getData().utc"), "2026-10-06T00:00:00.000Z")
-        self.assertIsNone(self.page.evaluate("window.KPDailyEphemeris.getData()"),
-                          "Import must clear an old generated ephemeris until it is recalculated.")
         self.configure_daily_ephemeris()
-        self.go("prediction")
-        self.page.locator("#pred-print").click()
-        expect(self.page.locator("main > #report")).to_be_visible()
-        checked = self.page.locator('#report-page-options input:checked').evaluate_all("items=>items.map(item=>item.dataset.reportPageKey)")
-        self.assertEqual(checked, ["prediction"])
-
-        popup = self.selected_report_popup(["prediction", "transit-panchang", "ephemeris"])
+        popup = self.selected_report_popup(["transit-panchang", "ephemeris"])
         try:
             self.assertEqual(popup.locator("body > .report-page").evaluate_all("pages=>pages.map(page=>page.dataset.reportSection)"),
-                             ["prediction", "transit-panchang", "ephemeris"])
-            expect(popup.locator('[data-report-section="prediction"] [data-pred-event]')).to_have_count(1612)
-            expect(popup.locator('[data-report-section="prediction"] [data-pred-cusp]')).to_have_count(12)
+                             ["transit-panchang", "ephemeris"])
             expect(popup.locator('[data-report-section="transit-panchang"] tr[data-planet]')).to_have_count(10)
             expect(popup.locator('[data-report-section="ephemeris"] tr[data-planet]')).to_have_count(18)
             expect(popup.locator("input,select,button,textarea")).to_have_count(0)
@@ -3835,7 +3851,7 @@ class CalculatorBrowserTests(unittest.TestCase):
             popup.close()
 
         self.page.set_viewport_size({"width": 390, "height": 844})
-        for section in ("prediction", "transit-panchang", "ephemeris"):
+        for section in ("transit-panchang", "ephemeris"):
             self.go(section)
             expect(self.page.locator("#menu-toggle")).to_have_attribute("aria-expanded", "false")
             self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"), 391,
@@ -3843,120 +3859,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.page.locator("#menu-toggle").click()
         expect(self.page.locator(".app-sidebar [data-tab]")).to_have_count(len(SECTIONS))
 
-    def test_prediction_chain_analysis_proves_house_groups_and_selected_layers_independently(self):
-        # This synthetic chart deliberately gives every main cusp CSL Su,
-        # whose own star and sub lords differ from the cusp's star lord Sa.
-        # The expected evidence is authored here, independent of KPDisplay.
-        ids = ("Su", "Mo", "Ma", "Me", "Ju", "Ve", "Sa", "Ra", "Ke")
-        planets = [{"id": id, "stl": "Mo", "sl": "Ma"} for id in ids]
-        four = [{"id": id, "A": [], "B": [], "C": [], "D": []} for id in ids]
-        for row in four:
-            if row["id"] == "Su": row["A"] = [2]
-            if row["id"] == "Mo": row["B"] = [3]
-            if row["id"] == "Ma": row["C"] = [4]
-            if row["id"] == "Sa": row["D"] = [8]
-        six = [{**row, "E": [5] if row["id"] == "Su" else [], "F": []} for row in four]
-        model = {"ready": True, "planets": planets,
-                 "houses": [{"id": i, "sl": "Su", "stl": "Sa"} for i in range(1, 13)],
-                 "fourfold": {"planets": four}, "sixfold": {"planets": six}}
-        groups = ([2, 3, 4], [2, 11], [11], [2], [2, 5])
-        events = [{"id": i, "event": {"en": f"Evidence {i}"}, "mainHouses": [1],
-                   "supportingHouses": list(group), "supportingGroups": [list(group)],
-                   "automaticEligible": True} for i, group in enumerate(groups, 1)]
-        events.append({"id": 6, "event": {"en": "Conditional rule"}, "mainHouses": [1],
-                       "supportingHouses": [2], "supportingGroups": [], "automaticEligible": False})
-        catalogue = {"events": events}
-        actual = self.page.evaluate("""({model,catalogue})=>Object.fromEntries([
-            ['all',{}],['cslOnly',{layers:['CSL']}],['cuspLords',{chainMode:'cusp-lords'}],
-            ['mainRequired',{requireMain:true}],['sixfold',{method:'sixfold'}],
-            ['missing',{model:{...model,ready:false,reason:'Missing natal planets'}}]
-        ].map(([key,options])=>[key,window.KPPrediction.analyze(options.model||model,{...options,catalogue})]))""",
-                                    {"model": model, "catalogue": catalogue})
-        self.assertEqual([row["status"] for row in actual["all"]["results"]],
-                         ["matched", "partial", "unmatched", "matched", "partial", "review"])
-        proof = actual["all"]["results"][0]["proof"]
-        self.assertEqual(proof["chain"], {"CSL": "Su", "STL": "Mo", "SBL": "Ma"})
-        self.assertEqual(proof["signifiedHouses"], [2, 3, 4])
-        self.assertEqual(proof["matchedHouses"], [2, 3, 4])
-        self.assertEqual(proof["missingHouses"], [])
-        self.assertEqual(proof["contributions"], [
-            {"house": 2, "sources": [{"role": "CSL", "planet": "Su", "level": "A"}]},
-            {"house": 3, "sources": [{"role": "STL", "planet": "Mo", "level": "B"}]},
-            {"house": 4, "sources": [{"role": "SBL", "planet": "Ma", "level": "C"}]},
-        ])
-        self.assertEqual(actual["cslOnly"]["results"][0]["proof"]["missingHouses"], [3, 4])
-        self.assertEqual(actual["cslOnly"]["results"][0]["status"], "partial")
-        self.assertEqual(actual["cuspLords"]["chains"][0]["houses"], [2, 8])
-        self.assertEqual(actual["cuspLords"]["results"][0]["proof"]["chain"],
-                         {"CSL": "Su", "STL": "Sa", "SBL": "Su"})
-        self.assertEqual(actual["mainRequired"]["results"][3]["proof"]["requiredHouses"], [1, 2])
-        self.assertEqual(actual["mainRequired"]["results"][3]["status"], "partial")
-        self.assertEqual(actual["sixfold"]["results"][4]["status"], "matched")
-        self.assertEqual(actual["sixfold"]["fields"], list("ABCDEF"))
-        self.assertFalse(actual["missing"]["ready"])
-        self.assertEqual(actual["missing"]["counts"]["incomplete"], 6)
 
-    def test_prediction_workbook_provenance_live_chains_filters_and_csv_include_all_rows(self):
-        self.prepare_exact_dasha()
-        self.go("prediction")
-        expect(self.page.locator("#pred-status")).to_have_attribute("data-ready", "true")
-        data = self.page.evaluate("window.KPPrediction.getData()")
-        catalogue = self.page.evaluate("window.KPPrediction.getCatalogue()")
-        self.assertEqual(len(catalogue["events"]), 1612)
-        self.assertEqual(sum(event["automaticEligible"] for event in catalogue["events"]), 1398)
-        self.assertEqual(data["counts"]["review"], 214)
-        expect(self.page.locator("#pred-chain-table tbody tr")).to_have_count(12)
-        self.page.locator("#pred-match-filter").select_option("all")
-        expect(self.page.locator("#pred-event-rows tr")).to_have_count(60)
-        actual_chains = self.page.evaluate("""()=>window.currentKPModel.houses.map(cusp=>{
-            const csl=window.currentKPModel.planets.find(planet=>planet.id===cusp.sl);
-            return {cusp:cusp.id,CSL:cusp.sl,STL:csl.stl,SBL:csl.sl};
-        })""")
-        self.assertEqual([{key: chain[key] for key in ("cusp", "CSL", "STL", "SBL")}
-                          for chain in data["chains"]], actual_chains)
-        indexed = {event["id"]: event for event in catalogue["events"]}
-        self.assertEqual(indexed[1300]["event"], {"en": None, "mr": "कार्यक्षेत्रात निराशा"})
-        self.assertEqual(indexed[1301]["sources"]["en"]["row"], 1301)
-        self.assertEqual(indexed[1301]["sources"]["mr"]["row"], 1302)
-        self.assertEqual(indexed[700]["sources"]["en"]["supporting"], "11,1")
-        self.assertEqual(indexed[700]["sources"]["mr"]["supporting"], "1, 4, 11")
-        by_id = {row["id"]: row for row in data["results"]}
-        self.assertEqual(by_id[700]["status"], "review")
-        self.assertEqual(by_id[1300]["status"], "review")
-
-        # Screen pagination must not truncate the export or printed sheet.
-        csv_rows = list(csv.reader(io.StringIO(self.page.evaluate("window.KPPrediction.csv()").lstrip("\ufeff"))))
-        self.assertEqual(len(csv_rows), 1613)
-        self.assertEqual(csv_rows[-1][0], "1612")
-        snapshot_rows = self.page.evaluate("""()=>{
-            const root=document.createElement('div');root.innerHTML=window.KPPrediction.snapshot();
-            return {events:root.querySelectorAll('[data-pred-event]').length,
-                    cusps:root.querySelectorAll('[data-pred-cusp]').length,
-                    controls:root.querySelectorAll('input,select,button,textarea').length};
-        }""")
-        self.assertEqual(snapshot_rows, {"events": 1612, "cusps": 12, "controls": 0})
-        self.page.locator("#pred-match-filter").select_option("review")
-        expect(self.page.locator("#pred-print-count")).to_contain_text("214")
-        self.page.locator("#pred-search").fill("कार्यक्षेत्रात निराशा")
-        expect(self.page.locator('#pred-event-rows [data-pred-event="1300"]')).to_have_count(1)
-        self.page.locator("#pred-language").select_option("marathi")
-        expect(self.page.locator('#pred-event-rows [data-pred-event="1300"]')).to_contain_text("कार्यक्षेत्रात निराशा")
-        self.page.locator('#pred-event-rows [data-pred-detail="1300"]').click()
-        expect(self.page.locator("#pred-event-detail")).to_contain_text("Marathi Prediction")
-        expect(self.page.locator("#pred-event-detail")).to_contain_text("1301")
-        self.page.locator("#pred-method").select_option("sixfold")
-        self.page.locator('#pred-layers input[value="STL"]').uncheck()
-        self.assertEqual(self.page.evaluate("window.KPPrediction.getData().options.layers"), ["CSL", "SBL"])
-        self.assertEqual(self.page.evaluate("window.KPPrediction.getData().fields"), list("ABCDEF"))
-        self.go("planet")
-        self.page.locator("#p6_d_1").fill("")
-        self.page.locator("#p6_t_1").fill("")
-        self.action("calculate")
-        self.go("prediction")
-        expect(self.page.locator("#pred-status")).to_have_attribute("data-ready", "false")
-        expect(self.page.locator("#pred-chain-table")).to_have_count(0)
-        self.assertEqual(self.page.evaluate("window.KPPrediction.getData().counts.incomplete"), 1612,
-                         "An incomplete natal chart must replace prior house matches.")
 
     def test_automatic_0530_worksheet_ephemeris_matches_independent_reference_without_double_ayanamsha(self):
         expect(self.page.locator("#p6-ephemeris-source")).to_have_value("manual")
@@ -4312,102 +4215,8 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#p6-ephemeris-status")).to_have_attribute("data-ready", "true")
         self.assertTrue(self.page.evaluate("window.KPWorksheetEphemeris.getData().ready"))
 
-    def test_prediction_reference_library_preserves_all_seven_sources_duplicates_and_original_text(self):
-        catalogue = self.page.evaluate("window.KPPredictionLibrary.getCatalogue()")
-        entries = catalogue["entries"]
-        self.assertEqual(len(entries), 6213)
-        self.assertEqual(len({entry["id"] for entry in entries}), 6213)
-        expected = {"Ratna.txt": 18, "Bhavfal.txt": 2869, "Prediction.txt": 824,
-                    "Events.txt": 1046, "Dahs Fal Short.txt": 391,
-                    "dashafal.txt": 1017, "Mahadasha.txt": 48}
-        self.assertEqual({source["file"]: source["entries"] for source in catalogue["sources"]}, expected)
-        self.assertEqual({file: sum(entry["file"] == file for entry in entries) for file in expected}, expected)
-        import hashlib
-        projection = [[entry["file"], entry["line"], entry["key"], entry["value"], entry["rawValue"], entry.get("continuationLines", [])] for entry in entries]
-        digest = hashlib.sha256(json.dumps(projection, ensure_ascii=False, separators=(",", ":")).encode("utf-8")).hexdigest()
-        self.assertEqual(digest, "c62d1db97896174b09d550d4ca319cdbd53bea4a3a6ac5cb846057acca6cdc2c")
-        self.assertEqual(len(catalogue["categories"]), 7)
-        repeated = [entry for entry in entries if entry["file"] == "Bhavfal.txt" and entry["key"] == "Bh9R35912"]
-        self.assertEqual([entry["line"] for entry in repeated], [1630, 1748])
-        self.assertEqual([entry["duplicateCount"] for entry in repeated], [2, 2])
-        self.assertNotEqual(repeated[0]["value"], repeated[1]["value"], "A repeated key must not overwrite its other source paragraph.")
-        remedy = next(entry for entry in entries if entry["file"] == "Ratna.txt" and entry["key"] == "RatnaH")
-        self.assertTrue(remedy["rawValue"].startswith(" To get full auspicious result"))
-        self.assertIn("\\n At the time", remedy["rawValue"], "Literal newline markers remain source data.")
-        malformed = next(entry for entry in entries if entry["file"] == "dashafal.txt" and entry["key"] == "DasaC34511HN")
-        self.assertEqual(malformed["value"], "3,4,511")
-        self.assertEqual(malformed["mappingStatus"], "review")
-        self.assertNotIn(511, malformed["houses"], "The invalid source number must not become an inferred house rule.")
-        self.go("prediction")
-        expect(self.page.locator("#pred-reference-view")).to_have_value("analysis")
-        expect(self.page.locator("#pred-analysis-panel")).to_be_visible()
-        self.page.locator("#pred-reference-view").select_option("library")
-        self.page.locator("#pred-library-category").select_option("house-results")
-        self.page.locator("#pred-library-search").fill("Bh9R35912")
-        expect(self.page.locator("#pred-library-records [data-reference-entry]")).to_have_count(2)
-        self.assertEqual(self.page.evaluate("window.KPPredictionLibrary.getData().count"), 2)
 
-    def test_prediction_reference_csv_and_print_include_every_filtered_record_beyond_screen_pagination(self):
-        self.go("prediction")
-        self.page.locator("#pred-reference-view").select_option("library")
-        self.page.locator("#pred-library-category").select_option("events")
-        expect(self.page.locator("#pred-library-records [data-reference-entry]")).to_have_count(30)
-        expect(self.page.locator("#pred-library-page")).to_contain_text("1–30 of 1046")
-        self.page.locator("#pred-library-next").click()
-        expect(self.page.locator("#pred-library-page")).to_contain_text("31–60 of 1046")
-        self.assertEqual(self.page.evaluate("window.KPPredictionLibrary.getData().rows.length"), 1046)
-        with self.page.expect_download() as download_info:
-            self.page.locator("#pred-library-csv").click()
-        download = download_info.value
-        self.assertTrue(download.suggested_filename.endswith(".csv"))
-        exported = list(csv.reader(io.StringIO(Path(download.path()).read_text(encoding="utf-8-sig"))))
-        self.assertEqual(len(exported), 1047, "CSV includes all matching entries, not only the current thirty.")
-        self.assertTrue(all(len(row) == 16 for row in exported))
-        partnership = [row for row in exported[1:] if row[6] == "Profit from partnership"]
-        self.assertEqual(len(partnership), 3, "Source duplicates must remain separate CSV records.")
-        snapshot = self.page.evaluate("""() => {
-            const root = document.createElement('div'); root.innerHTML = window.KPPredictionLibrary.snapshot();
-            return {records:root.querySelectorAll('[data-reference-entry]').length,
-                    controls:root.querySelectorAll('input,select,button,textarea').length};
-        }""")
-        self.assertEqual(snapshot, {"records": 1046, "controls": 0})
-        self.page.locator("#pred-library-print").click()
-        expect(self.page.locator("main > #report")).to_be_visible()
-        expect(self.page.locator('#printReport > [data-report-section="prediction"] [data-reference-entry]')).to_have_count(1046)
-        selected = self.page.evaluate("[...document.querySelectorAll('#report-page-options input:checked')].map(input=>input.dataset.reportPageKey)")
-        self.assertEqual(selected, ["prediction"])
 
-    def test_prediction_reference_filters_restore_across_categories_and_legacy_files_keep_analysis_available(self):
-        self.go("prediction")
-        self.page.locator("#pred-reference-view").select_option("library")
-        self.page.locator("#pred-library-category").select_option("mahadasha-remedies")
-        self.page.locator("#pred-library-subgroup").select_option("MD/AD remedies")
-        self.assertEqual(self.page.evaluate("window.KPPredictionLibrary.getData().count"), 9)
-        backup = self.page.evaluate("window.getChartData()")
-        for field, expected in (("pred-reference-view", "library"), ("pred-library-category", "mahadasha-remedies"),
-                                ("pred-library-subgroup", "MD/AD remedies"), ("pred-library-search", "")):
-            self.assertEqual(backup["fields"][field]["value"], expected)
-        self.page.locator("#pred-library-category").select_option("house-results")
-        self.page.locator("#pred-library-search").fill("changed")
-        self.import_file(json.dumps(backup), filename="reference-filters.lkp")
-        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
-        expect(self.page.locator("#pred-library-category")).to_have_value("mahadasha-remedies")
-        expect(self.page.locator("#pred-library-subgroup")).to_have_value("MD/AD remedies")
-        expect(self.page.locator("#pred-library-search")).to_have_value("")
-        self.assertEqual(self.page.evaluate("window.KPPredictionLibrary.getData().count"), 9)
-        self.page.set_viewport_size({"width": 390, "height": 844})
-        widths = self.page.evaluate("({viewport:innerWidth,document:document.documentElement.scrollWidth})")
-        self.assertLessEqual(widths["document"], widths["viewport"], "Reference paragraphs and controls must fit the mobile screen.")
-        legacy = json.loads(json.dumps(backup))
-        for field in ("pred-reference-view", "pred-library-category", "pred-library-subgroup", "pred-library-search"):
-            legacy["fields"].pop(field)
-        self.import_file(json.dumps(legacy), filename="legacy-before-reference-library.lkp")
-        expect(self.page.locator("#workspace-toast")).to_contain_text("Chart imported.")
-        self.go("prediction")
-        expect(self.page.locator("#pred-reference-view")).to_have_value("analysis")
-        expect(self.page.locator("#pred-analysis-panel")).to_be_visible()
-        expect(self.page.locator("#pred-library-category")).to_have_value("all")
-        expect(self.page.locator("#pred-library-subgroup")).to_have_value("all")
 
     def test_horary_249_and_2193_boundaries_exact_planets_dst_and_legacy_import(self):
         # Independent Vimshottari proportions: Revati's last sub is Saturn
