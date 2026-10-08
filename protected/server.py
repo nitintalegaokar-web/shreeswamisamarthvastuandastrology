@@ -18,6 +18,7 @@ MAX_BODY = 5_000_000
 BOOT = r"""() => {
  window.KPProtectedWorker=true;
  window.KPClientPresentation.setClient(true);
+ for(const tab of KPClientPresentation.privateTabs)document.getElementById('quick-'+tab)?.setAttribute('data-private-calculation','true');
  for(const id of ['st-ephemeris-source','p6-ephemeris-source'])document.getElementById(id).value='automatic';
  document.getElementById('kp-ayanamsha-source').value='annual';
  document.querySelectorAll('.formula,.formula-text,.raphael5-formulas,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line').forEach(n=>n.dataset.privateCalculation='true');
@@ -55,7 +56,7 @@ SNAPSHOT = r"""() => {
  clone.querySelectorAll('button').forEach(n=>{const live=document.querySelector('[data-bridge-id="'+n.dataset.bridgeId+'"]');const code=live?.getAttribute('onclick')||'';if(actions[n.dataset.action])n.dataset.clientAction=actions[n.dataset.action];if(n.id==='choose-report-cover-photo')n.dataset.clientAction='photo';if(/exportChart|downloadBackup|exportBackup/i.test(code)||/export.*lkp|download.*lkp/i.test(n.textContent))n.dataset.clientAction='export';if(/importChart|loadBackup|importBackup/i.test(code)||/import.*lkp|open.*lkp/i.test(n.textContent))n.dataset.clientAction='import';if(/printReport|window.print/i.test(code)||n.id==='print-selected-report')n.dataset.clientAction='print';if(/download.*software/i.test(n.textContent))n.remove();});
  window.__bridgeAllowed=new Set([...clone.querySelectorAll('[data-bridge-id]')].map(n=>n.dataset.bridgeId));
  const bodyData={...document.body.dataset};
- return {html:clone.innerHTML,css:[...document.querySelectorAll('style')].map(n=>n.textContent).join('\n'),bodyClass:document.body.className,bodyData,busy:!!document.querySelector('[aria-busy="true"]'),message:window.__bridgeMessage||''};
+ return {html:clone.innerHTML,css:[...document.querySelectorAll('style')].map(n=>n.textContent).join('\n'),bodyClass:document.body.className,bodyData,preferences:KPPreferences.get(),preferencesConfigured:KPPreferences.isConfigured(),busy:!!document.querySelector('[aria-busy="true"]'),message:window.__bridgeMessage||''};
  }"""
 EVENT = r"""data => {
  if(!/^b\d+$/.test(data.id)||!window.__bridgeAllowed.has(data.id))throw Error('This control is not available.');
@@ -120,6 +121,11 @@ class Engine:
         session=self.sessions[token]; session['used']=now; page=session['page']
         if action=='event':
             page.evaluate(EVENT, data); page.wait_for_timeout(250)
+        elif action=='preferences':
+            settings=data.get('settings')
+            if not isinstance(settings,dict) or len(settings)>100:
+                raise ValueError('Invalid settings')
+            page.evaluate("settings=>{const allowed=new Set([...document.querySelectorAll('[data-setting]')].filter(n=>!n.closest('[data-private-calculation]')).map(n=>n.dataset.setting));const merged=KPPreferences.get();for(const [key,value] of Object.entries(settings))if(allowed.has(key))merged[key]=value;KPPreferences.save(merged);}",settings)
         elif action=='import':
             if not isinstance(data, dict) or not isinstance(data.get('fields'), dict):
                 raise ValueError('Select a valid .lkp chart.')
@@ -197,7 +203,7 @@ class Handler(BaseHTTPRequestHandler):
         except Exception as error:self.respond({'error':str(error).split('\n')[0]},status=400)
     def do_POST(self):
         path=urlsplit(self.path).path
-        if path not in ('/event','/import','/photo'):
+        if path not in ('/event','/import','/photo','/preferences'):
             self.respond({'error':'Not found'},status=404);return
         token=self.token()
         if not token or not secrets.compare_digest(self.headers.get('X-KP-Session',''),token):

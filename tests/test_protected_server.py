@@ -55,6 +55,27 @@ class ProtectedServerTests(unittest.TestCase):
         self.assertEqual(self.private("document.getElementById('pc-natal-name').value"),'Private native')
         self.assertEqual(self.private('KPChartStyle.getStyle()'),'south')
 
+    def test_quick_access_fonts_and_preferences_survive_new_session(self):
+        for tab in module.PRIVATE_TABS:
+            self.assertEqual(self.page.locator('#quick-'+tab).count(),0)
+        self.page.locator('#quick-astrosettings').click()
+        self.page.wait_for_timeout(600)
+        self.page.locator('#font-zoom-in').click()
+        self.page.wait_for_timeout(600)
+        expect(self.page.locator('#setting-fontSize')).to_have_value('13')
+        self.page.locator('#settings-save').click()
+        self.page.wait_for_timeout(1100)
+        saved=self.page.evaluate("JSON.parse(localStorage.getItem('kpProtectedPreferencesV1'))")
+        self.assertEqual(saved['fontSize'],13)
+        self.context.clear_cookies()
+        self.page.reload()
+        expect(self.page.locator('#page-title')).to_have_text('Home',timeout=30000)
+        self.page.wait_for_timeout(1200)
+        snapshot=self.page.request.get(self.url+'/snapshot').json()
+        new_token=snapshot['token']
+        self.assertEqual(snapshot['preferences']['fontSize'],13)
+        self.engine.executor.submit(lambda:self.engine.sessions.pop(new_token)['context'].close()).result()
+
     def test_private_sources_and_calculation_controls_are_not_public(self):
         for path in ['/index.html','/protected/server.py','/../index.html','/tests/test_calculator.py']:
             self.assertEqual(self.page.request.get(self.url+path).status,404)
