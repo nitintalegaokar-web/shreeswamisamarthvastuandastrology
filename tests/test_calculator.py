@@ -211,6 +211,21 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(text).to_be_visible();self.assertEqual(text.evaluate('(n)=>getComputedStyle(n).stroke'),'none')
         self.assertEqual(self.errors,[])
 
+    def test_nadi_selectors_fourstep_promise_and_notepad(self):
+        self.assertEqual(self.page.locator('#home [data-kundali-style-control]').count(),0)
+        self.assertEqual(self.page.locator('#home-single-page-style').count(),1)
+        self.assertNotIn('[c]',self.page.evaluate('KPDefaultLocation.legendHTML()'))
+        self.go('karyesh');self.page.locator('#sig-method').select_option('nadi-astrology')
+        expect(self.page.locator('#sig-nadi-significators')).to_be_visible()
+        self.assertEqual(self.page.locator('#sig-nadi-significators .na-tile').count(),9)
+        self.go('event-promise');self.page.locator('#ep-method').select_option('fourstep')
+        expect(self.page.locator('#ep-layer-mount')).to_contain_text('Step 4')
+        result=self.page.evaluate("""()=>{const model={ready:true,houses:[{id:1,sl:'Su'}],planets:[{id:'Su',stl:'Su',sl:'Su'}],fourfold:{planets:[{id:'Su',A:[12],B:[],C:[],D:[]}]},fourstep:[{id:'Su',steps:[{label:'Planet',houses:[1]},{label:'Star lord',houses:[2]},{label:'Sub lord',houses:[]},{label:'Star lord of sub lord',houses:[7,11]}]}]};return KPEventPromise.analyze(model,{cusp:1,method:'fourstep',customHouses:'2,7,11',layers:['CSL']});}""")
+        self.assertEqual(result['method'],'fourstep');self.assertEqual(result['houses'],[1,2,7,11]);self.assertEqual(result['status'],'matched')
+        self.page.locator('#quick-notepad').click();self.page.locator('#notepad-text').fill('Keep my personal notes')
+        self.page.reload();self.page.locator('#quick-notepad').click();expect(self.page.locator('#notepad-text')).to_have_value('Keep my personal notes')
+        self.assertEqual(self.errors,[])
+
     def test_side_by_side_folder_save_and_open(self):
         boxes=self.page.locator('#basic .pc-entry').all()
         self.assertEqual(len(boxes),2)

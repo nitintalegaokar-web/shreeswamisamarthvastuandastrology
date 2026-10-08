@@ -107,6 +107,17 @@ class ProtectedServerTests(unittest.TestCase):
         self.assertEqual(self.page.locator('#home-nadi-significators .na-tile').count(),9)
         self.page.locator('[data-home-view="sixfold"]').click();expect(self.page.locator('#home-data-tables')).to_be_visible();expect(self.page.locator('#home-nadi-significators')).not_to_be_visible()
 
+    def test_nadi_method_fourstep_event_and_browser_notepad(self):
+        self.page.locator('#quick-karyesh').click();self.page.locator('#sig-method').select_option('nadi-astrology')
+        expect(self.page.locator('#sig-nadi-significators')).to_be_visible()
+        self.assertEqual(self.page.locator('#sig-nadi-significators .na-tile').count(),9)
+        response=self.page.request.get(self.url+'/significators-preview');self.assertEqual(response.status,200)
+        self.assertIn('data-report-section="nadi-astrology"',response.text())
+        self.page.locator('#quick-event-promise').click();self.page.locator('#ep-method').select_option('fourstep')
+        expect(self.page.locator('#ep-layer-mount')).to_contain_text('Step 4')
+        self.page.locator('#quick-notepad').click();self.page.locator('#notepad-text').fill('Private browser note');self.page.locator('#notepad-close').click()
+        self.page.locator('#quick-notepad').click();expect(self.page.locator('#notepad-text')).to_have_value('Private browser note')
+
     def test_direct_aspect_pdf_and_a4_preview_routes(self):
         import fitz
         for section in ['aspects','single-page','south9','nadi-astrology']:
