@@ -4358,6 +4358,23 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#birth-dst-minutes")).to_have_value("0")
         expect(self.page.locator("#birth-dst-minutes")).to_be_disabled()
 
+    def test_matchmaking_report_only_includes_selected_manglik_references(self):
+        self.go("matchmaking")
+        for base in ("Lagna","Moon","Venus"):
+            self.page.locator(f"#mm-base-{base}").check()
+        self.page.locator("#mm-base-Moon").uncheck()
+        self.page.evaluate("KPMatchmaking.refresh()")
+        sheet=self.page.evaluate("KPMatchmaking.snapshot()")
+        self.assertIn('data-mm-manglik-base="Lagna"',sheet)
+        self.assertIn('data-mm-manglik-base="Venus"',sheet)
+        self.assertNotIn('data-mm-manglik-base="Moon"',sheet)
+        self.assertLess(sheet.index('mm-format-scores'),sheet.index('mm-format-manglik'))
+        self.page.locator("#mm-base-Lagna").uncheck()
+        self.page.evaluate("KPMatchmaking.refresh()")
+        sheet=self.page.evaluate("KPMatchmaking.snapshot()")
+        self.assertNotIn('data-mm-manglik-base="Lagna"',sheet)
+        self.assertIn('data-mm-manglik-base="Venus"',sheet)
+
     def test_matchmaking_reference_report_fits_single_a4_with_two_real_charts(self):
         self.go("matchmaking")
         for kind, date in (("boy", "1986-07-15"), ("girl", "1981-07-06")):
