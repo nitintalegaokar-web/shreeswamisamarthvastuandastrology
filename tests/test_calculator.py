@@ -4432,6 +4432,16 @@ class CalculatorBrowserTests(unittest.TestCase):
             preview.evaluate("() => {window.printInvocations=0;window.print=()=>{window.printInvocations+=1};}")
             preview.locator("#mm-preview-print").click()
             self.assertEqual(preview.evaluate("window.printInvocations"),1)
+            preview.emulate_media(media="print")
+            expect(preview.locator(".mm-format-report")).to_be_visible()
+            expect(preview.locator(".mm-format-chart svg").first).to_be_visible()
+            preview.pdf(path="/tmp/kp-matchmaking-direct-preview.pdf",format="A4",print_background=True)
+            import fitz
+            with fitz.open("/tmp/kp-matchmaking-direct-preview.pdf") as pdf:
+                self.assertEqual(len(pdf),1)
+                self.assertIn("Nitin",pdf[0].get_text())
+                self.assertIn("Kavita",pdf[0].get_text())
+                self.assertGreater(len(pdf[0].get_drawings()),20,"The printed charts and tables must be present")
             expect(preview.locator(".mm-format-footer")).to_contain_text("Nitin and Kavita")
         finally:
             preview.close()
