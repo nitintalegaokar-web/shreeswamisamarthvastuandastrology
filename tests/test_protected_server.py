@@ -77,6 +77,19 @@ class ProtectedServerTests(unittest.TestCase):
         self.assertIn('border:3px double',report)
         self.private('()=>KPReportPages.clear()')
         self.assertEqual(self.page.request.get(self.url+'/print').status,400)
+    def test_nadi_reference_panels_are_available_in_customer_interface(self):
+        self.go('nadi-astrology')
+        expect(self.page.locator('#na-cusp-table tbody tr')).to_have_count(12)
+        expect(self.page.locator('#na-reference-planet-table tbody tr')).to_have_count(9)
+        expect(self.page.locator('#na-reference-rp tbody tr')).to_have_count(4)
+        expect(self.page.locator('#na-reference-dasha table tbody tr')).to_have_count(9)
+        self.page.locator('#na-source').select_option('moment')
+        self.page.wait_for_timeout(700)
+        self.page.locator('#na-update').click()
+        self.page.wait_for_timeout(700)
+        expect(self.page.locator('#na-native-chart [data-nadi-source="moment"]')).to_be_visible()
+        self.assertFalse(self.page.locator('#connection-status').count())
+
     def test_home_chart_context_menu_changes_style(self):
         chart=self.page.locator('#home [data-home-chart]')
         chart.click(button='right')

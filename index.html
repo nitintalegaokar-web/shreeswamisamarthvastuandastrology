@@ -11869,7 +11869,7 @@ body.app-ready #nadi-astrology .na-layer>div{grid-column:auto}
     notes.append(make('h3','', 'Event Notes'),get('na-notes'));const noteIntro=card.querySelector('.na-side .na-intro');if(noteIntro)notes.append(noteIntro);
     criteria.append(get('na-source-mount'));windowGrid.append(positions,chart,controls,coordinates,criteria,notes);card.append(windowGrid);oldControls?.remove();oldActions?.remove();oldLayout?.remove();
     const sourceChart=get('kundali'),destination=get('na-native-chart');
-    const synchronizeChart=()=>{if(!sourceChart||!destination)return;const clone=sourceChart.cloneNode(true);[clone,...clone.querySelectorAll('[id]')].forEach(node=>node.removeAttribute('id'));clone.dataset.reportId='kundali';clone.dataset.nadiNativeChart='true';clone.removeAttribute('tabindex');clone.querySelectorAll('[contenteditable]').forEach(node=>{node.removeAttribute('contenteditable');node.setAttribute('aria-readonly','true');});destination.replaceChildren(clone);};
+    const synchronizeChart=()=>{if(!sourceChart||!destination||destination.dataset.selectedNadiChart==='true')return;const clone=sourceChart.cloneNode(true);[clone,...clone.querySelectorAll('[id]')].forEach(node=>node.removeAttribute('id'));clone.dataset.reportId='kundali';clone.dataset.nadiNativeChart='true';clone.removeAttribute('tabindex');clone.querySelectorAll('[contenteditable]').forEach(node=>{node.removeAttribute('contenteditable');node.setAttribute('aria-readonly','true');});destination.replaceChildren(clone);};
     if(sourceChart){new MutationObserver(synchronizeChart).observe(sourceChart,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['class']});synchronizeChart();}
     const compactCoordinateDetails=()=>{get('na-grid').querySelectorAll('.na-tile:not([data-reference-trace])').forEach(tile=>{tile.dataset.referenceTrace='true';const details=make('details','na-ref-trace');details.append(make('summary','', 'Calculation details'));const metadata=tile.querySelector(':scope>small');if(metadata)details.append(metadata);tile.querySelectorAll('.na-layer').forEach(layer=>{const level=layer.querySelector(':scope>small');if(!level)return;const row=make('div','na-ref-trace-row');row.append(make('b','',(layer.querySelector(':scope>span')?.textContent||'')+' '+(layer.querySelector(':scope>strong')?.textContent||'')),level);details.append(row);});const match=tile.querySelector('.na-match');if(match)details.append(match);tile.append(details);});};
     new MutationObserver(compactCoordinateDetails).observe(get('na-grid'),{childList:true,subtree:true});compactCoordinateDetails();return true;
@@ -11982,6 +11982,112 @@ body.app-ready #nadi-astrology .na-layer>div{grid-column:auto}
   window.addEventListener('resize',schedule);document.addEventListener('change',schedule);schedule();
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
+})();
+</script>
+
+<style id="kp-nadi-reference-complete-style">
+@media screen {
+body.app-ready #nadi-astrology .na-ref-window{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.98fr) minmax(270px,.94fr);grid-template-areas:"main main side" "criteria criteria notes";gap:10px;align-items:start}
+body.app-ready #nadi-astrology .na-reference-main{grid-area:main;min-width:0;display:grid;grid-template-columns:1.05fr .98fr;grid-template-areas:"positions chart" "coordinates coordinates";gap:10px;align-items:start}
+body.app-ready #nadi-astrology .na-reference-side{grid-area:side;min-width:0;display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+body.app-ready #nadi-astrology .na-card>h2,body.app-ready #nadi-astrology .na-card>.na-intro{display:none}
+body.app-ready #nadi-astrology .na-reference-dasha button{min-height:18px!important;height:18px;padding:0 3px;margin:0;font-size:11px}
+body.app-ready #nadi-astrology .na-reference-dasha .home-vim-controls input{min-height:23px;height:23px;padding:2px}
+body.app-ready #nadi-astrology .na-ref-controls :is(input,select,button){min-height:24px;height:24px;padding:2px 4px;font-size:11px}
+body.app-ready #nadi-astrology .na-ref-controls :is(label,h3){margin-bottom:3px}
+body.app-ready #nadi-astrology .na-ref-controls .na-ref-step{margin-top:4px;padding:4px 0}
+body.app-ready #nadi-astrology .na-ref-controls #na-status{padding:4px;margin:5px 0;font-size:9px}
+body.app-ready #nadi-astrology .na-reference-side>section{border:1px solid #bbb;padding:8px;background:var(--kp-panel,#ffffe4)}
+body.app-ready #nadi-astrology .na-reference-side .na-ref-controls{grid-area:auto;grid-column:1/-1;border:0;padding:0}
+body.app-ready #nadi-astrology .na-ref-positions>details>summary{display:none}
+body.app-ready #nadi-astrology .na-ref-positions h3{margin-top:8px}
+body.app-ready #nadi-astrology .na-table :is(th,td){font-size:11px;padding:3px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.app-ready #nadi-astrology .na-table thead th{background:#ffc1cb!important;color:#111!important}
+body.app-ready #nadi-astrology #na-reference-planet-table th:first-child{width:15%}
+body.app-ready #nadi-astrology #na-reference-planet-table th:nth-child(3){width:22%}
+body.app-ready #nadi-astrology #na-cusp-table th:nth-child(3){width:26%}
+body.app-ready #nadi-astrology .na-table tbody tr{background:white!important}
+body.app-ready #nadi-astrology #na-native-chart{padding:0;border:1px solid #ee65cf;aspect-ratio:1;background:white;overflow:hidden}
+body.app-ready #nadi-astrology .na-reference-rashi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr));height:100%;aspect-ratio:1;font-family:Arial,"Mangal",sans-serif;background:white}
+body.app-ready #nadi-astrology .na-reference-sign{border:1px solid #eda355;min-width:0;padding:4px 3px;display:grid;grid-template-columns:1fr 1fr;align-content:center;gap:3px;font-size:10px;line-height:1.35}
+body.app-ready #nadi-astrology .na-reference-sign .na-reference-cusps{color:#3276ca;text-align:left;overflow-wrap:anywhere}
+body.app-ready #nadi-astrology .na-reference-sign .na-reference-planets{color:#345d11;text-align:right;overflow-wrap:anywhere}
+body.app-ready #nadi-astrology .na-reference-chart-center{grid-column:2/4;grid-row:2/4;border:1px solid #eda355;padding:10px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;line-height:1.8;overflow-wrap:anywhere;min-width:0}
+body.app-ready #nadi-astrology .na-reference-side .na-ref-inputs{gap:6px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+body.app-ready #nadi-astrology .na-ref-inputs>div:has(#na-place){grid-column:auto}
+body.app-ready #nadi-astrology .na-reference-dasha .home-panel{padding:0;margin:0;border:0;min-width:0}
+body.app-ready #nadi-astrology .na-reference-dasha :is(.home-vim-end-date,.home-vim-end-time){display:inline;font-size:10px;line-height:1.2}
+body.app-ready #nadi-astrology .na-reference-dasha .home-vim-end-time::before{content:" :: "}
+body.app-ready #nadi-astrology .na-ref-window :is(input,select,textarea){box-sizing:border-box;max-width:100%;min-width:0}
+body.app-ready #nadi-astrology .na-reference-options{margin:6px 0;font-size:11px;grid-column:1/-1}
+body.app-ready #nadi-astrology .na-reference-options summary{cursor:pointer;color:#333}
+body.app-ready #nadi-astrology .na-reference-options>div{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding-top:6px}
+body.app-ready #nadi-astrology .na-ref-step{margin-top:7px;padding:6px 0;gap:5px}
+body.app-ready #nadi-astrology .na-ref-buttons{margin-top:7px;gap:5px}
+body.app-ready #nadi-astrology .na-grid{grid-template-columns:repeat(3,minmax(0,1fr));border:1px solid blue}
+body.app-ready #nadi-astrology .na-tile{padding:5px}
+body.app-ready #nadi-astrology .na-tile>h3,body.app-ready #nadi-astrology .na-ref-trace{display:none}
+body.app-ready #nadi-astrology .na-layer{grid-template-columns:56px 46px minmax(0,1fr);font-size:11px;margin:5px 0;gap:3px}
+body.app-ready #nadi-astrology .na-layer strong{font-size:11px}
+body.app-ready #nadi-astrology .na-layer .ep-house{font-size:12px}
+body.app-ready #nadi-astrology .na-ref-query{display:flex;align-items:end;gap:8px;flex-wrap:wrap}
+body.app-ready #nadi-astrology .na-ref-query>div:has(#na-event){flex:1;min-width:200px}
+body.app-ready #nadi-astrology #na-event-count{display:none}
+body.app-ready #nadi-astrology .na-reference-dasha :is(table,th,td){font-size:11px}
+body.app-ready #nadi-astrology .na-reference-dasha table{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse}
+body.app-ready #nadi-astrology .na-reference-dasha :is(th,td){border:1px solid #555;padding:2px;text-align:center;line-height:1.2;white-space:nowrap}
+body.app-ready #nadi-astrology .na-reference-dasha th:last-child{width:46%}
+body.app-ready #nadi-astrology .na-reference-dasha .home-vim-controls{display:flex;gap:4px;margin-bottom:5px}
+body.app-ready #nadi-astrology .na-reference-dasha .home-vim-controls input{width:44%;min-width:0;font-size:10px}
+body.app-ready #nadi-astrology .na-reference-dasha :is(.home-vim-status,.home-vim-footer){font-size:9px;margin:5px 0}
+body.app-ready #nadi-astrology .na-reference-rp table{width:100%;border-collapse:collapse;font-size:11px}
+body.app-ready #nadi-astrology .na-reference-rp :is(td,th){border:1px solid #aaa;padding:5px 3px;text-align:center}
+body.app-ready #nadi-astrology .na-reference-rp-caption{font-size:10px;line-height:1.4;margin-bottom:6px}
+@media(max-width:1100px){body.app-ready #nadi-astrology .na-ref-window{grid-template-columns:1fr 1fr;grid-template-areas:"main main" "side side" "criteria notes"}body.app-ready #nadi-astrology .na-reference-side{grid-template-columns:1fr 1fr}body.app-ready #nadi-astrology .na-reference-side>.na-ref-controls{grid-column:1/-1}}
+@media(max-width:650px){body.app-ready #nadi-astrology .na-reference-main{grid-template-columns:1fr;grid-template-areas:"positions" "chart" "coordinates"}body.app-ready #nadi-astrology .na-ref-window{grid-template-columns:1fr;grid-template-areas:"main" "side" "notes" "criteria"}body.app-ready #nadi-astrology .na-reference-side{grid-template-columns:1fr}body.app-ready #nadi-astrology .na-layer{grid-template-columns:1fr 30px}body.app-ready #nadi-astrology .na-layer>div{grid-column:1/-1}body.app-ready #nadi-astrology .na-grid{grid-template-columns:repeat(3,minmax(0,1fr))}body.app-ready #nadi-astrology .na-reference-sign{font-size:9px}}
+}
+</style>
+<script id="kp-nadi-reference-complete-script">
+(()=>{
+'use strict';const $=id=>document.getElementById(id),el=(tag,text)=>{const n=document.createElement(tag);if(text)n.textContent=text;return n;};
+const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+function table(headers,rows,id){const t=el('table');t.className='na-table';if(id)t.id=id;const head=el('thead'),hr=el('tr');headers.forEach(h=>hr.append(el('th',h)));head.append(hr);const body=el('tbody');rows.forEach(values=>{const tr=el('tr');values.forEach(v=>tr.append(el('td',String(v??'—'))));body.append(tr);});t.append(head,body);return t;}
+function detail(point){return window.KPDisplay.longitudeDetails(point.longitude);}
+function initialize(){
+ const root=document.querySelector('#nadi-astrology .na-ref-window');if(!root||$('na-cuspal-positions'))return;
+ $('na-native-chart').dataset.selectedNadiChart='true';
+ const positions=root.querySelector('.na-ref-positions'),controls=root.querySelector('.na-ref-controls'),coordinates=root.querySelector('.na-ref-coordinates');
+ const cuspMount=el('div');cuspMount.id='na-cuspal-positions';positions.append(el('h3','CUSPAL POSITION'),cuspMount);
+ root.querySelector('.na-ref-chart>h3').textContent='RASHI CHART';
+ const main=el('div');main.className='na-reference-main';main.append(positions,root.querySelector('.na-ref-chart'),coordinates);root.prepend(main);
+ const side=el('div');side.className='na-reference-side';const dasha=el('section');dasha.className='na-reference-dasha';dasha.append(el('h3','Vimshottari Dasha · Native'));const dashaMount=el('div');dashaMount.id='na-reference-dasha';dasha.append(dashaMount);
+ const rp=el('section');rp.className='na-reference-rp';rp.append(el('h3','RULING PLANETS'));const rpMount=el('div');rpMount.id='na-reference-rp';rp.append(rpMount);
+ side.append(dasha,rp,controls);root.append(side);
+ const advanced=el('details');advanced.open=true;advanced.className='na-reference-options';advanced.append(el('summary','Chart options'));const fields=el('div');for(const id of ['na-source','na-method','na-cusp-source']){const input=$(id);if(input)fields.append(input.parentElement);}advanced.append(fields);controls.querySelector('.na-ref-inputs').append(advanced);
+ const eventOptions=el('details');eventOptions.className='na-reference-options';eventOptions.append(el('summary','Find event'));const eventFields=el('div');for(const id of ['na-category','na-search'])if($(id))eventFields.append($(id).parentElement);eventOptions.append(eventFields);coordinates.querySelector('.na-ref-query').append(eventOptions);
+ $('na-event').previousElementSibling.textContent='Event';
+ const picker=controls.querySelector('.kp-india-picker');if(picker){const disclosure=el('details');disclosure.className='na-reference-options';disclosure.append(el('summary','Find Indian city / village'),picker);controls.querySelector('.na-ref-inputs').append(disclosure);}
+ for(const selector of ['.na-ref-criteria','.na-ref-notes']){const section=root.querySelector(selector);if(!section)continue;const disclosure=el('details');disclosure.append(el('summary',selector.endsWith('criteria')?'Event criteria':'Event notes'));while(section.firstChild)disclosure.append(section.firstChild);section.append(disclosure);}
+
+ function synchronize(){
+  const data=window.KPNadiAstrology.getData();if(!data?.ready){cuspMount.replaceChildren(el('p',data?.reason||'Complete the selected chart.'));$('na-native-chart').replaceChildren(el('p',data?.reason||'Complete the selected chart.'));rpMount.replaceChildren();return;}
+  const houses=data.model.houses,planets=data.model.planets;
+  const rows=houses.map((p,i)=>{const d=detail(p);return [ROMAN[i],d.signCode,d.degree,d.sgl,d.stl,d.sl,d.ssl];});cuspMount.replaceChildren(table(['Cusp','Sign','D-M-S','RL','STL','SL','SSL'],rows,'na-cusp-table'));
+  const planetRows=planets.map(p=>{const d=detail(p);return [p.id,d.signCode,d.degree,[p.retrograde?'R':'',p.combust?'C':''].filter(Boolean).join('/'),d.sgl,d.stl,d.sl,d.ssl,p.occ??'—'];});$('na-positions').replaceChildren(table(['Planet','Sign','D-M-S','R/C','RL','STL','SL','SSL','Hse'],planetRows,'na-reference-planet-table'));
+  const chart=el('div');chart.className='na-reference-rashi';chart.dataset.nadiSource=data.source;const layout=[[0,1],[0,2],[0,3],[1,3],[2,3],[3,3],[3,2],[3,1],[3,0],[2,0],[1,0],[0,0]];
+  for(let sign=0;sign<12;sign++){const cell=el('div');cell.className='na-reference-sign';cell.dataset.signIndex=String(sign);cell.style.gridRow=String(layout[sign][0]+1);cell.style.gridColumn=String(layout[sign][1]+1);const c=el('div'),p=el('div');c.className='na-reference-cusps';p.className='na-reference-planets';for(const [index,h] of houses.entries())if(Math.floor(h.longitude/108000)===sign){const entry=el('div',ROMAN[index]+' '+detail(h).degree);entry.dataset.nadiCusp=String(index+1);c.append(entry);}for(const planet of planets)if(Math.floor(planet.longitude/108000)===sign){const entry=el('div',planet.id+(planet.retrograde?'[R]':'')+' '+detail(planet).degree);entry.dataset.nadiChartPlanet=planet.id;entry.dataset.longitude=String(planet.longitude);p.append(entry);}cell.append(c,p);chart.append(cell);}
+  const center=el('div');center.className='na-reference-chart-center';center.textContent=[$('name').value,data.source==='moment'?'Selected moment':'Native chart',data.moment.date,data.moment.time,data.moment.place||$('birthPlace').value].filter(Boolean).join(' · ');chart.append(center);$('na-native-chart').replaceChildren(chart);
+  const rpRows=[['Asc',houses[0]],...['Mo','Ra','Ke'].map(id=>[id,planets.find(p=>p.id===id)])].map(([name,p])=>{const d=detail(p);return [name,d.sgl,d.stl,d.sl,d.ssl];});const caption=el('p',data.moment.date+' · '+data.moment.time+' · '+(data.source==='moment'?'Selected Nadi chart':'Native chart'));caption.className='na-reference-rp-caption';rpMount.replaceChildren(caption,table(['RP','SGL','STL','SL','SSL'],rpRows));
+ }
+ let scheduled=false;function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;synchronize();});}
+ // Observe the calculator's results, not this screen's generated tables.
+ new MutationObserver(schedule).observe($('na-grid'),{childList:true});$('na-update').addEventListener('click',schedule);window.addEventListener('chart-saved',schedule);
+ function mirrorDasha(){const source=$('home-vimshottari');if(!source)return;const clone=source.cloneNode(true);clone.querySelector('.home-panel-heading')?.remove();[clone,...clone.querySelectorAll('[id]')].forEach(n=>{if(n.id){n.dataset.nadiDashaSource=n.id;n.id='na-mirror-'+n.id;}n.removeAttribute('data-bridge-id');});clone.querySelectorAll('input,select').forEach(n=>{const original=$(n.dataset.nadiDashaSource);n.dataset.calculationLocked='true';if(original)n.value=original.value;});dashaMount.replaceChildren(clone);}
+ dashaMount.addEventListener('change',event=>{const original=$(event.target.dataset.nadiDashaSource);if(original){original.value=event.target.value;original.dispatchEvent(new Event('change',{bubbles:true}));mirrorDasha();}});
+ dashaMount.addEventListener('click',event=>{const button=event.target.closest('button');if(!button)return;let original;if(button.dataset.nadiDashaSource)original=$(button.dataset.nadiDashaSource);else if(button.dataset.dashaChoice!==undefined)original=$('home-vimshottari').querySelector('[data-dasha-choice="'+button.dataset.dashaChoice+'"]');else if(button.dataset.dashaDepth!==undefined)original=$('home-vimshottari').querySelector('[data-dasha-depth="'+button.dataset.dashaDepth+'"]');if(original){original.click();mirrorDasha();}});
+ if($('home-dasha-table'))new MutationObserver(mirrorDasha).observe($('home-dasha-table'),{childList:true,subtree:true});mirrorDasha();synchronize();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
 })();
 </script>
 

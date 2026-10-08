@@ -4530,6 +4530,35 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(malformed["dob"], natal["dob"])
         self.assertEqual(malformed["memos"], 16)
 
+    def test_nadi_reference_screen_keeps_all_panels_and_selected_chart_synchronized(self):
+        self.prepare_exact_kp_worksheets()
+        self.action("calculate")
+        self.go("nadi-astrology")
+        self.page.wait_for_timeout(400)
+        expect(self.page.locator("#na-cusp-table tbody tr")).to_have_count(12)
+        expect(self.page.locator("#na-reference-planet-table tbody tr")).to_have_count(9)
+        expect(self.page.locator("#na-native-chart [data-nadi-chart-planet]")).to_have_count(9)
+        expect(self.page.locator("#na-reference-rp tbody tr")).to_have_count(4)
+        expect(self.page.locator("#na-reference-dasha table tbody tr")).to_have_count(9)
+        native=self.page.evaluate("() => currentKPModel.planets.map(p=>[p.id,p.longitude])")
+        self.page.locator("#na-source").select_option("moment")
+        self.page.locator("#na-cusp-source").select_option("transit")
+        for key,value in {"date":"2026-10-06","time":"05:30:00","timezone":"5.5","latitude":"0","longitude":"0"}.items():
+            self.page.locator(f"#na-{key}").fill(value)
+        self.page.locator("#na-update").click()
+        self.page.wait_for_timeout(400)
+        state=self.page.evaluate("() => ({model:KPNadiAstrology.getData().model.planets.map(p=>[p.id,p.longitude]),chart:[...document.querySelectorAll('#na-native-chart [data-nadi-chart-planet]')].map(p=>[p.dataset.nadiChartPlanet,Number(p.dataset.longitude)])})")
+        self.assertEqual(dict(state['model']),dict(state['chart']))
+        self.assertEqual(self.page.evaluate("() => currentKPModel.planets.map(p=>[p.id,p.longitude])"),native)
+        for width in (1920,1280,390):
+            with self.subTest(width=width):
+                self.page.set_viewport_size({"width":width,"height":1080})
+                self.page.wait_for_timeout(150)
+                self.assertLessEqual(self.page.evaluate('document.documentElement.scrollWidth'),width+1)
+        self.page.set_viewport_size({"width":1920,"height":1080})
+        self.page.evaluate("window.scrollTo(0,0)")
+        self.page.screenshot(path="/tmp/kp-nadi-reference-final.png",full_page=True)
+
     def test_event_nadi_and_ruling_workspaces_keep_native_chart_and_print_selected_sections(self):
         self.prepare_exact_kp_worksheets()
         self.action("calculate")
