@@ -1315,6 +1315,24 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual({key: value for key, value in self.editable_values().items() if not key.startswith("tc-")}, natal_fields)
         self.assertEqual(self.outputs(), natal_outputs, "Transit exploration must leave all birth worksheet results intact.")
 
+    def test_transit_natal_cusps_work_without_ready_planet_model_and_both_chart_styles_print(self):
+        self.prepare_exact_dasha()
+        self.configure_transit_chart()
+        expected=self.page.evaluate('syncKPWorksheetPositions().cusps.map(c=>c/3600)')
+        self.page.evaluate('window.currentKPModel={ready:false,houses:[],planets:[]}')
+        self.page.locator('.tc-reference-cusps input[value="natal"]').check()
+        data=self.page.evaluate('KPTransitChart.getData()')
+        self.assertIsNotNone(data)
+        self.assertEqual([c['longitude'] for c in data['cusps']],expected)
+        self.assertEqual(len(data['planets']),9)
+        for style,label in [('south','South Indian'),('north','North Indian')]:
+            self.page.locator('#tc-kundali-style').select_option(style)
+            for chart in ['tc-rashi-chart','tc-bhav-chart']:
+                expect(self.page.locator('#'+chart+' svg')).to_have_attribute('aria-label',re.compile(label))
+                expect(self.page.locator('#'+chart+' [data-planet="Su"]')).to_have_count(1)
+            self.assertIn(label,self.page.evaluate('KPTransitChart.snapshot()'))
+        self.assertEqual(self.page.evaluate('syncKPWorksheetPositions().cusps.map(c=>c/3600)'),expected)
+
     def test_transit_chart_calendar_steps_lkp_restore_and_mobile_charts_preserve_selected_data(self):
         self.prepare_exact_dasha()
         self.configure_transit_chart(date="2026-01-31", time="23:45:00")

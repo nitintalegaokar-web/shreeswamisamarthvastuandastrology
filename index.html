@@ -1465,6 +1465,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
       <div class="tc-chart-column">
         <article><h3>Rashi chart · गोचर राशी कुंडली</h3><div id="tc-rashi-chart" class="tc-diagram" role="img" aria-label="North Indian transit Rashi chart">Calculate to show the chart.</div></article>
         <article><h3>Bhav chart · गोचर भाव कुंडली</h3><div id="tc-bhav-chart" class="tc-diagram" role="img" aria-label="North Indian transit Bhav chart">Calculate to show the chart.</div></article>
+        <label for="tc-kundali-style">Kundali style <select id="tc-kundali-style"><option value="north">North Indian</option><option value="south">South Indian</option></select></label>
         <p id="tc-chart-source" class="tc-note">Charts place the current planets against the selected house cusps.</p>
         <p id="tc-fortuna-info" class="kp-fortuna-info" hidden></p>
       </div>
@@ -8006,7 +8007,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   }
   function signature() {
     const natal = window.currentKPModel;
-    return JSON.stringify({controls:['tc-date','tc-time','tc-timezone','tc-latitude','tc-longitude','tc-place','tc-cusp-source'].map(value),birth:value('dob'),ayanamsha:value('ayanValue'),ayanamshaSource:value('kp-ayanamsha-source'),houses:natal?.houses?.map(house => [house.id,house.longitude]),fortuna:[window.KPFortuna?.isVisible(),window.KPPreferences?.get?.().fortunaFormula],periods:(window.mdDashaPeriods || []).map(period => [period.lord,period.start,period.end,period.birthElapsedDays])});
+    return JSON.stringify({controls:['tc-date','tc-time','tc-timezone','tc-latitude','tc-longitude','tc-place','tc-cusp-source','tc-kundali-style'].map(value),birth:value('dob'),ayanamsha:value('ayanValue'),ayanamshaSource:value('kp-ayanamsha-source'),houses:natal?.houses?.map(house => [house.id,house.longitude]),fortuna:[window.KPFortuna?.isVisible(),window.KPPreferences?.get?.().fortunaFormula],periods:(window.mdDashaPeriods || []).map(period => [period.lord,period.start,period.end,period.birthElapsedDays])});
   }
   function occupiedHouse(cusps, longitude) {
     for (let index = 0; index < 12; index++) if (norm(longitude - cusps[index]) < norm(cusps[(index + 1) % 12] - cusps[index])) return index + 1;
@@ -8083,7 +8084,27 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     if (text !== undefined) element.textContent = text;
     return element;
   }
+  function southChart(id,groups,ascSign,kind,cusps) {
+    const svg=svgElement('svg',{viewBox:'0 0 480 400',role:'img','aria-label':'South Indian '+(kind==='rashi'?'Rashi':'Bhav')+' chart',preserveAspectRatio:'xMidYMid meet'});
+    const slots=[[1,0],[2,0],[3,0],[3,1],[3,2],[3,3],[2,3],[1,3],[0,3],[0,2],[0,1],[0,0]],names=['Ar','Ta','Ge','Ca','Le','Vi','Li','Sc','Sg','Cp','Aq','Pi'];
+    const entries=Array.from({length:12},()=>[]);
+    groups.forEach((planets,index)=>{const sign=kind==='rashi'?(ascSign+index)%12:cusps[index].details.signIndex;entries[sign].push({index,planets});});
+    slots.forEach(([col,row],sign)=>{
+      const x=col*120,y=row*100,g=svgElement('g',{'data-sign':sign+1});
+      g.append(svgElement('rect',{x,y,width:120,height:100,fill:'#fffdf7',stroke:'#82995c'}));
+      g.append(svgElement('text',{x:x+5,y:y+14,fill:'#437225','font-size':11},names[sign]));
+      let line=0;
+      entries[sign].forEach(({index,planets})=>{
+        const label=kind==='bhav'?ROMAN[index]:(index===0?'Lagna':'');
+        if(label)g.append(svgElement('text',{x:x+5,y:y+29+line++*12,fill:'#437225','font-size':10},label));
+        for(let start=0;start<planets.length;start+=3){const text=svgElement('text',{x:x+5,y:y+29+line++*12,'font-size':10,fill:'#293627'});planets.slice(start,start+3).forEach((p,i)=>{if(i)text.append(document.createTextNode(' '));text.append(svgElement('tspan',{'data-planet':p.id,'data-longitude':p.longitude},p.id+(p.retrograde?'ᴿ':'')));});g.append(text);}
+      });svg.append(g);
+    });
+    svg.append(svgElement('text',{x:240,y:195,'text-anchor':'middle','font-size':15,fill:'#437225'},kind==='rashi'?'Rashi kundali':'Bhav kundali'));
+    byId(id).replaceChildren(svg);
+  }
   function chart(id,groups,ascSign,kind,cusps) {
+    if(value('tc-kundali-style')==='south')return southChart(id,groups,ascSign,kind,cusps);
     const svg = svgElement('svg',{viewBox:'0 0 480 400',role:'img','aria-label':kind === 'rashi' ? 'North Indian Rashi chart' : 'North Indian Bhav chart',preserveAspectRatio:'xMidYMid meet'});
     svg.append(svgElement('rect',{x:1,y:1,width:478,height:398,fill:'#fffdf7',stroke:'#82995c','stroke-width':2}));
     svg.append(svgElement('path',{d:'M0 0L480 400M480 0L0 400M240 0L480 200L240 400L0 200Z',fill:'none',stroke:'#a4b48d','stroke-width':1.2}));
@@ -8125,9 +8146,10 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       });
       let cuspPositions, cuspSystem;
       if (moment.cuspSource === 'natal') {
-        const natal = window.currentKPModel;
-        if (!natal?.ready) throw new Error('Complete the twelve natal cusps and planet positions, or choose transit cusps.');
-        cuspPositions = natal.houses.map(house => house.longitude / 3600); cuspSystem = 'Natal worksheet';
+        const worksheet = window.syncKPWorksheetPositions?.();
+        const natalCusps = worksheet?.cusps || window.currentKPModel?.houses?.map(house => house.longitude);
+        if (!natalCusps || natalCusps.length !== 12 || natalCusps.some(cusp => cusp === null || !Number.isFinite(cusp))) throw new Error('Complete the natal house cusp worksheet, or choose transit cusps. Natal planet entries are not required for the transit chart.');
+        cuspPositions = natalCusps.map(cusp => cusp / 3600); cuspSystem = 'Natal worksheet';
       } else if (moment.cuspSource === 'transit') {
         if (!window.KPTransitHouses) throw new Error('The transit house calculation is unavailable.');
         const calculated = window.KPTransitHouses.calculate(date,moment.latitude,moment.longitude);
@@ -8203,8 +8225,8 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       snapshot(); window.renderReport?.(); document.querySelector('.app-sidebar [data-tab="report"]')?.click(); window.KPReportPages?.refresh();
       window.KPReportPages?.selectSections(['transit-chart']); byId('report-page-options')?.focus();
     });
-    byId('transit-chart').addEventListener('input',event => { if (event.target.id !== 'tc-step-size') { stopRealTime(); empty('Settings changed. Calculate to update the transit chart.'); } });
-    byId('transit-chart').addEventListener('change',event => { if (event.target.id === 'tc-cusp-source') { stopRealTime(); calculate(); } });
+    byId('transit-chart').addEventListener('input',event => { if (!['tc-step-size','tc-kundali-style'].includes(event.target.id)) { stopRealTime(); empty('Settings changed. Calculate to update the transit chart.'); } });
+    byId('transit-chart').addEventListener('change',event => { if (['tc-cusp-source','tc-kundali-style'].includes(event.target.id)) { stopRealTime(); calculate(); } });
     const observer = new MutationObserver(() => { if (!byId('transit-chart').classList.contains('active')) stopRealTime(); }); observer.observe(byId('transit-chart'),{attributes:true,attributeFilter:['class']});
     document.addEventListener('visibilitychange',() => { if (document.hidden) stopRealTime(); });
     setTimeout(() => { initializeDefaults(); calculate(); },350);
