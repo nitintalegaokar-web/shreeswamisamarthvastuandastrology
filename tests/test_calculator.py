@@ -4144,6 +4144,31 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(updated["dates"], ["2026-10-07", "2026-10-08"])
         self.assertEqual(updated["rows"][0]["utc"], "2026-10-07T05:30:00.000Z")
 
+    def test_sidereal_reference_before_dawn_and_lmt_date_rollover(self):
+        self.configure_automatic_0530_worksheets(time='01:00:00')
+        cases=[('01:00:00','82:30:00','2026-10-05','19:30:00'),
+               ('00:00:00','82:30:00','2026-10-05','18:30:00'),
+               ('05:29:00','82:30:00','2026-10-05','23:59:00'),
+               ('05:30:00','82:30:00','2026-10-06','00:00:00'),
+               ('15:45:00','82:30:00','2026-10-06','10:15:00'),
+               ('00:15:00','73:45:00','2026-10-05','18:10:00'),
+               ('23:50:00','90:00:00','2026-10-06','18:50:00')]
+        for time,longitude,date,elapsed in cases:
+            with self.subTest(time=time,longitude=longitude):
+                data=self.page.evaluate("""args=>{
+                    document.getElementById('stdLon').value='82:30:00';
+                    document.getElementById('birthTime').value=args[0];
+                    document.getElementById('lon').value=args[1];
+                    document.getElementById('st-ephemeris-source').value='automatic';
+                    updateLMTCalculation();updateSiderealTimeCalculation();
+                    return {reference:getLMTSiderealReference(),elapsed:document.getElementById('stLmtDifference').value,
+                        base:document.getElementById('baseSidereal0530').value,
+                        expected:secondsToHMS((Astronomy.SiderealTime(new Date(args[2]+'T00:00:00Z'))+5.5)*3600)};
+                }""",[time,longitude,date])
+                self.assertEqual(data['reference']['date'],date)
+                self.assertEqual(data['elapsed'],elapsed)
+                self.assertEqual(data['base'],data['expected'])
+
     def test_automatic_0530_modes_roundtrip_lkp_and_manual_edits_preserve_legacy_data(self):
         original = self.configure_automatic_0530_worksheets()
         expected_rows = self.page.evaluate("()=>Object.fromEntries([...document.querySelectorAll('#planet input[id^=p6_d_],#planet input[id^=p6_t_]')].map(input=>[input.id,input.value]))")

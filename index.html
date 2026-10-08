@@ -1026,8 +1026,8 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
   <table class="stcalc-main">
     <thead><tr><th>गणना</th><th>वेळ</th></tr></thead>
     <tbody>
-      <tr><td class="calc-label">जातकाच्या जन्मदिवशी सकाळी 5.30 वाजता प्रमाण रेखांशावर असणारा सांपत्तिक काळ (भारत: 82°30′)<br><small>Automatic or manual ephemeris entry</small></td><td class="time-cell"><input id="baseSidereal0530" value=""></td></tr>
-      <tr><td class="calc-label">सकाळी 5.30 ते स्थानिक जन्मवेळ यातील फरक<br><b>L.M.T. − 05:30:00</b> <small>(Tab 3 मधून automatic)</small></td><td class="time-cell"><input id="stLmtDifference" readonly></td></tr>
+      <tr><td class="calc-label">L.M.T. पूर्वीच्या सर्वात जवळच्या सकाळी 5.30 वाजता प्रमाण रेखांशावर असणारा सांपत्तिक काळ (भारत: 82°30′)<br><small>Automatic or manual ephemeris entry · before 05:30 LMT, use previous date</small></td><td class="time-cell"><input id="baseSidereal0530" value=""></td></tr>
+      <tr><td class="calc-label">सकाळी 5.30 ते स्थानिक जन्मवेळ यातील फरक<br><b>Elapsed from reference 05:30 AM to L.M.T.</b> <small>(Tab 3 मधून automatic)</small></td><td class="time-cell"><input id="stLmtDifference" readonly></td></tr>
       <tr><td class="calc-label">10 / 6 चा फरक<br><small>प्रत्येक पूर्ण तास × 10 सेकंद; उरलेली मिनिटे ÷ 6 सेकंद; परिणाम वेळेच्या स्वरूपात</small></td><td class="time-cell"><input id="stTenSixCorrection" readonly></td></tr>
       <tr class="total-row"><td class="calc-label">एकूण<br><small>पहिली वेळ + दुसरी वेळ + 10/6 चा फरक</small></td><td class="time-cell"><input id="stGrandTotal" readonly></td></tr>
       <tr><td class="calc-label">सांपत्तिक वेळ 24 तासांपेक्षा जास्त असल्यास 24 तास वजा करणे</td><td class="time-cell"><input id="st24Adjustment" readonly></td></tr>
@@ -1867,6 +1867,20 @@ function updateTotalAyanamsha(){
 }
 
 
+function getLMTSiderealReference(){
+  const birth=document.getElementById('birthTime')?.value||'';
+  const dob=document.getElementById('dob')?.value||'';
+  if(!birth||!/^\d{4}-\d{2}-\d{2}$/.test(dob))return null;
+  const signed=String(document.getElementById('lmtSignedDifference')?.value||'0:00:00');
+  const correction=(signed.startsWith('-')?-1:1)*dmsTextToSeconds(signed.replace(/^[+-]/,''));
+  const seconds=Math.round(dmsTextToSeconds(birth)+correction);
+  const dayShift=Math.floor(seconds/86400),clock=((seconds%86400)+86400)%86400;
+  const referenceShift=dayShift+(clock<19800?-1:0);
+  const date=new Date(dob+'T00:00:00Z');date.setUTCDate(date.getUTCDate()+referenceShift);
+  if(!Number.isFinite(date.getTime()))return null;
+  return {date:date.toISOString().slice(0,10),elapsed:clock<19800?clock+86400-19800:clock-19800,dayShift,referenceShift};
+}
+
 function updateSiderealTimeCalculation(){
   window.KPWorksheetEphemeris?.prepareSidereal();
   const baseEl=document.getElementById("baseSidereal0530");
@@ -1893,10 +1907,10 @@ function updateSiderealTimeCalculation(){
   // L.M.T. − 05:30:00
   const lmtSec=dmsTextToSeconds(lmtText);
   const fiveThirtySec=(5*3600)+(30*60);
-  const diffSec=lmtSec-fiveThirtySec;
+  const reference=getLMTSiderealReference();
+  const diffSec=reference?.elapsed ?? ((lmtSec-fiveThirtySec+86400)%86400);
 
-  // Display the actual calculated difference.
-  // For the normal case (birth L.M.T. after 05:30), this is positive.
+  // Use positive elapsed time from the preceding 05:30 reference, preserving LMT date rollover.
   const diffSign=diffSec<0 ? "-" : "";
   lmtDiffEl.value=diffSign+secondsToHMS(Math.abs(diffSec));
 
@@ -7073,7 +7087,8 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       siderealData=null;status('st-ephemeris-status','Manual 05:30 AM sidereal time. Editing this value keeps manual entry active.');return null;
     }
     try{
-      const date=value('dob'),offset=standardOffset(),utc=instant(date,offset);
+      const reference=getLMTSiderealReference();
+      const date=reference?.date||value('dob'),offset=standardOffset(),utc=instant(date,offset);
       const hours=normalize(Astronomy.SiderealTime(utc)+offset,24);
       set('baseSidereal0530',hms(hours));
       siderealData={ready:true,date,utc:utc.toISOString(),offset,hours};
