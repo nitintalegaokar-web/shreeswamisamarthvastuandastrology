@@ -4276,6 +4276,32 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#birth-dst-minutes")).to_have_value("0")
         expect(self.page.locator("#birth-dst-minutes")).to_be_disabled()
 
+    def test_matchmaking_reference_report_fits_single_a4_with_two_real_charts(self):
+        self.go("matchmaking")
+        for kind, date in (("boy", "1986-07-15"), ("girl", "1981-07-06")):
+            record={"name":"Nitin" if kind=="boy" else "Kavita", "date":date,
+                    "time":"15:45:00", "timezone":"5.5", "dst":"0", "place":"Nashik / India",
+                    "latitude":"19.9975", "longitude":"73.7898"}
+            for key,value in record.items():
+                self.page.locator(f"#mm-{kind}-{key}").fill(value)
+        self.page.locator("#mm-calculate").click()
+        expect(self.page.locator("#mm-status")).to_have_attribute("data-state", "ready")
+        popup=self.selected_report_popup(["matchmaking"])
+        try:
+            expect(popup.locator(".mm-format-chart svg")).to_have_count(2)
+            expect(popup.locator(".mm-format-scores [data-mm-koota]")).to_have_count(8)
+            expect(popup.locator(".mm-format-planets")).to_have_count(2)
+            expect(popup.locator(".mm-format-profile")).to_contain_text("15/07/1986")
+            expect(popup.locator(".mm-format-footer")).to_contain_text("Nitin and Kavita")
+            popup.emulate_media(media="print")
+            popup.pdf(path="/tmp/kp-matchmaking-reference.pdf",format="A4",print_background=True)
+            import fitz
+            with fitz.open("/tmp/kp-matchmaking-reference.pdf") as pdf:
+                self.assertEqual(len(pdf),1,"Matchmaking report must fit one A4 sheet")
+            popup.screenshot(path="/tmp/kp-matchmaking-reference.png",full_page=True)
+        finally:
+            popup.close()
+
     def test_matchmaking_hand_scores_timezone_dst_and_validated_notebook_lkp_roundtrip(self):
         fixtures = self.page.evaluate("""() => {
             const score=(b,g)=>KPMatchmaking.score(b,g),part=(s,n)=>s.kootas.find(k=>k.name===n).score;
