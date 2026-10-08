@@ -4144,6 +4144,38 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(updated["dates"], ["2026-10-07", "2026-10-08"])
         self.assertEqual(updated["rows"][0]["utc"], "2026-10-07T05:30:00.000Z")
 
+    def test_education_profession_cusp_analysis_and_preview_controls(self):
+        self.prepare_exact_dasha()
+        self.go('education-profession')
+        expect(self.page.locator('#education-profession [data-education-cusp]')).to_have_count(3)
+        catalogue=self.page.evaluate('KPEducationProfession.getCatalogue()')
+        self.assertEqual(len(catalogue['rules']),211)
+        self.assertEqual(len({r['id'] for r in catalogue['rules']}),211)
+        rule=next(r for r in catalogue['rules'] if r['id']==205)
+        self.assertEqual(rule['houses'],[6,7,9,10])
+        result=self.page.evaluate("""()=>{const model={ready:true,houses:[{id:4,signIndex:2,sl:'Me',stl:'Ma',sgl:'Ve',occ:[]}],planets:[{id:'Me',signIndex:2,stl:'Ve',sl:'Ma'},{id:'Ve',signIndex:6},{id:'Ma',signIndex:10}],fourfold:{planets:['Me','Ve','Ma'].map(id=>({id,A:[1,3,8,12],B:[],C:[],D:[]}))}};return KPEducationProfession.analyze(model,4).matches.find(m=>m.rule.id===2);}""")
+        self.assertTrue(result['complete'])
+        self.assertEqual(result['planets'],['Me','Ve','Ma'])
+        with self.page.expect_popup() as opened:
+            self.page.locator('#education-profession-preview').click()
+        preview=opened.value
+        try:
+            expect(preview.locator('.ed-report')).to_be_visible()
+            preview.get_by_role('button',name='Zoom +',exact=True).click()
+            self.assertEqual(preview.locator('.report-page').evaluate('n=>n.style.zoom'),'1.1')
+            preview.get_by_role('button',name='Zoom −',exact=True).click()
+            preview.evaluate('()=>{window.printCalls=0;window.print=()=>window.printCalls++;}')
+            preview.get_by_role('button',name='Print / Save PDF',exact=True).click()
+            self.assertEqual(preview.evaluate('window.printCalls'),1)
+            preview.emulate_media(media='print')
+            expect(preview.locator('.ed-report')).to_be_visible()
+            import fitz
+            pdf=fitz.open(stream=preview.pdf(format='A4'),filetype='pdf')
+            self.assertGreater(len(pdf),0)
+            self.assertIn('Education', ''.join(p.get_text() for p in pdf))
+            pdf.close()
+        finally:preview.close()
+
     def test_uploaded_adjusted_ephemeris_is_used_without_double_ayanamsha(self):
         self.assertEqual(self.page.evaluate('KPUploadedEphemeris.count'),215494)
         first=self.page.evaluate("KPUploadedEphemeris.get('1911-01-01')")

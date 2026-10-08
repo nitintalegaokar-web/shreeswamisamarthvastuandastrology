@@ -1,0 +1,5425 @@
+{
+  "source": "Education By shahasane.xlsx",
+  "sheet": "Sheet1",
+  "rules": [
+    {
+      "id": 2,
+      "number": 1,
+      "title": "एरो-स्पेस इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        6,
+        10
+      ],
+      "houses": [
+        3,
+        1,
+        12,
+        8
+      ],
+      "planetRaw": "बुध, शुक्र, मंगळ",
+      "signRaw": "मिथुन, तुळ, कुंभ",
+      "houseRaw": "3, 1, 12, 8",
+      "review": false
+    },
+    {
+      "id": 3,
+      "number": 2,
+      "title": "सिव्हिल इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Me"
+      ],
+      "signs": [
+        0,
+        7,
+        5,
+        1,
+        9
+      ],
+      "houses": [
+        4,
+        11,
+        8
+      ],
+      "planetRaw": "मंगळ, शनि, बुध",
+      "signRaw": "मेष, वृश्चिक, कन्या, वृषभ, मकर",
+      "houseRaw": "4, 11, 8",
+      "review": false
+    },
+    {
+      "id": 4,
+      "number": 3,
+      "title": "कॉम्प्युटर सॉफ्टवेअर",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ju",
+        "Sa",
+        "Me"
+      ],
+      "signs": [
+        2,
+        8,
+        5,
+        11
+      ],
+      "houses": [
+        3,
+        2,
+        11,
+        4
+      ],
+      "planetRaw": "गुरु, शनि, बुध",
+      "signRaw": "मिथुन, धनु, कन्या, मीन",
+      "houseRaw": "3, 2, 11, 4",
+      "review": false
+    },
+    {
+      "id": 5,
+      "number": 4,
+      "title": "कॉम्प्युटर हार्डवेअर",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ju",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        0,
+        7,
+        8,
+        2
+      ],
+      "houses": [
+        3,
+        8,
+        1,
+        11
+      ],
+      "planetRaw": "गुरु, मंगळ, शनि",
+      "signRaw": "मेष, वृश्चिक, धनु, मिथुन",
+      "houseRaw": "3, 8, 1, 11",
+      "review": false
+    },
+    {
+      "id": 6,
+      "number": 5,
+      "title": "इलेक्ट्रिकल इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        0,
+        4,
+        7
+      ],
+      "houses": [
+        3,
+        6,
+        11
+      ],
+      "planetRaw": "मंगळ, बुध",
+      "signRaw": "मेष, सिंह, वृश्चिक",
+      "houseRaw": "3, 6, 11",
+      "review": false
+    },
+    {
+      "id": 7,
+      "number": 6,
+      "title": "मटेरियल मेटलर्जिकल",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Sa",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        7,
+        0,
+        9,
+        1
+      ],
+      "houses": [
+        8,
+        4,
+        1
+      ],
+      "planetRaw": "शनि, मंगळ, बुध",
+      "signRaw": "वृश्चिक, मेष, मकर, वृषभ",
+      "houseRaw": "8, 4, 1",
+      "review": false
+    },
+    {
+      "id": 8,
+      "number": 7,
+      "title": "मेकॅनिकल",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Sa",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        0,
+        7,
+        9,
+        10
+      ],
+      "houses": [
+        1,
+        8
+      ],
+      "planetRaw": "शनि, मंगळ, बुध",
+      "signRaw": "मेष, वृश्चिक, मकर, कुंभ",
+      "houseRaw": "1, 8",
+      "review": false
+    },
+    {
+      "id": 9,
+      "number": 8,
+      "title": "इलेक्ट्रॉनिक्स",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        0,
+        2,
+        7
+      ],
+      "houses": [
+        3,
+        8,
+        1
+      ],
+      "planetRaw": "मंगळ, बुध, शुक्र",
+      "signRaw": "मेष, मिथुन, वृश्चिक",
+      "houseRaw": "3, 8, 1",
+      "review": false
+    },
+    {
+      "id": 10,
+      "number": 9,
+      "title": "मायक्रो इलेक्ट्रॉनिक्स",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ju",
+        "Me",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        6,
+        10,
+        8
+      ],
+      "houses": [
+        1,
+        8
+      ],
+      "planetRaw": "गुरु, बुध, मंगळ",
+      "signRaw": "मिथुन, तुळ, कुंभ, धनु",
+      "houseRaw": "1, 8",
+      "review": false
+    },
+    {
+      "id": 11,
+      "number": 10,
+      "title": "टेक्सटाईल इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        4,
+        0,
+        2
+      ],
+      "houses": [
+        5,
+        8,
+        3
+      ],
+      "planetRaw": "बुध, शुक्र, मंगळ",
+      "signRaw": "सिंह, मेष, मिथुन",
+      "houseRaw": "5, 8, 3",
+      "review": false
+    },
+    {
+      "id": 12,
+      "number": 11,
+      "title": "इन्स्ट्रुमेंटेशन अँड कम्प्युटिंग सायन्स",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Me",
+        "Ju",
+        "Sa"
+      ],
+      "signs": [
+        2,
+        6,
+        10,
+        8
+      ],
+      "houses": [
+        3,
+        1,
+        11
+      ],
+      "planetRaw": "बुध, गुरु, शनि",
+      "signRaw": "मिथुन, तुळ, कुंभ, धनु",
+      "houseRaw": "3, 1, 11",
+      "review": false
+    },
+    {
+      "id": 13,
+      "number": 12,
+      "title": "इलेक्ट्रॉनिक्स अँड कम्युनिकेशन",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ju",
+        "Me",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        8,
+        10,
+        11
+      ],
+      "houses": [
+        3,
+        1,
+        12,
+        8
+      ],
+      "planetRaw": "गुरु, बुध, मंगळ",
+      "signRaw": "मिथुन, धनु, कुंभ, मीन",
+      "houseRaw": "3, 1, 12, 8",
+      "review": false
+    },
+    {
+      "id": 14,
+      "number": 13,
+      "title": "आर्किटेक्चर अँड इंटेरिअर इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Su",
+        "Mo",
+        "Me"
+      ],
+      "signs": [
+        1,
+        5,
+        4,
+        3
+      ],
+      "houses": [
+        4,
+        6,
+        2
+      ],
+      "planetRaw": "रवि, चंद्र, बुध",
+      "signRaw": "वृषभ, कन्या, सिंह, कर्क",
+      "houseRaw": "4, 6, 2",
+      "review": false
+    },
+    {
+      "id": 15,
+      "number": 14,
+      "title": "एनर्जी इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ma",
+        "Ur"
+      ],
+      "signs": [
+        8,
+        10,
+        4
+      ],
+      "houses": [
+        8,
+        9,
+        5
+      ],
+      "planetRaw": "बुध, गुरु, मंगळ, हर्षल युती दृष्टि",
+      "signRaw": "धनु, कुंभ, सिंह",
+      "houseRaw": "8, 9, 5",
+      "review": true
+    },
+    {
+      "id": 16,
+      "number": 15,
+      "title": "इंडस्ट्रियल इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Su",
+        "Me"
+      ],
+      "signs": [
+        9,
+        3,
+        7
+      ],
+      "houses": [
+        8,
+        10,
+        3,
+        4
+      ],
+      "planetRaw": "मंगळ, शनि, रवि, बुध",
+      "signRaw": "मकर, कर्क, वृश्चिक",
+      "houseRaw": "8, 10, 3, 4",
+      "review": false
+    },
+    {
+      "id": 17,
+      "number": 16,
+      "title": "इन्स्ट्रुमेंटेशन इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        7,
+        9
+      ],
+      "houses": [
+        3,
+        2,
+        10
+      ],
+      "planetRaw": "मंगळ, बुध, गुरु",
+      "signRaw": "मिथुन, वृश्चिक, मकर",
+      "houseRaw": "3, 2, 10",
+      "review": false
+    },
+    {
+      "id": 18,
+      "number": 17,
+      "title": "मायनिंग इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        7,
+        0,
+        1,
+        9
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "मंगळ, शनि",
+      "signRaw": "वृश्चिक, मेष, वृषभ, मकर",
+      "houseRaw": "4, 8",
+      "review": false
+    },
+    {
+      "id": 19,
+      "number": 18,
+      "title": "ओशन अँड नेव्हल",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Mo",
+        "Ju"
+      ],
+      "signs": [
+        3,
+        7,
+        11
+      ],
+      "houses": [
+        3,
+        6,
+        12
+      ],
+      "planetRaw": "चंद्र, गुरु",
+      "signRaw": "कर्क, वृश्चिक, मीन",
+      "houseRaw": "3, 6, 12",
+      "review": false
+    },
+    {
+      "id": 20,
+      "number": 19,
+      "title": "बायोटेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Su",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        4,
+        1,
+        5,
+        9
+      ],
+      "houses": [
+        4,
+        6,
+        3
+      ],
+      "planetRaw": "रवि, बुध, गुरु",
+      "signRaw": "सिंह, वृषभ, कन्या, मकर",
+      "houseRaw": "4, 6, 3",
+      "review": false
+    },
+    {
+      "id": 21,
+      "number": 20,
+      "title": "मिनरल इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Sa",
+        "Ma"
+      ],
+      "signs": [
+        3,
+        7,
+        11,
+        9
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "शनि, मंगळ",
+      "signRaw": "कर्क, वृश्चिक, मीन, मकर",
+      "houseRaw": "4, 8",
+      "review": false
+    },
+    {
+      "id": 22,
+      "number": 21,
+      "title": "मरीन / पेट्रोलियम",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        0,
+        7,
+        9
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "शुक्र, मंगळ, बुध",
+      "signRaw": "मेष, वृश्चिक, मकर",
+      "houseRaw": "4, 8",
+      "review": false
+    },
+    {
+      "id": 23,
+      "number": 22,
+      "title": "मॅन्युफॅक्चरिंग प्रोडक्शन",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ju",
+        "Ma",
+        "Su"
+      ],
+      "signs": [
+        8,
+        4,
+        11
+      ],
+      "houses": [
+        4,
+        2,
+        6
+      ],
+      "planetRaw": "गुरु, मंगळ, रवि",
+      "signRaw": "धनु, सिंह, मीन",
+      "houseRaw": "4, 2, 6",
+      "review": false
+    },
+    {
+      "id": 24,
+      "number": 23,
+      "title": "शुगर टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Ju",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        1,
+        6,
+        8
+      ],
+      "houses": [
+        2,
+        6,
+        9
+      ],
+      "planetRaw": "शुक्र, गुरु, मंगळ, बुध",
+      "signRaw": "वृषभ, तुळ, धनु",
+      "houseRaw": "2, 6, 9",
+      "review": false
+    },
+    {
+      "id": 25,
+      "number": 24,
+      "title": "अल्कोहोल टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Mo",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        7,
+        3
+      ],
+      "houses": [
+        4,
+        8,
+        6
+      ],
+      "planetRaw": "शुक्र, चंद्र, मंगळ",
+      "signRaw": "वृषभ, वृश्चिक, कर्क",
+      "houseRaw": "4, 8, 6",
+      "review": false
+    },
+    {
+      "id": 26,
+      "number": 25,
+      "title": "रूरल इंजिनियरिंग",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        5,
+        4
+      ],
+      "houses": [
+        2,
+        6,
+        8
+      ],
+      "planetRaw": "शुक्र, बुध, मंगळ",
+      "signRaw": "वृषभ, कन्या, सिंह",
+      "houseRaw": "2, 6, 8",
+      "review": false
+    },
+    {
+      "id": 27,
+      "number": 26,
+      "title": "एन्व्हायर्नमेंटल सायन्स",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Sa",
+        "Ju",
+        "Me"
+      ],
+      "signs": [
+        2,
+        6,
+        10
+      ],
+      "houses": [
+        3,
+        7,
+        6,
+        11
+      ],
+      "planetRaw": "शनि, गुरु, बुध",
+      "signRaw": "मिथुन, तुळ, कुंभ",
+      "houseRaw": "3, 7, 6, 11",
+      "review": false
+    },
+    {
+      "id": 28,
+      "number": 27,
+      "title": "मायक्रो बायोलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ju",
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        8,
+        2,
+        5,
+        9
+      ],
+      "houses": [
+        4,
+        2,
+        3
+      ],
+      "planetRaw": "गुरु, बुध, शुक्र",
+      "signRaw": "धनु, मिथुन, कन्या, मकर",
+      "houseRaw": "4, 2, 3",
+      "review": false
+    },
+    {
+      "id": 29,
+      "number": 28,
+      "title": "ऑटोमोबाईल इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Mo",
+        "Ma"
+      ],
+      "signs": [
+        3,
+        1,
+        6,
+        9
+      ],
+      "houses": [
+        4,
+        11
+      ],
+      "planetRaw": "शुक्र, चंद्र, मंगळ",
+      "signRaw": "कर्क, वृषभ, तुळ, मकर",
+      "houseRaw": "4, 11",
+      "review": false
+    },
+    {
+      "id": 30,
+      "number": 29,
+      "title": "रेफ्रिजरेटर व एसी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Sa",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        10,
+        1,
+        6,
+        2
+      ],
+      "houses": [
+        3,
+        8,
+        12,
+        4
+      ],
+      "planetRaw": "शनि, शुक्र, मंगळ",
+      "signRaw": "कुंभ, वृषभ, तुळ, मिथुन",
+      "houseRaw": "3, 8, 12, 4",
+      "review": false
+    },
+    {
+      "id": 31,
+      "number": 30,
+      "title": "साऊंड इंजिनियरिंग",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        2,
+        6,
+        10
+      ],
+      "houses": [
+        3,
+        2,
+        8
+      ],
+      "planetRaw": "बुध, शुक्र",
+      "signRaw": "मिथुन, तुळ, कुंभ",
+      "houseRaw": "3, 2, 8",
+      "review": false
+    },
+    {
+      "id": 32,
+      "number": 31,
+      "title": "डेअरी टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Mo",
+        "Ve",
+        "Ju"
+      ],
+      "signs": [
+        3,
+        5,
+        6,
+        1
+      ],
+      "houses": [
+        2,
+        6,
+        11
+      ],
+      "planetRaw": "चंद्र, शुक्र, गुरु",
+      "signRaw": "कर्क, कन्या, तुळ, वृषभ",
+      "houseRaw": "2, 6, 11",
+      "review": false
+    },
+    {
+      "id": 33,
+      "number": 32,
+      "title": "हॉटेलोलॉजी (हॉटेल)",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Me",
+        "Ma",
+        "Mo",
+        "Su"
+      ],
+      "signs": [
+        2,
+        0,
+        9
+      ],
+      "houses": [
+        3,
+        2,
+        8
+      ],
+      "planetRaw": "बुध, मंगळ, चंद्र, रवि",
+      "signRaw": "मिथुन, मेष, मकर",
+      "houseRaw": "3, 2, 8",
+      "review": false
+    },
+    {
+      "id": 34,
+      "number": 33,
+      "title": "फायर इंजिनियरिंग",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Mo"
+      ],
+      "signs": [
+        0,
+        7
+      ],
+      "houses": [
+        1,
+        8,
+        4
+      ],
+      "planetRaw": "मंगळ, शनि, चंद्र",
+      "signRaw": "मेष, वृश्चिक",
+      "houseRaw": "1, 8, 4",
+      "review": false
+    },
+    {
+      "id": 35,
+      "number": 34,
+      "title": "लेदर टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Sa",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        6,
+        7,
+        9,
+        11
+      ],
+      "houses": [
+        8,
+        10,
+        6
+      ],
+      "planetRaw": "शनि, शुक्र, मंगळ",
+      "signRaw": "तुळ, वृश्चिक, मकर, मीन",
+      "houseRaw": "8, 10, 6",
+      "review": false
+    },
+    {
+      "id": 36,
+      "number": 35,
+      "title": "फॅशन टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Mo",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        4,
+        0
+      ],
+      "houses": [
+        4,
+        2,
+        8
+      ],
+      "planetRaw": "शुक्र, चंद्र, मंगळ",
+      "signRaw": "वृषभ, सिंह, मेष",
+      "houseRaw": "4, 2, 8",
+      "review": false
+    },
+    {
+      "id": 37,
+      "number": 36,
+      "title": "सिरॅमिक टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Ve",
+        "Sa"
+      ],
+      "signs": [
+        0,
+        7,
+        8,
+        9
+      ],
+      "houses": [
+        8,
+        10,
+        4
+      ],
+      "planetRaw": "मंगळ, शुक्र, शनि",
+      "signRaw": "मेष, वृश्चिक, धनु, मकर",
+      "houseRaw": "8, 10, 4",
+      "review": false
+    },
+    {
+      "id": 38,
+      "number": 37,
+      "title": "पेपर टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        5,
+        8,
+        9
+      ],
+      "houses": [
+        3,
+        6,
+        5
+      ],
+      "planetRaw": "बुध, शुक्र, मंगळ",
+      "signRaw": "मिथुन, कन्या, धनु, मकर",
+      "houseRaw": "3, 6, 5",
+      "review": false
+    },
+    {
+      "id": 39,
+      "number": 38,
+      "title": "ज्युटी इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Su",
+        "Me"
+      ],
+      "signs": [
+        4,
+        7,
+        0,
+        8
+      ],
+      "houses": [
+        4,
+        8,
+        1,
+        10
+      ],
+      "planetRaw": "मंगळ, रवि, बुध",
+      "signRaw": "सिंह, वृश्चिक, मेष, धनु",
+      "houseRaw": "4, 8, 1, 10",
+      "review": false
+    },
+    {
+      "id": 40,
+      "number": 39,
+      "title": "रबर प्लास्टिक पॉलिमर टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Me",
+        "Mo"
+      ],
+      "signs": [
+        5,
+        1,
+        6,
+        4
+      ],
+      "houses": [
+        3,
+        6,
+        1,
+        4
+      ],
+      "planetRaw": "शुक्र, बुध, चंद्र",
+      "signRaw": "कन्या, वृषभ, तुळ, सिंह",
+      "houseRaw": "3, 6, 1, 4",
+      "review": false
+    },
+    {
+      "id": 41,
+      "number": 40,
+      "title": "मरीन इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Ve",
+        "Mo",
+        "Me"
+      ],
+      "signs": [
+        2,
+        3,
+        8,
+        11,
+        6
+      ],
+      "houses": [
+        4,
+        8,
+        12,
+        3
+      ],
+      "planetRaw": "मंगळ, शुक्र, चंद्र, बुध",
+      "signRaw": "मिथुन, कर्क, धनु, मीन, तुळ",
+      "houseRaw": "4, 8, 12, 3",
+      "review": false
+    },
+    {
+      "id": 42,
+      "number": 41,
+      "title": "ऑईल टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Sa",
+        "Ve",
+        "Mo"
+      ],
+      "signs": [
+        3,
+        5,
+        7,
+        11
+      ],
+      "houses": [
+        2,
+        6,
+        8,
+        12
+      ],
+      "planetRaw": "शनि, शुक्र, चंद्र",
+      "signRaw": "कर्क, कन्या, वृश्चिक, मीन",
+      "houseRaw": "2, 6, 8, 12",
+      "review": false
+    },
+    {
+      "id": 43,
+      "number": 42,
+      "title": "सिल्क टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Mo",
+        "Me"
+      ],
+      "signs": [
+        4,
+        6,
+        1,
+        5
+      ],
+      "houses": [
+        2,
+        5,
+        6
+      ],
+      "planetRaw": "शुक्र, चंद्र, बुध",
+      "signRaw": "सिंह, तुळ, वृषभ, कन्या",
+      "houseRaw": "2, 5, 6",
+      "review": false
+    },
+    {
+      "id": 44,
+      "number": 43,
+      "title": "अॅग्रिकल्चर इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ve",
+        "Sa"
+      ],
+      "signs": [
+        3,
+        1,
+        5,
+        9
+      ],
+      "houses": [
+        4,
+        8,
+        1,
+        10
+      ],
+      "planetRaw": "मंगळ, बुध, शुक्र, शनि",
+      "signRaw": "कर्क, वृषभ, कन्या, मकर",
+      "houseRaw": "4, 8, 1, 10",
+      "review": false
+    },
+    {
+      "id": 45,
+      "number": 44,
+      "title": "अल्कोहोल टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Mo"
+      ],
+      "signs": [
+        3,
+        7,
+        1,
+        11
+      ],
+      "houses": [
+        4,
+        8,
+        2,
+        6
+      ],
+      "planetRaw": "शुक्र, मंगळ, चंद्र",
+      "signRaw": "कर्क, वृश्चिक, वृषभ, मीन",
+      "houseRaw": "4, 8, 2, 6",
+      "review": false
+    },
+    {
+      "id": 46,
+      "number": 45,
+      "title": "फूड टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Su",
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        1,
+        5,
+        4,
+        8
+      ],
+      "houses": [
+        2,
+        6,
+        4,
+        8
+      ],
+      "planetRaw": "रवि, बुध, शुक्र",
+      "signRaw": "वृषभ, कन्या, सिंह, धनु",
+      "houseRaw": "2, 6, 4, 8",
+      "review": false
+    },
+    {
+      "id": 47,
+      "number": 46,
+      "title": "प्रिंटिंग टेक्नॉलॉजी",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Me",
+        "Mo",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        8,
+        5
+      ],
+      "houses": [
+        3,
+        6,
+        8,
+        1
+      ],
+      "planetRaw": "बुध, चंद्र, शुक्र, मंगळ",
+      "signRaw": "मिथुन, धनु, कन्या",
+      "houseRaw": "3, 6, 8, 1",
+      "review": false
+    },
+    {
+      "id": 48,
+      "number": 47,
+      "title": "एरोनॉटिक इंजि.",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        2,
+        6,
+        10
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "मिथुन, तुळ, कुंभ",
+      "houseRaw": "4, 8",
+      "review": false
+    },
+    {
+      "id": 49,
+      "number": 48,
+      "title": "बॅव्हलॉरिंग / नॉटिकल सायन्स*",
+      "category": "अभियांत्रिकी",
+      "planets": [
+        "Me",
+        "Ju",
+        "Mo"
+      ],
+      "signs": [
+        2,
+        3,
+        11
+      ],
+      "houses": [
+        3,
+        8,
+        12
+      ],
+      "planetRaw": "बुध, गुरु, चंद्र",
+      "signRaw": "मिथुन, कर्क, मीन",
+      "houseRaw": "3, 8, 12",
+      "review": false
+    },
+    {
+      "id": 51,
+      "number": 49,
+      "title": "आयुर्वेद",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Su",
+        "Mo"
+      ],
+      "signs": [
+        0,
+        4,
+        5,
+        3
+      ],
+      "houses": [
+        2,
+        5,
+        6
+      ],
+      "planetRaw": "बुध, रवि, चंद्र",
+      "signRaw": "मेष, सिंह, कन्या, कर्क",
+      "houseRaw": "2, 5, 6",
+      "review": false
+    },
+    {
+      "id": 52,
+      "number": 50,
+      "title": "होमिओपॅथी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Mo",
+        "Su"
+      ],
+      "signs": [
+        1,
+        3,
+        4
+      ],
+      "houses": [
+        2,
+        5,
+        6
+      ],
+      "planetRaw": "शुक्र, चंद्र, रवि",
+      "signRaw": "वृषभ, कर्क, सिंह",
+      "houseRaw": "2, 5, 6",
+      "review": false
+    },
+    {
+      "id": 53,
+      "number": 51,
+      "title": "युनानी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ra",
+        "Mo"
+      ],
+      "signs": [
+        4,
+        3,
+        0
+      ],
+      "houses": [
+        2,
+        5,
+        6
+      ],
+      "planetRaw": "रवि, राहू, चंद्र",
+      "signRaw": "सिंह, कर्क, मेष",
+      "houseRaw": "2, 5, 6",
+      "review": false
+    },
+    {
+      "id": 54,
+      "number": 52,
+      "title": "फिजिओथेरपी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Su"
+      ],
+      "signs": [
+        0,
+        7,
+        4,
+        2,
+        9
+      ],
+      "houses": [
+        2,
+        5,
+        4,
+        3
+      ],
+      "planetRaw": "मंगळ, शनि, रवि",
+      "signRaw": "मेष, वृश्चिक, सिंह, मिथुन, मकर",
+      "houseRaw": "2, 5, 4, 3",
+      "review": false
+    },
+    {
+      "id": 55,
+      "number": 53,
+      "title": "डायटिशियन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ju",
+        "Sa",
+        "Me"
+      ],
+      "signs": [
+        1,
+        5,
+        7,
+        4
+      ],
+      "houses": [
+        2,
+        6,
+        4
+      ],
+      "planetRaw": "रवि, गुरु, शनि, बुध",
+      "signRaw": "वृषभ, कन्या, वृश्चिक, सिंह",
+      "houseRaw": "2, 2, 6, 4",
+      "review": false
+    },
+    {
+      "id": 56,
+      "number": 54,
+      "title": "बी. फार्म / डी. फार्म",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ve",
+        "Me"
+      ],
+      "signs": [
+        2,
+        4,
+        1
+      ],
+      "houses": [
+        2,
+        5,
+        3
+      ],
+      "planetRaw": "रवि, शुक्र, बुध",
+      "signRaw": "मिथुन, सिंह, वृषभ",
+      "houseRaw": "2, 5, 3",
+      "review": false
+    },
+    {
+      "id": 57,
+      "number": 55,
+      "title": "नर्सिंग",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Mo",
+        "Sa",
+        "Su"
+      ],
+      "signs": [
+        3,
+        5,
+        9,
+        4
+      ],
+      "houses": [
+        1,
+        6,
+        12,
+        5
+      ],
+      "planetRaw": "चंद्र, शनि, रवि",
+      "signRaw": "कर्क, कन्या, मकर, सिंह",
+      "houseRaw": "1, 6, 12, 5",
+      "review": false
+    },
+    {
+      "id": 58,
+      "number": 56,
+      "title": "ऑलोपॅथी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ma"
+      ],
+      "signs": [
+        4,
+        5,
+        0,
+        8
+      ],
+      "houses": [
+        2,
+        5,
+        6,
+        11
+      ],
+      "planetRaw": "रवि, मंगळ",
+      "signRaw": "सिंह, कन्या, मेष, धनु",
+      "houseRaw": "2, 5, 6, 11",
+      "review": false
+    },
+    {
+      "id": 59,
+      "number": 57,
+      "title": "ऑप्थाल्मी (नेत्रतज्ञ)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Su",
+        "Mo"
+      ],
+      "signs": [
+        4,
+        1,
+        11,
+        3
+      ],
+      "houses": [
+        2,
+        12,
+        1,
+        5
+      ],
+      "planetRaw": "शुक्र, रवि, चंद्र",
+      "signRaw": "सिंह, वृषभ, मीन, कर्क",
+      "houseRaw": "2, 12, 1, 5",
+      "review": false
+    },
+    {
+      "id": 60,
+      "number": 58,
+      "title": "डेंटिस्ट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        0,
+        1,
+        9,
+        4
+      ],
+      "houses": [
+        2,
+        1,
+        4,
+        8
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "मेष, वृषभ, मकर, सिंह",
+      "houseRaw": "2, 1, 4, 8",
+      "review": false
+    },
+    {
+      "id": 61,
+      "number": 59,
+      "title": "डेंटल मेकॅनिक",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        1,
+        9
+      ],
+      "houses": [
+        2,
+        8
+      ],
+      "planetRaw": "मंगळ, शनि",
+      "signRaw": "वृषभ, मकर",
+      "houseRaw": "2, 8",
+      "review": false
+    },
+    {
+      "id": 62,
+      "number": 60,
+      "title": "मेडिकल लॅब टेक्नॉलॉजी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Mo",
+        "Ma"
+      ],
+      "signs": [
+        4,
+        7
+      ],
+      "houses": [
+        4,
+        8,
+        1,
+        12
+      ],
+      "planetRaw": "रवि, चंद्र, मंगळ",
+      "signRaw": "सिंह, वृश्चिक",
+      "houseRaw": "4, 8, 1, 12",
+      "review": false
+    },
+    {
+      "id": 63,
+      "number": 61,
+      "title": "ऑर्थोपेडिक",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Sa",
+        "Ma",
+        "Su"
+      ],
+      "signs": [
+        7,
+        0,
+        9,
+        10
+      ],
+      "houses": [
+        2,
+        8,
+        4,
+        10
+      ],
+      "planetRaw": "शनि, मंगळ, रवि",
+      "signRaw": "वृश्चिक, मेष, मकर, कुंभ",
+      "houseRaw": "2, 8, 4, 10",
+      "review": false
+    },
+    {
+      "id": 64,
+      "number": 62,
+      "title": "ऑर्थोटिस्ट (टेक्नो.)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Sa",
+        "Ma"
+      ],
+      "signs": [
+        4,
+        7,
+        3,
+        9
+      ],
+      "houses": [
+        8,
+        4,
+        10,
+        1
+      ],
+      "planetRaw": "शनि, मंगळ",
+      "signRaw": "सिंह, वृश्चिक, कर्क, मकर",
+      "houseRaw": "8, 4, 10, 1",
+      "review": false
+    },
+    {
+      "id": 65,
+      "number": 63,
+      "title": "स्पीच थेरपी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Me"
+      ],
+      "signs": [
+        1,
+        2,
+        5
+      ],
+      "houses": [
+        2,
+        11,
+        4,
+        3
+      ],
+      "planetRaw": "शुक्र, बुध",
+      "signRaw": "वृषभ, मिथुन, कन्या",
+      "houseRaw": "2, 11, 4, 3",
+      "review": false
+    },
+    {
+      "id": 66,
+      "number": 64,
+      "title": "रेडिओलॉजिस्ट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ur"
+      ],
+      "signs": [
+        2,
+        7,
+        0
+      ],
+      "houses": [
+        3,
+        4,
+        1,
+        12
+      ],
+      "planetRaw": "रवि, मंगळ, हर्षल (युती/दृष्टी)",
+      "signRaw": "मिथुन, वृश्चिक, मेष",
+      "houseRaw": "3, 4, 1, 12",
+      "review": true
+    },
+    {
+      "id": 67,
+      "number": 65,
+      "title": "हॉस्पिटल मॅनेजमेंट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ju"
+      ],
+      "signs": [
+        4,
+        11,
+        9,
+        5
+      ],
+      "houses": [
+        12,
+        5,
+        6,
+        10
+      ],
+      "planetRaw": "रवि, मंगळ, गुरु",
+      "signRaw": "सिंह, मीन, मकर, कन्या",
+      "houseRaw": "12, 5, 6, 10",
+      "review": false
+    },
+    {
+      "id": 68,
+      "number": 66,
+      "title": "सर्जन (शल्य विशारद)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ma"
+      ],
+      "signs": [
+        0,
+        7,
+        4,
+        11
+      ],
+      "houses": [
+        2,
+        8,
+        4,
+        12
+      ],
+      "planetRaw": "रवि, मंगळ",
+      "signRaw": "मेष, वृश्चिक, सिंह, मीन",
+      "houseRaw": "2, 8, 4, 12",
+      "review": false
+    },
+    {
+      "id": 69,
+      "number": 67,
+      "title": "न्युरोसर्जन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Su",
+        "Me"
+      ],
+      "signs": [
+        0,
+        7,
+        11
+      ],
+      "houses": [
+        2,
+        8,
+        12
+      ],
+      "planetRaw": "मंगळ, रवि, बुध",
+      "signRaw": "मेष, वृश्चिक, मीन",
+      "houseRaw": "2, 8, 12",
+      "review": false
+    },
+    {
+      "id": 70,
+      "number": 68,
+      "title": "आय सर्जन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Su",
+        "Mo",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        11,
+        7,
+        0
+      ],
+      "houses": [
+        2,
+        12,
+        8,
+        1
+      ],
+      "planetRaw": "शुक्र, रवि, चंद्र, मंगळ",
+      "signRaw": "वृषभ, मीन, वृश्चिक, मेष",
+      "houseRaw": "2, 12, 8, 1",
+      "review": false
+    },
+    {
+      "id": 71,
+      "number": 69,
+      "title": "गळा, घसा, नाक सर्जन (ENT)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        2,
+        3
+      ],
+      "houses": [
+        2,
+        3,
+        8
+      ],
+      "planetRaw": "बुध, शुक्र, मंगळ",
+      "signRaw": "वृषभ, मिथुन, कर्क",
+      "houseRaw": "2, 3, 2, 8",
+      "review": false
+    },
+    {
+      "id": 72,
+      "number": 70,
+      "title": "हार्ट सर्जन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ma"
+      ],
+      "signs": [
+        4,
+        0,
+        7,
+        11
+      ],
+      "houses": [
+        2,
+        5,
+        8,
+        12
+      ],
+      "planetRaw": "रवि, मंगळ",
+      "signRaw": "सिंह, मेष, वृश्चिक, मीन",
+      "houseRaw": "2, 5, 8, 12",
+      "review": false
+    },
+    {
+      "id": 73,
+      "number": 71,
+      "title": "पोटाचे सर्जन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Su",
+        "Ma"
+      ],
+      "signs": [
+        5,
+        4,
+        6
+      ],
+      "houses": [
+        2,
+        6,
+        8,
+        12
+      ],
+      "planetRaw": "बुध, रवि, मंगळ",
+      "signRaw": "कन्या, सिंह, तुळ",
+      "houseRaw": "2, 6, 8, 12",
+      "review": false
+    },
+    {
+      "id": 74,
+      "number": 72,
+      "title": "किडनी सर्जन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Su"
+      ],
+      "signs": [
+        6,
+        7,
+        0,
+        11
+      ],
+      "houses": [
+        2,
+        7,
+        8,
+        12
+      ],
+      "planetRaw": "शुक्र, मंगळ, रवि",
+      "signRaw": "तुळ, वृश्चिक, मेष, मीन",
+      "houseRaw": "2, 7, 8, 12",
+      "review": false
+    },
+    {
+      "id": 75,
+      "number": 73,
+      "title": "अस्थी सर्जन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Sa",
+        "Ma",
+        "Su"
+      ],
+      "signs": [
+        4,
+        0,
+        7,
+        9
+      ],
+      "houses": [
+        2,
+        5,
+        8,
+        10
+      ],
+      "planetRaw": "शनि, मंगळ, रवि",
+      "signRaw": "सिंह, मेष, वृश्चिक, मकर",
+      "houseRaw": "2, 5, 8, 10",
+      "review": false
+    },
+    {
+      "id": 76,
+      "number": 74,
+      "title": "कॅन्सर सर्जन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Su",
+        "Ma"
+      ],
+      "signs": [
+        8,
+        11,
+        0,
+        7,
+        4
+      ],
+      "houses": [
+        2,
+        5,
+        8,
+        12
+      ],
+      "planetRaw": "गुरु, रवि, मंगळ",
+      "signRaw": "धनु, मीन, मेष, वृश्चिक, सिंह",
+      "houseRaw": "2, 5, 8, 12",
+      "review": false
+    },
+    {
+      "id": 77,
+      "number": 75,
+      "title": "गायनकला (पशुवैद्यक)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Ma",
+        "Su"
+      ],
+      "signs": [
+        4,
+        6,
+        7,
+        11
+      ],
+      "houses": [
+        4,
+        8,
+        12,
+        3,
+        11
+      ],
+      "planetRaw": "गुरु, शुक्र, मंगळ, रवि",
+      "signRaw": "सिंह, तुळ, वृश्चिक, मीन",
+      "houseRaw": "4, 8, 12, 3, 11",
+      "review": false
+    },
+    {
+      "id": 78,
+      "number": 76,
+      "title": "पेडियाट्रिक",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Me",
+        "Su"
+      ],
+      "signs": [
+        11,
+        8,
+        4
+      ],
+      "houses": [
+        5,
+        6,
+        12
+      ],
+      "planetRaw": "गुरु, बुध, रवि",
+      "signRaw": "मीन, धनु, सिंह",
+      "houseRaw": "5, 6, 12",
+      "review": false
+    },
+    {
+      "id": 79,
+      "number": 77,
+      "title": "कॉस्मेटिक सर्जन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        1,
+        0,
+        6
+      ],
+      "houses": [
+        2,
+        7,
+        11,
+        8
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "वृषभ, मेष, तुळ",
+      "houseRaw": "2, 7, 11, 8",
+      "review": false
+    },
+    {
+      "id": 80,
+      "number": 78,
+      "title": "ऑर्थो डेंटिस्ट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Sa",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        2,
+        5,
+        9,
+        11
+      ],
+      "houses": [
+        2,
+        3,
+        8,
+        10
+      ],
+      "planetRaw": "शनि, मंगळ, बुध",
+      "signRaw": "मिथुन, कन्या, मकर, मीन",
+      "houseRaw": "2, 3, 8, 10",
+      "review": false
+    },
+    {
+      "id": 81,
+      "number": 79,
+      "title": "अॅनेस्थेशियन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ra",
+        "Sa",
+        "Ne"
+      ],
+      "signs": [
+        11,
+        7,
+        0,
+        4
+      ],
+      "houses": [
+        2,
+        3,
+        6,
+        4
+      ],
+      "planetRaw": "राहू, शनि, नेप",
+      "signRaw": "मीन, वृश्चिक, मेष, सिंह",
+      "houseRaw": "2, 3, 6, 4",
+      "review": true
+    },
+    {
+      "id": 82,
+      "number": 80,
+      "title": "सायकियाट्रिस्ट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Mo",
+        "Me",
+        "Su",
+        "Ne"
+      ],
+      "signs": [
+        3,
+        0,
+        4,
+        11
+      ],
+      "houses": [
+        2,
+        5,
+        6,
+        12
+      ],
+      "planetRaw": "चंद्र, बुध, रवि, नेप",
+      "signRaw": "कर्क, मेष, सिंह, मीन",
+      "houseRaw": "2, 5, 6, 12",
+      "review": true
+    },
+    {
+      "id": 83,
+      "number": 81,
+      "title": "सायको अॅनालिस्ट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Mo",
+        "Su",
+        "Me"
+      ],
+      "signs": [
+        3,
+        7,
+        11,
+        0
+      ],
+      "houses": [
+        4,
+        6,
+        8,
+        2
+      ],
+      "planetRaw": "चंद्र, रवि, बुध",
+      "signRaw": "कर्क, वृश्चिक, मीन, मेष",
+      "houseRaw": "4, 6, 8, 2",
+      "review": false
+    },
+    {
+      "id": 84,
+      "number": 82,
+      "title": "ऑक्युपेशनल थेरपी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Ve",
+        "Sa"
+      ],
+      "signs": [
+        3,
+        0,
+        4,
+        9
+      ],
+      "houses": [
+        2,
+        5,
+        8,
+        10
+      ],
+      "planetRaw": "चंद्र, मंगळ, शुक्र, शनि",
+      "signRaw": "कर्क, मेष, सिंह, मकर",
+      "houseRaw": "2, 5, 8, 10",
+      "review": false
+    },
+    {
+      "id": 85,
+      "number": 83,
+      "title": "ऑप्टोमेट्री",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Su",
+        "Mo",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        11,
+        4,
+        3
+      ],
+      "houses": [
+        2,
+        12,
+        4,
+        8
+      ],
+      "planetRaw": "शुक्र, रवि, चंद्र, मंगळ",
+      "signRaw": "वृषभ, मीन, सिंह, कर्क",
+      "houseRaw": "2, 12, 4, 8",
+      "review": false
+    },
+    {
+      "id": 86,
+      "number": 84,
+      "title": "थोरॅसिक मेडिकल",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Mo",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        4,
+        3,
+        7
+      ],
+      "houses": [
+        8,
+        2,
+        12
+      ],
+      "planetRaw": "रवि, चंद्र, बुध, गुरु",
+      "signRaw": "सिंह, कर्क, वृश्चिक",
+      "houseRaw": "8, 2, 12",
+      "review": false
+    },
+    {
+      "id": 87,
+      "number": 85,
+      "title": "थोरॅसिक सर्जन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        0,
+        7,
+        4
+      ],
+      "houses": [
+        2,
+        5,
+        8,
+        10
+      ],
+      "planetRaw": "रवि, मंगळ, शनि",
+      "signRaw": "मेष, वृश्चिक, सिंह",
+      "houseRaw": "2, 5, 8, 10",
+      "review": false
+    },
+    {
+      "id": 88,
+      "number": 86,
+      "title": "बायो टेक्नॉलॉजी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ju"
+      ],
+      "signs": [
+        4,
+        8,
+        11,
+        0
+      ],
+      "houses": [
+        2,
+        1,
+        5,
+        4
+      ],
+      "planetRaw": "रवि, मंगळ, गुरु",
+      "signRaw": "सिंह, धनु, मीन, मेष",
+      "houseRaw": "2, 1, 5, 4",
+      "review": false
+    },
+    {
+      "id": 89,
+      "number": 87,
+      "title": "बायो इंजिनियरिंग",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Su"
+      ],
+      "signs": [
+        8,
+        0,
+        4,
+        6
+      ],
+      "houses": [
+        2,
+        5,
+        4,
+        8
+      ],
+      "planetRaw": "गुरु, रवि",
+      "signRaw": "धनु, मेष, सिंह, तुळ",
+      "houseRaw": "2, 5, 4, 8",
+      "review": false
+    },
+    {
+      "id": 90,
+      "number": 88,
+      "title": "बायो मेट्री",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ju",
+        "Su"
+      ],
+      "signs": [
+        2,
+        8,
+        7,
+        4
+      ],
+      "houses": [
+        3,
+        4,
+        1
+      ],
+      "planetRaw": "बुध, गुरु, रवि",
+      "signRaw": "मिथुन, धनु, वृश्चिक, सिंह",
+      "houseRaw": "3, 4, 1",
+      "review": false
+    },
+    {
+      "id": 91,
+      "number": 89,
+      "title": "बायो फिजिक्स",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Su",
+        "Me"
+      ],
+      "signs": [
+        7,
+        0,
+        4
+      ],
+      "houses": [],
+      "planetRaw": "मंगळ, रवि, बुध",
+      "signRaw": "वृश्चिक, मेष, सिंह",
+      "houseRaw": "(भाव अस्पष्ट)",
+      "review": false
+    },
+    {
+      "id": 92,
+      "number": 90,
+      "title": "बायोमॅग्नेटिक्स",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Sa",
+        "Su",
+        "Ma"
+      ],
+      "signs": [
+        0,
+        2,
+        10,
+        4
+      ],
+      "houses": [
+        8,
+        3,
+        4
+      ],
+      "planetRaw": "शनि, रवि, मंगळ",
+      "signRaw": "मेष, मिथुन, कुंभ, सिंह",
+      "houseRaw": "8, 3, 4",
+      "review": false
+    },
+    {
+      "id": 93,
+      "number": 90,
+      "title": "बायो मेडिकल",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        0,
+        4,
+        11,
+        2
+      ],
+      "houses": [
+        2,
+        5,
+        8
+      ],
+      "planetRaw": "रवि, मंगळ, बुध",
+      "signRaw": "मेष, सिंह, मीन, मिथुन",
+      "houseRaw": "2, 5, 8",
+      "review": false
+    },
+    {
+      "id": 94,
+      "number": 91,
+      "title": "जेनेटिक इंजिनियरिंग",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ur"
+      ],
+      "signs": [
+        0,
+        4,
+        7,
+        11
+      ],
+      "houses": [
+        2,
+        5,
+        12,
+        8
+      ],
+      "planetRaw": "रवि, मंगळ, युरेनस",
+      "signRaw": "मेष, सिंह, वृश्चिक, मीन",
+      "houseRaw": "2, 5, 12, 8",
+      "review": true
+    },
+    {
+      "id": 95,
+      "number": 92,
+      "title": "फॉरेन्सिक सायंटिस्ट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ve",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        0,
+        7,
+        2,
+        5
+      ],
+      "houses": [
+        3,
+        8,
+        1
+      ],
+      "planetRaw": "रवि, शुक्र, मंगळ, बुध",
+      "signRaw": "मेष, वृश्चिक, मिथुन, कन्या",
+      "houseRaw": "3, 8, 1",
+      "review": false
+    },
+    {
+      "id": 96,
+      "number": 93,
+      "title": "रिहॅबिलिटेशन (अपंग पुनर्वसन)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Sa",
+        "Ma",
+        "Ju"
+      ],
+      "signs": [
+        11,
+        0,
+        8,
+        9
+      ],
+      "houses": [
+        12,
+        2,
+        8,
+        10
+      ],
+      "planetRaw": "शनि, मंगळ, गुरु",
+      "signRaw": "मीन, मेष, धनु, मकर",
+      "houseRaw": "12, 2, 8, 10",
+      "review": false
+    },
+    {
+      "id": 97,
+      "number": 94,
+      "title": "पशुवैद्यक",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Su",
+        "Ma"
+      ],
+      "signs": [
+        5,
+        0,
+        4,
+        8
+      ],
+      "houses": [
+        6,
+        2,
+        5,
+        8
+      ],
+      "planetRaw": "शुक्र, रवि, मंगळ",
+      "signRaw": "कन्या, मेष, सिंह, धनु",
+      "houseRaw": "6, 2, 5, 8",
+      "review": false
+    },
+    {
+      "id": 98,
+      "number": 95,
+      "title": "कृषीतज्ञ",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Me",
+        "Ve",
+        "Mo"
+      ],
+      "signs": [
+        3,
+        4,
+        8,
+        0
+      ],
+      "houses": [
+        4,
+        11,
+        1
+      ],
+      "planetRaw": "रवि, बुध, शुक्र, चंद्र",
+      "signRaw": "कर्क, सिंह, धनु, मेष",
+      "houseRaw": "4, 11, 1",
+      "review": false
+    },
+    {
+      "id": 99,
+      "number": 96,
+      "title": "हॉर्टिकल्चर",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ju",
+        "Mo",
+        "Ve"
+      ],
+      "signs": [
+        3,
+        8,
+        6
+      ],
+      "houses": [
+        4,
+        5,
+        9
+      ],
+      "planetRaw": "बुध, गुरु, चंद्र, शुक्र",
+      "signRaw": "कर्क, धनु, तुळ",
+      "houseRaw": "4, 5, 9",
+      "review": false
+    },
+    {
+      "id": 100,
+      "number": 97,
+      "title": "सिल्व्हीकल्चर",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Ma",
+        "Su"
+      ],
+      "signs": [
+        0,
+        3,
+        8,
+        7
+      ],
+      "houses": [
+        4,
+        8,
+        9
+      ],
+      "planetRaw": "गुरु, मंगळ, रवि",
+      "signRaw": "मेष, कर्क, धनु, वृश्चिक",
+      "houseRaw": "4, 8, 9",
+      "review": false
+    },
+    {
+      "id": 101,
+      "number": 98,
+      "title": "मत्स्यशास्त्र",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Ju",
+        "Mo"
+      ],
+      "signs": [
+        11,
+        4,
+        6,
+        11
+      ],
+      "houses": [
+        6,
+        5,
+        2,
+        12
+      ],
+      "planetRaw": "शुक्र, गुरु, चंद्र",
+      "signRaw": "मीन, सिंह, तुळ, मीन",
+      "houseRaw": "6, 5, 2, 12",
+      "review": false
+    },
+    {
+      "id": 102,
+      "number": 99,
+      "title": "मिटी ऑरोलॉजिस्ट (हवामान)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Sa",
+        "Su",
+        "Mo"
+      ],
+      "signs": [
+        2,
+        3,
+        6,
+        11
+      ],
+      "houses": [
+        3,
+        12,
+        4
+      ],
+      "planetRaw": "बुध, शनि, रवि, चंद्र",
+      "signRaw": "मिथुन, कर्क, तुळ, मीन",
+      "houseRaw": "3, 12, 4",
+      "review": false
+    },
+    {
+      "id": 103,
+      "number": 100,
+      "title": "कुक्कुट पालन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ve"
+      ],
+      "signs": [
+        4,
+        5,
+        6
+      ],
+      "houses": [
+        6,
+        5,
+        7,
+        2
+      ],
+      "planetRaw": "बुध, गुरु, शुक्र",
+      "signRaw": "सिंह, कन्या, तुळ",
+      "houseRaw": "6, 5, 7, 2",
+      "review": false
+    },
+    {
+      "id": 104,
+      "number": 101,
+      "title": "कार्टोग्राफर",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Mo",
+        "Me"
+      ],
+      "signs": [
+        3,
+        0,
+        7,
+        2
+      ],
+      "houses": [
+        4,
+        2,
+        3,
+        1
+      ],
+      "planetRaw": "मंगळ, चंद्र, बुध",
+      "signRaw": "कर्क, मेष, वृश्चिक, मिथुन",
+      "houseRaw": "4, 2, 3, 1",
+      "review": false
+    },
+    {
+      "id": 105,
+      "number": 102,
+      "title": "सेरिकल्चरिस्ट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ju",
+        "Ma"
+      ],
+      "signs": [
+        4,
+        7,
+        8
+      ],
+      "houses": [
+        2,
+        4,
+        5,
+        8
+      ],
+      "planetRaw": "रवि, गुरु, मंगळ",
+      "signRaw": "सिंह, वृश्चिक, धनु",
+      "houseRaw": "2, 4, 5, 8",
+      "review": false
+    },
+    {
+      "id": 106,
+      "number": 103,
+      "title": "पशुपालन",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Ju",
+        "Su"
+      ],
+      "signs": [
+        4,
+        5,
+        8,
+        11
+      ],
+      "houses": [
+        4,
+        6,
+        9
+      ],
+      "planetRaw": "शुक्र, गुरु, रवि",
+      "signRaw": "सिंह, कन्या, धनु, मीन",
+      "houseRaw": "4, 6, 9",
+      "review": false
+    },
+    {
+      "id": 107,
+      "number": 104,
+      "title": "सॉफ्टवेअर",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Me",
+        "Sa"
+      ],
+      "signs": [
+        8,
+        2,
+        10
+      ],
+      "houses": [
+        3,
+        9,
+        11
+      ],
+      "planetRaw": "गुरु, बुध, शनि",
+      "signRaw": "धनु, मिथुन, कुंभ",
+      "houseRaw": "3, 9, 11",
+      "review": false
+    },
+    {
+      "id": 108,
+      "number": 105,
+      "title": "कॉम्प्युटर हार्डवेअर",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        8,
+        0,
+        7,
+        10
+      ],
+      "houses": [
+        3,
+        8,
+        9
+      ],
+      "planetRaw": "गुरु, मंगळ, बुध",
+      "signRaw": "धनु, मेष, वृश्चिक, कुंभ",
+      "houseRaw": "3, 8, 9",
+      "review": false
+    },
+    {
+      "id": 109,
+      "number": 106,
+      "title": "इंटरनेट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        11,
+        8,
+        6
+      ],
+      "houses": [
+        3,
+        12,
+        9
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "मिथुन, मीन, धनु, तुळ",
+      "houseRaw": "3, 12, 9",
+      "review": false
+    },
+    {
+      "id": 110,
+      "number": 107,
+      "title": "कॉम्प्युटर आर्ट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        6,
+        4,
+        2
+      ],
+      "houses": [
+        4,
+        3,
+        1,
+        11
+      ],
+      "planetRaw": "गुरु, शुक्र, मंगळ",
+      "signRaw": "वृषभ, तुळ, सिंह, मिथुन",
+      "houseRaw": "4, 3, 1, 11",
+      "review": false
+    },
+    {
+      "id": 111,
+      "number": 108,
+      "title": "इन्फॉर्मेशन टेक्नॉलॉजी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        8,
+        7
+      ],
+      "houses": [
+        3,
+        9,
+        12
+      ],
+      "planetRaw": "बुध, गुरु, मंगळ",
+      "signRaw": "मिथुन, धनु, वृश्चिक",
+      "houseRaw": "3, 9, 12",
+      "review": false
+    },
+    {
+      "id": 112,
+      "number": 109,
+      "title": "केमिस्ट्री",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Mo"
+      ],
+      "signs": [
+        3,
+        7,
+        11
+      ],
+      "houses": [
+        4,
+        8,
+        12
+      ],
+      "planetRaw": "शुक्र, मंगळ, चंद्र",
+      "signRaw": "कर्क, वृश्चिक, मीन",
+      "houseRaw": "4, 8, 12",
+      "review": false
+    },
+    {
+      "id": 113,
+      "number": 110,
+      "title": "फिजिक्स",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        1,
+        5,
+        9
+      ],
+      "houses": [
+        4,
+        8,
+        10
+      ],
+      "planetRaw": "मंगळ, बुध",
+      "signRaw": "वृषभ, कन्या, मकर",
+      "houseRaw": "4, 8, 10",
+      "review": false
+    },
+    {
+      "id": 114,
+      "number": 111,
+      "title": "बायोलॉजी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ve",
+        "Mo"
+      ],
+      "signs": [
+        5,
+        2,
+        3
+      ],
+      "houses": [
+        6,
+        4,
+        5
+      ],
+      "planetRaw": "बुध, शुक्र, चंद्र",
+      "signRaw": "कन्या, मिथुन, कर्क",
+      "houseRaw": "6, 4, 5",
+      "review": false
+    },
+    {
+      "id": 115,
+      "number": 112,
+      "title": "झूऑलॉजी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        9,
+        3,
+        5
+      ],
+      "houses": [
+        4,
+        8,
+        6
+      ],
+      "planetRaw": "शुक्र, मंगळ, बुध",
+      "signRaw": "मकर, कर्क, कन्या",
+      "houseRaw": "4, 8, 6",
+      "review": false
+    },
+    {
+      "id": 116,
+      "number": 113,
+      "title": "मॅथेमॅटिक्स",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        8,
+        5
+      ],
+      "houses": [
+        3,
+        9,
+        8
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "मिथुन, धनु, कन्या",
+      "houseRaw": "3, 9, 8",
+      "review": false
+    },
+    {
+      "id": 117,
+      "number": 114,
+      "title": "जिऑलॉजी (जमीन हलणे)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Me"
+      ],
+      "signs": [
+        3,
+        10,
+        0,
+        7
+      ],
+      "houses": [
+        4,
+        11,
+        8
+      ],
+      "planetRaw": "मंगळ, शनि, बुध",
+      "signRaw": "कर्क, कुंभ, मेष, वृश्चिक",
+      "houseRaw": "4, 11, 8",
+      "review": false
+    },
+    {
+      "id": 118,
+      "number": 115,
+      "title": "मायक्रो बायोलॉजी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ma"
+      ],
+      "signs": [
+        5,
+        7,
+        0
+      ],
+      "houses": [
+        3,
+        8,
+        4
+      ],
+      "planetRaw": "बुध, गुरु, मंगळ",
+      "signRaw": "कन्या, वृश्चिक, मेष",
+      "houseRaw": "3, 8, 4",
+      "review": false
+    },
+    {
+      "id": 119,
+      "number": 116,
+      "title": "स्टॅटिस्टिक्स",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ju",
+        "Sa"
+      ],
+      "signs": [
+        2,
+        10,
+        8,
+        5
+      ],
+      "houses": [
+        3,
+        9,
+        10
+      ],
+      "planetRaw": "बुध, गुरु, शनि",
+      "signRaw": "मिथुन, कुंभ, धनु, कन्या",
+      "houseRaw": "3, 9, 10",
+      "review": false
+    },
+    {
+      "id": 120,
+      "number": 117,
+      "title": "पायलट",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Sa",
+        "Me"
+      ],
+      "signs": [
+        6,
+        2,
+        8,
+        11
+      ],
+      "houses": [
+        3,
+        4,
+        12,
+        9
+      ],
+      "planetRaw": "शुक्र, शनि, बुध",
+      "signRaw": "तुळ, मिथुन, धनु, मीन",
+      "houseRaw": "3, 4, 12, 9",
+      "review": false
+    },
+    {
+      "id": 121,
+      "number": 118,
+      "title": "एअर होस्टेस / एअर पर्सर",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Sa",
+        "Ve"
+      ],
+      "signs": [
+        5,
+        1,
+        11
+      ],
+      "houses": [
+        3,
+        6,
+        12,
+        4
+      ],
+      "planetRaw": "शनि, शुक्र",
+      "signRaw": "कन्या, वृषभ, मीन",
+      "houseRaw": "3, 6, 12, 4",
+      "review": false
+    },
+    {
+      "id": 122,
+      "number": 119,
+      "title": "एव्हिएशन मेकॅनिक",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Su",
+        "Ve",
+        "Sa"
+      ],
+      "signs": [
+        4,
+        0,
+        2
+      ],
+      "houses": [
+        4,
+        8,
+        3,
+        12
+      ],
+      "planetRaw": "रवि, शुक्र, शनि",
+      "signRaw": "सिंह, मेष, मिथुन",
+      "houseRaw": "4, 8, 3, 12",
+      "review": false
+    },
+    {
+      "id": 123,
+      "number": 120,
+      "title": "रेडिओ ऑफिसर (मरीन)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Me",
+        "Ma",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        3,
+        11
+      ],
+      "houses": [
+        3,
+        8,
+        12
+      ],
+      "planetRaw": "बुध, मंगळ, गुरु",
+      "signRaw": "मिथुन, कर्क, मीन",
+      "houseRaw": "3, 8, 12",
+      "review": false
+    },
+    {
+      "id": 124,
+      "number": 121,
+      "title": "नौसेना",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Ju",
+        "Mo"
+      ],
+      "signs": [
+        7,
+        0,
+        11,
+        3
+      ],
+      "houses": [
+        3,
+        8,
+        6,
+        12
+      ],
+      "planetRaw": "मंगळ, गुरु, चंद्र",
+      "signRaw": "वृश्चिक, मेष, मीन, कर्क",
+      "houseRaw": "3, 8, 6, 12",
+      "review": false
+    },
+    {
+      "id": 125,
+      "number": 122,
+      "title": "एअरफोर्स",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Ve"
+      ],
+      "signs": [
+        0,
+        7,
+        6,
+        10
+      ],
+      "houses": [
+        3,
+        8,
+        6,
+        12
+      ],
+      "planetRaw": "मंगळ, शनि, शुक्र",
+      "signRaw": "मेष, वृश्चिक, तुळ, कुंभ",
+      "houseRaw": "3, 8, 6, 12",
+      "review": false
+    },
+    {
+      "id": 126,
+      "number": 123,
+      "title": "मिलिटरी",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        0,
+        7,
+        3,
+        11
+      ],
+      "houses": [
+        4,
+        8,
+        12,
+        2
+      ],
+      "planetRaw": "मंगळ, बुध, गुरु",
+      "signRaw": "मेष, वृश्चिक, कर्क, मीन",
+      "houseRaw": "4, 8, 12, 2",
+      "review": false
+    },
+    {
+      "id": 127,
+      "number": 124,
+      "title": "रेल्वे",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Sa",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        3,
+        9
+      ],
+      "houses": [
+        3,
+        4,
+        8
+      ],
+      "planetRaw": "शुक्र, शनि, मंगळ",
+      "signRaw": "मिथुन, कर्क, मकर",
+      "houseRaw": "3, 4, 8",
+      "review": false
+    },
+    {
+      "id": 128,
+      "number": 125,
+      "title": "सी.ए. (चार्टर्ड अकाउंटन्सी)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        1,
+        6,
+        2,
+        8
+      ],
+      "houses": [
+        2,
+        3,
+        7,
+        9
+      ],
+      "planetRaw": "शुक्र, बुध, गुरु",
+      "signRaw": "वृषभ, तुळ, मिथुन, धनु",
+      "houseRaw": "2, 3, 7, 9",
+      "review": false
+    },
+    {
+      "id": 129,
+      "number": 126,
+      "title": "आय.सी.डब्ल्यू.ए. (ICWA)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        2,
+        9,
+        6
+      ],
+      "houses": [
+        2,
+        7,
+        6,
+        10
+      ],
+      "planetRaw": "शुक्र, बुध, मंगळ",
+      "signRaw": "वृषभ, मिथुन, मकर, तुळ",
+      "houseRaw": "2, 7, 6, 10",
+      "review": false
+    },
+    {
+      "id": 130,
+      "number": 127,
+      "title": "सी.एस. (Company Secretary)",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Me"
+      ],
+      "signs": [
+        1,
+        6,
+        9,
+        8
+      ],
+      "houses": [
+        2,
+        6,
+        7,
+        10
+      ],
+      "planetRaw": "मंगळ, शनि, बुध",
+      "signRaw": "वृषभ, तुळ, मकर, धनु",
+      "houseRaw": "2, 6, 7, 10",
+      "review": false
+    },
+    {
+      "id": 131,
+      "number": 128,
+      "title": "बी.कॉम / बी.एफ.ए.",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Me"
+      ],
+      "signs": [
+        1,
+        5,
+        6,
+        11
+      ],
+      "houses": [
+        2,
+        6,
+        1,
+        11
+      ],
+      "planetRaw": "गुरु, शुक्र, बुध",
+      "signRaw": "वृषभ, कन्या, तुळ, मीन",
+      "houseRaw": "2, 6, 1, 11",
+      "review": false
+    },
+    {
+      "id": 132,
+      "number": 129,
+      "title": "बी.एफ.ए.",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Sa",
+        "Me"
+      ],
+      "signs": [
+        2,
+        1,
+        7
+      ],
+      "houses": [
+        2,
+        6,
+        8,
+        10
+      ],
+      "planetRaw": "शुक्र, शनि, बुध",
+      "signRaw": "मिथुन, वृषभ, वृश्चिक",
+      "houseRaw": "2, 6, 8, 10",
+      "review": false
+    },
+    {
+      "id": 133,
+      "number": 130,
+      "title": "बी.बी.सी.",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Ju",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        6,
+        2
+      ],
+      "houses": [
+        2,
+        6,
+        7,
+        10
+      ],
+      "planetRaw": "शुक्र, गुरु, मंगळ",
+      "signRaw": "वृषभ, तुळ, मिथुन",
+      "houseRaw": "2, 6, 7, 10",
+      "review": false
+    },
+    {
+      "id": 134,
+      "number": 131,
+      "title": "अॅक्चुअरीज",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Sa",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        0,
+        7,
+        11
+      ],
+      "houses": [
+        2,
+        8,
+        12
+      ],
+      "planetRaw": "शनि, मंगळ, बुध",
+      "signRaw": "मेष, वृश्चिक, मीन",
+      "houseRaw": "2, 8, 12",
+      "review": false
+    },
+    {
+      "id": 135,
+      "number": 132,
+      "title": "डी.बी.एम.",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        5,
+        9
+      ],
+      "houses": [
+        2,
+        6,
+        10
+      ],
+      "planetRaw": "शुक्र, बुध, मंगळ",
+      "signRaw": "वृषभ, कन्या, मकर",
+      "houseRaw": "2, 6, 10",
+      "review": false
+    },
+    {
+      "id": 136,
+      "number": 133,
+      "title": "सी.एफ.ए.",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        1,
+        2,
+        8,
+        5
+      ],
+      "houses": [
+        2,
+        6,
+        7
+      ],
+      "planetRaw": "शुक्र, बुध, गुरु",
+      "signRaw": "वृषभ, मिथुन, धनु, कन्या",
+      "houseRaw": "2, 6, 7",
+      "review": false
+    },
+    {
+      "id": 137,
+      "number": 134,
+      "title": "एम.बी.ए.",
+      "category": "वैद्यकशास्त्र",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Sa"
+      ],
+      "signs": [
+        11,
+        8,
+        1
+      ],
+      "houses": [
+        2,
+        9,
+        11,
+        6
+      ],
+      "planetRaw": "गुरु, शुक्र, शनि",
+      "signRaw": "मीन, धनु, वृषभ",
+      "houseRaw": "2, 9, 11, 6",
+      "review": false
+    },
+    {
+      "id": 139,
+      "number": 135,
+      "title": "एम.पी.आय.बी.",
+      "category": "व्यापार क्षेत्र",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        11,
+        2,
+        6
+      ],
+      "houses": [
+        3,
+        12,
+        7
+      ],
+      "planetRaw": "शुक्र, बुध, गुरु",
+      "signRaw": "मीन, मिथुन, तुळ",
+      "houseRaw": "3, 12, 7",
+      "review": false
+    },
+    {
+      "id": 140,
+      "number": 136,
+      "title": "इंटरनॅशनल ट्रेड",
+      "category": "व्यापार क्षेत्र",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        6,
+        8
+      ],
+      "houses": [
+        3,
+        12,
+        9
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "मिथुन, तुळ, धनु",
+      "houseRaw": "3, 12, 9",
+      "review": false
+    },
+    {
+      "id": 141,
+      "number": 137,
+      "title": "इंटरनॅशनल लॉ",
+      "category": "व्यापार क्षेत्र",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        6,
+        5,
+        11,
+        8
+      ],
+      "houses": [
+        3,
+        7,
+        9
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "तुळ, कन्या, मीन, धनु",
+      "houseRaw": "3, 7, 9",
+      "review": false
+    },
+    {
+      "id": 142,
+      "number": 138,
+      "title": "इंटरनॅशनल मार्केटिंग",
+      "category": "व्यापार क्षेत्र",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        11
+      ],
+      "houses": [
+        3,
+        12
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "मिथुन, मीन",
+      "houseRaw": "3, 12",
+      "review": false
+    },
+    {
+      "id": 143,
+      "number": 139,
+      "title": "एक्सपोर्ट ऑपरेशन",
+      "category": "व्यापार क्षेत्र",
+      "planets": [
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        3,
+        11,
+        8
+      ],
+      "houses": [
+        4,
+        12,
+        9
+      ],
+      "planetRaw": "बुध, शुक्र",
+      "signRaw": "कर्क, मीन, धनु",
+      "houseRaw": "4, 12, 9",
+      "review": false
+    },
+    {
+      "id": 144,
+      "number": 140,
+      "title": "इम्पोर्ट",
+      "category": "व्यापार क्षेत्र",
+      "planets": [
+        "Ve",
+        "Me"
+      ],
+      "signs": [
+        11,
+        3,
+        8,
+        2
+      ],
+      "houses": [
+        2,
+        12,
+        3,
+        4
+      ],
+      "planetRaw": "शुक्र, बुध",
+      "signRaw": "मीन, कर्क, धनु, मिथुन",
+      "houseRaw": "2, 12, 3, 4",
+      "review": false
+    },
+    {
+      "id": 146,
+      "number": 141,
+      "title": "विमा",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Sa",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        0,
+        7,
+        2
+      ],
+      "houses": [
+        8,
+        3,
+        10
+      ],
+      "planetRaw": "शनि, मंगळ, बुध",
+      "signRaw": "मेष, वृश्चिक, मिथुन",
+      "houseRaw": "8, 3, 10",
+      "review": false
+    },
+    {
+      "id": 147,
+      "number": 142,
+      "title": "बँकिंग",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Me"
+      ],
+      "signs": [
+        6,
+        3,
+        2
+      ],
+      "houses": [
+        4,
+        8,
+        10
+      ],
+      "planetRaw": "मंगळ, शनि, बुध",
+      "signRaw": "तुळ, कर्क, मिथुन",
+      "houseRaw": "4, 8, 10",
+      "review": false
+    },
+    {
+      "id": 148,
+      "number": 143,
+      "title": "जाहिरात",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        6,
+        10,
+        8
+      ],
+      "houses": [
+        3,
+        9
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "मिथुन, तुळ, कुंभ, धनु",
+      "houseRaw": "3, 9",
+      "review": false
+    },
+    {
+      "id": 149,
+      "number": 144,
+      "title": "पत्रकार",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Me",
+        "Ma",
+        "Mo"
+      ],
+      "signs": [
+        2,
+        5,
+        8
+      ],
+      "houses": [
+        3,
+        10
+      ],
+      "planetRaw": "बुध, मंगळ, चंद्र",
+      "signRaw": "मिथुन, कन्या, धनु",
+      "houseRaw": "3, 10",
+      "review": false
+    },
+    {
+      "id": 150,
+      "number": 145,
+      "title": "पब्लिक रिलेशन",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Sa",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        6,
+        10
+      ],
+      "houses": [
+        3,
+        9,
+        10
+      ],
+      "planetRaw": "शनि, बुध, गुरु",
+      "signRaw": "मिथुन, तुळ, कुंभ",
+      "houseRaw": "3, 9, 10",
+      "review": false
+    },
+    {
+      "id": 151,
+      "number": 146,
+      "title": "सोशल वर्कर",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Mo",
+        "Sa",
+        "Me"
+      ],
+      "signs": [
+        5,
+        3,
+        0,
+        7
+      ],
+      "houses": [
+        6,
+        4,
+        5
+      ],
+      "planetRaw": "चंद्र, शनि, बुध",
+      "signRaw": "कन्या, कर्क, मेष, वृश्चिक",
+      "houseRaw": "6, 4, 5",
+      "review": false
+    },
+    {
+      "id": 152,
+      "number": 147,
+      "title": "मार्केटिंग / सेल्स",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        2,
+        6,
+        10,
+        8
+      ],
+      "houses": [
+        3,
+        10,
+        11
+      ],
+      "planetRaw": "बुध, शुक्र",
+      "signRaw": "मिथुन, तुळ, कुंभ, धनु",
+      "houseRaw": "3, 10, 11",
+      "review": false
+    },
+    {
+      "id": 153,
+      "number": 148,
+      "title": "बी.एड.",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        3,
+        8
+      ],
+      "houses": [
+        4,
+        11,
+        9
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "मिथुन, कर्क, धनु",
+      "houseRaw": "4, 11, 9",
+      "review": false
+    },
+    {
+      "id": 154,
+      "number": 149,
+      "title": "प्रोफेसर",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Ju",
+        "Me"
+      ],
+      "signs": [
+        8,
+        10,
+        3
+      ],
+      "houses": [
+        9,
+        11,
+        5
+      ],
+      "planetRaw": "गुरु, बुध",
+      "signRaw": "धनु, कुंभ, कर्क",
+      "houseRaw": "9, 11, 5",
+      "review": false
+    },
+    {
+      "id": 155,
+      "number": 150,
+      "title": "नर्सरी टीचर",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Ju",
+        "Mo",
+        "Su"
+      ],
+      "signs": [
+        4,
+        8,
+        3
+      ],
+      "houses": [
+        5,
+        4,
+        12
+      ],
+      "planetRaw": "गुरु, चंद्र, रवि",
+      "signRaw": "सिंह, धनु, कर्क",
+      "houseRaw": "5, 4, 12",
+      "review": false
+    },
+    {
+      "id": 156,
+      "number": 151,
+      "title": "दुभाषी (Interpreter)",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Me",
+        "Ju",
+        "Sa"
+      ],
+      "signs": [
+        2,
+        8,
+        11
+      ],
+      "houses": [
+        3,
+        9,
+        12
+      ],
+      "planetRaw": "बुध, गुरु, शनि",
+      "signRaw": "मिथुन, धनु, मीन",
+      "houseRaw": "3, 9, 12",
+      "review": false
+    },
+    {
+      "id": 157,
+      "number": 152,
+      "title": "सायकॉलॉजी",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Mo",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        3,
+        11,
+        0,
+        2
+      ],
+      "houses": [
+        4,
+        3,
+        12
+      ],
+      "planetRaw": "चंद्र, बुध, गुरु",
+      "signRaw": "कर्क, मीन, मेष, मिथुन",
+      "houseRaw": "4, 3, 12",
+      "review": false
+    },
+    {
+      "id": 158,
+      "number": 153,
+      "title": "परदेशी भाषा",
+      "category": "सेवा क्षेत्र",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        11,
+        6
+      ],
+      "houses": [
+        3,
+        12,
+        11
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "मिथुन, मीन, तुळ",
+      "houseRaw": "3, 12, 11",
+      "review": false
+    },
+    {
+      "id": 160,
+      "number": 154,
+      "title": "एंजेलर / अँकर",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        7,
+        0,
+        6
+      ],
+      "houses": [
+        2,
+        8,
+        4
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "वृश्चिक, मेष, तुळ",
+      "houseRaw": "2, 8, 4",
+      "review": false
+    },
+    {
+      "id": 161,
+      "number": 155,
+      "title": "कमर्शियल आर्ट",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        6,
+        2,
+        1,
+        4
+      ],
+      "houses": [
+        2,
+        4,
+        3,
+        1
+      ],
+      "planetRaw": "शुक्र, बुध, गुरु",
+      "signRaw": "तुळ, मिथुन, वृषभ, सिंह",
+      "houseRaw": "2, 4, 3, 1",
+      "review": false
+    },
+    {
+      "id": 162,
+      "number": 156,
+      "title": "स्कल्प्चर / सिरॅमिक",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        0,
+        6,
+        7,
+        1
+      ],
+      "houses": [
+        4,
+        8,
+        2
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "मेष, तुळ, वृश्चिक, वृषभ",
+      "houseRaw": "4, 8, 2",
+      "review": false
+    },
+    {
+      "id": 163,
+      "number": 157,
+      "title": "टेक्स्टाईल डिझायनिंग",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Me",
+        "Mo"
+      ],
+      "signs": [
+        1,
+        3,
+        6,
+        2
+      ],
+      "houses": [
+        4,
+        3,
+        7
+      ],
+      "planetRaw": "शुक्र, बुध, चंद्र",
+      "signRaw": "वृषभ, कर्क, तुळ, मिथुन",
+      "houseRaw": "4, 3, 7",
+      "review": false
+    },
+    {
+      "id": 164,
+      "number": 158,
+      "title": "फोटोग्राफी",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Ra",
+        "Me"
+      ],
+      "signs": [
+        2,
+        6,
+        1
+      ],
+      "houses": [
+        4,
+        3,
+        8
+      ],
+      "planetRaw": "शुक्र, राहू, बुध",
+      "signRaw": "मिथुन, तुळ, वृषभ",
+      "houseRaw": "4, 3, 8",
+      "review": false
+    },
+    {
+      "id": 165,
+      "number": 159,
+      "title": "अप्लाईड आर्ट",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        2,
+        6,
+        8
+      ],
+      "houses": [
+        4,
+        3,
+        10
+      ],
+      "planetRaw": "शुक्र, बुध, मंगळ",
+      "signRaw": "वृषभ, मिथुन, तुळ, धनु",
+      "houseRaw": "4, 3, 10",
+      "review": false
+    },
+    {
+      "id": 166,
+      "number": 160,
+      "title": "चित्रकला शिक्षक",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Me"
+      ],
+      "signs": [
+        1,
+        6,
+        3,
+        8
+      ],
+      "houses": [
+        4,
+        5,
+        3
+      ],
+      "planetRaw": "शुक्र, बुध",
+      "signRaw": "वृषभ, तुळ, कर्क, धनु",
+      "houseRaw": "4, 5, 3",
+      "review": false
+    },
+    {
+      "id": 167,
+      "number": 161,
+      "title": "पेंटिंग",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Mo",
+        "Me"
+      ],
+      "signs": [
+        6,
+        2,
+        3
+      ],
+      "houses": [
+        4,
+        3,
+        12
+      ],
+      "planetRaw": "शुक्र, चंद्र, बुध",
+      "signRaw": "तुळ, मिथुन, कर्क",
+      "houseRaw": "4, 3, 12",
+      "review": false
+    },
+    {
+      "id": 168,
+      "number": 162,
+      "title": "गायन",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Me"
+      ],
+      "signs": [
+        1,
+        6,
+        10,
+        2
+      ],
+      "houses": [
+        4,
+        2
+      ],
+      "planetRaw": "शुक्र, बुध",
+      "signRaw": "वृषभ, तुळ, कुंभ, मिथुन",
+      "houseRaw": "4, 2",
+      "review": false
+    },
+    {
+      "id": 169,
+      "number": 163,
+      "title": "वाद्य संगीत",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        2,
+        6,
+        10
+      ],
+      "houses": [
+        4,
+        3,
+        8
+      ],
+      "planetRaw": "शुक्र, मंगळ, बुध",
+      "signRaw": "मिथुन, तुळ, कुंभ",
+      "houseRaw": "4, 3, 8",
+      "review": false
+    },
+    {
+      "id": 170,
+      "number": 164,
+      "title": "मेकअपमन / ब्युटी पार्लर",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Mo"
+      ],
+      "signs": [
+        0,
+        6,
+        1
+      ],
+      "houses": [
+        4,
+        2,
+        1
+      ],
+      "planetRaw": "शुक्र, चंद्र",
+      "signRaw": "मेष, तुळ, वृषभ",
+      "houseRaw": "4, 2, 1",
+      "review": false
+    },
+    {
+      "id": 171,
+      "number": 165,
+      "title": "रेकॉर्डिस्ट",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Me",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        6,
+        10,
+        5
+      ],
+      "houses": [
+        3,
+        2,
+        12
+      ],
+      "planetRaw": "बुध, मंगळ",
+      "signRaw": "मिथुन, तुळ, कुंभ, कन्या",
+      "houseRaw": "3, 2, 12",
+      "review": false
+    },
+    {
+      "id": 172,
+      "number": 166,
+      "title": "एडिटर",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Me",
+        "Sa"
+      ],
+      "signs": [
+        2,
+        9,
+        5
+      ],
+      "houses": [
+        4,
+        6,
+        12
+      ],
+      "planetRaw": "बुध, शनि",
+      "signRaw": "मिथुन, मकर, कन्या",
+      "houseRaw": "4, 6, 12",
+      "review": false
+    },
+    {
+      "id": 173,
+      "number": 167,
+      "title": "नाट्यशास्त्र",
+      "category": "कलाक्षेत्र",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ma"
+      ],
+      "signs": [
+        1,
+        0,
+        4,
+        2
+      ],
+      "houses": [
+        4,
+        2,
+        11
+      ],
+      "planetRaw": "शुक्र, बुध, मंगळ",
+      "signRaw": "वृषभ, मेष, सिंह, मिथुन",
+      "houseRaw": "4, 2, 11",
+      "review": false
+    },
+    {
+      "id": 175,
+      "number": 168,
+      "title": "कबड्डी",
+      "category": "खेळ",
+      "planets": [
+        "Ma",
+        "Ve",
+        "Me"
+      ],
+      "signs": [
+        0,
+        4,
+        8,
+        9
+      ],
+      "houses": [
+        4,
+        3,
+        8
+      ],
+      "planetRaw": "मंगळ, शुक्र, बुध",
+      "signRaw": "मेष, सिंह, धनु, मकर",
+      "houseRaw": "4, 3, 8",
+      "review": false
+    },
+    {
+      "id": 176,
+      "number": 169,
+      "title": "क्रिकेट",
+      "category": "खेळ",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        0,
+        4,
+        1,
+        9
+      ],
+      "houses": [
+        4,
+        8,
+        6
+      ],
+      "planetRaw": "मंगळ, बुध, शुक्र",
+      "signRaw": "मेष, सिंह, वृषभ, मकर",
+      "houseRaw": "4, 8, 6",
+      "review": false
+    },
+    {
+      "id": 177,
+      "number": 170,
+      "title": "बास्केटबॉल",
+      "category": "खेळ",
+      "planets": [
+        "Me",
+        "Sa",
+        "Ve"
+      ],
+      "signs": [
+        2,
+        6,
+        10
+      ],
+      "houses": [
+        3,
+        7,
+        10,
+        5
+      ],
+      "planetRaw": "बुध, शनि, शुक्र",
+      "signRaw": "मिथुन, तुळ, कुंभ",
+      "houseRaw": "3, 7, 10, 5",
+      "review": false
+    },
+    {
+      "id": 178,
+      "number": 171,
+      "title": "हॉलीबॉल",
+      "category": "खेळ",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        6,
+        10
+      ],
+      "houses": [
+        3,
+        6,
+        4
+      ],
+      "planetRaw": "शुक्र, बुध, मंगळ",
+      "signRaw": "मिथुन, तुळ, कुंभ",
+      "houseRaw": "3, 6, 4",
+      "review": false
+    },
+    {
+      "id": 179,
+      "number": 172,
+      "title": "फुटबॉल",
+      "category": "खेळ",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Ju"
+      ],
+      "signs": [
+        9,
+        10,
+        11,
+        6
+      ],
+      "houses": [
+        4,
+        7,
+        5
+      ],
+      "planetRaw": "शुक्र, मंगळ, गुरु",
+      "signRaw": "मकर, कुंभ, मीन, तुळ",
+      "houseRaw": "4, 7, 5",
+      "review": false
+    },
+    {
+      "id": 180,
+      "number": 173,
+      "title": "हॉकी",
+      "category": "खेळ",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Me"
+      ],
+      "signs": [
+        1,
+        5,
+        9,
+        4
+      ],
+      "houses": [
+        5,
+        2,
+        6,
+        10
+      ],
+      "planetRaw": "शुक्र, मंगळ, बुध",
+      "signRaw": "वृषभ, कन्या, मकर, सिंह",
+      "houseRaw": "5, 2, 6, 10",
+      "review": false
+    },
+    {
+      "id": 181,
+      "number": 174,
+      "title": "स्विमिंग",
+      "category": "खेळ",
+      "planets": [
+        "Ve",
+        "Mo",
+        "Ma"
+      ],
+      "signs": [
+        3,
+        11,
+        7
+      ],
+      "houses": [
+        4,
+        8,
+        12
+      ],
+      "planetRaw": "शुक्र, चंद्र, मंगळ",
+      "signRaw": "कर्क, मीन, वृश्चिक",
+      "houseRaw": "4, 8, 12",
+      "review": false
+    },
+    {
+      "id": 182,
+      "number": 175,
+      "title": "जिम्नॅस्टिक्स",
+      "category": "खेळ",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        0,
+        7,
+        6,
+        9
+      ],
+      "houses": [
+        2,
+        3,
+        4,
+        8
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "मेष, वृश्चिक, तुळ, मकर",
+      "houseRaw": "2, 3, 4, 8",
+      "review": false
+    },
+    {
+      "id": 183,
+      "number": 176,
+      "title": "एम.पी.एस.सी. (राज्य)",
+      "category": "खेळ",
+      "planets": [
+        "Su",
+        "Ju",
+        "Me"
+      ],
+      "signs": [
+        4,
+        5,
+        9
+      ],
+      "houses": [
+        6,
+        10,
+        3
+      ],
+      "planetRaw": "रवि, गुरु, बुध",
+      "signRaw": "सिंह, कन्या, मकर",
+      "houseRaw": "6, 10, 3",
+      "review": false
+    },
+    {
+      "id": 184,
+      "number": 177,
+      "title": "यू.पी.एस.सी.",
+      "category": "खेळ",
+      "planets": [
+        "Su",
+        "Ju",
+        "Me"
+      ],
+      "signs": [
+        4,
+        5,
+        9
+      ],
+      "houses": [
+        6,
+        10,
+        3
+      ],
+      "planetRaw": "रवि, गुरु, बुध",
+      "signRaw": "सिंह, कन्या, मकर",
+      "houseRaw": "6, 10, 3",
+      "review": false
+    },
+    {
+      "id": 186,
+      "number": 178,
+      "title": "नगरसेवक",
+      "category": "राजकारण",
+      "planets": [
+        "Su",
+        "Me",
+        "Sa"
+      ],
+      "signs": [
+        3,
+        1,
+        2
+      ],
+      "houses": [
+        4,
+        6,
+        10
+      ],
+      "planetRaw": "रवि, बुध, शनि",
+      "signRaw": "कर्क, वृषभ, मिथुन",
+      "houseRaw": "4, 6, 10",
+      "review": false
+    },
+    {
+      "id": 187,
+      "number": 179,
+      "title": "आमदार",
+      "category": "राजकारण",
+      "planets": [
+        "Su",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        3,
+        4,
+        5,
+        8
+      ],
+      "houses": [
+        4,
+        9,
+        3,
+        10
+      ],
+      "planetRaw": "रवि, बुध, गुरु",
+      "signRaw": "कर्क, सिंह, कन्या, धनु",
+      "houseRaw": "4, 9, 3, 10",
+      "review": false
+    },
+    {
+      "id": 188,
+      "number": 180,
+      "title": "मंत्री",
+      "category": "राजकारण",
+      "planets": [
+        "Su",
+        "Ju",
+        "Ma"
+      ],
+      "signs": [
+        4,
+        0,
+        9
+      ],
+      "houses": [
+        6,
+        10,
+        11
+      ],
+      "planetRaw": "रवि, गुरु, मंगळ",
+      "signRaw": "सिंह, मेष, मकर",
+      "houseRaw": "6, 10, 11",
+      "review": false
+    },
+    {
+      "id": 190,
+      "number": 181,
+      "title": "वकील",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        6,
+        8
+      ],
+      "houses": [
+        6,
+        7,
+        9,
+        10
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "मिथुन, तुळ, धनु",
+      "houseRaw": "6, 7, 9, 10",
+      "review": false
+    },
+    {
+      "id": 191,
+      "number": 182,
+      "title": "लेबर वेल्फेअर",
+      "category": "कायदा",
+      "planets": [
+        "Sa",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        5,
+        6,
+        3,
+        9
+      ],
+      "houses": [
+        6,
+        3,
+        9
+      ],
+      "planetRaw": "शनि, बुध, गुरु",
+      "signRaw": "कन्या, तुळ, कर्क, मकर",
+      "houseRaw": "6, 3, 9",
+      "review": false
+    },
+    {
+      "id": 192,
+      "number": 183,
+      "title": "हॉटेल मॅनेजमेंट",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Me",
+        "Su"
+      ],
+      "signs": [
+        5,
+        1,
+        4
+      ],
+      "houses": [
+        6,
+        2,
+        9
+      ],
+      "planetRaw": "शुक्र, बुध, रवि",
+      "signRaw": "कन्या, वृषभ, सिंह",
+      "houseRaw": "6, 2, 9",
+      "review": false
+    },
+    {
+      "id": 193,
+      "number": 184,
+      "title": "कौन्सेलिंग",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ve",
+        "Mo"
+      ],
+      "signs": [
+        2,
+        3,
+        5,
+        6
+      ],
+      "houses": [
+        3,
+        4
+      ],
+      "planetRaw": "बुध, शुक्र, चंद्र",
+      "signRaw": "मिथुन, कर्क, कन्या, तुळ",
+      "houseRaw": "3, 3, 4",
+      "review": false
+    },
+    {
+      "id": 194,
+      "number": 185,
+      "title": "पर्सनल सेक्रेटरी",
+      "category": "कायदा",
+      "planets": [
+        "Su",
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        5,
+        6,
+        9
+      ],
+      "houses": [
+        3,
+        6,
+        10
+      ],
+      "planetRaw": "रवि, बुध, शुक्र",
+      "signRaw": "कन्या, तुळ, मकर",
+      "houseRaw": "3, 6, 10",
+      "review": false
+    },
+    {
+      "id": 195,
+      "number": 186,
+      "title": "ज्वेलरी डिझायनिंग",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Ju",
+        "Ma"
+      ],
+      "signs": [
+        6,
+        1,
+        2
+      ],
+      "houses": [
+        4,
+        8,
+        2
+      ],
+      "planetRaw": "शुक्र, गुरु, मंगळ",
+      "signRaw": "तुळ, वृषभ, मिथुन",
+      "houseRaw": "4, 8, 2",
+      "review": false
+    },
+    {
+      "id": 196,
+      "number": 187,
+      "title": "जेमॉलॉजी",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        7,
+        6,
+        1
+      ],
+      "houses": [
+        4,
+        8,
+        10
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "वृश्चिक, तुळ, वृषभ",
+      "houseRaw": "4, 8, 10",
+      "review": false
+    },
+    {
+      "id": 197,
+      "number": 188,
+      "title": "डायमंड असॉर्टिंग",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        6,
+        1,
+        7
+      ],
+      "houses": [
+        4,
+        9,
+        10
+      ],
+      "planetRaw": "शुक्र, बुध, गुरु",
+      "signRaw": "तुळ, वृषभ, वृश्चिक",
+      "houseRaw": "4, 9, 10",
+      "review": false
+    },
+    {
+      "id": 198,
+      "number": 189,
+      "title": "डायमंड पॉलिशिंग",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        0,
+        3,
+        6,
+        8
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "मेष, कर्क, तुळ, धनु",
+      "houseRaw": "4, 8",
+      "review": false
+    },
+    {
+      "id": 199,
+      "number": 190,
+      "title": "प्रवासक (Tourism/Travel)",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Sa",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        8,
+        11
+      ],
+      "houses": [
+        3,
+        8,
+        2,
+        11
+      ],
+      "planetRaw": "बुध, शनि, गुरु",
+      "signRaw": "मिथुन, धनु, मीन",
+      "houseRaw": "3, 8, 2, 11",
+      "review": false
+    },
+    {
+      "id": 200,
+      "number": 191,
+      "title": "टूर अँड ट्रॅव्हल्स",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        3,
+        6
+      ],
+      "houses": [
+        3,
+        8,
+        11
+      ],
+      "planetRaw": "शुक्र, बुध, गुरु",
+      "signRaw": "मिथुन, कर्क, तुळ",
+      "houseRaw": "3, 8, 11",
+      "review": false
+    },
+    {
+      "id": 201,
+      "number": 192,
+      "title": "टुरिस्ट गाईड",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        2,
+        1,
+        6,
+        10
+      ],
+      "houses": [
+        3,
+        5,
+        4
+      ],
+      "planetRaw": "बुध, शुक्र",
+      "signRaw": "मिथुन, वृषभ, तुळ, कुंभ",
+      "houseRaw": "3, 5, 4",
+      "review": false
+    },
+    {
+      "id": 202,
+      "number": 193,
+      "title": "लाकूड काम (सुतार)",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        3,
+        7
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "बुध, शुक्र, मंगळ",
+      "signRaw": "मिथुन, कर्क, वृश्चिक",
+      "houseRaw": "4, 8",
+      "review": false
+    },
+    {
+      "id": 203,
+      "number": 194,
+      "title": "वेल्डिंग",
+      "category": "कायदा",
+      "planets": [
+        "Sa",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        3,
+        7
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "शनि, मंगळ",
+      "signRaw": "मिथुन, कर्क, वृश्चिक",
+      "houseRaw": "4, 8",
+      "review": false
+    },
+    {
+      "id": 204,
+      "number": 195,
+      "title": "ज्योतिष",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ju",
+        "Sa"
+      ],
+      "signs": [
+        4,
+        2,
+        5,
+        8
+      ],
+      "houses": [
+        3,
+        4,
+        5,
+        9
+      ],
+      "planetRaw": "बुध, गुरु, शनि",
+      "signRaw": "सिंह, मिथुन, कन्या, धनु",
+      "houseRaw": "3, 4, 5, 9",
+      "review": false
+    },
+    {
+      "id": 205,
+      "number": 186,
+      "title": "वकील",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        6,
+        8
+      ],
+      "houses": [
+        6,
+        7,
+        9,
+        10
+      ],
+      "planetRaw": "बुध, गुरु",
+      "signRaw": "मिथुन, तुळ, धनु",
+      "houseRaw": "६, ७, ९, १०",
+      "review": false
+    },
+    {
+      "id": 206,
+      "number": 187,
+      "title": "लेबर वेल्फेअर",
+      "category": "कायदा",
+      "planets": [
+        "Sa",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        5,
+        6,
+        3,
+        9
+      ],
+      "houses": [
+        6,
+        3,
+        7
+      ],
+      "planetRaw": "शनि, बुध, गुरु",
+      "signRaw": "कन्या, तुळ, कर्क, मकर",
+      "houseRaw": "६, ३, ७",
+      "review": false
+    },
+    {
+      "id": 207,
+      "number": 188,
+      "title": "हॉटेल मॅनेजमेंट",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Me",
+        "Su"
+      ],
+      "signs": [
+        5,
+        1,
+        4
+      ],
+      "houses": [
+        6,
+        2,
+        7
+      ],
+      "planetRaw": "शुक्र, बुध, रवि",
+      "signRaw": "कन्या, वृषभ, सिंह",
+      "houseRaw": "६, २, ७",
+      "review": false
+    },
+    {
+      "id": 208,
+      "number": 189,
+      "title": "कौन्सेलिंग",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ve",
+        "Mo"
+      ],
+      "signs": [
+        2,
+        3,
+        5,
+        6
+      ],
+      "houses": [
+        3,
+        4
+      ],
+      "planetRaw": "बुध, शुक्र, चंद्र",
+      "signRaw": "मिथुन, कर्क, कन्या, तुळ",
+      "houseRaw": "३, ३, ४",
+      "review": false
+    },
+    {
+      "id": 209,
+      "number": 190,
+      "title": "पर्सनल सेक्रेटरी",
+      "category": "कायदा",
+      "planets": [
+        "Su",
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        5,
+        6,
+        9
+      ],
+      "houses": [
+        3,
+        6,
+        10
+      ],
+      "planetRaw": "रवि, बुध, शुक्र",
+      "signRaw": "कन्या, तुळ, मकर",
+      "houseRaw": "३, ६, १०",
+      "review": false
+    },
+    {
+      "id": 210,
+      "number": 191,
+      "title": "ज्वेलरी डिझायनिंग",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Ju",
+        "Ma"
+      ],
+      "signs": [
+        6,
+        1,
+        2
+      ],
+      "houses": [
+        4,
+        8,
+        2
+      ],
+      "planetRaw": "शुक्र, गुरु, मंगळ",
+      "signRaw": "तुळ, वृषभ, मिथुन",
+      "houseRaw": "४, ८, २",
+      "review": false
+    },
+    {
+      "id": 211,
+      "number": 192,
+      "title": "जेमोलॉजी",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        7,
+        6,
+        1
+      ],
+      "houses": [
+        4,
+        8,
+        10
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "वृश्चिक, तुळ, वृषभ",
+      "houseRaw": "४, ८, १०",
+      "review": false
+    },
+    {
+      "id": 212,
+      "number": 193,
+      "title": "डायमंड असॉर्टिंग",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        6,
+        1,
+        7
+      ],
+      "houses": [
+        4,
+        7,
+        10
+      ],
+      "planetRaw": "शुक्र, बुध, गुरु",
+      "signRaw": "तुळ, वृषभ, वृश्चिक",
+      "houseRaw": "४, ७, १०",
+      "review": false
+    },
+    {
+      "id": 213,
+      "number": 194,
+      "title": "डायमंड पॉलिशिंग",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Ma",
+        "Sa"
+      ],
+      "signs": [
+        0,
+        3,
+        6,
+        8
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "शुक्र, मंगळ, शनि",
+      "signRaw": "मेष, कर्क, तुळ, धनु",
+      "houseRaw": "४, ८",
+      "review": false
+    },
+    {
+      "id": 214,
+      "number": 195,
+      "title": "प्रवासक",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Sa",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        8,
+        11
+      ],
+      "houses": [
+        3,
+        4,
+        2,
+        11
+      ],
+      "planetRaw": "बुध, शनि, गुरु",
+      "signRaw": "मिथुन, धनु, मीन",
+      "houseRaw": "३, ४, २, ११",
+      "review": false
+    },
+    {
+      "id": 215,
+      "number": 196,
+      "title": "टूर अँड ट्रॅव्हल्स",
+      "category": "कायदा",
+      "planets": [
+        "Ve",
+        "Me",
+        "Ju"
+      ],
+      "signs": [
+        2,
+        3,
+        6
+      ],
+      "houses": [
+        3,
+        4,
+        11
+      ],
+      "planetRaw": "शुक्र, बुध, गुरु",
+      "signRaw": "मिथुन, कर्क, तुळ",
+      "houseRaw": "३, ४, ११",
+      "review": false
+    },
+    {
+      "id": 216,
+      "number": 197,
+      "title": "टुरिस्ट गाईड",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ve"
+      ],
+      "signs": [
+        2,
+        1,
+        6,
+        10
+      ],
+      "houses": [
+        3,
+        5,
+        4
+      ],
+      "planetRaw": "बुध, शुक्र",
+      "signRaw": "मिथुन, वृषभ, तुळ, कुंभ",
+      "houseRaw": "३, ५, ४",
+      "review": false
+    },
+    {
+      "id": 217,
+      "number": 198,
+      "title": "लाकूड काम (सुतार)",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        3,
+        7
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "बुध, शुक्र, मंगळ",
+      "signRaw": "मिथुन, कर्क, वृश्चिक",
+      "houseRaw": "४, ८",
+      "review": false
+    },
+    {
+      "id": 218,
+      "number": 199,
+      "title": "वेल्डिंग",
+      "category": "कायदा",
+      "planets": [
+        "Sa",
+        "Ma"
+      ],
+      "signs": [
+        2,
+        3,
+        7
+      ],
+      "houses": [
+        4,
+        8
+      ],
+      "planetRaw": "शनि, मंगळ",
+      "signRaw": "मिथुन, कर्क, वृश्चिक",
+      "houseRaw": "४, ८",
+      "review": false
+    },
+    {
+      "id": 219,
+      "number": 200,
+      "title": "ज्योतिष",
+      "category": "कायदा",
+      "planets": [
+        "Me",
+        "Ju",
+        "Sa"
+      ],
+      "signs": [
+        4,
+        2,
+        5,
+        8
+      ],
+      "houses": [
+        3,
+        4,
+        5,
+        9
+      ],
+      "planetRaw": "बुध, गुरु, शनि",
+      "signRaw": "सिंह, मिथुन, कन्या, धनु",
+      "houseRaw": "३, ४, ५, ९",
+      "review": false
+    }
+  ]
+}
