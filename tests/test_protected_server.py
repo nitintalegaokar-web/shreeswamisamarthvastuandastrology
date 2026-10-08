@@ -101,6 +101,12 @@ class ProtectedServerTests(unittest.TestCase):
         self.page.locator('#workspace-main').focus();self.page.keyboard.type('gna');expect(self.page.locator('#nadi-astrology')).to_be_visible()
         self.page.keyboard.type('gab');expect(self.page.locator('#about')).to_be_visible()
 
+    def test_home_nadi_only_cards_in_private_interface(self):
+        self.page.locator('#quick-nadi-significators').click();expect(self.page.locator('#home-nadi-significators')).to_be_visible()
+        expect(self.page.locator('#home')).to_be_visible();expect(self.page.locator('#nadi-astrology')).not_to_be_visible()
+        self.assertEqual(self.page.locator('#home-nadi-significators .na-tile').count(),9)
+        self.page.locator('[data-home-view="sixfold"]').click();expect(self.page.locator('#home-data-tables')).to_be_visible();expect(self.page.locator('#home-nadi-significators')).not_to_be_visible()
+
     def test_direct_aspect_pdf_and_a4_preview_routes(self):
         import fitz
         for section in ['aspects','single-page','south9','nadi-astrology']:

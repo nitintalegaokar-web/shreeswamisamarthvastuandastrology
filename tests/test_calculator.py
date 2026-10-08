@@ -193,6 +193,24 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(field).to_have_value('gna');expect(self.page.locator('#basic')).to_be_visible()
         self.assertEqual(self.errors,[])
 
+    def test_home_nadi_cards_and_clean_north_chart_text(self):
+        self.go('home');before=self.page.evaluate('currentKPModel.planets.map(p=>[p.id,p.longitude])')
+        self.page.locator('#quick-nadi-significators').click()
+        expect(self.page.locator('#home-nadi-significators')).to_be_visible()
+        expect(self.page.locator('#nadi-astrology')).not_to_be_visible()
+        expect(self.page.locator('#home-data-tables')).not_to_be_visible()
+        self.assertEqual(self.page.locator('#home-nadi-significators .na-tile').count(),9)
+        self.assertEqual(self.page.locator('#home-nadi-significators .na-layer').count(),27)
+        self.assertEqual(self.page.locator('#home-nadi-significators .na-tile').first.evaluate('(n)=>getComputedStyle(n).backgroundColor'),'rgb(248, 251, 255)')
+        event=self.page.locator('#home-nadi-event');options=event.locator('option').all();choice=options[1].get_attribute('value');event.select_option(choice)
+        expect(self.page.locator('#na-event')).to_have_value(choice)
+        self.page.locator('[data-home-view="fourfold"]').click();expect(self.page.locator('#home-data-tables')).to_be_visible();expect(self.page.locator('#home-nadi-significators')).not_to_be_visible()
+        self.assertEqual(self.page.evaluate('currentKPModel.planets.map(p=>[p.id,p.longitude])'),before)
+        self.go('nadi-astrology');self.page.locator('#na-native-chart').click(button='right');self.page.locator('#kundali-style-north').click()
+        text=self.page.locator('#na-native-chart svg text[data-nadi-chart-planet]').first
+        expect(text).to_be_visible();self.assertEqual(text.evaluate('(n)=>getComputedStyle(n).stroke'),'none')
+        self.assertEqual(self.errors,[])
+
     def test_side_by_side_folder_save_and_open(self):
         boxes=self.page.locator('#basic .pc-entry').all()
         self.assertEqual(len(boxes),2)
