@@ -4144,6 +4144,25 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(updated["dates"], ["2026-10-07", "2026-10-08"])
         self.assertEqual(updated["rows"][0]["utc"], "2026-10-07T05:30:00.000Z")
 
+    def test_uploaded_adjusted_ephemeris_is_used_without_double_ayanamsha(self):
+        self.assertEqual(self.page.evaluate('KPUploadedEphemeris.count'),215494)
+        first=self.page.evaluate("KPUploadedEphemeris.get('1911-01-01')")
+        self.assertEqual(first['st'],12*3600+8*60+5)
+        self.assertAlmostEqual(first['positions']['Su'],240+16+57/60)
+        self.assertIsNotNone(self.page.evaluate("KPUploadedEphemeris.get('2500-12-31')"))
+        data=self.configure_automatic_0530_worksheets(date='1986-07-15',time='01:00:00')
+        for row in data['rows']:
+            expected=self.page.evaluate('date=>KPUploadedEphemeris.get(date)',row['date'])
+            self.assertEqual(row['source'],'Adjusted uploaded Excel')
+            for planet,value in row['positions'].items():
+                self.assertAlmostEqual(value,expected['positions'][planet])
+                self.assertAlmostEqual(value*60,round(value*60))
+        st=self.page.evaluate('KPWorksheetEphemeris.getSidereal()')
+        self.assertEqual(st['source'],'Adjusted uploaded Excel')
+        self.assertEqual(st['date'],'1986-07-14')
+        expected=self.page.evaluate('date=>KPUploadedEphemeris.get(date).st',st['date'])
+        self.assertAlmostEqual(st['hours']*3600,expected)
+
     def test_sidereal_reference_before_dawn_and_lmt_date_rollover(self):
         self.configure_automatic_0530_worksheets(time='01:00:00')
         cases=[('01:00:00','82:30:00','2026-10-05','19:30:00'),
@@ -4163,7 +4182,7 @@ class CalculatorBrowserTests(unittest.TestCase):
                     updateLMTCalculation();updateSiderealTimeCalculation();
                     return {reference:getLMTSiderealReference(),elapsed:document.getElementById('stLmtDifference').value,
                         base:document.getElementById('baseSidereal0530').value,
-                        expected:secondsToHMS((Astronomy.SiderealTime(new Date(args[2]+'T00:00:00Z'))+5.5)*3600)};
+                        expected:secondsToHMS(KPUploadedEphemeris.get(args[2]).st)};
                 }""",[time,longitude,date])
                 self.assertEqual(data['reference']['date'],date)
                 self.assertEqual(data['elapsed'],elapsed)
