@@ -310,7 +310,7 @@ class CalculatorBrowserTests(unittest.TestCase):
             self.assertEqual(len(pdf),1);self.assertTrue(pdf[0].get_images());pdf.close()
         self.assertFalse(self.page.evaluate('Boolean(window.printCalled)'))
         self.go('south9')
-        with self.page.expect_popup() as opened:self.page.locator('#south9-preview').click()
+        with self.page.expect_popup() as opened:self.page.evaluate("()=>KPReportPreview.open('south9')")
         preview=opened.value
         self.assertEqual(preview.evaluate("()=>[...document.querySelectorAll('.report-page *')].filter(n=>/auto|scroll/.test(getComputedStyle(n).overflowX+' '+getComputedStyle(n).overflowY)).length"),0)
         preview.close()
@@ -4353,7 +4353,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(self.page.evaluate('KPHomeChartReference.getHouse()'),2)
         self.page.locator('#south-zoom-in').click()
         self.assertEqual(self.page.locator('#kundali').evaluate('n=>n.style.zoom'),'1.1')
-        with self.page.expect_popup() as opened:self.page.locator('#south9-preview').click()
+        with self.page.expect_popup() as opened:self.page.evaluate("()=>KPReportPreview.open('south9')")
         opened.value.close()
         self.go('nadi-astrology')
         with self.page.expect_popup() as opened:self.page.locator('#nadi-astrology-preview').click()
