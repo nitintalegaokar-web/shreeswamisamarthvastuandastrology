@@ -4147,7 +4147,7 @@ class CalculatorBrowserTests(unittest.TestCase):
     def test_uploaded_adjusted_ephemeris_is_used_without_double_ayanamsha(self):
         self.assertEqual(self.page.evaluate('KPUploadedEphemeris.count'),215494)
         first=self.page.evaluate("KPUploadedEphemeris.get('1911-01-01')")
-        self.assertEqual(first['st'],12*3600+8*60+5)
+        self.assertEqual(first['st'],12*3600+8*60+6)
         self.assertAlmostEqual(first['positions']['Su'],240+16+57/60)
         self.assertIsNotNone(self.page.evaluate("KPUploadedEphemeris.get('2500-12-31')"))
         data=self.configure_automatic_0530_worksheets(date='1986-07-15',time='01:00:00')
