@@ -1688,8 +1688,9 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator('#ep-outcome-result')).to_contain_text('Reason:')
         expect(self.page.locator('#ep-ruling-transit-chart .ep-query-sign')).to_have_count(12)
         self.page.locator('#ep-range-day').check()
-        self.page.evaluate('() => KPEventOutcome.search()')
-        expect(self.page.locator('#ep-time-result')).to_contain_text(re.compile('candidate|not promised|Resolve'))
+        self.assertTrue(self.page.locator('#ep-outcome-result').evaluate("n=>!!n.closest('.ep-ref-right')"))
+        expect(self.page.locator('#ep-time-result')).to_contain_text(re.compile('candidate|not Promised'), timeout=30000)
+        expect(self.page.locator('#ep-time-result')).not_to_contain_text('Resolve the additional promise conditions')
         with self.page.expect_popup() as opened:
             self.page.locator('#event-promise-preview').click()
         preview=opened.value
