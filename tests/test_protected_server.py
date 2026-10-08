@@ -41,6 +41,20 @@ class ProtectedServerTests(unittest.TestCase):
         self.page.locator(f'nav [data-tab="{tab}"]').click();self.page.wait_for_timeout(700)
     def private(self,expression):
         return self.engine.executor.submit(lambda:self.engine.sessions[self.token]['page'].evaluate(expression)).result()
+    def test_computer_form_save_export_and_open_in_private_worker(self):
+        self.go('basic')
+        self.assertTrue(self.private('Boolean(window.KPProtectedWorker)'))
+        name=self.page.locator('#pc-natal-name').get_attribute('data-bridge-id')
+        save=self.page.locator('#pc-natal-save').get_attribute('data-bridge-id')
+        self.assertEqual(self.post('/event',{'id':name,'kind':'change','value':'Private native'}).status,200)
+        self.assertEqual(self.post('/event',{'id':save,'kind':'click'}).status,200)
+        chart=self.page.request.get(self.url+'/export').json()
+        self.assertEqual(chart['fields']['name']['value'],'Private native')
+        self.assertFalse(any(k.startswith('pc-') for k in chart['fields']))
+        self.assertEqual(self.post('/import',{'chart':chart}).status,200)
+        self.assertEqual(self.private("document.getElementById('pc-natal-name').value"),'Private native')
+        self.assertEqual(self.private('KPChartStyle.getStyle()'),'south')
+
     def test_private_sources_and_calculation_controls_are_not_public(self):
         for path in ['/index.html','/protected/server.py','/../index.html','/tests/test_calculator.py']:
             self.assertEqual(self.page.request.get(self.url+path).status,404)

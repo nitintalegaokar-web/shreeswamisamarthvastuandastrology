@@ -141,6 +141,47 @@ class CalculatorBrowserTests(unittest.TestCase):
         # The original calculator initializes several legacy worksheets on timers.
         self.page.wait_for_timeout(1700)
 
+    def test_side_by_side_folder_save_and_open(self):
+        boxes=self.page.locator('#basic .pc-entry').all()
+        self.assertEqual(len(boxes),2)
+        self.assertGreater(boxes[1].bounding_box()['x'],boxes[0].bounding_box()['x'])
+        self.page.evaluate('''() => {
+          window.savedFiles=[];window.picks=0;
+          const folder={queryPermission:async()=> 'granted',getFileHandle:async(name)=>({createWritable:async()=>({write:async(text)=>savedFiles.push({name,data:JSON.parse(text)}),close:async()=>{}})})};
+          window.showDirectoryPicker=async()=>{picks++;return {getDirectoryHandle:async(name)=>{window.folderName=name;return folder;}};};
+        }''')
+        self.page.locator('#pc-natal-name').fill('Natal test')
+        self.page.locator('#pc-natal-save').click()
+        expect(self.page.locator('#pc-natal-status')).to_contain_text('Saved')
+        self.page.locator('#pc-horary-name').fill('Query test')
+        self.page.locator('#pc-horary-horary-system').select_option('2193')
+        self.page.locator('#pc-horary-horary-number').fill('1200')
+        self.page.locator('#pc-horary-save').click()
+        expect(self.page.locator('#pc-horary-status')).to_contain_text('Saved')
+        files=self.page.evaluate('savedFiles')
+        self.assertEqual(self.page.evaluate('picks'),1)
+        self.assertEqual(self.page.evaluate('folderName'),'KP Raphael')
+        for record,kind,name in zip(files,['natal','horary'],['Natal test','Query test']):
+            self.assertTrue(record['name'].endswith('.lkp'))
+            self.assertEqual(record['data']['fields']['name']['value'],name)
+            self.assertEqual(record['data']['fields']['chart-kind']['value'],kind)
+            self.assertFalse(any(k.startswith('pc-') for k in record['data']['fields']))
+        self.page.evaluate('''()=>{window.showOpenFilePicker=async()=>[{getFile:async()=>new File([JSON.stringify(savedFiles[0].data)],'natal.lkp',{type:'application/json'})}];}''')
+        self.page.locator('#pc-horary-open').click()
+        expect(self.page.locator('#south9')).to_be_visible()
+        self.assertEqual(self.page.locator('#name').input_value(),'Natal test')
+        self.assertEqual(self.page.locator('#chart-kind').input_value(),'natal')
+
+    def test_download_fallback(self):
+        self.page.evaluate('window.showDirectoryPicker=undefined')
+        self.page.locator('#pc-natal-name').fill('Download test')
+        with self.page.expect_download() as download:
+            self.page.locator('#pc-natal-save').click()
+        record=download.value
+        self.assertTrue(record.suggested_filename.endswith('.lkp'))
+        with open(record.path()) as file: data=json.load(file)
+        self.assertEqual(data['fields']['name']['value'],'Download test')
+
     def tearDown(self):
         self.assertEqual(self.errors, [], "Unexpected JavaScript errors: " + "\n".join(self.errors))
 

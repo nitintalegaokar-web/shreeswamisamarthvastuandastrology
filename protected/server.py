@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PRIVATE_TABS = ['ayan', 'lmt', 'stcalc', 'raphael5', 'planet']
 MAX_BODY = 5_000_000
 BOOT = r"""() => {
+ window.KPProtectedWorker=true;
  window.KPClientPresentation.setClient(true);
  for(const id of ['st-ephemeris-source','p6-ephemeris-source'])document.getElementById(id).value='automatic';
  document.getElementById('kp-ayanamsha-source').value='annual';
@@ -124,7 +125,7 @@ class Engine:
                 raise ValueError('Select a valid .lkp chart.')
             allowed=page.evaluate("() => [...document.querySelectorAll('input[id],select[id],textarea[id]')].filter(n=>!n.closest('[data-private-calculation]')&&!n.readOnly&&(n.type!=='hidden'||['kp-software-settings','rpw-memos','mm-memos','chart-categories'].includes(n.id))).map(n=>n.id)")
             data={**data, 'fields':{k:v for k,v in data['fields'].items() if k in allowed}, 'eph':[], 'kundali':{'manual':False}}
-            page.evaluate('(data)=>{restoreChartData(data);calculateAll();}',data)
+            page.evaluate("(data)=>{restoreChartData(data);calculateAll();KPChartStyle.setStyle('south');}",data)
             page.wait_for_timeout(350)
         elif action=='photo':
             if not isinstance(data,str) or len(data)>4_100_000 or not data.startswith(('data:image/png;base64,','data:image/jpeg;base64,','data:image/webp;base64,')):
