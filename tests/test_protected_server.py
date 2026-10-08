@@ -78,7 +78,7 @@ class ProtectedServerTests(unittest.TestCase):
         self.private('()=>KPReportPages.clear()')
         self.assertEqual(self.page.request.get(self.url+'/print').status,400)
     def test_transit_preview_routes_return_only_selected_report_without_auto_print(self):
-        for section in ('transit','transit-chart','transit-panchang','ephemeris','event-promise','education-profession'):
+        for section in ('transit','transit-chart','transit-panchang','ephemeris','event-promise','education-profession','disease'):
             response=self.page.request.get(self.url+'/'+section+'-preview')
             self.assertEqual(response.status,200,response.text()[:200])
             html=response.text()

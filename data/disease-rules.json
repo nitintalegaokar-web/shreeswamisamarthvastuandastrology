@@ -1,0 +1,599 @@
+{
+  "source": "Disease.xlsx",
+  "sixthBhava": [
+    {
+      "row": 2,
+      "label": "Aswini",
+      "body": "Head, Cerebral hemispheres. ",
+      "text": "Injury in the head, congestion in the brains, thrombosis, cerebral anaemia, faintings, epilepsy, violence, spasms, severe headache on any one side, neuralgia, coma, trance, cerebral hemorrhages, paralytic stroke, insomnia, malaria, meningitis, smallpox.",
+      "nakIndex": 0,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 3,
+      "label": "Bharani",
+      "body": "Head, Cerebral hemisphere, organs within the head, eyes. ",
+      "text": "Injury in the head, mostly in the forehead and just around the eyes, cold venereal distemper, syphilis affecting face and vision, catarrh in the head, mucus, moist humours, reins afflicted, weakness due to gratifying one's tastes and pleasurable emotions in dissipating habits. ",
+      "nakIndex": 1,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 4,
+      "label": "Karthikai 1st Quarter",
+      "body": "Head, eyes, Wain, vision. ",
+      "text": "Sharp fever, malaria, filaria, plague, smallpox, wounds, cerebral meningitis, brain fever, injury, cuts, accident, explosions, carbuncle, fire accident. ",
+      "nakIndex": 2,
+      "padas": [
+        1
+      ]
+    },
+    {
+      "row": 5,
+      "label": "Karthikai 2, 3 and 4th Quarters",
+      "body": "Face, neck, Larynx, tonsils, lower jaw, occipital region. ",
+      "text": "Pimples, cuts, reddish eye, eyesore, throat troubles, tumours in the knee, quinsy, swelling above neck, polypus of the nose. ",
+      "nakIndex": 2,
+      "padas": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 6,
+      "label": "Rohini",
+      "body": "Face, mouth tongue, tonsils, palate, neck, cerebellum, atlas cervical vertebra. ",
+      "text": "Sore-throat, cold, cough, pains in the legs and feet, paining into breast, goiter, apoplexy, irregular menses, swellings.",
+      "nakIndex": 3,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 7,
+      "label": "Mrigasira First Half",
+      "body": "Face, chin, cheeks, larynge, palate, carotid, arteries, jugular veins, inflamed Tonsils.",
+      "text": "Pimples, cuts, and injuries in those parts, pain in the throat, adenoids, diphtheria,weak loins and king's evil, nosebleed, goiter, constipation, venereal, distemper, polypus. ",
+      "nakIndex": 4,
+      "padas": [
+        1,
+        2
+      ]
+    },
+    {
+      "row": 8,
+      "label": "Mrigasira Second Half",
+      "body": "Throat, vocal cord, arms, shoulders, ears, thymus gland, upper ribs.",
+      "text": "Corrupted blood, stitches, wounds, and fracture of arms, collarbone,fractured femur, sciatica, surfeit, fever, pains in the shoulders near collar bone, arms, disorders in secret parts, inflammation of pericardium.",
+      "nakIndex": 4,
+      "padas": [
+        3,
+        4
+      ]
+    },
+    {
+      "row": 9,
+      "label": "Arudra",
+      "body": "Throat, arms, shoulders. ",
+      "text": "Septic throat, mumps, asthma, eosinophilia, dry cough, diphtheria, ear trouble, pus in the ear.",
+      "nakIndex": 5,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 10,
+      "label": "Punarvasu 1, 2, 3 quarter",
+      "body": "Ear, throat, shoulder blades. ",
+      "text": "Pleurisy, bronchitis, pneumonia, reins disorder, pericardium inflammation, swelling and pain in the ear, goiter due to iodine deficiency, infiltration in the upper lobe of the lungs, pulmonary apoplexy. ",
+      "nakIndex": 6,
+      "padas": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "row": 11,
+      "label": "Punarvasu 4th Quarter",
+      "body": "Lungs, respiratory system, chest, stomach, oesophagus, diaphragm, pancreas, mammae, lacteals, upper lobes of liver, thoracic. ",
+      "text": "Dropsy, beri-beri, stomach upset, irregular appetite, corrupt blood, tuberculosis, pneumonia, bronchitis, liver complaint, jaundice, gourmandize, dyspepsia. ",
+      "nakIndex": 6,
+      "padas": [
+        4
+      ]
+    },
+    {
+      "row": 12,
+      "label": "Pushyam",
+      "body": "Lungs, stomach and ribs. ",
+      "text": "Tuberculosis, ulcerations in the respiratory system, gastric ulcer, gallstones, nausea, belching, obstruction, bruises in the breast, scurvy, cancer, phthisis, jaundice, cough, hiccough, eczema, pyorrhoea, dyspepsia.",
+      "nakIndex": 7,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 13,
+      "label": "Aslesha",
+      "body": "Lungs, stomach, oesophagus, diaphragm, pancreas, liver. ",
+      "text": "Vitamin 'B' deficiency, cold stomach, windiness, wind pressing the diaphragm making it difficult to breathe, distillation of rectum, pains in knees and legs. Drunkenness, phlegm, flatulence, nephritis, hypochondria, hysteria, dropsy, jaundice, nervous, indigestion. ",
+      "nakIndex": 8,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 14,
+      "label": "Makam",
+      "body": "Heart, back, spinal cord, spleen, dorsal region of spine, aorta. ",
+      "text": "Heart affected by sudden shock, grief or, poison, pains in the back, cholera, humours, gravel in kidneys, palpitation, regurgitation, faintings, spinal meningitis. ",
+      "nakIndex": 9,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 15,
+      "label": "Poorvapalguni",
+      "body": "Heart, Spinal Cord. ",
+      "text": "Due to disappointment in love, heart affected. Loss of children, affecting hearts, all due to shocks and irreparable loss. Curvature of the spine, anaemia, hydraemia, pain in legs, swelling of ankle, .blood pressure, aneurysm, swelling of heart, valves affected.",
+      "nakIndex": 10,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 16,
+      "label": "Uthrapalguni I-Quarter",
+      "body": "Spinal cord. ",
+      "text": "Pains in the back and in the head, spotted fever, plague, hyperaemia. faintings, blood pressure, becomes mad temporarily due to clotting of blood in the capillaries in the brain, palpitation, backache. ",
+      "nakIndex": 11,
+      "padas": [
+        1
+      ]
+    },
+    {
+      "row": 17,
+      "label": "Uthrapalguni-2nd, 3rd and 4th Padas",
+      "body": "Intestines, bowels, liver. ",
+      "text": "Tumours in the bowels, obstructions, stomach also disordered, sore-throat and swelling in neck. ",
+      "nakIndex": 11,
+      "padas": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 18,
+      "label": "Hastham",
+      "body": "Bowels, intestines, secreting, glands, enzyme. ",
+      "text": "Vitamin `B' deficiency, gas formation, flatulence, loose bowels, pain and disorder in the bowels, obstructions, sarms and shoulders weak, short breath, worms, mucus, cholera, diarrhea, typhoid, amoebic, and bacillary dysentery, neuralgia (imagination), fear complex, hysteria.",
+      "nakIndex": 12,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 19,
+      "label": "Chitra - First Half",
+      "body": "Belly, Lower part. ",
+      "text": "Ulcers, sharp and acute pains, choleric humours, worms, irritation and itching, legs paining, dry-griping p wounds from insects, reptiles and animals. ",
+      "nakIndex": 13,
+      "padas": [
+        1,
+        2
+      ]
+    },
+    {
+      "row": 20,
+      "label": "Chitra 3rd and 4th Padas",
+      "body": "Kidney, Loins, Hernia, Appendicitis, lumbar region of the spine, vasomotor system.",
+      "text": "Polyuria, inflammation of ureter connecting kidney and bladder, Bright's diseases, lumbago, kidney trouble, excess of urine, haemorrhage of the kidneys, renal stone, sunstroke, brain fever, pains in head. ",
+      "nakIndex": 13,
+      "padas": [
+        3,
+        4
+      ]
+    },
+    {
+      "row": 21,
+      "label": "Swathi",
+      "body": "Skin, kidneys, ureter, appendicitis, hernia, bladder. ",
+      "text": "Polyuria, urinary trouble, ureters ulcerated, pus formation, Bright's disease, eczema, skin trouble, leprosy. ",
+      "nakIndex": 14,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 22,
+      "label": "Visakam - 1, 2 and 3 Padas",
+      "body": "Lower abdomen, parts near bladder, kidneys and pancreatic gland.",
+      "text": "Deficiency of Adrenal secretion, renal abscess, skin eruption, diabetes, kidney sluggish, insulin deficient, congestion of brain, coma, vertigo. ",
+      "nakIndex": 15,
+      "padas": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "row": 23,
+      "label": "Visakam 4th Quarter",
+      "body": "Bladder, Urethra, genital organs, rectum, descending colon, prostate gland.",
+      "text": "Diseases of the womb, fibroid tumour, prostate gland enlargement, urinary trouble, frequent micturition, abnormal bleeding during menses, rupture, renal stones and gravel, uterine tumours, urethral abscess, dropsy, hydraemia, urates in excess,strangury, apoplexy, nose bleed.",
+      "nakIndex": 15,
+      "padas": [
+        4
+      ]
+    },
+    {
+      "row": 24,
+      "label": "Anuradha",
+      "body": "Bladder, genital organs, rectum, nasal bones, bones near genital organs. ",
+      "text": "Suppression of menses, poor bleeding and severe pain stricture, sterility, constipation, piles, painful and not bleeding, nasal catarrh, phlegm, sore throat, fracture, hip-bone.",
+      "nakIndex": 16,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 25,
+      "label": "Jyeshta",
+      "body": "Colon, anus genital organs, ovaries, womb. ",
+      "text": "Leucorrhoea, bleeding piles, fistula, tumour, distemper in secret parts, affliction of bowels, pains in arms and shoulders. ",
+      "nakIndex": 17,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 26,
+      "label": "Moolam",
+      "body": "Hips, thighs, femur, ilium, sciatic nerves. ",
+      "text": "Locomotor ataxia, rheumatism, lumbago, hip diseases, pulmonary troubles",
+      "nakIndex": 18,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 27,
+      "label": "Poorvashada",
+      "body": "Thighs, hips, the coccygeal and sacral regions of the spine, the iliac arteries and veins. ",
+      "text": "Sciatica, diabetes, rheumatism. respiratory diseases, cancer in lungs, hip gout, surfeits, cold, moist, humour, putrefaction of blood. swellings above the knees. ",
+      "nakIndex": 19,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 28,
+      "label": "Uthrashada I Quarter",
+      "body": "Thighs, femur, arteries. ",
+      "text": "Sciatica, Paralysis of limbs, pulmonary diseases, eyes affected. ",
+      "nakIndex": 20,
+      "padas": [
+        1
+      ]
+    },
+    {
+      "row": 29,
+      "label": "Uthrashada-2nd, 3rd and 4th padas",
+      "body": "Skin, knees, patella.",
+      "text": "Eczema, skin diseases. leprosy. crysipelas, digestive trouble, uneasiness due to gas in the stomach, dull pain, rheumatism, palpitation of hearts, cardiac thrombosis.",
+      "nakIndex": 20,
+      "padas": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 30,
+      "label": "Sravana",
+      "body": "Lymphatic vessels, knee, skin",
+      "text": "Filaria, eczema, skin diseases, leprosy, boils, pus formation, rheumatism, tuberculosis, pleurisy and poor digestion.",
+      "nakIndex": 21,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 31,
+      "label": "Dhanishta First Half",
+      "body": "Knee-cap bones.",
+      "text": "Injury in the leg, Eosinophilia, dry cough, Hiccough, flying gout, lameness, amputation. ",
+      "nakIndex": 22,
+      "padas": [
+        1,
+        2
+      ]
+    },
+    {
+      "row": 32,
+      "label": "Dhanishta Second Half",
+      "body": "Ankles, limbs, portion between knees and ankles.",
+      "text": "Fracture of the leg, Varicose Veins, blood poisoning, heart failure, Cardiac thrombosis, high blood pressure, overheated blood, palpitation, fainting.",
+      "nakIndex": 22,
+      "padas": [
+        3,
+        4
+      ]
+    },
+    {
+      "row": 33,
+      "label": "Sathabhisha",
+      "body": "Portion between knees and ankles, calf muscle.",
+      "text": "Rheumatism, rheumatic heart, eczema, leprosy, palpitation, high blood pressure, fracture, amputation, lame, guinea worm.",
+      "nakIndex": 23,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 34,
+      "label": "Poorvapathrapada- 1,2,3 Quarters,",
+      "body": "Ankles.",
+      "text": "Apoplexy, irregularity of heart, dropsy, milk- leg, swollen ankles, palpitation, dilated heart, low blood pressure.",
+      "nakIndex": 24,
+      "padas": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "row": 35,
+      "label": "Pourvapathrapada IV quarter",
+      "body": "Feet, Toes.",
+      "text": "Swelling, perspiring feet, enlarged liver, abdominal tumour, intestines affected, hernia, jaundice, sprue, corns.",
+      "nakIndex": 24,
+      "padas": [
+        4
+      ]
+    },
+    {
+      "row": 36,
+      "label": "Uthrapathrapada",
+      "body": "Feet.",
+      "text": "Rheumatic pains drop foot, indigestion, Constipation, hernia, flatulence fracture in the foot, coldfoot, tuberculosis, dropsy.",
+      "nakIndex": 25,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "row": 37,
+      "label": "Revathi ",
+      "body": "Feet and toes.",
+      "text": "Abdominal disorders, troubles, deformities of the feet, intestinal ulcers mostly due to drinks and drugs, gout in the feet, cramps. Nephritis, lassitude, deafness, pus in the ear.",
+      "nakIndex": 26,
+      "padas": [
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "otherSourceRows": [
+    {
+      "row": 2,
+      "text": "8th Sub lord in 1, 5 or 9 and afflicted - Long life. "
+    },
+    {
+      "row": 3,
+      "text": "8th Sub lord in good aspect with Planets - Long life. "
+    },
+    {
+      "row": 4,
+      "text": "8th Sub lord not connected to Badhaka & Maraka sthanas - Long life. "
+    },
+    {
+      "row": 5,
+      "text": "8th Sub lord afflicted by Moon, Saturn or Mars - Short life. "
+    },
+    {
+      "row": 6,
+      "text": "8th Sub lord in 6th afflicted by Saturn - Death in middle age. "
+    },
+    {
+      "row": 7,
+      "text": "8th Sub lord in 1 afflicted by Mars or Saturn - Death by weapons. "
+    },
+    {
+      "row": 8,
+      "text": "8th Sub lord in 1 afflicted by Mars & Saturn - Death by stone hit or lightning. "
+    },
+    {
+      "row": 9,
+      "text": "8th Sub lord Mars afflicted by Saturn - Death by wicked men. "
+    },
+    {
+      "row": 10,
+      "text": "8th Sub lord in 6 or 12 - Death by wicked men. "
+    },
+    {
+      "row": 11,
+      "text": "8th Sub lord Venus afflicted by Planets - Death by revenge"
+    },
+    {
+      "row": 12,
+      "text": "8th Sub lord Nodes in 8 & 12 - Death by Robbers. "
+    },
+    {
+      "row": 13,
+      "text": "8th Sub lord in 4 or 10 afflicted by Planets - Death by drowning. "
+    },
+    {
+      "row": 14,
+      "text": "8th Sub lord in watery sign and afflicted - Death by drowning. "
+    },
+    {
+      "row": 15,
+      "text": "8th Sub lord in 5, 8 or 9 - afflicted - Death by weapons. "
+    },
+    {
+      "row": 16,
+      "text": "8th Sub lord Sun and Saturn in 1 8th - Death by Dyspepsia and bloating of bowels."
+    },
+    {
+      "row": 17,
+      "text": "8th Sub lord in 1 afflicted by Moon or Saturn - Death by ugly wounds and Scar"
+    },
+    {
+      "row": 18,
+      "text": "8th Sub lord in 4 or 2 - Death in birth place. "
+    },
+    {
+      "row": 19,
+      "text": "8th Sub lord Sun, Moon or Saturn 2, 7 or 12 - Death due to Leprosy. "
+    },
+    {
+      "row": 20,
+      "text": "8th Sub lord in 3 or 6 afflicted - Death by Poison."
+    },
+    {
+      "row": 21,
+      "text": "8th Sub lord Venus in 4, or 8 - Death by vehicles."
+    },
+    {
+      "row": 22,
+      "text": "8th & 4th Sub lord in 6, 8 and 12 - Death by vehicles. "
+    },
+    {
+      "row": 23,
+      "text": "8th Sub lord in 4 or 6 and connected to watery sign - Death by drowning. "
+    },
+    {
+      "row": 24,
+      "text": "8th Sub lord Mars in 4 or 6th - Death by fall from trees. "
+    },
+    {
+      "row": 25,
+      "text": "8th Sub lord Moon or Saturn 4, 7 or 8 - Death by Birds. "
+    },
+    {
+      "row": 26,
+      "text": "8th Sub lord Saturn in 5, 7 or 9 - Death by headache."
+    },
+    {
+      "row": 27,
+      "text": "8th Sub lord in 5, 9 or 10, afflicted by Sun, Moon or Mars - Death by smoke or suffocation. "
+    },
+    {
+      "row": 28,
+      "text": "8th Sub lord in 5, 8 or 9 afflicted by Sun, Moon or Saturn - Death by a fall of walls or buildings. "
+    },
+    {
+      "row": 29,
+      "text": "8th Sub lord Mars in 6, 8 or 12 - Death by Ulcer & Stomach disorders. "
+    },
+    {
+      "row": 30,
+      "text": "8th Sub lord Rahu, Saturn or Sun in 7th - Death by snake bite. "
+    },
+    {
+      "row": 31,
+      "text": "8th Sub lord in 12th - Death in a far off place. "
+    },
+    {
+      "row": 32,
+      "text": "8th Sub lord Moon or Saturn in 12 - Death by headache. "
+    },
+    {
+      "row": 33,
+      "text": "8th Sub lord afflicted by Sun or Mars - Death by fire. "
+    },
+    {
+      "row": 34,
+      "text": "8th Sub lord afflicted by Moon & Saturn - Death by fever and Meningitis."
+    },
+    {
+      "row": 35,
+      "text": "8th Sub lord afflicted by Mercury - Death by complicated diseases. "
+    },
+    {
+      "row": 36,
+      "text": "8th Sub lord afflicted by Sun, Moon, Mars or Saturn - Death Machinery. "
+    },
+    {
+      "row": 37,
+      "text": "8th Sub lord Mercury in Sagittarius or Pisces - Death by animals. "
+    },
+    {
+      "row": 38,
+      "text": "8th Sub lord Moon or Saturn in Taurus or Libra - Death by stabbing. "
+    },
+    {
+      "row": 39,
+      "text": "8th Sub lord Mars afflicted by Planets - Loss of limbs."
+    },
+    {
+      "row": 40,
+      "text": "8th Sub lord Mars, Saturn or nodes in lagna afflicted - Death by Insanity & madness"
+    },
+    {
+      "row": 41,
+      "text": "8th Sub lord Rahu in 12th - Death in prison."
+    }
+  ]
+}

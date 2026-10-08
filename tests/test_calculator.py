@@ -4144,6 +4144,38 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(updated["dates"], ["2026-10-07", "2026-10-08"])
         self.assertEqual(updated["rows"][0]["utc"], "2026-10-07T05:30:00.000Z")
 
+    def test_linked_profession_and_sixth_bhava_disease_references_and_preview(self):
+        self.prepare_exact_dasha()
+        self.go('education-profession')
+        expect(self.page.locator('#ed-profession-links [data-profession-linked]')).to_have_count(1)
+        self.assertEqual(self.page.evaluate('KPProfessionReferences.getCatalogue().cuspal.length'),249)
+        self.assertEqual(self.page.evaluate('KPProfessionReferences.getCatalogue().stars.length'),36)
+        linked=self.page.evaluate("""()=>{const model={ready:true,houses:[{id:10,longitude:0},{id:6,longitude:0}],planets:[{id:'Ke',longitude:0,stl:'Ke',sl:'Ke'}],fourfold:{planets:[{id:'Ke',A:[6,8],B:[],C:[],D:[]}]}};return {profession:KPProfessionReferences.analyze(model),disease:KPDisease.analyze(model)};}""")
+        self.assertEqual(linked['profession']['matches'][0]['row'],2)
+        self.assertEqual(linked['disease']['cuspReferences'][0]['label'],'Aswini')
+        self.assertEqual(linked['disease']['combined'],[6,8])
+        self.assertEqual(linked['disease']['layers'][0]['role'],'CSL · cusp sub lord')
+        self.assertEqual(linked['disease']['layers'][1]['role'],'STL · star lord of CSL')
+        self.assertEqual(linked['disease']['layers'][2]['role'],'SBL · sub lord of CSL')
+        self.go('disease')
+        expect(self.page.locator('#disease-results')).to_contain_text('not a medical diagnosis')
+        expect(self.page.locator('#disease-results')).not_to_contain_text('Death by')
+        with self.page.expect_popup() as opened:self.page.locator('#disease-preview').click()
+        preview=opened.value
+        try:
+            expect(preview.locator('[data-disease-linked]')).to_be_visible()
+            preview.get_by_role('button',name='Zoom +',exact=True).click()
+            self.assertEqual(preview.locator('.report-page').evaluate('n=>n.style.zoom'),'1.1')
+            preview.get_by_role('button',name='Zoom −',exact=True).click()
+            preview.evaluate('()=>{window.printCalls=0;window.print=()=>window.printCalls++;}')
+            preview.get_by_role('button',name='Print / Save PDF',exact=True).click()
+            self.assertEqual(preview.evaluate('window.printCalls'),1)
+            expect(preview.get_by_role('button',name='Close preview',exact=True)).to_be_visible()
+            import fitz
+            pdf=fitz.open(stream=preview.pdf(format='A4'),filetype='pdf')
+            self.assertIn('Sixth bhava',''.join(p.get_text() for p in pdf));pdf.close()
+        finally:preview.close()
+
     def test_education_profession_cusp_analysis_and_preview_controls(self):
         self.prepare_exact_dasha()
         self.go('education-profession')

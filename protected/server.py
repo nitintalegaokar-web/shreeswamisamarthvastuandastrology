@@ -133,7 +133,7 @@ class Engine:
         elif action=='export':
             chart=page.evaluate("() => {const d=getChartData();for(const id of Object.keys(d.fields)){const n=document.getElementById(id);if(!n||n.closest('[data-private-calculation]')||n.readOnly||(n.type==='hidden'&&!['kp-software-settings','rpw-memos','mm-memos','chart-categories'].includes(n.id)))delete d.fields[id];}d.eph=[];d.kundali={manual:false};return d;}")
             return token, chart
-        elif action in ('print','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview'):
+        elif action in ('print','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview'):
             if action=='match-preview':
                 if not page.evaluate('()=>Boolean(KPMatchmaking.refresh())'):raise ValueError('Enter valid birth details for both people.')
                 page.evaluate("()=>{renderReport();KPReportPages.selectSections(['matchmaking']);}")
@@ -180,7 +180,7 @@ class Handler(BaseHTTPRequestHandler):
             if path=='/':
                 self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script></body></html>','text/html');return
             if path=='/client.js':self.respond((ROOT/'protected/client.js').read_bytes(),'text/javascript');return
-            if path not in ('/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview'):
+            if path not in ('/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview'):
                 self.respond({'error':'Not found'},status=404);return
             token,result=self.server.engine.call(self.token(),path[1:])
             if path=='/export':self.respond(result,token=token,extra={'Content-Disposition':'attachment; filename="chart.lkp"'});return
