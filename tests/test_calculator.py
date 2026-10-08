@@ -366,6 +366,39 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#home-md")).to_be_hidden()
         expect(self.page.locator("#home-ad")).to_be_hidden()
 
+    def test_reference_aspect_matrices_show_every_separation_and_selected_print_mode(self):
+        self.prepare_exact_dasha()
+        self.go("aspects")
+        table=self.page.locator("#am-matrix-content table")
+        expect(table).to_have_count(1)
+        positions=self.page.evaluate("currentKPModel.planets.filter(p=>p.id!=='Fo').map(p=>({id:p.id,longitude:p.longitude}))")
+        expect(table.locator("tbody tr")).to_have_count(len(positions))
+        cell=table.locator('[data-am-source="Su"] [data-am-target="Mo"]')
+        reverse=table.locator('[data-am-source="Mo"] [data-am-target="Su"]')
+        self.assertEqual(cell.inner_text(),reverse.inner_text())
+        self.assertAlmostEqual(float(cell.get_attribute("data-separation")),5,places=6)
+        expect(table.locator('[data-am-source="Su"] [data-am-target="Su"]')).to_be_empty()
+        expect(self.page.locator("#aspects .am-catalog tbody tr")).to_have_count(17)
+        self.page.locator("#am-mode").select_option("cusp")
+        expect(table).to_have_attribute("aria-label","Planet to cusp aspect matrix")
+        expect(table.locator("thead th")).to_have_count(13)
+        actual=table.locator('[data-am-source="Su"] [data-am-target="1"]')
+        expected=self.page.evaluate("KPWesternAspects.angularSeparation(currentKPModel.planets[0].longitude/3600,currentKPModel.houses[0].longitude/3600)")
+        self.assertAlmostEqual(float(actual.get_attribute("data-separation")),expected,places=8)
+        self.page.screenshot(path="/tmp/kp-aspect-reference.png",full_page=True)
+        self.page.locator("#am-preview").click()
+        expect(self.page.locator("main>#report")).to_be_visible()
+        popup=self.selected_report_popup(["aspects"])
+        try:
+            expect(popup.locator(".am-matrix")).to_have_attribute("aria-label","Planet to cusp aspect matrix")
+            expect(popup.locator("input,select,button")).to_have_count(0)
+            popup.pdf(path="/tmp/kp-aspect-matrix.pdf",format="A4",print_background=True)
+        finally:
+            popup.close()
+        self.go("aspects")
+        self.page.set_viewport_size({"width":390,"height":844})
+        self.assertLessEqual(self.page.evaluate("document.documentElement.scrollWidth"),391)
+
     def test_western_aspects_use_shortest_angle_inclusive_orbs_and_unique_pairs(self):
         # These fixtures have known geometric angles independent of the KP
         # whole-sign aspect renderer and of any ephemeris calculations.
