@@ -92,6 +92,15 @@ class ProtectedServerTests(unittest.TestCase):
         self.page.locator('#na-native-chart').click(button='right');self.page.locator('#kundali-style-south').click()
         expect(self.page.locator('#na-native-chart .na-reference-rashi')).to_be_visible()
 
+    def test_help_shortcuts_about_and_hidden_calculation_links(self):
+        self.page.locator('#help-open').click();expect(self.page.locator('#workspace-help')).to_be_visible()
+        for tab in module.PRIVATE_TABS:self.assertEqual(self.page.locator('#help-go-'+tab).count(),0)
+        self.page.locator('#help-go-about').click();expect(self.page.locator('#about')).to_be_visible()
+        expect(self.page.locator('#about')).to_contain_text('Shri.Nitin R Talegaonkar')
+        expect(self.page.locator('#about')).to_contain_text('nitin.talegaonkar86@gmail.com')
+        self.page.locator('#workspace-main').focus();self.page.keyboard.type('gna');expect(self.page.locator('#nadi-astrology')).to_be_visible()
+        self.page.keyboard.type('gab');expect(self.page.locator('#about')).to_be_visible()
+
     def test_direct_aspect_pdf_and_a4_preview_routes(self):
         import fitz
         for section in ['aspects','single-page','south9','nadi-astrology']:

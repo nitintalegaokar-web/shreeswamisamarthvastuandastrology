@@ -176,6 +176,23 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(self.page.locator('html').get_attribute('lang'),'ta')
         self.assertEqual(self.errors,[])
 
+    def test_help_initial_shortcuts_and_developer_about(self):
+        self.page.locator('#help-open').click()
+        expect(self.page.locator('#workspace-help')).to_be_visible()
+        self.assertGreater(self.page.locator('.help-shortcut-button').count(),18)
+        expect(self.page.locator('#help-go-nadi-astrology kbd')).to_have_text('NA')
+        self.page.locator('#help-go-about').click()
+        expect(self.page.locator('#about')).to_be_visible()
+        expect(self.page.locator('#workspace-help')).not_to_be_visible()
+        for text in ['Shri.Nitin R Talegaonkar','KP Astrologer & Vastu Consultant','8412098690','nitin.talegaonkar86@gmail.com','At post Uruli-Kanchan','Taluka-Haveli, Dist-Pune-412202']:
+            expect(self.page.locator('#about')).to_contain_text(text)
+        self.assertEqual(self.page.locator('#about a[href="tel:+918412098690"]').count(),1)
+        self.page.keyboard.type('gna');expect(self.page.locator('#nadi-astrology')).to_be_visible()
+        self.page.keyboard.type('gpr');expect(self.page.locator('#report')).to_be_visible()
+        self.go('basic');field=self.page.locator('#pc-natal-name');field.fill('');field.focus();self.page.keyboard.type('gna')
+        expect(field).to_have_value('gna');expect(self.page.locator('#basic')).to_be_visible()
+        self.assertEqual(self.errors,[])
+
     def test_side_by_side_folder_save_and_open(self):
         boxes=self.page.locator('#basic .pc-entry').all()
         self.assertEqual(len(boxes),2)

@@ -19,6 +19,7 @@ BOOT = r"""() => {
  window.KPProtectedWorker=true;
  window.KPClientPresentation.setClient(true);
  for(const tab of KPClientPresentation.privateTabs)document.getElementById('quick-'+tab)?.setAttribute('data-private-calculation','true');
+ for(const tab of KPClientPresentation.privateTabs)document.getElementById('help-go-'+tab)?.setAttribute('data-private-calculation','true');
  for(const id of ['st-ephemeris-source','p6-ephemeris-source'])document.getElementById(id).value='automatic';
  document.getElementById('kp-ayanamsha-source').value='annual';
  document.querySelectorAll('.formula,.formula-text,.raphael5-formulas,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line').forEach(n=>n.dataset.privateCalculation='true');
