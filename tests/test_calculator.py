@@ -582,6 +582,20 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(report.locator("input,select,button,textarea")).to_have_count(0)
         popup.close()
 
+    def test_significator_notations_only_appear_in_first_column(self):
+        self.prepare_exact_dasha()
+        for root in ("#kp-fourfold", "#kp-sixfold"):
+            self.assertGreater(self.page.locator(root+" tbody tr>th:first-child .kp-notation-marker").count(),0)
+            expect(self.page.locator(root+" tbody td .kp-notation-marker")).to_have_count(0)
+        self.assertGreater(self.page.locator("#kp-fourstep-section h4 .kp-notation-marker").count(),0)
+        expect(self.page.locator("#kp-fourstep-section .kp-step .kp-notation-marker")).to_have_count(0)
+        self.go("home")
+        for mode in ("fourfold","sixfold"):
+            self.page.locator(f'[data-home-view="{mode}"]').click()
+            expect(self.page.locator("#home-planets tbody td .kp-notation-marker,#home-houses tbody td .kp-notation-marker")).to_have_count(0)
+        self.go("report")
+        expect(self.page.locator('[data-report-section="kp-fourfold"] tbody td .kp-notation-marker,[data-report-section="kp-sixfold"] tbody td .kp-notation-marker')).to_have_count(0)
+
     def test_planet_notation_conditions_count_self_and_nodes_but_exclude_fortuna(self):
         expected = {
             "Su": ["[+]", "[*]"], "Mo": [], "Ma": ["[#]"],

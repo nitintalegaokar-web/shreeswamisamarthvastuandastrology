@@ -5521,12 +5521,12 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
     const tooltips = window.KPPreferences?.get().tooltips !== false;
     return '<span class="kp-notations">' + markers.map(marker => '<span class="kp-notation-marker" data-marker="' + escape(marker) + '"' + (tooltips ? ' title="' + escape(window.KPDisplay.notationLabels[marker]) + '"' : '') + '>' + escape(marker) + '</span>').join('') + '</span>';
   }
-  function planetHTML(id) {
-    return '<span class="kp-planet-reference" data-planet-ref="' + escape(id) + '"><span class="kp-planet-label">' + escape(id) + '</span>' + notationHTML(window.KPDisplay.getNotations(id)) + '</span>';
+  function planetHTML(id, marked = true) {
+    return '<span class="kp-planet-reference" data-planet-ref="' + escape(id) + '"><span class="kp-planet-label">' + escape(id) + '</span>' + (marked ? notationHTML(window.KPDisplay.getNotations(id)) : '') + '</span>';
   }
   function referenceHTML(value) {
     if (Array.isArray(value)) return value.length ? value.map(referenceHTML).join(', ') : '—';
-    return codes.includes(value) ? planetHTML(value) : escape(cell(value));
+    return codes.includes(value) ? planetHTML(value, false) : escape(cell(value));
   }
   function renderedValue(row, key) {
     if (key === 'nak') return escape(valueFor(row, key));
@@ -5561,7 +5561,7 @@ body.app-ready .report-page.report-front-page { padding:6mm; }
       const step = card.steps?.[index];
       let result = '—';
       if (ready && step) {
-        result = planetHTML(step.planet) + ': ' + (step.nil ? '<span class="kp-nil">Nil</span>' : escape(cell(step.houses)));
+        result = planetHTML(step.planet, false) + ': ' + (step.nil ? '<span class="kp-nil">Nil</span>' : escape(cell(step.houses)));
         if (step.ownStar) result += ' <span class="kp-own-star">Own Star</span>';
         if (step.csl?.length) result += ' <span class="kp-csl">CSL (' + escape(cell(step.csl)) + ')</span>';
       }
