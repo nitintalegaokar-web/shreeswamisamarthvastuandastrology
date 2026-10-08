@@ -1678,6 +1678,30 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(self.page.locator("#printReport > .report-page").count(), len(REPORT_PAGE_SECTIONS))
         expect(self.page.locator('#printReport > [data-report-section="home"]')).to_have_count(0)
 
+    def test_event_result_box_query_chart_and_preview_zoom_work(self):
+        self.prepare_exact_dasha()
+        self.go('event-promise')
+        rule=self.page.evaluate("KPHandbook.getCatalogue().events.find(e=>e.event.en==='Good Health')")
+        self.page.locator('#ep-event').select_option(str(rule['id']))
+        expect(self.page.locator('#ep-source-mount')).to_be_hidden()
+        expect(self.page.locator('#ep-outcome-result')).to_contain_text('Result:')
+        expect(self.page.locator('#ep-outcome-result')).to_contain_text('Reason:')
+        expect(self.page.locator('#ep-ruling-transit-chart .ep-query-sign')).to_have_count(12)
+        self.page.locator('#ep-range-day').check()
+        self.page.evaluate('() => KPEventOutcome.search()')
+        expect(self.page.locator('#ep-time-result')).to_contain_text(re.compile('candidate|not promised|Resolve'))
+        with self.page.expect_popup() as opened:
+            self.page.locator('#event-promise-preview').click()
+        preview=opened.value
+        try:
+            expect(preview.locator('.ep-outcome-report')).to_be_visible()
+            preview.get_by_role('button',name='Zoom +',exact=True).click()
+            self.assertEqual(preview.locator('.report-page').evaluate('n=>n.style.zoom'),'1.1')
+            preview.emulate_media(media='print')
+            expect(preview.locator('.ep-outcome-report')).to_be_visible()
+        finally:
+            preview.close()
+
     def test_handbook_event_rules_keep_source_pages_alternatives_and_review_conditions(self):
         self.prepare_exact_dasha()
         catalogue=self.page.evaluate("KPHandbook.getCatalogue()")
