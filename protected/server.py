@@ -122,8 +122,6 @@ class Engine:
         session=self.sessions[token]; session['used']=now; page=session['page']
         if action=='event':
             page.evaluate(EVENT, data); page.wait_for_timeout(250)
-        elif action=='ruling-clock':
-            return token,page.evaluate('KPDefaultLocation.clockData()')
         elif action=='aspects-pdf':
             _,result=self.run(token,'aspects-preview',None)
             document='<!doctype html><html><head><meta charset="UTF-8"><style>'+result['css']+'</style></head><body>'+result['html']+'</body></html>'
@@ -144,7 +142,7 @@ class Engine:
         elif action=='import':
             if not isinstance(data, dict) or not isinstance(data.get('fields'), dict):
                 raise ValueError('Select a valid .lkp chart.')
-            allowed=page.evaluate("() => [...document.querySelectorAll('input[id],select[id],textarea[id]')].filter(n=>!n.closest('[data-private-calculation]')&&!n.readOnly&&(n.type!=='hidden'||['kp-software-settings','rpw-memos','mm-memos','chart-categories','instant-prashna'].includes(n.id))).map(n=>n.id)")
+            allowed=page.evaluate("() => [...document.querySelectorAll('input[id],select[id],textarea[id]')].filter(n=>!n.closest('[data-private-calculation]')&&!n.readOnly&&(n.type!=='hidden'||['kp-software-settings','mm-memos','chart-categories','instant-prashna'].includes(n.id))).map(n=>n.id)")
             data={**data, 'fields':{k:v for k,v in data['fields'].items() if k in allowed}, 'eph':[], 'kundali':{'manual':False}}
             page.evaluate("(data)=>{restoreChartData(data);calculateAll();KPChartStyle.setStyle('south');}",data)
             page.wait_for_timeout(350)
@@ -153,7 +151,7 @@ class Engine:
                 raise ValueError('Select a PNG, JPEG or WebP photo under 3 MB.')
             page.evaluate("(photo)=>{if(!KPReportPhoto.isValid(photo))throw Error('Invalid photo');KPReportPhoto.apply(photo);renderReport();}",data)
         elif action=='export':
-            chart=page.evaluate("() => {const d=getChartData();for(const id of Object.keys(d.fields)){const n=document.getElementById(id);if(!n||n.closest('[data-private-calculation]')||n.readOnly||(n.type==='hidden'&&!['kp-software-settings','rpw-memos','mm-memos','chart-categories','instant-prashna'].includes(n.id)))delete d.fields[id];}d.eph=[];d.kundali={manual:false};return d;}")
+            chart=page.evaluate("() => {const d=getChartData();for(const id of Object.keys(d.fields)){const n=document.getElementById(id);if(!n||n.closest('[data-private-calculation]')||n.readOnly||(n.type==='hidden'&&!['kp-software-settings','mm-memos','chart-categories','instant-prashna'].includes(n.id)))delete d.fields[id];}d.eph=[];d.kundali={manual:false};return d;}")
             return token, chart
         elif action=='prediction-chains-preview':
             result=page.evaluate("() => {const preview=document.createElement('section');preview.className='report-page';preview.dataset.reportSection='prediction-chains';preview.innerHTML='<h2 class=\"report-page-title\">Cusp chains</h2>'+KPPrediction.chainSnapshot();return {html:preview.outerHTML,css:[...document.querySelectorAll('style')].map(n=>n.textContent).join('\\n')};}")
@@ -176,10 +174,10 @@ class Engine:
             page.evaluate('()=>{renderReport();KPLanguage.apply();}')
             result=page.evaluate("() => {const blocked=KPClientPresentation.privateTabs;const pages=KPReportPages.selected().filter(n=>!blocked.includes(n.dataset.reportSection));return {html:pages.map(n=>{const copy=n.cloneNode(true);copy.querySelectorAll('[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line').forEach(c=>c.remove());return copy.outerHTML;}).join(''),css:[...document.querySelectorAll('style')].map(n=>n.textContent.replace(/#kundali\\b/g,'[data-report-id=\"kundali\"]')).join('\\n')};}")
             if not result['html']: raise ValueError('Select at least one report page in Print.')
-            if action in ('gemstones-preview','aspects-preview','single-page-preview','south9-preview','nadi-astrology-preview','significators-preview') or (action=='time-slice-chart-preview' and data['view']=='nadi-astrology') or (action in ('match-preview','print') and 'mm-traditional-report' in result['html'] and 'mm-kp-comparison' not in result['html'] and len(page.evaluate('KPReportPages.selected().map(p=>p.dataset.reportSection)'))==1):
+            if action in ('event-promise-preview','gemstones-preview','aspects-preview','single-page-preview','south9-preview','nadi-astrology-preview','significators-preview') or (action=='prediction-preview' and 'gem-one-page' in result['html']) or (action=='time-slice-chart-preview' and data['view']=='nadi-astrology') or (action in ('match-preview','print') and 'mm-traditional-report' in result['html'] and 'mm-kp-comparison' not in result['html'] and len(page.evaluate('KPReportPages.selected().map(p=>p.dataset.reportSection)'))==1):
                 result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString()})')
-            elif action=='print' and any('data-report-section="'+id+'"' in result['html'] for id in ('gemstones','nadi-astrology','kp-fourfold','kp-sixfold','kp-fourstep-section')):
-                result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString(),sections:["gemstones","nadi-astrology","kp-fourfold","kp-sixfold","kp-fourstep-section"]})')
+            elif action=='print' and any('data-report-section="'+id+'"' in result['html'] for id in ('event-promise','gemstones','nadi-astrology','kp-fourfold','kp-sixfold','kp-fourstep-section')):
+                result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString(),sections:["event-promise","gemstones","nadi-astrology","kp-fourfold","kp-sixfold","kp-fourstep-section"]})')
             return token, result
         snapshot=page.evaluate(SNAPSHOT); snapshot['token']=token
         if session['downloads']:
@@ -218,7 +216,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script><script src="/tutorial.js"></script></body></html>','text/html');return
             if path=='/tutorial.js':self.respond((ROOT/'protected/tutorial.js').read_bytes(),'text/javascript');return
             if path=='/client.js':self.respond((ROOT/'protected/client.js').read_bytes(),'text/javascript');return
-            if path not in ('/dba-preview','/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print','/ruling-clock'):
+            if path not in ('/dba-preview','/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print'):
                 self.respond({'error':'Not found'},status=404);return
             action=path[1:]
             if path in ('/aspects-print','/single-page-print'):action=action.removesuffix('-print')+'-preview'

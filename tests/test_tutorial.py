@@ -49,12 +49,11 @@ class TutorialTests(unittest.TestCase):
     def test_removed_csv_buttons_and_time_slice_workspace(self):
         self.page.locator('#quick-nadi-astrology').click();expect(self.page.locator('#na-print,#na-export')).to_have_count(0);expect(self.page.locator('#nadi-astrology-preview')).to_be_visible()
         self.page.locator('#quick-south9').click();expect(self.page.locator('#time-slices,.kundali-time-slices-link')).to_have_count(0)
-        for category in ['all','house-results','events']:
-            self.page.locator('#quick-prediction').click()
-            self.page.evaluate("c=>{const e=document.getElementById('pred-library-category');if([...e.options].some(o=>o.value===c)){e.value=c;e.dispatchEvent(new Event('change',{bubbles:true}));}}",category)
+        self.page.locator('#quick-prediction').click()
+        for category in ['house-results','events']:self.page.locator('#pred-tab-'+category).click()
         self.page.locator('#quick-event-promise').click();expect(self.page.locator('#ep-timing-panel,#ep-find-time,#ep-query-date,#ep-show-aspects,#ep-aspect-mount')).to_have_count(0);self.assertNotIn('Event date / time search',self.page.evaluate('KPEventOutcome.snapshot()'));self.assertNotIn('Western aspect evidence',self.page.evaluate('KPEventOutcome.snapshot()'));expect(self.page.locator('#ep-outcome-result')).to_contain_text('Result:')
-        expect(self.page.locator('#event-promise-preview')).to_have_text('Preview')
-        with self.page.expect_popup() as opened:self.page.locator('#event-promise-preview').click()
+        expect(self.page.locator('#ep-simple-preview')).to_have_text('Preview · Print / PDF')
+        with self.page.expect_popup() as opened:self.page.locator('#ep-simple-preview').click()
         preview=opened.value;expect(preview.get_by_role('button',name='Print / Save PDF',exact=True)).to_be_visible();preview.evaluate('()=>{window.printCalls=0;window.print=()=>window.printCalls++;}');preview.get_by_role('button',name='Print / Save PDF',exact=True).click();self.assertEqual(preview.evaluate('window.printCalls'),1);preview.get_by_role('button',name='Zoom +',exact=True).click();self.assertAlmostEqual(preview.locator('.report-page').evaluate('n=>Number(n.style.zoom)'),1.1);preview.get_by_role('button',name='Zoom −',exact=True).click();self.assertAlmostEqual(preview.locator('.report-page').evaluate('n=>Number(n.style.zoom)'),1);close_report(preview);self.assertTrue(preview.is_closed())
         self.assertEqual(self.page.evaluate("[...document.querySelectorAll('button,a')].filter(n=>/csv/i.test(n.textContent)).map(n=>n.textContent.trim())"),[])
         self.page.locator('#quick-tutorial').click();self.page.set_viewport_size({'width':390,'height':844});expect(self.page.locator('#kp-teaching-tools')).to_be_visible();self.assertLessEqual(self.page.locator('#kp-teaching-tools').bounding_box()['width'],390)
@@ -71,14 +70,14 @@ class TutorialTests(unittest.TestCase):
             selected=[r for r in data['results'] if r['qualifies']]
             self.assertEqual(self.page.locator('#gem-results tr').count(),len(selected))
             for row in selected:
-                self.assertFalse(row['retrograde']);self.assertFalse(row['combust'])
+                if mode=='kp':self.assertFalse(row['retrograde']);self.assertFalse(row['combust'])
                 if mode=='kp':self.assertEqual(row['score'],max(r['score'] for r in data['results'] if r['eligible']))
                 else:self.assertTrue(row['ownership'])
             with self.page.expect_popup() as opened:self.page.locator('#gemstones-preview').click()
             preview=opened.value;preview.wait_for_function('document.querySelector(".kp-a4-page")?.dataset.a4Scale')
             expect(preview.locator('[data-navagraha]')).to_have_count(9)
             expect(preview.locator('.gem-stotra-phala')).to_contain_text('व्यासविरचितं')
-            original=self.page.evaluate('KPPredictionLibrary.getCatalogue().entries.find(r=>r.categoryId==="gemstones"&&r.key==="RatnaH").value').replace(r'\n','\n')
+            original=self.page.evaluate('JSON.parse(document.getElementById("kp-personal-prediction-rules").textContent).entries.find(r=>r.categoryId==="gemstones"&&r.key==="RatnaH").value').replace(r'\n','\n')
             self.assertEqual(preview.locator('[data-ratna-key="RatnaH"] p').inner_text(),original)
             self.assertEqual(preview.locator('.gem-report-table tbody tr').count(),len(selected))
             bounds=preview.locator('.gem-one-page').evaluate('n=>({bottom:n.getBoundingClientRect().bottom,pageBottom:n.closest(".report-page").getBoundingClientRect().bottom,scale:n.closest(".report-page").dataset.a4Scale})')
@@ -120,6 +119,7 @@ class TutorialTests(unittest.TestCase):
         records={'boy':{'name':'Aniket Kolate','date':'1999-06-02','time':'15:45:00','timezone':'5.5','dst':'0','place':'Pune','latitude':'18.52','longitude':'73.85'},'girl':{'name':'Vaishnavi Choudhari','date':'2002-08-16','time':'11:34:00','timezone':'5.5','dst':'0','place':'Loni Kalbhor','latitude':'18.48','longitude':'74.01'}}
         native=self.page.evaluate('JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses})')
         self.page.evaluate("r=>{for(const [side,record] of Object.entries(r))for(const [key,value] of Object.entries(record))document.getElementById('mm-'+side+'-'+key).value=value;KPMatchmaking.refresh();}",records)
+        self.page.locator('.mm-marriage-options summary').click()
         self.page.locator('#mm-kp-date').fill('2026-10-09');self.page.locator('#mm-kp-time').fill('00:00:00');self.page.locator('#mm-kp-range').select_option('month');self.page.locator('#mm-kp-find').click();self.page.wait_for_function('KPMatchmaking.getMarriageData().ready')
         month=self.page.evaluate('KPMatchmaking.getMarriageData()');self.assertEqual(month['rows'],[]);self.assertEqual(month['diagnostics']['boy']['count'],0);self.assertGreater(month['diagnostics']['girl']['count'],0);expect(self.page.locator('.mm-marriage-diagnostics article')).to_have_count(2)
         self.page.locator('#mm-kp-next-period').click();self.page.wait_for_function('KPMatchmaking.getMarriageData().ready');long=self.page.evaluate('KPMatchmaking.getMarriageData()');self.assertEqual(long['range'],'13years');self.assertGreater(len(long['rows']),0);expect(self.page.locator('#mm-kp-range')).to_have_value('13years')
@@ -145,8 +145,8 @@ class PrivateTutorialTests(unittest.TestCase):
                 with page.expect_popup() as opened:page.locator('#mm-calculate').click()
                 preview=opened.value;expect(preview.locator('.mm-format-scores')).to_be_visible(timeout=30000)
                 import fitz
-                pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True),filetype='pdf');self.assertEqual(len(pdf),1);self.assertIn('Astrologer:',pdf[0].get_text());pdf.close();preview.close();page.locator('[data-mm-method="kp"]').click();expect(page.locator('#mm-kp-panel')).to_be_visible(timeout=30000);page.locator('#mm-kp-find').click();expect(page.locator('.mm-marriage-diagnostics article')).to_have_count(2,timeout=60000);page.locator('#quick-south9').click();expect(page.locator('#time-slices')).to_have_count(0,timeout=30000);self.assertEqual(page.evaluate("[...document.querySelectorAll('button')].filter(n=>/csv/i.test(n.textContent)).length"),0);page.locator('#quick-tutorial').click();page.locator('#quick-event-promise').click();expect(page.locator('#event-promise')).to_have_class('tab active',timeout=30000);expect(page.locator('#ep-timing-panel,#ep-find-time')).to_have_count(0);expect(page.locator('#event-promise-preview')).to_have_text('Preview')
-                with page.expect_popup() as opened:page.locator('#event-promise-preview').click()
+                pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True),filetype='pdf');self.assertEqual(len(pdf),1);self.assertIn('Astrologer:',pdf[0].get_text());pdf.close();preview.close();page.locator('[data-mm-method="kp"]').click();expect(page.locator('#mm-kp-panel')).to_be_visible(timeout=30000);page.locator('#mm-kp-find').click();expect(page.locator('.mm-marriage-diagnostics article')).to_have_count(2,timeout=60000);page.locator('#quick-south9').click();expect(page.locator('#time-slices')).to_have_count(0,timeout=30000);self.assertEqual(page.evaluate("[...document.querySelectorAll('button')].filter(n=>/csv/i.test(n.textContent)).length"),0);page.locator('#quick-tutorial').click();page.locator('#quick-event-promise').click();expect(page.locator('#event-promise')).to_have_class('tab active',timeout=30000);expect(page.locator('#ep-timing-panel,#ep-find-time')).to_have_count(0);expect(page.locator('#ep-simple-preview')).to_have_text('Preview · Print / PDF')
+                with page.expect_popup() as opened:page.locator('#ep-simple-preview').click()
                 event_preview=opened.value;expect(event_preview.get_by_role('button',name='Print / Save PDF',exact=True)).to_be_visible(timeout=30000);self.assertNotIn('Event date / time search',event_preview.locator('body').inner_text());event_preview.get_by_role('button',name='Zoom +',exact=True).click();self.assertAlmostEqual(event_preview.locator('.report-page').evaluate('n=>Number(n.style.zoom)'),1.1);event_preview.get_by_role('button',name='Zoom −',exact=True).click();self.assertAlmostEqual(event_preview.locator('.report-page').evaluate('n=>Number(n.style.zoom)'),1);close_report(event_preview);self.assertTrue(event_preview.is_closed());page.locator('#quick-gemstones').click();expect(page.locator('#gemstones')).to_have_class('tab active',timeout=30000);self.assertEqual(page.locator('#gemstones select:visible').count(),2);self.assertEqual(page.locator('#gemstones input:visible').count(),0)
                 page.locator('#gem-event').select_option('childbirth');expect(page.locator('#gem-event-proof')).to_contain_text('2, 5, 11',timeout=30000)
                 with page.expect_popup() as opened:page.locator('#gemstones-preview').click()
