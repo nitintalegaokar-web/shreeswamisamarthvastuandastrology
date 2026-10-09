@@ -9,7 +9,7 @@ import threading
 import unittest
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
-from playwright.sync_api import expect, sync_playwright
+from playwright.sync_api import Error as PlaywrightError, expect, sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 CHROMIUM = os.environ.get('CALCULATOR_CHROMIUM') or shutil.which('chromium')
@@ -29,6 +29,16 @@ FIXTURE_MODEL = """() => {
 class QuietHandler(SimpleHTTPRequestHandler):
     def log_message(self, *_args):
         pass
+
+
+def close_preview(preview):
+    """Assert the Close control closes its window, including early click completion."""
+    with preview.expect_event('close'):
+        try:
+            preview.get_by_role('button',name='Close preview',exact=True).click(no_wait_after=True)
+        except PlaywrightError:
+            if not preview.is_closed():
+                raise
 
 
 class FeatureUpdateTests(unittest.TestCase):
@@ -113,7 +123,7 @@ class FeatureUpdateTests(unittest.TestCase):
         self.assertAlmostEqual(preview.locator('.report-page').evaluate('n=>parseFloat(n.style.zoom)'),1.1)
         preview.get_by_role('button',name='Zoom −',exact=True).click()
         self.assertAlmostEqual(preview.locator('.report-page').evaluate('n=>parseFloat(n.style.zoom)'),1)
-        preview.get_by_role('button',name='Close preview',exact=True).click()
+        close_preview(preview)
         preview.wait_for_event('close') if not preview.is_closed() else None
 
     def test_long_reference_preview_prints_every_filtered_record_across_pdf_pages(self):
@@ -230,6 +240,115 @@ class FeatureUpdateTests(unittest.TestCase):
         self.assertFalse(result['ready'])
         self.assertFalse(result['busy'])
 
+    def test_kundali_comparison_highlights_matches_and_opens_sample_chart_popups(self):
+        expect(self.page.locator('nav [data-tab="time-slices"]')).to_have_count(0)
+        expect(self.page.locator('#south9 #time-slices')).to_have_count(1)
+        expect(self.page.locator('#mm-csv,#ts-csv,#gem-csv,#df-csv')).to_have_count(0)
+        self.page.locator('nav [data-tab="south9"]').click()
+        before=self.page.evaluate('JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses,d:document.getElementById("dob").value})')
+        result=self.page.evaluate("""async () => KPTimeSlices.scan({startDate:'2000-01-01',startTime:'12:00:00',endDate:'2000-01-01',endTime:'12:20:00',offset:0,latitude:51.5074,longitude:-0.1278,stepMinutes:10,cuspSource:'transit',eventId:'1',method:'fourfold'})""")
+        self.assertTrue(result['ready'])
+        for index,row in enumerate(result['rows']):
+            expect(self.page.locator('#ts-results tr').nth(index)).to_have_attribute('data-ts-status',row['status'])
+        matched=self.page.locator('#ts-results tr[data-ts-status="matched"]')
+        self.assertGreater(matched.count(),0)
+        self.assertEqual(matched.first.locator('td').first.evaluate('n=>getComputedStyle(n).backgroundColor'),'rgb(232, 245, 236)')
+        for index,view,attribute in [(0,'transit-chart','transit'),(1,'nadi-astrology','nadi')]:
+            with self.page.expect_popup() as opened:
+                self.page.locator('[data-ts-'+attribute+'="'+str(index)+'"]').click()
+            preview=opened.value
+            expect(preview.locator('[data-report-section="'+view+'"]')).to_be_visible()
+            expect(self.page.locator('#south9')).to_have_class('tab active')
+            expect(preview.get_by_role('button',name='Print / Save PDF',exact=True)).to_be_visible()
+            prefix='tc' if attribute=='transit' else 'na'
+            self.assertEqual(self.page.locator('#'+prefix+'-date').input_value(),'2000-01-01')
+            self.assertEqual(self.page.locator('#'+prefix+'-time').input_value(),['12:00:00','12:10:00'][index])
+            close_preview(preview)
+        after=self.page.evaluate('JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses,d:document.getElementById("dob").value})')
+        self.assertEqual(before,after)
+        expect(self.page.locator('#printReport [data-report-section="south9"] #ts-scan')).to_have_count(0)
+
+    def test_gemstone_event_groups_compact_line_and_original_ratna_printing(self):
+        self.page.locator('nav [data-tab="gemstones"]').click()
+        self.page.locator('#gem-event').select_option('kp:1354:0')
+        expect(self.page.locator('#gem-required')).to_have_value('2,6,10,11')
+        expect(self.page.locator('#gem-event-proof')).to_contain_text('Prediction catalogue #1354')
+        self.page.locator('#gem-event-search').fill('promotion')
+        self.assertFalse(self.page.locator('#gem-event option[value="kp:1354:0"]').evaluate('n=>n.hidden'))
+        self.assertTrue(self.page.locator('#gem-event option[value="kp:841:0"]').evaluate('n=>n.hidden'))
+        choices=self.page.locator('#gem-event option').evaluate_all('nodes=>nodes.filter(n=>n.value.startsWith("named:")).map(n=>({value:n.value,text:n.textContent}))')
+        self.assertGreater(len(choices),1000)
+        # A name-only uploaded event cannot acquire an invented house rule.
+        self.page.locator('#gem-event-search').fill('')
+        self.page.locator('#gem-event').select_option(choices[0]['value'])
+        expect(self.page.locator('#gem-required')).to_have_value('')
+        expect(self.page.locator('#gem-status')).to_have_attribute('data-ready','false')
+        self.page.locator('#gem-required').fill('2,5,11')
+        expect(self.page.locator('#gem-status')).to_have_attribute('data-ready','true')
+        self.page.set_viewport_size({'width':1440,'height':1000})
+        tops=self.page.locator('.gem-rule-line input').evaluate_all('nodes=>nodes.map(n=>n.getBoundingClientRect().top)')
+        self.assertLess(max(tops)-min(tops),2)
+        self.assertLessEqual(self.page.locator('#gemstones-preview').bounding_box()['height'],30)
+        original=self.page.evaluate('KPPredictionLibrary.getCatalogue().entries.find(r=>r.categoryId==="gemstones"&&r.key==="RatnaH").value').replace(r'\n','\n')
+        with self.page.expect_popup() as opened:
+            self.page.locator('#gemstones-preview').click()
+        preview=opened.value
+        self.assertEqual(preview.locator('[data-ratna-key="RatnaH"] p').inner_text(),original)
+        preview.close()
+        chart=self.page.evaluate('getChartData()')
+        self.assertEqual(chart['fields']['gem-event']['value'],choices[0]['value'])
+
+    def test_dasha_report_contains_only_original_filtered_result_text(self):
+        self.page.locator('nav [data-tab="dasha-fal"]').click()
+        self.page.locator('#df-source').select_option('manual')
+        self.page.locator('#df-md').select_option('Su')
+        self.page.locator('#df-ad').select_option('')
+        self.page.locator('#df-pd').select_option('')
+        self.page.locator('#df-filter').select_option('all')
+        expected=[text.replace(r'\n','\n') for text in self.page.evaluate('KPDashaFal.getData().results.filter(r=>r.record.categoryId==="dasha-short").map(r=>r.record.value)')]
+        with self.page.expect_popup() as opened:
+            self.page.locator('#dasha-fal-preview').click()
+        preview=opened.value
+        expect(preview.locator('.df-text-report table')).to_have_count(0)
+        expect(preview.locator('[data-df-result-text]')).to_have_count(391)
+        self.assertEqual(preview.locator('[data-df-result-text] p').all_text_contents(),expected)
+        text=preview.locator('.df-text-report').inner_text()
+        self.assertNotIn('Dahs Fal Short.txt',text)
+        self.assertNotIn('Mapping source line',text)
+        self.assertNotIn('House group matched',text)
+        preview.close()
+
+    def test_prediction_reports_scope_to_selected_cusp_and_chain_preview_is_separate(self):
+        self.page.locator('nav [data-tab="prediction"]').click()
+        self.page.locator('#pred-main-house').select_option('7')
+        self.page.locator('#pred-match-filter').select_option('all')
+        expect(self.page.locator('#pred-status')).to_contain_text('Cusp 7')
+        with self.page.expect_popup() as opened:
+            self.page.locator('#pred-print').click()
+        preview=opened.value
+        expect(preview.locator('[data-pred-print-chains]')).to_have_count(0)
+        expect(preview.locator('.pred-report')).to_have_attribute('data-main-cusp','7')
+        mains=preview.locator('[data-pred-event]>td:nth-child(3)').all_text_contents()
+        self.assertTrue(mains and all(main=='7' for main in mains))
+        self.assertFalse(self.page.locator('#printReport [data-report-section="prediction-chains"]').count())
+        preview.close()
+        self.page.locator('#prediction-chains-preview').locator('..').locator('summary').click()
+        with self.page.expect_popup() as opened:
+            self.page.locator('#prediction-chains-preview').click()
+        preview=opened.value
+        expect(preview.locator('[data-pred-cusp]')).to_have_count(1)
+        expect(preview.locator('[data-pred-cusp]')).to_have_attribute('data-pred-cusp','7')
+        preview.evaluate('() => {window.calls=0;window.print=()=>{window.calls++};}')
+        preview.get_by_role('button',name='Print / Save PDF',exact=True).click()
+        self.assertEqual(preview.evaluate('window.calls'),1)
+        preview.get_by_role('button',name='Zoom +',exact=True).click()
+        self.assertAlmostEqual(preview.locator('.report-page').evaluate('n=>parseFloat(n.style.zoom)'),1.1)
+        preview.get_by_role('button',name='Zoom −',exact=True).click()
+        close_preview(preview)
+        self.page.locator('#pred-main-house').select_option('0')
+        expect(self.page.locator('#pred-print')).to_be_disabled()
+        expect(self.page.locator('#prediction-preview')).to_be_disabled()
+
 
 class FeatureProtectedTests(unittest.TestCase):
     @classmethod
@@ -263,9 +382,11 @@ class FeatureProtectedTests(unittest.TestCase):
         try:
             page.goto(self.url)
             expect(page.locator('#page-title')).to_have_text('Home', timeout=60000)
-            for tab in ['prediction', 'dasha-fal', 'gemstones', 'time-slices']:
+            for tab in ['prediction', 'dasha-fal', 'gemstones', 'south9']:
                 page.locator('nav [data-tab="'+tab+'"]').click()
                 expect(page.locator('#'+tab)).to_be_visible(timeout=30000)
+            expect(page.locator('#south9 #time-slices')).to_be_visible()
+            expect(page.locator('nav [data-tab="time-slices"]')).to_have_count(0)
             page.locator('nav [data-tab="gemstones"]').click()
             page.locator('#gem-mode').select_option('vedic')
             expect(page.locator('#gem-status')).to_contain_text('Labhesh (11)', timeout=30000)
@@ -288,7 +409,7 @@ class FeatureProtectedTests(unittest.TestCase):
             self.assertAlmostEqual(preview.locator('.report-page').evaluate('n=>parseFloat(n.style.zoom)'),1.1)
             preview.get_by_role('button',name='Zoom −',exact=True).click()
             self.assertAlmostEqual(preview.locator('.report-page').evaluate('n=>parseFloat(n.style.zoom)'),1)
-            preview.get_by_role('button',name='Close preview',exact=True).click()
+            close_preview(preview)
             for section in ['prediction', 'dasha-fal', 'gemstones', 'time-slices']:
                 response = page.request.get(self.url+'/'+section+'-preview', timeout=90000)
                 self.assertEqual(response.status, 200, response.text()[:200])
@@ -297,6 +418,64 @@ class FeatureProtectedTests(unittest.TestCase):
             self.assertNotIn('<script', snapshot['html'])
             self.assertEqual(page.request.get(self.url+'/index.html').status, 404)
             self.assertEqual(errors, [])
+        finally:
+            context.close()
+
+    def test_private_sample_popups_chain_preview_and_restricted_reports(self):
+        context=self.browser.new_context(viewport={'width':1440,'height':1000})
+        page=context.new_page();errors=[]
+        page.on('pageerror',lambda error:errors.append(str(error)))
+        try:
+            page.goto(self.url)
+            expect(page.locator('#page-title')).to_have_text('Home',timeout=60000)
+            page.locator('nav [data-tab="south9"]').click()
+            expect(page.locator('#south9')).to_have_class('tab active',timeout=30000)
+            snapshot=page.request.get(self.url+'/snapshot').json()
+            token=snapshot['token']
+            before=page.request.get(self.url+'/export').json()['fields']
+            for id,value in [('ts-start-date','2000-01-01'),('ts-start-time','12:00:00'),('ts-end-date','2000-01-01'),('ts-end-time','12:20:00'),('ts-offset','0'),('ts-latitude','51.5074'),('ts-longitude','-0.1278')]:
+                response=page.request.post(self.url+'/event',data={'id':page.locator('#'+id).get_attribute('data-bridge-id'),'kind':'change','value':value},headers={'X-KP-Session':token})
+                self.assertEqual(response.status,200,response.text()[:300])
+            page.locator('#ts-scan').click()
+            expect(page.locator('#ts-status')).to_contain_text('3 samples',timeout=30000)
+            expect(page.locator('#ts-results tr[data-ts-status="matched"]')).to_have_count(3)
+            for attribute,index,section in [('transit',0,'transit-chart'),('nadi',1,'nadi-astrology')]:
+                with page.expect_popup() as opened:
+                    page.locator('[data-ts-'+attribute+'="'+str(index)+'"]').click()
+                preview=opened.value
+                expect(preview.locator('[data-report-section="'+section+'"]')).to_be_visible(timeout=60000)
+                expect(page.locator('#south9')).to_have_class('tab active')
+                self.assertLess(preview.get_by_role('button',name='Print / Save PDF',exact=True).bounding_box()['y'],100)
+                close_preview(preview)
+            self.assertEqual(page.request.get(self.url+'/time-slice-chart-preview?index=-1&view=transit-chart').status,400)
+            self.assertEqual(page.request.get(self.url+'/time-slice-chart-preview?index=0&view=ayan').status,400)
+            after=page.request.get(self.url+'/export').json()['fields']
+            for id in ['name','dob','birthTime']:
+                self.assertEqual(before.get(id),after.get(id))
+            page.locator('nav [data-tab="prediction"]').click()
+            expect(page.locator('#prediction')).to_have_class('tab active',timeout=30000)
+            page.locator('#pred-main-house').select_option('7')
+            expect(page.locator('#pred-status')).to_contain_text('Cusp 7',timeout=30000)
+            response=page.request.get(self.url+'/prediction-preview')
+            self.assertEqual(response.status,200)
+            self.assertNotIn('data-pred-print-chains',response.text())
+            self.assertIn('data-main-cusp="7"',response.text())
+            page.locator('#prediction-chains-preview').locator('..').locator('summary').click()
+            expect(page.locator('#prediction-chains-preview')).to_be_visible(timeout=30000)
+            with page.expect_popup() as opened:
+                page.locator('#prediction-chains-preview').click()
+            preview=opened.value
+            expect(preview.locator('[data-pred-cusp]')).to_have_count(1,timeout=60000)
+            expect(preview.locator('[data-pred-cusp]')).to_have_attribute('data-pred-cusp','7')
+            preview.close()
+            response=page.request.get(self.url+'/dasha-fal-preview')
+            self.assertEqual(response.status,200)
+            self.assertIn('df-text-report',response.text())
+            self.assertNotIn('data-df-record',response.text())
+            response=page.request.get(self.url+'/gemstones-preview')
+            self.assertEqual(response.status,200)
+            self.assertIn('data-ratna-key="RatnaH"',response.text())
+            self.assertEqual(errors,[])
         finally:
             context.close()
 
