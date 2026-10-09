@@ -1,0 +1,23 @@
+
+[ENGLISH]
+
+RatnaH = To get full auspicious result of gem stone, it should be worn in brighter fortnight on specific day and time. By wearing the gemstone in a specific star, it becomes more effective.\n At the time of wearing the gemstone you should devotedly remember and meditate your favored God. After that ring should be washed in raw milk and Ganga water and make it pure and then light the lamp and incense and chant the concerned planet mantra at least for one garland and then the ring should be worn in right hand in the specific finger. For ladies it should be worn in left and right hand finger. After wearing the ring, donate the objects related to that particular planet as per your affordability. 
+
+Ratna  = Gem Stone
+Ratti  = Ratti
+Dhatu  = Metal
+Finger  = Finger
+Vaar  = Weekday
+Smamay  = Time
+Nak  = Star
+Mantra  = Chants
+NishedhRatna  = Probhited Stone
+Donation  = Donation
+Lagnesh  = 1-Lagnesh
+Panchmesh  = 5-panchmesh
+Navmesh  = 9-navmesh
+
+Mantra-Jap  = Mantra-chant/fast/donation
+Ratnause  = This gem should be held in the time of {0} and {1} in Shukla {5} in {2} finger on {4} in metal ring. Its chants and donations are:-
+Paksha = Paksha
+RatnaChayan = Selection of Gem Stone

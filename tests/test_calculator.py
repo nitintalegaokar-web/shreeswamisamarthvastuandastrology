@@ -1988,14 +1988,17 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.page.locator('#tr-handbook-event').select_option(str(marriage['id']))
         expect(self.page.locator('#tr-houses')).to_have_value('2,7,11')
 
-    def test_prediction_tab_and_uploaded_catalogues_are_removed(self):
-        expect(self.page.locator('[data-tab="prediction"],#prediction,#kp-prediction-catalogue,#kp-prediction-reference-catalogue')).to_have_count(0)
-        self.prepare_exact_dasha()
+    def test_prediction_tab_and_uploaded_catalogues_are_restored(self):
+        expect(self.page.locator('nav [data-tab="prediction"]')).to_have_count(1)
+        self.go("prediction")
+        expect(self.page.locator('#pred-subtabs')).to_be_visible()
+        self.assertEqual(self.page.evaluate('KPPrediction.getCatalogue().events.length'),1612)
+        self.assertEqual(self.page.evaluate('KPPredictionLibrary.getCatalogue().entries.length'),6213)
         self.go("report")
-        expect(self.page.locator('[data-report-section="prediction"]')).to_have_count(0)
+        expect(self.page.locator('[data-report-section="prediction"]')).to_have_count(1)
         self.go("event-promise")
         expect(self.page.locator("#ep-event")).to_contain_text("Custom")
-        self.assertFalse(self.page.evaluate("Boolean(window.KPPrediction || window.KPPredictionLibrary)"))
+        self.assertTrue(self.page.evaluate("Boolean(window.KPPrediction && window.KPPredictionLibrary)"))
 
     def test_selected_dasha_rows_remain_readable_in_home_and_nadi_all_themes(self):
         self.prepare_exact_dasha()
