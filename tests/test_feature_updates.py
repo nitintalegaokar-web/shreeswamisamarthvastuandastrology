@@ -228,6 +228,8 @@ class FeatureUpdateTests(unittest.TestCase):
         self.page.locator('nav [data-tab="matchmaking"]').click()
         expect(self.page.get_by_text('Copy native birth details',exact=True)).to_have_count(0)
         expect(self.page.locator('.mm-birth-chart-details')).to_have_count(0)
+        expect(self.page.locator('#mm-traditional-charts svg')).to_have_count(2)
+        self.page.locator('#mm-analysis-mode').select_option('kp')
         result=self.page.evaluate("""async()=>{
           const d=KPMatchmaking.getData(),native=JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses,md:mdDashaPeriods});
           const shifted=KPMatchmaking.profile({...d.girl.record,time:'15:11'}),other=KPMatchmaking.kpCompatibility(d.boy,shifted,{boy:d.manglik.boy,girl:KPMatchmaking.manglik(shifted,d.settings)});

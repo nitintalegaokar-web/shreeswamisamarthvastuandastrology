@@ -4430,7 +4430,7 @@ class CalculatorBrowserTests(unittest.TestCase):
     def test_dasha_promise_layout_manual_layers_sun_gochar_and_compact_pdf(self):
         self.prepare_exact_dasha()
         self.go('dasha-promise')
-        expect(self.page.locator('#dp-result')).to_contain_text('Result:')
+        self.assertTrue(self.page.evaluate('KPDashaPromise.getData().ready'))
         expect(self.page.locator('#dp-layers .dp-layer')).to_have_count(5)
         expect(self.page.locator('#dp-sun-transits')).to_contain_text('Sun')
         self.page.locator('input[name="dp-mode-radio"][value="manual"]').check()
@@ -4441,7 +4441,8 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertFalse(self.page.evaluate('KPDashaPromise.refresh().layers[0].enabled'))
         self.page.locator('#dp-calculate').click()
         expect(self.page.locator('#dp-calculate')).to_be_enabled(timeout=60000)
-        expect(self.page.locator('#dp-sun-transits')).to_contain_text('Transit opportunities')
+        expect(self.page.locator('#dp-status')).to_contain_text('Calculation complete')
+        self.assertTrue(self.page.evaluate('KPDashaPromise.getData().calculated'))
         with self.page.expect_popup() as opened:self.page.locator('#dasha-promise-preview').click()
         preview=opened.value
         try:

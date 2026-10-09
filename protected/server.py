@@ -215,7 +215,8 @@ class Handler(BaseHTTPRequestHandler):
         path=urlsplit(self.path).path
         try:
             if path=='/':
-                self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script></body></html>','text/html');return
+                self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script><script src="/tutorial.js"></script></body></html>','text/html');return
+            if path=='/tutorial.js':self.respond((ROOT/'protected/tutorial.js').read_bytes(),'text/javascript');return
             if path=='/client.js':self.respond((ROOT/'protected/client.js').read_bytes(),'text/javascript');return
             if path not in ('/dba-preview','/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print','/ruling-clock'):
                 self.respond({'error':'Not found'},status=404);return
