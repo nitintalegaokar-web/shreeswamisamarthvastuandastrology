@@ -66,7 +66,7 @@ class FeatureUpdateTests(unittest.TestCase):
         self.errors = []
         self.page.on('pageerror', lambda error: self.errors.append(str(error)))
         self.page.goto(self.url, timeout=60000)
-        self.page.wait_for_function('window.KPTimeSlices && window.KPGemstones && document.getElementById("ts-scan")', timeout=60000)
+        self.page.wait_for_function('window.KPGemstones && window.KPNadiAstrology && currentKPModel?.ready && document.getElementById("gem-results")', timeout=60000)
         self.page.wait_for_timeout(450)
 
     def tearDown(self):
@@ -133,7 +133,7 @@ class FeatureUpdateTests(unittest.TestCase):
         self.page.locator('nav [data-tab="prediction"]').click()
         expect(self.page.locator('#pred-export')).to_have_count(0)
         self.page.locator('#pred-tab-gemstones').click()
-        expect(self.page.locator('#pred-library-csv')).not_to_be_visible()
+        expect(self.page.locator('#pred-library-csv')).to_have_count(0)
         with self.page.expect_popup() as opened:
             self.page.locator('#pred-library-print').click()
         preview=opened.value
@@ -157,7 +157,7 @@ class FeatureUpdateTests(unittest.TestCase):
         self.page.locator('#gem-mode').select_option('vedic')
         row=self.page.locator('#gem-results tr[data-gem-priority="1"]')
         expect(row).to_have_count(1)
-        expect(row).to_contain_text('Priority 1')
+        expect(row.locator('.gem-priority-badge')).to_have_text('1')
         self.assertNotEqual(row.evaluate('(e)=>getComputedStyle(e).backgroundColor'),'rgba(0, 0, 0, 0)')
 
     def test_event_timing_ranges_calendar_clamps_and_native_dba_coverage(self):
@@ -229,7 +229,7 @@ class FeatureUpdateTests(unittest.TestCase):
         expect(self.page.get_by_text('Copy native birth details',exact=True)).to_have_count(0)
         expect(self.page.locator('.mm-birth-chart-details')).to_have_count(0)
         expect(self.page.locator('#mm-traditional-charts svg')).to_have_count(2)
-        self.page.locator('#mm-analysis-mode').select_option('kp')
+        self.page.locator('[data-mm-method="kp"]').click()
         result=self.page.evaluate("""async()=>{
           const d=KPMatchmaking.getData(),native=JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses,md:mdDashaPeriods});
           const shifted=KPMatchmaking.profile({...d.girl.record,time:'15:11'}),other=KPMatchmaking.kpCompatibility(d.boy,shifted,{boy:d.manglik.boy,girl:KPMatchmaking.manglik(shifted,d.settings)});
@@ -297,7 +297,7 @@ class FeatureUpdateTests(unittest.TestCase):
             close_preview(preview)
         self.assertEqual(before,self.page.evaluate('JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses})'))
 
-    def test_notepad_formats_persist_and_time_slice_help_collapses(self):
+    def test_notepad_formats_persist_and_removed_time_slice_stays_absent(self):
         self.page.evaluate("localStorage.setItem('kpRaphaelNotepadV1','Existing notes · जुनी नोंद')")
         self.page.locator('#quick-notepad').click()
         expect(self.page.locator('#notepad-text')).to_have_value('Existing notes · जुनी नोंद')
@@ -325,12 +325,7 @@ class FeatureUpdateTests(unittest.TestCase):
         self.page.locator('#notepad-close').click()
         self.page.locator('nav [data-tab="south9"]').click()
         expect(self.page.locator('#south9 button',has_text='Manual Edit')).to_have_count(0)
-        expect(self.page.locator('#ts-help')).not_to_have_attribute('open','')
-        self.page.locator('#ts-help summary').click()
-        expect(self.page.locator('#ts-help > div')).to_be_visible()
-        expect(self.page.locator('#ts-help')).to_contain_text('15:40, 15:45 and 15:50')
-        self.page.locator('#ts-help summary').click()
-        expect(self.page.locator('#ts-help > div')).not_to_be_visible()
+        expect(self.page.locator('#time-slices,.kundali-time-slices-link')).to_have_count(0)
 
     def test_notepad_preview_preserves_fonts_safe_text_zoom_and_complete_pdf(self):
         self.page.locator('#quick-notepad').click()
@@ -635,10 +630,10 @@ class FeatureUpdateTests(unittest.TestCase):
         self.page.locator('#gem-event').select_option('childbirth')
         expect(self.page.locator('#gem-required')).to_have_value('2,5,11')
         self.page.locator('#gem-mode').select_option('vedic')
-        expect(self.page.locator('#gem-status')).to_contain_text('Labhesh (11)')
-        expect(self.page.locator('#gem-required')).to_be_disabled()
-        self.page.get_by_text('Your planet-to-gemstone mapping', exact=True).click()
-        self.page.locator('#gem-stone-Su').fill('My ruby reference')
+        expect(self.page.locator('#gem-status')).to_contain_text('Labhesh')
+        expect(self.page.locator('#gem-event')).to_be_disabled()
+        # Older saved chart mappings remain compatible without an editable mapping form.
+        self.page.evaluate("document.getElementById('gem-stone-Su').value='My ruby reference'")
         chart = self.page.evaluate('getChartData()')
         self.assertEqual(chart['fields']['gem-stone-Su']['value'], 'My ruby reference')
         self.assertEqual(chart['fields']['gem-mode']['value'], 'vedic')
@@ -664,90 +659,28 @@ class FeatureUpdateTests(unittest.TestCase):
         self.page.locator('#df-filter').select_option('all')
         expect(self.page.locator('#dasha-fal-preview')).to_be_enabled()
 
-    def test_time_slices_include_endpoints_match_reference_geometry_and_preserve_native(self):
-        result = self.page.evaluate("""async () => {
-          const before=JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses,d:document.getElementById('dob').value,t:document.getElementById('birthTime').value});
-          const options={startDate:'2000-01-01',startTime:'12:00:00',endDate:'2000-01-01',endTime:'12:25:00',offset:0,latitude:51.5074,longitude:-0.1278,stepMinutes:10,cuspSource:'transit',eventId:'1',method:'fourfold'};
-          const data=await KPTimeSlices.scan(options);
-          const after=JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses,d:document.getElementById('dob').value,t:document.getElementById('birthTime').value});
-          return {ready:data.ready,rows:data.rows,expected:(24.01459044-KPEphemeris.ayanamsha(new Date('2000-01-01T12:00:00Z'))+360)%360,nativeUnchanged:before===after,csv:KPTimeSlices.csv()};
-        }""")
-        self.assertTrue(result['ready'])
-        self.assertEqual([row['local'][11:] for row in result['rows']], ['12:00:00', '12:10:00', '12:20:00', '12:25:00'])
-        self.assertAlmostEqual(result['rows'][0]['ascendant'], result['expected'], delta=0.003)
-        self.assertNotEqual(result['rows'][0]['ascendant'], result['rows'][-1]['ascendant'])
-        self.assertTrue(result['nativeUnchanged'])
-        self.assertIn('2000-01-01T12:25:00.000Z', result['csv'])
-
-    def test_time_slice_limits_cancel_and_edit_invalidation(self):
-        result = self.page.evaluate("""async () => {
-          const base={startDate:'2000-01-01',startTime:'00:00:00',endDate:'2000-01-01',endTime:'08:19:00',offset:5.5,latitude:20,longitude:74,stepMinutes:1,cuspSource:'transit',eventId:'1',method:'fourfold'};
-          const invalid=[{stepMinutes:0},{latitude:NaN},{offset:15},{startDate:'2000-02-30'},{endDate:'1999-01-01'},{endDate:'2000-01-02'}].map(change=>{try{KPTimeSlices.validate({...base,...change});return false;}catch(_){return true;}});
-          const job=KPTimeSlices.scan(base);KPTimeSlices.invalidate('User cancelled');const cancelled=await job;
-          return {invalid,cancelled:cancelled.cancelled,ready:KPTimeSlices.getData().ready,busy:document.getElementById('time-slices').hasAttribute('aria-busy')};
-        }""")
-        self.assertTrue(all(result['invalid']))
-        self.assertTrue(result['cancelled'])
-        self.assertFalse(result['ready'])
-        self.assertFalse(result['busy'])
-
-    def test_kundali_comparison_highlights_matches_and_opens_sample_chart_popups(self):
-        expect(self.page.locator('nav [data-tab="time-slices"]')).to_have_count(0)
-        expect(self.page.locator('#south9 #time-slices')).to_have_count(1)
-        expect(self.page.locator('#mm-csv,#ts-csv,#gem-csv,#df-csv')).to_have_count(0)
+    def test_south_kundali_retains_chart_without_time_slice_controls(self):
         self.page.locator('nav [data-tab="south9"]').click()
-        before=self.page.evaluate('JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses,d:document.getElementById("dob").value})')
-        result=self.page.evaluate("""async () => KPTimeSlices.scan({startDate:'2000-01-01',startTime:'12:00:00',endDate:'2000-01-01',endTime:'12:20:00',offset:0,latitude:51.5074,longitude:-0.1278,stepMinutes:10,cuspSource:'transit',eventId:'1',method:'fourfold'})""")
-        self.assertTrue(result['ready'])
-        for index,row in enumerate(result['rows']):
-            expect(self.page.locator('#ts-results tr').nth(index)).to_have_attribute('data-ts-status',row['status'])
-        matched=self.page.locator('#ts-results tr[data-ts-status="matched"]')
-        self.assertGreater(matched.count(),0)
-        self.assertEqual(matched.first.locator('td').first.evaluate('n=>getComputedStyle(n).backgroundColor'),'rgb(232, 245, 236)')
-        for index,view,attribute in [(0,'transit-chart','transit'),(1,'nadi-astrology','nadi')]:
-            with self.page.expect_popup() as opened:
-                self.page.locator('[data-ts-'+attribute+'="'+str(index)+'"]').click()
-            preview=opened.value
-            expect(preview.locator('[data-report-section="'+view+'"]')).to_be_visible()
-            expect(self.page.locator('#south9')).to_have_class('tab active')
-            expect(preview.get_by_role('button',name='Print / Save PDF',exact=True)).to_be_visible()
-            prefix='tc' if attribute=='transit' else 'na'
-            self.assertEqual(self.page.locator('#'+prefix+'-date').input_value(),'2000-01-01')
-            self.assertEqual(self.page.locator('#'+prefix+'-time').input_value(),['12:00:00','12:10:00'][index])
-            close_preview(preview)
-        after=self.page.evaluate('JSON.stringify({p:currentKPModel.planets,h:currentKPModel.houses,d:document.getElementById("dob").value})')
-        self.assertEqual(before,after)
-        expect(self.page.locator('#printReport [data-report-section="south9"] #ts-scan')).to_have_count(0)
+        expect(self.page.locator('#time-slices,.kundali-time-slices-link')).to_have_count(0)
+        expect(self.page.locator('nav [data-tab="time-slices"]')).to_have_count(0)
+        expect(self.page.locator('#kundali')).to_be_visible()
+        self.assertFalse(self.page.evaluate('KPReportPages.sections().some(s=>s.id==="time-slices")') if self.page.evaluate('typeof KPReportPages.sections==="function"') else self.page.locator('[data-report-page-key="time-slices"]').count())
+        expect(self.page.locator('#mm-csv,#ts-csv,#gem-csv,#df-csv')).to_have_count(0)
 
-    def test_gemstone_event_groups_compact_line_and_original_ratna_printing(self):
+    def test_gemstone_catalogue_groups_simple_controls_and_original_ratna_printing(self):
         self.page.locator('nav [data-tab="gemstones"]').click()
         self.page.locator('#gem-event').select_option('kp:1354:0')
         expect(self.page.locator('#gem-required')).to_have_value('2,6,10,11')
         expect(self.page.locator('#gem-event-proof')).to_contain_text('Prediction catalogue #1354')
-        self.page.locator('#gem-event-search').fill('promotion')
-        self.assertFalse(self.page.locator('#gem-event option[value="kp:1354:0"]').evaluate('n=>n.hidden'))
-        self.assertTrue(self.page.locator('#gem-event option[value="kp:841:0"]').evaluate('n=>n.hidden'))
-        choices=self.page.locator('#gem-event option').evaluate_all('nodes=>nodes.filter(n=>n.value.startsWith("named:")).map(n=>({value:n.value,text:n.textContent}))')
-        self.assertGreater(len(choices),1000)
-        # A name-only uploaded event cannot acquire an invented house rule.
-        self.page.locator('#gem-event-search').fill('')
-        self.page.locator('#gem-event').select_option(choices[0]['value'])
-        expect(self.page.locator('#gem-required')).to_have_value('')
-        expect(self.page.locator('#gem-status')).to_have_attribute('data-ready','false')
-        self.page.locator('#gem-required').fill('2,5,11')
-        expect(self.page.locator('#gem-status')).to_have_attribute('data-ready','true')
-        self.page.set_viewport_size({'width':1440,'height':1000})
-        tops=self.page.locator('.gem-rule-line input').evaluate_all('nodes=>nodes.map(n=>n.getBoundingClientRect().top)')
-        self.assertLess(max(tops)-min(tops),2)
+        self.assertEqual(self.page.locator('#gemstones select:visible').count(),2)
+        self.assertEqual(self.page.locator('#gemstones input:visible').count(),0)
+        # Name-only Events.txt records have no supplied house rules and cannot become automatic choices.
+        self.assertEqual(self.page.locator('#gem-event option[value^="named:"]').count(),0)
         self.assertLessEqual(self.page.locator('#gemstones-preview').bounding_box()['height'],30)
         original=self.page.evaluate('KPPredictionLibrary.getCatalogue().entries.find(r=>r.categoryId==="gemstones"&&r.key==="RatnaH").value').replace(r'\n','\n')
-        with self.page.expect_popup() as opened:
-            self.page.locator('#gemstones-preview').click()
-        preview=opened.value
-        self.assertEqual(preview.locator('[data-ratna-key="RatnaH"] p').inner_text(),original)
-        preview.close()
-        chart=self.page.evaluate('getChartData()')
-        self.assertEqual(chart['fields']['gem-event']['value'],choices[0]['value'])
+        with self.page.expect_popup() as opened:self.page.locator('#gemstones-preview').click()
+        preview=opened.value;self.assertEqual(preview.locator('[data-ratna-key="RatnaH"] p').inner_text(),original);expect(preview.locator('[data-navagraha]')).to_have_count(9);preview.close()
+        chart=self.page.evaluate('getChartData()');self.assertEqual(chart['fields']['gem-event']['value'],'kp:1354:0')
 
     def test_dasha_report_contains_only_original_filtered_result_text(self):
         self.page.locator('nav [data-tab="dasha-fal"]').click()
@@ -857,8 +790,7 @@ class FeatureProtectedTests(unittest.TestCase):
             page.locator('#notepad-close').click()
             page.locator('nav [data-tab="south9"]').click()
             expect(page.locator('#south9 button',has_text='Manual Edit')).to_have_count(0)
-            page.locator('#ts-help summary').click()
-            expect(page.locator('#ts-help > div')).to_be_visible()
+            expect(page.locator('#time-slices')).to_have_count(0)
             page.locator('nav [data-tab="ruling-planets"]').click()
             expect(page.locator('#rpw-date')).to_be_visible(timeout=30000)
             page.locator('#rpw-date').fill('2028-01-31')
@@ -878,7 +810,7 @@ class FeatureProtectedTests(unittest.TestCase):
             page.locator('nav [data-tab="prediction"]').click()
             expect(page.locator('#pred-export')).to_have_count(0)
             page.locator('#pred-tab-gemstones').click()
-            expect(page.locator('#pred-library-csv')).not_to_be_visible(timeout=30000)
+            expect(page.locator('#pred-library-csv')).to_have_count(0)
             with page.expect_popup() as opened:
                 page.locator('#pred-library-print').click()
             preview=opened.value
@@ -1018,11 +950,11 @@ class FeatureProtectedTests(unittest.TestCase):
             for tab in ['prediction', 'dasha-fal', 'gemstones', 'south9']:
                 page.locator('nav [data-tab="'+tab+'"]').click()
                 expect(page.locator('#'+tab)).to_be_visible(timeout=30000)
-            expect(page.locator('#south9 #time-slices')).to_be_visible()
+            expect(page.locator('#south9 #time-slices')).to_have_count(0)
             expect(page.locator('nav [data-tab="time-slices"]')).to_have_count(0)
             page.locator('nav [data-tab="gemstones"]').click()
             page.locator('#gem-mode').select_option('vedic')
-            expect(page.locator('#gem-status')).to_contain_text('Labhesh (11)', timeout=30000)
+            expect(page.locator('#gem-status')).to_contain_text('Labhesh', timeout=30000)
             exported = page.request.get(self.url+'/export').json()
             self.assertEqual(exported['fields']['gem-mode']['value'], 'vedic')
             page.locator('nav [data-tab="prediction"]').click()
@@ -1043,7 +975,7 @@ class FeatureProtectedTests(unittest.TestCase):
             preview.get_by_role('button',name='Zoom −',exact=True).click()
             self.assertAlmostEqual(preview.locator('.report-page').evaluate('n=>parseFloat(n.style.zoom)'),1)
             close_preview(preview)
-            for section in ['prediction', 'dasha-fal', 'gemstones', 'time-slices']:
+            for section in ['prediction', 'dasha-fal', 'gemstones']:
                 response = page.request.get(self.url+'/'+section+'-preview', timeout=90000)
                 self.assertEqual(response.status, 200, response.text()[:200])
                 self.assertIn('data-report-section="'+section+'"', response.text())
@@ -1054,7 +986,7 @@ class FeatureProtectedTests(unittest.TestCase):
         finally:
             context.close()
 
-    def test_private_sample_popups_chain_preview_and_restricted_reports(self):
+    def test_private_removed_time_slice_chain_preview_and_restricted_reports(self):
         context=self.browser.new_context(viewport={'width':1440,'height':1000})
         page=context.new_page();errors=[]
         page.on('pageerror',lambda error:errors.append(str(error)))
@@ -1066,32 +998,7 @@ class FeatureProtectedTests(unittest.TestCase):
             snapshot=page.request.get(self.url+'/snapshot').json()
             token=snapshot['token']
             before=page.request.get(self.url+'/export').json()['fields']
-            for id,value in [('ts-start-date','2000-01-01'),('ts-start-time','12:00:00'),('ts-end-date','2000-01-01'),('ts-end-time','12:20:00'),('ts-offset','0'),('ts-latitude','51.5074'),('ts-longitude','-0.1278')]:
-                response=page.request.post(self.url+'/event',data={'id':page.locator('#'+id).get_attribute('data-bridge-id'),'kind':'change','value':value},headers={'X-KP-Session':token})
-                self.assertEqual(response.status,200,response.text()[:300])
-            page.locator('#ts-scan').click()
-            expect(page.locator('#ts-status')).to_contain_text('3 samples',timeout=30000)
-            expect(page.locator('#ts-results tr[data-ts-status="matched"]')).to_have_count(3)
-            for attribute,index,section in [('transit',0,'transit-chart'),('nadi',1,'nadi-astrology')]:
-                with page.expect_popup() as opened:
-                    page.locator('[data-ts-'+attribute+'="'+str(index)+'"]').click()
-                preview=opened.value
-                expect(preview.locator('[data-report-section="'+section+'"]')).to_be_visible(timeout=60000)
-                expect(page.locator('#south9')).to_have_class('tab active')
-                if attribute=='nadi':
-                    expect(preview.locator('[data-nadi-cusp]')).to_have_count(12)
-                    expect(preview.locator('[data-nadi-chart-planet]')).to_have_count(9)
-                    preview.emulate_media(media='print')
-                    pdf=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True)
-                    self.assertEqual(len(re.findall(rb'/Type\s*/Page\b',pdf)),1)
-                    preview.emulate_media(media='screen')
-                self.assertLess(preview.get_by_role('button',name='Print / Save PDF',exact=True).bounding_box()['y'],100)
-                close_preview(preview)
-            self.assertEqual(page.request.get(self.url+'/time-slice-chart-preview?index=-1&view=transit-chart').status,400)
-            self.assertEqual(page.request.get(self.url+'/time-slice-chart-preview?index=0&view=ayan').status,400)
-            after=page.request.get(self.url+'/export').json()['fields']
-            for id in ['name','dob','birthTime']:
-                self.assertEqual(before.get(id),after.get(id))
+            expect(page.locator('#time-slices')).to_have_count(0)
             page.locator('nav [data-tab="prediction"]').click()
             expect(page.locator('#prediction')).to_have_class('tab active',timeout=30000)
             page.locator('#pred-main-house').select_option('7')

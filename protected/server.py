@@ -47,7 +47,7 @@ SNAPSHOT = r"""() => {
  document.querySelectorAll('button,input,select,textarea,details,tbody tr,#kundali .v38-cell,#kundali .v38-center,#kundali,#kundali-north,#home-kundali,#na-native-chart').forEach(n=>{const key=bridgeKey(n);if(!window.__bridgeKeyIds.has(key))window.__bridgeKeyIds.set(key,'b'+(++window.__bridgeSerial));n.dataset.bridgeId=window.__bridgeKeyIds.get(key);});
  const clone=document.body.cloneNode(true);
  for(const live of document.querySelectorAll('input,textarea,select,details')){const n=clone.querySelector('[data-bridge-id="'+live.dataset.bridgeId+'"]');if(!n)continue;if(live.matches('input')){n.setAttribute('value',live.value);if(live.checked)n.setAttribute('checked','');else n.removeAttribute('checked');}if(live.matches('textarea'))n.textContent=live.value;if(live.matches('select'))[...n.options].forEach((o,i)=>o.toggleAttribute('selected',live.options[i].selected));if(live.matches('details')){n.toggleAttribute('open',live.open);n.dataset.bridgeOpen=String(live.open);}}
- clone.querySelectorAll('script,style,[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line,#ayan,#lmt,#stcalc,#raphael5,#planet').forEach(n=>n.remove());
+ clone.querySelectorAll('script,style,#kp-teaching-tools,.kp-teach-canvas,[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line,#ayan,#lmt,#stcalc,#raphael5,#planet').forEach(n=>n.remove());
  clone.querySelectorAll('[data-report-section]').forEach(n=>{if(['ayan','lmt','stcalc','raphael5','planet'].includes(n.dataset.reportSection))n.remove();});
  clone.querySelectorAll('[data-report-page-key]').forEach(n=>{if(['ayan','lmt','stcalc','raphael5','planet'].includes(n.dataset.reportPageKey))n.closest('label')?.remove();});
  clone.querySelectorAll('details').forEach(n=>{if(/calculation details|formula|worksheet/i.test(n.querySelector(':scope > summary')?.textContent||''))n.remove();});
@@ -176,10 +176,10 @@ class Engine:
             page.evaluate('()=>{renderReport();KPLanguage.apply();}')
             result=page.evaluate("() => {const blocked=KPClientPresentation.privateTabs;const pages=KPReportPages.selected().filter(n=>!blocked.includes(n.dataset.reportSection));return {html:pages.map(n=>{const copy=n.cloneNode(true);copy.querySelectorAll('[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line').forEach(c=>c.remove());return copy.outerHTML;}).join(''),css:[...document.querySelectorAll('style')].map(n=>n.textContent.replace(/#kundali\\b/g,'[data-report-id=\"kundali\"]')).join('\\n')};}")
             if not result['html']: raise ValueError('Select at least one report page in Print.')
-            if action in ('aspects-preview','single-page-preview','south9-preview','nadi-astrology-preview','significators-preview') or (action=='time-slice-chart-preview' and data['view']=='nadi-astrology'):
+            if action in ('gemstones-preview','aspects-preview','single-page-preview','south9-preview','nadi-astrology-preview','significators-preview') or (action=='time-slice-chart-preview' and data['view']=='nadi-astrology') or (action in ('match-preview','print') and 'mm-traditional-report' in result['html'] and 'mm-kp-comparison' not in result['html'] and len(page.evaluate('KPReportPages.selected().map(p=>p.dataset.reportSection)'))==1):
                 result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString()})')
-            elif action=='print' and any('data-report-section="'+id+'"' in result['html'] for id in ('nadi-astrology','kp-fourfold','kp-sixfold','kp-fourstep-section')):
-                result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString(),sections:["nadi-astrology","kp-fourfold","kp-sixfold","kp-fourstep-section"]})')
+            elif action=='print' and any('data-report-section="'+id+'"' in result['html'] for id in ('gemstones','nadi-astrology','kp-fourfold','kp-sixfold','kp-fourstep-section')):
+                result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString(),sections:["gemstones","nadi-astrology","kp-fourfold","kp-sixfold","kp-fourstep-section"]})')
             return token, result
         snapshot=page.evaluate(SNAPSHOT); snapshot['token']=token
         if session['downloads']:

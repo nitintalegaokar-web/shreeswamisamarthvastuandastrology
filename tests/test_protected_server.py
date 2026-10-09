@@ -228,17 +228,13 @@ class ProtectedServerTests(unittest.TestCase):
         expect(self.page.locator('#home [data-home-chart]')).to_have_class(__import__('re').compile('.*north9-chart.*'),timeout=10000)
         self.assertFalse(self.page.locator('#connection-status').count())
 
-    def test_csv_download_reaches_customer_browser(self):
+    def test_csv_export_control_removed_and_ephemeris_results_remain(self):
         self.go('ephemeris')
         self.private("() => {document.getElementById('eph-start').value='2026-10-06';document.getElementById('eph-end').value='2026-10-07';document.getElementById('eph-run').click();}")
-        snapshot=self.page.request.get(self.url+'/snapshot').json()
-        self.page.reload();expect(self.page.locator('#eph-csv')).to_be_enabled(timeout=15000)
-        with self.page.expect_download(timeout=15000) as download:
-            self.page.locator('#eph-csv').click()
-        data=download.value
-        self.assertTrue(data.suggested_filename.endswith('.csv'))
-        text=Path(data.path()).read_text(encoding='utf-8-sig')
-        self.assertIn('2026-10-06',text);self.assertIn('2026-10-07',text)
+        self.page.reload();expect(self.page.locator('#eph-table tbody tr[data-planet]')).to_have_count(18,timeout=30000)
+        expect(self.page.locator('#eph-csv')).to_have_count(0)
+        with self.page.expect_popup() as opened:self.page.locator('#ephemeris-preview').click()
+        preview=opened.value;expect(preview.locator('[data-report-section="ephemeris"]')).to_contain_text('06/10/2026',timeout=30000);expect(preview.locator('[data-report-section="ephemeris"]')).to_contain_text('07/10/2026');preview.close()
 
     def test_sessions_do_not_share_native_data(self):
         self.go('basic');self.page.locator('#name').fill('Only first session');self.page.locator('#name').blur();self.page.wait_for_timeout(700)

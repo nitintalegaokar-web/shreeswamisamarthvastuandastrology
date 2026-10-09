@@ -1938,11 +1938,8 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator('#ep-source-mount')).to_be_hidden()
         expect(self.page.locator('#ep-outcome-result')).to_contain_text('Result:')
         expect(self.page.locator('#ep-outcome-result')).to_contain_text('Reason:')
-        expect(self.page.locator('#ep-ruling-transit-chart .ep-query-sign')).to_have_count(12)
-        self.page.locator('#ep-range-day').check()
-        self.assertTrue(self.page.locator('#ep-outcome-result').evaluate("n=>!!n.closest('.ep-ref-right')"))
-        expect(self.page.locator('#ep-time-result')).to_contain_text(re.compile('candidate|not Promised'), timeout=30000)
-        expect(self.page.locator('#ep-time-result')).not_to_contain_text('Resolve the additional promise conditions')
+        expect(self.page.locator('#ep-timing-panel,#ep-ruling-transit-chart,#ep-time-result')).to_have_count(0)
+        expect(self.page.locator('#event-promise-preview')).to_have_text('Preview')
         with self.page.expect_popup() as opened:
             self.page.locator('#event-promise-preview').click()
         preview=opened.value
@@ -4176,7 +4173,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         expect(self.page.locator("#tp-positions tbody tr[data-planet]")).to_have_count(0)
         self.assertEqual(self.outputs(), natal)
 
-    def test_daily_ephemeris_checks_two_days_derived_motion_custom_combustion_csv_and_invalid_ranges(self):
+    def test_daily_ephemeris_checks_two_days_motion_combustion_export_api_and_invalid_ranges(self):
         self.prepare_exact_dasha()
         natal = self.outputs()
         data = self.configure_daily_ephemeris()
@@ -4206,7 +4203,7 @@ class CalculatorBrowserTests(unittest.TestCase):
                 self.assertEqual("[R]" in planet["markers"], planet["retrograde"])
                 self.assertEqual("[C]" in planet["markers"], planet["combust"])
         with self.page.expect_download() as download_info:
-            self.page.locator("#eph-csv").click()
+            self.page.evaluate("KPDailyEphemeris.exportCSV()")
         exported = list(csv.reader(io.StringIO(Path(download_info.value.path()).read_text(encoding="utf-8-sig"))))
         self.assertEqual(len(exported), 19)
         self.assertEqual(exported[-1][0:4], ["2026-10-07", "05:30:00", "5.5", "Ke"])
@@ -4228,7 +4225,7 @@ class CalculatorBrowserTests(unittest.TestCase):
             expect(self.page.locator("#eph-status")).to_contain_text(expected)
             expect(self.page.locator("#eph-table tbody tr[data-planet]")).to_have_count(0)
             self.assertIsNone(self.page.evaluate("window.KPDailyEphemeris.getData()"))
-            expect(self.page.locator("#eph-csv")).to_be_disabled()
+            expect(self.page.locator("#eph-csv")).to_have_count(0)
         self.page.locator("#eph-end").fill("2026-12-31")
         self.page.evaluate("()=>{window.KPDailyEphemeris.run();window.KPDailyEphemeris.cancel();}")
         expect(self.page.locator("#eph-status")).to_contain_text("cancelled")
