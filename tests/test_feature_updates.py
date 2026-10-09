@@ -72,6 +72,62 @@ class FeatureUpdateTests(unittest.TestCase):
         self.context.close()
         self.assertEqual(self.errors, [])
 
+    def test_transit_current_periods_use_exact_native_boundaries_and_refresh_lords(self):
+        self.page.locator('nav [data-tab="transit"]').click()
+        expect(self.page.locator('#tr-period')).to_have_value('PD')
+        expect(self.page.locator('#tr-start')).not_to_be_visible()
+        expect(self.page.locator('#tr-end')).not_to_be_visible()
+        expect(self.page.locator('#tr-reference')).to_have_count(0)
+        expect(self.page.locator('[data-current-period]')).to_have_count(3)
+        result = self.page.evaluate("""() => {
+          const now=KPTransit.currentPeriods(),home=KPHomeDasha.getData();
+          const nativeCivil=Date.parse(now.instant)+home.timeZoneHours*3600000;
+          let rows=home.levels[0].rows;const checks=[];
+          for(const level of ['MD','AD','PD']){
+            const expected=rows.find(p=>p.startMs<=nativeCivil&&nativeCivil<p.endMs),p=now.periods[level];
+            checks.push(p.startMs===expected.startMs&&p.endMs===expected.endMs&&Date.parse(p.startUTC)===p.startMs-home.timeZoneHours*3600000&&Date.parse(p.endUTC)===p.endMs-home.timeZoneHours*3600000);
+            rows=KPHomeDasha.subdivide(expected);
+          }
+          const next=KPTransit.currentPeriods(new Date(now.periods.PD.endUTC));
+          let outside=false;try{KPTransit.currentPeriods(new Date('2300-01-01T00:00:00Z'));}catch(_){outside=true;}
+          return {checks,outside,nextStart:next.periods.PD.startUTC,previousEnd:now.periods.PD.endUTC};
+        }""")
+        self.assertTrue(all(result['checks']))
+        self.assertTrue(result['outside'])
+        self.assertEqual(result['nextStart'], result['previousEnd'])
+        self.page.locator('#tr-mode').select_option('dasha')
+        for level in ['MD', 'AD', 'PD']:
+            self.page.locator('#tr-period').select_option(level)
+            data = self.page.evaluate("""() => {
+              const p=KPTransit.currentPeriods(),r=KPTransit.currentRange(p),summary=document.getElementById('tr-period-summary');
+              return {start:r.start.toISOString(),end:r.end.toISOString(),summaryStart:summary.dataset.start,summaryEnd:summary.dataset.end,lords:KPTransit.autoDasha(p),selected:['tr-md','tr-ad','tr-pd'].map(id=>document.getElementById(id).value)};
+            }""")
+            self.assertEqual(data['start'],data['summaryStart'])
+            self.assertEqual(data['end'],data['summaryEnd'])
+            self.assertEqual(data['selected'],[data['lords'][level] for level in ['MD','AD','PD']])
+        self.page.locator('#tr-timezone').select_option('0')
+        utc = self.page.evaluate('KPTransit.currentRange().start.toISOString()')
+        self.assertEqual(utc,data['start'])
+        expect(self.page.locator('#tr-period-summary')).to_contain_text('UTC')
+
+    def test_transit_search_uses_current_pd_and_accepts_complete_twenty_year_md(self):
+        self.page.locator('nav [data-tab="transit"]').click()
+        self.page.locator('#tr-mode').select_option('sun')
+        self.page.locator('#tr-run').click()
+        expect(self.page.locator('#tr-status')).to_contain_text('matching transit interval',timeout=60000)
+        result = self.page.evaluate("""async () => {
+          const range=KPTransit.currentRange(),found=KPTransit.getResults();
+          const start=new Date('2000-01-01T12:34:56Z'),end=new Date('2020-01-01T12:34:56Z');
+          const long=await KPTransit.scan({start,end,tracks:[{id:'whole',planet:'Su',label:'whole range',levels:[],test:()=>true}]});
+          return {within:found.every(row=>Date.parse(row.start)>=range.start.getTime()&&Date.parse(row.end)<=range.end.getTime()),long};
+        }""")
+        self.assertTrue(result['within'])
+        self.assertEqual(len(result['long']),1)
+        self.assertEqual(result['long'][0]['start'],'2000-01-01T12:34:56.000Z')
+        self.assertEqual(result['long'][0]['end'],'2020-01-01T12:34:56.000Z')
+        self.page.locator('#tr-period').select_option('AD')
+        self.assertEqual(self.page.evaluate('KPTransit.getResults().length'),0)
+
     def test_original_prediction_catalogues_preserve_counts_conditions_and_duplicate_texts(self):
         data = self.page.evaluate("""() => {
           const pred=KPPrediction.getCatalogue(),ref=KPPredictionLibrary.getCatalogue();
@@ -382,6 +438,12 @@ class FeatureProtectedTests(unittest.TestCase):
         try:
             page.goto(self.url)
             expect(page.locator('#page-title')).to_have_text('Home', timeout=60000)
+            page.locator('nav [data-tab="transit"]').click()
+            expect(page.locator('#tr-period')).to_have_value('PD',timeout=30000)
+            expect(page.locator('[data-current-period]')).to_have_count(3)
+            expect(page.locator('#tr-start')).not_to_be_visible()
+            page.locator('#tr-period').select_option('AD')
+            expect(page.locator('#tr-period-summary')).to_contain_text('Current AD',timeout=30000)
             for tab in ['prediction', 'dasha-fal', 'gemstones', 'south9']:
                 page.locator('nav [data-tab="'+tab+'"]').click()
                 expect(page.locator('#'+tab)).to_be_visible(timeout=30000)
