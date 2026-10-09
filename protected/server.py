@@ -158,6 +158,9 @@ class Engine:
         elif action=='prediction-chains-preview':
             result=page.evaluate("() => {const preview=document.createElement('section');preview.className='report-page';preview.dataset.reportSection='prediction-chains';preview.innerHTML='<h2 class=\"report-page-title\">Cusp chains</h2>'+KPPrediction.chainSnapshot();return {html:preview.outerHTML,css:[...document.querySelectorAll('style')].map(n=>n.textContent).join('\\n')};}")
             return token,result
+        elif action=='dba-preview':
+            page.evaluate('()=>{calculateAll();KPHomeDasha.refresh();}')
+            return token, {'html':page.evaluate('KPDbaPopup.document()')}
         elif action in ('print','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview','dasha-promise-preview','prediction-preview','dasha-fal-preview','gemstones-preview','time-slices-preview','time-slice-chart-preview','significators-preview','nadi-astrology-preview','south9-preview','aspects-preview','single-page-preview'):
             if action=='time-slice-chart-preview':
                 if not isinstance(data,dict) or type(data.get('index')) is not int or data.get('view') not in ('transit-chart','nadi-astrology'):
@@ -173,8 +176,10 @@ class Engine:
             page.evaluate('()=>{renderReport();KPLanguage.apply();}')
             result=page.evaluate("() => {const blocked=KPClientPresentation.privateTabs;const pages=KPReportPages.selected().filter(n=>!blocked.includes(n.dataset.reportSection));return {html:pages.map(n=>{const copy=n.cloneNode(true);copy.querySelectorAll('[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line').forEach(c=>c.remove());return copy.outerHTML;}).join(''),css:[...document.querySelectorAll('style')].map(n=>n.textContent.replace(/#kundali\\b/g,'[data-report-id=\"kundali\"]')).join('\\n')};}")
             if not result['html']: raise ValueError('Select at least one report page in Print.')
-            if action in ('aspects-preview','single-page-preview','south9-preview','nadi-astrology-preview') or (action=='time-slice-chart-preview' and data['view']=='nadi-astrology'):
+            if action in ('aspects-preview','single-page-preview','south9-preview','nadi-astrology-preview','significators-preview') or (action=='time-slice-chart-preview' and data['view']=='nadi-astrology'):
                 result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString()})')
+            elif action=='print' and any('data-report-section="'+id+'"' in result['html'] for id in ('nadi-astrology','kp-fourfold','kp-sixfold','kp-fourstep-section')):
+                result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString(),sections:["nadi-astrology","kp-fourfold","kp-sixfold","kp-fourstep-section"]})')
             return token, result
         snapshot=page.evaluate(SNAPSHOT); snapshot['token']=token
         if session['downloads']:
@@ -212,7 +217,7 @@ class Handler(BaseHTTPRequestHandler):
             if path=='/':
                 self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script></body></html>','text/html');return
             if path=='/client.js':self.respond((ROOT/'protected/client.js').read_bytes(),'text/javascript');return
-            if path not in ('/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print','/ruling-clock'):
+            if path not in ('/dba-preview','/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print','/ruling-clock'):
                 self.respond({'error':'Not found'},status=404);return
             action=path[1:]
             if path in ('/aspects-print','/single-page-print'):action=action.removesuffix('-print')+'-preview'
@@ -224,13 +229,16 @@ class Handler(BaseHTTPRequestHandler):
             if path=='/aspects-pdf':
                 self.respond(result,'application/pdf',token=token,extra={'Content-Disposition':'attachment; filename="KP-Western-Aspects.pdf"'});return
             if path=='/export':self.respond(result,token=token,extra={'Content-Disposition':'attachment; filename="chart.lkp"'});return
+            if path=='/dba-preview':
+                self.respond(result['html'],'text/html',token=token);return
             if path=='/print' or path.endswith(('-preview','-print')):
                 safe=result['html']
                 # Report snapshots already remove active controls and handlers.
-                doc='<!doctype html><html><head><meta charset="UTF-8"><title>KP Report</title><style>'+result['css']+'</style><style>html,body{margin:0;background:white}body>.report-page{display:block!important;margin:0 auto!important}@media print{body>.report-page{display:block!important}}@page{size:A4;margin:10mm}</style></head><body>'+('<script>window.onload=()=>setTimeout(()=>window.print(),500)</script>' if path=='/print' or path.endswith('-print') else '<div class="preview-tools"><button id="preview-save-pdf" type="button" onclick="window.print()">Print / Save PDF</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.min(2,(parseFloat(p.style.zoom)||1)+.1))">Zoom +</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.max(.5,(parseFloat(p.style.zoom)||1)-.1))">Zoom −</button><button type="button" onclick="window.close()">Close preview</button><small>Choose Save as PDF in the print dialog.</small></div><style>.preview-tools{position:sticky;top:0;background:white;padding:8px;z-index:10;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.preview-tools button{padding:5px 10px;min-height:28px;font-size:12px;border-radius:5px;cursor:pointer}@media print{.preview-tools{display:none}.report-page{zoom:1!important}}</style>')+safe+'</body></html>'
+                doc='<!doctype html><html><head><meta charset="UTF-8"><title>KP Report</title><style>'+result['css']+'</style><style>html,body{margin:0;background:white}body>.report-page{display:block!important;margin:0 auto!important}@media print{body>.report-page{display:block!important}}@page{size:A4;margin:10mm}</style></head><body>'+('<script>window.onload=()=>setTimeout(()=>window.print(),500)</script>' if path=='/print' or path.endswith('-print') else '<div class="preview-tools"><button id="preview-save-pdf" type="button" onclick="window.print()">Print / Save PDF</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.min(2,(parseFloat(p.style.zoom)||1)+.1))">Zoom +</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.max(.5,(parseFloat(p.style.zoom)||1)-.1))">Zoom −</button><button type="button" onclick="window.close()">Close preview</button></div><style>.preview-tools{position:sticky;top:0;background:white;padding:8px;z-index:10;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.preview-tools button{padding:5px 10px;min-height:28px;font-size:12px;border-radius:5px;cursor:pointer}@media print{.preview-tools{display:none}.report-page{zoom:1!important}}</style>')+safe+'</body></html>'
                 if result.get('a4'):
                     config=result['a4']
-                    script='const css='+json.dumps(config['css'])+';const fit='+config['fit']+';const normalize='+config['normalize']+';normalize(document);'
+                    script=('const css='+json.dumps(config['css'])+';const fit='+config['fit']+';const normalize='+config['normalize']+';const sections='+json.dumps(config.get('sections'))+
+                            ';if(sections)sections.forEach(id=>document.querySelectorAll(`[data-report-section="${id}"]`).forEach(page=>normalize(document,page)));else normalize(document);')
                     doc=doc.replace('</body>','<script>'+script+'</script></body>')
                 self.respond(doc,'text/html',token=token);return
             self.respond(result,token=token)
