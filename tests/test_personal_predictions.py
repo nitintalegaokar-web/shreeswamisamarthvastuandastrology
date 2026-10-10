@@ -41,7 +41,7 @@ class PersonalPredictionTests(unittest.TestCase):
         with self.page.expect_popup() as opened:self.page.locator('#gemstones-preview').click()
         preview=opened.value;preview.wait_for_function('document.querySelector(".kp-a4-page")?.dataset.a4Scale');pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf');self.assertEqual(len(pdf),1);self.assertIn('Lagnesh',pdf[0].get_text());self.assertIn('Panchamesh',pdf[0].get_text());self.assertIn('Labhesh',pdf[0].get_text());pdf.close();preview.close()
     def test_event_selection_gives_direct_verdict_and_one_a4_page(self):
-        self.page.locator('#quick-event-promise').click();self.assertEqual(self.page.locator('#event-promise select:visible').count(),1);self.assertEqual(self.page.locator('#event-promise input:visible').count(),0)
+        self.page.locator('#quick-event-promise').click();self.assertEqual(self.page.locator('#event-promise select:visible').count(),3);self.assertEqual(self.page.locator('#event-promise input[type=text]:visible').count(),0);expect(self.page.locator('#ep-mode-auto')).to_have_attribute('aria-pressed','true')
         cases=self.page.evaluate('''()=>{const options=[...document.getElementById('ep-event').options],found={};for(const o of options){document.getElementById('ep-event').value=o.value;const d=KPEventPromise.refresh(true),v=KPEventOutcome.assess(d);if(d.ready&&!v.qualified&&!d.cuspMismatch){const status=v.promised?'yes':'no';if(!found[status])found[status]=o.value;}if(found.yes&&found.no)break;}return found;}''');self.assertEqual(set(cases),{'yes','no'})
         for status,value in cases.items():
             self.page.locator('#ep-event').select_option(value);expect(self.page.locator('#ep-simple-result')).to_contain_text('Event is Promised' if status=='yes' else 'Event is not Promised');expect(self.page.locator('#ep-simple-result')).to_contain_text('Why?')
@@ -279,16 +279,108 @@ class PersonalPredictionTests(unittest.TestCase):
         after=self.page.evaluate("""()=>({model:JSON.stringify(currentKPModel),sizes:[...document.querySelectorAll('#kundali .v38-name,#kundali .v38-degree,#kundali .v38-lords')].map(n=>getComputedStyle(n).fontSize)})""");self.assertEqual(before,after);self.assertEqual(self.page.evaluate('noteChartChanges'),0);self.assertEqual(self.page.locator('#notepad-text').evaluate('n=>getComputedStyle(n).fontSize'),'24px');self.page.locator('#notepad-close').click();expect(self.page.locator('#south-position-tables table')).to_have_count(2);expect(self.page.locator('#south-position-tables article').first.locator('tbody tr')).to_have_count(9);expect(self.page.locator('#south-position-tables article').last.locator('tbody tr')).to_have_count(12);self.assertNotIn('Automatic calculation mode',self.page.locator('#south9').inner_text());self.assertNotIn('Auto Fill Kundali',self.page.locator('#south9').inner_text())
 
     def test_simple_transit_search_explains_rejection_and_filters_actual_intervals(self):
-        self.page.locator('#quick-transit').click();self.assertEqual(self.page.locator('#transit select:visible').count(),2);self.assertEqual(self.page.locator('#transit input:visible').count(),0)
+        self.page.locator('#quick-transit').click();self.assertEqual(self.page.locator('#transit select:visible').count(),3);self.assertEqual(self.page.locator('#transit input:visible').count(),0)
         found=self.page.evaluate("""()=>{const select=document.getElementById('tr-event'),found={};for(const o of select.options){select.value=o.value;KPSimpleTransits.apply();try{const c=KPSimpleTransits.criteria(KPTransit.currentPeriods());if(!found.yes)found.yes={id:o.value,periods:c.periods,required:c.required};}catch(e){if(!found.no)found.no={id:o.value,reason:e.message};}if(found.yes&&found.no)break;}return found;}""")
         self.assertEqual(set(found),{'yes','no'});self.page.locator('#tr-event').select_option(found['no']['id']);self.page.locator('#tr-run').click();expect(self.page.locator('#tr-status')).to_have_attribute('data-state','error');expect(self.page.locator('#tr-status')).to_contain_text(found['no']['reason']);self.assertEqual(self.page.evaluate('KPTransit.getResults()'),[])
         self.page.locator('#tr-event').select_option(found['yes']['id']);self.page.locator('#tr-run').click();self.page.wait_for_function("document.getElementById('tr-status').dataset.state!=='running'",timeout=90000);self.assertNotEqual(self.page.locator('#tr-status').get_attribute('data-state'),'error')
         rows=self.page.evaluate('KPTransit.getResults()');self.assertTrue(rows)
         for row in rows:
-            self.assertIn(row['planet'],['Mo','Su','Ju','Sa']);self.assertNotIn('undefined',row['label']);self.assertLess(row['start'],row['end']);self.assertTrue(any(row['start']>=p['start'] and row['end']<=p['end'] for p in found['yes']['periods']))
+            self.assertIn(row['planet'],['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke']);self.assertNotIn('undefined',row['label']);self.assertLess(row['start'],row['end']);self.assertTrue(any(row['start']>=p['start'] and row['end']<=p['end'] for p in found['yes']['periods']))
 
     def test_simple_matchmaking_panchang_and_ephemeris_still_calculate(self):
         self.page.locator('#quick-matchmaking').click();
         self.assertFalse(self.page.locator('.mm-traditional-detail').evaluate('n=>n.open'));expect(self.page.locator('.mm-simple-total')).to_contain_text('/ 36');expect(self.page.locator('[data-mm-method]')).to_have_count(3);self.page.locator('[data-mm-method="kp"]').click();expect(self.page.locator('#mm-kp-panel')).to_be_visible();expect(self.page.locator('#mm-traditional-panel')).to_be_hidden()
         self.page.locator('#quick-transit-panchang').click();self.assertEqual(self.page.locator('#transit-panchang button:visible').count(),3);self.page.locator('#tp-calculate').click();expect(self.page.locator('#tp-positions tbody tr')).to_have_count(10)
         self.page.locator('#quick-ephemeris').click();self.assertEqual(self.page.locator('#ephemeris button:visible').count(),2);self.page.locator('#eph-start').fill('2026-10-09');self.page.locator('#eph-end').fill('2026-10-10');self.page.locator('#eph-run').click();self.page.wait_for_function('KPDailyEphemeris.getData()?.ready');self.assertEqual(self.page.locator('#eph-table tbody tr').count(),18)
+    def test_compact_event_manual_layers_and_native_evidence_preserve_chart(self):
+        self.page.locator('#quick-event-promise').click()
+        native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        self.page.locator('#ep-mode-manual').click()
+        expect(self.page.locator('#ep-mode-manual')).to_have_attribute('aria-pressed','true')
+        for role,houses in [('CSL','2 7'),('STL','11'),('SBL','4')]:
+            self.page.locator('#ep-houses-'+role).fill(houses);self.page.locator('#ep-houses-'+role).dispatch_event('change')
+        d=self.page.evaluate('KPEventPromise.refresh(true)')
+        self.assertEqual(d['inputMode'],'manual');self.assertEqual(d['houses'],[2,4,7,11])
+        self.page.locator('#ep-layer-SBL').uncheck()
+        self.assertEqual(self.page.evaluate('KPEventPromise.refresh(true).houses'),[2,7,11])
+        self.page.locator('#ep-houses-CSL').fill('13');self.page.locator('#ep-houses-CSL').dispatch_event('change')
+        expect(self.page.locator('#ep-simple-result')).to_contain_text('House numbers must be from 1 through 12')
+        expect(self.page.locator('#ep-simple-preview')).to_be_disabled()
+        self.page.locator('#ep-mode-auto').click()
+        d=self.page.evaluate('KPEventPromise.refresh(true)');self.assertTrue(d['ready'])
+        expected=sorted({h for layer in d['layers'] if layer['selected'] for values in layer['levels'].values() for h in values})
+        self.assertEqual(d['houses'],expected)
+        self.page.locator('.ep-native-evidence summary').click()
+        evidence=self.page.evaluate("""()=>{const d=KPEventPromise.refresh(true),c=currentKPModel.houses.find(p=>p.id===d.cusp);return {occ:c.occ.join(', ')||'Empty house',aspects:c.aspd.join(', ')||'None'}}""")
+        expect(self.page.locator('#ep-cusp-occupants')).to_have_text(evidence['occ']);expect(self.page.locator('#ep-cusp-aspects')).to_have_text(evidence['aspects'])
+        self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+        self.page.screenshot(path='/tmp/compact-event-promise.png',full_page=True)
+
+    def test_prediction_preview_has_only_selected_cusp_results_and_roman_house_selector(self):
+        self.page.locator('#quick-prediction').click()
+        expect(self.page.locator('#pred-analysis-options')).not_to_have_attribute('open','')
+        original=self.page.evaluate('JSON.stringify(currentKPModel)')
+        data=self.page.evaluate('KPPrediction.getData()')
+        with self.page.expect_popup() as opened:self.page.locator('#prediction-preview').click()
+        preview=opened.value
+        text=preview.locator('.pred-plain-report').inner_text()
+        self.assertNotIn('CSL',text);self.assertNotIn('Required:',text);self.assertNotIn('Matched:',text);self.assertNotIn('Source row',text)
+        self.assertGreater(preview.locator('.pred-plain-results li').count(),0)
+        pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf')
+        self.assertIn('Kundali Analysis',''.join(p.get_text() for p in pdf));pdf.close();preview.close()
+        self.page.locator('#pred-tab-house-results').click()
+        self.assertEqual(self.page.locator('#pred-house-cusp option').all_text_contents(),['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'])
+        for cusp in [1,4,9,10,12]:
+            self.page.locator('#pred-house-cusp').select_option(str(cusp))
+            d=self.page.evaluate('KPPersonalPredictions.getData()')
+            expected=self.page.evaluate('(c)=>KPPersonalPredictions.matchRules("house-results").rows.filter(r=>Number(/^Bh(1[0-2]|[1-9])R/i.exec(r.key)[1])===c).map(r=>r.id)',cusp)
+            self.assertEqual([r['id'] for r in d['rows']],expected);self.assertEqual(d['cusp'],cusp)
+        self.page.locator('#pred-house-cusp').select_option('10');d=self.page.evaluate('KPPersonalPredictions.getData()')
+        with self.page.expect_popup() as opened:self.page.locator('#prediction-preview').click()
+        preview=opened.value;expect(preview.locator('.personal-prediction-report h2')).to_contain_text('Cusp X')
+        self.assertEqual(preview.locator('[data-personal-result]').count(),len(d['rows']))
+        self.assertEqual(preview.locator('[data-personal-result] small').count(),0)
+        for row in d['rows']:self.assertNotIn(row['proof'],preview.locator('.personal-prediction-report').inner_text())
+        preview.close();self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),original)
+        self.page.screenshot(path='/tmp/compact-house-results.png',full_page=True)
+
+    def test_transit_three_modes_use_native_sectors_and_birth_clipped_periods(self):
+        self.page.locator('#quick-transit').click();native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        for mode,count in [('event',9),('dasha',18),('sun',2)]:
+            self.page.locator('#tr-mode').select_option(mode)
+            result=self.page.evaluate("""()=>{const data=KPTransit.currentPeriods(),tracks=KPTransit.makeTracks(data),root=KPHomeDasha.getData().levels[0].rows[0],offset=data.timeZoneHours*3600000;return {count:tracks.length,criteria:document.getElementById('tr-mode').value==='event'?'event':KPSimpleTransits.criteria(data),birth:root.startMs-offset,periods:Object.values(data.periods),tracks:tracks.map(t=>({id:t.id,planet:t.planet,levels:t.levels}))}}""")
+            self.assertEqual(result['count'],count)
+            for period in result['periods']:self.assertGreaterEqual(period['startMs']-5.5*3600000,result['birth'])
+            if mode=='event':continue
+            self.assertIsNone(result['criteria']);expect(self.page.locator('#tr-event')).to_be_hidden()
+            self.page.locator('#tr-run').click();self.page.wait_for_function("document.getElementById('tr-status').dataset.state!=='running'",timeout=90000)
+            self.assertNotEqual(self.page.locator('#tr-status').get_attribute('data-state'),'error')
+            validity=self.page.evaluate("""()=>{const tracks=KPTransit.makeTracks(KPTransit.currentPeriods()),r=KPTransit.currentRange();return KPTransit.getResults().every(p=>{const t=tracks.find(t=>t.id===p.trackId),mid=new Date((Date.parse(p.start)+Date.parse(p.end))/2),at=KPDisplay.longitudeDetails(KPEphemeris.longitude(mid,p.planet)*3600);return t&&t.test(at)&&Date.parse(p.start)>=r.start.getTime()&&Date.parse(p.end)<=r.end.getTime()&&p.start<p.end})}""")
+            self.assertTrue(validity)
+        self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+        self.page.screenshot(path='/tmp/compact-transits.png',full_page=True)
+
+    def test_rp_pd_filters_supporting_candidates_and_preserves_transit_results(self):
+        self.page.locator('#quick-dasha-promise').click();native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        self.page.locator('#dp-md').select_option('1');self.page.locator('#dp-ad').select_option('2')
+        event=self.page.evaluate(r'''()=>{const d=KPDashaPromise.getData(),union=[...new Set([...d.mdHouses,...d.adHouses])];return KPHandbook.getCatalogue().events.find(e=>e.automaticEligible&&e.supportingGroups.some(g=>g.every(h=>union.includes(h)))&&(!e.timingRaw||/^(?:1[0-2]|[1-9])(?:\s*,\s*(?:1[0-2]|[1-9]))*$/.test(e.timingRaw)&&e.timingRaw.split(',').map(Number).every(h=>union.includes(h)))).id}''')
+        self.page.locator('#dp-event').select_option(str(event))
+        self.page.locator('#dp-calculate').click();expect(self.page.locator('#dp-status')).to_contain_text('Calculation complete',timeout=90000)
+        all_data=self.page.evaluate('KPDashaPromise.getData()');self.assertTrue(all_data['pdAll'])
+        self.page.locator('#dp-rp-pd').click();expect(self.page.locator('#dp-rp-pd')).to_have_attribute('aria-pressed','true')
+        filtered=self.page.evaluate('KPDashaPromise.getData()');self.assertTrue(filtered['rp']['ready'])
+        actual={r['lord'] for r in filtered['pd']}
+        expected=self.page.evaluate("""()=>{const d=KPDashaPromise.getData();return d.pdAll.filter(p=>d.rp.rulingPlanets.includes(KPDisplay.idByName[p.lord]||p.lord)).map(p=>p.lord)}""")
+        self.assertEqual(actual,set(expected));self.assertEqual(filtered['sun'],all_data['sun']);self.assertEqual(filtered['outer'],all_data['outer'])
+        self.assertEqual(len(filtered['rp']['sources']),5);self.assertEqual(filtered['md'],all_data['md']);self.assertEqual(filtered['ad'],all_data['ad'])
+        if filtered['pd']:
+            chosen=str(filtered['pd'][-1]['startMs']);self.page.locator('#dp-pd-choice').select_option(chosen)
+            self.assertEqual(self.page.evaluate('KPDashaPromise.getData().selectedPD.startMs'),int(chosen))
+            expect(self.page.locator('#dp-ad-windows tr.dp-selected-pd')).to_have_count(1)
+        with self.page.expect_popup() as opened:self.page.locator('#dasha-promise-preview').click()
+        preview=opened.value;expect(preview.locator('.dp-report')).to_contain_text('RP ·');preview.close()
+        self.page.locator('#dp-rp-pd').click();restored=self.page.evaluate('KPDashaPromise.getData()');self.assertEqual(restored['pd'],all_data['pdAll'])
+        self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+        self.page.locator('#quick-matchmaking').click();self.assertEqual(self.page.get_by_text('Open / Delete Saved Chart',exact=True).count(),0)
+        self.assertEqual(self.page.locator('[data-mm-method]').count(),3);expect(self.page.locator('#mm-settings-drawer')).not_to_have_attribute('open','')
+        self.page.screenshot(path='/tmp/compact-matchmaking.png',full_page=True)

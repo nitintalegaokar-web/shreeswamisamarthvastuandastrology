@@ -44,17 +44,17 @@ SNAPSHOT = r"""() => {
  window.__bridgeKeyIds ||= new Map();
  document.querySelectorAll('#home-kundali [data-bridge-id]').forEach(n=>delete n.dataset.bridgeId);
  function bridgeKey(node){if(node.id)return 'id:'+node.id;const parts=[];while(node&&node!==document.body){if(node.id){parts.unshift('#'+node.id);break;}const siblings=[...node.parentElement.children];parts.unshift(node.tagName+':'+siblings.indexOf(node));node=node.parentElement;}return parts.join('/');}
- document.querySelectorAll('button,input,select,textarea,details,tbody tr,#kundali .v38-cell,#kundali .v38-center,#kundali,#kundali-north,#home-kundali,#na-native-chart').forEach(n=>{const key=bridgeKey(n);if(!window.__bridgeKeyIds.has(key))window.__bridgeKeyIds.set(key,'b'+(++window.__bridgeSerial));n.dataset.bridgeId=window.__bridgeKeyIds.get(key);});
- const clone=document.body.cloneNode(true);
- for(const live of document.querySelectorAll('input,textarea,select,details')){const n=clone.querySelector('[data-bridge-id="'+live.dataset.bridgeId+'"]');if(!n)continue;if(live.matches('input')){n.setAttribute('value',live.value);if(live.checked)n.setAttribute('checked','');else n.removeAttribute('checked');}if(live.matches('textarea'))n.textContent=live.value;if(live.matches('select'))[...n.options].forEach((o,i)=>o.toggleAttribute('selected',live.options[i].selected));if(live.matches('details')){n.toggleAttribute('open',live.open);n.dataset.bridgeOpen=String(live.open);}}
- clone.querySelectorAll('script,style,#kp-teaching-tools,.kp-teach-canvas,[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line,#ayan,#lmt,#stcalc,#raphael5,#planet').forEach(n=>n.remove());
+ document.querySelectorAll('button,input,select,textarea,details,tbody tr,#kundali .v38-cell,#kundali .v38-center,#kundali,#kundali-north,#home-kundali,#na-native-chart').forEach(n=>{if(n.closest('#printReport'))return;const key=bridgeKey(n);if(!window.__bridgeKeyIds.has(key))window.__bridgeKeyIds.set(key,'b'+(++window.__bridgeSerial));n.dataset.bridgeId=window.__bridgeKeyIds.get(key);});
+ const clone=document.body.cloneNode(true);clone.querySelector('#printReport')?.replaceChildren();const cloneBridge=new Map([...clone.querySelectorAll('[data-bridge-id]')].map(n=>[n.dataset.bridgeId,n]));const liveBridge=new Map([...document.querySelectorAll('[data-bridge-id]')].map(n=>[n.dataset.bridgeId,n]));
+ for(const live of document.querySelectorAll('input,textarea,select,details')){const n=cloneBridge.get(live.dataset.bridgeId);if(!n)continue;if(live.matches('input')){n.setAttribute('value',live.value);if(live.checked)n.setAttribute('checked','');else n.removeAttribute('checked');}if(live.matches('textarea'))n.textContent=live.value;if(live.matches('select'))[...n.options].forEach((o,i)=>o.toggleAttribute('selected',live.options[i].selected));if(live.matches('details')){n.toggleAttribute('open',live.open);n.dataset.bridgeOpen=String(live.open);}}
+ clone.querySelectorAll('#kp-hover-detail,script,style,#kp-teaching-tools,.kp-teach-canvas,[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line,#ayan,#lmt,#stcalc,#raphael5,#planet').forEach(n=>n.remove());
  clone.querySelectorAll('[data-report-section]').forEach(n=>{if(['ayan','lmt','stcalc','raphael5','planet'].includes(n.dataset.reportSection))n.remove();});
  clone.querySelectorAll('[data-report-page-key]').forEach(n=>{if(['ayan','lmt','stcalc','raphael5','planet'].includes(n.dataset.reportPageKey))n.closest('label')?.remove();});
  clone.querySelectorAll('details').forEach(n=>{if(/calculation details|formula|worksheet/i.test(n.querySelector(':scope > summary')?.textContent||''))n.remove();});
  const comments=document.createTreeWalker(clone,NodeFilter.SHOW_COMMENT),removeComments=[];while(comments.nextNode())removeComments.push(comments.currentNode);removeComments.forEach(n=>n.remove());
  clone.querySelectorAll('*').forEach(n=>{for(const a of [...n.attributes])if(/^on/i.test(a.name)||a.name==='srcdoc'||a.name==='contenteditable')n.removeAttribute(a.name);});
  const actions={save:'export',load:'import',export:'export',import:'import'};
- clone.querySelectorAll('button').forEach(n=>{const live=document.querySelector('[data-bridge-id="'+n.dataset.bridgeId+'"]');const code=live?.getAttribute('onclick')||'';if(actions[n.dataset.action])n.dataset.clientAction=actions[n.dataset.action];if(n.id==='choose-report-cover-photo')n.dataset.clientAction='photo';if(/exportChart|downloadBackup|exportBackup/i.test(code)||/export.*lkp|download.*lkp/i.test(n.textContent))n.dataset.clientAction='export';if(/importChart|loadBackup|importBackup/i.test(code)||/import.*lkp|open.*lkp/i.test(n.textContent))n.dataset.clientAction='import';if(/printReport|window.print/i.test(code)||n.id==='print-selected-report')n.dataset.clientAction='print';if(/download.*software/i.test(n.textContent))n.remove();});
+ clone.querySelectorAll('button').forEach(n=>{const live=liveBridge.get(n.dataset.bridgeId);const code=live?.getAttribute('onclick')||'';if(actions[n.dataset.action])n.dataset.clientAction=actions[n.dataset.action];if(n.id==='choose-report-cover-photo')n.dataset.clientAction='photo';if(/exportChart|downloadBackup|exportBackup/i.test(code)||/export.*lkp|download.*lkp/i.test(n.textContent))n.dataset.clientAction='export';if(/importChart|loadBackup|importBackup/i.test(code)||/import.*lkp|open.*lkp/i.test(n.textContent))n.dataset.clientAction='import';if(/printReport|window.print/i.test(code)||n.id==='print-selected-report')n.dataset.clientAction='print';if(/download.*software/i.test(n.textContent))n.remove();});
  window.__bridgeAllowed=new Set([...clone.querySelectorAll('[data-bridge-id]')].map(n=>n.dataset.bridgeId));
  const bodyData={...document.body.dataset};
  return {html:clone.innerHTML,css:[...document.querySelectorAll('style')].map(n=>n.textContent).join('\n'),bodyClass:document.body.className,bodyData,language:document.documentElement.lang,preferences:KPPreferences.get(),preferencesConfigured:KPPreferences.isConfigured(),busy:!!document.querySelector('[aria-busy="true"]'),message:window.__bridgeMessage||''};
@@ -121,17 +121,28 @@ class Engine:
             self.sessions[token] = {'context':context, 'page':page, 'used':now, 'downloads':downloads}
         session=self.sessions[token]; session['used']=now; page=session['page']
         if action=='event':
+            vedic=page.evaluate("data=>['v-calculate','report-vedic-calculate'].includes(document.querySelector('[data-bridge-id=\"'+data.id+'\"]')?.id)",data)
             page.evaluate(EVENT, data); page.wait_for_timeout(250)
+            if vedic:
+                page.evaluate('async()=>{await KPVedic.calculate();KPVedicUI.refresh();renderReport();KPReportPages.refresh();KPLanguage.apply();}')
         elif action=='live-ruling-planets':
             return token, page.evaluate('KPLiveRuling.packet()')
-        elif action=='aspects-pdf':
-            _,result=self.run(token,'aspects-preview',None)
-            document='<!doctype html><html><head><meta charset="UTF-8"><style>'+result['css']+'</style></head><body>'+result['html']+'</body></html>'
+        elif action in ('aspects-pdf','report-pdf'):
+            _,result=self.run(token,'aspects-preview' if action=='aspects-pdf' else 'print',None)
+            # Report sources are hidden in the workspace. Exported pages are
+            # direct body children, so explicitly expose them in the PDF.
+            export_css='''@page{size:A4;margin:10mm}
+                html,body{margin:0;padding:0;background:white;color:black}
+                body>.report-page{display:block!important;position:static!important;box-shadow:none!important}
+                body>.report-page:not(.kp-a4-page){width:190mm!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;margin:0!important;break-after:page}
+                body>.report-page:last-child{break-after:auto}'''
+            document='<!doctype html><html><head><meta charset="UTF-8"><style>'+result['css']+'</style><style>'+export_css+'</style></head><body>'+result['html']+'</body></html>'
             export_page=session['context'].new_page()
             try:
                 export_page.set_content(document,wait_until='load')
                 export_page.emulate_media(media='print')
-                export_page.evaluate("args=>{const css=args.css;const fit=eval('('+args.fit+')'),normalize=eval('('+args.normalize+')');normalize(document);}",result['a4'])
+                if result.get('a4'):
+                    export_page.evaluate("args=>{const css=args.css;const fit=eval('('+args.fit+')'),normalize=eval('('+args.normalize+')');if(args.sections)args.sections.forEach(id=>document.querySelectorAll('[data-report-section=\"'+id+'\"]').forEach(p=>normalize(document,p)));else normalize(document);}",result['a4'])
                 export_page.evaluate('document.fonts.ready')
                 return token,export_page.pdf(format='A4',print_background=True,prefer_css_page_size=True)
             finally:
@@ -161,7 +172,7 @@ class Engine:
         elif action=='dba-preview':
             page.evaluate('()=>{calculateAll();KPHomeDasha.refresh();}')
             return token, {'html':page.evaluate('KPDbaPopup.document()')}
-        elif action in ('print','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview','dasha-promise-preview','prediction-preview','dasha-fal-preview','gemstones-preview','muhurta-preview','time-slices-preview','time-slice-chart-preview','significators-preview','nadi-astrology-preview','south9-preview','aspects-preview','single-page-preview'):
+        elif action in ('print','vedic-kundali-preview','hit-theory-preview','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview','dasha-promise-preview','prediction-preview','dasha-fal-preview','gemstones-preview','muhurta-preview','time-slices-preview','time-slice-chart-preview','significators-preview','nadi-astrology-preview','south9-preview','aspects-preview','single-page-preview'):
             if action=='time-slice-chart-preview':
                 if not isinstance(data,dict) or type(data.get('index')) is not int or data.get('view') not in ('transit-chart','nadi-astrology'):
                     raise ValueError('Choose an available sample and chart.')
@@ -169,12 +180,16 @@ class Engine:
             if action=='match-preview':
                 if not page.evaluate('()=>Boolean(KPMatchmaking.refresh())'):raise ValueError('Enter valid birth details for both people.')
                 page.evaluate("()=>{renderReport();KPReportPages.selectSections(['matchmaking']);}")
-            if action.endswith('-preview') and action not in ('match-preview','time-slice-chart-preview'):
+            if action.endswith('-preview') and action not in ('match-preview','time-slice-chart-preview','vedic-kundali-preview'):
                 section=action.removesuffix('-preview')
                 if section=='significators':section=page.evaluate("document.getElementById('sig-method').value")
                 page.evaluate("section=>{renderReport();KPReportPages.selectSections([section]);}",section)
+            if action=='print':
+                page.evaluate("async()=>{if(KPReportPages.selected().some(p=>['vedic-sade-sati','vedic-varshaphal'].includes(p.dataset.reportSection)))await KPVedic.calculate();}")
             page.evaluate('()=>{renderReport();KPLanguage.apply();}')
             result=page.evaluate("() => {const blocked=KPClientPresentation.privateTabs;const pages=KPReportPages.selected().filter(n=>!blocked.includes(n.dataset.reportSection));return {html:pages.map(n=>{const copy=n.cloneNode(true);copy.querySelectorAll('[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line').forEach(c=>c.remove());return copy.outerHTML;}).join(''),css:[...document.querySelectorAll('style')].map(n=>n.textContent.replace(/#kundali\\b/g,'[data-report-id=\"kundali\"]')).join('\\n')};}")
+            if action=='vedic-kundali-preview':
+                result['html']=page.evaluate("()=>{const s=document.createElement('section');s.className='report-page v-report-page';s.innerHTML='<h2>Vedic Kundali</h2>'+KPVedicUI.snapshot();KPLanguage.localize(s);return s.outerHTML;}")
             if not result['html']: raise ValueError('Select at least one report page in Print.')
             if action in ('event-promise-preview','gemstones-preview','aspects-preview','single-page-preview','south9-preview','nadi-astrology-preview','significators-preview') or (action=='prediction-preview' and 'gem-one-page' in result['html']) or (action=='time-slice-chart-preview' and data['view']=='nadi-astrology') or (action in ('match-preview','print') and 'mm-traditional-report' in result['html'] and 'mm-kp-comparison' not in result['html'] and len(page.evaluate('KPReportPages.selected().map(p=>p.dataset.reportSection)'))==1):
                 result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString()})')
@@ -215,20 +230,22 @@ class Handler(BaseHTTPRequestHandler):
         path=urlsplit(self.path).path
         try:
             if path=='/':
-                self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script><script src="/tutorial.js"></script></body></html>','text/html');return
+                self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script><script src="/tutorial.js"></script><script src="/hover-details.js"></script></body></html>','text/html');return
             if path=='/tutorial.js':self.respond((ROOT/'protected/tutorial.js').read_bytes(),'text/javascript');return
+            if path=='/hover-details.js':self.respond((ROOT/'vendor/interface/hover-details.js').read_bytes(),'text/javascript');return
             if path=='/client.js':self.respond((ROOT/'protected/client.js').read_bytes(),'text/javascript');return
-            if path not in ('/live-ruling-planets','/dba-preview','/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/muhurta-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print'):
+            if path not in ('/live-ruling-planets','/dba-preview','/snapshot','/export','/print','/report-preview','/report-pdf','/vedic-kundali-preview','/hit-theory-preview','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/muhurta-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print'):
                 self.respond({'error':'Not found'},status=404);return
-            action=path[1:]
+            action='print' if path=='/report-preview' else path[1:]
             if path in ('/aspects-print','/single-page-print'):action=action.removesuffix('-print')+'-preview'
             options=None
             if path=='/time-slice-chart-preview':
                 query=parse_qs(urlsplit(self.path).query)
                 options={'index':int(query.get('index',['-1'])[0]),'view':query.get('view',[''])[0]}
             token,result=self.server.engine.call(self.token(),action,options)
-            if path=='/aspects-pdf':
-                self.respond(result,'application/pdf',token=token,extra={'Content-Disposition':'attachment; filename="KP-Western-Aspects.pdf"'});return
+            if path in ('/aspects-pdf','/report-pdf'):
+                name='KP-Western-Aspects.pdf' if path=='/aspects-pdf' else 'KP-Selected-Report.pdf'
+                self.respond(result,'application/pdf',token=token,extra={'Content-Disposition':f'attachment; filename="{name}"'});return
             if path=='/export':self.respond(result,token=token,extra={'Content-Disposition':'attachment; filename="chart.lkp"'});return
             if path=='/dba-preview':
                 self.respond(result['html'],'text/html',token=token);return
