@@ -161,7 +161,7 @@ class Engine:
         elif action=='dba-preview':
             page.evaluate('()=>{calculateAll();KPHomeDasha.refresh();}')
             return token, {'html':page.evaluate('KPDbaPopup.document()')}
-        elif action in ('print','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview','dasha-promise-preview','prediction-preview','dasha-fal-preview','gemstones-preview','time-slices-preview','time-slice-chart-preview','significators-preview','nadi-astrology-preview','south9-preview','aspects-preview','single-page-preview'):
+        elif action in ('print','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview','dasha-promise-preview','prediction-preview','dasha-fal-preview','gemstones-preview','muhurta-preview','time-slices-preview','time-slice-chart-preview','significators-preview','nadi-astrology-preview','south9-preview','aspects-preview','single-page-preview'):
             if action=='time-slice-chart-preview':
                 if not isinstance(data,dict) or type(data.get('index')) is not int or data.get('view') not in ('transit-chart','nadi-astrology'):
                     raise ValueError('Choose an available sample and chart.')
@@ -218,7 +218,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script><script src="/tutorial.js"></script></body></html>','text/html');return
             if path=='/tutorial.js':self.respond((ROOT/'protected/tutorial.js').read_bytes(),'text/javascript');return
             if path=='/client.js':self.respond((ROOT/'protected/client.js').read_bytes(),'text/javascript');return
-            if path not in ('/live-ruling-planets','/dba-preview','/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print'):
+            if path not in ('/live-ruling-planets','/dba-preview','/snapshot','/export','/print','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/muhurta-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print'):
                 self.respond({'error':'Not found'},status=404);return
             action=path[1:]
             if path in ('/aspects-print','/single-page-print'):action=action.removesuffix('-print')+'-preview'

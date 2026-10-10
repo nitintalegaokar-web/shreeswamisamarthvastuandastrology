@@ -153,7 +153,7 @@ class FeatureUpdateTests(unittest.TestCase):
         }""")
         self.assertEqual(result['vedic'],[['Ma',1],['Su',2],['Sa',3]])
         self.assertEqual(result['kp'],[['Su',1],['Ma',1]])
-        self.page.locator('nav [data-tab="gemstones"]').click()
+        self.page.locator('#quick-prediction').click();self.page.locator('#pred-tab-gemstones').click();self.page.locator('#pred-open-gems').click()
         self.page.locator('#gem-mode').select_option('vedic')
         row=self.page.locator('#gem-results tr[data-gem-priority="1"]')
         expect(row).to_have_count(1)
@@ -621,7 +621,7 @@ class FeatureUpdateTests(unittest.TestCase):
         self.assertEqual(result['none'], [])
 
     def test_gemstone_modes_and_custom_mapping_survive_chart_backup(self):
-        self.page.locator('nav [data-tab="gemstones"]').click()
+        self.page.locator('#quick-prediction').click();self.page.locator('#pred-tab-gemstones').click();self.page.locator('#pred-open-gems').click()
         self.page.locator('#gem-event').select_option('childbirth')
         expect(self.page.locator('#gem-required')).to_have_value('2,5,11')
         self.page.locator('#gem-mode').select_option('vedic')
@@ -663,7 +663,7 @@ class FeatureUpdateTests(unittest.TestCase):
         expect(self.page.locator('#mm-csv,#ts-csv,#gem-csv,#df-csv')).to_have_count(0)
 
     def test_gemstone_catalogue_groups_simple_controls_and_original_ratna_printing(self):
-        self.page.locator('nav [data-tab="gemstones"]').click()
+        self.page.locator('#quick-prediction').click();self.page.locator('#pred-tab-gemstones').click();self.page.locator('#pred-open-gems').click()
         self.page.locator('#gem-event').select_option('kp:1354:0')
         expect(self.page.locator('#gem-required')).to_have_value('2,6,10,11')
         expect(self.page.locator('#gem-event-proof')).to_contain_text('Prediction catalogue #1354')
@@ -967,7 +967,7 @@ class FeatureProtectedTests(unittest.TestCase):
                 expect(page.locator('#'+tab)).to_be_visible(timeout=30000)
             expect(page.locator('#south9 #time-slices')).to_have_count(0)
             expect(page.locator('nav [data-tab="time-slices"]')).to_have_count(0)
-            page.locator('nav [data-tab="gemstones"]').click()
+            page.locator('#quick-prediction').click();page.locator('#pred-tab-gemstones').click();page.locator('#pred-open-gems').click()
             page.locator('#gem-mode').select_option('vedic')
             expect(page.locator('#gem-status')).to_contain_text('Labhesh', timeout=30000)
             exported = page.request.get(self.url+'/export').json()
@@ -1040,6 +1040,29 @@ class FeatureProtectedTests(unittest.TestCase):
             self.assertEqual(errors,[])
         finally:
             context.close()
+
+
+    def test_private_muhurta_events_dba_compact_gemstones_and_settings_drawer(self):
+        context=self.browser.new_context(viewport={'width':1440,'height':1000})
+        page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+        try:
+            page.goto(self.url);expect(page.locator('#quick-muhurta')).to_be_visible(timeout=60000)
+            expect(page.locator('#quick-gemstones')).to_have_count(0)
+            page.locator('#quick-muhurta').click();expect(page.locator('#muhurta')).to_have_class('tab active',timeout=30000)
+            page.locator('#mu-start').fill('2026-10-10');page.locator('#mu-start').dispatch_event('change');page.locator('#mu-span').select_option('30');page.locator('#mu-find').click()
+            expect(page.locator('#mu-status')).to_contain_text('Search complete',timeout=60000)
+            count=page.locator('[data-muhurta-row]').count();self.assertGreater(count,0)
+            with page.expect_popup() as opened:page.locator('#muhurta-preview').click()
+            preview=opened.value;expect(preview.locator('[data-muhurta-row]')).to_have_count(count,timeout=60000);expect(preview.locator('.preview-tools button')).to_have_count(4)
+            pdf=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True);self.assertGreater(len(pdf),10000);preview.close()
+            response=page.request.get(self.url+'/muhurta-preview');self.assertEqual(response.status,200);self.assertNotIn('function solarDay',response.text())
+            page.locator('#quick-prediction').click();page.locator('#pred-tab-events').click();expect(page.locator('#pred-personal-status')).to_contain_text('MD',timeout=30000)
+            page.locator('#pred-dba-select').click();expect(page.locator('#pred-event-md')).to_be_visible(timeout=30000);page.locator('#pred-event-md').select_option('1');page.locator('#pred-event-ad').select_option('2');page.locator('#pred-event-pd').select_option('3');expect(page.locator('#pred-dba-period')).to_contain_text('Selected DBA',timeout=30000)
+            page.locator('#pred-tab-gemstones').click();page.locator('#pred-open-gems').click();page.locator('#gem-mode').select_option('vedic');expect(page.locator('#gem-event')).to_be_hidden(timeout=30000)
+            self.assertLess(page.locator('.gem-simple-card').bounding_box()['height'],360)
+            page.locator('#quick-matchmaking').click();expect(page.locator('#mm-settings-drawer')).to_be_visible(timeout=30000);expect(page.locator('#mm-kp-find')).to_be_hidden();page.locator('#mm-settings-drawer>summary').click();expect(page.locator('#mm-kp-find')).to_be_visible(timeout=30000)
+            self.assertEqual(page.evaluate('typeof KPMuhurta'),'undefined');self.assertEqual(page.request.get(self.url+'/index.html').status,404);self.assertEqual(errors,[])
+        finally:context.close()
 
 
 if __name__ == '__main__':
