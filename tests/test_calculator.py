@@ -4469,7 +4469,7 @@ class CalculatorBrowserTests(unittest.TestCase):
         self.assertEqual(linked['disease']['layers'][1]['role'],'STL · star lord of CSL')
         self.assertEqual(linked['disease']['layers'][2]['role'],'SBL · sub lord of CSL')
         self.go('disease')
-        expect(self.page.locator('#disease-results')).to_contain_text('not a medical diagnosis')
+        expect(self.page.locator('#disease-results')).not_to_contain_text('not a medical diagnosis')
         expect(self.page.locator('#disease-results')).not_to_contain_text('Death by')
         with self.page.expect_popup() as opened:self.page.locator('#disease-preview').click()
         preview=opened.value

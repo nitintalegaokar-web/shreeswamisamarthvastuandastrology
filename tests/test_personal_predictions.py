@@ -94,6 +94,57 @@ class PersonalPredictionTests(unittest.TestCase):
             for word in page.get_text('words'):self.assertLessEqual(word[2],page.rect.width-20)
         pdf.close();preview.close();self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
 
+    def test_dba_overview_keeps_all_md_ad_and_selected_antara_in_same_popup(self):
+        native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        roots=self.page.evaluate('KPDbaPopup.data().roots')
+        self.page.locator('[data-tab="mdcalc"]').click()
+        with self.page.expect_popup() as opened:self.page.locator('#dba-preview').click()
+        preview=opened.value;preview.wait_for_function('window.KPDBASelection')
+        preview.locator('#dba-overview').click()
+        expect(preview.locator('#dba-overview')).to_have_attribute('aria-pressed','true')
+        expect(preview.locator('.dba-overview-card')).to_have_count(len(roots))
+        expect(preview.locator('.dba-overview-card tbody tr')).to_have_count(sum(len(m['children']) for m in roots))
+        self.assertEqual(preview.locator('.dba-grid').evaluate('n=>getComputedStyle(n).gridTemplateColumns.split(" ").length'),3)
+        preview.locator('.dba-overview-card[data-md="1"] tr[data-index="2"] button').click()
+        selected=preview.evaluate('KPDBASelection.getData()');self.assertEqual([selected[k] for k in ['md','ad','pd','view']],[1,2,0,'overview'])
+        expected=roots[1]['children'][2]['children']
+        expect(preview.locator('.dba-overview-antara tbody tr')).to_have_count(len(expected))
+        self.assertEqual(preview.locator('.dba-overview-antara tbody tr').evaluate_all('nodes=>nodes.map(n=>[Number(n.dataset.start),Number(n.dataset.end)])'),[[r['startMs'],r['endMs']] for r in expected])
+        preview.locator('.dba-overview-antara tr[data-index="4"] button').click()
+        self.assertEqual(preview.evaluate('KPDBASelection.getData().pd'),4)
+        preview.evaluate('window.print=()=>window.testPrinted=true');preview.locator('#dba-print-selected').click()
+        self.assertTrue(preview.evaluate('window.testPrinted'));self.assertEqual(preview.locator('body').get_attribute('data-print-mode'),'overview')
+        pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True),filetype='pdf');text=''.join(p.get_text() for p in pdf)
+        self.assertIn('Selected Antara',text)
+        for page in pdf:
+            for word in page.get_text('words'):self.assertLessEqual(word[2],page.rect.width-20)
+        pdf.close()
+        preview.locator('#dba-significators').click();self.assertEqual(preview.evaluate('KPDBASelection.getData().view'),'all')
+        expect(preview.locator('tbody tr[data-level="PD"]')).to_have_count(sum(len(a['children']) for m in roots for a in m['children']))
+        self.assertEqual(preview.evaluate('KPDBASelection.getData().pd'),4)
+        preview.close();self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+
+    def test_disease_screen_and_print_omit_source_and_explanatory_lines(self):
+        native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        self.page.locator('#quick-disease').click()
+        snapshot=self.page.evaluate('KPDisease.snapshot()')
+        forbidden=['medical diagnosis','Astrological reference matches','Astrological matches','Disease.xlsx','Diseases (Sixth Bhava)','Source row','missing disease house criteria']
+        screen=self.page.locator('#disease').inner_text()
+        for phrase in forbidden:self.assertNotIn(phrase,screen);self.assertNotIn(phrase,snapshot)
+        expect(self.page.locator('#disease-results [data-disease-layer]')).not_to_have_count(0)
+        with self.page.expect_popup() as opened:self.page.locator('#disease-preview').click()
+        preview=opened.value;preview.wait_for_selector('[data-disease-linked]')
+        pdf=fitz.open(stream=preview.pdf(format='A4'),filetype='pdf');text=''.join(p.get_text() for p in pdf)
+        for phrase in forbidden:self.assertNotIn(phrase,text)
+        pdf.close();preview.close();self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+
+    def test_significators_omit_completed_automatic_calculation_message(self):
+        self.page.locator('[data-tab="karyesh"]').click()
+        expect(self.page.locator('#kp-status')).to_have_attribute('data-ready','true')
+        expect(self.page.locator('#kp-status')).to_have_text('');expect(self.page.locator('#kp-status')).to_be_hidden()
+        self.assertNotIn('Calculated automatically from Tab 5',self.page.locator('#karyesh').inner_text())
+        self.assertFalse(self.page.evaluate("()=>{renderReport();return document.getElementById('printReport').textContent.includes('Calculated automatically from Tab 5');}"))
+
     def test_marathi_english_display_preserves_native_data_and_localizes_previews(self):
         native=self.page.evaluate('JSON.stringify(currentKPModel)')
         values=self.page.locator('#ed-category option').evaluate_all('nodes=>nodes.map(n=>n.value)')
