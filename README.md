@@ -95,3 +95,5 @@ Dasha Promise initially selects the running native MD and AD. Both dropdowns rem
 Marathi/English display switching now covers additional chart terminology, compact planet/sign codes, DBA headings and preview controls; Marathi buttons include English. Imported long English prediction paragraphs still require a reviewed Marathi text pack. This release does not claim fully translated prediction prose or guaranteed real-life event dates.
 
 Disease screen and report omit the explanatory medical/source note, workbook filename and source row labels; native star/quarter matches and significator evidence are retained.
+
+Education & Profession has a compact inline selector and two-column result cards on wide screens. Its A4 print layout uses dedicated page margins, fixed-width wrapping tables, repeated table headers and intact short prediction blocks; screen zoom does not change the print scale.

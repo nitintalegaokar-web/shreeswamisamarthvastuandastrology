@@ -145,6 +145,32 @@ class PersonalPredictionTests(unittest.TestCase):
         self.assertNotIn('Calculated automatically from Tab 5',self.page.locator('#karyesh').inner_text())
         self.assertFalse(self.page.evaluate("()=>{renderReport();return document.getElementById('printReport').textContent.includes('Calculated automatically from Tab 5');}"))
 
+    def test_profession_a4_print_has_safe_margins_no_overlapping_lines_and_compact_controls(self):
+        self.page.locator('#quick-education-profession').click();self.page.locator('#ed-category').select_option('10')
+        native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        self.assertLessEqual(self.page.locator('.ed-toolbar').bounding_box()['height'],40)
+        expect(self.page.locator('#education-profession>.card>h2')).to_have_count(0)
+        expect(self.page.locator('#ed-results [data-education-cusp="10"]')).to_have_count(1)
+        for language in ['english','marathi']:
+            self.page.evaluate('(language)=>{KPPreferences.save({...KPPreferences.get(),language});KPLanguage.apply();}',language)
+            with self.page.expect_popup() as opened:self.page.locator('#education-profession-preview').click()
+            preview=opened.value;preview.wait_for_selector('[data-profession-linked]')
+            preview.get_by_role('button',name='Zoom +',exact=True).click() if language=='english' else None
+            pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf')
+            self.assertGreater(len(pdf),0)
+            for page in pdf:
+                self.assertAlmostEqual(page.rect.width,595.3,delta=1);self.assertAlmostEqual(page.rect.height,841.9,delta=1)
+                for word in page.get_text('words'):
+                    self.assertGreaterEqual(word[0],24);self.assertGreaterEqual(word[1],28)
+                    self.assertLessEqual(word[2],page.rect.width-24);self.assertLessEqual(word[3],page.rect.height-28)
+                lines=[fitz.Rect(line['bbox']) for block in page.get_text('dict')['blocks'] if 'lines' in block for line in block['lines']]
+                for i,line in enumerate(lines):
+                    for other in lines[i+1:]:
+                        cross=line & other
+                        self.assertFalse(not cross.is_empty and cross.width>5 and cross.height>3,'Printed text lines overlap')
+            pdf.close();preview.close()
+        self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+
     def test_marathi_english_display_preserves_native_data_and_localizes_previews(self):
         native=self.page.evaluate('JSON.stringify(currentKPModel)')
         values=self.page.locator('#ed-category option').evaluate_all('nodes=>nodes.map(n=>n.value)')

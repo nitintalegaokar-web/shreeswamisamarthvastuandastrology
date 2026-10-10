@@ -862,6 +862,24 @@ class FeatureProtectedTests(unittest.TestCase):
             self.assertEqual(errors,[])
         finally:context.close()
 
+    def test_private_profession_preview_prints_with_a4_margins(self):
+        import fitz
+        context=self.browser.new_context(viewport={'width':1440,'height':1000});page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+        try:
+            page.goto(self.url);expect(page.locator('#page-title')).to_have_text('Home',timeout=60000)
+            page.locator('#quick-education-profession').click();expect(page.locator('#education-profession')).to_have_class('tab active',timeout=30000)
+            page.locator('#ed-category').select_option('10');expect(page.locator('#ed-profession-links')).to_be_visible(timeout=30000)
+            with page.expect_popup() as opened:page.locator('#education-profession-preview').click()
+            preview=opened.value;expect(preview.locator('[data-profession-linked]')).to_be_visible(timeout=60000)
+            pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf')
+            for sheet in pdf:
+                self.assertAlmostEqual(sheet.rect.width,595.3,delta=1)
+                for word in sheet.get_text('words'):
+                    self.assertGreaterEqual(word[0],24);self.assertGreaterEqual(word[1],28)
+                    self.assertLessEqual(word[2],sheet.rect.width-24);self.assertLessEqual(word[3],sheet.rect.height-28)
+            pdf.close();preview.close();self.assertEqual(errors,[])
+        finally:context.close()
+
     def test_private_dba_popup_and_significator_pdf_use_computed_data(self):
         context=self.browser.new_context(viewport={'width':1440,'height':1000})
         page=context.new_page();errors=[]
