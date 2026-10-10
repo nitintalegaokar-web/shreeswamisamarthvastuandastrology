@@ -2,3 +2,27 @@
 
 .v-sbc{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));border:1px solid #829bab;margin:8px 0}.v-sbc-cell{border:1px solid #bacbd7;min-height:44px;display:flex;flex-direction:column;gap:4px;justify-content:center;text-align:center;padding:3px;font-size:9px!important;overflow-wrap:anywhere}.v-sbc-cell[data-nakshatra]{background:#eff6fb;color:#224c69}.v-sbc-cell strong{color:#365d39}.v-report-page .v-sbc{break-inside:avoid}
 #vedic-kundali .v-toolbar label{white-space:nowrap;width:auto!important;font-size:11px!important;flex-shrink:0}#vedic-kundali .v-toolbar select{width:auto!important;min-width:120px}#vedic-kundali .v-table th,body .v-report-page .v-table th{background:#e4edf4!important;color:#234158!important}#vedic-kundali .v-table td,body .v-report-page .v-table td{background:#fff!important;color:#203e56!important}#vedic-kundali .v-table tr:nth-child(even) td,body .v-report-page .v-table tr:nth-child(even) td{background:#f4f8fb!important}.v-varga-print-grid .v-chart{max-width:58mm}body.dark-theme #vedic-kundali .v-table :is(th,td){background:#243b4e!important;color:#d9e7f2!important}body.dark-theme #vedic-kundali .v-table tr:nth-child(even) td{background:#2d4357!important}
+
+.v-chart.v-chart-north{display:block}.v-north-lines{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:#91acbd;stroke-width:.45}.v-north-house{position:absolute;transform:translate(-50%,-50%);width:27%;text-align:center;display:flex;flex-direction:column;gap:3px;line-height:1.2}.v-north-house small{font-size:8px;color:#607d8e}.v-north-house strong{font-size:11px;white-space:normal;overflow-wrap:anywhere}.v-north-title{position:absolute;left:38%;top:47%;width:24%;text-align:center;font-size:8px;line-height:1.2;background:#f8fbfe;color:#31506b}.v-chart-menu{position:fixed;z-index:100000;padding:4px;background:white;border:1px solid #b7ccdc;border-radius:6px;box-shadow:0 3px 14px #284d6c25;min-width:200px}.v-chart-menu[hidden]{display:none!important}.v-chart-menu button{display:block;width:100%;text-align:left;min-height:30px;font-size:12px!important;border:0;background:white;color:#24475f;padding:6px 10px}.v-chart-menu button[aria-checked=true]{background:#e6f0f8}.v-chart-menu button:hover{background:#edf4fa}.report-vedic-status{font-size:11px;color:#526b7e;margin:5px 0}.report-vedic-status:empty{display:none}body.dark-theme .v-north-title{background:#243b4e;color:#d9e7f2}@media print{.v-chart-menu{display:none!important}}
+
+#v-progress,#report-vedic-progress{width:120px;height:7px;accent-color:#325f79;vertical-align:middle;margin:4px 0}.report-vedic-status[hidden],#v-progress[hidden],#report-vedic-progress[hidden]{display:none!important}
+body .v-chart>svg.v-north-lines{display:block;width:100%!important;height:100%!important;fill:none;stroke:#91acbd;stroke-width:.45}
+/* Keep the printed chart and table inside the report's own border. */
+body:has(>.v-report-page)::before,body:has(>.v-report-page)::after{content:none!important;display:none!important}
+body .report-page.v-report-page{box-sizing:border-box!important;border:3px double #5c4434!important;outline:0!important;padding:4mm!important;overflow-wrap:anywhere;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.v-report-page :is(.v-report,.v-report-content,.v-chart-layout,.v-table-wrap,.v-varga-print-grid>article){min-width:0;max-width:100%;box-sizing:border-box}
+.v-report-page .v-chart{box-sizing:border-box;max-width:100%}
+.v-report-page .v-table{min-width:0!important;max-width:100%!important;width:100%!important;table-layout:fixed!important}
+.v-report-page .v-table :is(th,td){white-space:normal!important;overflow-wrap:anywhere!important}
+.v-report-page .v-native{white-space:normal;overflow-wrap:anywhere}
+@media print{body:has(>.v-report-page){background:white!important}body .report-page.v-report-page{padding:4mm!important}}
+/* Dense divisions (especially Hora) must retain every planet label. */
+.v-report-page .v-chart-cell{padding:2px;gap:2px;min-height:0}
+.v-report-page .v-chart-cell small{font-size:8px;line-height:1.2}
+.v-report-page .v-chart :is(.v-chart-cell,.v-north-house) strong{display:flex;flex-wrap:wrap;gap:1px 3px;font-size:8px;line-height:1.2;white-space:normal;overflow:visible;text-overflow:clip}
+.v-report-page .v-chart strong span{white-space:nowrap}
+.v-report-page .v-north-house strong{justify-content:center}
+.v-report-page .v-varga-print-grid .v-chart strong{font-size:7px;gap:1px 2px}
+.v-report-page .v-north-house:is([data-vedic-house="2"],[data-vedic-house="12"]){top:12%!important}
+.v-report-page .v-north-house:is([data-vedic-house="6"],[data-vedic-house="8"]){top:88%!important}
+.v-report-page .v-varga-print-grid .v-chart{max-width:58mm}

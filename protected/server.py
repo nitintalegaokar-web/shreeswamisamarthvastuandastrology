@@ -44,7 +44,7 @@ SNAPSHOT = r"""() => {
  window.__bridgeKeyIds ||= new Map();
  document.querySelectorAll('#home-kundali [data-bridge-id]').forEach(n=>delete n.dataset.bridgeId);
  function bridgeKey(node){if(node.id)return 'id:'+node.id;const parts=[];while(node&&node!==document.body){if(node.id){parts.unshift('#'+node.id);break;}const siblings=[...node.parentElement.children];parts.unshift(node.tagName+':'+siblings.indexOf(node));node=node.parentElement;}return parts.join('/');}
- document.querySelectorAll('button,input,select,textarea,details,tbody tr,#kundali .v38-cell,#kundali .v38-center,#kundali,#kundali-north,#home-kundali,#na-native-chart').forEach(n=>{if(n.closest('#printReport'))return;const key=bridgeKey(n);if(!window.__bridgeKeyIds.has(key))window.__bridgeKeyIds.set(key,'b'+(++window.__bridgeSerial));n.dataset.bridgeId=window.__bridgeKeyIds.get(key);});
+ document.querySelectorAll('button,input,select,textarea,details,tbody tr,#kundali .v38-cell,#kundali .v38-center,#kundali,#kundali-north,#home-kundali,#na-native-chart,#vedic-kundali .v-chart').forEach(n=>{if(n.closest('#printReport'))return;const key=bridgeKey(n);if(!window.__bridgeKeyIds.has(key))window.__bridgeKeyIds.set(key,'b'+(++window.__bridgeSerial));n.dataset.bridgeId=window.__bridgeKeyIds.get(key);});
  const clone=document.body.cloneNode(true);clone.querySelector('#printReport')?.replaceChildren();const cloneBridge=new Map([...clone.querySelectorAll('[data-bridge-id]')].map(n=>[n.dataset.bridgeId,n]));const liveBridge=new Map([...document.querySelectorAll('[data-bridge-id]')].map(n=>[n.dataset.bridgeId,n]));
  for(const live of document.querySelectorAll('input,textarea,select,details')){const n=cloneBridge.get(live.dataset.bridgeId);if(!n)continue;if(live.matches('input')){n.setAttribute('value',live.value);if(live.checked)n.setAttribute('checked','');else n.removeAttribute('checked');}if(live.matches('textarea'))n.textContent=live.value;if(live.matches('select'))[...n.options].forEach((o,i)=>o.toggleAttribute('selected',live.options[i].selected));if(live.matches('details')){n.toggleAttribute('open',live.open);n.dataset.bridgeOpen=String(live.open);}}
  clone.querySelectorAll('#kp-hover-detail,script,style,#kp-teaching-tools,.kp-teach-canvas,[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line,#ayan,#lmt,#stcalc,#raphael5,#planet').forEach(n=>n.remove());
@@ -115,16 +115,13 @@ class Engine:
             page.on('download',lambda download:downloads.append(download))
             # No network or filesystem routes are available to customer input.
             page.route('**/*', lambda route: route.abort())
-            page.set_content((ROOT/'index.html').read_text(), wait_until='load')
+            page.set_content((ROOT/'index.html').read_text().replace('<head>','<head><script>window.KPProtectedWorker=true;</script>',1), wait_until='load')
             page.wait_for_timeout(1800)
             page.evaluate(BOOT)
             self.sessions[token] = {'context':context, 'page':page, 'used':now, 'downloads':downloads}
         session=self.sessions[token]; session['used']=now; page=session['page']
         if action=='event':
-            vedic=page.evaluate("data=>['v-calculate','report-vedic-calculate'].includes(document.querySelector('[data-bridge-id=\"'+data.id+'\"]')?.id)",data)
             page.evaluate(EVENT, data); page.wait_for_timeout(250)
-            if vedic:
-                page.evaluate('async()=>{await KPVedic.calculate();KPVedicUI.refresh();renderReport();KPReportPages.refresh();KPLanguage.apply();}')
         elif action=='live-ruling-planets':
             return token, page.evaluate('KPLiveRuling.packet()')
         elif action in ('aspects-pdf','report-pdf'):
@@ -172,7 +169,7 @@ class Engine:
         elif action=='dba-preview':
             page.evaluate('()=>{calculateAll();KPHomeDasha.refresh();}')
             return token, {'html':page.evaluate('KPDbaPopup.document()')}
-        elif action in ('print','vedic-kundali-preview','hit-theory-preview','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview','dasha-promise-preview','prediction-preview','dasha-fal-preview','gemstones-preview','muhurta-preview','time-slices-preview','time-slice-chart-preview','significators-preview','nadi-astrology-preview','south9-preview','aspects-preview','single-page-preview'):
+        elif action in ('print','basic-information-preview','vedic-kundali-preview','hit-theory-preview','match-preview','transit-preview','transit-chart-preview','transit-panchang-preview','ephemeris-preview','event-promise-preview','education-profession-preview','disease-preview','dasha-promise-preview','prediction-preview','dasha-fal-preview','gemstones-preview','muhurta-preview','time-slices-preview','time-slice-chart-preview','significators-preview','nadi-astrology-preview','south9-preview','aspects-preview','single-page-preview'):
             if action=='time-slice-chart-preview':
                 if not isinstance(data,dict) or type(data.get('index')) is not int or data.get('view') not in ('transit-chart','nadi-astrology'):
                     raise ValueError('Choose an available sample and chart.')
@@ -182,10 +179,13 @@ class Engine:
                 page.evaluate("()=>{renderReport();KPReportPages.selectSections(['matchmaking']);}")
             if action.endswith('-preview') and action not in ('match-preview','time-slice-chart-preview','vedic-kundali-preview'):
                 section=action.removesuffix('-preview')
+                if section=='basic-information':section='vedic-information'
                 if section=='significators':section=page.evaluate("document.getElementById('sig-method').value")
                 page.evaluate("section=>{renderReport();KPReportPages.selectSections([section]);}",section)
             if action=='print':
-                page.evaluate("async()=>{if(KPReportPages.selected().some(p=>['vedic-sade-sati','vedic-varshaphal'].includes(p.dataset.reportSection)))await KPVedic.calculate();}")
+                page.evaluate("async()=>{if(KPReportPages.selected().some(p=>['vedic-sade-sati','vedic-varshaphal'].includes(p.dataset.reportSection)))await KPVedicUI.prepareReports();}")
+            if action=='vedic-kundali-preview':
+                page.evaluate('async()=>{if(KPVedicUI.needsViewPreparation())await KPVedicUI.prepareReports();KPVedicUI.refresh();}')
             page.evaluate('()=>{renderReport();KPLanguage.apply();}')
             result=page.evaluate("() => {const blocked=KPClientPresentation.privateTabs;const pages=KPReportPages.selected().filter(n=>!blocked.includes(n.dataset.reportSection));return {html:pages.map(n=>{const copy=n.cloneNode(true);copy.querySelectorAll('[data-private-calculation],.formula,.formula-text,.md-main,.md-subtitle,.md-rule,.md-formula-row,.md-calc-line').forEach(c=>c.remove());return copy.outerHTML;}).join(''),css:[...document.querySelectorAll('style')].map(n=>n.textContent.replace(/#kundali\\b/g,'[data-report-id=\"kundali\"]')).join('\\n')};}")
             if action=='vedic-kundali-preview':
@@ -234,7 +234,7 @@ class Handler(BaseHTTPRequestHandler):
             if path=='/tutorial.js':self.respond((ROOT/'protected/tutorial.js').read_bytes(),'text/javascript');return
             if path=='/hover-details.js':self.respond((ROOT/'vendor/interface/hover-details.js').read_bytes(),'text/javascript');return
             if path=='/client.js':self.respond((ROOT/'protected/client.js').read_bytes(),'text/javascript');return
-            if path not in ('/live-ruling-planets','/dba-preview','/snapshot','/export','/print','/report-preview','/report-pdf','/vedic-kundali-preview','/hit-theory-preview','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/muhurta-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print'):
+            if path not in ('/live-ruling-planets','/dba-preview','/snapshot','/export','/print','/report-preview','/report-pdf','/basic-information-preview','/vedic-kundali-preview','/hit-theory-preview','/match-preview','/transit-preview','/transit-chart-preview','/transit-panchang-preview','/ephemeris-preview','/event-promise-preview','/education-profession-preview','/disease-preview','/dasha-promise-preview','/prediction-preview','/prediction-chains-preview','/time-slice-chart-preview','/dasha-fal-preview','/gemstones-preview','/muhurta-preview','/time-slices-preview','/significators-preview','/nadi-astrology-preview','/south9-preview','/aspects-preview','/aspects-print','/aspects-pdf','/single-page-preview','/single-page-print'):
                 self.respond({'error':'Not found'},status=404);return
             action='print' if path=='/report-preview' else path[1:]
             if path in ('/aspects-print','/single-page-print'):action=action.removesuffix('-print')+'-preview'

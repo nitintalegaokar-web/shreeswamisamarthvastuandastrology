@@ -47,6 +47,80 @@ class VedicInterfaceTests(unittest.TestCase):
   p.locator('#report-all-toggle').check();self.assertTrue(p.evaluate('KPReportPages.selected().length>30'));p.locator('#report-all-toggle').uncheck();self.assertEqual(p.evaluate('KPReportPages.selected().length'),0)
   p.locator('#quick-vedic-kundali').click();cell=p.locator('.v-chart-cell strong').filter(has_text='Su').first;font=p.evaluate('getComputedStyle(document.querySelector(".v-chart-cell strong")).fontSize');cell.hover();expect(p.locator('#kp-hover-detail')).to_be_visible();expect(p.locator('#kp-hover-detail')).to_contain_text('Su');p.mouse.move(1400,900);expect(p.locator('#kp-hover-detail')).to_be_hidden();self.assertEqual(p.evaluate('getComputedStyle(document.querySelector(".v-chart-cell strong")).fontSize'),font)
   p.evaluate('KPPreferences.save({...KPPreferences.get(),language:"marathi"})');expect(p.locator('#page-title')).to_have_text('वैदिक कुंडली');expect(p.locator('[data-v-tab="strength"]')).to_contain_text('बल');self.assertNotIn('Su',p.locator('#v-results').inner_text())
+class VedicWorkflowTests(unittest.TestCase):
+ setUpClass=classmethod(personal.PersonalPredictionTests.setUpClass.__func__);tearDownClass=classmethod(personal.PersonalPredictionTests.tearDownClass.__func__);setUp=personal.PersonalPredictionTests.setUp;tearDown=personal.PersonalPredictionTests.tearDown
+ def test_vedic_chart_report_border_and_dense_division_labels(self):
+  p=self.page;p.wait_for_selector('#v-year',state='attached');p.locator('#quick-report').click();p.evaluate('KPReportPages.selectSections(["vedic-rashi","vedic-vargas"])')
+  for language in ['english','marathi']:
+   p.evaluate('language=>KPPreferences.save({...KPPreferences.get(),language})',language)
+   for style in ['south','north']:
+    p.evaluate('style=>KPVedicUI.setChartStyle(style)',style)
+    with p.expect_popup() as opened:p.locator('#report-selection-preview').click()
+    w=opened.value;expect(w.locator('.v-chart')).to_have_count(17);w.evaluate('document.fonts.ready')
+    for media in ['screen','print']:
+     w.emulate_media(media=media)
+     defects=w.evaluate('''()=>{const issues=[];for(const page of document.querySelectorAll('.v-report-page')){const r=page.getBoundingClientRect(),s=getComputedStyle(page),inset=parseFloat(s.paddingLeft)+parseFloat(s.borderLeftWidth);for(const n of page.querySelectorAll('table,.v-chart,.v-native,h2')){const b=n.getBoundingClientRect();if(b.left<r.left+inset-1||b.right>r.right-inset+1||b.bottom>r.bottom-inset+1)issues.push(n.className);}for(const chart of page.querySelectorAll('.v-chart')){const c=chart.getBoundingClientRect();for(const n of chart.querySelectorAll('strong span')){const b=n.getBoundingClientRect(),cell=n.closest('.v-chart-cell')?.getBoundingClientRect()||c;if(b.left<cell.left-1||b.right>cell.right+1||b.top<cell.top-1||b.bottom>cell.bottom+1)issues.push(n.textContent);}}}if(getComputedStyle(document.body,'::before').content!=='none')issues.push('decorative body border');return issues;}''')
+     self.assertEqual(defects,[],msg=f'{language} {style} {media}: {defects}')
+    self.assertEqual(w.locator('.v-chart strong span').count(),170)
+    if language=='english' and style=='south':
+     pdf=fitz.open(stream=w.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf');pdf.save('/tmp/vedic-bordered-native.pdf');self.assertEqual(len(pdf),3,msg=w.evaluate('()=>[...document.querySelectorAll(".v-report-page")].map(p=>({height:p.getBoundingClientRect().height,grid:p.querySelector(".v-varga-print-grid")?.getBoundingClientRect().height,charts:[...p.querySelectorAll(".v-chart")].map(c=>c.getBoundingClientRect().height)}))'))
+     for page in pdf:
+      for block in page.get_text('blocks'):
+       self.assertGreaterEqual(block[0],35);self.assertLessEqual(block[2],560);self.assertGreaterEqual(block[1],35);self.assertLessEqual(block[3],808)
+     pdf.close()
+    if language=='marathi':w.screenshot(path=f'/tmp/vedic-bordered-{style}.png')
+    w.close()
+ def test_right_click_chart_styles_and_automatic_sade_sati(self):
+  p=self.page;p.wait_for_selector('#v-year',state='attached');native=p.evaluate('JSON.stringify(currentKPModel)');p.locator('#quick-vedic-kundali').click()
+  self.assertEqual(p.locator('#v-calculate,#report-vedic-calculate').count(),0)
+  p.locator('#v-results .v-chart').click(button='right');expect(p.locator('#v-chart-menu')).to_be_visible();p.locator('[data-v-chart-style="north"]').click()
+  expect(p.locator('#v-results .v-chart-north')).to_be_visible();expect(p.locator('#v-results [data-vedic-house]')).to_have_count(12)
+  sizes=p.evaluate('()=>{const c=document.querySelector("#v-results .v-chart-north"),s=c.querySelector("svg");return [c.clientWidth,c.clientHeight,s.getBoundingClientRect().width,s.getBoundingClientRect().height];}');self.assertAlmostEqual(sizes[0],sizes[2],delta=1);self.assertAlmostEqual(sizes[1],sizes[3],delta=1)
+  asc=p.evaluate('KPVedic.core().vargas[1][0].sign');self.assertEqual(p.locator('#v-results [data-vedic-house="1"]').get_attribute('data-vedic-sign'),str(asc))
+  p.locator('#v-division').select_option('9');asc=p.evaluate('KPVedic.core().vargas[9][0].sign');self.assertEqual(p.locator('#v-results [data-vedic-house="1"]').get_attribute('data-vedic-sign'),str(asc))
+  for n in p.locator('#v-results .v-north-house').all():
+   sign=int(n.get_attribute('data-vedic-sign'));expected=p.evaluate('sign=>KPVedic.core().vargas[9].filter(r=>r.sign===sign).map(r=>r.id)',sign);self.assertEqual(n.locator('strong span').all_text_contents(),expected)
+  compared=p.evaluate('''async()=>{const tracks=Array.from({length:12},(_,i)=>({id:String(i),planet:'Sa',levels:['sign'],test:d=>d.signIndex===i})),options={start:new Date('2027-01-01T00:00:00Z'),end:new Date('2028-06-01T00:00:00Z'),tracks};return {daily:await KPTransit.scan(options),weekly:await KPTransit.scan({...options,signStepDays:7})};}''')
+  self.assertGreater(len(compared['daily']),2);self.assertEqual(len(compared['daily']),len(compared['weekly']))
+  for a,b in zip(compared['daily'],compared['weekly']):
+   self.assertEqual(a['trackId'],b['trackId'])
+   for edge in ['start','end']:self.assertLessEqual(abs(p.evaluate('v=>Date.parse(v[0])-Date.parse(v[1])',[a[edge],b[edge]])),2000)
+  p.screenshot(path='/tmp/vedic-north-final.png')
+  with p.expect_popup() as opened:p.locator('#vedic-kundali-preview').click()
+  preview=opened.value;expect(preview.locator('.v-chart-north')).to_be_visible();preview.close()
+  p.locator('#v-results .v-chart').click(button='right');p.locator('[data-v-chart-style="south"]').click();expect(p.locator('#v-results [data-vedic-chart-style="south"]')).to_be_visible()
+  p.locator('[data-v-tab="sade"]').click();p.wait_for_function('KPVedic.core().sade.ready',timeout=90000);expect(p.locator('#v-results [data-vedic-sade-report]')).to_contain_text('Current phase');rows=p.evaluate('KPVedic.core().sade.rows.length');expect(p.locator('#v-results [data-vedic-sade-report] tbody tr')).to_have_count(rows)
+  with p.expect_popup() as opened:p.locator('#vedic-kundali-preview').click()
+  preview=opened.value;expect(preview.locator('[data-vedic-sade-report] tbody tr')).to_have_count(rows);preview.close();self.assertEqual(p.evaluate('JSON.stringify(currentKPModel)'),native)
+  p.evaluate('KPPreferences.save({...KPPreferences.get(),language:"marathi"})');expect(p.locator('[data-v-tab="sade"]')).to_contain_text('साडेसाती');p.screenshot(path='/tmp/vedic-sade-final.png')
+ def test_annual_selection_grows_automatically_preview_print_and_direct_pdf(self):
+  p=self.page;p.wait_for_selector('#v-year',state='attached');p.locator('#quick-report').click();p.evaluate('KPReportPages.clear()');p.locator('[data-report-page-key="vedic-varshaphal"]').check()
+  p.wait_for_function('KPVedic.core().calculated&&!document.getElementById("report").matches("[aria-busy=true]")',timeout=90000)
+  self.assertEqual(p.evaluate('KPReportPages.selected().map(p=>p.dataset.reportSection)'),['vedic-varshaphal']*3);self.assertEqual(p.locator('#report-vedic-calculate,#v-calculate').count(),0)
+  with p.expect_popup() as opened:p.locator('#report-selection-preview').click()
+  preview=opened.value;expect(preview.locator('.v-report-page')).to_have_count(3);self.assertNotIn('Calculate Vedic reports',preview.locator('body').inner_text());preview.close()
+  self.context.add_init_script('window.print=()=>{window.__testPrinted=(window.__testPrinted||0)+1;}')
+  with p.expect_popup() as opened:p.locator('#print-selected-report').click()
+  preview=opened.value;preview.wait_for_function('window.__testPrinted===1');expect(preview.locator('.v-report-page')).to_have_count(3);preview.close()
+  p.evaluate('KPReportPages.selectSections(["vedic-shadbala","vedic-vargas"])')
+  with p.expect_download(timeout=90000) as download:p.locator('#report-selection-pdf').click()
+  file=download.value;self.assertEqual(file.suggested_filename,'KP-Selected-Report.pdf');file.save_as('/tmp/vedic-actual-export.pdf');pdf=fitz.open('/tmp/vedic-actual-export.pdf');self.assertEqual(len(pdf),3)
+  for page in pdf:
+   self.assertTrue(page.get_images());self.assertGreater(len(page.get_pixmap().samples),10000)
+   for img in page.get_images():
+    for rect in page.get_image_rects(img[0]):self.assertGreaterEqual(rect.x0,27);self.assertLessEqual(rect.x1,568);self.assertLessEqual(rect.y1,815)
+  pdf.close()
+  p.evaluate('KPReportPages.selectSections(["vedic-dasha-bhukti"])')
+  with p.expect_download(timeout=90000) as download:p.locator('#report-selection-pdf').click()
+  download.value.save_as('/tmp/vedic-long-export.pdf');pdf=fitz.open('/tmp/vedic-long-export.pdf');self.assertGreaterEqual(len(pdf),2);self.assertTrue(any(len(page.get_images())>1 for page in pdf))
+  for page in pdf:
+   rects=[rect for img in page.get_images() for rect in page.get_image_rects(img[0])]
+   for rect in rects:self.assertLessEqual(rect.y1,815)
+   for i,a in enumerate(rects):
+    for b in rects[i+1:]:self.assertTrue(a.y1<=b.y0+.05 or b.y1<=a.y0+.05)
+  pdf.close();p.evaluate('KPReportPages.clear()')
+  with p.expect_popup() as opened:p.locator('#report-selection-preview').click()
+  preview=opened.value;preview.wait_for_event('close') if not preview.is_closed() else None;expect(p.locator('#report-page-selection-status')).to_contain_text('Select at least one page')
 class VedicPrivateTests(unittest.TestCase):
  setUpClass=classmethod(protected.ProtectedServerTests.setUpClass.__func__);tearDownClass=classmethod(protected.ProtectedServerTests.tearDownClass.__func__);setUp=protected.ProtectedServerTests.setUp;tearDown=protected.ProtectedServerTests.tearDown;post=protected.ProtectedServerTests.post;go=protected.ProtectedServerTests.go;private=protected.ProtectedServerTests.private
  def test_private_vedic_reports_hover_and_pdf_download(self):
@@ -58,3 +132,19 @@ class VedicPrivateTests(unittest.TestCase):
   with self.page.expect_popup() as opened:self.page.locator('#report-selection-preview').click()
   preview=opened.value;expect(preview.locator('.v-report-page')).to_have_count(3,timeout=30000);self.assertNotIn('KPVedicMath',preview.content());preview.close()
   response=self.page.request.get(self.url+'/report-pdf',timeout=90000);self.assertEqual(response.status,200);self.assertIn('attachment',response.headers['content-disposition']);pdf=fitz.open(stream=response.body(),filetype='pdf');self.assertEqual(len(pdf),3);pdf.close()
+
+ def test_private_right_click_sade_sati_and_actual_report_buttons(self):
+  self.go('vedic-kundali');p=self.page;native=self.private('JSON.stringify(currentKPModel)');self.assertEqual(p.locator('#v-calculate,#report-vedic-calculate').count(),0)
+  p.locator('#v-results .v-chart').click(button='right');expect(p.locator('#v-chart-menu')).to_be_visible(timeout=30000);p.locator('[data-v-chart-style="north"]').click();expect(p.locator('#v-results .v-chart-north')).to_be_visible(timeout=30000)
+  self.assertEqual(p.evaluate('typeof KPVedicUI'),'undefined');p.locator('[data-v-tab="sade"]').click();expect(p.locator('#v-results [data-vedic-sade-report] tbody tr').first).to_be_visible(timeout=90000)
+  rows=self.private('KPVedic.core().sade.rows.length')
+  with p.expect_popup() as opened:p.locator('#vedic-kundali-preview').click()
+  preview=opened.value;expect(preview.locator('[data-vedic-sade-report] tbody tr')).to_have_count(rows,timeout=90000);self.assertNotIn('KPVedic.calculate',preview.content());preview.close();self.assertEqual(self.private('JSON.stringify(currentKPModel)'),native)
+  self.go('report');self.private('KPReportPages.selectSections(["vedic-varshaphal"])');p.reload();expect(p.locator('#report-page-options')).to_be_visible(timeout=60000)
+  with p.expect_popup() as opened:p.locator('#report-selection-preview').click()
+  preview=opened.value;expect(preview.locator('.v-report-page')).to_have_count(3,timeout=90000);preview.close()
+  self.context.add_init_script('window.print=()=>{window.__testPrinted=(window.__testPrinted||0)+1;}')
+  with p.expect_popup() as opened:p.locator('#print-selected-report').click()
+  preview=opened.value;preview.wait_for_function('window.__testPrinted===1',timeout=90000);expect(preview.locator('.v-report-page')).to_have_count(3);preview.close()
+  with p.expect_download(timeout=90000) as downloaded:p.locator('#report-selection-pdf').click()
+  downloaded.value.save_as('/tmp/vedic-private-button-export.pdf');pdf=fitz.open('/tmp/vedic-private-button-export.pdf');self.assertEqual(len(pdf),3);self.assertIn('Mudda', ''.join(page.get_text() for page in pdf));pdf.close()
