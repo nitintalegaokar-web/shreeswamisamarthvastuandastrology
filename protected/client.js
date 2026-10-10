@@ -8,11 +8,30 @@
 
 /* Browser interface only. Calculations run in the private server worker. */
 (()=>{
- let token='',pending=Promise.resolve(),refreshTimer;
+ let token='',pending=Promise.resolve(),refreshTimer,liveRPTimer,liveRPBusy=false;
  const status=document.createElement('div');status.id='connection-status';status.setAttribute('role','status');
  function notice(message){status.textContent=message;status.style.cssText='position:fixed;bottom:8px;right:8px;background:white;padding:8px;border:1px solid #aaa;z-index:99999';document.body.append(status);}
  async function request(path,data){const r=await fetch(path,{method:data?'POST':'GET',headers:data?{'Content-Type':'application/json','X-KP-Session':token}:{},body:data?JSON.stringify(data):undefined,cache:'no-store'});if(!r.ok){const e=await r.json().catch(()=>({error:'Connection failed'}));throw Error(e.error);}return r.json();}
- function show(snapshot){if(snapshot.preferencesConfigured)try{localStorage.setItem('kpProtectedPreferencesV1',JSON.stringify(snapshot.preferences));}catch(_){}const active=document.activeElement,draft=active?.matches('input,textarea,select')&&!active.readOnly?{value:active.value,checked:active.checked}:null;const focus=active?.dataset.bridgeId,selection=document.activeElement?.selectionStart,scroll=window.scrollY;token=snapshot.token;if(snapshot.download){const bytes=Uint8Array.from(atob(snapshot.download.base64),c=>c.charCodeAt(0)),url=URL.createObjectURL(new Blob([bytes])),link=document.createElement('a');link.href=url;link.download=snapshot.download.name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}if(snapshot.message)notice(snapshot.message);document.getElementById('application-style').textContent=snapshot.css;document.body.className=snapshot.bodyClass;document.documentElement.lang=snapshot.language||'en';document.documentElement.dataset.kpLanguage=snapshot.preferences?.language||'english';Object.entries(snapshot.bodyData).forEach(([k,v])=>document.body.dataset[k]=v);document.getElementById('application').innerHTML=snapshot.html;window.KPResources?.install();window.KPTutorial?.install();const target=focus&&document.querySelector('[data-bridge-id="'+focus+'"]');if(target){if(draft){target.value=draft.value;if(target.type==='checkbox'||target.type==='radio')target.checked=draft.checked;}target.focus({preventScroll:true});try{target.setSelectionRange(selection,selection);}catch(_){}}window.scrollTo(0,scroll);clearTimeout(refreshTimer);refreshTimer=setTimeout(()=>{if(!document.activeElement?.matches('input,textarea,select'))queue(()=>request('/snapshot').then(show));},snapshot.busy?1200:10000);}
+ function scheduleLiveRuling(){
+  if(liveRPTimer)return;
+  liveRPTimer=setTimeout(async()=>{
+   liveRPTimer=null;
+   if(!document.hidden&&!liveRPBusy&&document.getElementById('kp-live-ruling')){
+    liveRPBusy=true;
+    try{
+     const packet=await request('/live-ruling-planets'),root=document.getElementById('kp-live-ruling');
+     if(root&&Date.parse(packet.data.utc)>=Date.parse(root.dataset.utc||'1900-01-01')){
+      root.dataset.ready=String(packet.data.ready);root.dataset.utc=packet.data.utc;
+      for(const [id,text] of Object.entries(packet.text)){const n=document.getElementById(id);if(n&&n.textContent!==text)n.textContent=text;}
+      const rows=document.getElementById('live-rp-rows');if(rows&&rows.innerHTML!==packet.rows)rows.innerHTML=packet.rows;
+     }
+    }catch(_){const n=document.getElementById('live-rp-extra');if(n)n.textContent='Live update paused · reconnecting…';}
+    finally{liveRPBusy=false;}
+   }
+   scheduleLiveRuling();
+  },1000);
+ }
+ function show(snapshot){scheduleLiveRuling();if(snapshot.preferencesConfigured)try{localStorage.setItem('kpProtectedPreferencesV1',JSON.stringify(snapshot.preferences));}catch(_){}const active=document.activeElement,draft=active?.matches('input,textarea,select')&&!active.readOnly?{value:active.value,checked:active.checked}:null;const focus=active?.dataset.bridgeId,selection=document.activeElement?.selectionStart,scroll=window.scrollY;token=snapshot.token;if(snapshot.download){const bytes=Uint8Array.from(atob(snapshot.download.base64),c=>c.charCodeAt(0)),url=URL.createObjectURL(new Blob([bytes])),link=document.createElement('a');link.href=url;link.download=snapshot.download.name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}if(snapshot.message)notice(snapshot.message);document.getElementById('application-style').textContent=snapshot.css;document.body.className=snapshot.bodyClass;document.documentElement.lang=snapshot.language||'en';document.documentElement.dataset.kpLanguage=snapshot.preferences?.language||'english';Object.entries(snapshot.bodyData).forEach(([k,v])=>document.body.dataset[k]=v);document.getElementById('application').innerHTML=snapshot.html;window.KPResources?.install();window.KPTutorial?.install();const target=focus&&document.querySelector('[data-bridge-id="'+focus+'"]');if(target){if(draft){target.value=draft.value;if(target.type==='checkbox'||target.type==='radio')target.checked=draft.checked;}target.focus({preventScroll:true});try{target.setSelectionRange(selection,selection);}catch(_){}}window.scrollTo(0,scroll);clearTimeout(refreshTimer);refreshTimer=setTimeout(()=>{if(!document.activeElement?.matches('input,textarea,select'))queue(()=>request('/snapshot').then(show));},snapshot.busy?1200:10000);}
  function queue(work){pending=pending.then(work).catch(e=>notice(e.message));return pending;}
  function send(element,kind,extra={}){const id=element?.dataset.bridgeId;if(!id)return;queue(()=>request('/event',{id,kind,...extra}).then(show));}
  async function upload(file){if(!file)return;const text=await file.text();if(text.length>4800000)throw Error('Chart file is too large.');show(await request('/import',{chart:JSON.parse(text)}));}

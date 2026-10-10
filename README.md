@@ -16,7 +16,7 @@ Open `http://127.0.0.1:8000/index.html`. The cloud workspace includes Python, Ch
 
 Enter native birth details and place, then calculate the chart. Automatic KP ephemeris and Placidus cusps are available; the standalone developer worksheets also retain manual Raphael inputs. An original Raphael book has not been embedded. The uploaded annual KP ayanamsha table is interpolated at each calculation date, with anchors from January 1, 1861 to January 1, 2147. Automatic planetary calculations support 1900–2100.
 
-Home shows the kundali, native details, planetary/cuspal positions and five-level Vimshottari timeline. Basic, four-fold, six-fold, four-step and Nadi significator views remain available. The South Indian Kundali window has read-only planetary and cuspal positions side by side. Auto Fill, Automatic calculation mode, Manual Edit and Time-slice comparison controls are removed from this window.
+Home shows the kundali, native details, planetary/cuspal positions and five-level Vimshottari timeline. Basic, four-fold, six-fold, four-step and Nadi significator views remain available. The South Indian Kundali window shows the detailed planetary and cuspal calculation tables in the Home style, with Basic, Four-fold, Six-fold, Four-step and Nadi buttons. It retains occupancy, ownership, all lord layers, received/given aspects and conjunction evidence. Auto Fill, Automatic calculation mode, Manual Edit and Time-slice comparison controls are removed from this window.
 
 Four-step Theory follows planet → star lord → sub lord → sub lord’s star lord. Planet/sub levels remain Nil when their stars contain another planet, unless the planet is in its own star; star levels remain active. Direct ownership contributes empty houses. **Incoming whole-sign aspects now add the aspecting planet’s occupied and empty owned houses**, once, without recursive aspect inheritance. The original houses and `Aspd: [planet: houses]` evidence appear separately, while their union is used by four-step analyses. Aspects use the existing whole-sign rules: seventh for classical planets, Mars 4/7/8, Jupiter and Rahu 5/7/9, Saturn 3/7/10; Ketu follows the existing preference. These are separate from the Western longitude/orb matrix.
 
@@ -42,7 +42,7 @@ Transits offers an event and the current MD, AD or PD period. Find dates searche
 
 Transit Panchang retains Now, Calculate and Preview. Ephemeris retains Generate and Preview, with Cancel during calculation; daily clock/offset options are collapsed. Western Aspects uses the supplied fixed angle/orb catalogue; on-screen aspect/orb/colour editors are removed. Planet-to-planet and planet-to-cusp matrices and their previews remain.
 
-The Ruling Planets tab, Home ruling panels, live clock, settings, calculation APIs and private `/ruling-clock` route are removed. They can be rebuilt later. Native dasha, Nadi chain calculations and transit timing continue separately.
+The old Ruling Planets tab and its legacy calculation APIs remain removed. A rebuilt **RP · Live** calculator now runs beside the workspace header on every tab. It updates every second from the saved consultation place and UTC offset, showing Ascendant and Moon sign/star/sub/sub-sub lords, traditional ruling planets, day and planetary-hour lords, with retrograde markers. Expand RP for positions, sunrise/sunset and hour boundaries; **Location settings** opens the existing consultation-place settings. Day changes at local sunrise, with day/night each divided into 12 unequal planetary hours. Polar locations without a complete sunrise/sunset cycle show an explicit unavailable reason for day/hour lords. The private interface polls a computation-only `/live-ruling-planets` endpoint without replacing the current chart. The obsolete `/ruling-clock` route remains removed.
 
 ## DBA/MAP and matchmaking
 
@@ -75,6 +75,7 @@ Four isolated sessions are supported, expiring after 30 minutes without requests
 ```sh
 python3 -m unittest discover -s tests -p test_personal_predictions.py -v
 PYTHONPATH=tests python3 -m unittest test_tutorial -v
+PYTHONPATH=tests python3 -m unittest test_live_workspace -v
 ```
 
 Focused checks cover personal-only predictions, ambiguous house-group rejection, current DBA boundaries, Vedic ownership, actual one-page PDFs, simple windows, Notepad/chart isolation, incoming aspect contributions, complete DBA table printing, Traditional/KP marriage intersections and private previews. The older full calculator suite contains fixtures for intentionally removed controls and is not claimed to pass without migration.
