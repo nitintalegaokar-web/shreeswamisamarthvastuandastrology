@@ -61,13 +61,81 @@ class PersonalPredictionTests(unittest.TestCase):
         self.assertTrue(result['nil']);self.assertTrue(all(not p['houses'] and not p['aspectContributions'] for p in result['nil']))
         self.page.locator('#quick-home').click();self.page.locator('[data-home-view="fourstep"]').click();expect(self.page.locator('#home-fourstep .kp-step-aspects').first).to_contain_text('Aspd:')
 
-    def test_dba_prints_the_visible_tables_with_all_antara_rows(self):
+    def test_dba_prints_the_complete_native_timeline_and_significators(self):
         self.page.locator('[data-tab="mdcalc"]').click();expect(self.page.locator('#page-title')).to_contain_text('DBA/MAP')
+        native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        data=self.page.evaluate('KPDbaPopup.data()');roots=data['roots']
+        # Every displayed house comes from this kundali, including nodes with no ownership.
+        points=self.page.evaluate('currentKPModel.planets');by_id={p['id']:p for p in points}
+        for point in points:
+            sig=data['significators'][point['id']]
+            expected=[point['id'],point['stl'],point['sl'],by_id[point['sl']]['stl']]
+            for layer,id in zip(['planet','star','sub','subStar'],expected):
+                self.assertEqual(sig[layer]['id'],id);self.assertEqual(sig[layer]['occ'],by_id[id]['occ']);self.assertEqual(sig[layer]['own'],by_id[id]['own'])
         with self.page.expect_popup() as opened:self.page.locator('#dba-preview').click()
-        preview=opened.value;preview.wait_for_function('window.KPDBASelection');expect(preview.locator('.dba-tools select:visible,.dba-tools input:visible')).to_have_count(0);expect(preview.locator('.dba-tools button:visible')).to_have_count(4)
-        # Select a complete later Dasha, then one Bhukti, using the report tree.
-        preview.locator('.dba-md-heading').nth(1).click();preview.locator('.dba-card').nth(1).locator('tbody button').nth(2).click();expect(preview.locator('#dba-pd-table tbody tr')).to_have_count(9)
-        preview.evaluate('window.print=()=>window.testPrinted=true');preview.locator('#dba-print-selected').click();self.assertTrue(preview.evaluate('window.testPrinted'));self.assertEqual(preview.locator('body').get_attribute('data-print-mode'),'all');preview.emulate_media(media='print');expect(preview.locator('#dba-grid')).to_be_visible();expect(preview.locator('#dba-pd-table')).to_be_visible();pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf');self.assertGreater(len(pdf),0);self.assertIn('Antara periods',''.join(p.get_text() for p in pdf));pdf.close();preview.close()
+        preview=opened.value;preview.wait_for_function('window.KPDBASelection')
+        expect(preview.locator('.dba-tools select:visible,.dba-tools input:visible')).to_have_count(0)
+        counts={'MD':len(roots),'AD':sum(len(m['children']) for m in roots),'PD':sum(len(a['children']) for m in roots for a in m['children'])}
+        for level,count in counts.items():expect(preview.locator('tbody tr[data-level="'+level+'"]')).to_have_count(count)
+        preview.locator('.dba-md-heading').nth(1).click();preview.locator('.dba-ad-choice').nth(2).click()
+        preview.locator('tr[data-level="PD"][data-md="1"][data-ad="2"][data-index="4"] button').click()
+        chosen=preview.evaluate('KPDBASelection.getData()');self.assertEqual([chosen[k] for k in ['md','ad','pd']],[1,2,4])
+        self.assertEqual(chosen['periods'][2]['startMs'],roots[1]['children'][2]['children'][4]['startMs'])
+        for level,count in counts.items():expect(preview.locator('tbody tr[data-level="'+level+'"]')).to_have_count(count)
+        preview.evaluate('window.print=()=>window.testPrinted=true');preview.locator('#dba-print-selected').click();self.assertTrue(preview.evaluate('window.testPrinted'));self.assertEqual(preview.locator('body').get_attribute('data-print-mode'),'all')
+        preview.emulate_media(media='print');expect(preview.locator('#dba-grid')).to_be_visible()
+        pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf');text=''.join(p.get_text() for p in pdf)
+        self.assertGreater(len(pdf),1);self.assertGreater(pdf[0].rect.width,pdf[0].rect.height)
+        for level,count in counts.items():self.assertEqual(text.count(level+' · '),count)
+        self.assertIn('Sub’s star',text);self.assertIn('owned houses',text)
+        # Repeated header bands identify the Dasha and keep all columns on the page.
+        for page in pdf:
+            self.assertIn('Star lord',page.get_text())
+            for word in page.get_text('words'):self.assertLessEqual(word[2],page.rect.width-20)
+        pdf.close();preview.close();self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+
+    def test_marathi_english_display_preserves_native_data_and_localizes_previews(self):
+        native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        values=self.page.locator('#ed-category option').evaluate_all('nodes=>nodes.map(n=>n.value)')
+        self.page.evaluate("KPPreferences.save({...KPPreferences.get(),language:'marathi',planetNotation:'short'});KPLanguage.apply()")
+        expect(self.page.locator('.app-sidebar [data-tab="home"]')).to_contain_text('मुख्यपृष्ठ')
+        self.assertEqual(self.page.evaluate("['Su','Mo','Ar','CSL'].map(x=>KPLanguage.translate(x))"),['रवी','चंद्र','मेष','भाव उपस्वामी'])
+        self.page.locator('#quick-education-profession').click()
+        with self.page.expect_popup() as opened:self.page.locator('#education-profession-preview').click()
+        preview=opened.value
+        expect(preview.get_by_role('button',name='छापा / पीडीएफ जतन करा · Print / Save PDF',exact=True)).to_be_visible()
+        self.assertEqual(preview.locator('html').get_attribute('lang'),'mr');preview.close()
+        self.page.evaluate("KPPreferences.save({...KPPreferences.get(),language:'english'});KPLanguage.apply()")
+        expect(self.page.locator('.app-sidebar [data-tab="home"]')).to_contain_text('Home')
+        expect(self.page.locator('#ed-category option').first).to_have_text('4th house · Basic education')
+        self.assertEqual(self.page.evaluate("KPLanguage.translate('चंद्र · 2026-10-10','english')"),'Moon · 2026-10-10')
+        self.assertEqual(self.page.locator('#ed-category option').evaluate_all('nodes=>nodes.map(n=>n.value)'),values)
+        self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+
+    def test_education_house_selection_matches_screen_and_preview_without_source_rows(self):
+        self.page.locator('#quick-education-profession').click()
+        expect(self.page.locator('#ed-category option')).to_have_count(3)
+        self.assertEqual(self.page.locator('#ed-category option').evaluate_all('nodes=>nodes.map(n=>n.value)'),['4','9','10'])
+        native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        for cusp in [4,9,10]:
+            self.page.locator('#ed-category').select_option(str(cusp))
+            expect(self.page.locator('#ed-results [data-education-cusp]')).to_have_count(1)
+            expect(self.page.locator('#ed-results [data-education-cusp]')).to_have_attribute('data-education-cusp',str(cusp))
+            if cusp==10:expect(self.page.locator('#ed-profession-links')).to_be_visible()
+            else:expect(self.page.locator('#ed-profession-links')).to_be_hidden()
+            snapshot=self.page.evaluate('KPEducationProfession.snapshot()')
+            self.assertNotIn('Sheet1 row',snapshot);self.assertNotIn('Source row',snapshot);self.assertNotIn('.xlsx',snapshot);self.assertNotIn('class="ed-source"',snapshot)
+            for other in [4,9,10]:
+                if other!=cusp:self.assertNotIn('data-education-cusp="'+str(other)+'"',snapshot)
+            with self.page.expect_popup() as opened:self.page.locator('#education-profession-preview').click()
+            preview=opened.value;preview.wait_for_selector('[data-education-cusp="'+str(cusp)+'"]')
+            expected=self.page.locator('#ed-results [data-education-cusp]').inner_text()
+            self.assertEqual(preview.locator('[data-education-cusp="'+str(cusp)+'"]').inner_text(),expected)
+            expect(preview.get_by_role('button',name='Print / Save PDF',exact=True)).to_be_visible()
+            pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf');text=''.join(p.get_text() for p in pdf)
+            self.assertNotIn('Sheet1 row',text);self.assertNotIn('Source row',text);self.assertNotIn('.xlsx',text);pdf.close();preview.close()
+        self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+        self.assertNotIn('Source row',self.page.evaluate('KPDisease.snapshot()'))
 
     def test_home_nadi_uses_plain_high_contrast_house_numbers(self):
         self.page.locator('#quick-home').click();self.page.locator('[data-home-view="nadi"]').click();expect(self.page.locator('#home-nadi-significators .na-tile')).to_have_count(9)
