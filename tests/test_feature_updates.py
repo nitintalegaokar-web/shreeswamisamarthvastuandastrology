@@ -413,11 +413,10 @@ class FeatureUpdateTests(unittest.TestCase):
         expect(self.page.locator('#resource-topic option',has_text='Updated KP notes')).to_have_count(0)
 
     def test_dba_popup_cascades_exact_periods_boundary_selection_and_print_controls(self):
-        self.page.locator('nav [data-tab="mdcalc"]').click()
         before=self.page.evaluate('JSON.stringify(KPHomeDasha.getData())')
         roots=self.page.evaluate('KPDbaPopup.data().roots')
         with self.page.expect_popup() as opened:
-            self.page.locator('#dba-preview').click()
+            self.page.locator('nav [data-tab="mdcalc"]').click()
         preview=opened.value
         preview.wait_for_function('window.KPDBASelection')
         expect(preview.locator('.dba-card')).to_have_count(len(roots))
@@ -881,17 +880,16 @@ class FeatureProtectedTests(unittest.TestCase):
         finally:context.close()
 
     def test_private_dba_popup_and_significator_pdf_use_computed_data(self):
+        import fitz
         context=self.browser.new_context(viewport={'width':1440,'height':1000})
         page=context.new_page();errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
         try:
             page.goto(self.url)
             expect(page.locator('#page-title')).to_have_text('Home',timeout=60000)
-            page.locator('nav [data-tab="mdcalc"]').click()
-            expect(page.locator('#mdcalc')).to_have_class('tab md-locked active',timeout=30000)
             before=page.request.get(self.url+'/export').json()['fields']
             with page.expect_popup() as opened:
-                page.locator('#dba-preview').click()
+                page.locator('nav [data-tab="mdcalc"]').click()
             preview=opened.value
             expect(preview.locator('.dba-card')).to_have_count(9,timeout=60000)
             preview.locator('.dba-md-heading').nth(1).click()
@@ -903,7 +901,31 @@ class FeatureProtectedTests(unittest.TestCase):
             body=preview.content()
             self.assertNotIn('KPEphemeris',body)
             self.assertNotIn('durationDays',body)
-            close_preview(preview)
+            expect(page.locator('#page-title')).to_have_text('Home')
+            expect(page.locator('#mdcalc')).to_be_hidden()
+            self.assertFalse(preview.locator('#dba-calculations').evaluate('n=>n.open'))
+            selected=preview.evaluate('JSON.stringify(KPDBASelection.getData())')
+            preview.evaluate("""()=>{const d=KPDBASelection.timeline(),at=d.roots[3].children[4].children[5].startMs+1000;Date.now=()=>at-d.offset*3600000;window.print=()=>window.testPrinted=true;}""")
+            preview.locator('#dba-print-current').click()
+            self.assertTrue(preview.evaluate('window.testPrinted'))
+            self.assertEqual(preview.evaluate('JSON.stringify(KPDBASelection.getData())'),selected)
+            expect(preview.locator('#dba-current-report tr[data-level="PD"]')).to_have_count(9)
+            preview.emulate_media(media='print')
+            expect(preview.locator('#dba-grid')).to_be_hidden()
+            pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True),filetype='pdf')
+            self.assertEqual(len(pdf),1);self.assertEqual(pdf[0].get_text().count('PD · '),9);pdf.close()
+            preview.emulate_media(media='screen');close_preview(preview)
+            token=next(c['value'] for c in context.cookies() if c['name']=='kp')
+            self.engine.call(token,'preferences',{'settings':{'language':'marathi'}})
+            with page.expect_popup() as opened:page.locator('#quick-mdcalc').click()
+            marathi=opened.value
+            expect(marathi.locator('#dba-print-current')).to_contain_text('चालू',timeout=60000)
+            expect(marathi.locator('#dba-print-current')).to_contain_text('Print current DBA/MAP')
+            expect(marathi.locator('#dba-calculations summary')).to_have_text('महादशा / भुक्ती गणना तपशील')
+            marathi.evaluate('window.print=()=>{}');marathi.locator('#dba-print-current').click()
+            expect(marathi.locator('#dba-current-report>h2')).to_have_text('चालू दशा/भुक्ती/अंतरा')
+            marathi.locator('#dba-close').click(no_wait_after=True)
+            self.engine.call(token,'preferences',{'settings':{'language':'english'}})
             after=page.request.get(self.url+'/export').json()['fields']
             for id in ['name','dob','birthTime']:
                 self.assertEqual(before.get(id),after.get(id))

@@ -62,7 +62,6 @@ class PersonalPredictionTests(unittest.TestCase):
         self.page.locator('#quick-home').click();self.page.locator('[data-home-view="fourstep"]').click();expect(self.page.locator('#home-fourstep .kp-step-aspects').first).to_contain_text('Aspd:')
 
     def test_dba_prints_the_complete_native_timeline_and_significators(self):
-        self.page.locator('[data-tab="mdcalc"]').click();expect(self.page.locator('#page-title')).to_contain_text('DBA/MAP')
         native=self.page.evaluate('JSON.stringify(currentKPModel)')
         data=self.page.evaluate('KPDbaPopup.data()');roots=data['roots']
         # Every displayed house comes from this kundali, including nodes with no ownership.
@@ -72,7 +71,7 @@ class PersonalPredictionTests(unittest.TestCase):
             expected=[point['id'],point['stl'],point['sl'],by_id[point['sl']]['stl']]
             for layer,id in zip(['planet','star','sub','subStar'],expected):
                 self.assertEqual(sig[layer]['id'],id);self.assertEqual(sig[layer]['occ'],by_id[id]['occ']);self.assertEqual(sig[layer]['own'],by_id[id]['own'])
-        with self.page.expect_popup() as opened:self.page.locator('#dba-preview').click()
+        with self.page.expect_popup() as opened:self.page.locator('[data-tab="mdcalc"]').click()
         preview=opened.value;preview.wait_for_function('window.KPDBASelection')
         expect(preview.locator('.dba-tools select:visible,.dba-tools input:visible')).to_have_count(0)
         counts={'MD':len(roots),'AD':sum(len(m['children']) for m in roots),'PD':sum(len(a['children']) for m in roots for a in m['children'])}
@@ -97,8 +96,7 @@ class PersonalPredictionTests(unittest.TestCase):
     def test_dba_overview_keeps_all_md_ad_and_selected_antara_in_same_popup(self):
         native=self.page.evaluate('JSON.stringify(currentKPModel)')
         roots=self.page.evaluate('KPDbaPopup.data().roots')
-        self.page.locator('[data-tab="mdcalc"]').click()
-        with self.page.expect_popup() as opened:self.page.locator('#dba-preview').click()
+        with self.page.expect_popup() as opened:self.page.locator('[data-tab="mdcalc"]').click()
         preview=opened.value;preview.wait_for_function('window.KPDBASelection')
         preview.locator('#dba-overview').click()
         expect(preview.locator('#dba-overview')).to_have_attribute('aria-pressed','true')
@@ -122,6 +120,62 @@ class PersonalPredictionTests(unittest.TestCase):
         preview.locator('#dba-significators').click();self.assertEqual(preview.evaluate('KPDBASelection.getData().view'),'all')
         expect(preview.locator('tbody tr[data-level="PD"]')).to_have_count(sum(len(a['children']) for m in roots for a in m['children']))
         self.assertEqual(preview.evaluate('KPDBASelection.getData().pd'),4)
+        preview.close();self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
+
+    def test_current_dba_print_has_all_current_bhukti_antaras_and_preserves_selection(self):
+        native=self.page.evaluate('JSON.stringify(currentKPModel)')
+        expect(self.page.locator('#dba-worksheet-calculations')).not_to_have_attribute('open','')
+        self.assertFalse(self.page.locator('#dba-worksheet-calculations').evaluate('n=>n.open'))
+        with self.page.expect_popup() as opened:self.page.locator('#quick-mdcalc').click()
+        preview=opened.value;preview.wait_for_function('window.KPDBASelection')
+        preview.on('pageerror',lambda e:self.errors.append(str(e)))
+        expect(self.page.locator('#page-title')).to_have_text('Home')
+        expect(self.page.locator('#mdcalc')).to_be_hidden()
+        roots=preview.evaluate('KPDBASelection.timeline().roots')
+        active=preview.evaluate("""()=>{const d=KPDBASelection.timeline(),at=Date.now()+d.offset*3600000;return d.roots.flatMap((m,mi)=>m.children.flatMap((a,ai)=>a.children.map((p,pi)=>({md:mi,ad:ai,pd:pi,start:p.startMs,end:p.endMs})))).find(p=>p.start<=at&&at<p.end);} """)
+        self.assertTrue(active)
+        selected=preview.evaluate('KPDBASelection.getData()')
+        self.assertEqual([selected[k] for k in ['md','ad','pd']],[active[k] for k in ['md','ad','pd']])
+        self.assertFalse(preview.locator('#dba-calculations').evaluate('n=>n.open'))
+        preview.locator('#dba-calculations summary').click()
+        expect(preview.locator('#dba-calculation-facts')).to_be_visible()
+        expect(preview.locator('#dba-calculation-facts dt')).to_have_count(6)
+        preview.locator('#dba-overview').click()
+        preview.locator('.dba-overview-card[data-md="1"] tr[data-index="2"] button').click()
+        preview.locator('.dba-overview-antara tr[data-index="4"] button').click()
+        preview.locator('#dba-zoom-in').click()
+        before=preview.evaluate('JSON.stringify(KPDBASelection.getData())')
+        preview.evaluate("""()=>{const d=KPDBASelection.timeline(),at=d.roots[3].children[4].children[5].startMs+1000;Date.now=()=>at-d.offset*3600000;window.print=()=>window.prints=(window.prints||0)+1;}""")
+        preview.locator('#dba-print-current').click()
+        self.assertEqual(preview.evaluate('window.prints'),1)
+        self.assertEqual(preview.evaluate('JSON.stringify(KPDBASelection.getData())'),before)
+        self.assertEqual(preview.locator('#dba-report').evaluate('n=>n.style.zoom'),'1.1')
+        expect(preview.locator('body')).to_have_attribute('data-print-mode','current')
+        current=preview.locator('#dba-current-report')
+        expect(current.locator('tbody tr[data-level="MD"]')).to_have_count(1)
+        expect(current.locator('tbody tr[data-level="AD"]')).to_have_count(1)
+        expect(current.locator('tbody tr[data-level="PD"]')).to_have_count(len(roots[3]['children'][4]['children']))
+        self.assertEqual(current.locator('tr.current-period').get_attribute('data-index'),'5')
+        expect(current).to_be_hidden()
+        preview.emulate_media(media='print')
+        expect(preview.locator('#dba-grid')).to_be_hidden();expect(preview.locator('#dba-calculations')).to_be_hidden();expect(current).to_be_visible()
+        pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf')
+        self.assertEqual(len(pdf),1);text=''.join(sheet.get_text() for sheet in pdf)
+        self.assertEqual(text.count('MD · '),1);self.assertEqual(text.count('AD · '),1);self.assertEqual(text.count('PD · '),len(roots[3]['children'][4]['children']))
+        self.assertIn('Sub’s star',text);self.assertNotIn('Moon position',text);self.assertNotIn('Complete native timeline',text)
+        for sheet in pdf:
+            for word in sheet.get_text('words'):
+                self.assertGreaterEqual(word[0],20);self.assertLessEqual(word[2],sheet.rect.width-20)
+        pdf.close()
+        preview.emulate_media(media='screen');preview.evaluate("window.dispatchEvent(new Event('afterprint'))")
+        expect(preview.locator('body')).to_have_attribute('data-print-mode','overview')
+        preview.locator('#dba-print-selected').click();self.assertEqual(preview.evaluate('window.prints'),2)
+        # End-exclusive boundary belongs to the next Antara, and outside times never print stale results.
+        preview.evaluate("""()=>{const d=KPDBASelection.timeline();Date.now=()=>d.roots[3].children[4].children[5].endMs-d.offset*3600000;}""")
+        preview.locator('#dba-print-current').click();self.assertEqual(current.locator('tr.current-period').get_attribute('data-index'),'6')
+        preview.evaluate("""()=>{const d=KPDBASelection.timeline();Date.now=()=>d.roots.at(-1).endMs-d.offset*3600000;}""")
+        preview.locator('#dba-print-current').click();self.assertEqual(preview.evaluate('window.prints'),3)
+        expect(preview.locator('#dba-status')).to_contain_text('outside this native dasha timeline')
         preview.close();self.assertEqual(self.page.evaluate('JSON.stringify(currentKPModel)'),native)
 
     def test_disease_screen_and_print_omit_source_and_explanatory_lines(self):
