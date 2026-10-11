@@ -26,12 +26,13 @@ BOOT = r"""() => {
  document.getElementById('settings-pane-calculation')?.setAttribute('data-private-calculation','true');
  document.getElementById('settings-tab-calculation')?.setAttribute('data-private-calculation','true');
  const original=window.calculateAll;
- window.calculateAll=function(){original();if(document.getElementById('chart-kind').value!=='horary'){
-   try {const moment=KPHorary.nativeMoment();const house=KPTransitHouses.calculate(moment.date,moment.latitude,moment.longitude);
-    for(const h of [10,11,12,1,2,3]){const t=Math.round(house.cusps[h-1]*3600);document.getElementById('r5_nirayan_'+h).value=`${Math.floor(t/3600)}:${String(Math.floor(t%3600/60)).padStart(2,'0')}:${String(t%60).padStart(2,'0')}`;}
-    window.syncKPWorksheetPositions();window.updateKaryeshTables();window.renderChart(true);window.renderReport();
-   }catch(error){document.getElementById('dob').setCustomValidity(error.message);}
- }KPClientPresentation.refreshCoordinates();};
+ window.calculateAll=function(){
+   // Customer chart exports omit private worksheet fields. Restore the same
+   // automatic sources on every calculation, including after chart import.
+   for(const id of ['st-ephemeris-source','p6-ephemeris-source','r5-house-source'])document.getElementById(id).value='automatic';
+   document.getElementById('kp-ayanamsha-source').value='annual';
+   original();KPClientPresentation.refreshCoordinates();
+ };
  window.calculateAll();
  window.__bridgeSerial=0;
  window.__bridgeAllowed=new Set();
