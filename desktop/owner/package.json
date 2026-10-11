@@ -1,0 +1,18 @@
+{
+  "name":"kp-master-activation",
+  "version":"1.0.0",
+  "description":"Owner tool for issuing computer-bound KP Master licenses",
+  "author":"Nitin Talegaonkar",
+  "private":true,
+  "main":"main.cjs",
+  "devDependencies":{"electron":"44.7.0","electron-builder":"26.15.3"},
+  "build":{
+    "appId":"in.kpmaster.activation",
+    "productName":"KP Master Activation",
+    "directories":{"output":"dist"},
+    "files":["main.cjs","preload.cjs","index.html","ui.js","license-core.cjs","package.json"],
+    "asar":true,
+    "win":{"electronLanguages":["en-US","mr"],"icon":"../icon.ico","signExecutable":false,"target":[{"target":"portable","arch":["x64"]}],"artifactName":"KP-Master-Owner-Activation-${version}-${arch}.${ext}"},
+    "portable":{"requestExecutionLevel":"user"}
+  }
+}

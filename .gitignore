@@ -35,3 +35,9 @@ protected/data/
 desktop/node_modules/
 desktop/app/
 desktop/dist/
+desktop/owner/node_modules/
+desktop/owner/dist/
+desktop/owner/license-core.cjs
+desktop/owner-public-key.pem
+*.kplicense
+*.private-key.pem

@@ -1,4 +1,15 @@
-# Offline Windows update · 11 October 2026
+# Offline Windows licensing update · 11 October 2026
+
+Client version 1.1.0 adds a System-ID activation screen, signed per-computer
+licenses, startup/periodic checks, and permanent or dated activation. The
+separate Owner Activation tool creates a password-encrypted private signing key
+on the owner's PC, exports its public key for the client build, and issues
+client license files offline. A production client build requires that owner
+public key; no private key is built into either executable. Existing unlocked
+copies are unaffected. Licensing conventions and setup are documented in
+`desktop/licensing/README.md`.
+
+## Offline Windows update · 11 October 2026
 
 The Windows x64 portable executable packages the current standalone software
 with Electron. Calculations and data run offline. Native Save/Open dialogs

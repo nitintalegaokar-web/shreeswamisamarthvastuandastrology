@@ -4,15 +4,17 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const {pathToFileURL} = require('node:url');
 const {isExternal, isPreview, safeFilename} = require('./policy.cjs');
+const {createGate}=require('./licensing/gate.cjs');
 const indexPath = path.join(__dirname, 'app', 'index.html');
 const indexURL = pathToFileURL(indexPath).href;
 let mainWindow;
+let licenseGate;
 function openExternal(url) {
   if (isExternal(url)) shell.openExternal(url).catch(() => {});
 }
 function secureWindow(win) {
   win.webContents.setWindowOpenHandler(({url}) => {
-    if (isPreview(url)) return {action:'allow', overrideBrowserWindowOptions:{
+    if (licenseGate?.isActive() && isPreview(url)) return {action:'allow', overrideBrowserWindowOptions:{
       width:1120, height:850, autoHideMenuBar:true,
       webPreferences:{nodeIntegration:false, contextIsolation:true, sandbox:true, webSecurity:true}
     }};
@@ -20,7 +22,7 @@ function secureWindow(win) {
     return {action:'deny'};
   });
   win.webContents.on('will-navigate', (event, url) => {
-    if (url.split('#')[0] === indexURL || isPreview(url)) return;
+    if (licenseGate?.isActive() && (url.split('#')[0] === indexURL || isPreview(url))) return;
     event.preventDefault();
     openExternal(url);
   });
@@ -32,8 +34,8 @@ else {
   app.on('second-instance', () => {
     if (mainWindow) {if (mainWindow.isMinimized()) mainWindow.restore(); mainWindow.focus();}
   });
-  app.whenReady().then(() => {
-    const trusted = event => event.senderFrame?.url.split('#')[0] === indexURL && event.sender === mainWindow?.webContents;
+  app.whenReady().then(async () => {
+    const trusted = event => licenseGate?.isActive() && event.senderFrame?.url.split('#')[0] === indexURL && event.sender === mainWindow?.webContents;
     ipcMain.handle('kp-desktop:save-chart', async (event, text, filename) => {
       if (!trusted(event)) throw Error('Untrusted chart request.');
       if (typeof text !== 'string' || Buffer.byteLength(text, 'utf8') > 12*1024*1024) throw Error('Chart is too large.');
@@ -72,13 +74,16 @@ else {
     // Keep the existing compact, language-aware application controls.
     Menu.setApplicationMenu(null);
     mainWindow = new BrowserWindow({
-      width:1440, height:950, minWidth:950, minHeight:650,
+      width:900, height:670, minWidth:700, minHeight:580,
       title:'KP Master', backgroundColor:'#ffffe8', show:false,
       webPreferences:{nodeIntegration:false, contextIsolation:true, sandbox:true, webSecurity:true, preload:path.join(__dirname,'preload.cjs')}
     });
     secureWindow(mainWindow);
     mainWindow.once('ready-to-show', () => mainWindow.show());
-    mainWindow.loadFile(indexPath);
+    licenseGate=await createGate(app,mainWindow,indexPath);
+    if(licenseGate.isActive()){mainWindow.setMinimumSize(950,650);mainWindow.setSize(1440,950);}
+  }).catch(error=>{
+    dialog.showErrorBox('KP Master activation',error.message);app.quit();
   });
   app.on('window-all-closed', () => app.quit());
 }

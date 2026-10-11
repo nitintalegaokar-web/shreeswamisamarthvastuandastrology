@@ -5,11 +5,20 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const os = require('node:os');
+const crypto = require('node:crypto');
+const licensing = require('../licensing/core.cjs');
+const {getSystemId} = require('../licensing/system-id.cjs');
 const {execFileSync} = require('node:child_process');
 (async () => {
   const temporary = await fs.mkdtemp(path.join(os.tmpdir(),'kp-desktop-test-'));
   const chartFile = path.join(temporary,'fixed-native.lkp');
   const pdfFile = path.join(temporary,'marathi-profession-a4.pdf');
+  const keys=crypto.generateKeyPairSync('ed25519');
+  const publicFile=path.join(temporary,'test-owner-public.pem');
+  const licenseFile=path.join(temporary,'test-client.kplicense');
+  await fs.writeFile(publicFile,keys.publicKey.export({format:'pem',type:'spki'}));
+  await fs.writeFile(licenseFile,JSON.stringify(licensing.issue(keys.privateKey,{systemId:await getSystemId(),clientName:'Desktop runtime test'})));
+  execFileSync(process.execPath,[path.join(__dirname,'..','prepare.cjs')],{env:{...process.env,KP_LICENSE_PUBLIC_KEY_FILE:publicFile}});
   const options = {
     executablePath:require('electron'),
     args:[path.resolve(__dirname,'..'), ...(process.platform==='linux'?['--no-sandbox','--disable-gpu']:[]), '--user-data-dir='+path.join(temporary,'profile')],
@@ -20,6 +29,10 @@ const {execFileSync} = require('node:child_process');
   try {
     desktop = await _electron.launch(options);
     const page = await desktop.firstWindow();
+    await page.waitForFunction('document.getElementById("system-id")?.value.startsWith("KP1-")');
+    await desktop.evaluate(({dialog},file)=>{dialog.showOpenDialog=async()=>({canceled:false,filePaths:[file]});},licenseFile);
+    await page.locator('#activate').click();
+    await page.waitForURL('**/app/index.html',{timeout:120000});
     await page.waitForFunction('document.readyState==="complete" && typeof KPAutomaticCalculations!=="undefined" && typeof KPDesktopFiles!=="undefined"',null,{timeout:120000});
     assert.equal(await page.evaluate('typeof require'), 'undefined');
     const preferences=await desktop.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].webContents.getLastWebPreferences());

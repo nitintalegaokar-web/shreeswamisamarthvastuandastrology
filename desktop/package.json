@@ -1,6 +1,6 @@
 {
   "name": "kp-master-desktop",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "KP Master offline astrology desktop application",
   "author": "Nitin Talegaonkar",
   "private": true,
@@ -10,7 +10,9 @@
     "start": "npm run prepare-app && electron .",
     "test": "node --test test/*.test.cjs",
     "test:runtime": "node test/runtime.cjs",
-    "build:windows": "npm run prepare-app && electron-builder --win portable --x64"
+    "test:licensing": "node test/licensing-runtime.cjs",
+    "build:windows": "npm run prepare-app && electron-builder --win portable --x64",
+    "build:owner": "node owner/prepare.cjs && electron-builder --projectDir owner --win portable --x64"
   },
   "devDependencies": {
     "electron": "44.7.0",
@@ -21,7 +23,7 @@
     "appId": "in.kpmaster.astrology",
     "productName": "KP Master",
     "directories": {"output": "dist"},
-    "files": ["main.cjs", "policy.cjs", "preload.cjs", "app/**/*", "package.json"],
+    "files": ["main.cjs", "policy.cjs", "preload.cjs", "licensing/core.cjs", "licensing/system-id.cjs", "licensing/gate.cjs", "licensing/activation.html", "licensing/activation.js", "app/**/*", "package.json"],
     "asar": true,
     "win": {
       "electronLanguages": ["en-US", "mr"],

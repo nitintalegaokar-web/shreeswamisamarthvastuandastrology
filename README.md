@@ -12,6 +12,12 @@ between launches. Print/PDF previews retain the A4 layouts. Optional hosted
 account sign-in opens in the default browser. Build and usage details are in
 [desktop/README.md](desktop/README.md).
 
+The new 1.1.0 client build adds System-ID activation using licenses signed on
+the owner's PC. First create an encrypted owner key in the separate Owner
+Activation tool and export its public key for the client build. See
+[desktop/licensing/README.md](desktop/licensing/README.md). The private key stays
+on the owner's PC; existing 1.0.0 executables and standalone HTML remain unlocked.
+
 ## Run locally
 
 Extract the downloaded ZIP and open `index.html` in Chromium, Chrome or Edge. The standalone HTML includes its calculations, styling, data and offline India place search. Alternatively, from this directory:

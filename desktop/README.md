@@ -1,6 +1,11 @@
 # KP Master · Offline Windows
 
-Run **KP-Master-Offline-Windows-1.0.0-x64.exe** on Windows 10 or Windows 11 (64-bit).
+Run **KP-Master-Offline-Windows-1.1.0-x64.exe** on Windows 10 or Windows 11 (64-bit).
+This client version requires a signed activation license for its System ID.
+Use the separate Owner Activation tool on your own PC to issue licenses; see
+[licensing/README.md](licensing/README.md) for first-time key setup and activation.
+The client build must contain your exported public key. Your encrypted private
+key stays on your PC and is never packaged with the client.
 The portable executable includes Chromium, the calculation engine, house tables,
 place lookup, and prediction data. Python, Node.js, Chrome, and an internet
 connection are not required on the user's computer. Keep the executable in a
@@ -25,10 +30,11 @@ checksum against the downloaded executable before running it.
 
 ## Rebuild
 
-From `desktop/`, run `npm ci`, then `npm run build:windows`. The Electron and
+From `desktop/`, run `npm ci`, set `KP_LICENSE_PUBLIC_KEY_FILE` to your exported
+public key file, then run `npm run build:windows`. The Electron and
 electron-builder versions are pinned in the lockfile. Output is in `desktop/dist/`.
 `npm run prepare-app` packages the current root `index.html` and source notices,
-then adds only the desktop chart-file bridge. Generated files are ignored by Git.
+then adds the desktop chart-file bridge and public verification key. Generated files are ignored by Git.
 Windows resource editing uses electron-builder's JavaScript resource editor;
 Wine is not required. The portable executable does not request administrator
 privileges. To run the desktop locally: `npm start`.
@@ -45,7 +51,8 @@ node node_modules/electron/install.js
 npm --cache /tmp/kp-npm-cache run build:windows
 ```
 
-`npm test` checks link and download policies. With Playwright installed and an
+`npm run build:owner` builds the independent Windows Owner Activation tool.
+No private key is generated during the build. `npm test` checks licensing, link and download policies. With Playwright installed and an
 X display available, `node test/runtime.cjs` exercises the actual Electron app,
 offline calculations, save/load, preferences across restart, and Marathi A4
 printing. Linux tests use `--no-sandbox` solely for the restricted test container;
