@@ -11,6 +11,10 @@ import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlsplit
 from playwright.sync_api import sync_playwright
+try:
+    from protected.accounts import Accounts
+except ModuleNotFoundError:
+    from accounts import Accounts
 
 ROOT = Path(__file__).resolve().parents[1]
 PRIVATE_TABS = ['ayan', 'lmt', 'stcalc', 'raphael5', 'planet']
@@ -99,6 +103,12 @@ class Engine:
     def call(self, token, action, data=None):
         return self.executor.submit(self.run, token, action, data).result(timeout=90)
 
+    def release(self, token):
+        def discard():
+            session=self.sessions.pop(token,None)
+            if session:session['context'].close()
+        self.executor.submit(discard).result(timeout=30)
+
     def run(self, token, action, data):
         now = time.monotonic()
         for old, session in list(self.sessions.items()):
@@ -116,7 +126,7 @@ class Engine:
             page.on('download',lambda download:downloads.append(download))
             # No network or filesystem routes are available to customer input.
             page.route('**/*', lambda route: route.abort())
-            page.set_content((ROOT/'index.html').read_text().replace('<head>','<head><script>window.KPProtectedWorker=true;</script>',1), wait_until='load')
+            page.set_content((ROOT/'index.html').read_text().replace('<head>','<head><script>window.KPProtectedWorker=true;</script>',1), wait_until='load',timeout=60000)
             page.wait_for_timeout(1800)
             page.evaluate(BOOT)
             self.sessions[token] = {'context':context, 'page':page, 'used':now, 'downloads':downloads}
@@ -196,6 +206,7 @@ class Engine:
                 result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString()})')
             elif action=='print' and any('data-report-section="'+id+'"' in result['html'] for id in ('event-promise','gemstones','nadi-astrology','kp-fourfold','kp-sixfold','kp-fourstep-section')):
                 result['a4']=page.evaluate('()=>({css:KPA4Preview.css,fit:KPA4Preview.fit.toString(),normalize:KPA4Preview.normalize.toString(),sections:["event-promise","gemstones","nadi-astrology","kp-fourfold","kp-sixfold","kp-fourstep-section"]})')
+            result['css']+='\n'+page.evaluate('KPA4Reports.css')
             return token, result
         snapshot=page.evaluate(SNAPSHOT); snapshot['token']=token
         if session['downloads']:
@@ -211,6 +222,11 @@ class Handler(BaseHTTPRequestHandler):
     def token(self):
         cookie=self.headers.get('Cookie','')
         return next((v.strip()[3:] for v in cookie.split(';') if v.strip().startswith('kp=')), '')
+    def account_token(self):
+        return next((v.strip()[11:] for v in self.headers.get('Cookie','').split(';') if v.strip().startswith('kp_account=')), '')
+    def account_cookie(self, token='', clear=False):
+        secure='; Secure' if os.environ.get('KP_COOKIE_SECURE')=='1' else ''
+        return f'kp_account={token}; HttpOnly; SameSite=Lax; Path=/; Max-Age={0 if clear else 604800}'+secure
     def respond(self, body, content='application/json', status=200, token=None, extra=None):
         if isinstance(body,dict): body=json.dumps(body,ensure_ascii=False)
         body=body.encode() if isinstance(body,str) else body
@@ -221,8 +237,9 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('X-Content-Type-Options','nosniff')
         self.send_header('Referrer-Policy','same-origin')
         self.send_header('X-Frame-Options','DENY')
-        if token:self.send_header('Set-Cookie',f'kp={token}; HttpOnly; SameSite=Strict; Path=/')
-        for k,v in (extra or {}).items():self.send_header(k,v)
+        if token:self.send_header('Set-Cookie',f'kp={token}; HttpOnly; SameSite=Strict; Path=/'+('; Secure' if os.environ.get('KP_COOKIE_SECURE')=='1' else ''))
+        for k,v in (extra or {}).items():
+            for value in (v if isinstance(v,list) else [v]):self.send_header(k,value)
         try:
             self.end_headers(); self.wfile.write(body)
         except (BrokenPipeError, ConnectionResetError):
@@ -230,8 +247,11 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         path=urlsplit(self.path).path
         try:
+            if path=='/auth/me':
+                self.respond({'user':self.server.accounts.user(self.account_token()) if hasattr(self.server,'accounts') else None});return
+            if path=='/online-account.js':self.respond((ROOT/'vendor/interface/online-account.js').read_bytes(),'text/javascript');return
             if path=='/':
-                self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script><script src="/tutorial.js"></script><script src="/hover-details.js"></script></body></html>','text/html');return
+                self.respond('<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KP Astrology</title><style id="application-style"></style></head><body><div id="application">Loading your chart…</div><script src="/client.js"></script><script src="/tutorial.js"></script><script src="/hover-details.js"></script><script>window.KPOnlineAccountsHosted=true;</script><script src="/online-account.js"></script></body></html>','text/html');return
             if path=='/tutorial.js':self.respond((ROOT/'protected/tutorial.js').read_bytes(),'text/javascript');return
             if path=='/hover-details.js':self.respond((ROOT/'vendor/interface/hover-details.js').read_bytes(),'text/javascript');return
             if path=='/client.js':self.respond((ROOT/'protected/client.js').read_bytes(),'text/javascript');return
@@ -264,6 +284,8 @@ class Handler(BaseHTTPRequestHandler):
         except Exception as error:self.respond({'error':str(error).split('\n')[0]},status=400)
     def do_POST(self):
         path=urlsplit(self.path).path
+        if path in ('/auth/register','/auth/login','/auth/logout'):
+            self.auth_post(path);return
         if path not in ('/event','/import','/photo','/preferences'):
             self.respond({'error':'Not found'},status=404);return
         token=self.token()
@@ -280,10 +302,31 @@ class Handler(BaseHTTPRequestHandler):
             self.respond(result)
         except Exception as error:self.respond({'error':str(error).split('\n')[0]},status=400)
 
+    def auth_post(self, path):
+        if self.headers.get('X-KP-Account')!='1' or (self.headers.get('Origin') and urlsplit(self.headers['Origin']).netloc!=self.headers.get('Host')):
+            self.respond({'error':'Invalid origin'},status=403);return
+        try:
+            if not hasattr(self.server,'accounts'):raise ValueError('Online accounts are not enabled on this server.')
+            size=int(self.headers.get('Content-Length','0'))
+            if not 0<size<=4096 or self.headers.get('Content-Type')!='application/json':raise ValueError('Invalid request')
+            data=json.loads(self.rfile.read(size))
+            if not isinstance(data,dict):raise ValueError('Invalid request')
+            if path=='/auth/logout':
+                self.server.accounts.logout(self.account_token())
+                if hasattr(self.server,'engine'):self.server.engine.release(self.token())
+                self.respond({'user':None},extra={'Set-Cookie':[self.account_cookie(clear=True),'kp=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0']});return
+            self.server.accounts.limit(self.client_address[0])
+            token,user=(self.server.accounts.register(data) if path=='/auth/register' else self.server.accounts.login(data))
+            self.server.accounts.logout(self.account_token())
+            if hasattr(self.server,'engine'):self.server.engine.release(self.token())
+            self.respond({'user':user},extra={'Set-Cookie':[self.account_cookie(token),'kp=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0']})
+        except ValueError as error:self.respond({'error':str(error)},status=400)
+        except Exception:self.respond({'error':'The account service is unavailable.'},status=503)
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--port',type=int,default=8080)
+    parser=argparse.ArgumentParser();parser.add_argument('--port',type=int,default=8080);parser.add_argument('--host',default='127.0.0.1')
     args=parser.parse_args()
-    server=ThreadingHTTPServer(('127.0.0.1',args.port),Handler);server.engine=Engine()
+    server=ThreadingHTTPServer((args.host,args.port),Handler);server.engine=Engine();server.accounts=Accounts(os.environ.get('KP_ACCOUNT_DATABASE',str(ROOT/'protected/data/accounts.sqlite')))
     print(f'Private calculation server ready on port {args.port}',flush=True)
     try:server.serve_forever()
     finally:server.server_close();server.engine.close()

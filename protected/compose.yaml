@@ -1,0 +1,31 @@
+services:
+  calculator:
+    build:
+      context: ..
+      dockerfile: protected/Dockerfile
+    init: true
+    restart: unless-stopped
+    shm_size: 1gb
+    volumes:
+      - accounts:/data
+    environment:
+      KP_COOKIE_SECURE: "1"
+  https:
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      KP_HOST: ${KP_HOST:?Set KP_HOST to your domain name}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - certificates:/data
+      - caddy_config:/config
+    depends_on:
+      - calculator
+volumes:
+  accounts:
+  certificates:
+  caddy_config:

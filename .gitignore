@@ -24,3 +24,9 @@ TestResults.xml
 # Local Python browser-test caches
 __pycache__/
 *.py[cod]
+
+# Online account data remains on the host, never in software downloads.
+protected/data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

@@ -6,10 +6,11 @@ const mode=()=>value('r5-house-source')||'automatic',enabled=()=>mode()!=='manua
 const set=(id,text)=>{if($(id))$(id).value=String(text??'');},copy=x=>x?JSON.parse(JSON.stringify(x)):null;
 function seconds(text,maximum){const m=/^(\d{1,3}):([0-5]\d):([0-5]\d)$/.exec(text);if(!m)throw Error('Enter valid sidereal time and ayanamsha.');const n=Number(m[1])*3600+Number(m[2])*60+Number(m[3]);if(n>maximum)throw Error('Sidereal time or ayanamsha is outside its range.');return n;}
 function dms(degrees){const n=Math.round(degrees*3600);return Math.floor(n/3600)+':'+String(Math.floor(n%3600/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');}
+function tableValue(h,degrees){if(h!==1)return Number(degrees.toFixed(8)).toString();const minutes=Math.round(norm(degrees)*60)%21600;return Math.floor(minutes/60)+':'+String(minutes%60).padStart(2,'0');}
 const tr=text=>window.KPLanguage?.translate(text)||text;
 function status(data,error){const n=$('r5-house-status');if(!n)return;n.dataset.ready=String(!!data?.ready);n.textContent=error?tr('House calculation unavailable')+': '+tr(error):data?.source==='horary'?tr('Numbered KP Horary retains its exact Ascendant.'):!data?tr('Manual house-table entry.'):tr(data.source==='uploaded'?'Uploaded house tables':'Calculated Placidus fallback')+' · '+tr('Latitude')+' '+data.latitude.toFixed(5)+'° · ST '+dms(data.siderealSeconds/3600)+(data.brackets?' · '+data.brackets.latitudeLow+'–'+data.brackets.latitudeHigh+'° N · '+dms(data.brackets.timeLow/3600)+' → '+dms(data.brackets.timeHigh/3600):'');}
 function fromSidereal(moment,st,ayan,computed=false){
- if(!computed&&moment.latitude>=0&&moment.latitude<=60)return table.lookup(moment.latitude,st,ayan);
+ if(!computed&&moment.latitude>=0&&moment.latitude<=60)return table.lookup(moment.latitude,st,ayan,'printed');
  const orientation=norm(st/240-Astronomy.SiderealTime(moment.date)*15+180)-180,houses=KPTransitHouses.calculate(moment.date,moment.latitude,orientation),dateAyan=KPEphemeris.ayanamsha(moment.date),tropicalCusps=houses.cusps.map(x=>norm(x+dateAyan));
  return {...houses,ready:true,source:'computed',latitude:moment.latitude,siderealSeconds:st,ayanamsha:ayan,tropicalCusps,cusps:tropicalCusps.map(x=>norm(x-ayan))};
 }
@@ -22,7 +23,7 @@ function write(data){
  for(const [i,h] of H.entries()){
   const tropical=data.tropicalCusps[h-1],absolute=Math.round(data.cusps[h-1]*3600)%1296000,sign=Math.floor(absolute/108000),degree=absolute/3600;
   const difference=b?delta(b.small[i],b.large[i]):0,ishta=b?difference*b.timeFraction:0;
-  for(const [field,n] of [['small',b?b.small[i]:tropical],['small2',b?b.small[i]:tropical],['large',b?b.large[i]:tropical],['diff3',difference],['ishta',ishta],['smallplus',tropical],['geoayan',data.ayanamsha],['nirayan',degree],['minus',sign*30],['bhava',degree-sign*30]])set('r5_'+field+'_'+h,dms(n));
+  for(const [field,n] of [['small',b?b.small[i]:tropical],['small2',b?b.small[i]:tropical],['large',b?b.large[i]:tropical],['diff3',difference],['ishta',ishta],['smallplus',tropical],['geoayan',data.ayanamsha],['nirayan',degree],['minus',sign*30],['bhava',degree-sign*30]])set('r5_'+field+'_'+h,['small','small2','large'].includes(field)?tableValue(h,n):dms(n));
   set('r5_rashi_'+h,SIGNS[sign]);set('r5_opposite_'+h,SIGNS[(sign+6)%12]);
   set('r5_calc_diff1_'+h,value('stDiff1'));set('r5_calc_diff2_'+h,value('stDiff2'));set('r5_calc_diff3_'+h,dms(difference));set('r5_calc_ishta_'+h,(ishta*60).toFixed(6).replace(/\.?0+$/,''));
  }
@@ -38,7 +39,7 @@ function apply(){
  }catch(error){current=null;key='';clear();status(null,error.message);return null;}
 }
 function init(){
- const controls=document.createElement('div');controls.className='house-table-controls no-print';controls.innerHTML='<label>Bhavsadhan source <select id="r5-house-source"><option value="automatic">Uploaded tables · automatic</option><option value="computed">Date-specific Placidus</option><option value="manual">Manual table entry</option></select></label><small id="r5-house-status" role="status" data-no-localize></small>';$('raphael5').querySelector('.raphael5-sheet').prepend(controls);
+ const controls=document.createElement('div');controls.className='house-table-controls no-print';controls.innerHTML='<label>Bhavsadhan source <select id="r5-house-source"><option value="automatic">Uploaded tables · automatic</option><option value="computed">Date-specific Placidus</option><option value="manual">Manual table entry</option></select></label><small id="r5-house-status" role="status" data-no-localize></small>';$('raphael5').querySelector('.raphael5-sheet').prepend(controls);const units=document.createElement('small');units.className='house-table-units';units.textContent='Table units: X, XI, XII, II, III · printed degrees; Ascendant · D:M. Final cusps · D:M:S.';controls.append(units);for(const h of H)for(const field of ['small','small2','large']){const n=$('r5_'+field+'_'+h);if(n){n.dataset.houseTableUnit=h===1?'DM':'degrees';n.title=h===1?'Ascendant · degrees:minutes':'House '+h+' · decimal degrees';}}
  const previous=window.updateRaphaelTable5;window.updateRaphaelTable5=function(...args){if(enabled())return apply();const result=previous.apply(this,args);apply();return result;};
  const sync=window.syncKPWorksheetPositions;window.syncKPWorksheetPositions=function(...args){if(enabled())apply();return sync.apply(this,args);};
  const manualEdit=e=>{if(enabled()&&(/^(r5_(large|small)_(10|11|12|1|2|3))$/.test(e.target?.id||'')||['stLargeTime','stSmallTime'].includes(e.target?.id)))set('r5-house-source','manual');};

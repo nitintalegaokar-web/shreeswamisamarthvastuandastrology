@@ -1,0 +1,3 @@
+{$KP_HOST} {
+    reverse_proxy calculator:8080
+}

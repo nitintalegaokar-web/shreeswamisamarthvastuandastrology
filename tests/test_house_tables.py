@@ -20,12 +20,13 @@ def mix(a, b, fraction):
     return (a + ((b-a+180) % 360-180)*fraction) % 360
 
 
-def reference(latitude, time, ayan):
+def reference(latitude, time, ayan, columns="numeric"):
+    pool=DATA["printedValues"] if columns=="printed" else DATA["values"]
     low = min(len(DATA['times'])-2, bisect.bisect_right(DATA['times'], time)-1)
     high = low+1
     f = (time-DATA['times'][low])/(DATA['times'][high]-DATA['times'][low])
     a, b = math.floor(latitude), math.ceil(latitude)
-    values = [mix(mix(DATA['values'][a][low][i], DATA['values'][a][high][i], f), mix(DATA['values'][b][low][i], DATA['values'][b][high][i], f), latitude-a) for i in range(6)]
+    values = [mix(mix(pool[a][low][i], pool[a][high][i], f), mix(pool[b][low][i], pool[b][high][i], f), latitude-a) for i in range(6)]
     cusps = [None]*12
     for h, x in zip(HOUSES, values):
         cusps[h-1] = (x-ayan) % 360
@@ -34,6 +35,17 @@ def reference(latitude, time, ayan):
 
 
 class TableTests(unittest.TestCase):
+    def test_printed_house_degree_columns_and_ascendant_dm(self):
+        script="const fs=require('fs'),lib=require('./vendor/houses/table.js'),data=JSON.parse(fs.readFileSync('./vendor/houses/tables.json')),t=lib.create(data);console.log(JSON.stringify([t.lookup(0,0,0,'printed'),t.lookup(0,220,0,'printed'),t.lookup(0,110,24,'printed')]));"
+        result=json.loads(subprocess.check_output(['node','-e',script],cwd=ROOT))
+        self.assertEqual(DATA['metadata']['printedSourceColumns'],['10H','11H','12H','Asc DM','2H','3H'])
+        self.assertEqual([result[0]['tropicalCusps'][h-1] for h in HOUSES],[0,32,62,90,118,148])
+        self.assertEqual([result[1]['tropicalCusps'][h-1] for h in [10,11,12,2,3]],[1,33,63,119,149])
+        self.assertAlmostEqual(result[1]['tropicalCusps'][0],90+50/60,places=10)
+        self.assertAlmostEqual(result[2]['cusps'][0],90+25/60-24,places=10)
+        self.assertAlmostEqual(result[2]['cusps'][9],336.5,places=10)
+        self.assertEqual(result[2]['tableColumns'],'printed')
+
     def test_every_numeric_workbook_row_is_preserved_and_hashed(self):
         rows, duplicates = 0, 0
         for source in DATA['metadata']['sources']:
@@ -82,7 +94,7 @@ class BhavsadhanTests(unittest.TestCase):
 
     def verify(self, result):
         self.assertTrue(result['ready']); d = result['data']; self.assertEqual(d['source'], 'uploaded')
-        expected = reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'])
+        expected = reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))
         self.assertEqual(result['cusps'], [math.floor(x*3600+.5) % 1296000 for x in expected])
         self.assertEqual(result['source'], 'automatic')
 
@@ -93,6 +105,8 @@ class BhavsadhanTests(unittest.TestCase):
         d = before['data']; b = d['brackets']
         self.assertEqual(p.locator('#stSmallTime').input_value(), f"{b['timeLow']//3600}:{b['timeLow']%3600//60:02}:{b['timeLow']%60:02}")
         original_planets = p.evaluate('currentKPModel.planets.map(x=>x.longitude)')
+        # An explicit source override is an administrator worksheet operation.
+        p.locator('#quick-admin-calculations').click();p.locator('[name="admin-pin"]').fill('684219');p.locator('[name="admin-confirm"]').fill('684219');p.locator('#admin-pin-submit').click();expect(p.locator('#admin-calculation-host')).to_be_visible()
         p.evaluate('document.getElementById("r5-house-source").value="computed";calculateAll()'); self.assertEqual(self.sample()['data']['source'], 'computed'); self.assertEqual(p.evaluate('currentKPModel.planets.map(x=>x.longitude)'), original_planets)
         p.evaluate('document.getElementById("r5-house-source").value="automatic";document.getElementById("birthTime").value="04:03:02";document.getElementById("birthTime").dispatchEvent(new Event("change",{bubbles:true}))')
         p.wait_for_timeout(500); changed = self.sample(); self.verify(changed); self.assertNotEqual(changed['cusps'], before['cusps'])
@@ -142,7 +156,7 @@ class HousePrivateTests(unittest.TestCase):
     def test_private_worker_embeds_tables_and_hides_house_controls(self):
         result = self.private('({data:KPBhavSadhan.getData(),cusps:currentKPModel.houses.map(h=>h.longitude),ready:currentKPModel.ready})')
         self.assertTrue(result['ready']); d = result['data']; self.assertEqual(d['source'], 'uploaded')
-        self.assertEqual(result['cusps'], [math.floor(x*3600+.5) % 1296000 for x in reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'])])
+        self.assertEqual(result['cusps'], [math.floor(x*3600+.5) % 1296000 for x in reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))])
         self.assertEqual(self.page.evaluate('typeof KPBhavSadhan'), 'undefined')
         self.assertEqual(self.page.locator('#r5-house-source,#kp-uploaded-house-data').count(), 0)
         expect(self.page.locator('#quick-admin-calculations')).to_be_hidden()
@@ -157,4 +171,4 @@ class HousePrivateTests(unittest.TestCase):
         imported = self.private('({data:KPBhavSadhan.getData(),cusps:currentKPModel.houses.map(h=>h.longitude),ready:currentKPModel.ready,source:document.getElementById("r5-house-source").value})')
         self.assertTrue(imported['ready']); self.assertEqual(imported['source'], 'automatic')
         d = imported['data']; self.assertEqual(d['source'], 'uploaded')
-        self.assertEqual(imported['cusps'], [math.floor(x*3600+.5) % 1296000 for x in reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'])])
+        self.assertEqual(imported['cusps'], [math.floor(x*3600+.5) % 1296000 for x in reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))])

@@ -1,0 +1,9 @@
+.git
+__pycache__
+**/__pycache__
+protected/data
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+tests
+*.zip

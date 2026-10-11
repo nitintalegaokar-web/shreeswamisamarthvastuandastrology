@@ -17,7 +17,7 @@ body>.report-page{display:block!important;margin:0!important;zoom:1!important;bo
 const tr=s=>window.KPLanguage?.translate(s)||s;
 function fail(message){const status=$('report-page-selection-status');status.textContent=message;status.dataset.printError='true';status.tabIndex=-1;status.focus();window.showToast?.(message,'error');}
 function styles(){return [...document.querySelectorAll('style')].map(n=>'<style>'+n.textContent.replace(/#kundali\b/g,'[data-report-id="kundali"]')+'</style>').join('');}
-function normalize(doc){for(const page of doc.querySelectorAll('[data-report-section="event-promise"],[data-report-section="gemstones"],[data-report-section="nadi-astrology"],[data-report-section="kp-fourfold"],[data-report-section="kp-sixfold"],[data-report-section="kp-fourstep-section"]'))window.KPA4Preview?.normalize(doc,page);window.KPLanguage?.localize(doc);}
+function normalize(doc){window.KPA4Reports?.prepare(doc);for(const page of doc.querySelectorAll('[data-report-section="event-promise"],[data-report-section="gemstones"],[data-report-section="nadi-astrology"],[data-report-section="kp-fourfold"],[data-report-section="kp-sixfold"],[data-report-section="kp-fourstep-section"]'))window.KPA4Preview?.normalize(doc,page);window.KPLanguage?.localize(doc);}
 async function prepare(options={}){
  // Capture report groups at the click, including pages added by calculation.
  const sections=new Set(KPReportPages.selected().map(p=>p.dataset.reportSection));
@@ -26,7 +26,7 @@ async function prepare(options={}){
  if(needs)await KPVedicUI.prepareReports();
  window.renderReport?.();window.KPLanguage?.localize($('printReport'));
  if(options.vedic){const page=document.createElement('section');page.className='report-page v-report-page';page.dataset.reportSection='vedic-kundali';page.innerHTML='<h2 class="report-page-title">Vedic Kundali</h2>'+KPVedicUI.snapshot();window.KPLanguage?.localize(page);return [page];}
- return [...$('printReport').children].filter(p=>p.classList.contains('report-page')&&sections.has(p.dataset.reportSection));
+ return KPReportPages.selected().filter(p=>sections.has(p.dataset.reportSection));
 }
 function writePreview(preview,pages){
  preview.document.open();preview.document.write('<!doctype html><html><head><meta charset="UTF-8"><title>Selected report</title>'+styles()+'<style>'+FLOW_CSS+'</style></head><body><div class="report-selection-preview-tools no-print"><button id="preview-save-pdf" onclick="window.print()">Print / Save PDF</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.min(2,(parseFloat(p.style.zoom)||1)+.1))">Zoom +</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.max(.5,(parseFloat(p.style.zoom)||1)-.1))">Zoom −</button><button onclick="window.close()">Close preview</button></div>'+pages.map(p=>p.outerHTML).join('')+'</body></html>');preview.document.close();normalize(preview.document);
