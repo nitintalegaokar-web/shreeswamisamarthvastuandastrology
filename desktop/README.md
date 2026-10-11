@@ -12,6 +12,16 @@ connection are not required on the user's computer. Keep the executable in a
 permanent folder and double-click it. The first launch extracts its bundled
 runtime to a temporary folder; allow a few seconds for this to finish.
 
+Alternatively, use **KP-Master-Setup-1.1.0-x64.exe** for a normal installation.
+Its wizard lets you choose the installation folder and creates desktop and Start
+menu shortcuts. It includes an uninstaller registered in Windows Installed Apps.
+Installation defaults to the current user and does not require administrator
+access. All runtime files are included; no separate Python, Node.js or browser
+installation is needed. Uninstalling preserves saved charts, preferences and
+activation data. A setup installer for the previously released 1.0.0 calculator
+repackages that exact unlocked application; it does not add activation or data
+encryption. Use the owner-bound 1.1.0 edition for client licensing.
+
 Save kundalis as `.lkp` files using the application's Save controls. Open existing
 `.lkp` charts with Load/Open; degrees are recalculated using the packaged automatic
 sources. Application preferences, language, notes, and administrator PIN persist
@@ -52,6 +62,14 @@ npm --cache /tmp/kp-npm-cache run build:windows
 ```
 
 `npm run build:owner` builds the independent Windows Owner Activation tool.
+Use `npm run build:setup` for the client installation wizard, or
+`npm run build:owner:setup` for the Owner Activation installation wizard. The
+client setup still requires your exported public key, just like the portable
+client. Both formats use the same application-data folder and signed licenses.
+Installer builds use electron-builder’s standard NSIS wizard and its bundled
+uninstaller reader; Linux builds do not need Wine. Inspect the final installer with
+`node verify-setup.cjs <Setup.exe> <win-unpacked folder>`; this checks executable
+metadata, archive CRCs, and the embedded application against the verified package.
 No private key is generated during the build. `npm test` checks licensing, link and download policies. With Playwright installed and an
 X display available, `node test/runtime.cjs` exercises the actual Electron app,
 offline calculations, save/load, preferences across restart, and Marathi A4

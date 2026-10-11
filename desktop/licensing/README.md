@@ -15,6 +15,8 @@ information produces an explicit error rather than a random or changing ID.
 ## Owner setup
 
 1. Run `KP-Master-Owner-Activation-1.0.0-x64.exe` on your own Windows PC.
+   You can instead install `KP-Master-Owner-Activation-Setup-1.0.0-x64.exe`
+   and open **KP Master Activation** from its desktop or Start menu shortcut.
 2. Enter a password of at least 12 characters twice, click **Create owner key**,
    and save the encrypted private key. Back it up securely. The password is never
    saved; a forgotten password or lost private key cannot be recovered by the tool.
@@ -54,6 +56,8 @@ generated during a build. For the client, set `KP_LICENSE_PUBLIC_KEY_FILE` to
 the owner's exported public `.pem` file and run `npm run build:windows`.
 Preparation fails if that public key is absent or is not Ed25519. The private
 key is never an input to the client build.
+For installation wizards with shortcuts, use `npm run build:owner:setup` and
+`npm run build:setup` respectively. Installation does not issue or bypass a license.
 
 `npm test` covers signatures, wrong computers, owner-key mismatch, altered or
 malformed licenses, expiry, identifier stability and encrypted key reopening.

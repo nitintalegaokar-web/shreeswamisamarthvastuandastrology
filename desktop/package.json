@@ -12,7 +12,9 @@
     "test:runtime": "node test/runtime.cjs",
     "test:licensing": "node test/licensing-runtime.cjs",
     "build:windows": "npm run prepare-app && electron-builder --win portable --x64",
-    "build:owner": "node owner/prepare.cjs && electron-builder --projectDir owner --win portable --x64"
+    "build:owner": "node owner/prepare.cjs && electron-builder --projectDir owner --win portable --x64",
+    "build:setup": "node build-setup.cjs",
+    "build:owner:setup": "node build-setup.cjs --owner"
   },
   "devDependencies": {
     "electron": "44.7.0",
@@ -22,16 +24,56 @@
   "build": {
     "appId": "in.kpmaster.astrology",
     "productName": "KP Master",
-    "directories": {"output": "dist"},
-    "files": ["main.cjs", "policy.cjs", "preload.cjs", "licensing/core.cjs", "licensing/system-id.cjs", "licensing/gate.cjs", "licensing/activation.html", "licensing/activation.js", "app/**/*", "package.json"],
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "policy.cjs",
+      "preload.cjs",
+      "licensing/core.cjs",
+      "licensing/system-id.cjs",
+      "licensing/gate.cjs",
+      "licensing/activation.html",
+      "licensing/activation.js",
+      "app/**/*",
+      "package.json"
+    ],
     "asar": true,
     "win": {
-      "electronLanguages": ["en-US", "mr"],
-      "target": [{"target": "portable", "arch": ["x64"]}],
+      "electronLanguages": [
+        "en-US",
+        "mr"
+      ],
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
       "icon": "icon.ico",
       "signExecutable": false,
       "artifactName": "KP-Master-Offline-Windows-${version}-${arch}.${ext}"
     },
-    "portable": {"requestExecutionLevel": "user"}
+    "portable": {
+      "requestExecutionLevel": "user"
+    },
+    "nsis": {
+      "artifactName": "KP-Master-Setup-${version}-${arch}.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false,
+      "packElevateHelper": false,
+      "include": "installer.nsh",
+      "differentialPackage": false
+    },
+    "publish": []
   }
 }
