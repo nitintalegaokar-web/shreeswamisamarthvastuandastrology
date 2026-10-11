@@ -2,6 +2,16 @@
 
 A self-contained Krishnamurti Paddhati calculator with Marathi worksheets, South and North Indian kundalis, Traditional and KP matchmaking, and client PDF reports.
 
+## Offline Windows executable
+
+The portable **KP-Master-Offline-Windows-1.0.0-x64.exe** includes the desktop
+runtime and all standalone calculation data. It runs on 64-bit Windows 10/11
+without Python, Node.js, a separately installed browser, or internet access.
+Native dialogs save and open `.lkp` chart files; preferences and language persist
+between launches. Print/PDF previews retain the A4 layouts. Optional hosted
+account sign-in opens in the default browser. Build and usage details are in
+[desktop/README.md](desktop/README.md).
+
 ## Run locally
 
 Extract the downloaded ZIP and open `index.html` in Chromium, Chrome or Edge. The standalone HTML includes its calculations, styling, data and offline India place search. Alternatively, from this directory:

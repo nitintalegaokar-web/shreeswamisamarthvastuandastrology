@@ -30,3 +30,8 @@ protected/data/
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal
+
+# Generated desktop runtime and Windows builds.
+desktop/node_modules/
+desktop/app/
+desktop/dist/

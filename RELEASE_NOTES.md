@@ -1,4 +1,14 @@
-# Updated software · 10 October 2026
+# Offline Windows update · 11 October 2026
+
+The Windows x64 portable executable packages the current standalone software
+with Electron. Calculations and data run offline. Native Save/Open dialogs
+handle `.lkp` files; language and preferences persist per Windows user. Report
+popups keep the existing A4 print/PDF and zoom controls. Desktop windows isolate
+the renderer from Node.js, block network requests, and open optional account
+links in the external browser. The build is unsigned; no signing certificate
+was provided. Rebuilding is documented in `desktop/README.md`.
+
+## Previous software update · 10 October 2026
 
 Open `index.html` after extracting the complete ZIP. Keep the `vendor` folder beside it. The private server is optional; its setup is described in README.md.
 
