@@ -29,12 +29,16 @@ function issue(privateKey,request,now=new Date()){
   const data=Buffer.from(JSON.stringify(claims),'utf8');
   return {payload:data.toString('base64url'),signature:crypto.sign(null,data,privateKey).toString('base64url')};
 }
-function verify(license,key,id,now=new Date()){
+function signedClaims(license,key){
   if(typeof license==='string'){if(Buffer.byteLength(license)>16384)throw Error('The license file is too large.');try{license=JSON.parse(license);}catch{throw Error('Choose a valid KP license file.');}}
   if(!license||typeof license.payload!=='string'||typeof license.signature!=='string'||license.payload.length>12000||!/^[A-Za-z0-9_-]+$/.test(license.payload)||!/^[A-Za-z0-9_-]+$/.test(license.signature))throw Error('Choose a valid KP license file.');
   const data=Buffer.from(license.payload,'base64url'),signature=Buffer.from(license.signature,'base64url');
   if(signature.length!==64||!crypto.verify(null,data,publicKey(key),signature))throw Error('This license was not issued by your software owner, or has been changed.');
   let claims;try{claims=JSON.parse(data.toString('utf8'));}catch{throw Error('The license data is invalid.');}
+  return claims;
+}
+function verify(license,key,id,now=new Date()){
+  const claims=signedClaims(license,key);
   if(claims.product!==PRODUCT||claims.version!==1||typeof claims.licenseId!=='string'||!claims.licenseId||typeof claims.clientName!=='string'||!claims.clientName)throw Error('This license belongs to another product or version.');
   if(normalizedId(claims.systemId)!==normalizedId(id))throw Error('This license belongs to a different computer. Send this computer’s System ID to the owner.');
   const issued=Date.parse(claims.issuedAt);
@@ -42,4 +46,24 @@ function verify(license,key,id,now=new Date()){
   if(claims.expiresAt!==null){const expires=Date.parse(claims.expiresAt);if(!Number.isFinite(expires)||expires<issued)throw Error('The license expiry is invalid.');if(now.getTime()>expires)throw Error('This license has expired. Contact the owner for renewal.');}
   return Object.freeze(claims);
 }
-module.exports={PRODUCT,SYSTEM_ID,systemId,normalizedId,publicKey,keyId,issue,verify};
+const LICENSE_ID=/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i;
+function issueControl(privateKey,request,now=new Date()){
+  if(privateKey.asymmetricKeyType!=='ed25519')throw Error('An Ed25519 owner key is required.');
+  if(!LICENSE_ID.test(request.licenseId)||!['activate','deactivate'].includes(request.action)||!Number.isSafeInteger(request.revision)||request.revision<1)throw Error('Choose a valid issued license and status action.');
+  const claims={product:PRODUCT,version:1,kind:'license-status',commandId:crypto.randomUUID(),licenseId:request.licenseId,systemId:normalizedId(request.systemId),action:request.action,revision:request.revision,issuedAt:now.toISOString()};
+  const data=Buffer.from(JSON.stringify(claims),'utf8');
+  return {payload:data.toString('base64url'),signature:crypto.sign(null,data,privateKey).toString('base64url')};
+}
+function verifyControl(control,key,id,now=new Date()){
+  const c=signedClaims(control,key);
+  if(c.product!==PRODUCT||c.version!==1||c.kind!=='license-status'||!LICENSE_ID.test(c.licenseId)||!LICENSE_ID.test(c.commandId)||!['activate','deactivate'].includes(c.action)||!Number.isSafeInteger(c.revision)||c.revision<1)throw Error('Choose a valid owner license-status file.');
+  if(normalizedId(c.systemId)!==normalizedId(id))throw Error('This status file belongs to a different computer.');
+  const issued=Date.parse(c.issuedAt);if(!Number.isFinite(issued)||issued>now.getTime()+5*60000)throw Error('Check the computer date and time before applying this status file.');
+  return Object.freeze(c);
+}
+function applyControl(controls,control,key,id,now=new Date()){
+  const c=verifyControl(control,key,id,now),old=controls[c.licenseId];
+  if(old){const previous=verifyControl(old,key,id,now);if(c.revision<previous.revision||c.revision===previous.revision&&c.commandId!==previous.commandId)throw Error('This status file is older than the status already applied. Import the latest owner file.');}
+  return {...controls,[c.licenseId]:control};
+}
+module.exports={PRODUCT,SYSTEM_ID,systemId,normalizedId,publicKey,keyId,issue,verify,issueControl,verifyControl,applyControl};

@@ -7,5 +7,6 @@ contextBridge.exposeInMainWorld('KPOwner',Object.freeze({
   lock:()=>ipcRenderer.invoke('kp-owner:lock'),
   exportPublic:()=>ipcRenderer.invoke('kp-owner:export-public'),
   history:()=>ipcRenderer.invoke('kp-owner:history'),
-  issue:request=>ipcRenderer.invoke('kp-owner:issue',request)
+  issue:request=>ipcRenderer.invoke('kp-owner:issue',request),
+  setStatus:request=>ipcRenderer.invoke('kp-owner:set-status',request)
 }));

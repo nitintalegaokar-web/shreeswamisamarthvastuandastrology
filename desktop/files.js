@@ -18,4 +18,16 @@
       return selected ? new File([selected.text], selected.name, {type:'application/json'}) : null;
     }
   });
+  if (window.KPLicensing?.importControl) {
+    const menu=document.querySelector('.backup-options'),button=document.createElement('button');
+    button.id='kp-import-license-status';button.type='button';
+    const label=()=>{button.textContent=window.KPPreferences?.get().language==='marathi'?'परवाना स्थिती आयात करा · Import license status':'Import license status';};
+    label();window.addEventListener('kp-preferences-changed',label);menu?.append(button);
+    button.addEventListener('click',async()=>{
+      button.disabled=true;
+      try{const result=await KPLicensing.importControl();if(result)window.showToast?.(window.KPPreferences?.get().language==='marathi'?'परवान्याची स्थिती लागू झाली.':'License status applied.','success');}
+      catch(error){window.showToast?.(error.message.replace(/^Error invoking remote method '[^']+': (Error: )?/,''),'error');}
+      finally{button.disabled=false;document.querySelector('.backup-menu').open=false;}
+    });
+  }
 })();

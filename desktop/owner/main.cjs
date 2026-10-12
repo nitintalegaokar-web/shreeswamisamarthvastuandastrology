@@ -4,7 +4,7 @@ const fs=require('node:fs/promises');
 const path=require('node:path');
 const crypto=require('node:crypto');
 const {pathToFileURL}=require('node:url');
-const {issue,keyId}=require('./license-core.cjs');
+const {issue,keyId,issueControl}=require('./license-core.cjs');
 const ownerPath=path.join(__dirname,'index.html'),ownerURL=pathToFileURL(ownerPath).href;
 let win,privateKey=null,publicPem='',privateFile='';
 const cleanName=name=>String(name).replace(/[<>:"/\\|?*\x00-\x1f]/g,'_').replace(/[. ]+$/,'').slice(0,100);
@@ -14,6 +14,7 @@ function password(value){if(typeof value!=='string'||value.length<12||value.leng
 function setKey(key,file){if(key.asymmetricKeyType!=='ed25519')throw Error('Choose an Ed25519 owner key.');privateKey=key;publicPem=crypto.createPublicKey(key).export({format:'pem',type:'spki'});privateFile=file;}
 function status(){return {unlocked:Boolean(privateKey),keyId:privateKey?keyId(publicPem):'',filename:privateFile?path.basename(privateFile):''};}
 async function history(){try{return JSON.parse(await fs.readFile(path.join(app.getPath('userData'),'issued-licenses.json'),'utf8'));}catch{return [];}}
+async function saveHistory(list){await fs.mkdir(app.getPath('userData'),{recursive:true});await fs.writeFile(path.join(app.getPath('userData'),'issued-licenses.json'),JSON.stringify(list.slice(0,5000),null,2),{encoding:'utf8',mode:0o600});}
 if(!app.requestSingleInstanceLock())app.quit();else{
 app.on('second-instance',()=>{if(win){if(win.isMinimized())win.restore();win.focus();}});
 app.whenReady().then(()=>{
@@ -49,14 +50,25 @@ app.whenReady().then(()=>{
   ipcMain.handle('kp-owner:history',event=>{trusted(event);return history();});
   ipcMain.handle('kp-owner:issue',async(event,request)=>{
     trusted(event);requireKey();if(!request||typeof request!=='object')throw Error('Enter the client details.');
-    const license=issue(privateKey,request);const claims=JSON.parse(Buffer.from(license.payload,'base64url').toString('utf8'));
+    const issuerKeyId=keyId(publicPem),license=issue(privateKey,request);const claims=JSON.parse(Buffer.from(license.payload,'base64url').toString('utf8'));
     const selected=await dialog.showSaveDialog(win,{title:'Save client activation license',defaultPath:path.join(app.getPath('documents'),cleanName(claims.clientName)+'-'+claims.systemId.slice(-9)+'.kplicense'),filters:[{name:'KP Activation License',extensions:['kplicense']}]});
     if(selected.canceled||!selected.filePath)return null;
     await fs.writeFile(selected.filePath,JSON.stringify(license,null,2),'utf8');
-    const list=await history();list.unshift({...claims,ownerKeyId:keyId(publicPem)});
-    await fs.mkdir(app.getPath('userData'),{recursive:true});
-    await fs.writeFile(path.join(app.getPath('userData'),'issued-licenses.json'),JSON.stringify(list.slice(0,5000),null,2),{encoding:'utf8',mode:0o600});
+    const list=await history();list.unshift({...claims,ownerKeyId:issuerKeyId,controlRevision:0,status:'activate'});
+    await saveHistory(list);
     return {filename:path.basename(selected.filePath),claims};
+  });
+  ipcMain.handle('kp-owner:set-status',async(event,request)=>{
+    trusted(event);requireKey();if(!request||!['activate','deactivate'].includes(request.action))throw Error('Choose Activate or Deactivate.');
+    const list=await history(),row=list.find(r=>r.licenseId===request.licenseId);if(!row)throw Error('The issued license was not found.');
+    if(row.ownerKeyId!==keyId(publicPem))throw Error('Open the owner key that issued this license before changing its status.');
+    if(request.action==='activate'&&row.expiresAt&&Date.parse(row.expiresAt)<Date.now())throw Error('This license has expired. Issue a new license to renew it.');
+    const revision=(Number.isSafeInteger(row.controlRevision)?row.controlRevision:0)+1;
+    const control=issueControl(privateKey,{licenseId:row.licenseId,systemId:row.systemId,action:request.action,revision});
+    const selected=await dialog.showSaveDialog(win,{title:'Save signed '+request.action+' status file',defaultPath:path.join(app.getPath('documents'),cleanName(row.clientName)+'-'+request.action+'-'+revision+'.kpcontrol'),filters:[{name:'KP License Status',extensions:['kpcontrol']}]});
+    if(selected.canceled||!selected.filePath)return null;
+    await fs.writeFile(selected.filePath,JSON.stringify(control,null,2),'utf8');row.controlRevision=revision;row.status=request.action;row.statusIssuedAt=new Date().toISOString();await saveHistory(list);
+    return {filename:path.basename(selected.filePath),action:request.action,licenseId:row.licenseId};
   });
   win.once('ready-to-show',()=>win.show());win.loadFile(ownerPath);
 }).catch(error=>{dialog.showErrorBox('Owner activation tool',error.message);app.quit();});

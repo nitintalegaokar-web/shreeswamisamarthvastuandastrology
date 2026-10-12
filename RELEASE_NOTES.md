@@ -1,3 +1,33 @@
+## Issued-license controls · 12 October 2026
+
+Owner Activation tool 1.1.0 adds green Activate and red Deactivate buttons to
+Recently issued licenses, with English/Marathi labels and an issued-status badge.
+The issuing owner key must be unlocked. Each action exports a signed `.kpcontrol`
+file; the offline client must import it before the change takes effect.
+
+Customer 1.1.4 imports these files from the activation screen or the workspace
+⋮ menu. Deactivation survives restart and blocks old-license reimport; a newer
+activation command restores a still-valid license. Altered signatures, wrong
+computers, wrong owner keys and stale/conflicting revisions are rejected.
+Activate does not extend license expiry. The original owner public key
+FFD543E7AFCE69618D61325E is retained. The full owner calculator remains 1.0.3.
+
+## Windows activation reader fix · 12 October 2026
+
+Customer 1.1.4 fixes the unavailable System ID shown in the Windows activation
+screen. The earlier PowerShell registry path was over-escaped, and the combined
+registry/WMI command failed whenever WMI was unavailable. MachineGuid is now
+read directly from the 64-bit registry, with an explicit Registry64 fallback;
+CIM/legacy WMI supply an optional hardware UUID. A checked local identity
+record keeps the selected ID stable through WMI failure and recovery, while
+requiring the actual Windows installation ID on every launch. Healthy legacy
+UUID-based IDs remain compatible; an older uncached ID can require reissuance
+if its UUID is unavailable on upgrade. There is no random-ID or licensing bypass.
+
+Retry ID is available in English and Marathi. Signed owner licenses are still
+required, and the existing owner public key, calculator and Raphael rules are
+unchanged. The unlocked owner calculator remains 1.0.3.
+
 ## Raphael latitude-minute rule · 12 October 2026
 
 Automatic Raphael calculations now select one latitude sheet: minutes up to

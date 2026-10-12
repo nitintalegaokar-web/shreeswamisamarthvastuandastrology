@@ -1,21 +1,20 @@
 # System-ID client activation
 
-KP Master 1.1.0 requires an Ed25519-signed license for the current computer.
+KP MASTER Customer 1.1.4 requires an Ed25519-signed license for the current computer.
 Until verification succeeds, only the activation screen loads; the calculation
 workspace, chart-file APIs and preview windows are blocked. Verification runs
 at startup and every minute while the program stays open.
 
-On Windows, the System ID hashes the Windows MachineGuid and SMBIOS system UUID.
-Raw identifiers are never sent to a server or included in the license. Ordinary
-restarts, username changes and network-card changes do not change this ID.
-Reinstalling Windows, replacing the motherboard, or changing a virtual machine's
-UUID can change it; issue a new license when that happens. Missing WMI/registry
-information produces an explicit error rather than a random or changing ID.
+On Windows, the reader queries the real 64-bit Windows MachineGuid with `reg.exe`; an explicit Registry64 PowerShell API is a second read path. The SMBIOS UUID is optional: CIM is attempted with legacy WMI as a fallback, but unavailable WMI or blocked PowerShell no longer prevents an ID when the registry is readable. Healthy UUID-based IDs use the same hash as earlier releases. If no UUID is available on first successful setup, the hash uses the Windows installation ID only. No random value or environment-provided identity is used.
+
+A local `system-identity.json` in the current user's application-data folder preserves the chosen scheme. GUID-only IDs stay GUID-only when WMI returns, and cached UUID-based IDs survive temporary WMI failures. Every launch first checks the live Windows MachineGuid; copying the cache to a different Windows installation does not copy its ID. A changed available hardware UUID or changed Windows MachineGuid produces a new ID. If an older UUID-based installation has no identity record yet and WMI cannot read that UUID on upgrade, its newly generated ID may require a newly issued license. Do not accept a signed license for another computer just to work around an unavailable identifier.
+
+Raw identifiers are not sent to a server or included in licenses. The local identity record stays on the computer. A missing/invalid real MachineGuid gives a registry-access error, and an unwritable identity record gives a folder-access error. Use **Retry ID** after correcting either problem. The owner's signing key and the license format are unchanged.
 
 ## Owner setup
 
-1. Run `KP-Master-Owner-Activation-1.0.0-x64.exe` on your own Windows PC.
-   You can instead install `KP-Master-Owner-Activation-Setup-1.0.0-x64.exe`
+1. Run `KP-Master-Owner-Activation-1.1.0-x64.exe` on your own Windows PC.
+   You can instead install `KP-Master-Owner-Activation-Setup-1.1.0-x64.exe`
    and open **KP Master Activation** from its desktop or Start menu shortcut.
 2. Enter a password of at least 12 characters twice, click **Create owner key**,
    and save the encrypted private key. Back it up securely. The password is never
@@ -49,6 +48,30 @@ This is a per-computer activation check, not tamper-proof DRM. Previous unlocked
 executables and the previously distributed standalone HTML stay unlocked; this
 new check cannot retrospectively lock copies already shared.
 
+## Activate / Deactivate an issued license
+
+Owner Activation 1.1.0 adds green **Activate** and red **Deactivate** buttons to
+Recently issued licenses. Open the same owner key that issued that row. These
+buttons export a signed `.kpcontrol` status file; the table shows the **status
+issued**, not a remotely confirmed client state. Cancellation leaves history
+unchanged. An expired license must be renewed with a new `.kplicense`; Activate
+does not extend its expiry.
+
+Send the exported status file to the client. In an active customer workspace,
+open the top-right **⋮** menu and choose **Import license status**. On the locked
+activation screen, use **Import status file**. A Deactivate command closes the
+workspace and persists across restart. Reimporting the old activation license
+cannot undo the saved deactivation. A newer Activate status file restores access
+if the signed license is still valid. Older/conflicting revisions and files for
+another owner or computer are rejected. Clients need Customer 1.1.4 or later to
+apply these files. An offline client must import the command: clicking the owner
+button does not remotely contact or instantly disable that computer.
+
+For the existing customer build, continue using owner key ID
+**FFD543E7AFCE69618D61325E** on your own PC. Installing the updated tool preserves
+its existing history and application identity. The full unlocked Owner calculator
+1.0.3 is a separate application and does not require these status files.
+
 ## Build and test
 
 From `desktop/`, use `npm run build:owner` for the owner tool. No signing key is
@@ -62,6 +85,6 @@ For installation wizards with shortcuts, use `npm run build:owner:setup` and
 `npm test` covers signatures, wrong computers, owner-key mismatch, altered or
 malformed licenses, expiry, identifier stability and encrypted key reopening.
 `node test/licensing-runtime.cjs` exercises the owner UI and real client gate
-with ephemeral test keys. Do not distribute a client configured with those keys.
+with ephemeral keys in isolated temporary copies, including Retry ID recovery, signed status changes, restart persistence and stale-command rejection. The production public-key package is never replaced with those test keys.
 Windows-specific WMI reads and the executable launch need a native Windows check;
 the Linux desktop test uses its actual `/etc/machine-id` without a licensing bypass.
