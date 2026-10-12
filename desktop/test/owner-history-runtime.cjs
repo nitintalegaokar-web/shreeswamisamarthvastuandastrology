@@ -4,8 +4,9 @@ const {execFileSync}=require('node:child_process'),core=require('../licensing/co
 (async()=>{
  const root=path.resolve(__dirname,'..');execFileSync(process.execPath,[path.join(root,'owner','prepare.cjs')]);
  const temp=await fs.mkdtemp(path.join(os.tmpdir(),'kp-owner-history-')),project=path.join(temp,'owner'),profile=path.join(temp,'profile');await fs.mkdir(project);await fs.mkdir(profile);
- for(const file of ['main.cjs','preload.cjs','index.html','ui.js','license-core.cjs','history.cjs','help.json','package.json'])await fs.copyFile(path.join(root,'owner',file),path.join(project,file));
+ for(const file of ['main.cjs','preload.cjs','index.html','ui.js','license-core.cjs','history.cjs','help.json','package.json','client-request.cjs','client-keys.json'])await fs.copyFile(path.join(root,'owner',file),path.join(project,file));
  const keys=crypto.generateKeyPairSync('ed25519'),systemId=core.systemId({machineGuid:'00112233445566778899aabbccddeeff'}),pass='Ephemeral-history-test-123',privateFile=path.join(temp,'test-owner.private-key.pem');await fs.writeFile(privateFile,keys.privateKey.export({format:'pem',type:'pkcs8',cipher:'aes-256-cbc',passphrase:pass}));
+ await fs.writeFile(path.join(project,'client-keys.json'),JSON.stringify({version:1,ownerKeyIds:[core.keyId(keys.publicKey)]}));
  const licenses=Array.from({length:14},(_,index)=>core.issue(keys.privateKey,{clientName:index<2?'Duplicate client':'Client '+index,systemId}));
  const records=licenses.map((license,index)=>({...core.verify(license,keys.publicKey,systemId),ownerKeyId:core.keyId(keys.publicKey),status:index===0?'deactivate':'activate',controlRevision:index===0?7:0,unknownSecret:'do-not-export-this-field'}));
  delete records[10].status;delete records[10].controlRevision;

@@ -63,9 +63,9 @@ async function createGate(app,win,indexPath){
   ipcMain.handle('kp-license:copy-id',event=>{check(event);if(!id)throw Error(message);clipboard.writeText(id);return true;});
   ipcMain.handle('kp-license:export-id',async event=>{
     check(event);if(!id)throw Error(message);
-    const selected=await dialog.showSaveDialog(win,{title:'Save client System ID',defaultPath:path.join(app.getPath('documents'),'KP-System-ID.txt'),filters:[{name:'System ID',extensions:['txt']}]});
+    const selected=await dialog.showSaveDialog(win,{title:'Save customer activation request',defaultPath:path.join(app.getPath('documents'),'KP-System-ID.txt'),filters:[{name:'System ID',extensions:['txt']}]});
     if(selected.canceled||!selected.filePath)return false;
-    await fs.writeFile(selected.filePath,'KP Master · Client System ID\n'+id+'\n','utf8');return true;
+    await fs.writeFile(selected.filePath,'KP MASTER · Activation request · '+app.getVersion()+'\nSystem ID: '+id+'\nAccepted owner Key IDs: '+keys.map(keyId).join(', ')+'\n','utf8');return true;
   });
   ipcMain.handle('kp-license:activate',async event=>{
     check(event);if(configurationError)throw Error(configurationError);

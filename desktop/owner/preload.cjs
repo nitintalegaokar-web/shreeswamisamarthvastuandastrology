@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('KPOwner',Object.freeze({
   restoreHistory:licenseId=>ipcRenderer.invoke('kp-owner:restore-history',licenseId),
   help:language=>ipcRenderer.invoke('kp-owner:help',language),
   exportText:request=>ipcRenderer.invoke('kp-owner:export-text',request),
+  importRequest:()=>ipcRenderer.invoke('kp-owner:import-request'),
   issue:request=>ipcRenderer.invoke('kp-owner:issue',request),
   setStatus:request=>ipcRenderer.invoke('kp-owner:set-status',request)
 }));

@@ -1,6 +1,22 @@
 # System-ID client activation
 
-KP MASTER Customer 1.1.5 requires an Ed25519-signed license for the current computer.
+All three Windows installers use **version 1.2.0**:
+
+- `KP-Master-Owner-Setup-1.2.0-x64.exe`: unlocked full calculator for the owner.
+- `KP-Master-Setup-1.2.0-x64.exe`: System ID locked calculator for customers.
+- `KP-Master-Owner-Activation-Setup-1.2.0-x64.exe`: owner licence tool.
+
+For easy activation, the customer clicks **Save System ID file** and sends the
+text file. In the Activation tool, enter your existing key password, select
+**Open owner key**, and check the green key-match confirmation. Select **Open
+customer System ID file**, enter the customer's name, and create the licence.
+Send the resulting `.kplicense` to the customer. **Activate / Open software**
+imports that licence and opens the customer calculator automatically.
+Keep your existing owner key; a new key needs a matching approved customer build.
+Creating a licence in the owner tool does not activate a remote offline PC.
+
+
+KP MASTER Customer 1.2.0 requires an Ed25519-signed license for the current computer.
 Until verification succeeds, only the activation screen loads; the calculation
 workspace, chart-file APIs and preview windows are blocked. Verification runs
 at startup and every minute while the program stays open.
@@ -13,8 +29,8 @@ Raw identifiers are not sent to a server or included in licenses. The local iden
 
 ## Owner setup
 
-1. Run `KP-Master-Owner-Activation-1.1.1-x64.exe` on your own Windows PC.
-   You can instead install `KP-Master-Owner-Activation-Setup-1.1.1-x64.exe`
+1. Run `KP-Master-Owner-Activation-1.2.0-x64.exe` on your own Windows PC.
+   You can instead install `KP-Master-Owner-Activation-Setup-1.2.0-x64.exe`
    and open **KP Master Activation** from its desktop or Start menu shortcut.
 2. Enter a password of at least 12 characters twice, click **Create owner key**,
    and save the encrypted private key. Back it up securely. The password is never
@@ -31,7 +47,7 @@ unlocked key from the tool's state. Do not distribute your private key or passwo
 
 ## Activate a paying client
 
-1. The client opens the locked software and uses **Copy ID** or **Save ID** to
+1. The client opens the locked software and uses **Copy ID** or **Save System ID file** to
    send you their System ID.
 2. Open your owner key with its password. Enter the client name and System ID.
    Choose **Permanent license** or an expiry date in UTC.
@@ -67,12 +83,12 @@ another owner or computer are rejected. Clients need Customer 1.1.4 or later to
 apply these files. An offline client must import the command: clicking the owner
 button does not remotely contact or instantly disable that computer.
 
-Customer 1.1.5 accepts the verified current owner key ID
+Customer 1.2.0 accepts the verified current owner key ID
 **D5909EAD14FB2D4717E98A8C**, while retaining original key ID
 **FFD543E7AFCE69618D61325E** for existing licenses. Continue using the same
 issuing private key on your own PC. Installing the updated tool preserves
 its existing history and application identity. The full unlocked Owner calculator
-1.0.3 is a separate application and does not require these status files.
+1.2.0 is a separate application and does not require these status files.
 
 ## Build and test
 
@@ -93,7 +109,7 @@ the Linux desktop test uses its actual `/etc/machine-id` without a licensing byp
 
 ## Additional approved owner key
 
-Customer 1.1.5 retains the original public key and adds the owner's explicitly
+Customer 1.2.0 retains the original public key and adds the owner's explicitly
 provided public export after verifying a supplied license and its System ID.
 `additional-owner-public-keys.json` is normalized during preparation and bundled
 inside ASAR. Arbitrary keys in license files or user data are never imported into
@@ -110,7 +126,7 @@ private key is opened, requested, generated or packaged by this update.
 
 ## History removal, Help and text files
 
-Owner Activation 1.1.1 adds **Remove** to each license row. It archives the exact
+Owner Activation 1.2.0 adds **Remove** to each license row. It archives the exact
 entry on the owner's PC, without revoking the customer license or deleting its
 `.kplicense` file. Removal works with the owner key locked, including entries
 issued by older keys. Expand **Removed entries** and use **Restore** to undo it.

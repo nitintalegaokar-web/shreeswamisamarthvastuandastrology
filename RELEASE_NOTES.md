@@ -1,3 +1,13 @@
+## Unified 1.2.0 release and simpler activation · 12 October 2026
+
+All three Windows installers share version 1.2.0. Customer Save System ID file
+includes its System ID and accepted public Key IDs. Owner Activation can import
+that text file to fill the ID automatically, rejects unapproved signing keys before
+issuing a licence, and confirms a compatible key in green. New-key creation is
+under a small arrow; Open owner key is the main action. Existing signed licences,
+expiry rules and offline System ID binding are retained. Importing a valid licence
+opens the customer calculator automatically.
+
 ## Native worksheets, visible TC labels and selectable transit searches · 12 October 2026
 
 TC Transit Chart planet labels are dark navy and cusp/sign labels dark maroon
@@ -14,7 +24,8 @@ All shows all 453 handbook events and 1,612 prediction records;
 source conditions requiring review remain visible and cannot produce invented dates.
 Choices and date ranges survive .lkp saving and import.
 
-Owner calculator 1.0.4 and Customer calculator 1.1.6 apply the latest explicit
+Owner calculator, Customer calculator and Owner Activation tool use version 1.2.0.
+The calculators apply the latest explicit
 latitude examples: 10°29′ → 10°; 10°30′ and 10°47′ → 11°. The original native
 latitude is retained. A selected northern sheet above 60° uses the existing
 physical-latitude Placidus fallback. Uploaded XLSX data and printed source units

@@ -1,6 +1,22 @@
 # KP MASTER · Offline Windows
 
-Run **KP-Master-Offline-Windows-1.1.5-x64.exe** on Windows 10 or Windows 11 (64-bit).
+All three Windows installers use **version 1.2.0**:
+
+- `KP-Master-Owner-Setup-1.2.0-x64.exe`: unlocked full calculator for the owner.
+- `KP-Master-Setup-1.2.0-x64.exe`: System ID locked calculator for customers.
+- `KP-Master-Owner-Activation-Setup-1.2.0-x64.exe`: owner licence tool.
+
+For easy activation, the customer clicks **Save System ID file** and sends the
+text file. In the Activation tool, enter your existing key password, select
+**Open owner key**, and check the green key-match confirmation. Select **Open
+customer System ID file**, enter the customer's name, and create the licence.
+Send the resulting `.kplicense` to the customer. **Activate / Open software**
+imports that licence and opens the customer calculator automatically.
+Keep your existing owner key; a new key needs a matching approved customer build.
+Creating a licence in the owner tool does not activate a remote offline PC.
+
+
+Run **KP-Master-Setup-1.2.0-x64.exe** on Windows 10 or Windows 11 (64-bit).
 This client version requires a signed activation license for its System ID.
 Use the separate Owner Activation tool on your own PC to issue licenses; see
 [licensing/README.md](licensing/README.md) for first-time key setup and activation.
@@ -12,7 +28,7 @@ connection are not required on the user's computer. Keep the executable in a
 permanent folder and double-click it. The first launch extracts its bundled
 runtime to a temporary folder; allow a few seconds for this to finish.
 
-Alternatively, use **KP-Master-Setup-1.1.5-x64.exe** for a normal installation.
+Alternatively, use **KP-Master-Setup-1.2.0-x64.exe** for a normal installation.
 Its wizard lets you choose the installation folder and creates desktop and Start
 menu shortcuts. It includes an uninstaller registered in Windows Installed Apps.
 Installation defaults to the current user and does not require administrator
@@ -20,7 +36,7 @@ access. All runtime files are included; no separate Python, Node.js or browser
 installation is needed. Uninstalling preserves saved charts, preferences and
 activation data. A setup installer for the previously released 1.0.0 calculator
 repackages that exact unlocked application; it does not add activation or data
-encryption. Use the owner-bound 1.1.5 edition for client licensing.
+encryption. Use the owner-bound 1.2.0 edition for client licensing.
 
 Save kundalis as `.lkp` files using the application's Save controls. Open existing
 `.lkp` charts with Open Kundali; degrees are recalculated using the packaged automatic
@@ -76,21 +92,21 @@ offline calculations, save/load, preferences across restart, and Marathi A4
 printing. Linux tests use `--no-sandbox` solely for the restricted test container;
 this switch is not part of the Windows launcher.
 
-The unlocked full calculator for the owner is **KP-Master-Owner-Setup-1.0.3-x64.exe** (KP MASTER Owner). It installs separately from the locked customer application. This edition includes the new Raphael tables, full-precision ST, birth-instant KP ayanamsha, single chart hover popup and KP MASTER branding. The Owner Activation tool is a separate program for key generation and signed client license files. The owner-bound customer version 1.1.5 requires the exported public key before it can be built.
+The unlocked full calculator for the owner is **KP-Master-Owner-Setup-1.2.0-x64.exe** (KP MASTER Owner). It installs separately from the locked customer application. This edition includes the new Raphael tables, full-precision ST, birth-instant KP ayanamsha, single chart hover popup and KP MASTER branding. The Owner Activation tool is a separate program for key generation and signed client license files. The owner-bound customer version 1.2.0 requires the exported public key before it can be built.
 
 Build the full unlocked owner calculator with `npm run build:owner-edition:setup`. With an X display, `npm run test:owner-runtime` verifies this edition without keys, its Open/Save Kundali buttons, saved chart degrees, Marathi labels and single hover panel.
 
-Customer 1.1.5 reads the 64-bit Windows installation ID directly from the registry, falls back to the explicit Registry64 PowerShell API, and treats WMI as optional. The activation screen includes Retry ID. A local identity record preserves the selected ID through WMI outages and recovery, checking the actual Windows MachineGuid on each launch. The owner calculator remains 1.0.3.
+Customer 1.2.0 reads the 64-bit Windows installation ID directly from the registry, falls back to the explicit Registry64 PowerShell API, and treats WMI as optional. The activation screen includes Retry ID. A local identity record preserves the selected ID through WMI outages and recovery, checking the actual Windows MachineGuid on each launch. The owner calculator remains 1.2.0.
 
 Owner Activation **1.1.0** adds green Activate and red Deactivate buttons to the
 recent-license table, with English/Marathi labels. Each exports a signed
 `.kpcontrol` file for the client to import. Issued status is shown separately
-from actual offline client state. Customer 1.1.5 includes Import status file on
+from actual offline client state. Customer 1.2.0 includes Import status file on
 the activation screen and Import license status in the workspace's ⋮ menu.
 Open the original key that issued a row to change its status; old commands are
 rejected after a newer revision. Activation does not renew an expired license.
 
-Customer 1.1.5 accepts the explicitly bundled owner keys
+Customer 1.2.0 accepts the explicitly bundled owner keys
 D5909EAD14FB2D4717E98A8C (the newly verified public export) and
 FFD543E7AFCE69618D61325E (the original key). The supplied signed license was
 valid; the old customer installer rejected it because its owner key differed.
@@ -112,11 +128,11 @@ restart with a matching identity fixture only in a temporary copied project.
 Restoring the real native reader verifies rejection on another computer. The
 shipping reader remains unchanged and native Windows launch still needs testing.
 
-Owner Activation **1.1.1** adds reversible Remove/Restore, in-window Help, Save
+Owner Activation **1.2.0** adds reversible Remove/Restore, in-window Help, Save
 help as Text, and Save list as Text in English/Marathi. Removal changes local
 history and keeps signed client licenses unchanged; status revisions are retained.
 Text exports include all retained rows across pages, exclude removed rows, and
 contain no private keys/passwords/license payloads. The tool's application identity
-and existing history are preserved. Customer 1.1.5 and Owner calculator 1.0.3 stay
+and existing history are preserved. Customer 1.2.0 and Owner calculator 1.2.0 stay
 unchanged. Run `node test/owner-history-runtime.cjs` under an X display to exercise
 these changes in an isolated copied Owner Activation project.

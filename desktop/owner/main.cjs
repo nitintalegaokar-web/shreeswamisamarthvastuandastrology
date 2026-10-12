@@ -4,9 +4,11 @@ const fs=require('node:fs/promises');
 const path=require('node:path');
 const crypto=require('node:crypto');
 const {pathToFileURL}=require('node:url');
-const {issue,keyId,issueControl}=require('./license-core.cjs');
+const {issue,keyId,issueControl,normalizedId}=require('./license-core.cjs');
 const {readHistory,writeHistory,changeRemoval,historyText}=require('./history.cjs');
 const helpContent=require('./help.json');
+const {parseClientRequest,checkClientKey}=require('./client-request.cjs');
+const approvedKeyIds=require('./client-keys.json').ownerKeyIds;let clientRequest=null;
 const ownerPath=path.join(__dirname,'index.html'),ownerURL=pathToFileURL(ownerPath).href;
 let win,privateKey=null,publicPem='',privateFile='';
 const cleanName=name=>String(name).replace(/[<>:"/\\|?*\x00-\x1f]/g,'_').replace(/[. ]+$/,'').slice(0,100);
@@ -14,7 +16,8 @@ function trusted(event){if(event.sender!==win.webContents||event.senderFrame?.ur
 function requireKey(){if(!privateKey)throw Error('Create or open your owner key first.');}
 function password(value){if(typeof value!=='string'||value.length<12||value.length>512)throw Error('Use an owner-key password of 12–512 characters.');return value;}
 function setKey(key,file){if(key.asymmetricKeyType!=='ed25519')throw Error('Choose an Ed25519 owner key.');privateKey=key;publicPem=crypto.createPublicKey(key).export({format:'pem',type:'spki'});privateFile=file;}
-function status(){return {unlocked:Boolean(privateKey),keyId:privateKey?keyId(publicPem):'',filename:privateFile?path.basename(privateFile):''};}
+function status(){const id=privateKey?keyId(publicPem):'';return {unlocked:Boolean(privateKey),keyId:id,compatible:approvedKeyIds.includes(id),acceptedKeyIds:approvedKeyIds,filename:privateFile?path.basename(privateFile):''};}
+function requireClientKey(systemId){requireKey();checkClientKey(keyId(publicPem),approvedKeyIds,clientRequest?.systemId===systemId?clientRequest:null);}
 const historyFile=()=>path.join(app.getPath('userData'),'issued-licenses.json');
 async function history(){return readHistory(historyFile());}
 async function saveHistory(list){await writeHistory(historyFile(),list);}
@@ -63,8 +66,13 @@ app.whenReady().then(()=>{
     if(selected.canceled||!selected.filePath)return null;
     await fs.writeFile(selected.filePath,text,'utf8');return {filename:path.basename(selected.filePath)};
   });
+  ipcMain.handle('kp-owner:import-request',async event=>{
+    trusted(event);const selected=await dialog.showOpenDialog(win,{title:'Open customer System ID request',properties:['openFile'],filters:[{name:'Customer System ID',extensions:['txt']}]});
+    if(selected.canceled||!selected.filePaths.length)return null;const file=selected.filePaths[0];if((await fs.stat(file)).size>16384)throw Error('Choose the customer System ID text file.');
+    clientRequest=parseClientRequest(await fs.readFile(file,'utf8'));return clientRequest;
+  });
   ipcMain.handle('kp-owner:issue',async(event,request)=>{
-    trusted(event);requireKey();if(!request||typeof request!=='object')throw Error('Enter the client details.');
+    trusted(event);if(!request||typeof request!=='object')throw Error('Enter the client details.');requireClientKey(normalizedId(request.systemId));
     const issuerKeyId=keyId(publicPem),license=issue(privateKey,request);const claims=JSON.parse(Buffer.from(license.payload,'base64url').toString('utf8'));
     const selected=await dialog.showSaveDialog(win,{title:'Save client activation license',defaultPath:path.join(app.getPath('documents'),cleanName(claims.clientName)+'-'+claims.systemId.slice(-9)+'.kplicense'),filters:[{name:'KP Activation License',extensions:['kplicense']}]});
     if(selected.canceled||!selected.filePath)return null;
