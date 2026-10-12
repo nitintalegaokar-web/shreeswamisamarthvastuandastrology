@@ -13,8 +13,8 @@ Raw identifiers are not sent to a server or included in licenses. The local iden
 
 ## Owner setup
 
-1. Run `KP-Master-Owner-Activation-1.1.0-x64.exe` on your own Windows PC.
-   You can instead install `KP-Master-Owner-Activation-Setup-1.1.0-x64.exe`
+1. Run `KP-Master-Owner-Activation-1.1.1-x64.exe` on your own Windows PC.
+   You can instead install `KP-Master-Owner-Activation-Setup-1.1.1-x64.exe`
    and open **KP Master Activation** from its desktop or Start menu shortcut.
 2. Enter a password of at least 12 characters twice, click **Create owner key**,
    and save the encrypted private key. Back it up securely. The password is never
@@ -107,3 +107,27 @@ key cannot deactivate or reactivate a license issued by another key. Existing
 owner .kplicense and .kpcontrol exports remain compatible, and the supplied
 license is not changed, renewed, or embedded in any installer. No production
 private key is opened, requested, generated or packaged by this update.
+
+## History removal, Help and text files
+
+Owner Activation 1.1.1 adds **Remove** to each license row. It archives the exact
+entry on the owner's PC, without revoking the customer license or deleting its
+`.kplicense` file. Removal works with the owner key locked, including entries
+issued by older keys. Expand **Removed entries** and use **Restore** to undo it.
+Both lists have **Show more**. The license ID, expiry and control revision are
+retained so restoration does not reset status-command replay protection.
+
+**Help** opens English/Marathi instructions in this same activation window.
+**Save help as Text** saves these instructions. **Save list as Text** exports all
+retained entries, including later displayed pages, but excludes removed entries.
+The UTF-8 `.txt` file includes client details, System ID, license and owner Key IDs,
+UTC dates, issued status and revision. It never exports private keys, passwords
+or signed license payloads. Text reports are records; clients continue to import
+`.kplicense` for activation or `.kpcontrol` for status changes.
+
+Installing the updated tool preserves its existing application-data identity
+and legacy history array. Atomic history writes retain archived rows across
+restart. Invalid history data produces an error rather than an empty replacement.
+With an X display, `node test/owner-history-runtime.cjs` checks exact removal among
+duplicates while locked, Restore/restart/revision retention, list/help exports,
+English/Marathi behavior and cancellation using isolated temporary fixtures.

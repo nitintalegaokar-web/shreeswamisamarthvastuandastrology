@@ -111,3 +111,12 @@ under an X display. It verifies the exact signature, then exercises UI import an
 restart with a matching identity fixture only in a temporary copied project.
 Restoring the real native reader verifies rejection on another computer. The
 shipping reader remains unchanged and native Windows launch still needs testing.
+
+Owner Activation **1.1.1** adds reversible Remove/Restore, in-window Help, Save
+help as Text, and Save list as Text in English/Marathi. Removal changes local
+history and keeps signed client licenses unchanged; status revisions are retained.
+Text exports include all retained rows across pages, exclude removed rows, and
+contain no private keys/passwords/license payloads. The tool's application identity
+and existing history are preserved. Customer 1.1.5 and Owner calculator 1.0.3 stay
+unchanged. Run `node test/owner-history-runtime.cjs` under an X display to exercise
+these changes in an isolated copied Owner Activation project.

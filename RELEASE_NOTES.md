@@ -1,3 +1,25 @@
+## Owner Activation history and Help · 12 October 2026
+
+Owner Activation tool 1.1.1 adds Remove beside each issued license, available even
+when the signing key is locked or differs from the row's issuing key. Removal
+archives that exact license ID locally and keeps the customer license unchanged.
+Removed entries has Restore; original metadata and status revisions survive
+restart and restoration. Active and removed lists include Show more.
+
+Help opens in the same window in English or Marathi, covering initial activation,
+correct owner keys, offline status-file delivery, expiry and troubleshooting.
+Save help as Text exports those instructions. Save list as Text exports all
+retained entries, including later pages, with client/System ID, license/owner
+Key IDs, UTC dates, issued status and revision. Removed entries are excluded.
+UTF-8 text exports contain no private keys, passwords or signed license payloads.
+
+History updates use atomic file replacement; malformed existing history is
+reported instead of silently overwritten. Existing issued-history arrays,
+application identity, key files and signed license/control formats are retained.
+The Customer edition remains 1.1.5 and the full unlocked Owner calculator remains
+1.0.3. Existing Activate/Deactivate actions still require the original issuing key
+and client import of a signed .kpcontrol file.
+
 ## Verified owner-key compatibility · 12 October 2026
 
 Customer 1.1.5 accepts licenses signed by the newly supplied and verified owner

@@ -5,6 +5,8 @@ const path=require('node:path');
 const crypto=require('node:crypto');
 const {pathToFileURL}=require('node:url');
 const {issue,keyId,issueControl}=require('./license-core.cjs');
+const {readHistory,writeHistory,changeRemoval,historyText}=require('./history.cjs');
+const helpContent=require('./help.json');
 const ownerPath=path.join(__dirname,'index.html'),ownerURL=pathToFileURL(ownerPath).href;
 let win,privateKey=null,publicPem='',privateFile='';
 const cleanName=name=>String(name).replace(/[<>:"/\\|?*\x00-\x1f]/g,'_').replace(/[. ]+$/,'').slice(0,100);
@@ -13,8 +15,11 @@ function requireKey(){if(!privateKey)throw Error('Create or open your owner key 
 function password(value){if(typeof value!=='string'||value.length<12||value.length>512)throw Error('Use an owner-key password of 12–512 characters.');return value;}
 function setKey(key,file){if(key.asymmetricKeyType!=='ed25519')throw Error('Choose an Ed25519 owner key.');privateKey=key;publicPem=crypto.createPublicKey(key).export({format:'pem',type:'spki'});privateFile=file;}
 function status(){return {unlocked:Boolean(privateKey),keyId:privateKey?keyId(publicPem):'',filename:privateFile?path.basename(privateFile):''};}
-async function history(){try{return JSON.parse(await fs.readFile(path.join(app.getPath('userData'),'issued-licenses.json'),'utf8'));}catch{return [];}}
-async function saveHistory(list){await fs.mkdir(app.getPath('userData'),{recursive:true});await fs.writeFile(path.join(app.getPath('userData'),'issued-licenses.json'),JSON.stringify(list.slice(0,5000),null,2),{encoding:'utf8',mode:0o600});}
+const historyFile=()=>path.join(app.getPath('userData'),'issued-licenses.json');
+async function history(){return readHistory(historyFile());}
+async function saveHistory(list){await writeHistory(historyFile(),list);}
+function language(value){if(!['en','mr'].includes(value))throw Error('Choose English or Marathi.');return value;}
+function helpText(lang){const help=helpContent[language(lang)];return '\uFEFF'+[help.title,...help.sections.flatMap(section=>['',section.heading,...section.steps.map((step,index)=>(index+1)+'. '+step)])].join('\r\n')+'\r\n';}
 if(!app.requestSingleInstanceLock())app.quit();else{
 app.on('second-instance',()=>{if(win){if(win.isMinimized())win.restore();win.focus();}});
 app.whenReady().then(()=>{
@@ -47,7 +52,17 @@ app.whenReady().then(()=>{
     if(selected.canceled||!selected.filePath)return false;
     await fs.writeFile(selected.filePath,publicPem,'utf8');return true;
   });
-  ipcMain.handle('kp-owner:history',event=>{trusted(event);return history();});
+  ipcMain.handle('kp-owner:history',async event=>{trusted(event);return (await history()).filter(row=>!row.removedAt);});
+  ipcMain.handle('kp-owner:removed-history',async event=>{trusted(event);return (await history()).filter(row=>row.removedAt).sort((a,b)=>b.removedAt.localeCompare(a.removedAt));});
+  for(const [channel,removed]of [['remove-history',true],['restore-history',false]])ipcMain.handle('kp-owner:'+channel,async(event,licenseId)=>{trusted(event);const next=changeRemoval(await history(),licenseId,removed);await saveHistory(next);return true;});
+  ipcMain.handle('kp-owner:help',(_event,lang)=>{trusted(_event);return helpContent[language(lang)];});
+  ipcMain.handle('kp-owner:export-text',async(event,request)=>{
+    trusted(event);if(!request||!['help','history'].includes(request.kind))throw Error('Choose a help or license-list text export.');
+    const lang=language(request.language),isHelp=request.kind==='help',text=isHelp?helpText(lang):historyText(await history(),lang);
+    const selected=await dialog.showSaveDialog(win,{title:isHelp?'Save activation help as text':'Save license list as text',defaultPath:path.join(app.getPath('documents'),isHelp?'KP-Master-Activation-Help.txt':'KP-Master-License-History.txt'),filters:[{name:'Text file',extensions:['txt']}]});
+    if(selected.canceled||!selected.filePath)return null;
+    await fs.writeFile(selected.filePath,text,'utf8');return {filename:path.basename(selected.filePath)};
+  });
   ipcMain.handle('kp-owner:issue',async(event,request)=>{
     trusted(event);requireKey();if(!request||typeof request!=='object')throw Error('Enter the client details.');
     const issuerKeyId=keyId(publicPem),license=issue(privateKey,request);const claims=JSON.parse(Buffer.from(license.payload,'base64url').toString('utf8'));
@@ -60,7 +75,7 @@ app.whenReady().then(()=>{
   });
   ipcMain.handle('kp-owner:set-status',async(event,request)=>{
     trusted(event);requireKey();if(!request||!['activate','deactivate'].includes(request.action))throw Error('Choose Activate or Deactivate.');
-    const list=await history(),row=list.find(r=>r.licenseId===request.licenseId);if(!row)throw Error('The issued license was not found.');
+    const list=await history(),row=list.find(r=>r.licenseId===request.licenseId);if(!row)throw Error('The issued license was not found.');if(row.removedAt)throw Error('Restore this entry before changing its license status.');
     if(row.ownerKeyId!==keyId(publicPem))throw Error('Open the owner key that issued this license before changing its status.');
     if(request.action==='activate'&&row.expiresAt&&Date.parse(row.expiresAt)<Date.now())throw Error('This license has expired. Issue a new license to renew it.');
     const revision=(Number.isSafeInteger(row.controlRevision)?row.controlRevision:0)+1;

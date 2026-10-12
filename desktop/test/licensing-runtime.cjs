@@ -20,7 +20,7 @@ const {getSystemId}=require('../licensing/system-id.cjs');
   execFileSync(process.execPath,[path.join(root,'owner','prepare.cjs')]);
   const ownerRoot=path.join(temporary,'owner'),clientRoot=path.join(temporary,'client');
   await fs.mkdir(ownerRoot);await fs.mkdir(clientRoot);
-  for(const file of ['main.cjs','preload.cjs','index.html','ui.js','license-core.cjs','package.json'])await fs.copyFile(path.join(root,'owner',file),path.join(ownerRoot,file));
+  for(const file of ['main.cjs','preload.cjs','index.html','ui.js','license-core.cjs','history.cjs','help.json','package.json'])await fs.copyFile(path.join(root,'owner',file),path.join(ownerRoot,file));
   for(const file of ['main.cjs','policy.cjs','preload.cjs','package.json'])await fs.copyFile(path.join(root,file),path.join(clientRoot,file));
   await fs.cp(path.join(root,'licensing'),path.join(clientRoot,'licensing'),{recursive:true});await fs.cp(path.join(root,'app'),path.join(clientRoot,'app'),{recursive:true});
   const deactivationFile=path.join(temporary,'deactivate.kpcontrol'),activationFile=path.join(temporary,'activate.kpcontrol');
