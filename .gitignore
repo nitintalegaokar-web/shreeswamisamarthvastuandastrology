@@ -45,4 +45,4 @@ desktop/owner-public-key.pem
 # Generated unlocked owner-edition runtime.
 desktop/owner-edition/app/
 desktop/owner-edition/dist/
-desktop/owner-edition/node_modules/
+desktop/owner-edition/node_modules
