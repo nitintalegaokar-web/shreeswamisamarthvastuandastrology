@@ -5,9 +5,9 @@
       {
         "heading": "Activate a new customer",
         "steps": [
-          "Install Customer Setup 1.2.0 on the customer’s PC. Ask them to click Save System ID file and send that text file.",
+          "Install Customer Setup 1.2.1 on the customer’s PC. Ask them to click Save System ID file and send that text file.",
           "On your PC, enter your existing key password and click Open owner key. Reuse the same owner key for every customer.",
-          "Customer 1.2.0 accepts current key D5909EAD14FB2D4717E98A8C and original key FFD543E7AFCE69618D61325E. Check the opened Key ID. A newly created key requires a matching customer-build update.",
+          "Customer 1.2.1 accepts current key D5909EAD14FB2D4717E98A8C and original key FFD543E7AFCE69618D61325E. Check the opened Key ID. A newly created key requires a matching customer-build update.",
           "Click Open customer System ID file to fill the ID automatically, or paste Copy ID. Enter the customer’s name and choose Permanent license or a future expiry date (UTC).",
           "Click Create activation license. Send the saved .kplicense file to that customer.",
           "The customer clicks Activate / Open software and chooses their .kplicense file. The matching computer opens automatically and then works offline."
@@ -36,7 +36,7 @@
         "steps": [
           "Owner-signature error: compare the opened owner Key ID with the accepted Key IDs on the customer’s activation screen. Use the same approved key for future licenses.",
           "Different-computer error: get a fresh Copy ID from the actual customer PC and issue a new license for that ID.",
-          "Unavailable System ID: click Retry ID in Customer 1.2.0. Date/time or expired-license errors need the indicated correction.",
+          "Unavailable System ID: click Retry ID in Customer 1.2.1. Date/time or expired-license errors need the indicated correction.",
           "Keep your encrypted private key and password on your PC. Send customers only their .kplicense or .kpcontrol file."
         ]
       }
@@ -48,9 +48,9 @@
       {
         "heading": "नवीन ग्राहक सक्रिय करा",
         "steps": [
-          "ग्राहकाच्या संगणकावर Customer Setup 1.2.0 बसवा. System ID फाइल जतन करा निवडून ती मजकूर फाइल मागवा.",
+          "ग्राहकाच्या संगणकावर Customer Setup 1.2.1 बसवा. System ID फाइल जतन करा निवडून ती मजकूर फाइल मागवा.",
           "आपल्या संगणकावर जुन्या किल्लीचा पासवर्ड लिहा आणि Open owner key निवडा. प्रत्येक ग्राहकासाठी तीच मालक किल्ली वापरा.",
-          "Customer 1.2.0 मध्ये सध्याची किल्ली D5909EAD14FB2D4717E98A8C आणि मूळ किल्ली FFD543E7AFCE69618D61325E स्वीकारली जाते. उघडलेल्या किल्लीचा ID तपासा. नवीन किल्लीसाठी जुळणारे ग्राहक सॉफ्टवेअर आवश्यक आहे.",
+          "Customer 1.2.1 मध्ये सध्याची किल्ली D5909EAD14FB2D4717E98A8C आणि मूळ किल्ली FFD543E7AFCE69618D61325E स्वीकारली जाते. उघडलेल्या किल्लीचा ID तपासा. नवीन किल्लीसाठी जुळणारे ग्राहक सॉफ्टवेअर आवश्यक आहे.",
           "ग्राहकाची System ID फाइल उघडा निवडून ID आपोआप घ्या किंवा Copy ID लिहा. ग्राहकाचे नाव व कायमस्वरूपी परवाना किंवा पुढील अंतिम तारीख (UTC) निवडा.",
           "सक्रियकरण परवाना तयार करा निवडा. जतन केलेली .kplicense फाइल ग्राहकाला पाठवा.",
           "ग्राहकाने सक्रिय करा / सॉफ्टवेअर उघडा निवडून स्वतःची .kplicense फाइल निवडावी. जुळणाऱ्या संगणकावर सॉफ्टवेअर आपोआप उघडेल व ऑफलाइन चालेल."
@@ -79,7 +79,7 @@
         "steps": [
           "मालकाची सही जुळत नसल्यास ग्राहकाच्या सक्रियकरण स्क्रीनवरील स्वीकृत किल्ली ID आणि उघडलेली मालक किल्ली तपासा. पुढील परवान्यांसाठी तीच स्वीकृत किल्ली वापरा.",
           "वेगळ्या संगणकाचा संदेश आल्यास प्रत्यक्ष ग्राहकाच्या संगणकावरून नवीन Copy ID मागवा आणि त्या ID साठी परवाना तयार करा.",
-          "System ID उपलब्ध नसल्यास Customer 1.2.0 मध्ये Retry ID वापरा. चुकीची वेळ किंवा मुदत संपल्याचा संदेश असल्यास त्यानुसार दुरुस्ती करा.",
+          "System ID उपलब्ध नसल्यास Customer 1.2.1 मध्ये Retry ID वापरा. चुकीची वेळ किंवा मुदत संपल्याचा संदेश असल्यास त्यानुसार दुरुस्ती करा.",
           "पासवर्डयुक्त गुप्त किल्ली व पासवर्ड आपल्या संगणकावरच ठेवा. ग्राहकाला फक्त .kplicense किंवा .kpcontrol पाठवा."
         ]
       }

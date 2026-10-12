@@ -1,10 +1,10 @@
 # KP MASTER astrology workspace
 
-All three Windows installers use **version 1.2.0**:
+All three Windows installers use **version 1.2.1**:
 
-- `KP-Master-Owner-Setup-1.2.0-x64.exe`: unlocked full calculator for the owner.
-- `KP-Master-Setup-1.2.0-x64.exe`: System ID locked calculator for customers.
-- `KP-Master-Owner-Activation-Setup-1.2.0-x64.exe`: owner licence tool.
+- `KP-Master-Owner-Setup-1.2.1-x64.exe`: unlocked full calculator for the owner.
+- `KP-Master-Setup-1.2.1-x64.exe`: System ID locked calculator for customers.
+- `KP-Master-Owner-Activation-Setup-1.2.1-x64.exe`: owner licence tool.
 
 For easy activation, the customer clicks **Save System ID file** and sends the
 text file. In the Activation tool, enter your existing key password, select

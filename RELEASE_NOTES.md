@@ -1,3 +1,12 @@
+## Ishtbhav Farak displayed minutes · 1.2.1 · 12 October 2026
+
+Only the readonly Ishtbhav Farak (min) column now shows whole minutes:
+fractions below .50 stay at the lower minute, and .50 or above round up.
+For example, 14.604006 → 15, 22.75949 → 23 and 11.379745 → 11.
+Full-precision interpolation, raw Ishtbhav values, sidereal time, ayanamsha,
+planet positions and final cusps are unchanged. All three installer versions
+are 1.2.1; activation behaviour and existing licence compatibility are retained.
+
 ## Unified 1.2.0 release and simpler activation · 12 October 2026
 
 All three Windows installers share version 1.2.0. Customer Save System ID file
