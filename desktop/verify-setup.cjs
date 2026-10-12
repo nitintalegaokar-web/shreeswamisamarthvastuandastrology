@@ -18,7 +18,12 @@ async function main() {
   const seven = await getPath7za();
   const run = args => execFileSync(seven, args, {stdio:'pipe', maxBuffer:8*1024*1024});
   const manifest = JSON.parse(asar.extractFile(path.join(unpacked,'resources','app.asar'),'package.json'));
-  const product = manifest.name === 'kp-master-activation' ? 'KP Master Activation' : 'KP Master';
+  const nativeNames=fs.readdirSync(unpacked).filter(file=>/\.exe$/i.test(file));
+  assert.equal(nativeNames.length,1);
+  const nativeResources=resedit.NtExecutableResource.from(resedit.NtExecutable.from(fs.readFileSync(path.join(unpacked,nativeNames[0]))));
+  const nativeVersion=resedit.Resource.VersionInfo.fromEntries(nativeResources.entries)[0];
+  const product=nativeVersion.getStringValues(nativeVersion.getAllLanguagesForStringValues()[0]).ProductName;
+  assert.ok(product.startsWith('KP MASTER')||product.startsWith('KP Master'));
   try {
     const exe = fs.readFileSync(installer);
     assert.equal(exe.toString('ascii',0,2),'MZ');

@@ -3,8 +3,10 @@ import bisect
 import hashlib
 import json
 import math
+import re
 import subprocess
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
 from openpyxl import load_workbook
 from playwright.sync_api import expect
@@ -46,8 +48,11 @@ class TableTests(unittest.TestCase):
         self.assertAlmostEqual(result[2]['cusps'][9],336.5,places=10)
         self.assertEqual(result[2]['tableColumns'],'printed')
 
-    def test_every_numeric_workbook_row_is_preserved_and_hashed(self):
+    def test_every_uploaded_printed_workbook_row_is_preserved_and_hashed(self):
         rows, duplicates = 0, 0
+        signs = ['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces']
+        self.assertFalse(DATA['metadata']['numericColumnsProvided'])
+        self.assertEqual(DATA['metadata']['sourcePrecisionArcSeconds'],[3600,3600,3600,60,3600,3600])
         for source in DATA['metadata']['sources']:
             path = ROOT / 'vendor/houses/source' / source['filename']
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), source['sha256'])
@@ -55,15 +60,22 @@ class TableTests(unittest.TestCase):
             self.assertEqual(workbook.sheetnames, source['sheets'])
             for sheet in workbook:
                 lat = int(sheet.title[:-1]); last = None; packed = []
+                self.assertEqual(list(next(iter(sheet.values))),['ST HH:MM:SS','10H','11H','12H','Asc DM','2H','3H'])
                 for row in list(sheet.values)[1:]:
-                    time = row[1]*3600+row[2]*60+row[3]
+                    h,m,s=map(int,row[0].split(':'));time=h*3600+m*60+s
+                    values=[]
+                    for column in row[1:]:
+                        sign, number = column.split(' ')
+                        parts=list(map(int,re.findall(r'\d+',number)))
+                        values.append((signs.index(sign)*30+parts[0]+(parts[1]/60 if len(parts)>1 else 0))%360)
                     if time == last:
-                        self.assertEqual(list(row[10:]), packed[-1][1]); duplicates += 1
+                        self.assertEqual(values, packed[-1][1]); duplicates += 1
                     else:
-                        packed.append((time, list(row[10:]))); rows += 1
+                        packed.append((time, values)); rows += 1
                     last = time
                 self.assertEqual([r[0] for r in packed], DATA['times'])
                 self.assertEqual([r[1] for r in packed], DATA['values'][lat])
+                self.assertEqual([r[1] for r in packed], DATA['printedValues'][lat])
             workbook.close()
         self.assertEqual(rows, 22021); self.assertEqual(duplicates, 671)
 
@@ -97,6 +109,35 @@ class BhavsadhanTests(unittest.TestCase):
         expected = reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))
         self.assertEqual(result['cusps'], [math.floor(x*3600+.5) % 1296000 for x in expected])
         self.assertEqual(result['source'], 'automatic')
+
+    def test_full_precision_st_and_birth_instant_kp_ayanamsha(self):
+        def gmst(stamp):
+            date=datetime.fromisoformat(stamp.replace('Z','+00:00'))
+            days=(date-datetime(2000,1,1,12,tzinfo=timezone.utc)).total_seconds()/86400
+            t=days/36525
+            return (280.46061837+360.98564736629*days+.000387933*t*t-t*t*t/38710000)%360
+        cases=[('1986-07-15','13:11:00','18:48:00','74:13:00','5.5','0','82:30:00'),
+               ('1986-07-15','01:00:00','18:48:00','74:13:00','5.5','0','82:30:00'),
+               ('1987-01-01','01:00:00','18:48:00','74:13:00','5.5','0','82:30:00'),
+               ('2024-02-29','23:59:59','18:48:00','74:13:00','5.5','0','82:30:00'),
+               ('1986-07-15','23:59:59','40:42:00','-74:00:00','-5','60','-75:00:00')]
+        for case in cases:
+            values=dict(zip(['dob','birthTime','lat','lon','birth-utc-offset','birth-dst-minutes','stdLon'],case))
+            result=self.page.evaluate('''values=>{for(const [id,value] of Object.entries({...values,'instant-prashna':'0'}))document.getElementById(id).value=value;calculateAll();const m=KPHorary.nativeMoment();return {date:m.date.toISOString(),longitude:m.longitude,reference:KPWorksheetEphemeris.getSidereal(),house:KPBhavSadhan.getData(),cusps:currentKPModel.houses.map(h=>h.longitude),annual:KPAnnualAyanamsha.getTable().rows,st:document.getElementById('birthPlaceSiderealTime').value};}''',values)
+            d=result['house'];ref=result['reference']
+            rotation=(gmst(result['date'])-gmst(ref['utc']))*240
+            expected=(ref['hours']*3600+rotation+(result['longitude']-ref['offset']*15)*240)%86400
+            error=(d['siderealSeconds']-expected+43200)%86400-43200
+            self.assertLess(abs(error),.05,'ST must advance its ephemeris anchor without intermediate clock rounding.')
+            instant=datetime.fromisoformat(result['date'].replace('Z','+00:00'));year=instant.year
+            anchors={r['year']:r['dmsArcSeconds'] for r in result['annual']}
+            start=datetime(year,1,1,tzinfo=timezone.utc);end=datetime(year+1,1,1,tzinfo=timezone.utc)
+            ayan=(anchors[year]+(anchors[year+1]-anchors[year])*(instant-start)/(end-start))/3600
+            self.assertAlmostEqual(d['ayanamsha'],ayan,places=11)
+            expected_cusps=reference(d['latitude'],d['siderealSeconds'],ayan,'printed')
+            self.assertEqual(result['cusps'],[math.floor(x*3600+.5)%1296000 for x in expected_cusps])
+            rounded=math.floor(d['siderealSeconds']+.5)
+            self.assertEqual(result['st'],f'{rounded//3600}:{rounded%3600//60:02}:{rounded%60:02}')
 
     def test_automatic_native_instant_edits_fallback_and_invalid_location(self):
         p = self.page; self.verify(self.sample())

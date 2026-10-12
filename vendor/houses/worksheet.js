@@ -15,9 +15,20 @@ function fromSidereal(moment,st,ayan,computed=false){
  return {...houses,ready:true,source:'computed',latitude:moment.latitude,siderealSeconds:st,ayanamsha:ayan,tropicalCusps,cusps:tropicalCusps.map(x=>norm(x-ayan))};
 }
 function fromMoment(moment){const st=norm(Astronomy.SiderealTime(moment.date)*15+moment.longitude)*240;return fromSidereal(moment,st,KPEphemeris.ayanamsha(moment.date),mode()==='computed');}
+function nativeSidereal(moment){
+ if(value('st-ephemeris-source')!=='automatic')return seconds(value('birthPlaceSiderealTime'),86400);
+ const reference=window.KPWorksheetEphemeris?.getSidereal();
+ if(!reference?.ready||!Number.isFinite(reference.hours)||!Number.isFinite(reference.offset))throw Error('Automatic sidereal reference is unavailable.');
+ const anchor=new Date(reference.utc);if(!Number.isFinite(anchor.getTime()))throw Error('Automatic sidereal reference date is invalid.');
+ // Preserve the selected ephemeris ST (including the supplied +1 second).
+ // Advance it by the actual sidereal rotation, then replace the standard
+ // meridian with the native longitude. Do not round legacy LMT corrections.
+ const rotation=(Astronomy.SiderealTime(moment.date)-Astronomy.SiderealTime(anchor))*15;
+ return norm(reference.hours*15+rotation+moment.longitude-reference.offset*15)*240;
+}
 function write(data){
  const b=data.brackets;
- if(value('instant-prashna')==='1')set('birthPlaceSiderealTime',dms(data.siderealSeconds/3600));
+ if(value('instant-prashna')==='1'||value('st-ephemeris-source')==='automatic')set('birthPlaceSiderealTime',dms(data.siderealSeconds/3600));
  set('stSmallTime',b?dms(b.timeLow/3600):dms(data.siderealSeconds/3600));set('stLargeTime',b?dms(b.timeHigh/3600):dms(data.siderealSeconds/3600));
  window.updateSampattikTimeDifferences?.();
  for(const [i,h] of H.entries()){
@@ -32,7 +43,7 @@ function clear(){for(const h of H)for(const field of ['large','small','diff3','s
 function apply(){
  if(!enabled()){current=null;key='';status(value('chart-kind')==='horary'?{source:'horary',ready:true}:null);return null;}
  try{
-  const moment=KPHorary.nativeMoment(),instant=value('instant-prashna')==='1',st=instant?norm(Astronomy.SiderealTime(moment.date)*15+moment.longitude)*240:seconds(value('birthPlaceSiderealTime'),86400),ayan=instant?KPEphemeris.ayanamsha(moment.date):seconds(value('ayanValue'),1295999)/3600;
+  const moment=KPHorary.nativeMoment(),instant=value('instant-prashna')==='1',st=instant?norm(Astronomy.SiderealTime(moment.date)*15+moment.longitude)*240:nativeSidereal(moment),ayan=instant||window.KPAnnualAyanamsha?.enabled()?KPEphemeris.ayanamsha(moment.date):seconds(value('ayanValue'),1295999)/3600;
   const signature=[mode(),moment.date.toISOString(),moment.latitude,st,ayan].join('|');
   if(signature!==key){current=fromSidereal(moment,st,ayan,mode()==='computed');key=signature;}
   write(current);status(current);return copy(current);

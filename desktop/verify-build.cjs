@@ -6,7 +6,8 @@ const assert = require('node:assert/strict');
 const asar = require('@electron/asar');
 const resedit = require('resedit');
 const dist=path.join(__dirname,'dist');
-const native=path.join(dist,'win-unpacked','KP Master.exe');
+const productName=require('./package.json').build.productName;
+const native=path.join(dist,'win-unpacked',productName+'.exe');
 const versionNumber=require('./package.json').version;
 const launcher=path.join(dist,`KP-Master-Offline-Windows-${versionNumber}-x64.exe`);
 const archive=path.join(dist,'win-unpacked','resources','app.asar');
@@ -20,7 +21,7 @@ assert.equal(machine(launcher),0x14c); // NSIS portable launcher, supports x64 p
 const nativeExecutable=resedit.NtExecutable.from(fs.readFileSync(native));
 const resources=resedit.NtExecutableResource.from(nativeExecutable);
 const version=resedit.Resource.VersionInfo.fromEntries(resources.entries)[0];
-assert.equal(version.getStringValues(version.getAllLanguagesForStringValues()[0]).ProductName,'KP Master');
+assert.equal(version.getStringValues(version.getAllLanguagesForStringValues()[0]).ProductName,productName);
 assert.ok(resources.entries.some(e=>e.type===14)); // icon group
 for(const file of ['main.cjs','policy.cjs','preload.cjs','app/index.html','app/owner-public-key.pem','licensing/core.cjs','licensing/gate.cjs','licensing/system-id.cjs','licensing/activation.html','licensing/activation.js']) {
   assert.deepEqual(asar.extractFile(archive,file),fs.readFileSync(path.join(__dirname,file)));

@@ -1,0 +1,66 @@
+{
+  "name": "kp-master-owner",
+  "version": "1.0.1",
+  "description": "KP MASTER unlocked owner edition",
+  "author": "Nitin Talegaonkar",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "node prepare.cjs && electron .",
+    "build:setup": "node ../build-setup.cjs --owner-edition"
+  },
+  "devDependencies": {
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "in.kpmaster.astrology.owner",
+    "productName": "KP MASTER Owner",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "policy.cjs",
+      "preload.cjs",
+      "app/**/*",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "electronLanguages": [
+        "en-US",
+        "mr"
+      ],
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "../icon.ico",
+      "signExecutable": false,
+      "artifactName": "KP-Master-Offline-Windows-${version}-${arch}.${ext}"
+    },
+    "portable": {
+      "requestExecutionLevel": "user"
+    },
+    "publish": [],
+    "nsis": {
+      "artifactName": "KP-Master-Owner-Setup-${version}-${arch}.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false,
+      "packElevateHelper": false,
+      "include": "../installer.nsh",
+      "differentialPackage": false
+    }
+  }
+}

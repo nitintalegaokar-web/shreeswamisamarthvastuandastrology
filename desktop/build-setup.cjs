@@ -13,7 +13,9 @@ const {UninstallerReader} = require('app-builder-lib/out/targets/nsis/nsisUtil')
 async function main() {
   const args = process.argv.slice(2);
   const owner = args.includes('--owner');
-  const projectDir = owner ? path.join(__dirname,'owner') : __dirname;
+  const ownerEdition=args.includes('--owner-edition');
+  if(owner&&ownerEdition)throw new Error('Choose either the activation tool or the owner calculator.');
+  const projectDir = owner ? path.join(__dirname,'owner') : ownerEdition ? path.join(__dirname,'owner-edition') : __dirname;
   const source = JSON.parse(fs.readFileSync(path.join(projectDir,'package.json')));
   const at = args.indexOf('--prepackaged');
   if (at >= 0 && !args[at+1]) throw new Error('--prepackaged requires a verified package folder');

@@ -75,7 +75,7 @@ else {
     Menu.setApplicationMenu(null);
     mainWindow = new BrowserWindow({
       width:900, height:670, minWidth:700, minHeight:580,
-      title:'KP Master', backgroundColor:'#ffffe8', show:false,
+      title:'KP MASTER', backgroundColor:'#ffffe8', show:false,
       webPreferences:{nodeIntegration:false, contextIsolation:true, sandbox:true, webSecurity:true, preload:path.join(__dirname,'preload.cjs')}
     });
     secureWindow(mainWindow);
@@ -83,7 +83,7 @@ else {
     licenseGate=await createGate(app,mainWindow,indexPath);
     if(licenseGate.isActive()){mainWindow.setMinimumSize(950,650);mainWindow.setSize(1440,950);}
   }).catch(error=>{
-    dialog.showErrorBox('KP Master activation',error.message);app.quit();
+    dialog.showErrorBox('KP MASTER activation',error.message);app.quit();
   });
   app.on('window-all-closed', () => app.quit());
 }

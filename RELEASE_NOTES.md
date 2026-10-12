@@ -1,3 +1,34 @@
+## KP MASTER interface update · 12 October 2026
+
+The visible software name is KP MASTER in the header, tab/window titles, About
+and report branding. Planet/cusp hover uses one teal panel with separate DMS,
+SGL, STL and SBL rows; native chart HTML/SVG tooltips are removed. Home mirrors
+retain their elements until source content changes, keeping hovered labels stable.
+Chart labels are localized by the chart formatter rather than competing with
+the general text translator; Marathi names use the same translation dictionary.
+The hover panel remains excluded from printing and closes on pointer movement.
+
+Owner and customer editions use the same corrected chart data and interface.
+The owner edition is unlocked and installs separately as KP MASTER Owner.
+The locked customer installer needs the owner's exported public key; no private
+key or temporary test key is packaged for production customers.
+
+## Raphael table and ST update · 12 October 2026
+
+All seven newly uploaded Raphel workbooks are embedded unchanged for automatic
+Bhavsadhan (0°–60° north). The seven-column layout is validated, with all 22,021
+unique rows preserved and file hashes recorded. X/XI/XII/II/III use their printed
+whole degrees; the Ascendant uses degrees/minutes. The printed values match the
+previous sheets; the new workbooks contain no hidden precise numeric columns.
+
+Automatic native ST now advances the selected ephemeris reference at full
+precision and applies the native longitude once. It avoids rounded intermediate
+LMT corrections, preserves the supplied ST +1 second, and respects UTC offset,
+DST and date rollover. Annual KP ayanamsha is evaluated at the actual birth UTC
+instant and subtracted once; final cusp values are rounded to DMS. Source rounding
+limits remain: these files do not establish arcsecond house accuracy. Existing
+Date-specific Placidus and explicit administrator manual modes remain available.
+
 # Offline Windows licensing update · 11 October 2026
 
 Client version 1.1.0 adds a System-ID activation screen, signed per-computer
@@ -34,3 +65,5 @@ Vedic chart report layout: the report owns its border with a 4 mm inner margin i
 Basic Information (BI) is beside Birth Details and prints under General information. A local administrator PIN groups the five calculation worksheets plus DBA calculations under ADM, with automatic relocking. These calculation icons and sidebar entries are hidden; the normal DBA analysis popup remains available. PIN credentials stay separate from chart files.
 
 House-table update (11 October 2026): all seven supplied Swiss Placidus workbooks are included for automatic Bhavsadhan. Their precise numeric columns supply 22,021 unique entries from 0°–60° north; local sidereal time and latitude interpolate automatically, with correct 360°/midnight handling and one KP ayanamsha subtraction. The normal Calculate action updates native cusps, kundali and significators. The source selector remains inside ADM; numbered KP Horary retains its exact numbered Ascendant. Unsupported table latitudes use the existing date-specific solver without extrapolating the uploaded tables. Existing manual chart files retain their input method.
+
+The workspace toolbar now offers Open Kundali and Save Kundali for `.lkp` files. The Calculate toolbar button is removed; automatic calculation remains active. Ctrl/⌘ S uses the same file-save action.

@@ -1,4 +1,4 @@
-# KP Master astrology workspace
+# KP MASTER astrology workspace
 
 A self-contained Krishnamurti Paddhati calculator with Marathi worksheets, South and North Indian kundalis, Traditional and KP matchmaking, and client PDF reports.
 
@@ -30,7 +30,7 @@ Open `http://127.0.0.1:8000/index.html`. The cloud workspace includes Python, Ch
 
 ## Kundali and significators
 
-Enter native birth details and place, then calculate the chart. Automatic KP ephemeris and Bhavsadhan cusps are available. The seven supplied Swiss Placidus house-table workbooks are embedded for 0°–60° north; the supplied printed house-degree and Asc DM columns are converted and interpolated by local sidereal time and latitude, with one KP ayanamsha subtraction. Other supported latitudes use the date-specific Placidus solver. ADM → Raphael houses has the compact source selector, including date-specific and manual modes. An original Raphael book has not been embedded. Calculation conventions, source hashes and coverage are in [vendor/houses/README.md](vendor/houses/README.md). The uploaded annual KP ayanamsha table is interpolated at each calculation date, with anchors from January 1, 1861 to January 1, 2147. Automatic planetary calculations support 1900–2100.
+Enter native birth details and place, then calculate the chart. Automatic KP ephemeris and Bhavsadhan cusps are available. The seven newly supplied Raphel Placidus house-table workbooks are embedded for 0°–60° north; whole-degree house columns and Asc DM are interpolated using the full-precision automatic ST reference and latitude, with one birth-instant KP ayanamsha subtraction. Source precision is whole degrees for X/XI/XII/II/III and minutes for the Ascendant; the resulting DMS display does not imply arcsecond source accuracy. Other supported latitudes use the date-specific Placidus solver. ADM → Raphael houses has the compact source selector, including date-specific and manual modes. An original Raphael book has not been embedded. Calculation conventions, source hashes and coverage are in [vendor/houses/README.md](vendor/houses/README.md). The uploaded annual KP ayanamsha table is interpolated at each calculation date, with anchors from January 1, 1861 to January 1, 2147. Automatic planetary calculations support 1900–2100.
 
 Home shows the kundali, native details, planetary/cuspal positions and five-level Vimshottari timeline. Basic, four-fold, six-fold, four-step and Nadi significator views remain available. The South Indian Kundali window shows the detailed planetary and cuspal calculation tables in the Home style, with Basic, Four-fold, Six-fold, Four-step and Nadi buttons. It retains occupancy, ownership, all lord layers, received/given aspects and conjunction evidence. Auto Fill, Automatic calculation mode, Manual Edit and Time-slice comparison controls are removed from this window.
 
