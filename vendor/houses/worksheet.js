@@ -8,16 +8,24 @@ function seconds(text,maximum){const m=/^(\d{1,3}):([0-5]\d):([0-5]\d)$/.exec(te
 function dms(degrees){const n=Math.round(degrees*3600);return Math.floor(n/3600)+':'+String(Math.floor(n%3600/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');}
 function tableValue(h,degrees){if(h!==1)return String(Math.round(norm(degrees))%360);const minutes=Math.round(norm(degrees)*60)%21600;return Math.floor(minutes/60)+':'+String(minutes%60).padStart(2,'0');}
 const tr=text=>window.KPLanguage?.translate(text)||text;
+function selectLatitude(latitude){
+ if(typeof latitude!=='number'||!Number.isFinite(latitude)||latitude<0||latitude>90)throw Error('Use a valid northern latitude for the Raphael table.');
+ const degrees=Math.floor(latitude);return degrees+(latitude-degrees>0.5?1:0);
+}
+function lookup(latitude,st,ayan=0,columns='printed'){
+ const tableLatitude=selectLatitude(latitude);
+ return {...table.lookup(tableLatitude,st,ayan,columns),latitude,tableLatitude,latitudeRule:'minutes-half-down'};
+}
 function sourceRows(data){
  const b=data?.brackets,automatic=enabled(),printed=automatic&&!!b,mr=window.KPPreferences?.get().language==='marathi';
  const extra=$('r5-source-latitude-details');if(extra)extra.hidden=!printed||b.latitudeLow===b.latitudeHigh;
- const note=$('r5-source-latitude-note');if(note){note.hidden=!printed;note.textContent=printed?(mr?'दाखवलेल्या Excel ओळी: '+b.latitudeLow+'° उ. अक्षांश. अतिरिक्त अक्षांशाच्या ओळी उघडा.':'Displayed Excel rows: '+b.latitudeLow+'° N. Open the additional latitude rows for the other source bracket.'):'';}
+ const note=$('r5-source-latitude-note');if(note){note.hidden=!printed;note.textContent=printed?(mr?'Excel साठी अक्षांश: '+data.tableLatitude+'° उ. (जन्मस्थळ: '+data.latitude.toFixed(5)+'° उ.). ३०′ पर्यंत चालू अंश; ३०′ पेक्षा जास्त असल्यास पुढील अंश.':'Excel table latitude: '+data.tableLatitude+'° N (birthplace: '+data.latitude.toFixed(5)+'° N). Up to 30′: current degree; above 30′: next degree.'):'';}
  for(const field of ['large','small','small2','diff3']){
   const cell=$('r5_'+field+'_10')?.closest('tr')?.firstElementChild;if(!cell)continue;
   if(!cell.dataset.originalSourceLabel)cell.dataset.originalSourceLabel=cell.textContent;
   cell.dataset.noLocalize='true';
   if(!automatic){cell.textContent=cell.dataset.originalSourceLabel;continue;}
-  const name=field==='large'?(mr?'मो. सां. वेळ':'Larger ST'):field==='small'?(mr?'छो. सां. वेळ':'Smaller ST'):field==='small2'?(mr?'अक्षांशानुसार छोटी सां. वेळ · अं:मि:से':'Latitude-interpolated smaller ST · D:M:S'):(mr?'अक्षांशानुसार भाव फरक क्र. ३':'Latitude-interpolated difference 3');
+  const name=field==='large'?(mr?'मो. सां. वेळ':'Larger ST'):field==='small'?(mr?'छो. सां. वेळ':'Smaller ST'):field==='small2'?(mr?'छोटी सां. वेळ · अं:मि:से':'Smaller ST · D:M:S'):(mr?'भाव फरक क्र. ३':'House difference 3');
   cell.textContent=name+(printed&&['large','small'].includes(field)?' · '+b.latitudeLow+'° '+(mr?'उ.':'N'):'');
  }
  if(!printed)return;
@@ -26,9 +34,9 @@ function sourceRows(data){
   for(const [i,h] of H.entries()){const n=$('r5-source-high-'+field+'-'+h);if(n)n.textContent=tableValue(h,b.corners[corner][i]);}
  }
 }
-function status(data,error){const n=$('r5-house-status');if(!n)return;n.dataset.ready=String(!!data?.ready);n.textContent=error?tr('House calculation unavailable')+': '+tr(error):data?.source==='horary'?tr('Numbered KP Horary retains its exact Ascendant.'):!data?tr('Manual house-table entry.'):tr(data.source==='uploaded'?'Uploaded house tables':'Calculated Placidus fallback')+' · '+tr('Latitude')+' '+data.latitude.toFixed(5)+'° · ST '+dms(data.siderealSeconds/3600)+(data.brackets?' · '+data.brackets.latitudeLow+'–'+data.brackets.latitudeHigh+'° N · '+dms(data.brackets.timeLow/3600)+' → '+dms(data.brackets.timeHigh/3600):'');}
+function status(data,error){const n=$('r5-house-status');if(!n)return;n.dataset.ready=String(!!data?.ready);n.textContent=error?tr('House calculation unavailable')+': '+tr(error):data?.source==='horary'?tr('Numbered KP Horary retains its exact Ascendant.'):!data?tr('Manual house-table entry.'):tr(data.source==='uploaded'?'Uploaded house tables':'Calculated Placidus fallback')+' · '+tr('Latitude')+' '+data.latitude.toFixed(5)+'°'+(data.tableLatitude!==undefined?' → '+tr('Raphael table latitude')+' '+data.tableLatitude+'° N':'')+' · ST '+dms(data.siderealSeconds/3600)+(data.brackets?' · '+dms(data.brackets.timeLow/3600)+' → '+dms(data.brackets.timeHigh/3600):'');}
 function fromSidereal(moment,st,ayan,computed=false){
- if(!computed&&moment.latitude>=0&&moment.latitude<=60)return table.lookup(moment.latitude,st,ayan,'printed');
+ if(!computed&&moment.latitude>=0&&selectLatitude(moment.latitude)<=60)return lookup(moment.latitude,st,ayan,'printed');
  const orientation=norm(st/240-Astronomy.SiderealTime(moment.date)*15+180)-180,houses=KPTransitHouses.calculate(moment.date,moment.latitude,orientation),dateAyan=KPEphemeris.ayanamsha(moment.date),tropicalCusps=houses.cusps.map(x=>norm(x+dateAyan));
  return {...houses,ready:true,source:'computed',latitude:moment.latitude,siderealSeconds:st,ayanamsha:ayan,tropicalCusps,cusps:tropicalCusps.map(x=>norm(x-ayan))};
 }
@@ -54,7 +62,7 @@ function write(data){
   const tropical=data.tropicalCusps[h-1],absolute=Math.round(data.cusps[h-1]*3600)%1296000,sign=Math.floor(absolute/108000),degree=absolute/3600;
   const difference=b?delta(b.small[i],b.large[i]):0,ishta=b?difference*b.timeFraction:0;
   // Source rows must be actual workbook entries, not fractional latitude blends.
-  // Keep full-precision latitude/ST interpolation in the derived calculation rows.
+  // The selected whole latitude is fixed; retain full-precision ST interpolation.
   for(const [field,n] of [['small',b?b.corners[0][i]:tropical],['small2',b?b.small[i]:tropical],['large',b?b.corners[1][i]:tropical],['diff3',difference],['ishta',ishta],['smallplus',tropical],['geoayan',data.ayanamsha],['nirayan',degree],['minus',sign*30],['bhava',degree-sign*30]])set('r5_'+field+'_'+h,['small','large'].includes(field)?tableValue(h,n):dms(n));
   set('r5_rashi_'+h,SIGNS[sign]);set('r5_opposite_'+h,SIGNS[(sign+6)%12]);
   set('r5_calc_diff1_'+h,value('stDiff1'));set('r5_calc_diff2_'+h,value('stDiff2'));set('r5_calc_diff3_'+h,dms(difference));set('r5_calc_ishta_'+h,(ishta*60).toFixed(6).replace(/\.?0+$/,''));
@@ -81,6 +89,6 @@ function init(){
  const changed=e=>{const id=e.target?.id||'';if(id==='r5-house-source'||['birthPlaceSiderealTime','lat','lon','ayanValue','kp-ayanamsha-source'].includes(id)){key='';clearTimeout(timer);timer=setTimeout(()=>window.calculateAll?.(),110);}};
  document.addEventListener('change',changed);document.addEventListener('input',changed);window.addEventListener('kp-preferences-changed',()=>{sourceRows(current);status(current);});window.KPLanguage?.localize(controls);window.calculateAll?.();
 }
-window.KPBhavSadhan=Object.freeze({enabled,apply,fromMoment,lookup:table.lookup,metadata:table.metadata,getData:()=>copy(current)});
+window.KPBhavSadhan=Object.freeze({enabled,apply,fromMoment,lookup,selectLatitude,metadata:table.metadata,getData:()=>copy(current)});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0));else init();
 })();

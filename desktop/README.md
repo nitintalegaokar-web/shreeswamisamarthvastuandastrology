@@ -1,6 +1,6 @@
 # KP MASTER · Offline Windows
 
-Run **KP-Master-Offline-Windows-1.1.2-x64.exe** on Windows 10 or Windows 11 (64-bit).
+Run **KP-Master-Offline-Windows-1.1.3-x64.exe** on Windows 10 or Windows 11 (64-bit).
 This client version requires a signed activation license for its System ID.
 Use the separate Owner Activation tool on your own PC to issue licenses; see
 [licensing/README.md](licensing/README.md) for first-time key setup and activation.
@@ -12,7 +12,7 @@ connection are not required on the user's computer. Keep the executable in a
 permanent folder and double-click it. The first launch extracts its bundled
 runtime to a temporary folder; allow a few seconds for this to finish.
 
-Alternatively, use **KP-Master-Setup-1.1.2-x64.exe** for a normal installation.
+Alternatively, use **KP-Master-Setup-1.1.3-x64.exe** for a normal installation.
 Its wizard lets you choose the installation folder and creates desktop and Start
 menu shortcuts. It includes an uninstaller registered in Windows Installed Apps.
 Installation defaults to the current user and does not require administrator
@@ -20,7 +20,7 @@ access. All runtime files are included; no separate Python, Node.js or browser
 installation is needed. Uninstalling preserves saved charts, preferences and
 activation data. A setup installer for the previously released 1.0.0 calculator
 repackages that exact unlocked application; it does not add activation or data
-encryption. Use the owner-bound 1.1.2 edition for client licensing.
+encryption. Use the owner-bound 1.1.3 edition for client licensing.
 
 Save kundalis as `.lkp` files using the application's Save controls. Open existing
 `.lkp` charts with Open Kundali; degrees are recalculated using the packaged automatic
@@ -76,6 +76,6 @@ offline calculations, save/load, preferences across restart, and Marathi A4
 printing. Linux tests use `--no-sandbox` solely for the restricted test container;
 this switch is not part of the Windows launcher.
 
-The unlocked full calculator for the owner is **KP-Master-Owner-Setup-1.0.2-x64.exe** (KP MASTER Owner). It installs separately from the locked customer application. This edition includes the new Raphael tables, full-precision ST, birth-instant KP ayanamsha, single chart hover popup and KP MASTER branding. The Owner Activation tool is a separate program for key generation and signed client license files. The owner-bound customer version 1.1.2 requires the exported public key before it can be built.
+The unlocked full calculator for the owner is **KP-Master-Owner-Setup-1.0.3-x64.exe** (KP MASTER Owner). It installs separately from the locked customer application. This edition includes the new Raphael tables, full-precision ST, birth-instant KP ayanamsha, single chart hover popup and KP MASTER branding. The Owner Activation tool is a separate program for key generation and signed client license files. The owner-bound customer version 1.1.3 requires the exported public key before it can be built.
 
 Build the full unlocked owner calculator with `npm run build:owner-edition:setup`. With an X display, `npm run test:owner-runtime` verifies this edition without keys, its Open/Save Kundali buttons, saved chart degrees, Marathi labels and single hover panel.

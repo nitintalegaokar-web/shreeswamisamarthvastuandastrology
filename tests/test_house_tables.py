@@ -106,9 +106,48 @@ class BhavsadhanTests(unittest.TestCase):
 
     def verify(self, result):
         self.assertTrue(result['ready']); d = result['data']; self.assertEqual(d['source'], 'uploaded')
-        expected = reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))
+        expected = reference(d.get('tableLatitude', d['latitude']), d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))
         self.assertEqual(result['cusps'], [math.floor(x*3600+.5) % 1296000 for x in expected])
         self.assertEqual(result['source'], 'automatic')
+
+    def test_latitude_minute_selection_changes_actual_table_calculations(self):
+        p=self.page;self.sample()
+        inputs=[0,0.5,0.5+1/3600,18+29/60+59/3600,18.5,18.5+1/3600,18+59/60+59/3600,19,59.5,59.5+1/3600,60,60.5,60.5+1/3600]
+        self.assertEqual(p.evaluate('values=>values.map(KPBhavSadhan.selectLatitude)',inputs),[0,0,1,18,18,19,19,19,59,60,60,60,61])
+        common={'instant-prashna':'0','dob':'1986-07-15','birthTime':'13:11:00','lon':'74:13:00','birth-utc-offset':'5.5','r5-house-source':'automatic'}
+        planets=None
+        for latitude,chosen in [('18:29:59',18),('18:30:00',18),('18:30:01',19),('18:59:59',19),('60:30:00',60)]:
+            p.evaluate('fields=>{for(const [id,v] of Object.entries(fields))document.getElementById(id).value=v;calculateAll()}',{**common,'lat':latitude})
+            sample=self.sample();self.verify(sample);data=sample['data'];b=data['brackets']
+            actual=sum(int(x)/divisor for x,divisor in zip(latitude.split(':'),[1,60,3600]))
+            self.assertEqual(p.locator('#lat').input_value(),latitude)
+            self.assertAlmostEqual(data['latitude'],actual,places=12)
+            self.assertEqual(data['tableLatitude'],chosen)
+            self.assertEqual(data['latitudeRule'],'minutes-half-down')
+            self.assertEqual((b['latitudeLow'],b['latitudeHigh'],b['latitudeFraction']),(chosen,chosen,0))
+            row=DATA['times'].index(b['timeLow'])
+            self.assertEqual(b['corners'][0],DATA['printedValues'][chosen][row])
+            for actual_value,source_value in zip(b['small'],DATA['printedValues'][chosen][row]):self.assertAlmostEqual(actual_value,source_value,places=11)
+            self.assertEqual(p.locator('#r5_small_12').input_value(),str(round(DATA['printedValues'][chosen][row][2])))
+            expect(p.locator('#r5-house-status')).to_contain_text(f'Raphael table latitude {chosen}° N')
+            expected=[math.floor(x*3600+.5)%1296000 for x in reference(chosen,data['siderealSeconds'],data['ayanamsha'],'printed')]
+            self.assertEqual(sample['cusps'],expected)
+            previous=[math.floor(x*3600+.5)%1296000 for x in reference(actual,data['siderealSeconds'],data['ayanamsha'],'printed')] if actual<=60 else None
+            if previous is not None:self.assertNotEqual(sample['cusps'],previous)
+            now=p.evaluate('currentKPModel.planets.map(x=>x.longitude)')
+            if planets is None:planets=now
+            else:self.assertEqual(now,planets)
+        # No 61-degree sheet is invented or clamped to 60; fallback uses true latitude.
+        p.evaluate('document.getElementById("lat").value="60:30:01";calculateAll()')
+        data=self.sample()['data'];self.assertEqual(data['source'],'computed');self.assertAlmostEqual(data['latitude'],60.5+1/3600)
+        # Explicit astronomical mode keeps the true geographical latitude.
+        p.locator("#quick-admin-calculations").click();p.locator("[name=admin-pin]").fill("684219");p.locator("[name=admin-confirm]").fill("684219");p.locator("#admin-pin-submit").click();expect(p.locator("#admin-calculation-host")).to_be_visible()
+        p.evaluate('document.getElementById("r5-house-source").value="computed";document.getElementById("lat").value="18:30:01";calculateAll()')
+        data=self.sample()['data'];self.assertEqual(data['source'],'computed');self.assertAlmostEqual(data['latitude'],18.5+1/3600)
+        self.assertNotIn('tableLatitude',data)
+        p.evaluate('document.getElementById("r5-house-source").value="automatic";calculateAll();KPPreferences.save({...KPPreferences.get(),language:"marathi"})')
+        expect(p.locator('#r5-source-latitude-note')).to_contain_text('Excel साठी अक्षांश: 19°')
+        expect(p.locator('#r5-source-latitude-note')).to_contain_text('३०′ पेक्षा जास्त')
 
     def test_source_rows_keep_excel_degrees_and_ascendant_dm(self):
         p=self.page
@@ -143,8 +182,8 @@ class BhavsadhanTests(unittest.TestCase):
                 p.locator('#r5-source-latitude-details summary').click()
             else:expect(extra).to_be_hidden()
         p.evaluate('document.getElementById("lat").value="18:47:00";calculateAll();KPPreferences.save({...KPPreferences.get(),language:"marathi"})')
-        expect(p.locator('#r5-source-latitude-note')).to_contain_text('दाखवलेल्या Excel ओळी')
-        expect(p.locator('#r5_small2_10').locator('..').locator('..')).to_contain_text('अक्षांशानुसार छोटी सां. वेळ')
+        expect(p.locator('#r5-source-latitude-note')).to_contain_text('Excel साठी अक्षांश')
+        expect(p.locator('#r5_small2_10').locator('..').locator('..')).to_contain_text('छोटी सां. वेळ')
         p.locator('#raphael5 .raphael5-table').screenshot(path='/tmp/kp-raphel-whole-degree-source-rows.png')
 
     def test_full_precision_st_and_birth_instant_kp_ayanamsha(self):
@@ -171,7 +210,7 @@ class BhavsadhanTests(unittest.TestCase):
             start=datetime(year,1,1,tzinfo=timezone.utc);end=datetime(year+1,1,1,tzinfo=timezone.utc)
             ayan=(anchors[year]+(anchors[year+1]-anchors[year])*(instant-start)/(end-start))/3600
             self.assertAlmostEqual(d['ayanamsha'],ayan,places=11)
-            expected_cusps=reference(d['latitude'],d['siderealSeconds'],ayan,'printed')
+            expected_cusps=reference(d.get('tableLatitude', d['latitude']),d['siderealSeconds'],ayan,'printed')
             self.assertEqual(result['cusps'],[math.floor(x*3600+.5)%1296000 for x in expected_cusps])
             rounded=math.floor(d['siderealSeconds']+.5)
             self.assertEqual(result['st'],f'{rounded//3600}:{rounded%3600//60:02}:{rounded%60:02}')
@@ -188,7 +227,7 @@ class BhavsadhanTests(unittest.TestCase):
         p.evaluate('document.getElementById("r5-house-source").value="computed";calculateAll()'); self.assertEqual(self.sample()['data']['source'], 'computed'); self.assertEqual(p.evaluate('currentKPModel.planets.map(x=>x.longitude)'), original_planets)
         p.evaluate('document.getElementById("r5-house-source").value="automatic";document.getElementById("birthTime").value="04:03:02";document.getElementById("birthTime").dispatchEvent(new Event("change",{bubbles:true}))')
         p.wait_for_timeout(500); changed = self.sample(); self.verify(changed); self.assertNotEqual(changed['cusps'], before['cusps'])
-        for latitude, source in [('60:00:00','uploaded'), ('60:00:01','computed'), ('-18:48:00','computed')]:
+        for latitude, source in [('60:00:00','uploaded'), ('60:30:00','uploaded'), ('60:30:01','computed'), ('-18:48:00','computed')]:
             p.evaluate('lat=>{document.getElementById("lat").value=lat;calculateAll()}', latitude); self.assertEqual(self.sample()['data']['source'], source); self.assertTrue(self.sample()['ready'])
         p.evaluate('document.getElementById("lat").value="70:00:00";calculateAll()'); self.assertFalse(self.sample()['ready']); self.assertIsNone(self.sample()['data']); self.assertEqual(p.locator('#r5_nirayan_1').input_value(), '')
         self.assertEqual(p.evaluate('Array.from({length:3},()=>KPVedic.core().ready)'), [False]*3)
@@ -234,7 +273,7 @@ class HousePrivateTests(unittest.TestCase):
     def test_private_worker_embeds_tables_and_hides_house_controls(self):
         result = self.private('({data:KPBhavSadhan.getData(),cusps:currentKPModel.houses.map(h=>h.longitude),ready:currentKPModel.ready})')
         self.assertTrue(result['ready']); d = result['data']; self.assertEqual(d['source'], 'uploaded')
-        self.assertEqual(result['cusps'], [math.floor(x*3600+.5) % 1296000 for x in reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))])
+        self.assertEqual(result['cusps'], [math.floor(x*3600+.5) % 1296000 for x in reference(d.get('tableLatitude', d['latitude']), d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))])
         self.assertEqual(self.page.evaluate('typeof KPBhavSadhan'), 'undefined')
         self.assertEqual(self.page.locator('#r5-house-source,#kp-uploaded-house-data').count(), 0)
         expect(self.page.locator('#quick-admin-calculations')).to_be_hidden()
@@ -249,4 +288,4 @@ class HousePrivateTests(unittest.TestCase):
         imported = self.private('({data:KPBhavSadhan.getData(),cusps:currentKPModel.houses.map(h=>h.longitude),ready:currentKPModel.ready,source:document.getElementById("r5-house-source").value})')
         self.assertTrue(imported['ready']); self.assertEqual(imported['source'], 'automatic')
         d = imported['data']; self.assertEqual(d['source'], 'uploaded')
-        self.assertEqual(imported['cusps'], [math.floor(x*3600+.5) % 1296000 for x in reference(d['latitude'], d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))])
+        self.assertEqual(imported['cusps'], [math.floor(x*3600+.5) % 1296000 for x in reference(d.get('tableLatitude', d['latitude']), d['siderealSeconds'], d['ayanamsha'], columns=d.get('tableColumns','numeric'))])

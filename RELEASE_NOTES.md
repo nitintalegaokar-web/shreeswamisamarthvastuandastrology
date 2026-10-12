@@ -1,3 +1,22 @@
+## Raphael latitude-minute rule · 12 October 2026
+
+Automatic Raphael calculations now select one latitude sheet: minutes up to
+and including 30′ use the current degree; minutes strictly above 30′ use the
+next degree. 18°30′00″ uses 18° N; 18°30′01″ uses 19° N. The selected sheet is
+used for the actual cusp calculation and displayed Excel values, with ST
+interpolation retained and no interpolation across latitude sheets. The
+original geographical latitude remains unchanged in birth details and reports.
+The source status shows both the original and selected table latitude.
+
+60°30′00″ uses 60° N; above that the requested 61° sheet is unavailable, so
+the existing Placidus fallback uses true geographical latitude. Explicit
+Date-specific Placidus and numbered horary continue to use their own methods.
+The source values still show whole degrees for X/XI/XII/II/III and D:M for the
+Ascendant. ST, KP ayanamsha and final DMS rounding remain unchanged.
+
+Owner 1.0.3 and customer 1.1.3 include this rule. Customer licensing retains
+the same public-key ID FFD543E7AFCE69618D61325E and existing license format.
+
 ## Raphael source units · 12 October 2026
 
 The Raphael worksheet source rows now display the original Excel entries: whole
