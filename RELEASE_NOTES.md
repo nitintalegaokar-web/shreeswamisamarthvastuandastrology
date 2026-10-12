@@ -1,3 +1,17 @@
+## Raphael source units · 12 October 2026
+
+The Raphael worksheet source rows now display the original Excel entries: whole
+degrees for X, XI, XII, II and III; D:M for the Ascendant. They show the lower
+latitude bracket explicitly, with the adjacent latitude source rows available
+under a compact arrow. Previously latitude-interpolated source values could
+appear as long decimals, such as 86.78333333. Latitude interpolation now appears
+in clearly labelled derived D:M:S rows, while full-precision final cusp
+calculations, ST, KP ayanamsha and source workbooks remain unchanged.
+
+Owner installer 1.0.2 and customer installer 1.1.2 include this correction.
+The locked customer remains bound to owner public-key ID
+FFD543E7AFCE69618D61325E; no private key is needed for building either edition.
+
 ## KP MASTER interface update · 12 October 2026
 
 The visible software name is KP MASTER in the header, tab/window titles, About

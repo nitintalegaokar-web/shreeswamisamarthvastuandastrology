@@ -110,6 +110,43 @@ class BhavsadhanTests(unittest.TestCase):
         self.assertEqual(result['cusps'], [math.floor(x*3600+.5) % 1296000 for x in expected])
         self.assertEqual(result['source'], 'automatic')
 
+    def test_source_rows_keep_excel_degrees_and_ascendant_dm(self):
+        p=self.page
+        p.wait_for_selector('#r5-source-latitude-details',state='attached')
+        p.locator('#quick-admin-calculations').click()
+        p.locator('[name="admin-pin"]').fill('684219');p.locator('[name="admin-confirm"]').fill('684219');p.locator('#admin-pin-submit').click()
+        p.locator('[data-admin-worksheet="raphael5"]').click()
+        def dm(x):
+            minutes=math.floor(x*60+.5)%21600
+            return f'{minutes//60}:{minutes%60:02}'
+        def dms(x):
+            n=math.floor(x*3600+.5)
+            return f'{n//3600}:{n%3600//60:02}:{n%60:02}'
+        for lat in ['18:47:00','18:48:00','0:00:00','60:00:00']:
+            p.evaluate('lat=>{document.getElementById("lat").value=lat;document.getElementById("instant-prashna").value="0";document.getElementById("dob").value="1986-07-15";document.getElementById("birthTime").value="13:11:00";document.getElementById("lon").value="74:13:00";calculateAll()}',lat)
+            result=self.sample();self.verify(result);b=result['data']['brackets']
+            self.assertEqual(b['corners'][0],DATA['printedValues'][b['latitudeLow']][DATA['times'].index(b['timeLow'])])
+            self.assertEqual(b['corners'][1],DATA['printedValues'][b['latitudeLow']][DATA['times'].index(b['timeHigh'])])
+            for field,corner in [('small',0),('large',1)]:
+                for i,h in enumerate(HOUSES):
+                    text=p.locator(f'#r5_{field}_{h}').input_value()
+                    self.assertEqual(text,dm(b['corners'][corner][i]) if h==1 else str(round(b['corners'][corner][i])))
+                    self.assertRegex(text,r'^\d{1,3}:[0-5]\d$' if h==1 else r'^\d{1,3}$')
+            for i,h in enumerate(HOUSES):
+                self.assertEqual(p.locator(f'#r5_small2_{h}').input_value(),dms(b['small'][i]))
+            extra=p.locator('#r5-source-latitude-details')
+            if b['latitudeHigh']!=b['latitudeLow']:
+                expect(extra).to_be_visible();p.locator('#r5-source-latitude-details summary').click()
+                for field,corner in [('small',2),('large',3)]:
+                    for i,h in enumerate(HOUSES):
+                        self.assertEqual(p.locator(f'#r5-source-high-{field}-{h}').inner_text(),dm(b['corners'][corner][i]) if h==1 else str(round(b['corners'][corner][i])))
+                p.locator('#r5-source-latitude-details summary').click()
+            else:expect(extra).to_be_hidden()
+        p.evaluate('document.getElementById("lat").value="18:47:00";calculateAll();KPPreferences.save({...KPPreferences.get(),language:"marathi"})')
+        expect(p.locator('#r5-source-latitude-note')).to_contain_text('दाखवलेल्या Excel ओळी')
+        expect(p.locator('#r5_small2_10').locator('..').locator('..')).to_contain_text('अक्षांशानुसार छोटी सां. वेळ')
+        p.locator('#raphael5 .raphael5-table').screenshot(path='/tmp/kp-raphel-whole-degree-source-rows.png')
+
     def test_full_precision_st_and_birth_instant_kp_ayanamsha(self):
         def gmst(stamp):
             date=datetime.fromisoformat(stamp.replace('Z','+00:00'))
