@@ -1,3 +1,24 @@
+## Verified owner-key compatibility · 12 October 2026
+
+Customer 1.1.5 accepts licenses signed by the newly supplied and verified owner
+public key D5909EAD14FB2D4717E98A8C. The previously packaged original owner key
+FFD543E7AFCE69618D61325E remains accepted for existing licenses. The supplied
+license's signature and System ID were valid; Customer 1.1.4 rejected it because
+it contained only the original owner's public key.
+
+Approved public keys are explicitly bundled at build time. Keys inside license
+files, renderer input and user-data files never become trusted. Each license
+still requires a valid signature, matching native System ID, valid dates and
+unexpired term. Activate/Deactivate controls must come from the same approved
+key that issued the installed license and target that exact license. Existing
+signed license/control formats and application-data identity are retained.
+The activation screen shows accepted owner Key IDs in English/Marathi.
+
+The Owner Activation tool remains 1.1.0, and the full unlocked Owner calculator
+remains 1.0.3. Mathematical calculations, Raphael tables, the latitude-minute
+rule, KP ayanamsha, System ID reader and report layouts are unchanged. No private
+owner key, customer license or client identity override is included in the build.
+
 ## Issued-license controls · 12 October 2026
 
 Owner Activation tool 1.1.0 adds green Activate and red Deactivate buttons to

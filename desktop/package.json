@@ -1,6 +1,6 @@
 {
   "name": "kp-master-desktop",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "KP MASTER offline astrology desktop application",
   "author": "Nitin Talegaonkar",
   "private": true,
@@ -34,6 +34,7 @@
       "policy.cjs",
       "preload.cjs",
       "licensing/core.cjs",
+      "licensing/trust.cjs",
       "licensing/system-id.cjs",
       "licensing/gate.cjs",
       "licensing/activation.html",

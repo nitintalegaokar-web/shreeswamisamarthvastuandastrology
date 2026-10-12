@@ -4,13 +4,17 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(__dirname, 'app');
 const {publicKey}=require('./licensing/core.cjs');
+const {parseAdditionalKeys}=require('./licensing/trust.cjs');
 const keyFile=process.env.KP_LICENSE_PUBLIC_KEY_FILE||path.join(__dirname,'owner-public-key.pem');
 if(!fs.existsSync(keyFile))throw Error('Export your public key from KP Master Activation, then set KP_LICENSE_PUBLIC_KEY_FILE to that file. A locked client build requires your owner public key.');
 const publicText=fs.readFileSync(keyFile,'utf8');
 if(!publicText.includes('-----BEGIN PUBLIC KEY-----')||publicText.includes('PRIVATE KEY'))throw Error('Use only the exported PUBLIC key file. Do not provide your private owner key.');
 const ownerPublic=publicKey(publicText).export({format:'pem',type:'spki'});
+const extraFile=process.env.KP_LICENSE_EXTRA_PUBLIC_KEYS_FILE||path.join(__dirname,'licensing','additional-owner-public-keys.json');
+const additionalKeys=parseAdditionalKeys(fs.readFileSync(extraFile,'utf8'));
 fs.mkdirSync(target, {recursive:true});
 fs.writeFileSync(path.join(target,'owner-public-key.pem'),ownerPublic);
+fs.writeFileSync(path.join(target,'additional-owner-public-keys.json'),JSON.stringify({version:1,publicKeys:additionalKeys},null,2)+'\n');
 for (const filename of ['index.html', 'README.md', 'RELEASE_NOTES.md']) {
   fs.copyFileSync(path.join(root, filename), path.join(target, filename));
 }

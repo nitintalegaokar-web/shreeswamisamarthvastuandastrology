@@ -1,6 +1,6 @@
 # System-ID client activation
 
-KP MASTER Customer 1.1.4 requires an Ed25519-signed license for the current computer.
+KP MASTER Customer 1.1.5 requires an Ed25519-signed license for the current computer.
 Until verification succeeds, only the activation screen loads; the calculation
 workspace, chart-file APIs and preview windows are blocked. Verification runs
 at startup and every minute while the program stays open.
@@ -67,8 +67,10 @@ another owner or computer are rejected. Clients need Customer 1.1.4 or later to
 apply these files. An offline client must import the command: clicking the owner
 button does not remotely contact or instantly disable that computer.
 
-For the existing customer build, continue using owner key ID
-**FFD543E7AFCE69618D61325E** on your own PC. Installing the updated tool preserves
+Customer 1.1.5 accepts the verified current owner key ID
+**D5909EAD14FB2D4717E98A8C**, while retaining original key ID
+**FFD543E7AFCE69618D61325E** for existing licenses. Continue using the same
+issuing private key on your own PC. Installing the updated tool preserves
 its existing history and application identity. The full unlocked Owner calculator
 1.0.3 is a separate application and does not require these status files.
 
@@ -88,3 +90,20 @@ malformed licenses, expiry, identifier stability and encrypted key reopening.
 with ephemeral keys in isolated temporary copies, including Retry ID recovery, signed status changes, restart persistence and stale-command rejection. The production public-key package is never replaced with those test keys.
 Windows-specific WMI reads and the executable launch need a native Windows check;
 the Linux desktop test uses its actual `/etc/machine-id` without a licensing bypass.
+
+## Additional approved owner key
+
+Customer 1.1.5 retains the original public key and adds the owner's explicitly
+provided public export after verifying a supplied license and its System ID.
+`additional-owner-public-keys.json` is normalized during preparation and bundled
+inside ASAR. Arbitrary keys in license files or user data are never imported into
+this trust list. Signature validation selects the actual approved signer, then
+keeps System ID, expiry and date validation intact. An expired license signed by
+one approved key cannot fall through to another key to become valid.
+
+The activation screen lists accepted owner Key IDs. A status file must have the
+same signer and license ID as the installed signed license; an additional trusted
+key cannot deactivate or reactivate a license issued by another key. Existing
+owner .kplicense and .kpcontrol exports remain compatible, and the supplied
+license is not changed, renewed, or embedded in any installer. No production
+private key is opened, requested, generated or packaged by this update.

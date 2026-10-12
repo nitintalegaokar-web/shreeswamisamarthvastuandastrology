@@ -75,6 +75,7 @@ const {getSystemId}=require('../licensing/system-id.cjs');
     await owner.close();owner=null;
     console.log('PASS owner: local encrypted key, public-only export, signed issuance, wrong-password rejection, key lock and history.');
     await fs.copyFile(ownerPublic,path.join(clientRoot,'app','owner-public-key.pem'));
+    await fs.writeFile(path.join(clientRoot,'app','additional-owner-public-keys.json'),JSON.stringify({version:1,publicKeys:[alternate.publicKey.export({type:'spki',format:'pem'})]}));
     // First read fails only in this copied test project. Retry calls the real
     // Linux reader; this is not a shipping flag or System-ID override.
     const readerFile=path.join(clientRoot,'licensing','system-id.cjs'),reader=await fs.readFile(readerFile,'utf8');
@@ -101,6 +102,9 @@ const {getSystemId}=require('../licensing/system-id.cjs');
     await locked.waitForFunction('document.readyState==="complete" && typeof KPAutomaticCalculations!=="undefined"',null,{timeout:120000});
     assert.equal(await locked.evaluate('currentKPModel.ready'),true);
     await locked.locator('.backup-menu summary').click();await locked.locator('#kp-import-license-status').waitFor({state:'visible'});
+    const crossOwner=path.join(temporary,'different-approved-owner.kpcontrol');await fs.writeFile(crossOwner,JSON.stringify(core.issueControl(alternate.privateKey,{licenseId:core.verify(license,publicPem,systemId).licenseId,systemId,action:'deactivate',revision:1})));
+    await client.evaluate(({dialog},file)=>{dialog.showOpenDialog=async()=>({canceled:false,filePaths:[file]});},crossOwner);
+    await assert.rejects(()=>locked.evaluate('KPLicensing.importControl()'),/owner key that issued this license/);assert.match(locked.url(),/app\/index.html$/);
     await client.evaluate(({dialog},file)=>{dialog.showOpenDialog=async()=>({canceled:false,filePaths:[file]});},deactivationFile);
     await locked.locator('#kp-import-license-status').click();await locked.waitForURL('**/licensing/activation.html');
     await locked.waitForFunction('document.getElementById("status").textContent.includes("deactivated by the owner")');
@@ -130,6 +134,10 @@ const {getSystemId}=require('../licensing/system-id.cjs');
     await changed.waitForFunction('document.getElementById("status").textContent.includes("software owner")');
     assert.equal(await changed.evaluate('typeof KPAutomaticCalculations'),'undefined');
     console.log('PASS restart: valid license persists offline; modified saved license locks the workspace again.');
+    const additionalLicense=path.join(temporary,'additional-owner.kplicense');await fs.writeFile(additionalLicense,JSON.stringify(core.issue(alternate.privateKey,{systemId,clientName:'Additional approved owner client'})));
+    await client.evaluate(({dialog},file)=>{dialog.showOpenDialog=async()=>({canceled:false,filePaths:[file]});},additionalLicense);await changed.locator('#activate').click();await changed.waitForURL('**/app/index.html',{timeout:120000});await changed.waitForFunction('currentKPModel?.ready',null,{timeout:120000});
+    assert.equal(core.verify(await fs.readFile(path.join(userData,'system-license.json'),'utf8'),alternate.publicKey,systemId).clientName,'Additional approved owner client');
+    console.log('PASS owner migration: both approved signing keys can activate; status from another approved owner cannot control the installed license.');
     console.log('Artifacts: '+temporary+' (test keys only; never include in a release).');
   }finally{if(owner)await owner.close();if(client)await client.close();}
 })().catch(error=>{console.error(error.stack);process.exitCode=1;});

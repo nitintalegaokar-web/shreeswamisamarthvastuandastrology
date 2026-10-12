@@ -33,7 +33,7 @@ function signedClaims(license,key){
   if(typeof license==='string'){if(Buffer.byteLength(license)>16384)throw Error('The license file is too large.');try{license=JSON.parse(license);}catch{throw Error('Choose a valid KP license file.');}}
   if(!license||typeof license.payload!=='string'||typeof license.signature!=='string'||license.payload.length>12000||!/^[A-Za-z0-9_-]+$/.test(license.payload)||!/^[A-Za-z0-9_-]+$/.test(license.signature))throw Error('Choose a valid KP license file.');
   const data=Buffer.from(license.payload,'base64url'),signature=Buffer.from(license.signature,'base64url');
-  if(signature.length!==64||!crypto.verify(null,data,publicKey(key),signature))throw Error('This license was not issued by your software owner, or has been changed.');
+  if(signature.length!==64||!crypto.verify(null,data,publicKey(key),signature)){const error=Error('This license was not issued by your software owner, or has been changed.');error.code='KP_OWNER_SIGNATURE';throw error;}
   let claims;try{claims=JSON.parse(data.toString('utf8'));}catch{throw Error('The license data is invalid.');}
   return claims;
 }
