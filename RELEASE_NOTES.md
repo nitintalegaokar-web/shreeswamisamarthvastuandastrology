@@ -1,3 +1,36 @@
+## Coherent native worksheets and manual saves · 12 October 2026
+
+Owner calculator 1.0.4 and Customer calculator 1.1.6 apply the latest explicit
+latitude examples: 10°29′ → 10°; 10°30′ and 10°47′ → 11°. The original native
+latitude is retained. A selected northern sheet above 60° uses the existing
+physical-latitude Placidus fallback. Uploaded XLSX data and printed source units
+are unchanged: X/XI/XII/II/III whole degrees; Ascendant degrees and minutes.
+
+Automatic ST now uses one shared full-precision sidereal rotation, applying the
+native UTC instant and longitude once. The worksheet and Bhavsadhan agree;
+subtotal hours no longer wrap before the displayed 24-hour adjustment. Manual ST
+retains the legacy 10/6 method. The uploaded ephemeris ST +1-second adjustment
+is retained. For 20 December 1950, 05:02 IST, ST is 10:30:46 at 76°42′ E and
+11:20:38 at 89°10′ E. The differing longitude changes ST by 49 minutes 52 seconds.
+
+Automatic planetary dates always follow the requested 05:30 boundary: previous
+date/birth date before 05:30, birth date/next date from 05:30 onward. Birth-date
+05:30 positions receive a signed daily-motion correction; pre-dawn corrections
+are negative. Wrap-around and retrograde motion retain signed interpolation.
+Automatic mode repairs stale dates; obsolete loaders cannot replace manual rows.
+
+ADM adds Save manual entries, visible only with a manual source selected. Saving
+creates a .lkp chart with explicit manual overrides bound to those native inputs.
+They survive locking ADM, recalculation and reopening the saved chart. With ADM
+locked, changed birth inputs use automatic calculations instead. Cancelling or failing Save
+restores the prior saved override; PINs are excluded from chart files.
+
+Customer licensing keeps both approved owner public keys and existing license
+compatibility. Owner Activation 1.1.1 retains Remove/Restore, Help, Text exports
+and signed Activate/Deactivate controls. No owner private key or client identity
+is included in these installers. Builds are inspected on Linux; installation
+and execution on native Windows still require a Windows computer.
+
 ## Owner Activation history and Help · 12 October 2026
 
 Owner Activation tool 1.1.1 adds Remove beside each issued license, available even

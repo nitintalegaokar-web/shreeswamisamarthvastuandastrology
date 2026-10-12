@@ -10,16 +10,16 @@ function tableValue(h,degrees){if(h!==1)return String(Math.round(norm(degrees))%
 const tr=text=>window.KPLanguage?.translate(text)||text;
 function selectLatitude(latitude){
  if(typeof latitude!=='number'||!Number.isFinite(latitude)||latitude<0||latitude>90)throw Error('Use a valid northern latitude for the Raphael table.');
- const degrees=Math.floor(latitude);return degrees+(latitude-degrees>0.5?1:0);
+ const degrees=Math.floor(latitude);return degrees+(latitude-degrees>=0.5?1:0);
 }
 function lookup(latitude,st,ayan=0,columns='printed'){
  const tableLatitude=selectLatitude(latitude);
- return {...table.lookup(tableLatitude,st,ayan,columns),latitude,tableLatitude,latitudeRule:'minutes-half-down'};
+ return {...table.lookup(tableLatitude,st,ayan,columns),latitude,tableLatitude,latitudeRule:'minutes-half-up'};
 }
 function sourceRows(data){
  const b=data?.brackets,automatic=enabled(),printed=automatic&&!!b,mr=window.KPPreferences?.get().language==='marathi';
  const extra=$('r5-source-latitude-details');if(extra)extra.hidden=!printed||b.latitudeLow===b.latitudeHigh;
- const note=$('r5-source-latitude-note');if(note){note.hidden=!printed;note.textContent=printed?(mr?'Excel साठी अक्षांश: '+data.tableLatitude+'° उ. (जन्मस्थळ: '+data.latitude.toFixed(5)+'° उ.). ३०′ पर्यंत चालू अंश; ३०′ पेक्षा जास्त असल्यास पुढील अंश.':'Excel table latitude: '+data.tableLatitude+'° N (birthplace: '+data.latitude.toFixed(5)+'° N). Up to 30′: current degree; above 30′: next degree.'):'';}
+ const note=$('r5-source-latitude-note');if(note){note.hidden=!printed;note.textContent=printed?(mr?'Excel साठी अक्षांश: '+data.tableLatitude+'° उ. (जन्मस्थळ: '+data.latitude.toFixed(5)+'° उ.). ३०′ पेक्षा कमी: चालू अंश; ३०′ किंवा अधिक: पुढील अंश.':'Excel table latitude: '+data.tableLatitude+'° N (birthplace: '+data.latitude.toFixed(5)+'° N). Below 30′: current degree; 30′ or above: next degree.'):'';}
  for(const field of ['large','small','small2','diff3']){
   const cell=$('r5_'+field+'_10')?.closest('tr')?.firstElementChild;if(!cell)continue;
   if(!cell.dataset.originalSourceLabel)cell.dataset.originalSourceLabel=cell.textContent;
@@ -43,14 +43,9 @@ function fromSidereal(moment,st,ayan,computed=false){
 function fromMoment(moment){const st=norm(Astronomy.SiderealTime(moment.date)*15+moment.longitude)*240;return fromSidereal(moment,st,KPEphemeris.ayanamsha(moment.date),mode()==='computed');}
 function nativeSidereal(moment){
  if(value('st-ephemeris-source')!=='automatic')return seconds(value('birthPlaceSiderealTime'),86400);
- const reference=window.KPWorksheetEphemeris?.getSidereal();
- if(!reference?.ready||!Number.isFinite(reference.hours)||!Number.isFinite(reference.offset))throw Error('Automatic sidereal reference is unavailable.');
- const anchor=new Date(reference.utc);if(!Number.isFinite(anchor.getTime()))throw Error('Automatic sidereal reference date is invalid.');
- // Preserve the selected ephemeris ST (including the supplied +1 second).
- // Advance it by the actual sidereal rotation, then replace the standard
- // meridian with the native longitude. Do not round legacy LMT corrections.
- const rotation=(Astronomy.SiderealTime(moment.date)-Astronomy.SiderealTime(anchor))*15;
- return norm(reference.hours*15+rotation+moment.longitude-reference.offset*15)*240;
+ const result=window.KPWorksheetEphemeris?.siderealCalculation(moment);
+ if(!result)throw Error('Automatic sidereal reference is unavailable.');
+ return result.seconds;
 }
 function write(data){
  const b=data.brackets;

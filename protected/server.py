@@ -165,6 +165,8 @@ class Engine:
                 raise ValueError('Select a valid .lkp chart.')
             allowed=page.evaluate("() => [...document.querySelectorAll('input[id],select[id],textarea[id]')].filter(n=>!n.closest('[data-private-calculation]')&&!n.readOnly&&(n.type!=='hidden'||['kp-software-settings','mm-memos','chart-categories','instant-prashna'].includes(n.id))).map(n=>n.id)")
             data={**data, 'fields':{k:v for k,v in data['fields'].items() if k in allowed}, 'eph':[], 'kundali':{'manual':False}}
+            # Hosted users cannot import private administrator worksheet overrides.
+            data.pop('manualCalculations',None)
             page.evaluate("(data)=>{restoreChartData(data);calculateAll();KPChartStyle.setStyle('south');}",data)
             page.wait_for_timeout(350)
         elif action=='photo':
@@ -173,6 +175,7 @@ class Engine:
             page.evaluate("(photo)=>{if(!KPReportPhoto.isValid(photo))throw Error('Invalid photo');KPReportPhoto.apply(photo);renderReport();}",data)
         elif action=='export':
             chart=page.evaluate("() => {const d=getChartData();for(const id of Object.keys(d.fields)){const n=document.getElementById(id);if(!n||n.closest('[data-private-calculation]')||n.readOnly||(n.type==='hidden'&&!['kp-software-settings','mm-memos','chart-categories','instant-prashna'].includes(n.id)))delete d.fields[id];}d.eph=[];d.kundali={manual:false};return d;}")
+            chart.pop('manualCalculations',None)
             return token, chart
         elif action=='prediction-chains-preview':
             result=page.evaluate("() => {const preview=document.createElement('section');preview.className='report-page';preview.dataset.reportSection='prediction-chains';preview.innerHTML='<h2 class=\"report-page-title\">Cusp chains</h2>'+KPPrediction.chainSnapshot();return {html:preview.outerHTML,css:[...document.querySelectorAll('style')].map(n=>n.textContent).join('\\n')};}")

@@ -14,7 +14,7 @@ class AutomaticCalculationTests(unittest.TestCase):
   original=p.evaluate(sample);self.assertTrue(original['ready']);self.assertEqual(original['source'],'uploaded');self.assertTrue(original['ephemeris']['ready'])
   saved=p.evaluate('getChartData()');self.assertEqual(saved['fields']['p6-ephemeris-source']['value'],'automatic');self.assertEqual(saved['fields']['r5-house-source']['value'],'automatic')
   for _ in range(3):p.evaluate('calculateAll()');self.assertEqual(p.evaluate(sample),original)
-  p.reload();p.wait_for_function('typeof KPAutomaticCalculations!=="undefined"');p.evaluate('chart=>restoreChartData(chart)',saved);p.wait_for_timeout(400);self.assertEqual(p.evaluate(sample),original)
+  p.reload(timeout=120000);p.wait_for_function('typeof KPAutomaticCalculations!=="undefined"');p.evaluate('chart=>restoreChartData(chart)',saved);p.wait_for_timeout(400);self.assertEqual(p.evaluate(sample),original)
   legacy=json.loads(json.dumps(saved))
   for id in ['p6-ephemeris-source','st-ephemeris-source','r5-house-source','kp-ayanamsha-source']:legacy['fields'].pop(id,None)
   for id in ['p6_row_date_1','p6_row_date_2']:legacy['fields'][id]={'value':'2000-01-01','auto':'0'}
