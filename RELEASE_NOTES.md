@@ -1,4 +1,18 @@
-## Coherent native worksheets and manual saves · 12 October 2026
+## Native worksheets, visible TC labels and selectable transit searches · 12 October 2026
+
+TC Transit Chart planet labels are dark navy and cusp/sign labels dark maroon
+in North/South Indian Rashi and Bhav charts, on screen and in reports. Pale
+custom planet palettes cannot hide these labels; values and font sizes are retained.
+
+Find event transit dates adds a compact Select dates / DBA drawer. MD, AD and PD
+choices come from the native timeline and update dependent choices. Current DBA,
+DBA at the selected start date, or an explicitly selected DBA can be used. Custom
+start/end dates and times use the selected display timezone, with exclusive end
+times. Event dates under a selected DBA are restricted to that actual PD window.
+All / I–XII cusp selection filters related events and selects that natal CSL chain.
+All shows all 453 handbook events and 1,612 prediction records;
+source conditions requiring review remain visible and cannot produce invented dates.
+Choices and date ranges survive .lkp saving and import.
 
 Owner calculator 1.0.4 and Customer calculator 1.1.6 apply the latest explicit
 latitude examples: 10°29′ → 10°; 10°30′ and 10°47′ → 11°. The original native

@@ -1,0 +1,36 @@
+"""Chosen native DBA, civil date ranges and complete event catalogues drive transit searches."""
+import json,unittest
+from playwright.sync_api import expect
+import test_personal_predictions as personal
+class TransitSelectionTests(unittest.TestCase):
+ setUpClass=classmethod(personal.PersonalPredictionTests.setUpClass.__func__);tearDownClass=classmethod(personal.PersonalPredictionTests.tearDownClass.__func__);setUp=personal.PersonalPredictionTests.setUp;tearDown=personal.PersonalPredictionTests.tearDown
+ def open(self):
+  p=self.page;p.wait_for_selector('#tr-date-dba-selection',state='attached');p.locator('#quick-transit').click();p.locator('#tr-date-dba-selection summary').click();return p
+ def test_all_source_events_and_birth_period_choices_without_inventing_rules(self):
+  p=self.open();counts=p.evaluate('()=>({handbook:KPHandbook.getCatalogue().events.length,prediction:KPPrediction.getCatalogue().events.length,choices:KPSimpleTransits.getEvents().length})');self.assertEqual(counts['choices'],counts['handbook']+counts['prediction']);self.assertEqual(p.locator('#tr-event option').count(),counts['choices']);self.assertEqual(counts['choices'],2065)
+  p.locator('#tr-selected-md').select_option('0');p.locator('#tr-selected-ad').select_option('0');p.locator('#tr-selected-pd').select_option('0');data=p.evaluate('KPTransit.selectedPeriods()');self.assertEqual(data['selection'],'selected');birth=p.evaluate('KPHomeDasha.getData().levels[0].rows[0].startMs')
+  self.assertGreaterEqual(data['periods']['PD']['startMs'],birth);self.assertGreater(data['periods']['PD']['endMs'],data['periods']['PD']['startMs']);self.assertFalse(p.locator('#tr-run').is_disabled())
+  review=p.evaluate('KPSimpleTransits.getEvents().find(e=>!e.automaticEligible).id');p.locator('#tr-event').select_option(str(review))
+  with self.assertRaisesRegex(Exception,'requires review'):p.evaluate('KPSimpleTransits.criteria(KPTransit.selectedPeriods())')
+  p.evaluate('KPPreferences.save({...KPPreferences.get(),language:"marathi"})');expect(p.locator('#tr-date-dba-selection summary')).to_have_text('दिनांक / दशा-भुक्ती-अंतरा निवडा');self.assertEqual(p.locator('#tr-event option').count(),2065)
+ def test_actual_search_uses_chosen_dates_and_dba_and_survives_chart_import(self):
+  p=self.open();current=p.evaluate('KPTransit.currentPeriods().periods');p.locator('#tr-selected-md').select_option('1');p.locator('#tr-selected-ad').select_option('2');p.locator('#tr-selected-pd').select_option('3');selected=p.evaluate('KPTransit.selectedPeriods()');self.assertEqual(p.evaluate('KPTransit.currentPeriods().periods'),current);natal=p.evaluate('JSON.stringify(currentKPModel)')
+  p.evaluate('''()=>{const d=KPTransit.selectedPeriods(),offset=Number(document.getElementById('tr-timezone').value)*60000,a=Date.parse(d.periods.PD.startUTC)+3600000;document.getElementById('tr-date-range-source').value='custom';document.getElementById('tr-search-date-start').value=new Date(a+offset).toISOString().slice(0,19);document.getElementById('tr-search-date-end').value=new Date(a+7200000+offset).toISOString().slice(0,19);document.getElementById('tr-mode').value='sun';document.getElementById('tr-mode').dispatchEvent(new Event('change',{bubbles:true}));KPTransit.refresh();window.originalTestEphemeris=KPEphemeris;window.searchedTestInstants=[];window.KPEphemeris=Object.freeze({...KPEphemeris,longitude:(d,id)=>{window.searchedTestInstants.push(new Date(d).toISOString());return originalTestEphemeris.longitude(d,id)}})}''')
+  span=p.evaluate('()=>{const r=KPTransit.currentRange();return [r.start.toISOString(),r.end.toISOString()]}');tracks=p.evaluate('KPTransit.makeTracks(KPTransit.selectedPeriods()).map(t=>t.label)');self.assertTrue(all(selected['periods']['MD']['id'] in label and selected['periods']['AD']['id'] in label for label in tracks))
+  p.locator('#tr-run').click();p.wait_for_function('document.getElementById("tr-status").dataset.state!=="running"');self.assertNotEqual(p.locator('#tr-status').get_attribute('data-state'),'error',p.locator('#tr-status').inner_text());self.assertIn(span[0],p.evaluate('searchedTestInstants'));self.assertIn(span[1],p.evaluate('searchedTestInstants'));p.evaluate('window.KPEphemeris=originalTestEphemeris')
+  for result in p.evaluate('KPTransit.getResults()'):self.assertLessEqual(span[0],result['start']);self.assertLessEqual(result['end'],span[1]);self.assertLess(result['start'],result['end'])
+  self.assertEqual(p.evaluate('JSON.stringify(currentKPModel)'),natal);saved=p.evaluate('getChartData()');p.locator('#tr-use-current-dba').click();self.assertEqual(p.locator('#tr-dba-selection-source').input_value(),'current');p.evaluate('data=>restoreChartData(data)',saved)
+  for id,v in [('tr-selected-md','1'),('tr-selected-ad','2'),('tr-selected-pd','3'),('tr-date-range-source','custom')]:self.assertEqual(p.locator('#'+id).input_value(),v)
+  self.assertEqual(p.evaluate('KPTransit.currentRange().start.toISOString()'),span[0]);self.assertEqual(p.evaluate('KPTransit.selectedPeriods().periods.PD.id'),selected['periods']['PD']['id'])
+ def test_roman_cusp_filters_related_events_and_restores_selection(self):
+  p=self.open();self.assertEqual(p.locator('#tr-main-cusp option').all_text_contents()[1:],['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'])
+  p.locator('#tr-main-cusp').select_option('7');choices=p.locator('#tr-event option').evaluate_all('ns=>ns.map(n=>n.value)');self.assertGreater(len(choices),0);self.assertLess(len(choices),2065)
+  related=p.evaluate('KPSimpleTransits.getEvents().filter(e=>e.mainHouses.includes(7)).map(e=>String(e.id))');self.assertEqual(choices,related)
+  p.evaluate('KPPreferences.save({...KPPreferences.get(),language:"marathi"})');self.assertEqual(p.locator('#tr-main-cusp option').all_text_contents()[7],'VII')
+  saved=p.evaluate('getChartData()');selected=p.locator('#tr-event').input_value();p.locator('#tr-main-cusp').select_option('1');p.evaluate('x=>restoreChartData(x)',saved);self.assertEqual(p.locator('#tr-main-cusp').input_value(),'7');self.assertEqual(p.locator('#tr-event').input_value(),selected)
+  p.locator('#tr-main-cusp').select_option('all');self.assertEqual(p.locator('#tr-event option').count(),2065)
+ def test_start_date_dba_time_zone_conversion_and_invalid_end_preserve_values(self):
+  p=self.open();p.locator('#tr-date-range-source').select_option('custom');p.locator('#tr-dba-selection-source').select_option('date');p.locator('#tr-search-date-start').fill('2027-02-01T12:00');p.locator('#tr-search-date-end').fill('2027-02-02T12:00');p.locator('#tr-search-date-end').dispatch_event('change')
+  p.evaluate('KPTransit.refresh()');actual=p.evaluate('KPTransit.selectedPeriods()');expected=p.evaluate('KPTransit.currentPeriods(new Date("2027-02-01T06:30:00Z"))');self.assertEqual([actual['periods'][r]['id'] for r in ['MD','AD','PD']],[expected['periods'][r]['id'] for r in ['MD','AD','PD']]);self.assertEqual(p.evaluate('KPTransit.currentRange().start.toISOString()'),'2027-02-01T06:30:00.000Z')
+  p.locator('#tr-search-date-end').fill('2027-01-31T12:00');p.locator('#tr-search-date-end').dispatch_event('change');self.assertEqual(p.locator('#tr-search-date-end').input_value(),'2027-01-31T12:00');self.assertTrue(p.locator('#tr-run').is_disabled());self.assertEqual(p.evaluate('KPTransit.getResults()'),[])
+if __name__=='__main__':unittest.main()

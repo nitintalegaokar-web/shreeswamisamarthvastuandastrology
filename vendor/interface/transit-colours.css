@@ -1,0 +1,11 @@
+/* Dark labels remain readable in TC and its reports, including pale custom palettes. */
+body.app-ready #transit-chart .tc-diagram svg :is(text,tspan),
+.tc-report svg :is(text,tspan){fill:#123047!important}
+body.app-ready #transit-chart .tc-diagram svg g>text:first-child,
+.tc-report svg g>text:first-child{fill:#7f1d1d!important}
+body.app-ready #transit-chart .tc-diagram svg tspan[data-planet],
+.tc-report svg tspan[data-planet]{fill:#123047!important}
+body.app-ready #transit-chart :is(#tc-planets,#tc-planet-nakshatras) tbody th,
+.tc-report tbody tr[data-planet]>th{color:#123047!important}
+body.app-ready #transit-chart :is(#tc-cusps,#tc-cusp-nakshatras) tbody th,
+.tc-report tbody tr[data-house]>th{color:#7f1d1d!important}

@@ -1,0 +1,12 @@
+#transit .tr-selection{margin:6px 0 9px;padding:7px 9px;border:1px solid #cbd9e5;border-radius:5px;background:#f8fafc;color:#243b51}
+#transit .tr-selection>summary{cursor:pointer;font-size:12px;font-weight:600}
+#transit .tr-selection-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding-top:9px;align-items:end}
+#transit .tr-selection-grid label{display:grid;gap:3px;margin:0;font-size:11px;min-width:0}
+#transit .tr-selection-grid :is(input,select,button){width:100%;box-sizing:border-box;min-width:0;height:32px;font-size:11px;padding:4px 6px;margin:0}
+#transit .tr-selection-note{font-size:10px;margin:7px 0 0;color:#496079}
+@media(max-width:850px){#transit .tr-selection-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){#transit .tr-selection-grid{grid-template-columns:1fr}}
+
+#transit .tr-simple-choice{grid-template-columns:minmax(130px,1fr) minmax(120px,.8fr) 85px minmax(220px,1.5fr)}
+@media(max-width:850px){#transit .tr-simple-choice{grid-template-columns:1fr 1fr}#transit #tr-simple-cusp-choice{max-width:100px}}
+@media(max-width:500px){#transit .tr-simple-choice{grid-template-columns:1fr}#transit #tr-simple-event-choice{grid-column:auto}}
