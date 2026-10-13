@@ -60,7 +60,7 @@ Prediction contains seven tabs: Kundali Analysis, House Results, General Predict
 
 House Results requires every house in an unambiguous encoded source group to match the native cusp-significator evidence. General Predictions uses explicit planet sign/house and Moon nakshatra/pada placements. Kundali Analysis displays matched eligible supplied groups. Events defaults to the current native MD / AD / PD: every period lord must contribute to the matched event house group, and their union must cover it completely, in addition to the native cusp promise. **DBA selection** opens compact, dependent MD, AD and PD selectors; **Current DBA** restores automatic selection. Screen and preview retain the chosen chain and its exact native local PD interval. Conditional or ambiguous rules are not silently converted into predictions. House Results has a small I–XII cusp selector: screen and preview contain only that cusp’s matched results. Kundali Analysis keeps cusp/search controls visible, with calculation options under a closed arrow; its preview contains only the matched prediction text, without calculation or source columns.
 
-Dasha Fal automatically uses the **currently running native MD / AD / PD**, the native UTC offset and exclusive period end boundaries. It shows only matching supplied short-result wording, with optional evidence. Dasha Results also uses the current period lords. Remedies selects the birth Moon nakshatra and the current MD–AD remedy line, rather than all remedy entries.
+The duplicate standalone Dasha Fal icon/tab is removed. Its calculation engine remains available inside Prediction: it automatically uses the **currently running native MD / AD / PD**, the native UTC offset and exclusive period end boundaries. Dasha Results shows matching supplied result wording from those current period lords. Remedies selects the birth Moon nakshatra and the current MD–AD remedy line, rather than all remedy entries.
 
 The seven original uploaded text files remain byte-for-byte in `data/` as source material. The standalone matching engine embeds only supported computable rules; it does not expose a general source library. Events.txt supplies names, not invented house criteria.
 
@@ -74,7 +74,7 @@ Event Promise uses a compact two-column consultation card with favorable/neutral
 
 Transits offers three searches: Event significators; mutual MD/AD/PD transits (six role directions × Rashi/star/sub); and both Sun MD/AD sign-star combinations. Current native DBA appears in a compact row, with MD/AD/PD scope selection and advanced rules under one arrow. Event mode defaults to all nine planets with star AND sub among event significators, intersected with supporting natal DBA windows. Mutual and Sun modes use natal target sectors by default and do not apply an unrelated event gate; ruled target sectors remain available in details. Current child periods are clipped to their parent/birth interval without changing subdivision anchors. Entries/exits are refined to one second and remain astrology-based matching windows.
 
-Transit Panchang retains Now, Calculate and Preview. Ephemeris retains Generate and Preview, with Cancel during calculation; daily clock/offset options are collapsed. Western Aspects uses the supplied fixed angle/orb catalogue; on-screen aspect/orb/colour editors are removed. Planet-to-planet and planet-to-cusp matrices and their previews remain.
+Transit Panchang uses a compact card and retains Now, Calculate and Preview. Dinvisesh adds daily Panchang transitions, solar and inauspicious periods, day/night Choghadiya, general vrata/festival notes, auspicious periods, and an independent same-day 05:30 Transit Kundali. Calendar Preview calculates a full month and provides previous/next month, Print / Save PDF, Zoom +/− and Close. These additions use a separate API and never write the natal chart. Ephemeris retains Generate and Preview, with Cancel during calculation; daily clock/offset options are collapsed. Western Aspects uses the supplied fixed angle/orb catalogue; on-screen aspect/orb/colour editors are removed. Planet-to-planet and planet-to-cusp matrices and their previews remain.
 
 The old Ruling Planets tab and its legacy calculation APIs remain removed. A rebuilt **RP · Live** calculator now runs inside the workspace header between the left navigation and right action buttons on every tab. It updates every second from the saved consultation place and UTC offset, showing Ascendant and Moon sign/star/sub/sub-sub lords, traditional ruling planets, day and planetary-hour lords, with retrograde markers. Expand RP for positions, sunrise/sunset and hour boundaries; **Location settings** opens the existing consultation-place settings. Day changes at local sunrise, with day/night each divided into 12 unequal planetary hours. Polar locations without a complete sunrise/sunset cycle show an explicit unavailable reason for day/hour lords. The private interface polls a computation-only `/live-ruling-planets` endpoint without replacing the current chart. The obsolete `/ruling-clock` route remains removed.
 
@@ -157,6 +157,10 @@ New focused verification:
 PYTHONPATH=tests python3 -m unittest test_vedic_reports test_hit_theory -v
 PYTHONPATH=tests python3 -m unittest test_muhurta.MuhurtaTests.test_vedic_lagna_and_kp_native_methods_filter_actual_intervals -v
 ```
+
+Calculation protection, the approved 1950 sidereal-time fixtures, protected
+source boundaries and the release-gate commands are documented in
+[docs/CALCULATION_PROTECTION.md](docs/CALCULATION_PROTECTION.md).
 
 ## Basic Information and local administrator access
 

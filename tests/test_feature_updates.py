@@ -647,11 +647,9 @@ class FeatureUpdateTests(unittest.TestCase):
         for previous, current in zip(result['rows'], result['rows'][1:]):
             self.assertEqual(previous['end'], current['start'])
         self.assertTrue(all(len(row['lords']) == 2 for row in result['rows']))
-        self.page.locator('nav [data-tab="dasha-fal"]').click()
-        self.page.locator('#df-depth').select_option('2')
-        expect(self.page.locator('#df-pd')).not_to_be_visible()
-        self.page.locator('#df-filter').select_option('all')
-        expect(self.page.locator('#dasha-fal-preview')).to_be_enabled()
+        expect(self.page.locator('nav [data-tab="dasha-fal"],#quick-dasha-fal')).to_have_count(0)
+        expect(self.page.locator('#dasha-fal')).to_be_hidden()
+        self.assertTrue(self.page.evaluate('KPDashaFal.getData().ready'))
 
     def test_south_kundali_retains_chart_without_time_slice_controls(self):
         self.page.locator('nav [data-tab="south9"]').click()
@@ -677,18 +675,14 @@ class FeatureUpdateTests(unittest.TestCase):
         chart=self.page.evaluate('getChartData()');self.assertEqual(chart['fields']['gem-event']['value'],'kp:1354:0')
 
     def test_dasha_report_contains_only_original_filtered_result_text(self):
-        self.page.locator('nav [data-tab="dasha-fal"]').click()
-        self.page.locator('#df-source').select_option('manual')
-        self.page.locator('#df-md').select_option('Su')
-        self.page.locator('#df-ad').select_option('')
-        self.page.locator('#df-pd').select_option('')
-        self.page.locator('#df-filter').select_option('all')
-        expected=[text.replace(r'\n','\n') for text in self.page.evaluate('KPDashaFal.getData().results.filter(r=>r.record.categoryId==="dasha-short").map(r=>r.record.value)')]
+        expect(self.page.locator('nav [data-tab="dasha-fal"],#quick-dasha-fal')).to_have_count(0)
+        self.page.evaluate('KPDashaFal.refresh()')
+        expected=[text.replace(r'\n','\n') for text in self.page.evaluate('KPDashaFal.getData().results.filter(r=>r.status==="matched"&&r.record.categoryId==="dasha-short").map(r=>r.record.value)')]
         with self.page.expect_popup() as opened:
-            self.page.locator('#dasha-fal-preview').click()
+            self.page.evaluate("KPReportPreview.open('dasha-fal')")
         preview=opened.value
         expect(preview.locator('.df-text-report table')).to_have_count(0)
-        expect(preview.locator('[data-df-result-text]')).to_have_count(391)
+        expect(preview.locator('[data-df-result-text]')).to_have_count(len(expected))
         self.assertEqual(preview.locator('[data-df-result-text] p').all_text_contents(),expected)
         text=preview.locator('.df-text-report').inner_text()
         self.assertNotIn('Dahs Fal Short.txt',text)
@@ -984,7 +978,8 @@ class FeatureProtectedTests(unittest.TestCase):
             expect(page.locator('#tr-start')).not_to_be_visible()
             page.locator('#tr-period').select_option('AD')
             expect(page.locator('#tr-period-summary')).to_contain_text('Current AD',timeout=30000)
-            for tab in ['prediction', 'dasha-fal', 'gemstones', 'south9']:
+            expect(page.locator('nav [data-tab="dasha-fal"],#quick-dasha-fal')).to_have_count(0)
+            for tab in ['prediction', 'gemstones', 'south9']:
                 page.locator('nav [data-tab="'+tab+'"]').click()
                 expect(page.locator('#'+tab)).to_be_visible(timeout=30000)
             expect(page.locator('#south9 #time-slices')).to_have_count(0)

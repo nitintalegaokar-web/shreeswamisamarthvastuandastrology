@@ -1,4 +1,41 @@
-## Ishtbhav Farak displayed minutes · 1.2.1 · 12 October 2026
+## Protected interface, Transit Panchang and chart tools · 1.2.1 · 13 October 2026
+
+This update was made on backup branch
+`backup/pre-ui-1.2.1-2026-10-12` from calculation baseline `d15b677`.
+Seventeen protected calculation blocks plus the Raphael, Vedic, Muhurta and HIT
+source files match that baseline. Approved Raphael selection/interpolation,
+KP ayanamsha, LMT, sidereal time, planet positions and Vimshottari formulas were
+not rewritten. The displayed Sidereal rotation correction, including values such
+as 00:03:12, continues to come from the approved exact-GMST calculation.
+
+Transit Panchang now has a compact layout, Dinvisesh daily details, Tithi,
+Nakshatra, Yoga and Karana transitions, sunrise/sunset, Abhijit, Brahma Muhurta,
+Rahu Kaal, Yamaganda, Gulika, day/night Choghadiya, general vrata/festival notes
+and auspicious periods. It also shows an independent same-day 05:30 Transit
+Kundali. Calendar Preview calculates the selected month and provides previous /
+next month, Print / Save PDF, Zoom +, Zoom − and Close. These additions use a
+separate API and do not write native birth fields or replace the original Transit
+Panchang calculation.
+
+South Indian charts have a separate colourful SGL/STL/SBL size control that also
+follows the general chart font settings. Double-clicking a displayed chart or
+table opens one read-only large viewer with zoom and Close. Home adds compact
+birth-time rectification steps of ±15 seconds, ±1 minute, ±15 minutes and ±1 hour,
+with Reset; calculations run only after an explicit step.
+
+Astrologer Settings adds Uploaded KP (the unchanged default) and an opt-in Swiss
+Ephemeris Krishnamurti ayanamsha reference. Loading the adapter in default mode
+has exact delegation for all nine planets, all twelve cusps, sidereal time and
+Vimshottari periods. Uranus, Neptune and Pluto are optional display-only values
+and are excluded from traditional nine-graha KP significator logic.
+
+About identifies Shri. Nitin R Talegaonkar — B.Sc-Maths/MCA and KP Advisor
+Mr. Anil Deshmukh — KP astrologer. A local portrait chooser compresses and stores
+one portrait offline. The duplicate standalone Dasha Fal navigation icon and tab
+are removed; its current MD/AD/PD engine remains available through Prediction
+and report composition.
+
+## Ishtbhav displayed minutes and TC period labels · 1.2.1 · 12 October 2026
 
 Only the readonly Ishtbhav Farak (min) column now shows whole minutes:
 fractions below .50 stay at the lower minute, and .50 or above round up.
@@ -6,6 +43,13 @@ For example, 14.604006 → 15, 22.75949 → 23 and 11.379745 → 11.
 Full-precision interpolation, raw Ishtbhav values, sidereal time, ayanamsha,
 planet positions and final cusps are unchanged. All three installer versions
 are 1.2.1; activation behaviour and existing licence compatibility are retained.
+
+TC MD / AD / PD period labels and PD lord labels are dark navy on screen
+and in the print report, including the highlighted current PD row.
+
+Transit Panchang uses a compact blue/white card, tighter controls and summary
+cards. Location filters and GeoNames attribution remain under an arrow; place
+search results stay visible outside it. Original calculations and preview are retained.
 
 ## Unified 1.2.0 release and simpler activation · 12 October 2026
 

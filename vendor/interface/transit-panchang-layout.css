@@ -1,0 +1,22 @@
+@media screen{
+body.app-ready #transit-panchang .almanac-card{max-width:1180px;padding:12px;border:1px solid #c9d9e5;border-radius:8px;background:#f7fafc!important}
+#transit-panchang .almanac-card>h2,#transit-panchang .almanac-card>p.almanac-note:first-of-type{display:none}
+body.app-ready #transit-panchang .almanac-controls{grid-template-columns:140px 110px 85px minmax(180px,1.4fr) minmax(130px,1fr) minmax(130px,1fr);gap:8px;margin-bottom:8px}
+body.app-ready #transit-panchang .almanac-controls label{gap:3px;font-size:11px;color:#24465e}
+body.app-ready #transit-panchang .almanac-controls input{height:31px;min-height:31px;padding:5px 7px;border-radius:4px;font-size:12px;background:#fff;color:#123047}
+#transit-panchang .kp-india-picker{grid-column:1/-1;padding:6px 8px;margin:0;border:1px solid #d6e1e8;border-radius:5px;background:#fff!important}
+#transit-panchang .tp-location-filters>summary{cursor:pointer;font-size:11px;font-weight:600;color:#24465e}
+#transit-panchang .tp-location-filters[open] .kp-india-picker-head{margin:7px 0 5px}
+#transit-panchang .kp-india-picker-status{margin:4px 0 0;font-size:10px;line-height:1.4}
+#transit-panchang .kp-india-picker-results{max-height:190px;overflow:auto;margin-top:6px}
+#transit-panchang .kp-india-picker-source{font-size:10px;margin-top:6px}
+body.app-ready #transit-panchang .almanac-actions{gap:7px;margin:8px 0}
+body.app-ready #transit-panchang .almanac-actions button{height:31px;min-height:31px;padding:5px 10px;border-radius:5px;font-size:12px}
+#transit-panchang #tp-calculate{background:#1f5b7d!important;border-color:#1f5b7d!important;color:#fff!important}
+#transit-panchang .almanac-status{font-size:11px;margin:6px 0 9px}
+#transit-panchang .almanac-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:9px}
+#transit-panchang .almanac-value{padding:7px;border-radius:5px;background:#fff}
+#transit-panchang .almanac-value dd{font-size:12px}
+@media(max-width:1150px){body.app-ready #transit-panchang .almanac-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){body.app-ready #transit-panchang .almanac-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#transit-panchang .almanac-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+}

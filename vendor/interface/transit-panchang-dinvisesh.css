@@ -1,0 +1,112 @@
+/* Daily Transit Panchang, Dinvisesh, Choghadiya and 05:30 chart. */
+@media screen {
+  #transit-panchang .tp-calendar-preview-button {
+    color:#fff!important;
+    border-color:#8956a8!important;
+    background:linear-gradient(135deg,#724290,#a261bd)!important;
+    box-shadow:0 2px 5px rgba(68,34,91,.2);
+  }
+  #transit-panchang .tp-daily-extension {margin:8px 0 12px}
+  #transit-panchang .tp-extension-note {
+    margin:6px 0;padding:7px 9px;border:1px solid #d6e1e8;border-radius:6px;
+    background:#fff;color:#536b7a;font-size:11px;
+  }
+  #transit-panchang .tp-dinvisesh {
+    border:1px solid #c8dae5;border-radius:8px;background:#fff;overflow:hidden;
+    color:#17364a;
+  }
+  #transit-panchang .tp-dinvisesh>header {
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:9px 11px;background:linear-gradient(90deg,#edf6fa,#f8f2fb);
+    border-bottom:1px solid #d4e2ea;
+  }
+  #transit-panchang .tp-dinvisesh>header h3 {margin:0;font-size:14px;color:#143f59}
+  #transit-panchang .tp-dinvisesh>header p {margin:2px 0 0;font-size:10px;color:#607889}
+  #transit-panchang .tp-month-badge {
+    flex:0 1 auto;padding:4px 7px;border-radius:10px;background:#e8f3df;color:#35651e;
+    font-size:10px;font-weight:700;text-align:center;
+  }
+  #transit-panchang .tp-transition-grid {
+    display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px 8px 4px;
+  }
+  #transit-panchang .tp-transition-card {
+    min-width:0;padding:7px;border:1px solid #d9e4ea;border-radius:6px;background:#f8fbfc;
+  }
+  #transit-panchang .tp-transition-card span {display:block;font-size:9px;text-transform:uppercase;letter-spacing:.035em;color:#688091}
+  #transit-panchang .tp-transition-card strong {display:block;margin:2px 0;font-size:12px;color:#183f59;overflow-wrap:anywhere}
+  #transit-panchang .tp-transition-card small {display:block;font-size:9px;line-height:1.35;color:#6b7c87}
+  #transit-panchang .tp-solar-grid {
+    display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;padding:4px 8px 8px;
+  }
+  #transit-panchang .tp-solar-card {padding:6px;border:1px solid #d9e4ea;border-radius:6px;background:#f6f8f9;min-width:0}
+  #transit-panchang .tp-solar-card[data-kind="good"] {border-color:#b8ddca;background:#eaf7ef;color:#176b3e}
+  #transit-panchang .tp-solar-card[data-kind="avoid"] {border-color:#efc7cf;background:#fff0f2;color:#9f2940}
+  #transit-panchang .tp-solar-card span {display:block;font-size:9px;line-height:1.25}
+  #transit-panchang .tp-solar-card strong {display:block;margin-top:2px;font-size:10px;white-space:nowrap}
+  #transit-panchang .tp-solar-card small {display:block;margin-top:2px;font-size:8px;line-height:1.25}
+  #transit-panchang .tp-choghadiya {padding:7px 8px;border-top:1px solid #e0e8ec}
+  #transit-panchang .tp-choghadiya h4,#transit-panchang .tp-day-lists h4,#transit-panchang .tp-chart-card h4 {margin:0 0 5px;font-size:11px;color:#244b64}
+  #transit-panchang .tp-chogh-row {display:grid;grid-template-columns:42px minmax(0,1fr);align-items:stretch;gap:4px;margin-top:4px}
+  #transit-panchang .tp-chogh-row>b {display:flex;align-items:center;font-size:9px;color:#5d7180}
+  #transit-panchang .tp-chogh-row>div {display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px}
+  #transit-panchang .tp-chogh-row span {min-width:0;padding:4px 2px;border:1px solid #cbd6dd;border-radius:4px;background:#edf1f3;text-align:center}
+  #transit-panchang .tp-chogh-row span[data-quality="good"] {border-color:#b4ddc6;background:#e2f4e9;color:#087044}
+  #transit-panchang .tp-chogh-row span[data-quality="avoid"] {border-color:#efc2cb;background:#fce8ec;color:#b02d43}
+  #transit-panchang .tp-chogh-row strong,#transit-panchang .tp-chogh-row small {display:block;overflow-wrap:anywhere}
+  #transit-panchang .tp-chogh-row strong {font-size:9px}
+  #transit-panchang .tp-chogh-row small {margin-top:2px;font-size:7.5px;line-height:1.2}
+  #transit-panchang .tp-day-lists {display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:0 8px 8px}
+  #transit-panchang .tp-day-lists>section {padding:7px;border:1px solid #dbe5ea;border-radius:6px;background:#fbfcfd;min-width:0}
+  #transit-panchang .tp-day-lists ul {margin:0;padding-left:17px;font-size:10px;line-height:1.45}
+  #transit-panchang .tp-day-lists small {display:block;margin-top:4px;font-size:8px;line-height:1.35;color:#6b7e89}
+  #transit-panchang .tp-chart-card {padding:8px;border-top:1px solid #dce6eb;background:#f7fafb}
+  #transit-panchang .tp-chart-card>p {margin:0 0 5px;font-size:9px;color:#697d8a}
+  #transit-panchang .tp-chart-card .tp-0530-chart {width:min(430px,100%)!important;margin:6px auto!important;background:#fff!important}
+  #transit-panchang .tp-chart-card .tp-0530-chart .v38-center {padding:6px!important}
+  #transit-panchang .tp-chart-card .tp-0530-chart .v38-title {font-size:10px!important;margin-bottom:4px!important}
+  #transit-panchang .tp-chart-card .tp-0530-chart .v38-data {font-size:8px!important;line-height:1.3!important}
+}
+
+.tp-dinvisesh-report .tp-dinvisesh {font-family:Arial,"Noto Sans Devanagari","Mangal",sans-serif;color:#111}
+.tp-dinvisesh-report .tp-dinvisesh>header {display:flex;justify-content:space-between;gap:3mm;border:1px solid #777;padding:2mm}
+.tp-dinvisesh-report .tp-dinvisesh>header h3 {font-size:11px;margin:0}
+.tp-dinvisesh-report .tp-dinvisesh>header p,.tp-dinvisesh-report .tp-month-badge {font-size:8px;margin:1mm 0 0}
+.tp-dinvisesh-report .tp-transition-grid,.tp-dinvisesh-report .tp-solar-grid {display:grid;gap:1mm;margin-top:1.5mm}
+.tp-dinvisesh-report .tp-transition-grid {grid-template-columns:repeat(4,minmax(0,1fr))}
+.tp-dinvisesh-report .tp-solar-grid {grid-template-columns:repeat(6,minmax(0,1fr))}
+.tp-dinvisesh-report :is(.tp-transition-card,.tp-solar-card) {border:1px solid #777;padding:1.3mm;background:#fff!important;color:#111!important}
+.tp-dinvisesh-report :is(.tp-transition-card,.tp-solar-card) :is(span,strong,small) {display:block;font-size:7px;line-height:1.25;color:#111!important}
+.tp-dinvisesh-report :is(.tp-transition-card,.tp-solar-card) strong {font-size:8px}
+.tp-dinvisesh-report .tp-choghadiya {margin-top:2mm}
+.tp-dinvisesh-report :is(.tp-choghadiya,.tp-day-lists,.tp-chart-card) h4 {font-size:9px;margin:0 0 1mm}
+.tp-dinvisesh-report .tp-chogh-row {display:grid;grid-template-columns:11mm minmax(0,1fr);gap:1mm;margin:1mm 0}
+.tp-dinvisesh-report .tp-chogh-row>b {font-size:7px}
+.tp-dinvisesh-report .tp-chogh-row>div {display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:.5mm}
+.tp-dinvisesh-report .tp-chogh-row span {border:1px solid #999;padding:.7mm;text-align:center}
+.tp-dinvisesh-report .tp-chogh-row :is(strong,small) {display:block;font-size:6px;line-height:1.2}
+.tp-dinvisesh-report .tp-day-lists {display:grid;grid-template-columns:1fr 1fr;gap:2mm;margin-top:2mm}
+.tp-dinvisesh-report .tp-day-lists>section {border:1px solid #777;padding:1.5mm}
+.tp-dinvisesh-report .tp-day-lists :is(ul,li,small) {font-size:7px;line-height:1.3}
+.tp-dinvisesh-report .tp-day-lists ul {margin:0;padding-left:4mm}
+.tp-dinvisesh-report .tp-chart-card {margin-top:2mm;border-top:1px solid #777;padding-top:2mm}
+.tp-dinvisesh-report .tp-chart-card>p {font-size:7px;margin:0 0 1mm}
+.tp-dinvisesh-report .tp-0530-chart {width:94mm!important;height:94mm!important;margin:0 auto!important;overflow:hidden!important;background:#fff!important}
+.tp-dinvisesh-report .tp-0530-chart .v38-center {padding:2mm!important}
+.tp-dinvisesh-report .tp-0530-chart .v38-title {font-size:7px!important;margin-bottom:1mm!important}
+.tp-dinvisesh-report .tp-0530-chart .v38-data {font-size:5.5px!important;line-height:1.25!important}
+
+@media(max-width:900px) {
+  #transit-panchang .tp-transition-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  #transit-panchang .tp-solar-grid {grid-template-columns:repeat(3,minmax(0,1fr))}
+  #transit-panchang .tp-chogh-row>div {grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:560px) {
+  #transit-panchang .tp-dinvisesh>header {align-items:flex-start;flex-direction:column}
+  #transit-panchang .tp-day-lists {grid-template-columns:1fr}
+  #transit-panchang .tp-solar-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  #transit-panchang .tp-chogh-row {grid-template-columns:1fr}
+}
+@media print {
+  .tp-dinvisesh-report .tp-dinvisesh {break-inside:auto;page-break-inside:auto}
+  .tp-dinvisesh-report :is(.tp-transition-card,.tp-solar-card,.tp-chogh-row,.tp-day-lists>section,.tp-chart-card) {break-inside:avoid;page-break-inside:avoid}
+}

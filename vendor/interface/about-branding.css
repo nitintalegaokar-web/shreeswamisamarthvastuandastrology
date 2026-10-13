@@ -1,0 +1,150 @@
+/* About-page branding and the locally stored developer portrait. */
+body.app-ready #about .about-card.about-branding-card{
+  position:relative;
+  overflow:hidden;
+  max-width:960px;
+  padding:26px;
+  border-color:#b8cce0;
+  background:
+    radial-gradient(circle at 100% 0,#ddecf8 0,transparent 31%),
+    linear-gradient(145deg,#fff 0,#f8fbfe 62%,#f5f0fb 100%);
+  box-shadow:0 14px 36px #193b5b14;
+}
+body.app-ready #about .about-card.about-branding-card::before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:5px;
+  background:linear-gradient(#1d668d,#7955a6,#d07a43);
+}
+body.app-ready #about .about-branding-card .section-kicker{
+  margin-bottom:14px;
+  color:#49637e;
+  letter-spacing:.13em;
+}
+body.app-ready #about .about-branding-card .developer-profile{
+  grid-template-columns:210px minmax(0,1fr);
+  gap:28px;
+}
+body.app-ready #about .about-branding-card .developer-photo-wrap{
+  min-width:0;
+}
+body.app-ready #about .about-branding-card .developer-photo-slot{
+  position:relative;
+  width:100%;
+  aspect-ratio:4/5;
+  overflow:hidden;
+  border:3px solid #fff;
+  outline:1px solid #b7cade;
+  border-radius:16px;
+  background:linear-gradient(145deg,#e7f2f8,#eee8f7);
+  box-shadow:0 9px 24px #163b5d24;
+}
+body.app-ready #about .about-branding-card .developer-photo-slot img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center top;
+}
+body.app-ready #about .about-branding-card .developer-photo-slot .about-photo-initials{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  color:#476987;
+  font-size:42px;
+  font-weight:800;
+  letter-spacing:.05em;
+}
+body.app-ready #about .about-branding-card .about-photo-tools{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+  margin-top:11px;
+}
+body.app-ready #about .about-branding-card .about-photo-tools button{
+  min-height:30px;
+  padding:5px 9px;
+  border:1px solid #9db7cf;
+  border-radius:7px;
+  background:#fff;
+  color:#254e70;
+  font:inherit;
+  font-size:11px;
+  font-weight:600;
+  line-height:1.25;
+  cursor:pointer;
+}
+body.app-ready #about .about-branding-card .about-photo-tools button:hover{
+  border-color:#4d83aa;
+  background:#eaf4fa;
+}
+body.app-ready #about .about-branding-card .about-photo-tools .about-photo-remove{
+  border-color:#d9bdc1;
+  color:#8a3e46;
+}
+body.app-ready #about .about-branding-card .about-photo-status{
+  min-height:2.5em;
+  margin:7px 0 0;
+  color:#66798d;
+  font-size:10px;
+  line-height:1.35;
+  text-align:center;
+}
+body.app-ready #about .about-branding-card .developer-profile h2{
+  margin:3px 0 7px;
+  color:#173f62;
+  font-size:clamp(20px,2vw,27px);
+  line-height:1.28;
+}
+body.app-ready #about .about-branding-card .developer-role{
+  margin-bottom:12px;
+  color:#516c86;
+}
+body.app-ready #about .about-branding-card .about-advisor{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:4px;
+  margin:0 0 18px;
+  padding:9px 12px;
+  border:1px solid #d2c5e3;
+  border-radius:8px;
+  background:#f3eff9;
+  color:#594775;
+  font-size:13px;
+}
+body.app-ready #about .about-branding-card .about-advisor-label{
+  font-weight:750;
+}
+body.app-ready #about .about-branding-card .developer-contact{
+  padding:14px;
+  border:1px solid #d6e0ea;
+  border-radius:10px;
+  background:#ffffffb8;
+}
+body.app-ready #about .about-branding-card .about-software{
+  margin-top:25px;
+  padding:19px 20px;
+  border:1px solid #d5e1eb;
+  border-radius:10px;
+  background:#fffdf9c9;
+}
+body.app-ready #about .about-branding-card .about-software h3{
+  color:#24567a;
+}
+@media(max-width:650px){
+  body.app-ready #about .about-card.about-branding-card{padding:18px 16px 20px}
+  body.app-ready #about .about-branding-card .developer-profile{grid-template-columns:1fr;gap:20px}
+  body.app-ready #about .about-branding-card .developer-photo-wrap{width:min(210px,76vw);margin:auto}
+  body.app-ready #about .about-branding-card .developer-profile h2{text-align:center}
+  body.app-ready #about .about-branding-card .developer-role{text-align:center}
+  body.app-ready #about .about-branding-card .about-advisor{justify-content:center;text-align:center}
+}
+@media print{
+  #about .about-photo-tools,#about .about-photo-status{display:none!important}
+  #about .about-card.about-branding-card{box-shadow:none!important}
+}

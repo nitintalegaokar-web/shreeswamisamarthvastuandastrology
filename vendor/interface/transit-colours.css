@@ -9,3 +9,5 @@ body.app-ready #transit-chart :is(#tc-planets,#tc-planet-nakshatras) tbody th,
 .tc-report tbody tr[data-planet]>th{color:#123047!important}
 body.app-ready #transit-chart :is(#tc-cusps,#tc-cusp-nakshatras) tbody th,
 .tc-report tbody tr[data-house]>th{color:#7f1d1d!important}
+body.app-ready #transit-chart :is(#tc-dasha,#tc-pd-periods) tbody th,
+.tc-report :is([data-report-id="tc-dasha"],[data-report-id="tc-pd-periods"]) tbody th{color:#123047!important}
