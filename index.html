@@ -22986,8 +22986,8 @@ function init(){
  const card=$('transit').querySelector('.tr-card'),storage=document.createElement('div');storage.hidden=true;storage.id='tr-calculation-fields';
  const heading=card.querySelector('h2'),actions=card.querySelector('.tr-actions'),current=$('tr-current-periods'),eventPanel=$('tr-event-panel'),dashaPanel=$('tr-dasha-panel');
  const header=document.createElement('header');header.className='tr-compact-header';card.prepend(header);header.append(heading);const preview=$('transit-preview');if(preview)header.append(preview);
- const choices=document.createElement('div');choices.className='tr-simple-choice';choices.innerHTML='<label>Search<div id="tr-simple-mode-choice"></div></label><label>Search period<div id="tr-simple-period-choice"></div></label><label id="tr-simple-event-choice">Event</label>';
- header.after(choices);$('tr-simple-mode-choice').append($('tr-mode'));$('tr-simple-period-choice').append($('tr-period'));$('tr-simple-event-choice').append($('tr-event'));
+ const choices=document.createElement('div');choices.className='tr-simple-choice';choices.innerHTML='<label>Search<div id="tr-simple-mode-choice"></div></label><label id="tr-simple-event-choice">Event</label>';
+ header.after(choices);$('tr-simple-mode-choice').append($('tr-mode'));storage.append($('tr-period'));$('tr-simple-event-choice').append($('tr-event'));
  const cuspLabel=document.createElement('label');cuspLabel.id='tr-simple-cusp-choice';cuspLabel.append(document.createTextNode('Cusp'));const cuspSelect=document.createElement('select');cuspSelect.id='tr-main-cusp';cuspSelect.append(new Option('All','all'));for(const [i,roman] of ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'].entries()){const option=new Option(roman,String(i+1));option.dataset.noLocalize='true';cuspSelect.append(option);}cuspLabel.append(cuspSelect);$('tr-simple-event-choice').before(cuspLabel);cuspSelect.addEventListener('change',()=>{eventOptions();KPTransit.cancel();apply();});
  const note=document.createElement('p');note.id='tr-simple-rule-note';choices.after(current,$('tr-period-summary'),actions,note);
  const options=document.createElement('details');options.id='tr-rule-options';options.className='no-print';options.innerHTML='<summary>Transit rules and details</summary><div class="tr-compact-options"></div>';note.after(options);options.lastChild.append(eventPanel,dashaPanel,card.querySelector('.tr-model-note'));
@@ -24077,7 +24077,7 @@ body.app-ready #transit-chart :is(#tc-dasha,#tc-pd-periods) tbody th,
 @media(max-width:850px){#transit .tr-selection-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:500px){#transit .tr-selection-grid{grid-template-columns:1fr}}
 
-#transit .tr-simple-choice{grid-template-columns:minmax(130px,1fr) minmax(120px,.8fr) 85px minmax(220px,1.5fr)}
+#transit .tr-simple-choice{grid-template-columns:minmax(130px,1fr) 85px minmax(220px,1.5fr)}
 @media(max-width:850px){#transit .tr-simple-choice{grid-template-columns:1fr 1fr}#transit #tr-simple-cusp-choice{max-width:100px}}
 @media(max-width:500px){#transit .tr-simple-choice{grid-template-columns:1fr}#transit #tr-simple-event-choice{grid-column:auto}}
 </style>

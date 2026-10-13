@@ -7,6 +7,6 @@
 @media(max-width:850px){#transit .tr-selection-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:500px){#transit .tr-selection-grid{grid-template-columns:1fr}}
 
-#transit .tr-simple-choice{grid-template-columns:minmax(130px,1fr) minmax(120px,.8fr) 85px minmax(220px,1.5fr)}
+#transit .tr-simple-choice{grid-template-columns:minmax(130px,1fr) 85px minmax(220px,1.5fr)}
 @media(max-width:850px){#transit .tr-simple-choice{grid-template-columns:1fr 1fr}#transit #tr-simple-cusp-choice{max-width:100px}}
 @media(max-width:500px){#transit .tr-simple-choice{grid-template-columns:1fr}#transit #tr-simple-event-choice{grid-column:auto}}
