@@ -186,12 +186,15 @@ class BhavsadhanTests(unittest.TestCase):
         expect(p.locator('#r5_small2_10').locator('..').locator('..')).to_contain_text('छोटी सां. वेळ')
         p.locator('#raphael5 .raphael5-table').screenshot(path='/tmp/kp-raphel-whole-degree-source-rows.png')
 
-    def test_full_precision_st_and_birth_instant_kp_ayanamsha(self):
-        def gmst(stamp):
-            date=datetime.fromisoformat(stamp.replace('Z','+00:00'))
-            days=(date-datetime(2000,1,1,12,tzinfo=timezone.utc)).total_seconds()/86400
-            t=days/36525
-            return (280.46061837+360.98564736629*days+.000387933*t*t-t*t*t/38710000)%360
+    def test_traditional_ten_six_st_and_birth_instant_kp_ayanamsha(self):
+        def seconds(text):
+            sign=-1 if text.startswith('-') else 1
+            return sign*sum(int(value)*unit for value,unit in zip(text.lstrip('-+ ').split(':'),(3600,60,1)))
+        def ten_six(elapsed):
+            sign=-1 if elapsed<0 else 1;absolute=abs(elapsed)
+            hours=absolute//3600;minutes=absolute%3600//60
+            rounded=hours*10+minutes//6+(1 if minutes%6>=3 else 0)
+            return sign*rounded
         cases=[('1986-07-15','13:11:00','18:48:00','74:13:00','5.5','0','82:30:00'),
                ('1986-07-15','01:00:00','18:48:00','74:13:00','5.5','0','82:30:00'),
                ('1987-01-01','01:00:00','18:48:00','74:13:00','5.5','0','82:30:00'),
@@ -199,12 +202,11 @@ class BhavsadhanTests(unittest.TestCase):
                ('1986-07-15','23:59:59','40:42:00','-74:00:00','-5','60','-75:00:00')]
         for case in cases:
             values=dict(zip(['dob','birthTime','lat','lon','birth-utc-offset','birth-dst-minutes','stdLon'],case))
-            result=self.page.evaluate('''values=>{for(const [id,value] of Object.entries({...values,'instant-prashna':'0'}))document.getElementById(id).value=value;calculateAll();const m=KPHorary.nativeMoment();return {date:m.date.toISOString(),longitude:m.longitude,reference:KPWorksheetEphemeris.getSidereal(),house:KPBhavSadhan.getData(),cusps:currentKPModel.houses.map(h=>h.longitude),annual:KPAnnualAyanamsha.getTable().rows,st:document.getElementById('birthPlaceSiderealTime').value};}''',values)
-            d=result['house'];ref=result['reference']
-            rotation=(gmst(result['date'])-gmst(ref['utc']))*240
-            expected=(ref['hours']*3600+rotation+(result['longitude']-ref['offset']*15)*240)%86400
-            error=(d['siderealSeconds']-expected+43200)%86400-43200
-            self.assertLess(abs(error),.05,'ST must advance its ephemeris anchor without intermediate clock rounding.')
+            result=self.page.evaluate('''values=>{for(const [id,value] of Object.entries({...values,'instant-prashna':'0'}))document.getElementById(id).value=value;calculateAll();const m=KPHorary.nativeMoment();return {date:m.date.toISOString(),house:KPBhavSadhan.getData(),cusps:currentKPModel.houses.map(h=>h.longitude),annual:KPAnnualAyanamsha.getTable().rows,st:document.getElementById('birthPlaceSiderealTime').value,worksheet:Object.fromEntries(['baseSidereal0530','stLmtDifference','stTenSixCorrection'].map(id=>[id,document.getElementById(id).value]))};}''',values)
+            d=result['house'];worksheet=result['worksheet'];elapsed=seconds(worksheet['stLmtDifference']);correction=ten_six(elapsed)
+            self.assertEqual(seconds(worksheet['stTenSixCorrection']),correction)
+            expected=(seconds(worksheet['baseSidereal0530'])+elapsed+correction)%86400
+            self.assertEqual(d['siderealSeconds'],expected,'Bhavsadhan must use the same traditional 10/6 ST shown by the worksheet.')
             instant=datetime.fromisoformat(result['date'].replace('Z','+00:00'));year=instant.year
             anchors={r['year']:r['dmsArcSeconds'] for r in result['annual']}
             start=datetime(year,1,1,tzinfo=timezone.utc);end=datetime(year+1,1,1,tzinfo=timezone.utc)

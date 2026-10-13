@@ -1049,7 +1049,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
     <tbody>
       <tr><td class="calc-label">L.M.T. पूर्वीच्या सर्वात जवळच्या सकाळी 5.30 वाजता प्रमाण रेखांशावर असणारा सांपत्तिक काळ (भारत: 82°30′)<br><small>Automatic or manual ephemeris entry · before 05:30 LMT, use previous date</small></td><td class="time-cell"><input id="baseSidereal0530" value=""></td></tr>
       <tr><td class="calc-label">सकाळी 5.30 ते स्थानिक जन्मवेळ यातील फरक<br><b>Elapsed from reference 05:30 AM to L.M.T.</b> <small>(Tab 3 मधून automatic)</small></td><td class="time-cell"><input id="stLmtDifference" readonly></td></tr>
-      <tr><td class="calc-label">10 / 6 चा फरक<br><small>प्रत्येक पूर्ण तास × 10 सेकंद; उरलेली मिनिटे ÷ 6 सेकंद; परिणाम वेळेच्या स्वरूपात</small></td><td class="time-cell"><input id="stTenSixCorrection" readonly></td></tr>
+      <tr><td class="calc-label">10 / 6 चा फरक<br><small>पूर्ण तास × 10 सेकंद + उरलेली पूर्ण मिनिटे ÷ 6; दशांश न कापता शेवटी जवळच्या सेकंदात पूर्णांक</small></td><td class="time-cell"><input id="stTenSixCorrection" readonly></td></tr>
       <tr class="total-row"><td class="calc-label">एकूण<br><small>पहिली वेळ + दुसरी वेळ + 10/6 चा फरक</small></td><td class="time-cell"><input id="stGrandTotal" readonly></td></tr>
       <tr><td class="calc-label">सांपत्तिक वेळ 24 तासांपेक्षा जास्त असल्यास 24 तास वजा करणे</td><td class="time-cell"><input id="st24Adjustment" readonly></td></tr>
       <tr class="final-row"><td class="calc-label">जातकाच्या जन्मस्थळाचा जन्मवेळेचा सांपत्तिक काळ</td><td class="time-cell"><input id="birthPlaceSiderealTime" readonly></td></tr>
@@ -1631,7 +1631,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 <div id="workspace-toast" class="workspace-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 <dialog id="workspace-help" class="workspace-help"><div class="help-heading"><div><div class="eyebrow">A LITTLE GUIDANCE</div><h2>Your chart, step by step</h2></div><button type="button" id="help-close" class="icon-button" aria-label="Close help"><svg><use href="#i-close"/></svg></button></div><p>Begin with birth details, enter your manual Raphael and ephemeris values, then review the kundali and print report. All Marathi calculation worksheets remain available in the navigation.</p><div class="help-tip"><strong>Keep your work safe.</strong> Save stores the current chart in this browser. Export a chart file for a portable backup or to move it to another device.</div><h3>Keyboard shortcuts</h3><dl><div><dt>Save chart</dt><dd><kbd>Ctrl / ⌘</kbd> + <kbd>S</kbd></dd></div><div><dt>Calculate chart</dt><dd><kbd>Ctrl / ⌘</kbd> + <kbd>Enter</kbd></dd></div><div><dt>Open this guide</dt><dd><kbd>?</kbd></dd></div><div><dt>Close navigation or guide</dt><dd><kbd>Esc</kbd></dd></div></dl></dialog>
 
-<script>
+<script id="kp-legacy-native-calculation-script">
 const planets=["रवी","चंद्र","मंगळ","बुध","गुरु","शुक्र","शनि","राहू","केतू"];
 const rashi=["मेष","वृषभ","मिथुन","कर्क","सिंह","कन्या","तुळ","वृश्चिक","धनु","मकर","कुंभ","मीन"];
 const defaultRaph=[
@@ -1877,6 +1877,19 @@ function getLMTSiderealReference(){
   }catch(_){return null;}
 }
 
+// Traditional KP 10/6 correction. The worksheet works at whole-second
+// resolution: keep the minutes/6 half until one final half-up rounding.
+function calculateTenSixCorrectionSeconds(elapsedSeconds){
+  const sign=elapsedSeconds<0 ? -1 : 1;
+  const elapsed=Math.round(Math.abs(elapsedSeconds));
+  const fullHours=Math.floor(elapsed/3600);
+  const remainingMinutes=Math.floor((elapsed%3600)/60);
+  const quotient=Math.floor(remainingMinutes/6);
+  const remainder=remainingMinutes%6;
+  const correction=fullHours*10+quotient+(remainder>=3?1:0);
+  return correction===0 ? 0 : sign*correction;
+}
+
 function updateSiderealTimeCalculation(){
   window.KPWorksheetEphemeris?.prepareSidereal();
   const baseEl=document.getElementById("baseSidereal0530");
@@ -1889,9 +1902,7 @@ function updateSiderealTimeCalculation(){
   if(!baseEl||!lmtDiffEl||!tenSixEl||!totalEl||!adjEl||!finalEl) return;
   const correctionLabel=tenSixEl.closest('tr')?.firstElementChild;
   if(correctionLabel){if(!correctionLabel.dataset.manualLabel)correctionLabel.dataset.manualLabel=correctionLabel.innerHTML;
-    const automatic=document.getElementById('st-ephemeris-source')?.value==='automatic';
-    const label=automatic?(window.KPLanguage?.translate('Sidereal rotation correction')||'Sidereal rotation correction'):correctionLabel.dataset.manualLabel;
-    if(correctionLabel.innerHTML!==label)correctionLabel.innerHTML=label;
+    if(correctionLabel.innerHTML!==correctionLabel.dataset.manualLabel)correctionLabel.innerHTML=correctionLabel.dataset.manualLabel;
   }
 
 
@@ -1933,14 +1944,8 @@ function updateSiderealTimeCalculation(){
   const diffSign=diffSec<0 ? "-" : "";
   lmtDiffEl.value=diffSign+secondsToHMS(Math.abs(diffSec));
 
-  // 10/6 correction:
-  // Every complete hour × 10 seconds.
-  // Remaining minutes ÷ 6 seconds.
-  const absDiff=Math.abs(diffSec);
-  const fullHours=Math.floor(absDiff/3600);
-  const remainingMinutes=Math.floor((absDiff%3600)/60);
-  const correctionSec=Math.round(fullHours*10 + remainingMinutes/6);
-  const signedCorrection=diffSec<0 ? -correctionSec : correctionSec;
+  // One shared traditional 10/6 rule is used by manual and automatic ST.
+  const signedCorrection=calculateTenSixCorrectionSeconds(diffSec);
   tenSixEl.value=(signedCorrection<0?"-":"")+secondsToHMS(Math.abs(signedCorrection));
 
   // First value + L.M.T. difference + 10/6 correction.
@@ -7163,7 +7168,7 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
       const hours=uploaded?uploaded.st/3600:normalize(Astronomy.SiderealTime(utc)+offset,24);
       set('baseSidereal0530',hms(hours));
       siderealData={ready:true,date,utc:utc.toISOString(),offset,hours,source:uploaded?'Adjusted uploaded Excel':'Calculated ephemeris'};
-      status('st-ephemeris-status',date+' · '+(uploaded?'Adjusted uploaded Excel · ST +1 second':'Calculated ephemeris')+' · 05:30 AM '+offsetLabel(offset)+' · Local sidereal time at the standard meridian: '+hms(hours)+'. Exact sidereal rotation from the native UTC instant is used for both this worksheet and Bhavsadhan; longitude is applied once.',true);
+      status('st-ephemeris-status',date+' · '+(uploaded?'Adjusted uploaded Excel · ST +1 second':'Calculated ephemeris')+' · 05:30 AM '+offsetLabel(offset)+' · Local sidereal time at the standard meridian: '+hms(hours)+'. Traditional 10/6 correction is used for both this worksheet and Bhavsadhan; longitude is applied once.',true);
       return siderealData;
     }catch(error){
       siderealData=null;set('baseSidereal0530','');
@@ -7175,10 +7180,12 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
     moment=moment||window.KPHorary.nativeMoment();
     if(!enabled('st-ephemeris-source')||!siderealData?.ready)return null;
     const anchor=new Date(siderealData.utc),utElapsed=(moment.date-anchor)/1000;
-    let rotation=(Astronomy.SiderealTime(moment.date)-Astronomy.SiderealTime(anchor))*3600;
-    rotation+=Math.round((utElapsed*1.00273790935-rotation)/86400)*86400;
-    const elapsed=utElapsed+(moment.longitude-siderealData.offset*15)*240;
-    const correction=rotation-utElapsed,base=siderealData.hours*3600,total=base+elapsed+correction;
+    // Match the visible worksheet's whole-second inputs. The traditional KP
+    // correction uses complete hours × 10 seconds plus remaining minutes ÷ 6,
+    // with one final half-up rounding inside the shared helper.
+    const base=Math.round(siderealData.hours*3600);
+    const elapsed=Math.round(utElapsed+(moment.longitude-siderealData.offset*15)*240);
+    const correction=calculateTenSixCorrectionSeconds(elapsed),total=base+elapsed+correction;
     return {base,elapsed,correction,total,seconds:normalize(total,86400)};
     }catch(_){return null;}
   }
@@ -25939,8 +25946,8 @@ function useAutomatic({announce=true}={}){
 }
 function sourceText(){
   const stManual=$('st-ephemeris-source')?.value==='manual',manual=isManual()||hasSavedManual();
-  if(language()==='marathi')return stManual?'मॅन्युअल 10/6 स्रोत सुरू आहे':manual?'मॅन्युअल गणना ओव्हरराइड सुरू आहे':'स्वयंचलित एफेमेरिस · अचूक सांपातिक गती';
-  return stManual?'Manual 10/6 source is active':manual?'A manual calculation override is active':'Automatic ephemeris · exact sidereal rotation';
+  if(language()==='marathi')return stManual?'मॅन्युअल 10/6 स्रोत सुरू आहे':manual?'मॅन्युअल गणना ओव्हरराइड सुरू आहे':'स्वयंचलित एफेमेरिस · 10/6 चा फरक';
+  return stManual?'Manual 10/6 source is active':manual?'A manual calculation override is active':'Automatic ephemeris · traditional 10/6 correction';
 }
 function subtotalText(){
   const subtotal=$('stGrandTotal')?.value||'',adjustment=$('st24Adjustment')?.value||'',final=$('birthPlaceSiderealTime')?.value||'';

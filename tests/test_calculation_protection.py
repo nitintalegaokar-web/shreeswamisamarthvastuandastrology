@@ -98,8 +98,8 @@ class CalculationProtectionTests(unittest.TestCase):
 
     def test_approved_reference_is_stable_across_ui_recalculate_and_reload(self):
         for longitude, expected_st in (
-            ("76:42:00", "10:30:46"),
-            ("89:10:00", "11:20:38"),
+            ("76:42:00", "10:30:45"),
+            ("89:10:00", "11:20:46"),
         ):
             with self.subTest(longitude=longitude):
                 self.configure(longitude)

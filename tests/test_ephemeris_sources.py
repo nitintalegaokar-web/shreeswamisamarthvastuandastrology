@@ -138,7 +138,7 @@ class EphemerisSourceRegressionTests(unittest.TestCase):
           (window.mdDashaPeriods||[]).length===9
         """, timeout=60_000)
         before = self.snapshot(page)
-        self.assertEqual(before["siderealTime"], "10:30:46")
+        self.assertEqual(before["siderealTime"], "10:30:45")
         self.assertEqual(len(before["planets"]), 9)
         self.assertEqual(len(before["cusps"]), 12)
         self.assertEqual(len(before["vimshottari"]["periods"]), 9)

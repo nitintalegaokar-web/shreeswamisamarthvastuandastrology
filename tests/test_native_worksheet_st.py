@@ -1,7 +1,6 @@
 """Native 05:30 interpolation, coherent ST and explicit administrator manual saves."""
 import math,json,unittest
 from fractions import Fraction
-from datetime import datetime,timezone
 from playwright.sync_api import expect
 import test_personal_predictions as personal
 class NativeWorksheetTests(unittest.TestCase):
@@ -10,24 +9,26 @@ class NativeWorksheetTests(unittest.TestCase):
   self.page.wait_for_function('typeof KPAutomaticCalculations!=="undefined"&&typeof KPWorksheetEphemeris.siderealCalculation==="function"')
   fields={'instant-prashna':'0','chart-kind':'natal','dob':'1950-12-20','birthTime':'05:02:00','lat':'10:46:00','lon':'76:42:00','birth-utc-offset':'5.5','birth-dst-minutes':'0','stdLon':'82:30:00',**overrides}
   self.page.evaluate('fields=>{for(const [id,value] of Object.entries(fields))document.getElementById(id).value=value;calculateAll()}',fields)
+ def test_ten_six_uses_one_final_half_up_rounding(self):
+  self.page.wait_for_function('typeof calculateTenSixCorrectionSeconds==="function"')
+  vectors=[(0,0),(2*60+59,0),(3*60,1),(8*60+59,1),(9*60,2),(57*60+28,10),(3600,10),(18*3600+57*60+28,190),(23*3600+59*60+59,240),(-(18*3600+57*60+28),-190)]
+  actual=self.page.evaluate('values=>values.map(calculateTenSixCorrectionSeconds)',[value for value,_ in vectors])
+  self.assertEqual(actual,[expected for _,expected in vectors])
  def test_st_has_one_result_across_worksheet_house_and_repeated_calculation(self):
   p=self.page
-  for lon,expected in [('76:42:00','10:30:46'),('89:10:00','11:20:38')]:
+  for lon,expected in [('76:42:00','10:30:45'),('89:10:00','11:20:46')]:
    self.configure(lon=lon)
    sample='()=>({st:document.getElementById("birthPlaceSiderealTime").value,house:KPBhavSadhan.getData().siderealSeconds,display:Object.fromEntries(["baseSidereal0530","stLmtDifference","stTenSixCorrection","stGrandTotal","st24Adjustment"].map(id=>[id,document.getElementById(id).value])),cusps:currentKPModel.houses.map(h=>h.longitude),planets:currentKPModel.planets.map(p=>p.longitude)})'
    original=p.evaluate(sample);self.assertEqual(original['st'],expected)
    self.assertEqual(p.evaluate('KPBhavSadhan.getData().tableLatitude'),11)
-   # Independent Julian-date GMST difference checks the astronomical rotation.
-   ref=p.evaluate('KPWorksheetEphemeris.getSidereal()');moment=p.evaluate('()=>{const m=KPHorary.nativeMoment();return {date:m.date.toISOString(),longitude:m.longitude}}')
-   def gmst(stamp):
-    days=(datetime.fromisoformat(stamp.replace('Z','+00:00'))-datetime(2000,1,1,12,tzinfo=timezone.utc)).total_seconds()/86400;t=days/36525
-    return (280.46061837+360.98564736629*days+.000387933*t*t-t*t*t/38710000)%360
-   reference=(ref['hours']*3600+(gmst(moment['date'])-gmst(ref['utc']))*240+(moment['longitude']-ref['offset']*15)*240)%86400
-   self.assertLess(abs((original['house']-reference+43200)%86400-43200),.05)
    def seconds(text):
     nums=text.lstrip('-+ ').split(':');return (-1 if text.startswith('-') else 1)*sum(int(x)*m for x,m in zip(nums,[3600,60,1]))
-   d=original['display'];self.assertEqual(seconds(d['stGrandTotal']),sum(seconds(d[k]) for k in ['baseSidereal0530','stLmtDifference','stTenSixCorrection']))
+   d=original['display'];elapsed=seconds(d['stLmtDifference']);absolute=abs(elapsed);hours=absolute//3600;minutes=absolute%3600//60
+   correction=hours*10+minutes//6+(1 if minutes%6>=3 else 0);correction=-correction if elapsed<0 else correction
+   self.assertEqual(seconds(d['stTenSixCorrection']),correction)
+   self.assertEqual(seconds(d['stGrandTotal']),sum(seconds(d[k]) for k in ['baseSidereal0530','stLmtDifference','stTenSixCorrection']))
    self.assertEqual(seconds(d['stGrandTotal'])+seconds(d['st24Adjustment']),seconds(original['st']))
+   self.assertEqual(original['house'],seconds(original['st']))
    for call in ['updateSiderealTimeCalculation()','calculateAll()','updateTab4SampattikKaal();updateRaphaelTable5()']:
     p.evaluate(call);self.assertEqual(p.evaluate(sample),original)
    saved=p.evaluate('getChartData()');p.reload(timeout=120000);p.wait_for_function('typeof KPAutomaticCalculations!=="undefined"');p.evaluate('x=>restoreChartData(x)',saved);p.wait_for_timeout(1300);self.assertEqual(p.evaluate(sample),original)
@@ -60,7 +61,9 @@ class NativeWorksheetTests(unittest.TestCase):
   p.evaluate('(chart)=>restoreChartData(chart)',legacy)
   self.assertEqual(p.evaluate("()=>['p6-ephemeris-source','st-ephemeris-source','r5-house-source','kp-ayanamsha-source'].map(id=>document.getElementById(id).value)"),['automatic','automatic','automatic','annual'])
   self.assertIsNotNone(p.evaluate('KPWorksheetEphemeris.getSidereal()'))
-  self.assertEqual(p.locator('#birthPlaceSiderealTime').input_value(),'16:21:32')
+  automatic_values=p.evaluate("()=>Object.fromEntries(['lmtFinal','stLmtDifference','stTenSixCorrection','stGrandTotal','st24Adjustment','birthPlaceSiderealTime'].map(id=>[id,document.getElementById(id).value]))")
+  self.assertEqual(automatic_values,{'lmtFinal':'00:27:28','stLmtDifference':'18:57:28','stTenSixCorrection':'00:03:10','stGrandTotal':'40:21:30','st24Adjustment':'-24:00:00','birthPlaceSiderealTime':'16:21:30'})
+  expect(p.locator('#stTenSixCorrection').locator('xpath=ancestor::tr[1]')).to_contain_text('10 / 6 चा फरक')
   expect(p.locator('#admin-calculation-source-state')).to_contain_text('Automatic ephemeris')
   # Reproduce the reported manual 10/6 worksheet exactly, then save it explicitly.
   p.locator('[data-admin-worksheet="stcalc"]').click();p.locator('#st-ephemeris-source').select_option('manual');p.locator('#baseSidereal0530').fill('21:20:52');p.evaluate('updateSiderealTimeCalculation();updateRaphaelTable5()')
@@ -71,7 +74,7 @@ class NativeWorksheetTests(unittest.TestCase):
   expect(p.locator('#admin-use-automatic')).to_be_visible();expect(p.locator('#admin-calculation-source-state')).to_contain_text('Manual 10/6')
   expect(p.locator('#st-subtotal-explanation')).to_contain_text('Subtotal 40:21:30');expect(p.locator('#st-subtotal-explanation')).to_contain_text('Final sidereal time: 16:21:30')
   p.locator('#admin-use-automatic').click();self.assertIsNone(p.evaluate('KPAutomaticCalculations.getSaved()'));self.assertEqual(p.locator('#st-ephemeris-source').input_value(),'automatic');expect(p.locator('#admin-use-automatic')).to_be_hidden()
-  p.locator('#admin-pin-lock').click();p.evaluate('calculateAll()');self.assertEqual(p.locator('#st-ephemeris-source').input_value(),'automatic');self.assertEqual(p.locator('#birthPlaceSiderealTime').input_value(),'16:21:32')
+  p.locator('#admin-pin-lock').click();p.evaluate('calculateAll()');self.assertEqual(p.locator('#st-ephemeris-source').input_value(),'automatic');self.assertEqual(p.locator('#birthPlaceSiderealTime').input_value(),'16:21:30')
  def test_manual_save_cancel_and_reload_do_not_override_another_birth_chart(self):
   p=self.page;self.configure();p.locator('#quick-admin-calculations').click();p.locator('[name=admin-pin]').fill('684219');p.locator('[name=admin-confirm]').fill('684219');p.locator('#admin-pin-submit').click();expect(p.locator('#admin-calculation-host')).to_be_visible();expect(p.locator('#admin-save-manual')).to_be_hidden()
   p.locator('[data-admin-worksheet=planet]').click();p.locator('#p6-ephemeris-source').select_option('manual');expect(p.locator('#admin-save-manual')).to_be_visible()

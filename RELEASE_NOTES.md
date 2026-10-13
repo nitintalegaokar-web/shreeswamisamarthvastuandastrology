@@ -1,3 +1,19 @@
+## Traditional 10/6 sidereal correction · 1.2.2 · 13 October 2026
+
+Automatic Sidereal Time and Bhavsadhan now use the requested traditional KP
+10/6 correction instead of the exact-GMST rotation introduced in 1.2.0. The
+calculation uses complete elapsed hours × 10 seconds plus the remaining complete
+minutes ÷ 6, retains the `57 ÷ 6 = 9.5` half, and performs one final half-up
+rounding. Therefore `18:57:28` gives `00:03:10`, and the reported worksheet is
+`21:20:52 + 18:57:28 + 00:03:10 = 40:21:30 − 24:00:00 = 16:21:30`.
+
+The screen, preview, print/PDF worksheet, source badge and Raphael interpolation
+all use that same result. The existing 05:30 reference-date boundary, LMT,
+longitude correction, uploaded base ST, Raphael tables, planetary ephemeris,
+KP ayanamsha and Vimshottari calculations are unchanged. The previous 1.2.0 and
+1.2.1 notes below describe those historical releases; this rule supersedes their
+exact-GMST wording.
+
 ## Protected interface, Transit Panchang and chart tools · 1.2.1 · 13 October 2026
 
 ### Sidereal-source state hotfix · 13 October 2026

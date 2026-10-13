@@ -39,8 +39,8 @@ function useAutomatic({announce=true}={}){
 }
 function sourceText(){
   const stManual=$('st-ephemeris-source')?.value==='manual',manual=isManual()||hasSavedManual();
-  if(language()==='marathi')return stManual?'मॅन्युअल 10/6 स्रोत सुरू आहे':manual?'मॅन्युअल गणना ओव्हरराइड सुरू आहे':'स्वयंचलित एफेमेरिस · अचूक सांपातिक गती';
-  return stManual?'Manual 10/6 source is active':manual?'A manual calculation override is active':'Automatic ephemeris · exact sidereal rotation';
+  if(language()==='marathi')return stManual?'मॅन्युअल 10/6 स्रोत सुरू आहे':manual?'मॅन्युअल गणना ओव्हरराइड सुरू आहे':'स्वयंचलित एफेमेरिस · 10/6 चा फरक';
+  return stManual?'Manual 10/6 source is active':manual?'A manual calculation override is active':'Automatic ephemeris · traditional 10/6 correction';
 }
 function subtotalText(){
   const subtotal=$('stGrandTotal')?.value||'',adjustment=$('st24Adjustment')?.value||'',final=$('birthPlaceSiderealTime')?.value||'';
