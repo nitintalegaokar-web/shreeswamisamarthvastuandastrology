@@ -279,6 +279,7 @@ class PersonalPredictionTests(unittest.TestCase):
 
     def test_simple_transit_search_explains_rejection_and_filters_actual_intervals(self):
         self.page.locator('#quick-transit').click();self.assertEqual(self.page.locator('#transit select:visible').count(),4);self.assertEqual(self.page.locator('#transit input:visible').count(),0)
+        self.page.locator('#tr-event-search-scope').select_option('supported')
         found=self.page.evaluate("""()=>{const select=document.getElementById('tr-event'),found={};for(const o of select.options){select.value=o.value;KPSimpleTransits.apply();try{const c=KPSimpleTransits.criteria(KPTransit.currentPeriods());if(!found.yes)found.yes={id:o.value,periods:c.periods,required:c.required};}catch(e){if(!found.no)found.no={id:o.value,reason:e.message};}if(found.yes&&found.no)break;}return found;}""")
         self.assertEqual(set(found),{'yes','no'});self.page.locator('#tr-event').select_option(found['no']['id']);self.page.locator('#tr-run').click();expect(self.page.locator('#tr-status')).to_have_attribute('data-state','error');expect(self.page.locator('#tr-status')).to_contain_text(found['no']['reason']);self.assertEqual(self.page.evaluate('KPTransit.getResults()'),[])
         self.page.locator('#tr-event').select_option(found['yes']['id']);self.page.locator('#tr-run').click();self.page.wait_for_function("document.getElementById('tr-status').dataset.state!=='running'",timeout=90000);self.assertNotEqual(self.page.locator('#tr-status').get_attribute('data-state'),'error')

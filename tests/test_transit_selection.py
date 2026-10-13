@@ -11,6 +11,7 @@ class TransitSelectionTests(unittest.TestCase):
   p.locator('#tr-selected-md').select_option('0');p.locator('#tr-selected-ad').select_option('0');p.locator('#tr-selected-pd').select_option('0');data=p.evaluate('KPTransit.selectedPeriods()');self.assertEqual(data['selection'],'selected');birth=p.evaluate('KPHomeDasha.getData().levels[0].rows[0].startMs')
   self.assertGreaterEqual(data['periods']['PD']['startMs'],birth);self.assertGreater(data['periods']['PD']['endMs'],data['periods']['PD']['startMs']);self.assertFalse(p.locator('#tr-run').is_disabled())
   review=p.evaluate('KPSimpleTransits.getEvents().find(e=>!e.automaticEligible).id');p.locator('#tr-event').select_option(str(review))
+  p.locator('#tr-event-search-scope').select_option('supported')
   with self.assertRaisesRegex(Exception,'requires review'):p.evaluate('KPSimpleTransits.criteria(KPTransit.selectedPeriods())')
   p.evaluate('KPPreferences.save({...KPPreferences.get(),language:"marathi"})');expect(p.locator('#tr-date-dba-selection summary')).to_have_text('दिनांक / दशा-भुक्ती-अंतरा निवडा');self.assertEqual(p.locator('#tr-event option').count(),2065)
  def test_actual_search_uses_chosen_dates_and_dba_and_survives_chart_import(self):
@@ -29,6 +30,16 @@ class TransitSelectionTests(unittest.TestCase):
   p.evaluate('KPPreferences.save({...KPPreferences.get(),language:"marathi"})');self.assertEqual(p.locator('#tr-main-cusp option').all_text_contents()[7],'VII')
   saved=p.evaluate('getChartData()');selected=p.locator('#tr-event').input_value();p.locator('#tr-main-cusp').select_option('1');p.evaluate('x=>restoreChartData(x)',saved);self.assertEqual(p.locator('#tr-main-cusp').input_value(),'7');self.assertEqual(p.locator('#tr-event').input_value(),selected)
   p.locator('#tr-main-cusp').select_option('all');self.assertEqual(p.locator('#tr-event option').count(),2065)
+ def test_career_event_runs_real_transit_search_and_keeps_strict_review(self):
+  p=self.open();p.evaluate('''()=>{const values={'instant-prashna':'0','chart-kind':'natal','dob':'1950-12-20','birthTime':'05:02:00','lat':'13:04:00','lon':'80:15:00','birth-utc-offset':'5.5','birth-dst-minutes':'0','stdLon':'82:30:00'};for(const [id,value] of Object.entries(values))document.getElementById(id).value=value;calculateAll();}''');p.locator('#tr-main-cusp').select_option('10')
+  event=p.locator('#tr-event option').evaluate_all('ns=>ns.find(n=>n.textContent.includes("change in career")).value');p.locator('#tr-event').select_option(event)
+  p.locator('#tr-date-range-source').select_option('custom');p.locator('#tr-search-date-start').fill('2026-10-13T00:00');p.locator('#tr-search-date-end').fill('2026-10-14T00:00');p.locator('#tr-search-date-end').dispatch_event('change')
+  natal=p.evaluate('JSON.stringify(currentKPModel)');p.locator('#tr-run').click();p.wait_for_function('document.getElementById("tr-status").dataset.state!=="running"',timeout=120000)
+  self.assertNotEqual(p.locator('#tr-status').get_attribute('data-state'),'error',p.locator('#tr-status').inner_text());results=p.evaluate('KPTransit.getResults()');self.assertTrue(results)
+  expect(p.locator('#tr-status')).to_be_visible();expect(p.locator('#tr-result-rows')).to_be_visible();self.assertEqual(p.evaluate('JSON.stringify(currentKPModel)'),natal)
+  self.assertTrue(p.evaluate('''()=>{const selected=new Set(KPTransit.significators().map(p=>p.id));return KPTransit.getResults().every(r=>{const mid=new Date((Date.parse(r.start)+Date.parse(r.end))/2),d=KPDisplay.longitudeDetails(KPEphemeris.longitude(mid,r.planet)*3600);return ['stl','sl'].every(k=>selected.has(d[k]));});}'''))
+  for row in results:self.assertGreaterEqual(row['start'],'2026-10-12T18:30:00.000Z');self.assertLessEqual(row['end'],'2026-10-13T18:30:00.000Z');self.assertLess(row['start'],row['end'])
+  p.locator('#tr-event-search-scope').select_option('supported');p.locator('#tr-run').click();expect(p.locator('#tr-status')).to_contain_text('requires review');self.assertEqual(p.evaluate('KPTransit.getResults()'),[])
  def test_start_date_dba_time_zone_conversion_and_invalid_end_preserve_values(self):
   p=self.open();p.locator('#tr-date-range-source').select_option('custom');p.locator('#tr-dba-selection-source').select_option('date');p.locator('#tr-search-date-start').fill('2027-02-01T12:00');p.locator('#tr-search-date-end').fill('2027-02-02T12:00');p.locator('#tr-search-date-end').dispatch_event('change')
   p.evaluate('KPTransit.refresh()');actual=p.evaluate('KPTransit.selectedPeriods()');expected=p.evaluate('KPTransit.currentPeriods(new Date("2027-02-01T06:30:00Z"))');self.assertEqual([actual['periods'][r]['id'] for r in ['MD','AD','PD']],[expected['periods'][r]['id'] for r in ['MD','AD','PD']]);self.assertEqual(p.evaluate('KPTransit.currentRange().start.toISOString()'),'2027-02-01T06:30:00.000Z')

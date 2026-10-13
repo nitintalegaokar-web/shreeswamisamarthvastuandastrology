@@ -1,3 +1,16 @@
+## Standalone HTML transit finder fix · 13 October 2026
+
+The career-change catalogue event can require source-condition review. The
+finder previously stopped at that review before scanning any planetary transit.
+Event search now offers `Transit intervals` (default), which scans the chosen
+house significators and transit requirement within the selected date range,
+and `Natal promise + DBA support`, which retains the existing source review,
+natal-promise and supporting-DBA restrictions. Transit intervals are labelled as
+transit conditions rather than confirmed event predictions. Search status and
+results appear immediately below Find dates, ahead of advanced rules. The
+Search period dropdown remains removed. Protected calculation formulas are
+unchanged.
+
 ## Traditional 10/6 sidereal correction · 1.2.2 · 13 October 2026
 
 Automatic Sidereal Time and Bhavsadhan now use the requested traditional KP
