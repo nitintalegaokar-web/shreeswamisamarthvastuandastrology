@@ -235,16 +235,23 @@ class BhavsadhanTests(unittest.TestCase):
         self.assertEqual(p.evaluate('Array.from({length:3},()=>KPVedic.core().ready)'), [False]*3)
         p.evaluate('document.getElementById("lat").value="18:48:00";calculateAll()'); self.verify(self.sample()); self.assertTrue(p.evaluate('KPVedic.core().ready'))
 
-    def test_manual_preservation_horary_and_administrator_source(self):
+    def test_explicit_manual_preservation_horary_and_administrator_source(self):
         p = self.page; self.sample(); p.locator('#quick-admin-calculations').click(); p.locator('[name="admin-pin"]').fill('684219'); p.locator('[name="admin-confirm"]').fill('684219'); p.locator('#admin-pin-submit').click(); expect(p.locator('#admin-calculation-host')).to_be_visible(); p.locator('[data-admin-worksheet="raphael5"]').click()
         expect(p.locator('#r5-house-source')).to_be_visible(); p.screenshot(path='/tmp/uploaded-bhav-tables.png')
         p.evaluate('document.getElementById("instant-prashna").value="0";calculateAll()')
         p.locator('#r5_small_1').fill('100:12:34'); self.assertEqual(p.locator('#r5-house-source').input_value(), 'manual'); self.assertEqual(p.locator('#r5_small_1').input_value(), '100:12:34')
         p.evaluate('calculateAll()'); self.assertEqual(p.locator('#r5_small_1').input_value(), '100:12:34')
         saved = p.evaluate('getChartData()'); self.assertEqual(saved['fields']['r5-house-source']['value'], 'manual')
-        legacy = json.loads(json.dumps(saved)); del legacy['fields']['r5-house-source']
+        legacy = json.loads(json.dumps(saved)); legacy.pop('manualCalculations', None); del legacy['fields']['r5-house-source']
         p.evaluate('chart=>{document.getElementById("r5-house-source").value="automatic";restoreChartData(chart)}', legacy)
+        self.assertEqual(p.locator('#r5-house-source').input_value(), 'automatic'); self.assertNotEqual(p.locator('#r5_small_1').input_value(), '100:12:34')
+        # Only an explicit ADM Save-manual record may restore manual values.
+        p.locator('#r5_small_1').fill('100:12:34')
+        p.evaluate('''()=>{const record=KPAutomaticCalculations.capture();KPAutomaticCalculations.setSaved(record);KPAutomaticCalculations.persist();}''')
+        explicit = p.evaluate('getChartData()'); self.assertIn('manualCalculations', explicit)
+        p.evaluate('chart=>{document.getElementById("r5-house-source").value="automatic";restoreChartData(chart)}', explicit)
         self.assertEqual(p.locator('#r5-house-source').input_value(), 'manual'); self.assertEqual(p.locator('#r5_small_1').input_value(), '100:12:34')
+        p.evaluate('KPAutomaticCalculations.setSaved(null);KPAutomaticCalculations.persist()')
         p.evaluate('document.getElementById("r5-house-source").value="automatic";document.getElementById("chart-kind").value="horary";document.getElementById("horary-number").value="123";calculateAll()')
         p.wait_for_timeout(250); result = p.evaluate('({native:currentKPModel.houses.map(h=>h.longitude),horary:KPHorary.getData().cusps.map(c=>c*3600),source:KPBhavSadhan.getData()})'); self.assertIsNone(result['source'])
         for a, b in zip(result['native'], result['horary']): self.assertAlmostEqual(a, b)

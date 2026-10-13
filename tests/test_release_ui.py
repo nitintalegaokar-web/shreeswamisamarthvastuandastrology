@@ -1,4 +1,4 @@
-"""Focused checks for the additive 1.2.1 interface modules."""
+"""Focused checks for the additive 1.2.2 interface modules."""
 
 import unittest
 
