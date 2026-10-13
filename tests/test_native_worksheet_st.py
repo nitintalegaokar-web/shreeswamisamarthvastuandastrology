@@ -49,6 +49,29 @@ class NativeWorksheetTests(unittest.TestCase):
    if time=='05:02:00':self.assertEqual(row['values']['p6_add_0'],'244:26:48');self.assertEqual(row['values']['p6_total_0'],'-0:01:12')
    p.evaluate('document.getElementById("p6_row_date_1").value="2001-05-20";document.getElementById("p6_row_date_1").dataset.auto="0";calculateAll()')
    self.assertEqual(p.evaluate('KPWorksheetEphemeris.getData().dates'),row['data']['dates'])
+ def test_legacy_restore_cannot_leave_stuck_manual_st_and_clear_button_is_persistent(self):
+  p=self.page;self.configure(dob='2001-05-21',birthTime='01:01:00',lon='74:07:00')
+  automatic=p.evaluate('getChartData()')
+  p.locator('#quick-admin-calculations').click();p.locator('[name=admin-pin]').fill('684219');p.locator('[name=admin-confirm]').fill('684219');p.locator('#admin-pin-submit').click();expect(p.locator('#admin-calculation-host')).to_be_visible()
+  # Legacy files have worksheet values but no explicit Save-manual record or source selectors.
+  legacy=json.loads(json.dumps(automatic));legacy.pop('manualCalculations',None)
+  for id in ('p6-ephemeris-source','st-ephemeris-source','r5-house-source','kp-ayanamsha-source'):legacy['fields'].pop(id,None)
+  legacy['fields']['baseSidereal0530']['value']='21:20:52'
+  p.evaluate('(chart)=>restoreChartData(chart)',legacy)
+  self.assertEqual(p.evaluate("()=>['p6-ephemeris-source','st-ephemeris-source','r5-house-source','kp-ayanamsha-source'].map(id=>document.getElementById(id).value)"),['automatic','automatic','automatic','annual'])
+  self.assertIsNotNone(p.evaluate('KPWorksheetEphemeris.getSidereal()'))
+  self.assertEqual(p.locator('#birthPlaceSiderealTime').input_value(),'16:21:32')
+  expect(p.locator('#admin-calculation-source-state')).to_contain_text('Automatic ephemeris')
+  # Reproduce the reported manual 10/6 worksheet exactly, then save it explicitly.
+  p.locator('[data-admin-worksheet="stcalc"]').click();p.locator('#st-ephemeris-source').select_option('manual');p.locator('#baseSidereal0530').fill('21:20:52');p.evaluate('updateSiderealTimeCalculation();updateRaphaelTable5()')
+  self.assertEqual(p.evaluate("()=>Object.fromEntries(['lmtFinal','stLmtDifference','stTenSixCorrection','stGrandTotal','st24Adjustment','birthPlaceSiderealTime'].map(id=>[id,document.getElementById(id).value]))"),{'lmtFinal':'00:27:28','stLmtDifference':'18:57:28','stTenSixCorrection':'00:03:10','stGrandTotal':'40:21:30','st24Adjustment':'- 24:00:00','birthPlaceSiderealTime':'16:21:30'})
+  p.evaluate('''()=>{const record=KPAutomaticCalculations.capture();KPAutomaticCalculations.setSaved(record);KPAutomaticCalculations.persist();}''')
+  manual=p.evaluate('getChartData()');self.assertIn('manualCalculations',manual)
+  p.evaluate('(chart)=>restoreChartData(chart)',manual);self.assertEqual(p.locator('#st-ephemeris-source').input_value(),'manual')
+  expect(p.locator('#admin-use-automatic')).to_be_visible();expect(p.locator('#admin-calculation-source-state')).to_contain_text('Manual 10/6')
+  expect(p.locator('#st-subtotal-explanation')).to_contain_text('Subtotal 40:21:30');expect(p.locator('#st-subtotal-explanation')).to_contain_text('Final sidereal time: 16:21:30')
+  p.locator('#admin-use-automatic').click();self.assertIsNone(p.evaluate('KPAutomaticCalculations.getSaved()'));self.assertEqual(p.locator('#st-ephemeris-source').input_value(),'automatic');expect(p.locator('#admin-use-automatic')).to_be_hidden()
+  p.locator('#admin-pin-lock').click();p.evaluate('calculateAll()');self.assertEqual(p.locator('#st-ephemeris-source').input_value(),'automatic');self.assertEqual(p.locator('#birthPlaceSiderealTime').input_value(),'16:21:32')
  def test_manual_save_cancel_and_reload_do_not_override_another_birth_chart(self):
   p=self.page;self.configure();p.locator('#quick-admin-calculations').click();p.locator('[name=admin-pin]').fill('684219');p.locator('[name=admin-confirm]').fill('684219');p.locator('#admin-pin-submit').click();expect(p.locator('#admin-calculation-host')).to_be_visible();expect(p.locator('#admin-save-manual')).to_be_hidden()
   p.locator('[data-admin-worksheet=planet]').click();p.locator('#p6-ephemeris-source').select_option('manual');expect(p.locator('#admin-save-manual')).to_be_visible()

@@ -1,0 +1,5 @@
+#admin-calculation-source-state{display:inline-flex;align-items:center;min-height:28px;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;background:#e4f4e9;color:#17643a}
+#admin-calculation-source-state[data-mode="manual"]{background:#fde7e4;color:#a52f27}
+#admin-use-automatic{background:#237548!important;color:#fff!important;border-color:#17643a!important}
+#admin-use-automatic[hidden]{display:none!important}
+.st-subtotal-explanation{margin:8px 0 0;padding:8px 10px;border-left:4px solid #376f91;background:#eef6fa;color:#26475c;font-size:12px;line-height:1.55}

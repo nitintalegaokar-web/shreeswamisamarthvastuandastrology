@@ -1,5 +1,20 @@
 ## Protected interface, Transit Panchang and chart tools · 1.2.1 · 13 October 2026
 
+### Sidereal-source state hotfix · 13 October 2026
+
+Restoring a legacy chart while Administrator Calculations was unlocked could
+leave the sidereal worksheet in Manual 10/6 mode even though no explicit manual
+calculation record had been saved. Legacy and ordinary chart restores now return
+planet positions, sidereal time and Raphael houses to Automatic, and ayanamsha to
+the annual KP source. A manual source survives only when it was explicitly stored
+with **Save manual entries**.
+
+Administrator Calculations now displays a green Automatic or red Manual source
+badge and provides **Use automatic calculations** to clear a persisted manual
+override. The sidereal worksheet also identifies the unnormalised subtotal and
+final value: for example, `40:21:30 − 24:00:00 = 16:21:30`. No sidereal,
+Raphael, LMT, planetary or ayanamsha formula was changed.
+
 This update was made on backup branch
 `backup/pre-ui-1.2.1-2026-10-12` from calculation baseline `d15b677`.
 Seventeen protected calculation blocks plus the Raphael, Vedic, Muhurta and HIT

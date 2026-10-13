@@ -168,6 +168,13 @@ source boundaries and the release-gate commands are documented in
 
 **ADM** groups Longitude, Local Mean Time, Sidereal Time, Raphael houses, Planet Positions and DBA calculation worksheets. Set and confirm a PIN of at least six characters on first use, then enter it to unlock. Leaving the tab, choosing Lock or 15 minutes of inactivity locks the worksheets. PIN credentials are kept as a salted PBKDF2 hash in this browser, separate from chart exports and reports. Clearing browser storage removes this local PIN setup. This is a local interface lock; someone who controls the downloaded HTML or browser developer tools can bypass it. The optional private customer server keeps these administrator screens hidden.
 
+ADM shows whether automatic or manual calculation sources are active. **Use
+automatic calculations** removes a persisted manual override and restores the
+automatic planet, sidereal-time, Raphael-house and annual KP ayanamsha sources.
+Legacy charts without an explicit **Save manual entries** record are recalculated
+automatically even when imported while ADM is open. The sidereal worksheet labels
+its subtotal before the separate 24-hour adjustment and its final result.
+
 The regular DBA icon opens the analysis/period popup; MD/AD calculation details are available in ADM. Calculation worksheet report options appear only while ADM is unlocked. Native Vedic Dasha reports remain available normally.
 
 ## A4 reports and online accounts

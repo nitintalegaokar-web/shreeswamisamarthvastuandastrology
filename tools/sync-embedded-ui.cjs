@@ -26,6 +26,8 @@ const assets = [
   ['script', 'kp-ephemeris-source-adapter', 'vendor/ephemeris/source-adapter.js'],
   ['style', 'kp-calculation-sources-style', 'vendor/interface/calculation-sources.css'],
   ['script', 'kp-calculation-sources', 'vendor/interface/calculation-sources.js'],
+  ['style', 'kp-calculation-source-guard-style', 'vendor/interface/calculation-source-guard.css'],
+  ['script', 'kp-calculation-source-guard', 'vendor/interface/calculation-source-guard.js'],
 ];
 
 let html = fs.readFileSync(target, 'utf8');

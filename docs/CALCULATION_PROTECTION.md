@@ -24,6 +24,13 @@ The calculation audit compares named and anonymous legacy script bodies in
 own script/style IDs. The Transit Panchang daily engine is also a separate,
 pure API: it takes explicit date/place values and does not write natal fields.
 
+The calculation-source guard is likewise additive. It does not implement a
+formula: it prevents a legacy chart restored while ADM is unlocked from leaving
+the application in Manual mode without an explicit `manualCalculations` record.
+The **Use automatic calculations** action clears that saved record and selects
+the existing automatic engines. The worksheet keeps its raw subtotal before the
+separate 24-hour adjustment and labels the final sidereal value explicitly.
+
 The optional Swiss Krishnamurti ayanamsha is isolated under
 `vendor/ephemeris`. `uploaded-kp` remains the default and delegates every call
 directly to the original objects, without reconstruction or rounding. Uranus,
@@ -47,6 +54,12 @@ nine-graha KP model.
 native calculation and requires exact equality in the default mode before and
 after recalculation and saved-chart restoration. It separately checks the
 opt-in Swiss ayanamsha samples.
+
+`tests/test_native_worksheet_st.py` also reproduces the reported manual example
+`21:20:52 + 18:57:28 + 00:03:10 = 40:21:30 − 24:00:00 = 16:21:30`.
+It verifies that a legacy restore while ADM is unlocked returns to Automatic,
+while an explicitly saved manual record remains Manual until the user chooses
+**Use automatic calculations**.
 
 ## Required release gate
 
