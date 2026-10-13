@@ -10,8 +10,18 @@ const path = require('node:path');
 const {execFileSync} = require('node:child_process');
 
 const root = path.resolve(__dirname, '..');
-const baseline = process.argv[2] || 'd15b677367dbc0d744ebb15adb378d5d7da566ba';
+const requestedBaseline = process.argv[2] || null;
+const baseline = requestedBaseline || 'd15b677367dbc0d744ebb15adb378d5d7da566ba';
+const approvedTenSixBaseline = 'b6208e6014134993abfd47a8c4644aa7ef9872ab';
+const approvedScriptBaselines = requestedBaseline ? {} : {
+  'kp-legacy-native-calculation-script': approvedTenSixBaseline,
+  'worksheet-automatic-ephemeris-script': approvedTenSixBaseline,
+};
+const approvedFileBaselines = requestedBaseline ? {} : {
+  'vendor/houses/README.md': approvedTenSixBaseline,
+};
 const protectedScripts = [
+  'kp-legacy-native-calculation-script',
   'kp-display-engine',
   'kp-ephemeris-api',
   'kp-annual-ayanamsha-script',
@@ -40,8 +50,8 @@ const protectedPaths = [
 function git(...args) {
   return execFileSync('git', args, {cwd:root, encoding:'utf8', maxBuffer:64 * 1024 * 1024});
 }
-function atBaseline(relative) {
-  return git('show', `${baseline}:${relative}`);
+function atCommit(commit, relative) {
+  return git('show', `${commit}:${relative}`);
 }
 function scriptBody(html, id) {
   const escaped = id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -53,34 +63,41 @@ function digest(value) {
   return crypto.createHash('sha256').update(value).digest('hex');
 }
 
-const baselineHtml = atBaseline('index.html');
+const htmlAtCommit = new Map();
+function committedHtml(commit) {
+  if (!htmlAtCommit.has(commit)) htmlAtCommit.set(commit, atCommit(commit, 'index.html'));
+  return htmlAtCommit.get(commit);
+}
 const currentHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const failures = [];
 for (const id of protectedScripts) {
-  const expected = scriptBody(baselineHtml, id);
+  const expectedCommit = approvedScriptBaselines[id] || baseline;
+  const expected = scriptBody(committedHtml(expectedCommit), id);
   const actual = scriptBody(currentHtml, id);
-  if (actual !== expected) failures.push(`index.html#${id}: ${digest(expected)} -> ${digest(actual)}`);
+  if (actual !== expected) failures.push(`index.html#${id} (${expectedCommit}): ${digest(expected)} -> ${digest(actual)}`);
 }
 
 for (const protectedPath of protectedPaths) {
   const entries = git('ls-tree', '-r', '--name-only', baseline, '--', protectedPath).trim().split('\n').filter(Boolean);
   if (!entries.length) failures.push(`${protectedPath}: missing from baseline`);
   for (const relative of entries) {
-    const expected = atBaseline(relative);
+    const expectedCommit = approvedFileBaselines[relative] || baseline;
+    const expected = atCommit(expectedCommit, relative);
     const current = path.join(root, relative);
     if (!fs.existsSync(current)) {
       failures.push(`${relative}: missing from working tree`);
       continue;
     }
     const actual = fs.readFileSync(current, 'utf8');
-    if (actual !== expected) failures.push(`${relative}: ${digest(expected)} -> ${digest(actual)}`);
+    if (actual !== expected) failures.push(`${relative} (${expectedCommit}): ${digest(expected)} -> ${digest(actual)}`);
   }
 }
 
 if (failures.length) {
-  console.error(`FAIL: ${failures.length} protected calculation difference(s) from ${baseline}`);
+  console.error(`FAIL: ${failures.length} protected calculation difference(s) from approved scoped baselines.`);
   for (const failure of failures) console.error(`- ${failure}`);
   process.exitCode = 1;
 } else {
-  console.log(`PASS: ${protectedScripts.length} calculation blocks and protected source files match ${baseline}.`);
+  const scope = requestedBaseline ? baseline : `${baseline} plus approved 10/6 change ${approvedTenSixBaseline}`;
+  console.log(`PASS: ${protectedScripts.length} calculation blocks and protected source files match ${scope}.`);
 }

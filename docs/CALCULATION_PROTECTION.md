@@ -1,9 +1,12 @@
 # KP MASTER calculation protection
 
-This release uses commit `d15b677367dbc0d744ebb15adb378d5d7da566ba`
-as the approved calculation baseline. Before the interface work, the complete
-checkout was backed up to branch
-`backup/pre-ui-1.2.1-2026-10-12` at that commit.
+This release keeps commit `d15b677367dbc0d744ebb15adb378d5d7da566ba`
+as the approved baseline for every unchanged calculation and data file. The
+user-approved traditional 10/6 sidereal correction is separately pinned to
+commit `b6208e6014134993abfd47a8c4644aa7ef9872ab` for only the two named native-ST
+script blocks and their house-table documentation. The complete state before
+that correction is backed up at branch
+`backup/pre-10-6-correction-2026-10-13`.
 
 ## Protected calculation boundary
 
@@ -19,10 +22,14 @@ or their data. The protected boundary includes:
 - the source files under `vendor/houses`, `vendor/vedic`, `vendor/muhurta`,
   `vendor/hit`, and the embedded table/ephemeris/dasha data.
 
-The calculation audit compares named and anonymous legacy script bodies in
-`index.html` with the baseline. New interface modules are appended under their
-own script/style IDs. The Transit Panchang daily engine is also a separate,
-pure API: it takes explicit date/place values and does not write natal fields.
+The calculation audit compares named script bodies in `index.html` and protected
+source files with their scoped approved commits. The formerly anonymous native
+worksheet block now has the stable ID `kp-legacy-native-calculation-script`, so
+both the shared 10/6 helper and the automatic caller are protected. All other
+calculation blocks and data remain pinned to the earlier baseline. New interface
+modules are appended under their own script/style IDs. The Transit Panchang
+daily engine is also a separate, pure API: it takes explicit date/place values
+and does not write natal fields.
 
 The calculation-source guard is likewise additive. It does not implement a
 formula: it prevents a legacy chart restored while ADM is unlocked from leaving
@@ -42,8 +49,8 @@ nine-graha KP model.
 `tests/test_calculation_protection.py` protects the supplied native chart:
 
 - 20 December 1950, 05:02:00, latitude 10°46′ N, UTC +05:30;
-- longitude 76°42′ E must produce sidereal time `10:30:46`;
-- longitude 89°10′ E must produce sidereal time `11:20:38`;
+- longitude 76°42′ E must produce sidereal time `10:30:45`;
+- longitude 89°10′ E must produce sidereal time `11:20:46`;
 - the Raphael latitude sheet must be 11° (30 minutes and above advance to the
   next latitude; 29 minutes remains on the current latitude);
 - planets, cusps, KP lords, worksheet fields and all nine Vimshottari MD rows
@@ -55,8 +62,10 @@ native calculation and requires exact equality in the default mode before and
 after recalculation and saved-chart restoration. It separately checks the
 opt-in Swiss ayanamsha samples.
 
-`tests/test_native_worksheet_st.py` also reproduces the reported manual example
-`21:20:52 + 18:57:28 + 00:03:10 = 40:21:30 − 24:00:00 = 16:21:30`.
+`tests/test_native_worksheet_st.py` independently checks the traditional rule:
+complete elapsed hours × 10 seconds plus remaining complete minutes ÷ 6,
+with one final half-up rounding. It reproduces the reported automatic and manual
+example `21:20:52 + 18:57:28 + 00:03:10 = 40:21:30 − 24:00:00 = 16:21:30`.
 It verifies that a legacy restore while ADM is unlocked returns to Automatic,
 while an explicitly saved manual record remains Manual until the user chooses
 **Use automatic calculations**.
