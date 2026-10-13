@@ -1,5 +1,15 @@
 # Uploaded Bhavsadhan house tables
 
+The owner's 13 October 2026 Ishta Farak rule supersedes the earlier unrounded
+interpolation described below: calculate the arcminute fraction from the actual
+ST bracket, keep the completed arcminutes when the remainder is below 50
+arcseconds, and add one arcminute at 50 arcseconds or above. Apply those rounded
+arcminutes to the smaller source cusp before subtracting KP ayanamsha once.
+For latitude 13° N and ST 14:13:47 the six differences are 45′, 45′, 45′,
+43′, 45′, 45′. The Excel rows themselves and the generic table API are unchanged;
+the active worksheet uses the shared `ishta-rounding.js` rule. Date-specific
+Placidus fallback has no table interpolation and remains unchanged.
+
 The seven supplied `Raphel*Placidus_User_ST_*.xlsx` workbooks uploaded on 12 October 2026 are retained unchanged in `source/` and are the active automatic source. They supply tropical Placidus cusps for 61 whole northern latitudes, 0° through 60°, and sidereal time from 00:00:00 through 24:00:00. The earlier Swiss workbooks remain in that folder for reference and are not combined with the active Raphael sheets. The new printed values match the previous printed columns. No claim is made that these files are an independently verified transcription of a historical Raphael book.
 
 `import_tables.py` accepts the new seven-column layout: **ST HH:MM:SS, 10H, 11H, 12H, Asc DM, 2H, 3H**. It validates sheet names, the complete actual ST clock, sign/degree/minute values, ordering and matching midnight endpoints. It removes 671 identical boundary repeats, retaining 22,021 unique latitude/time rows. `tables.json` records filenames, SHA-256 hashes and source precision. Whole-degree houses are read with their signs; Asc DM is degrees + minutes/60. The `values` API array is now the numeric conversion of these same printed values; the new uploads contain no additional precise numeric columns. The importer prefers all seven Raphel workbooks, falling back to the older Swiss layout only if no Raphel files are present. Run `python vendor/houses/import_tables.py` with openpyxl to rebuild the packed data.

@@ -22,13 +22,22 @@ def mix(a, b, fraction):
     return (a + ((b-a+180) % 360-180)*fraction) % 360
 
 
-def reference(latitude, time, ayan, columns="numeric"):
+def reference(latitude, time, ayan, columns="numeric", round_ishta=True):
     pool=DATA["printedValues"] if columns=="printed" else DATA["values"]
     low = min(len(DATA['times'])-2, bisect.bisect_right(DATA['times'], time)-1)
     high = low+1
     f = (time-DATA['times'][low])/(DATA['times'][high]-DATA['times'][low])
     a, b = math.floor(latitude), math.ceil(latitude)
-    values = [mix(mix(pool[a][low][i], pool[a][high][i], f), mix(pool[b][low][i], pool[b][high][i], f), latitude-a) for i in range(6)]
+    if round_ishta:
+        values=[]
+        for i in range(6):
+            small=mix(pool[a][low][i],pool[b][low][i],latitude-a)
+            large=mix(pool[a][high][i],pool[b][high][i],latitude-a)
+            arcseconds=((large-small+180)%360-180)*f*3600
+            minutes=math.floor(abs(arcseconds)/60)+(1 if abs(arcseconds)%60>=50-1e-8 else 0)
+            values.append((small+(-minutes if arcseconds<0 else minutes)/60)%360)
+    else:
+        values = [mix(mix(pool[a][low][i], pool[a][high][i], f), mix(pool[b][low][i], pool[b][high][i], f), latitude-a) for i in range(6)]
     cusps = [None]*12
     for h, x in zip(HOUSES, values):
         cusps[h-1] = (x-ayan) % 360
@@ -86,7 +95,7 @@ class TableTests(unittest.TestCase):
         actual = json.loads(result.stdout)
         self.assertLess(actual['maximum'], 1e-10); self.assertTrue(all(actual['invalid']))
         for inputs, result in zip(cases, actual['results']):
-            for a, b in zip(result['cusps'], reference(*inputs)):
+            for a, b in zip(result['cusps'], reference(*inputs,round_ishta=False)):
                 self.assertAlmostEqual(a, b, places=10)
             for i in range(6):
                 self.assertAlmostEqual((result['cusps'][i+6]-result['cusps'][i]) % 360, 180)

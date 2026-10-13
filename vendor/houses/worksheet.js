@@ -14,7 +14,11 @@ function selectLatitude(latitude){
 }
 function lookup(latitude,st,ayan=0,columns='printed'){
  const tableLatitude=selectLatitude(latitude);
- return {...table.lookup(tableLatitude,st,ayan,columns),latitude,tableLatitude,latitudeRule:'minutes-half-up'};
+ const data=table.lookup(tableLatitude,st,ayan,columns),b=data.brackets;
+ const ishtaMinutes=b.small.map((small,i)=>KPIshtaFarak.roundArcseconds(delta(small,b.large[i])*b.timeFraction*3600));
+ const tropicalCusps=Array(12);
+ for(const [i,h] of H.entries()){const tropical=norm(b.small[i]+ishtaMinutes[i]/60);tropicalCusps[h-1]=tropical;tropicalCusps[(h+5)%12]=norm(tropical+180);}
+ return {...data,unroundedTropicalCusps:data.tropicalCusps,tropicalCusps,cusps:tropicalCusps.map(x=>norm(x-ayan)),ishtaMinutes,ishtaRounding:'seconds-50',latitude,tableLatitude,latitudeRule:'minutes-half-up'};
 }
 function sourceRows(data){
  const b=data?.brackets,automatic=enabled(),printed=automatic&&!!b,mr=window.KPPreferences?.get().language==='marathi';
@@ -55,7 +59,7 @@ function write(data){
  window.updateSampattikTimeDifferences?.();
  for(const [i,h] of H.entries()){
   const tropical=data.tropicalCusps[h-1],absolute=Math.round(data.cusps[h-1]*3600)%1296000,sign=Math.floor(absolute/108000),degree=absolute/3600;
-  const difference=b?delta(b.small[i],b.large[i]):0,ishta=b?difference*b.timeFraction:0;
+  const difference=b?delta(b.small[i],b.large[i]):0,ishta=b?data.ishtaMinutes[i]/60:0;
   // Source rows must be actual workbook entries, not fractional latitude blends.
   // The selected whole latitude is fixed; retain full-precision ST interpolation.
   for(const [field,n] of [['small',b?b.corners[0][i]:tropical],['small2',b?b.small[i]:tropical],['large',b?b.corners[1][i]:tropical],['diff3',difference],['ishta',ishta],['smallplus',tropical],['geoayan',data.ayanamsha],['nirayan',degree],['minus',sign*30],['bhava',degree-sign*30]])set('r5_'+field+'_'+h,['small','large'].includes(field)?tableValue(h,n):dms(n));

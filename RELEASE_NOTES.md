@@ -328,3 +328,15 @@ Basic Information (BI) is beside Birth Details and prints under General informat
 House-table update (11 October 2026): all seven supplied Swiss Placidus workbooks are included for automatic Bhavsadhan. Their precise numeric columns supply 22,021 unique entries from 0°–60° north; local sidereal time and latitude interpolate automatically, with correct 360°/midnight handling and one KP ayanamsha subtraction. The normal Calculate action updates native cusps, kundali and significators. The source selector remains inside ADM; numbered KP Horary retains its exact numbered Ascendant. Unsupported table latitudes use the existing date-specific solver without extrapolating the uploaded tables. Existing manual chart files retain their input method.
 
 The workspace toolbar now offers Open Kundali and Save Kundali for `.lkp` files. The Calculate toolbar button is removed; automatic calculation remains active. Ctrl/⌘ S uses the same file-save action.
+## Owner-approved 50-second Ishta Farak rule · 13 October 2026
+
+The explicit examples define a 50-arcsecond threshold, rather than ordinary
+half-minute rounding: 45′19″ → 45′, 43′49″ → 43′, 45′50″ → 46′,
+45′59″ → 46′. Automatic Raphael and manual worksheet calculations use the
+same rule before adding Ishta Farak to the smaller cusp and subtracting KP
+ayanamsha. Both DMS and minute worksheets show that applied difference. The
+13° N / ST 14:13:47 reference gives 45′ for houses X, XI, XII, II, III and
+43′ for the Ascendant. The source Excel values, ST, latitude selection,
+planetary ephemeris and Vimshottari formulas are unchanged. This intentionally
+supersedes the earlier display-only Ishta rounding notes.
+
