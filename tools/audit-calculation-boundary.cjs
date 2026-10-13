@@ -13,15 +13,23 @@ const root = path.resolve(__dirname, '..');
 const requestedBaseline = process.argv[2] || null;
 const baseline = requestedBaseline || 'd15b677367dbc0d744ebb15adb378d5d7da566ba';
 const approvedTenSixBaseline = 'b6208e6014134993abfd47a8c4644aa7ef9872ab';
+const approvedIshtaBaseline = '1194c4d71f3388a3dabc6cc9c85d6027b90de618';
 const approvedScriptBaselines = requestedBaseline ? {} : {
   'kp-legacy-native-calculation-script': approvedTenSixBaseline,
   'worksheet-automatic-ephemeris-script': approvedTenSixBaseline,
+  'kp-ishta-rounding': approvedIshtaBaseline,
+  'kp-legacy-raphael-calculation-script': approvedIshtaBaseline,
+  'kp-uploaded-house-worksheet': approvedIshtaBaseline,
 };
 const approvedFileBaselines = requestedBaseline ? {} : {
-  'vendor/houses/README.md': approvedTenSixBaseline,
+  'vendor/houses/README.md': approvedIshtaBaseline,
+  'vendor/houses/worksheet.js': approvedIshtaBaseline,
+  'vendor/houses/ishta-rounding.js': approvedIshtaBaseline,
 };
 const protectedScripts = [
   'kp-legacy-native-calculation-script',
+  'kp-ishta-rounding',
+  'kp-legacy-raphael-calculation-script',
   'kp-display-engine',
   'kp-ephemeris-api',
   'kp-annual-ayanamsha-script',
@@ -42,6 +50,7 @@ const protectedScripts = [
 ];
 const protectedPaths = [
   'vendor/houses',
+  'vendor/houses/ishta-rounding.js',
   'vendor/vedic',
   'vendor/muhurta/engine.js',
   'vendor/hit/engine.js',
@@ -78,7 +87,8 @@ for (const id of protectedScripts) {
 }
 
 for (const protectedPath of protectedPaths) {
-  const entries = git('ls-tree', '-r', '--name-only', baseline, '--', protectedPath).trim().split('\n').filter(Boolean);
+  const treeBaseline = approvedFileBaselines[protectedPath] || baseline;
+  const entries = git('ls-tree', '-r', '--name-only', treeBaseline, '--', protectedPath).trim().split('\n').filter(Boolean);
   if (!entries.length) failures.push(`${protectedPath}: missing from baseline`);
   for (const relative of entries) {
     const expectedCommit = approvedFileBaselines[relative] || baseline;
@@ -98,6 +108,6 @@ if (failures.length) {
   for (const failure of failures) console.error(`- ${failure}`);
   process.exitCode = 1;
 } else {
-  const scope = requestedBaseline ? baseline : `${baseline} plus approved 10/6 change ${approvedTenSixBaseline}`;
+  const scope = requestedBaseline ? baseline : `${baseline}, approved 10/6 change ${approvedTenSixBaseline}, and approved Ishta change ${approvedIshtaBaseline}`;
   console.log(`PASS: ${protectedScripts.length} calculation blocks and protected source files match ${scope}.`);
 }

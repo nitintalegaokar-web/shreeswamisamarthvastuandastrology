@@ -8,6 +8,15 @@ script blocks and their house-table documentation. The complete state before
 that correction is backed up at branch
 `backup/pre-10-6-correction-2026-10-13`.
 
+The owner's later explicit Ishta Farak examples authorize a 50-arcsecond
+threshold in final Raphael cusps: 45′19″ → 45′, 43′49″ → 43′,
+45′50″ → 46′, 45′59″ → 46′. This intentional change is pinned to
+`1194c4d71f3388a3dabc6cc9c85d6027b90de618` only for the shared rounding helper,
+the manual Raphael block, the automatic house worksheet and its documentation.
+The pre-change backup is `backup/pre-ishta-50seconds-2026-10-13`. The generic
+table API and all source XLSX/data files retain the older protected baseline.
+ST, LMT, ayanamsha, planetary positions and Vimshottari formulas are unchanged.
+
 ## Protected calculation boundary
 
 Interface, report and licensing work must not edit the approved formula bodies
@@ -77,6 +86,7 @@ Run from the repository root:
 ```sh
 PYTHONPATH=tests python3 -m unittest -v \
   test_calculation_protection \
+  test_ishta_rounding \
   test_ephemeris_sources \
   test_native_worksheet_st \
   test_house_tables \

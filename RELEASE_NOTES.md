@@ -339,4 +339,3 @@ ayanamsha. Both DMS and minute worksheets show that applied difference. The
 43′ for the Ascendant. The source Excel values, ST, latitude selection,
 planetary ephemeris and Vimshottari formulas are unchanged. This intentionally
 supersedes the earlier display-only Ishta rounding notes.
-
