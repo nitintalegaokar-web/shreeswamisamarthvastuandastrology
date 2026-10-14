@@ -1,0 +1,1 @@
+{"name":"vastu-master-studio","version":"1.0.0","private":true,"scripts":{"start":"python3 -m http.server 8080 --bind 0.0.0.0","test":"playwright test"},"dependencies":{"pdfjs-dist":"4.10.38"},"devDependencies":{"@playwright/test":"1.56.1"}}

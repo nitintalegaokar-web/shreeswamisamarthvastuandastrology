@@ -1,0 +1,1 @@
+module.exports={testDir:'./tests',use:{browserName:'chromium',launchOptions:{executablePath:'/usr/bin/chromium',args:['--no-sandbox']}},webServer:{command:'npm start',port:8080,reuseExistingServer:true}};
