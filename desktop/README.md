@@ -1,3 +1,14 @@
+## Current installer release · 1.2.3 · 14 October 2026
+
+- `KP-Master-Owner-Setup-1.2.3-x64.exe`: unlocked owner calculator.
+- `KP-Master-Setup-1.2.3-x64.exe`: locked customer calculator.
+- `KP-Master-Owner-Activation-Setup-1.2.3-x64.exe`: owner activation tool.
+
+This release packages the current approved HTML and existing activation code.
+Only package version metadata changed for this installer release. Existing app
+identities, saved-data locations and customer-key bindings are retained.
+No calculation or application tests were rerun, as requested.
+
 # KP MASTER · Offline Windows
 
 All three Windows installers use **version 1.2.2**:
