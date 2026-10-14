@@ -1,0 +1,1 @@
+package android.content.res;public class AssetManager{private String path;public AssetManager(String p){path=p;}public java.io.InputStream open(String n)throws java.io.IOException{return new java.io.FileInputStream(new java.io.File(path,n));}}

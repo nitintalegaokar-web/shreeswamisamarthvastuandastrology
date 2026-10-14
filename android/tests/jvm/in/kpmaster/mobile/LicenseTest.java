@@ -1,0 +1,15 @@
+package in.kpmaster.mobile;import org.json.*;import java.nio.file.*;import android.content.Context;
+public class LicenseTest{
+ static int assertions=0;static String read(Path d,String f)throws Exception{return new String(Files.readAllBytes(d.resolve(f)),java.nio.charset.StandardCharsets.UTF_8);}
+ static void rejects(RunnableChecked action)throws Exception{try{action.run();throw new AssertionError("Accepted invalid licence/status");}catch(AssertionError e){throw e;}catch(Exception expected){assertions++;}}
+ interface RunnableChecked{void run()throws Exception;}
+ public static void main(String[] a)throws Exception{
+  Path d=Paths.get(a[0]);String id=read(d,"id.txt").trim();LicenseManager m=new LicenseManager(new Context(d.toString()),id);
+  rejects(()->m.active());m.importLicence(read(d,"valid.json"));if(!m.active().getString("systemId").equals(id))throw new AssertionError();assertions++;
+  rejects(()->m.importLicence(read(d,"tampered.json")));rejects(()->m.importLicence(read(d,"wrong-device.json")));rejects(()->m.importLicence(read(d,"expired.json")));rejects(()->m.importLicence(read(d,"foreign-key.json")));m.active();assertions++;
+  m.importControl(read(d,"deactivate.json"));rejects(()->m.active());m.importControl(read(d,"activate.json"));m.active();assertions++;
+  rejects(()->m.importControl(read(d,"deactivate.json")));rejects(()->m.importControl(read(d,"wrong-control.json")));rejects(()->m.importControl(read(d,"altered-control.json")));m.active();assertions++;
+  JSONObject request=new JSONObject(read(d,"owner-request.json"));if(!m.request().contains(request.getString("systemId")))throw new AssertionError();assertions++;
+  System.out.println("Android signed-licence/control compatibility: PASS ("+assertions+" assertions)");
+ }
+}

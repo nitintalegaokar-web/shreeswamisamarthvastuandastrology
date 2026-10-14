@@ -1,0 +1,1 @@
+package android.util;public class Base64{public static final int DEFAULT=0,NO_WRAP=2,URL_SAFE=8;public static byte[] decode(String s,int flags){return(flags==DEFAULT?java.util.Base64.getDecoder():java.util.Base64.getUrlDecoder()).decode(s);}}

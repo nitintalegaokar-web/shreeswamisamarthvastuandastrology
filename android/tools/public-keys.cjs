@@ -1,0 +1,6 @@
+const fs=require('node:fs'),path=require('node:path');const root=path.resolve(__dirname,'../..'),core=require(path.join(root,'desktop/licensing/core.cjs')),trust=require(path.join(root,'desktop/licensing/trust.cjs'));
+const destination=path.join(root,'android/assets/owner-public-keys.json');
+if(!fs.existsSync(path.join(root,'desktop/owner-public-key.pem'))){const data=JSON.parse(fs.readFileSync(destination,'utf8'));for(const entry of data){const parsed=core.publicKey(require('node:crypto').createPublicKey({key:Buffer.from(entry.der,'base64'),format:'der',type:'spki'}));if(core.keyId(parsed)!==entry.id)throw Error('Invalid bundled owner public key.');}console.log('Reused the approved Android public-key bundle.');process.exit(0);}
+const primary=fs.readFileSync(path.join(root,'desktop/owner-public-key.pem'),'utf8'),extra=trust.parseAdditionalKeys(fs.readFileSync(path.join(root,'desktop/licensing/additional-owner-public-keys.json'),'utf8'));
+const keys=trust.approvedKeys(primary,extra).map(key=>({id:core.keyId(key),der:key.export({type:'spki',format:'der'}).toString('base64')}));
+fs.writeFileSync(path.join(root,'android/assets/owner-public-keys.json'),JSON.stringify(keys,null,2)+'\n');console.log('Bundled approved PUBLIC owner keys:',keys.map(k=>k.id).join(', '));
