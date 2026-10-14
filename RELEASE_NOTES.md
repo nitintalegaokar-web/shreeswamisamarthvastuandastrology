@@ -1,3 +1,27 @@
+## Original KP ayanamsha tables · 14 October 2026
+
+Replaced the old annual interpolation with exact lookup of the user-supplied
+Table IV-A annual DMS plus Table IV-B month/day addition. Imported 243 annual
+values (1861–2103) and all 372 daily cells without generating or rounding them.
+The supplied source text and SHA-256 are retained for review.
+
+The approved regression is 10 October 1931: 22°47′40″ + 38″ = 22°48′18″.
+Other references are 8 April 1949 (23°02′53″), 20 December 1950 (23°04′18″),
+and 12 October 2026 (24°07′29″). The addition is constant during a calendar day;
+ephemeris instants use their UTC date, and the birth worksheet uses the entered
+birth date, preserving the existing date convention.
+
+Removed the Swiss ayanamsha selector and its bundled calculation module. Old
+saved Swiss/manual ayanamsha choices migrate to the supplied original table;
+the annual/daily ayanamsha fields are read-only. Dates beyond the supplied table
+are rejected instead of extrapolated. The wider ephemeris API retains its
+existing 1900–2100 range.
+
+Uploaded nirayan planetary rows remain authoritative and unchanged. They are
+already sidereal; no second ayanamsha is subtracted. Raphael, LMT, ST, planetary
+interpolation and Vimshottari formulas remain unchanged. Computed tropical
+positions and Raphael tropical cusps use the newly approved table subtraction.
+
 ## Handy Transits and Panchang report cleanup · 14 October 2026
 
 Transits now has three direct search buttons: Event significators, DBA through

@@ -2,7 +2,7 @@
 
 /* Keep the single-file application synchronized with reviewed vendor modules.
  * This is deliberately limited to presentation modules and new, isolated APIs.
- * Existing protected calculation script blocks are never selected here.
+ * The original-KP block is synchronized only for the explicit Table IV-A/IV-B replacement approved by the user.
  */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -22,8 +22,8 @@ const assets = [
   ['style', 'kp-about-branding', 'vendor/interface/about-branding.css'],
   ['script', 'kp-about-branding-script', 'vendor/interface/about-branding.js'],
   // Calculation-source support is deliberately appended after all approved
-  // engines. Uploaded-KP remains an exact delegation path; Swiss KP is opt-in.
-  ['script', 'kp-swiss-krishnamurti', 'vendor/ephemeris/swiss-krishnamurti.js'],
+  // engines. Original KP is mandatory; the other approved engines remain unchanged.
+  ['script', 'kp-annual-ayanamsha-script', 'vendor/ephemeris/original-kp-ayanamsha.js'],
   ['script', 'kp-ephemeris-source-adapter', 'vendor/ephemeris/source-adapter.js'],
   ['style', 'kp-calculation-sources-style', 'vendor/interface/calculation-sources.css'],
   ['script', 'kp-calculation-sources', 'vendor/interface/calculation-sources.js'],

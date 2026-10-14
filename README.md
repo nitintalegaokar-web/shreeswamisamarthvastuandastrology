@@ -184,3 +184,18 @@ Every individual report preview and selected-report output uses A4 with 10 mm pr
 The Account icon provides online registration/sign-in through the included server. The downloaded HTML opens your configured HTTPS server address. See [protected/HOSTING.md](protected/HOSTING.md) for persistent account storage, HTTPS deployment and server capacity.
 
 Ordinary calculations and saved-chart imports now select automatic planetary ephemeris, automatic sidereal time, the supplied house tables and the annual KP ayanamsha. Old manual worksheet endpoints are refreshed from the saved birth date/time, so repeated calculations of a fixed native chart are stable. Explicit manual worksheet work remains available only in the unlocked administrator panel. The obsolete PDF prompt asking users to type house-table values is removed.
+
+### Original KP ayanamsha source
+
+The only selectable ayanamsha is the supplied original KP Table IV-A annual
+value plus exact Table IV-B daily addition. No annual interpolation or intraday
+advance is applied. Old Swiss/manual ayanamsha choices in saved charts migrate
+to this source. The source text is preserved in
+`vendor/ephemeris/source/Original-KP-Tables-IV-A-IV-B.txt`; the parsed values are
+in `vendor/ephemeris/original-kp-tables.json`. These cover 1861–2103 (the broader
+ephemeris API still supports 1900–2100). Uploaded nirayan planet positions are
+preserved without applying ayanamsha twice.
+
+Run `PYTHONPATH=tests python3 -m unittest -v test_original_kp_ayanamsha` to verify
+every valid calendar date against the source, approved DMS references and saved
+chart migration.

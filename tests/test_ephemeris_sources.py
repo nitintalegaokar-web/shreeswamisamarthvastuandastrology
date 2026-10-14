@@ -1,9 +1,7 @@
-"""Regression protection for optional ephemeris sources.
+"""Protect original-KP delegation, native results and legacy-source migration.
 
-This test deliberately starts from index.html with the three new modules
-removed, calculates a real automatic native chart, then loads the modules in
-their documented order. Uploaded-KP mode must preserve every captured native
-calculation before and after another full calculateAll() pass.
+The optional display/settings modules must not alter the source engine's output.
+Swiss choices from older saved charts migrate to the exact original KP tables.
 """
 
 from __future__ import annotations
@@ -23,19 +21,9 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
 MODULES = (
-    ROOT / "vendor/ephemeris/swiss-krishnamurti.js",
     ROOT / "vendor/ephemeris/source-adapter.js",
     ROOT / "vendor/interface/calculation-sources.js",
 )
-SWISS_REFERENCE = {
-    "1900-01-01T00:00:00Z": 22.36367812558632,
-    "1950-12-20T00:00:00Z": 23.075370206176046,
-    "2000-01-01T12:00:00Z": 23.760240040326494,
-    "2026-10-12T06:30:00Z": 24.134324812578086,
-    "2100-12-31T23:59:00Z": 25.17138150661384,
-}
-
-
 def without_new_modules() -> bytes:
     html = (ROOT / "index.html").read_text(encoding="utf-8")
     for element, identifier in (
@@ -111,7 +99,7 @@ class EphemerisSourceRegressionTests(unittest.TestCase):
           }));
         }""")
 
-    def test_uploaded_default_is_exact_and_swiss_is_opt_in(self):
+    def test_original_kp_source_is_exact_and_old_swiss_choices_migrate(self):
         context = self.browser.new_context(viewport={"width": 1280, "height": 900})
         self.addCleanup(context.close)
         context.add_init_script("localStorage.removeItem('kpCalculationSourcesV1')")
@@ -174,18 +162,16 @@ class EphemerisSourceRegressionTests(unittest.TestCase):
         saved = page.evaluate("getChartData()")
         self.assertEqual(saved["calculationSources"]["ayanamshaSource"], "uploaded-kp")
         page.evaluate("KPCalculationSources.set({ayanamshaSource:'swiss-kp',outerUranus:true,outerNeptune:true,outerPluto:true})")
-        samples = page.evaluate("dates => dates.map(date=>KPSwissKrishnamurti.at(date))", list(SWISS_REFERENCE))
-        for (date, actual), expected in zip(zip(SWISS_REFERENCE, samples), SWISS_REFERENCE.values()):
-            self.assertAlmostEqual(actual, expected, delta=6e-9, msg=date)
         isolation = page.evaluate("""() => ({
           source:KPEphemerisSources.getSource(),planetKeys:Object.keys(KPEphemeris.positions('2026-10-12T06:30:00Z')),
           outerKeys:Object.keys(KPCalculationSources.outerPositions('2026-10-12T06:30:00Z')),
-          uploaded:KPUploadedEphemeris.get('2026-10-12')
+          uploaded:KPUploadedEphemeris.get('2026-10-12'),options:KPEphemerisSources.sources
         })""")
-        self.assertEqual(isolation["source"], "swiss-kp")
+        self.assertEqual(isolation["source"], "uploaded-kp")
+        self.assertEqual(isolation["options"], ["uploaded-kp"])
         self.assertEqual(isolation["planetKeys"], ["Su", "Mo", "Ma", "Me", "Ju", "Ve", "Sa", "Ra", "Ke"])
         self.assertEqual(isolation["outerKeys"], ["Ur", "Ne", "Pl"])
-        self.assertIsNone(isolation["uploaded"])
+        self.assertIsNotNone(isolation["uploaded"])
 
         page.evaluate("calculateAll(); KPHomeDasha.refresh()")
         page.wait_for_function(

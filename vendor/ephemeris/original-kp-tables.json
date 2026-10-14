@@ -1,0 +1,2389 @@
+{
+  "title": "ORIGINAL KRISHNAMURTI AYANAMSHA — TABLE IV-A + TABLE IV-B",
+  "fileName": "Original-KP-Tables-IV-A-IV-B.txt",
+  "sha256": "95e0c79979bb67f06d8f31382190e024ee8b67796650fefdd6bd43ebc4be4782",
+  "anchor": "Annual value plus exact month/day addition from Table IV-B (UTC calendar date for ephemeris instants)",
+  "selectedColumn": "dms",
+  "rows": [
+    {
+      "year": 1861,
+      "dms": "21°49′20″",
+      "arcSeconds": 78560,
+      "dmsArcSeconds": 78560,
+      "consistent": true,
+      "source": "1861\t21:49:20"
+    },
+    {
+      "year": 1862,
+      "dms": "21°50′10″",
+      "arcSeconds": 78610,
+      "dmsArcSeconds": 78610,
+      "consistent": true,
+      "source": "1862\t21:50:10"
+    },
+    {
+      "year": 1863,
+      "dms": "21°51′00″",
+      "arcSeconds": 78660,
+      "dmsArcSeconds": 78660,
+      "consistent": true,
+      "source": "1863\t21:51:00"
+    },
+    {
+      "year": 1864,
+      "dms": "21°51′50″",
+      "arcSeconds": 78710,
+      "dmsArcSeconds": 78710,
+      "consistent": true,
+      "source": "1864\t21:51:50"
+    },
+    {
+      "year": 1865,
+      "dms": "21°52′40″",
+      "arcSeconds": 78760,
+      "dmsArcSeconds": 78760,
+      "consistent": true,
+      "source": "1865\t21:52:40"
+    },
+    {
+      "year": 1866,
+      "dms": "21°53′30″",
+      "arcSeconds": 78810,
+      "dmsArcSeconds": 78810,
+      "consistent": true,
+      "source": "1866\t21:53:30"
+    },
+    {
+      "year": 1867,
+      "dms": "21°54′20″",
+      "arcSeconds": 78860,
+      "dmsArcSeconds": 78860,
+      "consistent": true,
+      "source": "1867\t21:54:20"
+    },
+    {
+      "year": 1868,
+      "dms": "21°55′10″",
+      "arcSeconds": 78910,
+      "dmsArcSeconds": 78910,
+      "consistent": true,
+      "source": "1868\t21:55:10"
+    },
+    {
+      "year": 1869,
+      "dms": "21°56′00″",
+      "arcSeconds": 78960,
+      "dmsArcSeconds": 78960,
+      "consistent": true,
+      "source": "1869\t21:56:00"
+    },
+    {
+      "year": 1870,
+      "dms": "21°56′50″",
+      "arcSeconds": 79010,
+      "dmsArcSeconds": 79010,
+      "consistent": true,
+      "source": "1870\t21:56:50"
+    },
+    {
+      "year": 1871,
+      "dms": "21°57′40″",
+      "arcSeconds": 79060,
+      "dmsArcSeconds": 79060,
+      "consistent": true,
+      "source": "1871\t21:57:40"
+    },
+    {
+      "year": 1872,
+      "dms": "21°58′30″",
+      "arcSeconds": 79110,
+      "dmsArcSeconds": 79110,
+      "consistent": true,
+      "source": "1872\t21:58:30"
+    },
+    {
+      "year": 1873,
+      "dms": "21°59′20″",
+      "arcSeconds": 79160,
+      "dmsArcSeconds": 79160,
+      "consistent": true,
+      "source": "1873\t21:59:20"
+    },
+    {
+      "year": 1874,
+      "dms": "22°00′10″",
+      "arcSeconds": 79210,
+      "dmsArcSeconds": 79210,
+      "consistent": true,
+      "source": "1874\t22:00:10"
+    },
+    {
+      "year": 1875,
+      "dms": "22°01′00″",
+      "arcSeconds": 79260,
+      "dmsArcSeconds": 79260,
+      "consistent": true,
+      "source": "1875\t22:01:00"
+    },
+    {
+      "year": 1876,
+      "dms": "22°01′50″",
+      "arcSeconds": 79310,
+      "dmsArcSeconds": 79310,
+      "consistent": true,
+      "source": "1876\t22:01:50"
+    },
+    {
+      "year": 1877,
+      "dms": "22°02′40″",
+      "arcSeconds": 79360,
+      "dmsArcSeconds": 79360,
+      "consistent": true,
+      "source": "1877\t22:02:40"
+    },
+    {
+      "year": 1878,
+      "dms": "22°03′30″",
+      "arcSeconds": 79410,
+      "dmsArcSeconds": 79410,
+      "consistent": true,
+      "source": "1878\t22:03:30"
+    },
+    {
+      "year": 1879,
+      "dms": "22°04′20″",
+      "arcSeconds": 79460,
+      "dmsArcSeconds": 79460,
+      "consistent": true,
+      "source": "1879\t22:04:20"
+    },
+    {
+      "year": 1880,
+      "dms": "22°05′10″",
+      "arcSeconds": 79510,
+      "dmsArcSeconds": 79510,
+      "consistent": true,
+      "source": "1880\t22:05:10"
+    },
+    {
+      "year": 1881,
+      "dms": "22°06′00″",
+      "arcSeconds": 79560,
+      "dmsArcSeconds": 79560,
+      "consistent": true,
+      "source": "1881\t22:06:00"
+    },
+    {
+      "year": 1882,
+      "dms": "22°06′50″",
+      "arcSeconds": 79610,
+      "dmsArcSeconds": 79610,
+      "consistent": true,
+      "source": "1882\t22:06:50"
+    },
+    {
+      "year": 1883,
+      "dms": "22°07′40″",
+      "arcSeconds": 79660,
+      "dmsArcSeconds": 79660,
+      "consistent": true,
+      "source": "1883\t22:07:40"
+    },
+    {
+      "year": 1884,
+      "dms": "22°08′30″",
+      "arcSeconds": 79710,
+      "dmsArcSeconds": 79710,
+      "consistent": true,
+      "source": "1884\t22:08:30"
+    },
+    {
+      "year": 1885,
+      "dms": "22°09′20″",
+      "arcSeconds": 79760,
+      "dmsArcSeconds": 79760,
+      "consistent": true,
+      "source": "1885\t22:09:20"
+    },
+    {
+      "year": 1886,
+      "dms": "22°10′10″",
+      "arcSeconds": 79810,
+      "dmsArcSeconds": 79810,
+      "consistent": true,
+      "source": "1886\t22:10:10"
+    },
+    {
+      "year": 1887,
+      "dms": "22°11′00″",
+      "arcSeconds": 79860,
+      "dmsArcSeconds": 79860,
+      "consistent": true,
+      "source": "1887\t22:11:00"
+    },
+    {
+      "year": 1888,
+      "dms": "22°11′50″",
+      "arcSeconds": 79910,
+      "dmsArcSeconds": 79910,
+      "consistent": true,
+      "source": "1888\t22:11:50"
+    },
+    {
+      "year": 1889,
+      "dms": "22°12′40″",
+      "arcSeconds": 79960,
+      "dmsArcSeconds": 79960,
+      "consistent": true,
+      "source": "1889\t22:12:40"
+    },
+    {
+      "year": 1890,
+      "dms": "22°13′30″",
+      "arcSeconds": 80010,
+      "dmsArcSeconds": 80010,
+      "consistent": true,
+      "source": "1890\t22:13:30"
+    },
+    {
+      "year": 1891,
+      "dms": "22°14′20″",
+      "arcSeconds": 80060,
+      "dmsArcSeconds": 80060,
+      "consistent": true,
+      "source": "1891\t22:14:20"
+    },
+    {
+      "year": 1892,
+      "dms": "22°15′10″",
+      "arcSeconds": 80110,
+      "dmsArcSeconds": 80110,
+      "consistent": true,
+      "source": "1892\t22:15:10"
+    },
+    {
+      "year": 1893,
+      "dms": "22°16′00″",
+      "arcSeconds": 80160,
+      "dmsArcSeconds": 80160,
+      "consistent": true,
+      "source": "1893\t22:16:00"
+    },
+    {
+      "year": 1894,
+      "dms": "22°16′50″",
+      "arcSeconds": 80210,
+      "dmsArcSeconds": 80210,
+      "consistent": true,
+      "source": "1894\t22:16:50"
+    },
+    {
+      "year": 1895,
+      "dms": "22°17′40″",
+      "arcSeconds": 80260,
+      "dmsArcSeconds": 80260,
+      "consistent": true,
+      "source": "1895\t22:17:40"
+    },
+    {
+      "year": 1896,
+      "dms": "22°18′30″",
+      "arcSeconds": 80310,
+      "dmsArcSeconds": 80310,
+      "consistent": true,
+      "source": "1896\t22:18:30"
+    },
+    {
+      "year": 1897,
+      "dms": "22°19′20″",
+      "arcSeconds": 80360,
+      "dmsArcSeconds": 80360,
+      "consistent": true,
+      "source": "1897\t22:19:20"
+    },
+    {
+      "year": 1898,
+      "dms": "22°20′10″",
+      "arcSeconds": 80410,
+      "dmsArcSeconds": 80410,
+      "consistent": true,
+      "source": "1898\t22:20:10"
+    },
+    {
+      "year": 1899,
+      "dms": "22°21′00″",
+      "arcSeconds": 80460,
+      "dmsArcSeconds": 80460,
+      "consistent": true,
+      "source": "1899\t22:21:00"
+    },
+    {
+      "year": 1900,
+      "dms": "22°21′50″",
+      "arcSeconds": 80510,
+      "dmsArcSeconds": 80510,
+      "consistent": true,
+      "source": "1900\t22:21:50"
+    },
+    {
+      "year": 1901,
+      "dms": "22°22′40″",
+      "arcSeconds": 80560,
+      "dmsArcSeconds": 80560,
+      "consistent": true,
+      "source": "1901\t22:22:40"
+    },
+    {
+      "year": 1902,
+      "dms": "22°23′30″",
+      "arcSeconds": 80610,
+      "dmsArcSeconds": 80610,
+      "consistent": true,
+      "source": "1902\t22:23:30"
+    },
+    {
+      "year": 1903,
+      "dms": "22°24′20″",
+      "arcSeconds": 80660,
+      "dmsArcSeconds": 80660,
+      "consistent": true,
+      "source": "1903\t22:24:20"
+    },
+    {
+      "year": 1904,
+      "dms": "22°25′10″",
+      "arcSeconds": 80710,
+      "dmsArcSeconds": 80710,
+      "consistent": true,
+      "source": "1904\t22:25:10"
+    },
+    {
+      "year": 1905,
+      "dms": "22°26′00″",
+      "arcSeconds": 80760,
+      "dmsArcSeconds": 80760,
+      "consistent": true,
+      "source": "1905\t22:26:00"
+    },
+    {
+      "year": 1906,
+      "dms": "22°26′50″",
+      "arcSeconds": 80810,
+      "dmsArcSeconds": 80810,
+      "consistent": true,
+      "source": "1906\t22:26:50"
+    },
+    {
+      "year": 1907,
+      "dms": "22°27′40″",
+      "arcSeconds": 80860,
+      "dmsArcSeconds": 80860,
+      "consistent": true,
+      "source": "1907\t22:27:40"
+    },
+    {
+      "year": 1908,
+      "dms": "22°28′30″",
+      "arcSeconds": 80910,
+      "dmsArcSeconds": 80910,
+      "consistent": true,
+      "source": "1908\t22:28:30"
+    },
+    {
+      "year": 1909,
+      "dms": "22°29′20″",
+      "arcSeconds": 80960,
+      "dmsArcSeconds": 80960,
+      "consistent": true,
+      "source": "1909\t22:29:20"
+    },
+    {
+      "year": 1910,
+      "dms": "22°30′10″",
+      "arcSeconds": 81010,
+      "dmsArcSeconds": 81010,
+      "consistent": true,
+      "source": "1910\t22:30:10"
+    },
+    {
+      "year": 1911,
+      "dms": "22°31′00″",
+      "arcSeconds": 81060,
+      "dmsArcSeconds": 81060,
+      "consistent": true,
+      "source": "1911\t22:31:00"
+    },
+    {
+      "year": 1912,
+      "dms": "22°31′50″",
+      "arcSeconds": 81110,
+      "dmsArcSeconds": 81110,
+      "consistent": true,
+      "source": "1912\t22:31:50"
+    },
+    {
+      "year": 1913,
+      "dms": "22°32′40″",
+      "arcSeconds": 81160,
+      "dmsArcSeconds": 81160,
+      "consistent": true,
+      "source": "1913\t22:32:40"
+    },
+    {
+      "year": 1914,
+      "dms": "22°33′30″",
+      "arcSeconds": 81210,
+      "dmsArcSeconds": 81210,
+      "consistent": true,
+      "source": "1914\t22:33:30"
+    },
+    {
+      "year": 1915,
+      "dms": "22°34′20″",
+      "arcSeconds": 81260,
+      "dmsArcSeconds": 81260,
+      "consistent": true,
+      "source": "1915\t22:34:20"
+    },
+    {
+      "year": 1916,
+      "dms": "22°35′10″",
+      "arcSeconds": 81310,
+      "dmsArcSeconds": 81310,
+      "consistent": true,
+      "source": "1916\t22:35:10"
+    },
+    {
+      "year": 1917,
+      "dms": "22°36′00″",
+      "arcSeconds": 81360,
+      "dmsArcSeconds": 81360,
+      "consistent": true,
+      "source": "1917\t22:36:00"
+    },
+    {
+      "year": 1918,
+      "dms": "22°36′50″",
+      "arcSeconds": 81410,
+      "dmsArcSeconds": 81410,
+      "consistent": true,
+      "source": "1918\t22:36:50"
+    },
+    {
+      "year": 1919,
+      "dms": "22°37′40″",
+      "arcSeconds": 81460,
+      "dmsArcSeconds": 81460,
+      "consistent": true,
+      "source": "1919\t22:37:40"
+    },
+    {
+      "year": 1920,
+      "dms": "22°38′30″",
+      "arcSeconds": 81510,
+      "dmsArcSeconds": 81510,
+      "consistent": true,
+      "source": "1920\t22:38:30"
+    },
+    {
+      "year": 1921,
+      "dms": "22°39′20″",
+      "arcSeconds": 81560,
+      "dmsArcSeconds": 81560,
+      "consistent": true,
+      "source": "1921\t22:39:20"
+    },
+    {
+      "year": 1922,
+      "dms": "22°40′10″",
+      "arcSeconds": 81610,
+      "dmsArcSeconds": 81610,
+      "consistent": true,
+      "source": "1922\t22:40:10"
+    },
+    {
+      "year": 1923,
+      "dms": "22°41′00″",
+      "arcSeconds": 81660,
+      "dmsArcSeconds": 81660,
+      "consistent": true,
+      "source": "1923\t22:41:00"
+    },
+    {
+      "year": 1924,
+      "dms": "22°41′50″",
+      "arcSeconds": 81710,
+      "dmsArcSeconds": 81710,
+      "consistent": true,
+      "source": "1924\t22:41:50"
+    },
+    {
+      "year": 1925,
+      "dms": "22°42′40″",
+      "arcSeconds": 81760,
+      "dmsArcSeconds": 81760,
+      "consistent": true,
+      "source": "1925\t22:42:40"
+    },
+    {
+      "year": 1926,
+      "dms": "22°43′30″",
+      "arcSeconds": 81810,
+      "dmsArcSeconds": 81810,
+      "consistent": true,
+      "source": "1926\t22:43:30"
+    },
+    {
+      "year": 1927,
+      "dms": "22°44′20″",
+      "arcSeconds": 81860,
+      "dmsArcSeconds": 81860,
+      "consistent": true,
+      "source": "1927\t22:44:20"
+    },
+    {
+      "year": 1928,
+      "dms": "22°45′10″",
+      "arcSeconds": 81910,
+      "dmsArcSeconds": 81910,
+      "consistent": true,
+      "source": "1928\t22:45:10"
+    },
+    {
+      "year": 1929,
+      "dms": "22°46′00″",
+      "arcSeconds": 81960,
+      "dmsArcSeconds": 81960,
+      "consistent": true,
+      "source": "1929\t22:46:00"
+    },
+    {
+      "year": 1930,
+      "dms": "22°46′50″",
+      "arcSeconds": 82010,
+      "dmsArcSeconds": 82010,
+      "consistent": true,
+      "source": "1930\t22:46:50"
+    },
+    {
+      "year": 1931,
+      "dms": "22°47′40″",
+      "arcSeconds": 82060,
+      "dmsArcSeconds": 82060,
+      "consistent": true,
+      "source": "1931\t22:47:40"
+    },
+    {
+      "year": 1932,
+      "dms": "22°48′30″",
+      "arcSeconds": 82110,
+      "dmsArcSeconds": 82110,
+      "consistent": true,
+      "source": "1932\t22:48:30"
+    },
+    {
+      "year": 1933,
+      "dms": "22°49′20″",
+      "arcSeconds": 82160,
+      "dmsArcSeconds": 82160,
+      "consistent": true,
+      "source": "1933\t22:49:20"
+    },
+    {
+      "year": 1934,
+      "dms": "22°50′10″",
+      "arcSeconds": 82210,
+      "dmsArcSeconds": 82210,
+      "consistent": true,
+      "source": "1934\t22:50:10"
+    },
+    {
+      "year": 1935,
+      "dms": "22°51′00″",
+      "arcSeconds": 82260,
+      "dmsArcSeconds": 82260,
+      "consistent": true,
+      "source": "1935\t22:51:00"
+    },
+    {
+      "year": 1936,
+      "dms": "22°51′50″",
+      "arcSeconds": 82310,
+      "dmsArcSeconds": 82310,
+      "consistent": true,
+      "source": "1936\t22:51:50"
+    },
+    {
+      "year": 1937,
+      "dms": "22°52′40″",
+      "arcSeconds": 82360,
+      "dmsArcSeconds": 82360,
+      "consistent": true,
+      "source": "1937\t22:52:40"
+    },
+    {
+      "year": 1938,
+      "dms": "22°53′30″",
+      "arcSeconds": 82410,
+      "dmsArcSeconds": 82410,
+      "consistent": true,
+      "source": "1938\t22:53:30"
+    },
+    {
+      "year": 1939,
+      "dms": "22°54′20″",
+      "arcSeconds": 82460,
+      "dmsArcSeconds": 82460,
+      "consistent": true,
+      "source": "1939\t22:54:20"
+    },
+    {
+      "year": 1940,
+      "dms": "22°55′10″",
+      "arcSeconds": 82510,
+      "dmsArcSeconds": 82510,
+      "consistent": true,
+      "source": "1940\t22:55:10"
+    },
+    {
+      "year": 1941,
+      "dms": "22°56′00″",
+      "arcSeconds": 82560,
+      "dmsArcSeconds": 82560,
+      "consistent": true,
+      "source": "1941\t22:56:00"
+    },
+    {
+      "year": 1942,
+      "dms": "22°56′50″",
+      "arcSeconds": 82610,
+      "dmsArcSeconds": 82610,
+      "consistent": true,
+      "source": "1942\t22:56:50"
+    },
+    {
+      "year": 1943,
+      "dms": "22°57′40″",
+      "arcSeconds": 82660,
+      "dmsArcSeconds": 82660,
+      "consistent": true,
+      "source": "1943\t22:57:40"
+    },
+    {
+      "year": 1944,
+      "dms": "22°58′30″",
+      "arcSeconds": 82710,
+      "dmsArcSeconds": 82710,
+      "consistent": true,
+      "source": "1944\t22:58:30"
+    },
+    {
+      "year": 1945,
+      "dms": "22°59′20″",
+      "arcSeconds": 82760,
+      "dmsArcSeconds": 82760,
+      "consistent": true,
+      "source": "1945\t22:59:20"
+    },
+    {
+      "year": 1946,
+      "dms": "23°00′10″",
+      "arcSeconds": 82810,
+      "dmsArcSeconds": 82810,
+      "consistent": true,
+      "source": "1946\t23:00:10"
+    },
+    {
+      "year": 1947,
+      "dms": "23°01′00″",
+      "arcSeconds": 82860,
+      "dmsArcSeconds": 82860,
+      "consistent": true,
+      "source": "1947\t23:01:00"
+    },
+    {
+      "year": 1948,
+      "dms": "23°01′50″",
+      "arcSeconds": 82910,
+      "dmsArcSeconds": 82910,
+      "consistent": true,
+      "source": "1948\t23:01:50"
+    },
+    {
+      "year": 1949,
+      "dms": "23°02′40″",
+      "arcSeconds": 82960,
+      "dmsArcSeconds": 82960,
+      "consistent": true,
+      "source": "1949\t23:02:40"
+    },
+    {
+      "year": 1950,
+      "dms": "23°03′30″",
+      "arcSeconds": 83010,
+      "dmsArcSeconds": 83010,
+      "consistent": true,
+      "source": "1950\t23:03:30"
+    },
+    {
+      "year": 1951,
+      "dms": "23°04′20″",
+      "arcSeconds": 83060,
+      "dmsArcSeconds": 83060,
+      "consistent": true,
+      "source": "1951\t23:04:20"
+    },
+    {
+      "year": 1952,
+      "dms": "23°05′10″",
+      "arcSeconds": 83110,
+      "dmsArcSeconds": 83110,
+      "consistent": true,
+      "source": "1952\t23:05:10"
+    },
+    {
+      "year": 1953,
+      "dms": "23°06′00″",
+      "arcSeconds": 83160,
+      "dmsArcSeconds": 83160,
+      "consistent": true,
+      "source": "1953\t23:06:00"
+    },
+    {
+      "year": 1954,
+      "dms": "23°06′50″",
+      "arcSeconds": 83210,
+      "dmsArcSeconds": 83210,
+      "consistent": true,
+      "source": "1954\t23:06:50"
+    },
+    {
+      "year": 1955,
+      "dms": "23°07′40″",
+      "arcSeconds": 83260,
+      "dmsArcSeconds": 83260,
+      "consistent": true,
+      "source": "1955\t23:07:40"
+    },
+    {
+      "year": 1956,
+      "dms": "23°08′30″",
+      "arcSeconds": 83310,
+      "dmsArcSeconds": 83310,
+      "consistent": true,
+      "source": "1956\t23:08:30"
+    },
+    {
+      "year": 1957,
+      "dms": "23°09′20″",
+      "arcSeconds": 83360,
+      "dmsArcSeconds": 83360,
+      "consistent": true,
+      "source": "1957\t23:09:20"
+    },
+    {
+      "year": 1958,
+      "dms": "23°10′10″",
+      "arcSeconds": 83410,
+      "dmsArcSeconds": 83410,
+      "consistent": true,
+      "source": "1958\t23:10:10"
+    },
+    {
+      "year": 1959,
+      "dms": "23°11′00″",
+      "arcSeconds": 83460,
+      "dmsArcSeconds": 83460,
+      "consistent": true,
+      "source": "1959\t23:11:00"
+    },
+    {
+      "year": 1960,
+      "dms": "23°11′50″",
+      "arcSeconds": 83510,
+      "dmsArcSeconds": 83510,
+      "consistent": true,
+      "source": "1960\t23:11:50"
+    },
+    {
+      "year": 1961,
+      "dms": "23°12′40″",
+      "arcSeconds": 83560,
+      "dmsArcSeconds": 83560,
+      "consistent": true,
+      "source": "1961\t23:12:40"
+    },
+    {
+      "year": 1962,
+      "dms": "23°13′30″",
+      "arcSeconds": 83610,
+      "dmsArcSeconds": 83610,
+      "consistent": true,
+      "source": "1962\t23:13:30"
+    },
+    {
+      "year": 1963,
+      "dms": "23°14′20″",
+      "arcSeconds": 83660,
+      "dmsArcSeconds": 83660,
+      "consistent": true,
+      "source": "1963\t23:14:20"
+    },
+    {
+      "year": 1964,
+      "dms": "23°15′10″",
+      "arcSeconds": 83710,
+      "dmsArcSeconds": 83710,
+      "consistent": true,
+      "source": "1964\t23:15:10"
+    },
+    {
+      "year": 1965,
+      "dms": "23°16′00″",
+      "arcSeconds": 83760,
+      "dmsArcSeconds": 83760,
+      "consistent": true,
+      "source": "1965\t23:16:00"
+    },
+    {
+      "year": 1966,
+      "dms": "23°16′50″",
+      "arcSeconds": 83810,
+      "dmsArcSeconds": 83810,
+      "consistent": true,
+      "source": "1966\t23:16:50"
+    },
+    {
+      "year": 1967,
+      "dms": "23°17′40″",
+      "arcSeconds": 83860,
+      "dmsArcSeconds": 83860,
+      "consistent": true,
+      "source": "1967\t23:17:40"
+    },
+    {
+      "year": 1968,
+      "dms": "23°18′30″",
+      "arcSeconds": 83910,
+      "dmsArcSeconds": 83910,
+      "consistent": true,
+      "source": "1968\t23:18:30"
+    },
+    {
+      "year": 1969,
+      "dms": "23°19′20″",
+      "arcSeconds": 83960,
+      "dmsArcSeconds": 83960,
+      "consistent": true,
+      "source": "1969\t23:19:20"
+    },
+    {
+      "year": 1970,
+      "dms": "23°20′10″",
+      "arcSeconds": 84010,
+      "dmsArcSeconds": 84010,
+      "consistent": true,
+      "source": "1970\t23:20:10"
+    },
+    {
+      "year": 1971,
+      "dms": "23°21′00″",
+      "arcSeconds": 84060,
+      "dmsArcSeconds": 84060,
+      "consistent": true,
+      "source": "1971\t23:21:00"
+    },
+    {
+      "year": 1972,
+      "dms": "23°21′50″",
+      "arcSeconds": 84110,
+      "dmsArcSeconds": 84110,
+      "consistent": true,
+      "source": "1972\t23:21:50"
+    },
+    {
+      "year": 1973,
+      "dms": "23°22′40″",
+      "arcSeconds": 84160,
+      "dmsArcSeconds": 84160,
+      "consistent": true,
+      "source": "1973\t23:22:40"
+    },
+    {
+      "year": 1974,
+      "dms": "23°23′30″",
+      "arcSeconds": 84210,
+      "dmsArcSeconds": 84210,
+      "consistent": true,
+      "source": "1974\t23:23:30"
+    },
+    {
+      "year": 1975,
+      "dms": "23°24′20″",
+      "arcSeconds": 84260,
+      "dmsArcSeconds": 84260,
+      "consistent": true,
+      "source": "1975\t23:24:20"
+    },
+    {
+      "year": 1976,
+      "dms": "23°25′10″",
+      "arcSeconds": 84310,
+      "dmsArcSeconds": 84310,
+      "consistent": true,
+      "source": "1976\t23:25:10"
+    },
+    {
+      "year": 1977,
+      "dms": "23°26′00″",
+      "arcSeconds": 84360,
+      "dmsArcSeconds": 84360,
+      "consistent": true,
+      "source": "1977\t23:26:00"
+    },
+    {
+      "year": 1978,
+      "dms": "23°26′50″",
+      "arcSeconds": 84410,
+      "dmsArcSeconds": 84410,
+      "consistent": true,
+      "source": "1978\t23:26:50"
+    },
+    {
+      "year": 1979,
+      "dms": "23°27′40″",
+      "arcSeconds": 84460,
+      "dmsArcSeconds": 84460,
+      "consistent": true,
+      "source": "1979\t23:27:40"
+    },
+    {
+      "year": 1980,
+      "dms": "23°28′30″",
+      "arcSeconds": 84510,
+      "dmsArcSeconds": 84510,
+      "consistent": true,
+      "source": "1980\t23:28:30"
+    },
+    {
+      "year": 1981,
+      "dms": "23°29′20″",
+      "arcSeconds": 84560,
+      "dmsArcSeconds": 84560,
+      "consistent": true,
+      "source": "1981\t23:29:20"
+    },
+    {
+      "year": 1982,
+      "dms": "23°30′10″",
+      "arcSeconds": 84610,
+      "dmsArcSeconds": 84610,
+      "consistent": true,
+      "source": "1982\t23:30:10"
+    },
+    {
+      "year": 1983,
+      "dms": "23°31′00″",
+      "arcSeconds": 84660,
+      "dmsArcSeconds": 84660,
+      "consistent": true,
+      "source": "1983\t23:31:00"
+    },
+    {
+      "year": 1984,
+      "dms": "23°31′50″",
+      "arcSeconds": 84710,
+      "dmsArcSeconds": 84710,
+      "consistent": true,
+      "source": "1984\t23:31:50"
+    },
+    {
+      "year": 1985,
+      "dms": "23°32′40″",
+      "arcSeconds": 84760,
+      "dmsArcSeconds": 84760,
+      "consistent": true,
+      "source": "1985\t23:32:40"
+    },
+    {
+      "year": 1986,
+      "dms": "23°33′30″",
+      "arcSeconds": 84810,
+      "dmsArcSeconds": 84810,
+      "consistent": true,
+      "source": "1986\t23:33:30"
+    },
+    {
+      "year": 1987,
+      "dms": "23°34′20″",
+      "arcSeconds": 84860,
+      "dmsArcSeconds": 84860,
+      "consistent": true,
+      "source": "1987\t23:34:20"
+    },
+    {
+      "year": 1988,
+      "dms": "23°35′10″",
+      "arcSeconds": 84910,
+      "dmsArcSeconds": 84910,
+      "consistent": true,
+      "source": "1988\t23:35:10"
+    },
+    {
+      "year": 1989,
+      "dms": "23°36′00″",
+      "arcSeconds": 84960,
+      "dmsArcSeconds": 84960,
+      "consistent": true,
+      "source": "1989\t23:36:00"
+    },
+    {
+      "year": 1990,
+      "dms": "23°36′50″",
+      "arcSeconds": 85010,
+      "dmsArcSeconds": 85010,
+      "consistent": true,
+      "source": "1990\t23:36:50"
+    },
+    {
+      "year": 1991,
+      "dms": "23°37′40″",
+      "arcSeconds": 85060,
+      "dmsArcSeconds": 85060,
+      "consistent": true,
+      "source": "1991\t23:37:40"
+    },
+    {
+      "year": 1992,
+      "dms": "23°38′30″",
+      "arcSeconds": 85110,
+      "dmsArcSeconds": 85110,
+      "consistent": true,
+      "source": "1992\t23:38:30"
+    },
+    {
+      "year": 1993,
+      "dms": "23°39′20″",
+      "arcSeconds": 85160,
+      "dmsArcSeconds": 85160,
+      "consistent": true,
+      "source": "1993\t23:39:20"
+    },
+    {
+      "year": 1994,
+      "dms": "23°40′10″",
+      "arcSeconds": 85210,
+      "dmsArcSeconds": 85210,
+      "consistent": true,
+      "source": "1994\t23:40:10"
+    },
+    {
+      "year": 1995,
+      "dms": "23°41′00″",
+      "arcSeconds": 85260,
+      "dmsArcSeconds": 85260,
+      "consistent": true,
+      "source": "1995\t23:41:00"
+    },
+    {
+      "year": 1996,
+      "dms": "23°41′50″",
+      "arcSeconds": 85310,
+      "dmsArcSeconds": 85310,
+      "consistent": true,
+      "source": "1996\t23:41:50"
+    },
+    {
+      "year": 1997,
+      "dms": "23°42′40″",
+      "arcSeconds": 85360,
+      "dmsArcSeconds": 85360,
+      "consistent": true,
+      "source": "1997\t23:42:40"
+    },
+    {
+      "year": 1998,
+      "dms": "23°43′30″",
+      "arcSeconds": 85410,
+      "dmsArcSeconds": 85410,
+      "consistent": true,
+      "source": "1998\t23:43:30"
+    },
+    {
+      "year": 1999,
+      "dms": "23°44′20″",
+      "arcSeconds": 85460,
+      "dmsArcSeconds": 85460,
+      "consistent": true,
+      "source": "1999\t23:44:20"
+    },
+    {
+      "year": 2000,
+      "dms": "23°45′10″",
+      "arcSeconds": 85510,
+      "dmsArcSeconds": 85510,
+      "consistent": true,
+      "source": "2000\t23:45:10"
+    },
+    {
+      "year": 2001,
+      "dms": "23°46′00″",
+      "arcSeconds": 85560,
+      "dmsArcSeconds": 85560,
+      "consistent": true,
+      "source": "2001\t23:46:00"
+    },
+    {
+      "year": 2002,
+      "dms": "23°46′50″",
+      "arcSeconds": 85610,
+      "dmsArcSeconds": 85610,
+      "consistent": true,
+      "source": "2002\t23:46:50"
+    },
+    {
+      "year": 2003,
+      "dms": "23°47′40″",
+      "arcSeconds": 85660,
+      "dmsArcSeconds": 85660,
+      "consistent": true,
+      "source": "2003\t23:47:40"
+    },
+    {
+      "year": 2004,
+      "dms": "23°48′30″",
+      "arcSeconds": 85710,
+      "dmsArcSeconds": 85710,
+      "consistent": true,
+      "source": "2004\t23:48:30"
+    },
+    {
+      "year": 2005,
+      "dms": "23°49′20″",
+      "arcSeconds": 85760,
+      "dmsArcSeconds": 85760,
+      "consistent": true,
+      "source": "2005\t23:49:20"
+    },
+    {
+      "year": 2006,
+      "dms": "23°50′10″",
+      "arcSeconds": 85810,
+      "dmsArcSeconds": 85810,
+      "consistent": true,
+      "source": "2006\t23:50:10"
+    },
+    {
+      "year": 2007,
+      "dms": "23°51′00″",
+      "arcSeconds": 85860,
+      "dmsArcSeconds": 85860,
+      "consistent": true,
+      "source": "2007\t23:51:00"
+    },
+    {
+      "year": 2008,
+      "dms": "23°51′50″",
+      "arcSeconds": 85910,
+      "dmsArcSeconds": 85910,
+      "consistent": true,
+      "source": "2008\t23:51:50"
+    },
+    {
+      "year": 2009,
+      "dms": "23°52′40″",
+      "arcSeconds": 85960,
+      "dmsArcSeconds": 85960,
+      "consistent": true,
+      "source": "2009\t23:52:40"
+    },
+    {
+      "year": 2010,
+      "dms": "23°53′30″",
+      "arcSeconds": 86010,
+      "dmsArcSeconds": 86010,
+      "consistent": true,
+      "source": "2010\t23:53:30"
+    },
+    {
+      "year": 2011,
+      "dms": "23°54′20″",
+      "arcSeconds": 86060,
+      "dmsArcSeconds": 86060,
+      "consistent": true,
+      "source": "2011\t23:54:20"
+    },
+    {
+      "year": 2012,
+      "dms": "23°55′10″",
+      "arcSeconds": 86110,
+      "dmsArcSeconds": 86110,
+      "consistent": true,
+      "source": "2012\t23:55:10"
+    },
+    {
+      "year": 2013,
+      "dms": "23°56′00″",
+      "arcSeconds": 86160,
+      "dmsArcSeconds": 86160,
+      "consistent": true,
+      "source": "2013\t23:56:00"
+    },
+    {
+      "year": 2014,
+      "dms": "23°56′50″",
+      "arcSeconds": 86210,
+      "dmsArcSeconds": 86210,
+      "consistent": true,
+      "source": "2014\t23:56:50"
+    },
+    {
+      "year": 2015,
+      "dms": "23°57′40″",
+      "arcSeconds": 86260,
+      "dmsArcSeconds": 86260,
+      "consistent": true,
+      "source": "2015\t23:57:40"
+    },
+    {
+      "year": 2016,
+      "dms": "23°58′30″",
+      "arcSeconds": 86310,
+      "dmsArcSeconds": 86310,
+      "consistent": true,
+      "source": "2016\t23:58:30"
+    },
+    {
+      "year": 2017,
+      "dms": "23°59′20″",
+      "arcSeconds": 86360,
+      "dmsArcSeconds": 86360,
+      "consistent": true,
+      "source": "2017\t23:59:20"
+    },
+    {
+      "year": 2018,
+      "dms": "24°00′10″",
+      "arcSeconds": 86410,
+      "dmsArcSeconds": 86410,
+      "consistent": true,
+      "source": "2018\t24:00:10"
+    },
+    {
+      "year": 2019,
+      "dms": "24°01′00″",
+      "arcSeconds": 86460,
+      "dmsArcSeconds": 86460,
+      "consistent": true,
+      "source": "2019\t24:01:00"
+    },
+    {
+      "year": 2020,
+      "dms": "24°01′50″",
+      "arcSeconds": 86510,
+      "dmsArcSeconds": 86510,
+      "consistent": true,
+      "source": "2020\t24:01:50"
+    },
+    {
+      "year": 2021,
+      "dms": "24°02′40″",
+      "arcSeconds": 86560,
+      "dmsArcSeconds": 86560,
+      "consistent": true,
+      "source": "2021\t24:02:40"
+    },
+    {
+      "year": 2022,
+      "dms": "24°03′30″",
+      "arcSeconds": 86610,
+      "dmsArcSeconds": 86610,
+      "consistent": true,
+      "source": "2022\t24:03:30"
+    },
+    {
+      "year": 2023,
+      "dms": "24°04′20″",
+      "arcSeconds": 86660,
+      "dmsArcSeconds": 86660,
+      "consistent": true,
+      "source": "2023\t24:04:20"
+    },
+    {
+      "year": 2024,
+      "dms": "24°05′10″",
+      "arcSeconds": 86710,
+      "dmsArcSeconds": 86710,
+      "consistent": true,
+      "source": "2024\t24:05:10"
+    },
+    {
+      "year": 2025,
+      "dms": "24°06′00″",
+      "arcSeconds": 86760,
+      "dmsArcSeconds": 86760,
+      "consistent": true,
+      "source": "2025\t24:06:00"
+    },
+    {
+      "year": 2026,
+      "dms": "24°06′50″",
+      "arcSeconds": 86810,
+      "dmsArcSeconds": 86810,
+      "consistent": true,
+      "source": "2026\t24:06:50"
+    },
+    {
+      "year": 2027,
+      "dms": "24°07′40″",
+      "arcSeconds": 86860,
+      "dmsArcSeconds": 86860,
+      "consistent": true,
+      "source": "2027\t24:07:40"
+    },
+    {
+      "year": 2028,
+      "dms": "24°08′30″",
+      "arcSeconds": 86910,
+      "dmsArcSeconds": 86910,
+      "consistent": true,
+      "source": "2028\t24:08:30"
+    },
+    {
+      "year": 2029,
+      "dms": "24°09′20″",
+      "arcSeconds": 86960,
+      "dmsArcSeconds": 86960,
+      "consistent": true,
+      "source": "2029\t24:09:20"
+    },
+    {
+      "year": 2030,
+      "dms": "24°10′10″",
+      "arcSeconds": 87010,
+      "dmsArcSeconds": 87010,
+      "consistent": true,
+      "source": "2030\t24:10:10"
+    },
+    {
+      "year": 2031,
+      "dms": "24°11′00″",
+      "arcSeconds": 87060,
+      "dmsArcSeconds": 87060,
+      "consistent": true,
+      "source": "2031\t24:11:00"
+    },
+    {
+      "year": 2032,
+      "dms": "24°11′50″",
+      "arcSeconds": 87110,
+      "dmsArcSeconds": 87110,
+      "consistent": true,
+      "source": "2032\t24:11:50"
+    },
+    {
+      "year": 2033,
+      "dms": "24°12′40″",
+      "arcSeconds": 87160,
+      "dmsArcSeconds": 87160,
+      "consistent": true,
+      "source": "2033\t24:12:40"
+    },
+    {
+      "year": 2034,
+      "dms": "24°13′30″",
+      "arcSeconds": 87210,
+      "dmsArcSeconds": 87210,
+      "consistent": true,
+      "source": "2034\t24:13:30"
+    },
+    {
+      "year": 2035,
+      "dms": "24°14′20″",
+      "arcSeconds": 87260,
+      "dmsArcSeconds": 87260,
+      "consistent": true,
+      "source": "2035\t24:14:20"
+    },
+    {
+      "year": 2036,
+      "dms": "24°15′10″",
+      "arcSeconds": 87310,
+      "dmsArcSeconds": 87310,
+      "consistent": true,
+      "source": "2036\t24:15:10"
+    },
+    {
+      "year": 2037,
+      "dms": "24°16′00″",
+      "arcSeconds": 87360,
+      "dmsArcSeconds": 87360,
+      "consistent": true,
+      "source": "2037\t24:16:00"
+    },
+    {
+      "year": 2038,
+      "dms": "24°16′50″",
+      "arcSeconds": 87410,
+      "dmsArcSeconds": 87410,
+      "consistent": true,
+      "source": "2038\t24:16:50"
+    },
+    {
+      "year": 2039,
+      "dms": "24°17′40″",
+      "arcSeconds": 87460,
+      "dmsArcSeconds": 87460,
+      "consistent": true,
+      "source": "2039\t24:17:40"
+    },
+    {
+      "year": 2040,
+      "dms": "24°18′30″",
+      "arcSeconds": 87510,
+      "dmsArcSeconds": 87510,
+      "consistent": true,
+      "source": "2040\t24:18:30"
+    },
+    {
+      "year": 2041,
+      "dms": "24°19′20″",
+      "arcSeconds": 87560,
+      "dmsArcSeconds": 87560,
+      "consistent": true,
+      "source": "2041\t24:19:20"
+    },
+    {
+      "year": 2042,
+      "dms": "24°20′10″",
+      "arcSeconds": 87610,
+      "dmsArcSeconds": 87610,
+      "consistent": true,
+      "source": "2042\t24:20:10"
+    },
+    {
+      "year": 2043,
+      "dms": "24°21′00″",
+      "arcSeconds": 87660,
+      "dmsArcSeconds": 87660,
+      "consistent": true,
+      "source": "2043\t24:21:00"
+    },
+    {
+      "year": 2044,
+      "dms": "24°21′50″",
+      "arcSeconds": 87710,
+      "dmsArcSeconds": 87710,
+      "consistent": true,
+      "source": "2044\t24:21:50"
+    },
+    {
+      "year": 2045,
+      "dms": "24°22′40″",
+      "arcSeconds": 87760,
+      "dmsArcSeconds": 87760,
+      "consistent": true,
+      "source": "2045\t24:22:40"
+    },
+    {
+      "year": 2046,
+      "dms": "24°23′30″",
+      "arcSeconds": 87810,
+      "dmsArcSeconds": 87810,
+      "consistent": true,
+      "source": "2046\t24:23:30"
+    },
+    {
+      "year": 2047,
+      "dms": "24°24′20″",
+      "arcSeconds": 87860,
+      "dmsArcSeconds": 87860,
+      "consistent": true,
+      "source": "2047\t24:24:20"
+    },
+    {
+      "year": 2048,
+      "dms": "24°25′10″",
+      "arcSeconds": 87910,
+      "dmsArcSeconds": 87910,
+      "consistent": true,
+      "source": "2048\t24:25:10"
+    },
+    {
+      "year": 2049,
+      "dms": "24°26′00″",
+      "arcSeconds": 87960,
+      "dmsArcSeconds": 87960,
+      "consistent": true,
+      "source": "2049\t24:26:00"
+    },
+    {
+      "year": 2050,
+      "dms": "24°26′50″",
+      "arcSeconds": 88010,
+      "dmsArcSeconds": 88010,
+      "consistent": true,
+      "source": "2050\t24:26:50"
+    },
+    {
+      "year": 2051,
+      "dms": "24°27′40″",
+      "arcSeconds": 88060,
+      "dmsArcSeconds": 88060,
+      "consistent": true,
+      "source": "2051\t24:27:40"
+    },
+    {
+      "year": 2052,
+      "dms": "24°28′30″",
+      "arcSeconds": 88110,
+      "dmsArcSeconds": 88110,
+      "consistent": true,
+      "source": "2052\t24:28:30"
+    },
+    {
+      "year": 2053,
+      "dms": "24°29′20″",
+      "arcSeconds": 88160,
+      "dmsArcSeconds": 88160,
+      "consistent": true,
+      "source": "2053\t24:29:20"
+    },
+    {
+      "year": 2054,
+      "dms": "24°30′10″",
+      "arcSeconds": 88210,
+      "dmsArcSeconds": 88210,
+      "consistent": true,
+      "source": "2054\t24:30:10"
+    },
+    {
+      "year": 2055,
+      "dms": "24°31′00″",
+      "arcSeconds": 88260,
+      "dmsArcSeconds": 88260,
+      "consistent": true,
+      "source": "2055\t24:31:00"
+    },
+    {
+      "year": 2056,
+      "dms": "24°31′50″",
+      "arcSeconds": 88310,
+      "dmsArcSeconds": 88310,
+      "consistent": true,
+      "source": "2056\t24:31:50"
+    },
+    {
+      "year": 2057,
+      "dms": "24°32′40″",
+      "arcSeconds": 88360,
+      "dmsArcSeconds": 88360,
+      "consistent": true,
+      "source": "2057\t24:32:40"
+    },
+    {
+      "year": 2058,
+      "dms": "24°33′30″",
+      "arcSeconds": 88410,
+      "dmsArcSeconds": 88410,
+      "consistent": true,
+      "source": "2058\t24:33:30"
+    },
+    {
+      "year": 2059,
+      "dms": "24°34′20″",
+      "arcSeconds": 88460,
+      "dmsArcSeconds": 88460,
+      "consistent": true,
+      "source": "2059\t24:34:20"
+    },
+    {
+      "year": 2060,
+      "dms": "24°35′10″",
+      "arcSeconds": 88510,
+      "dmsArcSeconds": 88510,
+      "consistent": true,
+      "source": "2060\t24:35:10"
+    },
+    {
+      "year": 2061,
+      "dms": "24°36′00″",
+      "arcSeconds": 88560,
+      "dmsArcSeconds": 88560,
+      "consistent": true,
+      "source": "2061\t24:36:00"
+    },
+    {
+      "year": 2062,
+      "dms": "24°36′50″",
+      "arcSeconds": 88610,
+      "dmsArcSeconds": 88610,
+      "consistent": true,
+      "source": "2062\t24:36:50"
+    },
+    {
+      "year": 2063,
+      "dms": "24°37′40″",
+      "arcSeconds": 88660,
+      "dmsArcSeconds": 88660,
+      "consistent": true,
+      "source": "2063\t24:37:40"
+    },
+    {
+      "year": 2064,
+      "dms": "24°38′30″",
+      "arcSeconds": 88710,
+      "dmsArcSeconds": 88710,
+      "consistent": true,
+      "source": "2064\t24:38:30"
+    },
+    {
+      "year": 2065,
+      "dms": "24°39′20″",
+      "arcSeconds": 88760,
+      "dmsArcSeconds": 88760,
+      "consistent": true,
+      "source": "2065\t24:39:20"
+    },
+    {
+      "year": 2066,
+      "dms": "24°40′10″",
+      "arcSeconds": 88810,
+      "dmsArcSeconds": 88810,
+      "consistent": true,
+      "source": "2066\t24:40:10"
+    },
+    {
+      "year": 2067,
+      "dms": "24°41′00″",
+      "arcSeconds": 88860,
+      "dmsArcSeconds": 88860,
+      "consistent": true,
+      "source": "2067\t24:41:00"
+    },
+    {
+      "year": 2068,
+      "dms": "24°41′50″",
+      "arcSeconds": 88910,
+      "dmsArcSeconds": 88910,
+      "consistent": true,
+      "source": "2068\t24:41:50"
+    },
+    {
+      "year": 2069,
+      "dms": "24°42′40″",
+      "arcSeconds": 88960,
+      "dmsArcSeconds": 88960,
+      "consistent": true,
+      "source": "2069\t24:42:40"
+    },
+    {
+      "year": 2070,
+      "dms": "24°43′30″",
+      "arcSeconds": 89010,
+      "dmsArcSeconds": 89010,
+      "consistent": true,
+      "source": "2070\t24:43:30"
+    },
+    {
+      "year": 2071,
+      "dms": "24°44′20″",
+      "arcSeconds": 89060,
+      "dmsArcSeconds": 89060,
+      "consistent": true,
+      "source": "2071\t24:44:20"
+    },
+    {
+      "year": 2072,
+      "dms": "24°45′10″",
+      "arcSeconds": 89110,
+      "dmsArcSeconds": 89110,
+      "consistent": true,
+      "source": "2072\t24:45:10"
+    },
+    {
+      "year": 2073,
+      "dms": "24°46′00″",
+      "arcSeconds": 89160,
+      "dmsArcSeconds": 89160,
+      "consistent": true,
+      "source": "2073\t24:46:00"
+    },
+    {
+      "year": 2074,
+      "dms": "24°46′50″",
+      "arcSeconds": 89210,
+      "dmsArcSeconds": 89210,
+      "consistent": true,
+      "source": "2074\t24:46:50"
+    },
+    {
+      "year": 2075,
+      "dms": "24°47′40″",
+      "arcSeconds": 89260,
+      "dmsArcSeconds": 89260,
+      "consistent": true,
+      "source": "2075\t24:47:40"
+    },
+    {
+      "year": 2076,
+      "dms": "24°48′30″",
+      "arcSeconds": 89310,
+      "dmsArcSeconds": 89310,
+      "consistent": true,
+      "source": "2076\t24:48:30"
+    },
+    {
+      "year": 2077,
+      "dms": "24°49′20″",
+      "arcSeconds": 89360,
+      "dmsArcSeconds": 89360,
+      "consistent": true,
+      "source": "2077\t24:49:20"
+    },
+    {
+      "year": 2078,
+      "dms": "24°50′10″",
+      "arcSeconds": 89410,
+      "dmsArcSeconds": 89410,
+      "consistent": true,
+      "source": "2078\t24:50:10"
+    },
+    {
+      "year": 2079,
+      "dms": "24°51′00″",
+      "arcSeconds": 89460,
+      "dmsArcSeconds": 89460,
+      "consistent": true,
+      "source": "2079\t24:51:00"
+    },
+    {
+      "year": 2080,
+      "dms": "24°51′50″",
+      "arcSeconds": 89510,
+      "dmsArcSeconds": 89510,
+      "consistent": true,
+      "source": "2080\t24:51:50"
+    },
+    {
+      "year": 2081,
+      "dms": "24°52′40″",
+      "arcSeconds": 89560,
+      "dmsArcSeconds": 89560,
+      "consistent": true,
+      "source": "2081\t24:52:40"
+    },
+    {
+      "year": 2082,
+      "dms": "24°53′30″",
+      "arcSeconds": 89610,
+      "dmsArcSeconds": 89610,
+      "consistent": true,
+      "source": "2082\t24:53:30"
+    },
+    {
+      "year": 2083,
+      "dms": "24°54′20″",
+      "arcSeconds": 89660,
+      "dmsArcSeconds": 89660,
+      "consistent": true,
+      "source": "2083\t24:54:20"
+    },
+    {
+      "year": 2084,
+      "dms": "24°55′10″",
+      "arcSeconds": 89710,
+      "dmsArcSeconds": 89710,
+      "consistent": true,
+      "source": "2084\t24:55:10"
+    },
+    {
+      "year": 2085,
+      "dms": "24°56′00″",
+      "arcSeconds": 89760,
+      "dmsArcSeconds": 89760,
+      "consistent": true,
+      "source": "2085\t24:56:00"
+    },
+    {
+      "year": 2086,
+      "dms": "24°56′50″",
+      "arcSeconds": 89810,
+      "dmsArcSeconds": 89810,
+      "consistent": true,
+      "source": "2086\t24:56:50"
+    },
+    {
+      "year": 2087,
+      "dms": "24°57′40″",
+      "arcSeconds": 89860,
+      "dmsArcSeconds": 89860,
+      "consistent": true,
+      "source": "2087\t24:57:40"
+    },
+    {
+      "year": 2088,
+      "dms": "24°58′30″",
+      "arcSeconds": 89910,
+      "dmsArcSeconds": 89910,
+      "consistent": true,
+      "source": "2088\t24:58:30"
+    },
+    {
+      "year": 2089,
+      "dms": "24°59′20″",
+      "arcSeconds": 89960,
+      "dmsArcSeconds": 89960,
+      "consistent": true,
+      "source": "2089\t24:59:20"
+    },
+    {
+      "year": 2090,
+      "dms": "25°00′10″",
+      "arcSeconds": 90010,
+      "dmsArcSeconds": 90010,
+      "consistent": true,
+      "source": "2090\t25:00:10"
+    },
+    {
+      "year": 2091,
+      "dms": "25°01′00″",
+      "arcSeconds": 90060,
+      "dmsArcSeconds": 90060,
+      "consistent": true,
+      "source": "2091\t25:01:00"
+    },
+    {
+      "year": 2092,
+      "dms": "25°01′50″",
+      "arcSeconds": 90110,
+      "dmsArcSeconds": 90110,
+      "consistent": true,
+      "source": "2092\t25:01:50"
+    },
+    {
+      "year": 2093,
+      "dms": "25°02′40″",
+      "arcSeconds": 90160,
+      "dmsArcSeconds": 90160,
+      "consistent": true,
+      "source": "2093\t25:02:40"
+    },
+    {
+      "year": 2094,
+      "dms": "25°03′30″",
+      "arcSeconds": 90210,
+      "dmsArcSeconds": 90210,
+      "consistent": true,
+      "source": "2094\t25:03:30"
+    },
+    {
+      "year": 2095,
+      "dms": "25°04′20″",
+      "arcSeconds": 90260,
+      "dmsArcSeconds": 90260,
+      "consistent": true,
+      "source": "2095\t25:04:20"
+    },
+    {
+      "year": 2096,
+      "dms": "25°05′10″",
+      "arcSeconds": 90310,
+      "dmsArcSeconds": 90310,
+      "consistent": true,
+      "source": "2096\t25:05:10"
+    },
+    {
+      "year": 2097,
+      "dms": "25°06′00″",
+      "arcSeconds": 90360,
+      "dmsArcSeconds": 90360,
+      "consistent": true,
+      "source": "2097\t25:06:00"
+    },
+    {
+      "year": 2098,
+      "dms": "25°06′50″",
+      "arcSeconds": 90410,
+      "dmsArcSeconds": 90410,
+      "consistent": true,
+      "source": "2098\t25:06:50"
+    },
+    {
+      "year": 2099,
+      "dms": "25°07′40″",
+      "arcSeconds": 90460,
+      "dmsArcSeconds": 90460,
+      "consistent": true,
+      "source": "2099\t25:07:40"
+    },
+    {
+      "year": 2100,
+      "dms": "25°08′30″",
+      "arcSeconds": 90510,
+      "dmsArcSeconds": 90510,
+      "consistent": true,
+      "source": "2100\t25:08:30"
+    },
+    {
+      "year": 2101,
+      "dms": "25°09′20″",
+      "arcSeconds": 90560,
+      "dmsArcSeconds": 90560,
+      "consistent": true,
+      "source": "2101\t25:09:20"
+    },
+    {
+      "year": 2102,
+      "dms": "25°10′10″",
+      "arcSeconds": 90610,
+      "dmsArcSeconds": 90610,
+      "consistent": true,
+      "source": "2102\t25:10:10"
+    },
+    {
+      "year": 2103,
+      "dms": "25°11′00″",
+      "arcSeconds": 90660,
+      "dmsArcSeconds": 90660,
+      "consistent": true,
+      "source": "2103\t25:11:00"
+    }
+  ],
+  "dailyAdditions": [
+    [
+      0,
+      4,
+      8,
+      12,
+      16,
+      20,
+      25,
+      29,
+      33,
+      37,
+      42,
+      46
+    ],
+    [
+      0,
+      4,
+      8,
+      12,
+      16,
+      21,
+      25,
+      29,
+      33,
+      37,
+      42,
+      46
+    ],
+    [
+      0,
+      4,
+      8,
+      12,
+      16,
+      21,
+      25,
+      29,
+      33,
+      38,
+      42,
+      46
+    ],
+    [
+      0,
+      4,
+      8,
+      12,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46
+    ],
+    [
+      1,
+      5,
+      9,
+      13,
+      17,
+      21,
+      25,
+      29,
+      34,
+      38,
+      42,
+      46
+    ],
+    [
+      1,
+      5,
+      9,
+      13,
+      17,
+      21,
+      25,
+      30,
+      34,
+      38,
+      42,
+      47
+    ],
+    [
+      1,
+      5,
+      9,
+      13,
+      17,
+      22,
+      26,
+      30,
+      34,
+      38,
+      43,
+      47
+    ],
+    [
+      1,
+      5,
+      9,
+      13,
+      17,
+      22,
+      26,
+      30,
+      34,
+      38,
+      43,
+      47
+    ],
+    [
+      1,
+      5,
+      9,
+      13,
+      17,
+      22,
+      26,
+      30,
+      34,
+      38,
+      43,
+      47
+    ],
+    [
+      1,
+      5,
+      9,
+      13,
+      18,
+      22,
+      26,
+      30,
+      34,
+      38,
+      43,
+      47
+    ],
+    [
+      1,
+      5,
+      9,
+      13,
+      18,
+      22,
+      26,
+      30,
+      34,
+      39,
+      43,
+      47
+    ],
+    [
+      1,
+      5,
+      10,
+      14,
+      18,
+      22,
+      26,
+      30,
+      35,
+      39,
+      43,
+      47
+    ],
+    [
+      2,
+      6,
+      10,
+      14,
+      18,
+      22,
+      26,
+      31,
+      35,
+      39,
+      44,
+      48
+    ],
+    [
+      2,
+      6,
+      10,
+      14,
+      18,
+      23,
+      27,
+      31,
+      35,
+      39,
+      44,
+      48
+    ],
+    [
+      2,
+      6,
+      10,
+      14,
+      18,
+      23,
+      27,
+      31,
+      35,
+      39,
+      44,
+      48
+    ],
+    [
+      2,
+      6,
+      10,
+      14,
+      18,
+      23,
+      27,
+      31,
+      35,
+      39,
+      44,
+      48
+    ],
+    [
+      2,
+      6,
+      10,
+      14,
+      18,
+      23,
+      27,
+      31,
+      35,
+      39,
+      44,
+      48
+    ],
+    [
+      2,
+      6,
+      10,
+      14,
+      19,
+      23,
+      27,
+      31,
+      35,
+      40,
+      44,
+      48
+    ],
+    [
+      2,
+      6,
+      10,
+      15,
+      19,
+      23,
+      27,
+      31,
+      36,
+      40,
+      44,
+      48
+    ],
+    [
+      2,
+      7,
+      10,
+      15,
+      19,
+      23,
+      27,
+      31,
+      36,
+      40,
+      44,
+      48
+    ],
+    [
+      2,
+      7,
+      11,
+      15,
+      19,
+      23,
+      27,
+      32,
+      36,
+      40,
+      44,
+      48
+    ],
+    [
+      3,
+      7,
+      11,
+      15,
+      19,
+      23,
+      27,
+      32,
+      36,
+      40,
+      44,
+      49
+    ],
+    [
+      3,
+      7,
+      11,
+      15,
+      19,
+      23,
+      28,
+      32,
+      36,
+      40,
+      45,
+      49
+    ],
+    [
+      3,
+      7,
+      11,
+      15,
+      19,
+      24,
+      28,
+      32,
+      36,
+      40,
+      45,
+      49
+    ],
+    [
+      3,
+      7,
+      11,
+      15,
+      19,
+      24,
+      28,
+      32,
+      36,
+      41,
+      45,
+      49
+    ],
+    [
+      3,
+      7,
+      11,
+      15,
+      20,
+      24,
+      28,
+      32,
+      37,
+      41,
+      45,
+      49
+    ],
+    [
+      3,
+      7,
+      11,
+      16,
+      20,
+      24,
+      28,
+      32,
+      37,
+      41,
+      45,
+      49
+    ],
+    [
+      3,
+      8,
+      11,
+      16,
+      20,
+      24,
+      28,
+      33,
+      37,
+      41,
+      45,
+      49
+    ],
+    [
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      28,
+      33,
+      37,
+      41,
+      45,
+      49
+    ],
+    [
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      29,
+      33,
+      37,
+      41,
+      45,
+      50
+    ],
+    [
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      29,
+      33,
+      37,
+      41,
+      45,
+      50
+    ]
+  ]
+}

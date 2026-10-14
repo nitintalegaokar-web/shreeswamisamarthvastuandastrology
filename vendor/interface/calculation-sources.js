@@ -15,13 +15,13 @@ const $=id=>document.getElementById(id),copy=value=>JSON.parse(JSON.stringify(va
 let state=load(),queued=false,restoring=false;
 function normalize(source){
  const next={...DEFAULTS};if(!source||typeof source!=='object'||Array.isArray(source))return next;
- if(['uploaded-kp','swiss-kp'].includes(source.ayanamshaSource))next.ayanamshaSource=source.ayanamshaSource;
+ // Original KP is mandatory, including when importing older Swiss-source charts.
  for(const key of ['outerUranus','outerNeptune','outerPluto'])if(typeof source[key]==='boolean')next[key]=source[key];
  return next;
 }
 function load(){try{return normalize(JSON.parse(localStorage.getItem(KEY)||'null'));}catch(_){return {...DEFAULTS};}}
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){/* Settings still apply for this session. */}}
-const isSwiss=()=>state.ayanamshaSource==='swiss-kp',selected=()=>IDS.filter(id=>state[OUTER[id].setting]);
+const selected=()=>IDS.filter(id=>state[OUTER[id].setting]);
 function dateValue(value){return window.KPEphemeris.dateValue(value);}
 function dms(value){let seconds=Math.round(norm(value)*3600)%1296000;return Math.floor(seconds/3600)+'° '+String(Math.floor(seconds%3600/60)).padStart(2,'0')+'′ '+String(seconds%60).padStart(2,'0')+'″';}
 function outerPositions(value){
@@ -54,7 +54,7 @@ function renderOuter(){
 function queueRender(){if(queued)return;queued=true;requestAnimationFrame(renderOuter);}
 function injectSettings(){
  const grid=$('settings-pane-calculation')?.querySelector('.settings-grid');if(!grid||$('setting-ayanamshaCalculation'))return;
- const card=document.createElement('section');card.className='kp-calculation-source-card settings-full';card.innerHTML='<div class="kp-source-heading"><span class="kp-source-icon" aria-hidden="true">☉</span><div><strong data-kp-source-en="Ayanamsha source" data-kp-source-mr="अयनांश स्रोत">Ayanamsha source</strong><small data-kp-source-en="Choose the sidereal reference used by automatic chart calculations." data-kp-source-mr="स्वयंचलित कुंडली गणनेसाठी निरयन संदर्भ निवडा.">Choose the sidereal reference used by automatic chart calculations.</small></div></div><label class="kp-source-field"><span data-kp-source-en="Calculation source" data-kp-source-mr="गणना स्रोत">Calculation source</span><select id="setting-ayanamshaCalculation"><option value="uploaded-kp">Uploaded KP ephemeris · current default</option><option value="swiss-kp">Swiss Ephemeris · Krishnamurti ayanamsha</option></select></label><p id="settings-ayanamsha-source-note" class="kp-source-note"></p>';
+ const card=document.createElement('section');card.className='kp-calculation-source-card settings-full';card.innerHTML='<div class="kp-source-heading"><span class="kp-source-icon" aria-hidden="true">☉</span><div><strong data-kp-source-en="Ayanamsha source" data-kp-source-mr="अयनांश स्रोत">Ayanamsha source</strong><small data-kp-source-en="Choose the sidereal reference used by automatic chart calculations." data-kp-source-mr="स्वयंचलित कुंडली गणनेसाठी निरयन संदर्भ निवडा.">Choose the sidereal reference used by automatic chart calculations.</small></div></div><label class="kp-source-field"><span data-kp-source-en="Calculation source" data-kp-source-mr="गणना स्रोत">Calculation source</span><select id="setting-ayanamshaCalculation"><option value="uploaded-kp">Original KP tables IV-A + IV-B · exact lookup</option></select></label><p id="settings-ayanamsha-source-note" class="kp-source-note"></p>';
  const outer=document.createElement('fieldset');outer.className='kp-outer-settings settings-full';outer.innerHTML='<legend><span aria-hidden="true">♅</span> <span data-kp-source-en="Outer Planets UNP" data-kp-source-mr="बाह्य ग्रह UNP">Outer Planets UNP</span></legend><p data-kp-source-en="Display only. These planets are excluded from the traditional nine-graha KP logic." data-kp-source-mr="फक्त प्रदर्शनासाठी. पारंपरिक नऊ-ग्रह KP गणनेत हे ग्रह समाविष्ट नाहीत.">Display only. These planets are excluded from the traditional nine-graha KP logic.</p><div class="kp-outer-checks"><label><input id="setting-outerUranus" type="checkbox"><span class="kp-outer-dot kp-ur"></span>Uranus</label><label><input id="setting-outerNeptune" type="checkbox"><span class="kp-outer-dot kp-ne"></span>Neptune</label><label><input id="setting-outerPluto" type="checkbox"><span class="kp-outer-dot kp-pl"></span>Pluto</label></div>';
  const readonly=$('settings-ayan-summary')?.closest('.settings-readonly');if(readonly)readonly.before(card,outer);else grid.append(card,outer);
  syncControls();syncLanguage();updateSummary();card.addEventListener('change',markDraft);outer.addEventListener('change',markDraft);
@@ -74,8 +74,8 @@ function applySource(){
 }
 function updateSummary(){
  const note=$('settings-ayanamsha-source-note'),summary=$('settings-ayan-summary'),birth=$('dob')?.value;
- if(note)note.textContent=isSwiss()?'Swiss Ephemeris 2.10.03 reference · Krishnamurti sidereal mode 5 · 1900–2100.':'Uses the uploaded annual KP ayanamsha and uploaded 05:30 ephemeris rows.';
- if(summary&&isSwiss())try{const value=window.KPSwissKrishnamurti.at((birth||'2000-01-01')+'T00:00:00Z');summary.textContent=window.KPSwissKrishnamurti.format(value)+(birth?' · '+birth:'')+' · Swiss Krishnamurti';}catch(_){summary.textContent='Swiss Krishnamurti · enter a valid birth date';}
+ if(note)note.textContent='Only your original KP Tables IV-A and IV-B are used: exact annual value + exact daily addition. No interpolation. Uploaded nirayan ephemeris rows remain unchanged.';
+ if(summary)try{const api=window.KPAnnualAyanamsha,d=api.details((birth||'2000-01-01')+'T00:00:00Z');summary.textContent=api.format(d.total)+(birth?' · '+birth:'')+' · Original KP IV-A + IV-B';}catch(_){summary.textContent='Original KP table · enter a supported birth date';}
 }
 function syncLanguage(){const language=window.KPPreferences?.get().language,marathi=language==='marathi';document.querySelectorAll('[data-kp-source-en]').forEach(node=>{const en=node.dataset.kpSourceEn,mr=node.dataset.kpSourceMr||en;node.textContent=marathi?mr:language==='bilingual'?en+' · '+mr:en;});}
 function installSaveRestore(){
@@ -88,6 +88,6 @@ function init(){
  document.addEventListener('change',event=>{if(event.target?.id==='dob'){updateSummary();queueRender();}});
  const main=document.querySelector('main');if(main)new MutationObserver(records=>{if(records.some(record=>[...record.addedNodes].some(node=>node.nodeType===1&&!node.classList?.contains('kp-outer-planets-panel'))))queueRender();}).observe(main,{childList:true,subtree:true});
 }
-window.KPCalculationSources=Object.freeze({defaults:DEFAULTS,get:()=>copy(state),set:settings=>{state=normalize(settings);persist();syncControls();applySource();},swissAyanamsha:value=>window.KPSwissKrishnamurti.at(value),outerPositions,selected,metadata:()=>window.KPSwissKrishnamurti.metadata});
+window.KPCalculationSources=Object.freeze({defaults:DEFAULTS,get:()=>copy(state),set:settings=>{state=normalize(settings);persist();syncControls();applySource();},outerPositions,selected,metadata:()=>window.KPAnnualAyanamsha.getTable()});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0));else setTimeout(init,0);
 })();

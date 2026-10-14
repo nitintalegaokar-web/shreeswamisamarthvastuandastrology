@@ -218,8 +218,12 @@ class BhavsadhanTests(unittest.TestCase):
             self.assertEqual(d['siderealSeconds'],expected,'Bhavsadhan must use the same traditional 10/6 ST shown by the worksheet.')
             instant=datetime.fromisoformat(result['date'].replace('Z','+00:00'));year=instant.year
             anchors={r['year']:r['dmsArcSeconds'] for r in result['annual']}
-            start=datetime(year,1,1,tzinfo=timezone.utc);end=datetime(year+1,1,1,tzinfo=timezone.utc)
-            ayan=(anchors[year]+(anchors[year+1]-anchors[year])*(instant-start)/(end-start))/3600
+            # The user explicitly replaced annual interpolation with the supplied
+            # original Table IV-B. Read its literal cell independently of the API.
+            source_lines=(ROOT/'vendor/ephemeris/source/Original-KP-Tables-IV-A-IV-B.txt').read_text().splitlines()
+            day_line=next(line.split('\t') for line in source_lines if len(line.split('\t'))>=21 and line.split('\t')[8].strip()==str(instant.day))
+            daily_seconds=int(day_line[8+instant.month].split(':')[-1])
+            ayan=(anchors[year]+daily_seconds)/3600
             self.assertAlmostEqual(d['ayanamsha'],ayan,places=11)
             expected_cusps=reference(d.get('tableLatitude', d['latitude']),d['siderealSeconds'],ayan,'printed')
             self.assertEqual(result['cusps'],[math.floor(x*3600+.5)%1296000 for x in expected_cusps])

@@ -80,6 +80,19 @@ function committedHtml(commit) {
 const currentHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const failures = [];
 for (const id of protectedScripts) {
+  // User explicitly replaced only this source on 14 October 2026 with the
+  // supplied original Tables IV-A/B (1931-10-10 => 22:48:18).
+  if (!requestedBaseline && id === 'kp-annual-ayanamsha-script') {
+    const expected = fs.readFileSync(path.join(root,'vendor/ephemeris/original-kp-ayanamsha.js'),'utf8');
+    if (digest(expected) !== '217909ed5c32e29be92105eff365d08b87d305383a551a24c6af5350a605aecc') failures.push('Original KP source differs from reviewed implementation.');
+    if (scriptBody(currentHtml,id).trim() !== expected.trim()) failures.push('Original KP embedded implementation is out of sync.');
+    const data = currentHtml.match(/<script id="kp-annual-ayanamsha-data"[^>]*>([\s\S]*?)<\/script>/);
+    const approvedData = fs.readFileSync(path.join(root,'vendor/ephemeris/original-kp-tables.json'),'utf8');
+    if (!data || JSON.stringify(JSON.parse(data[1])) !== JSON.stringify(JSON.parse(approvedData))) failures.push('Original KP embedded table differs from source data.');
+    const upload = fs.readFileSync(path.join(root,'vendor/ephemeris/source/Original-KP-Tables-IV-A-IV-B.txt'));
+    if (digest(upload) !== '95e0c79979bb67f06d8f31382190e024ee8b67796650fefdd6bd43ebc4be4782') failures.push('Original KP upload differs from approved source.');
+    continue;
+  }
   const expectedCommit = approvedScriptBaselines[id] || baseline;
   const expected = scriptBody(committedHtml(expectedCommit), id);
   const actual = scriptBody(currentHtml, id);
@@ -108,6 +121,6 @@ if (failures.length) {
   for (const failure of failures) console.error(`- ${failure}`);
   process.exitCode = 1;
 } else {
-  const scope = requestedBaseline ? baseline : `${baseline}, approved 10/6 change ${approvedTenSixBaseline}, and approved Ishta change ${approvedIshtaBaseline}`;
+  const scope = requestedBaseline ? baseline : `${baseline}, approved 10/6 change ${approvedTenSixBaseline}, approved Ishta change ${approvedIshtaBaseline}, and user-supplied original KP Tables IV-A/IV-B (14 October 2026)`;
   console.log(`PASS: ${protectedScripts.length} calculation blocks and protected source files match ${scope}.`);
 }
