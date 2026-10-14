@@ -24148,7 +24148,9 @@ function changed(event){
 }
 function init(){
  const mount=document.createElement('details');mount.id='tr-date-dba-selection';mount.className='tr-selection no-print';mount.innerHTML='<summary>Select dates / DBA</summary><div class="tr-selection-grid"><label>DBA selection<select id="tr-dba-selection-source"><option value="current">Current DBA</option><option value="date">DBA at start date</option><option value="selected">Selected DBA</option></select></label><label>MD<select id="tr-selected-md"></select></label><label>AD<select id="tr-selected-ad"></select></label><label>PD<select id="tr-selected-pd"></select></label><label>Date range<select id="tr-date-range-source"><option value="period">Selected period</option><option value="custom">Custom dates</option></select></label><label>Start date / time<input id="tr-search-date-start" type="datetime-local" step="1"></label><label>End date / time<input id="tr-search-date-end" type="datetime-local" step="1"></label><button id="tr-use-current-dba" type="button">Use current DBA</button></div><p class="tr-selection-note">Times use the selected date/time zone. End time is exclusive.</p>';
- $('transit').querySelector('.tr-simple-choice').after(mount);initialized=true;sync(true);mount.addEventListener('change',changed);$('tr-use-current-dba').addEventListener('click',()=>{$('tr-dba-selection-source').value='current';$('tr-date-range-source').value='period';sync(true);KPTransit.cancel();KPTransit.refresh();});
+ $('transit').querySelector('.tr-simple-choice').after(mount);initialized=true;sync(true);$('transit').addEventListener('change',changed,true);$('tr-use-current-dba').addEventListener('click',()=>{$('tr-dba-selection-source').value='current';$('tr-date-range-source').value='period';sync(true);KPTransit.cancel();KPTransit.refresh();});
+ // Set custom-date mode before the core input handler refreshes period defaults.
+ $('transit').addEventListener('input',event=>{if(['tr-search-date-start','tr-search-date-end'].includes(event.target.id))changed(event);},true);
  const restore=window.restoreChartData;window.restoreChartData=function(data,...args){restoring=true;try{const result=restore.call(this,data,...args);window.KPSimpleTransits?.restoreSelection(data);const apply=id=>{const field=data?.fields?.[id],n=$(id);if(field&&n&&typeof field.value==='string'&&(n.tagName!=='SELECT'||[...n.options].some(o=>o.value===field.value)))n.value=field.value;};
  for(const id of ['tr-dba-selection-source','tr-date-range-source','tr-search-date-start','tr-search-date-end'])apply(id);if(source()==='date'&&dateSource()==='period')$('tr-date-range-source').value='custom';if(source()==='current'&&dateSource()==='custom')$('tr-dba-selection-source').value='date';sync(true);
  // Restore dependent choices after their parent has rebuilt the valid children.
@@ -24706,7 +24708,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     const mount = $('tp-daily-extension');
     if (!mount) return;
     state = {...day,signature:signature(day.config)};
-    mount.innerHTML = extensionHTML(day,true);
+    mount.innerHTML = extensionHTML(day,false);
     window.KPLanguage?.localize(mount);
     window.KPChartTypography?.refresh?.();
   }
@@ -24722,7 +24724,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     working = true;
     try {
       const config = settings();
-      const day = calculateDay(config,{chart:true,transitions:true});
+      const day = calculateDay(config,{chart:false,transitions:true});
       render(day);
       return day;
     } catch (error) {
@@ -24746,7 +24748,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   function reportSnapshot() {
     const day = ensureCurrent();
     if (!day) return '<div class="tp-dinvisesh-report"><p>'+esc(tr('Calculate Transit Panchang to show Dinvisesh.'))+'</p></div>';
-    return '<div class="tp-dinvisesh-report">'+extensionHTML(day,true)+'</div>';
+    return '<div class="tp-dinvisesh-report">'+extensionHTML(day,false)+'</div>';
   }
 
   function calendarDay(config) {
@@ -26023,6 +26025,151 @@ function init(){
 }
 window.KPCalculationSourceGuard=Object.freeze({useAutomatic,update});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0));else setTimeout(init,0);
+})();
+</script>
+<style id="kp-handy-transits-style">#transit.tr-handy-section>h2,#transit.tr-handy-section>p{display:none}
+#transit .tr-handy{max-width:1260px;padding:12px!important;background:#fff;color:#20364c}
+#transit .tr-handy .tr-compact-header{margin:0 0 8px;gap:7px}
+#transit .tr-handy .tr-compact-header h2{font-size:17px!important;flex:1;margin:0!important}
+#transit .tr-handy :is(input:not([type=checkbox]),select){font-size:12px;height:31px!important;min-width:0;box-sizing:border-box;padding:4px 7px!important;margin:3px 0 0!important;color:inherit;border-radius:5px}
+#transit .tr-handy label{font-size:11px;margin:0;min-width:0}
+#transit .tr-handy button{font-size:12px;min-height:30px;border-radius:6px;padding:5px 10px;cursor:pointer}
+#transit .tr-handy button:disabled{opacity:.55;cursor:default}
+#transit .tr-handy :is(button,input,select):focus-visible{outline:2px solid #2586bd;outline-offset:2px}
+#transit .tr-handy-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:4px;background:#edf3f8;border-radius:8px;margin-bottom:9px}
+#transit .tr-handy-modes button{border:0!important;background:transparent!important;color:#365d7c!important;font-weight:600;min-height:35px}
+#transit .tr-handy-modes button[aria-pressed=true]{background:#235e87!important;color:#fff!important;box-shadow:0 2px 5px #23496822}
+#transit .tr-handy .tr-simple-choice{grid-template-columns:76px minmax(140px,.85fr) minmax(220px,1.8fr);gap:8px;margin:0 0 8px}
+#transit .tr-event-query{display:flex;flex-direction:column;position:relative}
+#transit #tr-event-match-count{font-size:10px;color:#34764c;margin-top:2px}
+#transit #tr-event-match-count:empty{display:none}
+#transit #tr-event-match-count.is-empty{color:#ad3b2c}
+#transit .tr-handy-dates{display:grid;grid-template-columns:.85fr 1.25fr 1.25fr 1fr;gap:8px;margin-bottom:8px;padding:8px;background:#f3f7fb;border:1px solid #d9e5ef;border-radius:7px}
+#transit .tr-handy .tr-selection{padding:6px 8px;margin:0 0 8px;background:#fafcfe}
+#transit .tr-handy .tr-selection-grid{gap:7px;padding-top:7px}
+#transit .tr-handy-rules{display:grid;grid-template-columns:.8fr 1fr 1.5fr;gap:8px;margin:0 0 7px}
+#transit .tr-handy-dba-rules{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin:0 0 7px}
+#transit .tr-handy #tr-mutual-controls{grid-template-columns:1fr 1fr;margin:0;gap:8px}
+#transit .tr-handy .tr-planets{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:5px 8px;margin:0 0 7px;border-radius:6px}
+#transit .tr-handy .tr-planets legend{font-size:11px;padding:0 4px}
+#transit .tr-handy #tr-planet-options{gap:9px;flex:1}
+#transit .tr-handy #tr-planet-options label{font-size:12px;margin:0;gap:4px}
+#transit .tr-handy-planet-tools{display:flex;gap:4px}
+#transit .tr-handy-planet-tools button{font-size:10px;min-height:24px;padding:2px 6px}
+#transit .tr-handy .tr-current-periods{gap:5px;margin:0 0 5px}
+#transit .tr-handy .tr-current-periods article{padding:3px 7px;flex:0 0 auto}
+#transit .tr-handy .tr-current-periods span{display:none}
+#transit .tr-handy #tr-period-summary{font-size:10px;padding:5px 8px;margin:0 0 6px}
+#transit .tr-handy .tr-actions{margin:0;gap:7px;flex-wrap:wrap}
+#transit .tr-handy #tr-run{background:#167aab;color:#fff;font-weight:700;min-width:155px;border-color:#167aab}
+#transit .tr-handy-note{font-size:10px;line-height:1.4;color:#526d82;margin:6px 0}
+#transit .tr-handy #tr-status{font-size:12px;margin:6px 0}
+#transit .tr-handy .tr-result-mount{margin:6px 0 8px;max-height:440px}
+#transit .tr-handy .tr-result-table thead{position:sticky;top:0;z-index:1}
+#transit .tr-handy .tr-result-table :is(td,th){font-size:11px;padding:5px 7px;line-height:1.45}
+#transit .tr-handy .tr-result-table th:nth-child(1){width:7%}
+#transit .tr-handy .tr-result-table th:nth-child(2){width:37%}
+#transit .tr-handy .tr-result-table th:nth-child(3),#transit .tr-handy .tr-result-table th:nth-child(4){width:28%}
+#transit .tr-handy .tr-result-table tbody th{background:#edf5fa;color:#164d71;font-weight:700}
+#transit .tr-handy #tr-rule-options{padding:6px 8px;font-size:11px}
+#transit .tr-handy #tr-rule-options>summary{font-size:11px}
+#transit .tr-handy #tr-search-scope{display:block;margin-bottom:8px}
+#transit .tr-handy #tr-search-scope select{max-width:350px}
+#transit .tr-handy #tr-event-panel>.tr-search-grid:empty{display:none}
+body.dark-theme #transit .tr-handy{background:#172b3b;color:#e4eef6}
+body.dark-theme #transit .tr-handy :is(.tr-handy-dates,.tr-selection,.tr-handy-modes){background:#243c50;color:#e4eef6;border-color:#49677d}
+body.dark-theme #transit .tr-handy :is(input,select){background:#1c3347;color:#e4eef6;border-color:#49677d}
+body.dark-theme #transit .tr-handy-modes button{color:#c3daec!important}
+body.dark-theme #transit .tr-handy-modes button[aria-pressed=true]{background:#1674b1!important;color:#fff!important}
+body.dark-theme #transit .tr-handy :is(#tr-period-summary,.tr-current-periods article){background:#294357!important;color:#e3edf6!important;border-color:#536e83}
+body.dark-theme #transit .tr-handy .tr-result-table tbody th{background:#284457;color:#def0ff}
+body.dark-theme #transit .tr-handy #tr-status[data-state=error]{color:#ff9f91}
+body.dark-theme #transit .tr-handy-note{color:#bbd0df}
+@media(max-width:850px){#transit .tr-handy .tr-simple-choice{grid-template-columns:76px 1fr}#transit .tr-handy #tr-simple-event-choice{grid-column:1/-1}#transit .tr-handy-dates{grid-template-columns:1fr 1fr}#transit .tr-handy-rules,#transit .tr-handy-dba-rules{grid-template-columns:1fr}#transit .tr-handy-modes button{font-size:11px;padding:5px}#transit .tr-handy .tr-compact-header{flex-wrap:wrap}#transit .tr-handy .tr-compact-header h2{flex-basis:100%}}
+@media(max-width:500px){#transit .tr-handy{padding:8px!important}#transit .tr-handy-modes{grid-template-columns:1fr}#transit .tr-handy-dates{grid-template-columns:1fr}#transit .tr-handy .tr-result-table :is(td,th){font-size:10px;padding:4px}#transit .tr-handy .tr-current-periods{display:none}}
+@media print{#transit .tr-handy-modes,#transit .tr-handy-dates,#transit .tr-event-query,#transit .tr-handy-planet-tools{display:none!important}}
+</style>
+<script id="kp-handy-transits-script">/* Compact transit workflow. Delegate every date, track and scan to approved APIs. */
+(()=>{'use strict';
+const $=id=>document.getElementById(id),MODES=['event','dasha','sun'];let queued=false,lastRows='',matches=0;
+const mr=()=>window.KPPreferences?.get().language==='marathi';
+const text=(en,m)=>mr()?m:en;
+function label(id){return $(id)?.closest('label')||$(id)?.parentElement;}
+function dispatch(id){$(id).dispatchEvent(new Event('change',{bubbles:true}));}
+function setText(node,value){if(node&&node.textContent!==value)node.textContent=value;}
+function mode(value){if(!MODES.includes(value))return; $('tr-mode').value=value;dispatch('tr-mode');schedule();}
+function filterEvents(){
+ const query=document.querySelector('[data-tr-event-filter]')?.value.trim().toLocaleLowerCase()||'',select=$('tr-event');
+ const options=[...select.options];let first=null;matches=0;
+ for(const option of options){const visible=!query||option.textContent.toLocaleLowerCase().includes(query);option.hidden=!visible;option.disabled=!visible;if(visible){matches++;first||=option;}}
+ if(first&&select.selectedOptions[0]?.disabled){select.value=first.value;dispatch('tr-event');}
+ setText($('tr-event-match-count'),query?text(matches+' events match','जुळणाऱ्या घटना: '+matches):'');schedule();
+}
+function localTime(iso){const date=new Date(Date.parse(iso)+Number($('tr-timezone').value)*60000),stamp=date.toISOString();return KPPreferences.formatDate(stamp.slice(0,10))+' '+stamp.slice(11,19);}
+function formatRows(rows){
+ const signature=JSON.stringify([rows,$('tr-timezone').value,KPPreferences.get().dateFormat]);if(signature===lastRows)return;lastRows=signature;
+ const nodes=[...$('tr-result-rows').querySelectorAll('tr[data-track]')];
+ rows.forEach((row,i)=>{const node=nodes[i];if(!node)return;node.dataset.planet=row.planet;
+  for(const [column,key,clipped] of [[2,'start','startClipped'],[3,'end','endClipped']]){const cell=node.children[column];cell.replaceChildren(document.createTextNode(localTime(row[key])));if(row[clipped]){const note=document.createElement('small');note.textContent=text('range limit','निवडलेल्या कालावधीची सीमा');cell.append(note);}}
+ });
+}
+function update(){
+ const current=$('tr-mode').value,event=current==='event',dasha=current==='dasha';
+ for(const button of document.querySelectorAll('[data-tr-search-mode]')){const active=button.dataset.trSearchMode===current;button.setAttribute('aria-pressed',String(active));setText(button,currentLabel(button.dataset.trSearchMode));}
+ $('transit').querySelector('.tr-simple-choice').hidden=!event;$('tr-handy-event-rules').hidden=!event;$('tr-handy-planets').hidden=!event;$('tr-handy-dba-rules').hidden=event;$('tr-mutual-controls').hidden=!dasha;
+ setText($('tr-handy-title'),text('Find transit dates','गोचर दिनांक शोधा'));
+ setText($('tr-event-filter-label'),text('Search event','घटना शोधा'));
+ setText($('tr-handy-csv'),text('Save dates · CSV','दिनांक जतन करा · CSV'));
+ setText($('tr-all-planets'),text('All planets','सर्व ग्रह'));setText($('tr-no-planets'),text('Clear','निवड काढा'));
+ setText($('tr-handbook-note'),event?text('Entry / exit times satisfy the selected transit rule. Use Advanced rules for natal promise and DBA support.','प्रवेश / निर्गमन वेळा निवडलेल्या गोचर नियमाशी जुळतात. जन्मकुंडलीचे वचन व दशा समर्थनासाठी अतिरिक्त नियम वापरा.'):dasha?text('All six MD / AD / PD directions, using the selected natal or lord-ruled sectors.','निवडलेल्या जन्मस्थान किंवा स्वामीच्या क्षेत्रातून MD / AD / PD च्या सहाही दिशा.'):text('Sun through MD and AD: MD sign + AD star, and AD sign + MD star.','MD व AD मधून सूर्य: MD राशी + AD नक्षत्र आणि AD राशी + MD नक्षत्र.'));
+ const running=$('tr-status').dataset.state==='running',rows=KPTransit.getResults(),zero=/No matching intervals/.test($('tr-result-rows').textContent),complete=rows.length>0||zero;
+ const table=$('transit').querySelector('.tr-result-mount');table.hidden=!complete;formatRows(rows);
+ $('tr-handy-csv').disabled=!rows.length;$('transit-preview').disabled=running||!complete;
+ setText($('tr-run'),running?text('Searching…','शोध सुरू…'):text('Find transit dates','गोचर दिनांक शोधा'));
+ if(event&&!matches&&!running)$('tr-run').disabled=true;
+ $('tr-event-match-count').classList.toggle('is-empty',Boolean(document.querySelector('[data-tr-event-filter]').value)&&!matches);
+ for(const card of $('tr-current-periods').children){const span=card.querySelector('span');if(span)card.title=span.textContent;}
+}
+function currentLabel(value){return value==='event'?text('1 · Event significators','१ · घटनेचे कार्येश'):value==='dasha'?text('2 · DBA through each other','२ · परस्पर दशा गोचर'):text('3 · Sun through DBA','३ · दशेतून सूर्य गोचर');}
+function schedule(){if(queued)return;queued=true;queueMicrotask(()=>{queued=false;update();});}
+function csv(){
+ const rows=KPTransit.getResults();if(!rows.length)return;
+ const quote=value=>'"'+String(value).replace(/"/g,'""')+'"';
+ const columns=['Search mode','Event','Planet','Transit condition','Entry UTC','Exit UTC','Entry local','Exit local','UTC offset minutes'];
+ const search=$('tr-mode').selectedOptions[0].textContent,event=$('tr-mode').value==='event'?$('tr-event').selectedOptions[0]?.textContent||'':'';
+ const body=[columns,...rows.map(r=>[search,event,r.planet,r.label,r.start,r.end,localTime(r.start),localTime(r.end),$('tr-timezone').value])].map(r=>r.map(quote).join(',')).join('\r\n');
+ const url=URL.createObjectURL(new Blob(['\ufeff'+body],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='KP-MASTER-Transit-dates.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function init(){
+ const section=$('transit'),card=section?.querySelector('.tr-card');if(!card||!window.KPTransitSelection)return;
+ card.classList.add('tr-handy');section.classList.add('tr-handy-section');
+ const header=card.querySelector('.tr-compact-header'),heading=header.querySelector('h2');heading.id='tr-handy-title';
+ const save=document.createElement('button');save.id='tr-handy-csv';save.type='button';save.disabled=true;save.addEventListener('click',csv);header.insertBefore(save,$('transit-preview'));
+ const modes=document.createElement('div');modes.className='tr-handy-modes';modes.setAttribute('role','group');modes.setAttribute('aria-label','Transit search type');
+ for(const value of MODES){const button=document.createElement('button');button.type='button';button.dataset.trSearchMode=value;button.addEventListener('click',()=>mode(value));modes.append(button);}
+ header.after(modes);modes.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key)||!event.target.dataset.trSearchMode)return;event.preventDefault();const value=MODES[(MODES.indexOf(event.target.dataset.trSearchMode)+(event.key==='ArrowRight'?1:2))%3];mode(value);modes.querySelector('[data-tr-search-mode="'+value+'"]').focus();});
+ const originalMode=$('tr-mode'),modeLabel=label('tr-mode');$('tr-calculation-fields').append(originalMode);modeLabel.hidden=true;
+ const query=document.createElement('label');query.className='tr-event-query';query.innerHTML='<span id="tr-event-filter-label"></span><input type="search" data-tr-event-filter aria-label="Search event" placeholder="Type event name…"><small id="tr-event-match-count" aria-live="polite"></small>';
+ $('tr-simple-event-choice').before(query);query.querySelector('input').addEventListener('input',filterEvents);
+ const datebar=document.createElement('div');datebar.className='tr-handy-dates';datebar.id='tr-handy-dates';
+ modes.after(datebar);for(const id of ['tr-date-range-source','tr-search-date-start','tr-search-date-end','tr-timezone'])datebar.append(label(id));
+ const dba=$('tr-date-dba-selection');dba.open=false;dba.querySelector('.tr-selection-note')?.remove();
+ const actions=card.querySelector('.tr-actions');actions.append($('tr-use-current-dba'));modes.after(card.querySelector('.tr-simple-choice'));
+ const eventRules=document.createElement('div');eventRules.id='tr-handy-event-rules';eventRules.className='tr-handy-rules';for(const id of ['tr-houses','tr-significator-method','tr-match'])eventRules.append(label(id));dba.after(eventRules);
+ const dbaRules=document.createElement('div');dbaRules.id='tr-handy-dba-rules';dbaRules.className='tr-handy-dba-rules';dbaRules.append(label('tr-zone'),$('tr-mutual-controls'));eventRules.after(dbaRules);
+ const planets=$('tr-planet-options').closest('fieldset');planets.id='tr-handy-planets';const tools=document.createElement('div');tools.className='tr-handy-planet-tools';
+ for(const [id,checked] of [['tr-all-planets',true],['tr-no-planets',false]]){const b=document.createElement('button');b.id=id;b.type='button';b.addEventListener('click',()=>{const boxes=[...$('tr-planet-options').querySelectorAll('input')];boxes.forEach(n=>n.checked=checked);if(boxes.length)boxes[0].dispatchEvent(new Event('change',{bubbles:true}));});tools.append(b);}planets.append(tools);dbaRules.after(planets);
+ const advanced=$('tr-rule-options');advanced.querySelector('summary').textContent=text('Advanced rules / significator evidence','अतिरिक्त नियम / कार्येश माहिती');advanced.querySelector('.tr-compact-options').prepend($('tr-search-scope'));advanced.open=false;
+ $('tr-event-panel').querySelector('label[for="tr-event"]')?.parentElement.remove();
+ const note=document.createElement('p');note.id='tr-handbook-note';note.className='tr-handy-note';actions.after(note);$('tr-simple-rule-note').hidden=true;
+ const observer=new MutationObserver(schedule);observer.observe($('tr-status'),{childList:true,attributes:true,attributeFilter:['data-state']});observer.observe($('tr-result-rows'),{childList:true});observer.observe($('tr-current-periods'),{childList:true});
+ new MutationObserver(()=>{filterEvents();schedule();}).observe($('tr-event'),{childList:true,subtree:true});
+ section.addEventListener('change',schedule);window.addEventListener('kp-preferences-changed',()=>{lastRows='';schedule();});
+ const restore=window.restoreChartData;window.restoreChartData=function(...args){query.querySelector('input').value='';filterEvents();const result=restore.apply(this,args);filterEvents();schedule();return result;};
+ filterEvents();schedule();
+}
+window.KPHandyTransits=Object.freeze({mode,filterEvents,saveDates:csv});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0));else init();
 })();
 </script>
 </body>

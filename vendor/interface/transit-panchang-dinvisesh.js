@@ -166,7 +166,7 @@
     const mount = $('tp-daily-extension');
     if (!mount) return;
     state = {...day,signature:signature(day.config)};
-    mount.innerHTML = extensionHTML(day,true);
+    mount.innerHTML = extensionHTML(day,false);
     window.KPLanguage?.localize(mount);
     window.KPChartTypography?.refresh?.();
   }
@@ -182,7 +182,7 @@
     working = true;
     try {
       const config = settings();
-      const day = calculateDay(config,{chart:true,transitions:true});
+      const day = calculateDay(config,{chart:false,transitions:true});
       render(day);
       return day;
     } catch (error) {
@@ -206,7 +206,7 @@
   function reportSnapshot() {
     const day = ensureCurrent();
     if (!day) return '<div class="tp-dinvisesh-report"><p>'+esc(tr('Calculate Transit Panchang to show Dinvisesh.'))+'</p></div>';
-    return '<div class="tp-dinvisesh-report">'+extensionHTML(day,true)+'</div>';
+    return '<div class="tp-dinvisesh-report">'+extensionHTML(day,false)+'</div>';
   }
 
   function calendarDay(config) {

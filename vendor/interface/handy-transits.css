@@ -1,0 +1,61 @@
+#transit.tr-handy-section>h2,#transit.tr-handy-section>p{display:none}
+#transit .tr-handy{max-width:1260px;padding:12px!important;background:#fff;color:#20364c}
+#transit .tr-handy .tr-compact-header{margin:0 0 8px;gap:7px}
+#transit .tr-handy .tr-compact-header h2{font-size:17px!important;flex:1;margin:0!important}
+#transit .tr-handy :is(input:not([type=checkbox]),select){font-size:12px;height:31px!important;min-width:0;box-sizing:border-box;padding:4px 7px!important;margin:3px 0 0!important;color:inherit;border-radius:5px}
+#transit .tr-handy label{font-size:11px;margin:0;min-width:0}
+#transit .tr-handy button{font-size:12px;min-height:30px;border-radius:6px;padding:5px 10px;cursor:pointer}
+#transit .tr-handy button:disabled{opacity:.55;cursor:default}
+#transit .tr-handy :is(button,input,select):focus-visible{outline:2px solid #2586bd;outline-offset:2px}
+#transit .tr-handy-modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:4px;background:#edf3f8;border-radius:8px;margin-bottom:9px}
+#transit .tr-handy-modes button{border:0!important;background:transparent!important;color:#365d7c!important;font-weight:600;min-height:35px}
+#transit .tr-handy-modes button[aria-pressed=true]{background:#235e87!important;color:#fff!important;box-shadow:0 2px 5px #23496822}
+#transit .tr-handy .tr-simple-choice{grid-template-columns:76px minmax(140px,.85fr) minmax(220px,1.8fr);gap:8px;margin:0 0 8px}
+#transit .tr-event-query{display:flex;flex-direction:column;position:relative}
+#transit #tr-event-match-count{font-size:10px;color:#34764c;margin-top:2px}
+#transit #tr-event-match-count:empty{display:none}
+#transit #tr-event-match-count.is-empty{color:#ad3b2c}
+#transit .tr-handy-dates{display:grid;grid-template-columns:.85fr 1.25fr 1.25fr 1fr;gap:8px;margin-bottom:8px;padding:8px;background:#f3f7fb;border:1px solid #d9e5ef;border-radius:7px}
+#transit .tr-handy .tr-selection{padding:6px 8px;margin:0 0 8px;background:#fafcfe}
+#transit .tr-handy .tr-selection-grid{gap:7px;padding-top:7px}
+#transit .tr-handy-rules{display:grid;grid-template-columns:.8fr 1fr 1.5fr;gap:8px;margin:0 0 7px}
+#transit .tr-handy-dba-rules{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin:0 0 7px}
+#transit .tr-handy #tr-mutual-controls{grid-template-columns:1fr 1fr;margin:0;gap:8px}
+#transit .tr-handy .tr-planets{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:5px 8px;margin:0 0 7px;border-radius:6px}
+#transit .tr-handy .tr-planets legend{font-size:11px;padding:0 4px}
+#transit .tr-handy #tr-planet-options{gap:9px;flex:1}
+#transit .tr-handy #tr-planet-options label{font-size:12px;margin:0;gap:4px}
+#transit .tr-handy-planet-tools{display:flex;gap:4px}
+#transit .tr-handy-planet-tools button{font-size:10px;min-height:24px;padding:2px 6px}
+#transit .tr-handy .tr-current-periods{gap:5px;margin:0 0 5px}
+#transit .tr-handy .tr-current-periods article{padding:3px 7px;flex:0 0 auto}
+#transit .tr-handy .tr-current-periods span{display:none}
+#transit .tr-handy #tr-period-summary{font-size:10px;padding:5px 8px;margin:0 0 6px}
+#transit .tr-handy .tr-actions{margin:0;gap:7px;flex-wrap:wrap}
+#transit .tr-handy #tr-run{background:#167aab;color:#fff;font-weight:700;min-width:155px;border-color:#167aab}
+#transit .tr-handy-note{font-size:10px;line-height:1.4;color:#526d82;margin:6px 0}
+#transit .tr-handy #tr-status{font-size:12px;margin:6px 0}
+#transit .tr-handy .tr-result-mount{margin:6px 0 8px;max-height:440px}
+#transit .tr-handy .tr-result-table thead{position:sticky;top:0;z-index:1}
+#transit .tr-handy .tr-result-table :is(td,th){font-size:11px;padding:5px 7px;line-height:1.45}
+#transit .tr-handy .tr-result-table th:nth-child(1){width:7%}
+#transit .tr-handy .tr-result-table th:nth-child(2){width:37%}
+#transit .tr-handy .tr-result-table th:nth-child(3),#transit .tr-handy .tr-result-table th:nth-child(4){width:28%}
+#transit .tr-handy .tr-result-table tbody th{background:#edf5fa;color:#164d71;font-weight:700}
+#transit .tr-handy #tr-rule-options{padding:6px 8px;font-size:11px}
+#transit .tr-handy #tr-rule-options>summary{font-size:11px}
+#transit .tr-handy #tr-search-scope{display:block;margin-bottom:8px}
+#transit .tr-handy #tr-search-scope select{max-width:350px}
+#transit .tr-handy #tr-event-panel>.tr-search-grid:empty{display:none}
+body.dark-theme #transit .tr-handy{background:#172b3b;color:#e4eef6}
+body.dark-theme #transit .tr-handy :is(.tr-handy-dates,.tr-selection,.tr-handy-modes){background:#243c50;color:#e4eef6;border-color:#49677d}
+body.dark-theme #transit .tr-handy :is(input,select){background:#1c3347;color:#e4eef6;border-color:#49677d}
+body.dark-theme #transit .tr-handy-modes button{color:#c3daec!important}
+body.dark-theme #transit .tr-handy-modes button[aria-pressed=true]{background:#1674b1!important;color:#fff!important}
+body.dark-theme #transit .tr-handy :is(#tr-period-summary,.tr-current-periods article){background:#294357!important;color:#e3edf6!important;border-color:#536e83}
+body.dark-theme #transit .tr-handy .tr-result-table tbody th{background:#284457;color:#def0ff}
+body.dark-theme #transit .tr-handy #tr-status[data-state=error]{color:#ff9f91}
+body.dark-theme #transit .tr-handy-note{color:#bbd0df}
+@media(max-width:850px){#transit .tr-handy .tr-simple-choice{grid-template-columns:76px 1fr}#transit .tr-handy #tr-simple-event-choice{grid-column:1/-1}#transit .tr-handy-dates{grid-template-columns:1fr 1fr}#transit .tr-handy-rules,#transit .tr-handy-dba-rules{grid-template-columns:1fr}#transit .tr-handy-modes button{font-size:11px;padding:5px}#transit .tr-handy .tr-compact-header{flex-wrap:wrap}#transit .tr-handy .tr-compact-header h2{flex-basis:100%}}
+@media(max-width:500px){#transit .tr-handy{padding:8px!important}#transit .tr-handy-modes{grid-template-columns:1fr}#transit .tr-handy-dates{grid-template-columns:1fr}#transit .tr-handy .tr-result-table :is(td,th){font-size:10px;padding:4px}#transit .tr-handy .tr-current-periods{display:none}}
+@media print{#transit .tr-handy-modes,#transit .tr-handy-dates,#transit .tr-event-query,#transit .tr-handy-planet-tools{display:none!important}}

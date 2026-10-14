@@ -1,3 +1,19 @@
+## Handy Transits and Panchang report cleanup · 14 October 2026
+
+Transits now has three direct search buttons: Event significators, DBA through
+each other, and Sun through DBA (MD/AD combinations). Start/end dates and time
+zone are visible; event names can be searched, and all nine planets can be
+selected together. DBA choices and advanced natal support remain available.
+Editing a date switches to Custom dates before period defaults can overwrite
+it. Results show entry/exit times with seconds; CSV export preserves UTC and
+local times. Empty/error status appears once, and previews enable after a
+completed search. Mobile/dark layouts have explicit readable colours.
+
+The same-day 05:30 Transit Kundali is omitted from the Transit Panchang screen
+and its print/report snapshot. Dinvisesh, festivals, auspicious periods and
+calendar preview remain available. All approved calculation blocks are
+unchanged; the compact interface delegates to the existing transit scanner.
+
 ## Standalone HTML transit finder fix · 13 October 2026
 
 The career-change catalogue event can require source-condition review. The

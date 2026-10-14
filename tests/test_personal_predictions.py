@@ -278,7 +278,7 @@ class PersonalPredictionTests(unittest.TestCase):
         after=self.page.evaluate("""()=>({model:JSON.stringify(currentKPModel),sizes:[...document.querySelectorAll('#kundali .v38-name,#kundali .v38-degree,#kundali .v38-lords')].map(n=>getComputedStyle(n).fontSize)})""");self.assertEqual(before,after);self.assertEqual(self.page.evaluate('noteChartChanges'),0);self.assertEqual(self.page.locator('#notepad-text').evaluate('n=>getComputedStyle(n).fontSize'),'24px');self.page.locator('#notepad-close').click();expect(self.page.locator('#south-position-tables table')).to_have_count(2);expect(self.page.locator('#south-position-tables article').first.locator('tbody tr')).to_have_count(9);expect(self.page.locator('#south-position-tables article').last.locator('tbody tr')).to_have_count(12);self.assertNotIn('Automatic calculation mode',self.page.locator('#south9').inner_text());self.assertNotIn('Auto Fill Kundali',self.page.locator('#south9').inner_text())
 
     def test_simple_transit_search_explains_rejection_and_filters_actual_intervals(self):
-        self.page.locator('#quick-transit').click();self.assertEqual(self.page.locator('#transit select:visible').count(),4);self.assertEqual(self.page.locator('#transit input:visible').count(),0)
+        self.page.locator('#quick-transit').click();expect(self.page.locator('[data-tr-search-mode]')).to_have_count(3);self.page.locator('#tr-rule-options>summary').click()
         self.page.locator('#tr-event-search-scope').select_option('supported')
         found=self.page.evaluate("""()=>{const select=document.getElementById('tr-event'),found={};for(const o of select.options){select.value=o.value;KPSimpleTransits.apply();try{const c=KPSimpleTransits.criteria(KPTransit.currentPeriods());if(!found.yes)found.yes={id:o.value,periods:c.periods,required:c.required};}catch(e){if(!found.no)found.no={id:o.value,reason:e.message};}if(found.yes&&found.no)break;}return found;}""")
         self.assertEqual(set(found),{'yes','no'});self.page.locator('#tr-event').select_option(found['no']['id']);self.page.locator('#tr-run').click();expect(self.page.locator('#tr-status')).to_have_attribute('data-state','error');expect(self.page.locator('#tr-status')).to_contain_text(found['no']['reason']);self.assertEqual(self.page.evaluate('KPTransit.getResults()'),[])
@@ -347,7 +347,7 @@ class PersonalPredictionTests(unittest.TestCase):
     def test_transit_three_modes_use_native_sectors_and_birth_clipped_periods(self):
         self.page.locator('#quick-transit').click();native=self.page.evaluate('JSON.stringify(currentKPModel)')
         for mode,count in [('event',9),('dasha',18),('sun',2)]:
-            self.page.locator('#tr-mode').select_option(mode)
+            self.page.locator('[data-tr-search-mode="'+mode+'"]').click()
             result=self.page.evaluate("""()=>{const data=KPTransit.currentPeriods(),tracks=KPTransit.makeTracks(data),root=KPHomeDasha.getData().levels[0].rows[0],offset=data.timeZoneHours*3600000;return {count:tracks.length,criteria:document.getElementById('tr-mode').value==='event'?'event':KPSimpleTransits.criteria(data),birth:root.startMs-offset,periods:Object.values(data.periods),tracks:tracks.map(t=>({id:t.id,planet:t.planet,levels:t.levels}))}}""")
             self.assertEqual(result['count'],count)
             for period in result['periods']:self.assertGreaterEqual(period['startMs']-5.5*3600000,result['birth'])

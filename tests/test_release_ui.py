@@ -50,9 +50,16 @@ class ReleaseUIRegressionTests(unittest.TestCase):
         expect(live.locator('.tp-transition-card')).to_have_count(4)
         expect(live.locator('.tp-solar-card')).to_have_count(6)
         expect(live.locator('.tp-chogh-row [data-quality]')).to_have_count(16)
-        expect(live.locator('[data-transit-panchang-chart="0530"]')).to_have_count(1)
+        expect(live.locator('[data-transit-panchang-chart="0530"],.tp-chart-card')).to_have_count(0)
         daily = self.page.evaluate("KPTransitPanchangDinvisesh.getData()")
-        self.assertEqual(daily["chart"]["moment"], "2026-10-12T00:00:00.000Z")
+        self.assertIsNone(daily["chart"])
+        self.assertNotIn('tp-chart-card',self.page.evaluate('KPTransitPanchangDinvisesh.snapshot()'))
+        with self.page.expect_popup() as opened:
+            self.page.locator('#transit-panchang-preview').click()
+        preview=opened.value
+        expect(preview.locator('[data-transit-panchang-chart="0530"],.tp-chart-card')).to_have_count(0)
+        expect(preview.locator('.tp-dinvisesh,.tp-dinvisesh-report').first).to_be_visible()
+        preview.close()
         self.assertEqual(self.page.evaluate("JSON.stringify(currentKPModel)"), native)
 
         with self.page.expect_popup() as opened:

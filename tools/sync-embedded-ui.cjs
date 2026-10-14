@@ -10,6 +10,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-transit-selection', 'vendor/interface/transit-selection.js'],
   ['style', 'kp-transit-dark-labels', 'vendor/interface/transit-colours.css'],
   ['style', 'kp-compact-transit-panchang', 'vendor/interface/transit-panchang-layout.css'],
   ['script', 'kp-compact-transit-panchang-script', 'vendor/interface/transit-panchang-layout.js'],
@@ -28,6 +29,8 @@ const assets = [
   ['script', 'kp-calculation-sources', 'vendor/interface/calculation-sources.js'],
   ['style', 'kp-calculation-source-guard-style', 'vendor/interface/calculation-source-guard.css'],
   ['script', 'kp-calculation-source-guard', 'vendor/interface/calculation-source-guard.js'],
+  ['style', 'kp-handy-transits-style', 'vendor/interface/handy-transits.css'],
+  ['script', 'kp-handy-transits-script', 'vendor/interface/handy-transits.js'],
 ];
 
 let html = fs.readFileSync(target, 'utf8');
