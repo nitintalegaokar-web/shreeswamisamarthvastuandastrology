@@ -1,0 +1,710 @@
+{
+  "release": "KP MASTER - 2026-10-14 prediction/resources/Horary",
+  "files": [
+    {
+      "path": "KP-MASTER-UPDATE-README.txt",
+      "bytes": 2488,
+      "sha256": "21da7f5ec54c4c130b9c505ad5e12e8b56076f553aa2e552bd109ad41d20f179"
+    },
+    {
+      "path": "KP-MASTER-Updated-2026-10-14.html",
+      "bytes": 33197032,
+      "sha256": "d77e3673ec3e6b7ff1929ce2d38a38523cc9d81846e471eab3984e8f041b940e"
+    },
+    {
+      "path": "data/Bhavfal.txt",
+      "bytes": 577413,
+      "sha256": "7c3e6d67d4715f64d586cb300242ddbad7f8c83653d6ddd4b9b1c8f9c949db0d"
+    },
+    {
+      "path": "data/Dahs Fal Short.txt",
+      "bytes": 40119,
+      "sha256": "ad14618afb4e9b1a5784d03127290591fe8507023c559bae7f0c88596af1d437"
+    },
+    {
+      "path": "data/Events.txt",
+      "bytes": 51110,
+      "sha256": "5b54e985067f5b21fd2dd4d4f186cb1be2b62327f910dea3824a5e5f021de1b5"
+    },
+    {
+      "path": "data/KP_Nirayan_Ephemeris_1911_2500_0530AM_ST_Plus1.xlsx",
+      "bytes": 18627231,
+      "sha256": "c3b3a03dce1de37d735fcfc15253d2e8f0be59265ae9cc6023c073239b204f52"
+    },
+    {
+      "path": "data/Mahadasha.txt",
+      "bytes": 43777,
+      "sha256": "06f855f1627ba5957af61bdadb5c292c703812ec0627b8832c4bd63780a62d42"
+    },
+    {
+      "path": "data/Prediction.txt",
+      "bytes": 407731,
+      "sha256": "6f37885647fe19f0e94328ce55cc9e6dceb9009d1e2455029641fdd611e019f5"
+    },
+    {
+      "path": "data/Ratna.txt",
+      "bytes": 1221,
+      "sha256": "b385e039277f9b92a57242b157bfdeda03dad45c1acf88cbe268d807f19ea5ad"
+    },
+    {
+      "path": "data/dashafal.txt",
+      "bytes": 124765,
+      "sha256": "3014003c7e2788570f2a22811522210286c5c0d293ad59eddaab5ba2e05205e6"
+    },
+    {
+      "path": "data/disease-rules.json",
+      "bytes": 18462,
+      "sha256": "cad85ad85116ccbd1a11d292f230aa0e4867353699529d53096f8f77e04e1312"
+    },
+    {
+      "path": "data/education-profession-rules.json",
+      "bytes": 113604,
+      "sha256": "542941f5c729b07fca440d45b35733eae7689938b2e06ae3a3f7f24dc7b8c3e5"
+    },
+    {
+      "path": "data/kp-handbook-rules.json",
+      "bytes": 728716,
+      "sha256": "52dede476891d400926ae7e32ba1fc594b9f4dc28501d364936941eb6f73702d"
+    },
+    {
+      "path": "data/kp-handbook.pdf",
+      "bytes": 332912,
+      "sha256": "95439b242cbf010ec6cf938b15a2216e6305dd5fc371e49014b4bd4b580ee31e"
+    },
+    {
+      "path": "data/numerology-2026-10-14/1.txt",
+      "bytes": 6708,
+      "sha256": "9ceb50cb7aed367a158429520620f5e19b8f9486f6d4b6c7a6bd8b5a1d6b115b"
+    },
+    {
+      "path": "data/numerology-2026-10-14/2.txt",
+      "bytes": 6448,
+      "sha256": "c3fefb59e3fb083aed2aad44a78a466ad2ea253100ccd7ca109f5968c5478965"
+    },
+    {
+      "path": "data/numerology-2026-10-14/3.txt",
+      "bytes": 7797,
+      "sha256": "e8c556ba3c4e311a074f7483af264f4595c4591c8f7e278eb315645e69bce8ea"
+    },
+    {
+      "path": "data/numerology-2026-10-14/4.txt",
+      "bytes": 9547,
+      "sha256": "8dabd0aadf20ab2707508b544fd246a5da03f37fda22fca3eb3d263a9398a096"
+    },
+    {
+      "path": "data/numerology-2026-10-14/5.txt",
+      "bytes": 9057,
+      "sha256": "fbf4476a0348f3cd3320c98edb55009fa9c931bc80747f096e87e57267a6203b"
+    },
+    {
+      "path": "data/numerology-2026-10-14/6.txt",
+      "bytes": 9997,
+      "sha256": "f44ad66b9d1f0d4030c4dc08a95e12acf059b95a8cecaae7504ddcd092374ddd"
+    },
+    {
+      "path": "data/numerology-2026-10-14/7.txt",
+      "bytes": 10105,
+      "sha256": "fe8d177e469487ce9791ba5e1cb9a4bb33bbd4920640b617c03dffa3469d2c85"
+    },
+    {
+      "path": "data/numerology-2026-10-14/8.txt",
+      "bytes": 11234,
+      "sha256": "291dbf6c2b550ce39e98dc820221b29cf73981a7285a3910c10040e588ea047f"
+    },
+    {
+      "path": "data/numerology-2026-10-14/9.txt",
+      "bytes": 10748,
+      "sha256": "8a5fc0c10bf5dad3bf5a9788cbd15ab56493220a64aac8342707087d1f10024c"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/# 🌙 नक्षत्र – विभागीय शीर्षके (Nak.txt",
+      "bytes": 193960,
+      "sha256": "0d145f066e2f4b638b0b85186041a3d60614a9959301667b2b1572d4809f8959"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/# 📌 Y‑Codes.txt",
+      "bytes": 96272,
+      "sha256": "181c9004675bc88e1c5ecc39b5f12b2acac8bc4f031df8dcaa381db0d406ddd7"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/Bhav Fal.txt",
+      "bytes": 86873,
+      "sha256": "c5316bc8ba783e3ba7c9bbecbefcc7cf66e17a919954beffc4ed3b343a59bb0a"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/केतूचे 12 भावांतील परिणाम.txt",
+      "bytes": 9783,
+      "sha256": "bdd586b98e3c340f7e3d891c06b73f9d2cca4adf67c9375b1f5db053a921c23a"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/गुरुचे 12 भावांतील परिणाम.txt",
+      "bytes": 8506,
+      "sha256": "c5e27e4a475598c1f886d8cc72b262e4e35f58d51539dee2b32010d29d59ad2e"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/चंद्राचे 12 भावांतील प.txt",
+      "bytes": 6328,
+      "sha256": "98c41b49dffe7b22a1d8d6040d7e7fab2aff2238132eebbb8838f42724552cd6"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/चरण.txt",
+      "bytes": 44294,
+      "sha256": "3bac2aeaa60fed6fb24ef857a13cc42545614f69fbe54477e36e50050f04ed00"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/बुधाचे 12 भावांतील परिणाम.txt",
+      "bytes": 7679,
+      "sha256": "2712c505a2744cb61fa86b6b0c57bed1cda54da7777f1f8fcb72a1a43f31a565"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/मंगळाचे 12 भावांतील परिणाम.txt",
+      "bytes": 7698,
+      "sha256": "6d5a583643889e91df995e425262e5d2ff80b5f742a2f157ced34181b67f5bbe"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/राहूचे 12 भावांतील परिणाम.txt",
+      "bytes": 8015,
+      "sha256": "529ff36cb101a2e0ced9dddf6b370eb91c40ee8d74170bc296aec9bf96caf744"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/शनीचे 12 भावांतील परिणाम.txt",
+      "bytes": 9699,
+      "sha256": "53cf0562bc7d1cfa15393c2df91a5914c9cf3ff8a48437f91be1d1745477a0ba"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/शुक्राचे 12 भावांतील परिणाम.txt",
+      "bytes": 9540,
+      "sha256": "5ce5b4d5aa36e4b7aae9fe21c2769468ff8642a98b05cfcc2088bcf256ebe2b7"
+    },
+    {
+      "path": "data/predictions-2026-10-14/coded/सूर्याचे 12 भावांतील प.txt",
+      "bytes": 8315,
+      "sha256": "2cedf1a90a5235261f10dc29f23be22dbd6052bf04b02d70e85fa6768dd298b1"
+    },
+    {
+      "path": "data/predictions-2026-10-14/dasha/केतू.txt",
+      "bytes": 4120,
+      "sha256": "a1930c6e0dc14f0d0cc70efb273954fb4b8b3734719a04c0890334b353140e0e"
+    },
+    {
+      "path": "data/predictions-2026-10-14/dasha/गुरू.txt",
+      "bytes": 4738,
+      "sha256": "a006761712c8bd86ee34b15f57a850fbb6997fc70e20e98b32384e24fb247045"
+    },
+    {
+      "path": "data/predictions-2026-10-14/dasha/चंद्र.txt",
+      "bytes": 8692,
+      "sha256": "3d1a717e715360422f674a4d800a5e2cc5b81ffe934a2c7809d43c1c1a8de9fc"
+    },
+    {
+      "path": "data/predictions-2026-10-14/dasha/बुध.txt",
+      "bytes": 4935,
+      "sha256": "c822bb94213b997904bf08c4ed249206d3061f938b118e33676e567402760e9e"
+    },
+    {
+      "path": "data/predictions-2026-10-14/dasha/मंगळ.txt",
+      "bytes": 6410,
+      "sha256": "d16887ff40e4586e8c1ce60d3c84428821e4ce39119a0c99b8bcde6a0bace6c5"
+    },
+    {
+      "path": "data/predictions-2026-10-14/dasha/राहू.txt",
+      "bytes": 6294,
+      "sha256": "c78f67ad847011792bef9c06a3d05b0ed6ff98ff70df966cf32137ddfa3bd943"
+    },
+    {
+      "path": "data/predictions-2026-10-14/dasha/शनि.txt",
+      "bytes": 5369,
+      "sha256": "a36fcf0903fc108d8990dfcf326d726fc64c1dddf600ac202b0608d4b24f6e78"
+    },
+    {
+      "path": "data/predictions-2026-10-14/dasha/शुक्र.txt",
+      "bytes": 4986,
+      "sha256": "4bbe6ae5af28f70ba15e02f0051b1b5c17e5c5e37fecda62588fc7b882ebeace"
+    },
+    {
+      "path": "data/predictions-2026-10-14/dasha/सूर्य.txt",
+      "bytes": 9323,
+      "sha256": "afe7d5f0275826cec1c9edf79ea6b08b7fb9c1ea584fd2af359e0f410c415ac3"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/अनुराधा.txt",
+      "bytes": 6122,
+      "sha256": "a0fa7cb7ca9b0466e7c1d1380faeacad140832ba4e31024bf8ed2648c0be9fca"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/अश्विनी.txt",
+      "bytes": 4792,
+      "sha256": "03d63b9eeb1ef568da72c3aa490cbaf3f3b474e83bd2321098cb34df0ef95c71"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/आर्द्रा.txt",
+      "bytes": 2001,
+      "sha256": "04d66c7ce724f77765d4effaa3202bcfb3dfc9feb4b064be76ef573ebdce151e"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/आश्‍लेषा.txt",
+      "bytes": 8184,
+      "sha256": "49843e8142c125f573160017181fb8debdd69834e22f345cd64bb2e8999f42c0"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/उत्तर फाल्गुनी.txt",
+      "bytes": 7247,
+      "sha256": "2567ffb315f34c7c4846d47c4173b696ab904ef47d9121b740857e88fadcbae8"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/उत्तराभाद्रपदा.txt",
+      "bytes": 3302,
+      "sha256": "12b843dd765321aab53359889993fc2a6b038b03a24b7c6b022b0eeb596a49d1"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/उत्तराषाढा.txt",
+      "bytes": 6442,
+      "sha256": "b0802d36c2b8561c033d77f724f610cb65ef4a030e87c69ce2535a1652037202"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/कृत्तिका.txt",
+      "bytes": 4662,
+      "sha256": "49bf11bd8a22c9ee3955ad46cab94e13f799c0f9ab647b67689388b2e38f56d7"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/चित्रा.txt",
+      "bytes": 8385,
+      "sha256": "b2485de7bd958b559f7100142e337405ae18122a8fce5f5f60ec6d5b8ed1d557"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/ज्येष्ठा.txt",
+      "bytes": 6846,
+      "sha256": "41141e5ed14a98ecd660020ef80748a3bdf0ad9de290863308c9d74e8f801ff0"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/धनिष्ठा.txt",
+      "bytes": 6332,
+      "sha256": "2212684e3ee99847b65836a6c8a467ecc37e32dfd6d67971b4c5868bd8f606fa"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/पुनर्वसू.txt",
+      "bytes": 8481,
+      "sha256": "4e1e762c78e97adc1fd5497f6c2c44619628eaa64639fab5dbc6f5671ac4f83d"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/पुष्य.txt",
+      "bytes": 5705,
+      "sha256": "d9a138c7c51652d8407c442f20d7fe9934417698eccac91d9385122e8d585e1d"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/पूर्वा फाल्गुनी.txt",
+      "bytes": 7465,
+      "sha256": "5a8f4edfbc894184e1c6f20eda64a0adaac1311e5ed501f4f57f72d939909245"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/पूर्वाभाद्रपदा.txt",
+      "bytes": 3997,
+      "sha256": "4e854b9ad70cea6a5a99438bd62501cfdff03aa536e800c210b526ce07e82ed3"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/पूर्वाषाढा.txt",
+      "bytes": 5642,
+      "sha256": "e77fd93fa621d1e0d5b27058486080ce4e3c08d428a3bba3bdd9e4ee32de5530"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/भरणी.txt",
+      "bytes": 4216,
+      "sha256": "ae8dbc465aef2aa70aaf26f4452fb4efbb39620f15429e99b797bc1a95156ba4"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/मघा.txt",
+      "bytes": 6533,
+      "sha256": "4792b8177a11f1db830089667f8e571fee8032ca14060ba3fbc2d1ad16137292"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/मूल.txt",
+      "bytes": 6704,
+      "sha256": "0e17aa50c21cc3b5b20bebd8be3b1e24d850b92692ecd1394d11517719480468"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/मृगशीर्षा.txt",
+      "bytes": 3926,
+      "sha256": "aa1813d8433e1de98f133502daf0cfe27f981210fa7d8650f3e9813a99231223"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/रेवती.txt",
+      "bytes": 4357,
+      "sha256": "ad9036ed0324afad8962997966ca24af05bf537e6f1fb7184a056a13a170aca2"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/रोहिणी.txt",
+      "bytes": 4275,
+      "sha256": "3e9131144ac88f6fbe0c8869c46a9cc2791b52b151914f94d7d93adb2c0d7b13"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/विशाखा.txt",
+      "bytes": 6631,
+      "sha256": "73c07fee0aabdb35c0bc6e6c5a063ff446f7d7b9482491d6c3842f29cba0a1a5"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/शतभिषा.txt",
+      "bytes": 3236,
+      "sha256": "4b42ae19b4db85b3389429d87f60a560e59c96088167254c659e1ae39ec7a9a4"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/श्रवण.txt",
+      "bytes": 6236,
+      "sha256": "0357009b8074681c17ca2f9829d1fbb6fff904f576b5c8beea1f067509490778"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/स्वाती.txt",
+      "bytes": 5034,
+      "sha256": "e46a296da3e05512e525041b341be28290ebaa213018df2c228978ab93d70612"
+    },
+    {
+      "path": "data/predictions-2026-10-14/nakshatra/हस्त.txt",
+      "bytes": 7794,
+      "sha256": "66f5cf0dd41ac3a7bf477c3d46553f34f3e5874bbfd4ab57308d0c4905d7702a"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/केतू.txt",
+      "bytes": 24547,
+      "sha256": "62671495cb41c637e051f08937745655ef203d36cc19dd9b3120fb5ba171e3ff"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/गुरु.txt",
+      "bytes": 27868,
+      "sha256": "06a4c14c0c8300eb5b59cbec4d7e81f3354cd0dfb6fb48dbc6eff34d4c302d01"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/चंद्र.txt",
+      "bytes": 27415,
+      "sha256": "83f64352d3220fe0b6a0e894fb3c583c48df1f683f46772877a9a2fa90046629"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/नेपच्यून.txt",
+      "bytes": 6840,
+      "sha256": "35fa028da21ccc34cbf2ada0adc2a82c448e3d74642ad5cff09bcc525bf4a670"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/प्लूटो.txt",
+      "bytes": 1963,
+      "sha256": "1aa29f853b379da0c42561e5931e3b1b5862b7dc9f19951c204d617b60890eb7"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/बुध.txt",
+      "bytes": 26356,
+      "sha256": "6d8e1700c4151165034e3d2998667b090377d489c83b1581bcbbe8bc2a16e221"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/मंगळ.txt",
+      "bytes": 26489,
+      "sha256": "42b2f180712ba5051596bb66e0203b142089672189be21ba094a83d84c755f83"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/राहू.txt",
+      "bytes": 40030,
+      "sha256": "adfb9dc5b2a98c67aece9b26aac6136133db33513b29ca6353a87b899ced1b14"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/शनी.txt",
+      "bytes": 30337,
+      "sha256": "0bbffe6a4b315cf8b544ebf07ca5224e54f09c618f4703cd1e5e0b2caa542de2"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/शुक्र.txt",
+      "bytes": 32874,
+      "sha256": "2d91d90c839b7128430618a612e392c82ee14dfdd6e401efe3ccfd10ab2e101d"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/सूर्य.txt",
+      "bytes": 27707,
+      "sha256": "52fb97c65f8eda96def41b5d840762c413d4374eee22f52f20a054209a461419"
+    },
+    {
+      "path": "data/predictions-2026-10-14/planet-houses/हर्षल.txt",
+      "bytes": 6314,
+      "sha256": "3ebd77a71430c41dce28b4e3423256a54e230dc2513380170d2b199f923118c9"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/कन्या.txt",
+      "bytes": 15357,
+      "sha256": "6c4c3abfbc197d755ed7ffd77d2ca3a7b363d1f9eec03beeff32a9ebf785e861"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/कर्क.txt",
+      "bytes": 16255,
+      "sha256": "3c59f5cada4afa28e346a2c728090db608d2ec3ce2baf1cd5c63499468e27e35"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/कुंभ.txt",
+      "bytes": 14565,
+      "sha256": "6ca5f8799653cc6c1339a36808e7459901c38ab44210ec2ecd4d4ff156f67a45"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/तुला.txt",
+      "bytes": 10196,
+      "sha256": "9592f2326bc0b6984a5061832dd72a5993a5661572782862a9730c04634b9830"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/धनु.txt",
+      "bytes": 12251,
+      "sha256": "af067cf039f855870fe2b72655847c12bbbb2c338ff1b2bd23fa95274a8e483f"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/मकर.txt",
+      "bytes": 16187,
+      "sha256": "87d7fe638f9683a1111fc3e0cb485bf70522296454809b3b5a4dbbad05a7bbdb"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/मिथुन.txt",
+      "bytes": 18340,
+      "sha256": "22973c5b9d194d38a7758cd32255757d8289af896392abba52be28517779eef9"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/मीन.txt",
+      "bytes": 15386,
+      "sha256": "0d936c111a276f46e0c50caf155a96ca5b1a64c4024a3047a7a995d698ec36be"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/मेष.txt",
+      "bytes": 17632,
+      "sha256": "84c7e505c1fa46fbee95662d1c526200923668e89c8617f0ba10a4adec8921e6"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/वृश्चिक.txt",
+      "bytes": 16347,
+      "sha256": "392ed9fd815e261c323cf5244b9159d96f396dbd18134a74870d61f4ff73aad5"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/वृषभ.txt",
+      "bytes": 18445,
+      "sha256": "bce6a592121ee8bede80b52e8405819b1791cef9d22b7f26cf094f2bb641b6cc"
+    },
+    {
+      "path": "data/predictions-2026-10-14/signs/सिंह.txt",
+      "bytes": 15989,
+      "sha256": "0bae10a445a640cb0c2e3305dfe2fe5884f72d5f7c59d99ccba6f5a35a832ba0"
+    },
+    {
+      "path": "data/predictions-2026-10-14/transit/केतू.txt",
+      "bytes": 3370,
+      "sha256": "485d0cf2b93a5bdda95c28ad77679a90c6bc4cbf82ff147e16c8ce8c5fc49a94"
+    },
+    {
+      "path": "data/predictions-2026-10-14/transit/गुरु.txt",
+      "bytes": 7635,
+      "sha256": "42ba89f0cb3207df44e5f0365753f942ba54cec8714ea4a69b9803ffc1a865de"
+    },
+    {
+      "path": "data/predictions-2026-10-14/transit/चंद्र.txt",
+      "bytes": 5878,
+      "sha256": "31eca1959d728016fd5ea572dc1a01259b0231e49afcd37b04efd6101b90d2b7"
+    },
+    {
+      "path": "data/predictions-2026-10-14/transit/बुध.txt",
+      "bytes": 7109,
+      "sha256": "53abf4c44f84b7329be980f17c3c6fb470fd2475582d10db99aeed9e6df60545"
+    },
+    {
+      "path": "data/predictions-2026-10-14/transit/मंगळ.txt",
+      "bytes": 7720,
+      "sha256": "7b5e38f8c28fa80f1a54c654823a21552c2ba2759e010b5b936654d27ffb72c2"
+    },
+    {
+      "path": "data/predictions-2026-10-14/transit/राहू.txt",
+      "bytes": 6926,
+      "sha256": "e77f7c2e694ac8b33b457736061842d5b88b8fb7e97efceb94b4fb09d8979334"
+    },
+    {
+      "path": "data/predictions-2026-10-14/transit/शनि.txt",
+      "bytes": 15520,
+      "sha256": "a1f484e6d477a10b19bfafbec427c8828adca340bfd50372033dfcf47e02b5ca"
+    },
+    {
+      "path": "data/predictions-2026-10-14/transit/शुक्र.txt",
+      "bytes": 7286,
+      "sha256": "6865f6438a0813993137da543a9296d384c0365df4f1a02604bfd7cff746be04"
+    },
+    {
+      "path": "data/predictions-2026-10-14/transit/सूर्य.txt",
+      "bytes": 7750,
+      "sha256": "56f9489e8a4dbc020783fff906161d506a3a057026ab28b2422dd6deaa36baf8"
+    },
+    {
+      "path": "data/profession-rules.json",
+      "bytes": 165116,
+      "sha256": "7e11e0d66e01d6f783a6637006ee5e4d14319e22bd3bb5abf9a17d23d7a2eacf"
+    },
+    {
+      "path": "data/resources/KP Gems stone.docx",
+      "bytes": 17922,
+      "sha256": "02c38799b92e529b07d25dedd1a28b647edbef098cfb2b433655866e85e09c7b"
+    },
+    {
+      "path": "data/resources/KP Horary Que 4 fold.docx",
+      "bytes": 17730,
+      "sha256": "1be14817de273ee7d823e6a6853153e20cfd42d4da09fb801646504a35f503b0"
+    },
+    {
+      "path": "data/resources/KP Horary Que 6 Fold.docx",
+      "bytes": 20558,
+      "sha256": "4c218a0dc44d54c927fadd32573158b6e893bd0d7cd67e7b350dbec201a73e86"
+    },
+    {
+      "path": "data/resources/KP Numbers 1 to 249.docx",
+      "bytes": 34012,
+      "sha256": "453bfba4d2c984538ce3394f82118dfffa2b3401cdc00e90166d326127b6189f"
+    },
+    {
+      "path": "data/resources/काल.docx",
+      "bytes": 388723,
+      "sha256": "322ffa4d2714e40196a7d76c1d4e16e5a819d1a93f7c81ce04af968817504d2f"
+    },
+    {
+      "path": "vendor/ephemeris/original-kp-ayanamsha.js",
+      "bytes": 5714,
+      "sha256": "217909ed5c32e29be92105eff365d08b87d305383a551a24c6af5350a605aecc"
+    },
+    {
+      "path": "vendor/houses/ishta-rounding.js",
+      "bytes": 569,
+      "sha256": "7d5e44bd8ca4e1dfb434305c75f69358452439b79e02423675a72c0a835d8125"
+    },
+    {
+      "path": "vendor/houses/source/Raphel Placidus_User_ST_20_to_29N.xlsx",
+      "bytes": 186031,
+      "sha256": "0fd87c21cf2cd5a2875ddbba07a213c2b16e07e9878f55d747c3ace9e451f444"
+    },
+    {
+      "path": "vendor/houses/source/Raphel Placidus_User_ST_40_to_49N.xlsx",
+      "bytes": 186188,
+      "sha256": "ef7ddb6b5c0645a1c43d2b94ce181d65ee6348f10807931aa6d2cff35c7b0bfd"
+    },
+    {
+      "path": "vendor/houses/source/Raphel Placidus_User_ST_50_to_59N.xlsx",
+      "bytes": 185375,
+      "sha256": "151b37280d5827ce42ea6a8e2c3803d48660c412ce73fac2b77d74f6c8558132"
+    },
+    {
+      "path": "vendor/houses/source/Raphel Placidus_User_ST_60_to_60N.xlsx",
+      "bytes": 27218,
+      "sha256": "50a97b5c6f87d0e01f1ebe8c3a3097ba6cb72c18df946c6469ad041d8a8e2c23"
+    },
+    {
+      "path": "vendor/houses/source/Raphel_Placidus_User_ST_00_to_09N.xlsx",
+      "bytes": 186215,
+      "sha256": "a91ecac362b029f5c2a12a1f31796e451e5cc70da3952e900ca12399230f986c"
+    },
+    {
+      "path": "vendor/houses/source/Raphel_Placidus_User_ST_10_to_19N.xlsx",
+      "bytes": 184980,
+      "sha256": "d706c241e94cd338586c01cd4726e2f7cb317b81146378b6d1745a78a7e11051"
+    },
+    {
+      "path": "vendor/houses/source/Raphel_Placidus_User_ST_30_to_39N.xlsx",
+      "bytes": 185998,
+      "sha256": "2f8d328d754db9696dc2ee3d3ab65cb41409f53b29cd911a609210d40ecf9f7a"
+    },
+    {
+      "path": "vendor/houses/source/Swiss_Placidus_User_ST_00_to_09N.xlsx",
+      "bytes": 464898,
+      "sha256": "e31bcb411bfd24cc9138a53554145fdee7ab18935ba61cfbf8b1810bde20306d"
+    },
+    {
+      "path": "vendor/houses/source/Swiss_Placidus_User_ST_10_to_19N.xlsx",
+      "bytes": 464943,
+      "sha256": "46ee1f101d3378fcfca09b5a1778c4938fd4de434fabfbe000a4158353fb5948"
+    },
+    {
+      "path": "vendor/houses/source/Swiss_Placidus_User_ST_20_to_29N.xlsx",
+      "bytes": 465354,
+      "sha256": "092f2bd2fa6a8090522dd40a4e5531b0bde96e297552def01abf384c19dc1ac4"
+    },
+    {
+      "path": "vendor/houses/source/Swiss_Placidus_User_ST_30_to_39N.xlsx",
+      "bytes": 465242,
+      "sha256": "9ccd79c29af668e20611cf9d78c61a4834230af8cb42863e73508f6372cec80d"
+    },
+    {
+      "path": "vendor/houses/source/Swiss_Placidus_User_ST_40_to_49N.xlsx",
+      "bytes": 464333,
+      "sha256": "13672b8bdffafa0792a8561c104785e2d1e8ce66148e728f2c90bb2378d525b6"
+    },
+    {
+      "path": "vendor/houses/source/Swiss_Placidus_User_ST_50_to_59N.xlsx",
+      "bytes": 463002,
+      "sha256": "a4c5abaa41425646006e615aaaa002898181f4c6214889e027690e951844ca3c"
+    },
+    {
+      "path": "vendor/houses/source/Swiss_Placidus_User_ST_60_to_60N.xlsx",
+      "bytes": 48961,
+      "sha256": "0c27453edfee0a3b0973bf97b5370f2e059132e91739421d0aec3ea0e58d4d85"
+    },
+    {
+      "path": "vendor/predictions/dasha-gemstone-workspaces.js",
+      "bytes": 38987,
+      "sha256": "87bba1586e94e964a98531c371b4b2304f00ade4e3b3a63694b05a72335db8ab"
+    },
+    {
+      "path": "vendor/predictions/gemstone-document.js",
+      "bytes": 1733,
+      "sha256": "e4c18aa0347557dfef73c4a6aab2f18ccc24bfe11f41a6df84de1a277481e995"
+    },
+    {
+      "path": "vendor/predictions/horary-result-sheet.js",
+      "bytes": 10675,
+      "sha256": "ae4f1cfa51907f7c0cd08e011e3db00b788e88685cda94283c52b4e5f91ee775"
+    },
+    {
+      "path": "vendor/predictions/numerology-data.json",
+      "bytes": 87900,
+      "sha256": "1ba5d764de2972990ec082c3154ce7c228bda704676cbb8342fa48c352f45741"
+    },
+    {
+      "path": "vendor/predictions/numerology.js",
+      "bytes": 1788,
+      "sha256": "03db5b4b8eccad3ace036085f9206c8fcf50653e4fbcc0af90d325023f0b21df"
+    },
+    {
+      "path": "vendor/predictions/personal-predictions.js",
+      "bytes": 18626,
+      "sha256": "dd57d6905ff62050a6015ee860f8ca955482808466ef57aa095c0a9184e443cd"
+    },
+    {
+      "path": "vendor/predictions/source-manifest.json",
+      "bytes": 16914,
+      "sha256": "ef9c9e70e90b138f1d6b1ddf7bb4c78c10a563604695bd814593261ba37c4ee2"
+    },
+    {
+      "path": "vendor/predictions/supplied-content.js",
+      "bytes": 8326,
+      "sha256": "97373597f67381e292840c1f095ef5b25b1be4407efbb1190c6299d85b5654c6"
+    },
+    {
+      "path": "vendor/predictions/supplied-content.json",
+      "bytes": 1696246,
+      "sha256": "280e1bbb2e650dc8550632fa2bb58996d96eef2b0421cc4c4fb147478c6e1563"
+    },
+    {
+      "path": "vendor/resources/additional-documents.js",
+      "bytes": 404,
+      "sha256": "966e98e7c0d596bf88148060cfa0fe8ad21e34971aca3142691b372d79e6b68e"
+    },
+    {
+      "path": "vendor/resources/additional-documents.json",
+      "bytes": 60686,
+      "sha256": "7a0403b3dfa4da441938bf2966cf764c6e286ca73277f18cbf8934ad42b8e648"
+    },
+    {
+      "path": "vendor/resources/kaal-resources.js",
+      "bytes": 582,
+      "sha256": "4df55e3ae3f68dfffe847ae23a25e126ee385ffce3babaf5e1c0f5ce8011b4e7"
+    },
+    {
+      "path": "vendor/resources/kaal-topics.json",
+      "bytes": 556349,
+      "sha256": "d1ba5201312ced9eccc6eb834619c40ee34043197595f56fb35b0647b2f25b82"
+    },
+    {
+      "path": "vendor/resources/resources-notes.js",
+      "bytes": 9296,
+      "sha256": "4c30de1d32e6e39e243e3ce826941078fc20a20a61dcfafda1c48d0788e6361c"
+    }
+  ]
+}

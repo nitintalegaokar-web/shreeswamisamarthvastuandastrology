@@ -4,7 +4,7 @@
   const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const read=x=>String(x||'').replace(/\\n/g,'\n');
   const records=JSON.parse($('kp-personal-prediction-rules').textContent).entries;
-  const titles={analysis:'Kundali Analysis','house-results':'House Results','general-predictions':'General Predictions',events:'Events','dasha-results':'Dasha Results','mahadasha-remedies':'Remedies',gemstones:'Gemstone Guidance','yoga-results':'Conjunction Results','transit-results':'Transit Results','outer-references':'Outer Planet References'};
+  const titles={analysis:'Kundali Analysis','house-results':'House Results','general-predictions':'General Predictions',events:'Events','dasha-results':'Dasha Results','mahadasha-remedies':'Remedies',gemstones:'Gemstone Guidance','yoga-results':'Conjunction Results','transit-results':'Transit Results','numerology':'Numerology'};
   const names={Su:'Sun',Mo:'Moon',Ma:'Mars',Me:'Mercury',Ju:'Jupiter',Ve:'Venus',Sa:'Saturn',Ra:'Rahu',Ke:'Ketu'};
   let active='analysis',page=0,initialized=false,houseCusp=1;const roman=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
   const isActive=()=>active!=='analysis';
@@ -53,8 +53,9 @@
   function chooseEventPeriod(level){const indices={md:Number(val('pred-event-md')),ad:Number(val('pred-event-ad')),pd:Number(val('pred-event-pd'))};if(level==='md'){indices.ad=0;indices.pd=0;}if(level==='ad')indices.pd=0;eventSelection=indices;page=0;refresh();}
 
   function matchRules(category,model=window.currentKPModel,instant=new Date()){
+    if(category==='numerology'&&window.KPNumerology)return window.KPNumerology.match();
     if(!model?.ready||model.planets?.length!==9||model.houses?.length!==12)return {ready:false,reason:model?.reason||'Complete the native kundali to see personal results.',rows:[]};
-    if(['yoga-results','transit-results','outer-references'].includes(category)&&window.KPSuppliedPredictions)return window.KPSuppliedPredictions.match(category,model,instant);
+    if(['yoga-results','transit-results'].includes(category)&&window.KPSuppliedPredictions)return window.KPSuppliedPredictions.match(category,model,instant);
     const rows=[],add=(r,proof,title='',text=r.value)=>rows.push({id:r.id,key:r.key,title,proof,text:read(text),status:'matched'});
     if(category==='house-results'){
       for(const r of records.filter(r=>r.categoryId===category)){
@@ -101,7 +102,7 @@
       return {ready:true,rows:window.KPSuppliedPredictions?.merge(rows,category,model,instant,d.periods)||rows,periods:d.periods,date:d.date,time:d.time};
     }else if(category==='gemstones'){
       const d=window.KPGemstones.getData();if(!d.ready)return {ready:false,reason:d.reason,rows:[]};
-      for(const r of d.results.filter(r=>r.qualifies))rows.push({id:'gem-'+r.id,title:names[r.id]+' · '+r.stone,text:r.stone,proof:d.mode==='vedic'?r.ownership.map(h=>({1:'Lagnesh',5:'Panchamesh',11:'Labhesh'})[h]).join(' · '):'Priority '+r.priority+' · '+r.score+'/'+d.required.length+' event houses',status:'matched'});
+      for(const r of d.results.filter(r=>r.qualifies))rows.push({id:'gem-'+r.id,title:names[r.id]+' · '+r.stone,text:r.stone,proof:d.mode==='vedic'?r.ownership.map(h=>({1:'Lagnesh',5:'Panchamesh',11:'Labhesh'})[h]).join(' · '):(d.proof||'Priority '+r.priority+' · '+r.score+'/'+d.required.length+' event houses'),status:'matched'});
     }
     return {ready:true,rows:window.KPSuppliedPredictions?.merge(rows,category,model,instant)||rows};
   }

@@ -10,6 +10,11 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-feature-updates-script', 'vendor/predictions/dasha-gemstone-workspaces.js'],
+  ['script', 'kp-gemstone-document', 'vendor/predictions/gemstone-document.js'],
+  ['script', 'kp-horary-result-sheet', 'vendor/predictions/horary-result-sheet.js'],
+  ['script', 'kp-additional-documents', 'vendor/resources/additional-documents.js'],
+  ['script', 'kp-resources-notes-script', 'vendor/resources/resources-notes.js'],
   ['script', 'kp-personal-predictions-script', 'vendor/predictions/personal-predictions.js'],
   ['script', 'kp-ishta-rounding', 'vendor/houses/ishta-rounding.js'],
   ['script', 'kp-uploaded-house-worksheet', 'vendor/houses/worksheet.js'],
@@ -35,6 +40,8 @@ const assets = [
   ['style', 'kp-handy-transits-style', 'vendor/interface/handy-transits.css'],
   ['script', 'kp-handy-transits-script', 'vendor/interface/handy-transits.js'],
   ['script', 'kp-supplied-predictions', 'vendor/predictions/supplied-content.js'],
+  ['script', 'kp-numerology', 'vendor/predictions/numerology.js'],
+  ['script', 'kp-kaal-resources', 'vendor/resources/kaal-resources.js'],
 ];
 
 let html = fs.readFileSync(target, 'utf8');
@@ -47,6 +54,27 @@ if (fs.existsSync(predictionCatalogue)) {
   else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+block+'\n'+html.slice(at);}
 }
 
+const numerologyDataPath=path.join(root,'vendor/predictions/numerology-data.json');
+if(fs.existsSync(numerologyDataPath)) {
+ const data=JSON.stringify(JSON.parse(fs.readFileSync(numerologyDataPath,'utf8'))).replaceAll('</','<\\/');
+ const block='<script id="kp-numerology-data" type="application/json">'+data+'</script>';
+ const expression=/<script id="kp-numerology-data"[^>]*>[\s\S]*?<\/script>/;
+ if(expression.test(html))html=html.replace(expression,()=>block);
+ else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+block+'\n'+html.slice(at);}
+}
+const kaalDataPath=path.join(root,'vendor/resources/kaal-topics.json');
+if(fs.existsSync(kaalDataPath)) {
+ const data=JSON.stringify(JSON.parse(fs.readFileSync(kaalDataPath,'utf8'))).replaceAll('</','<\\/');
+ const block='<script id="kp-kaal-resource-data" type="application/json">'+data+'</script>';
+ const expression=/<script id="kp-kaal-resource-data"[^>]*>[\s\S]*?<\/script>/;
+ if(expression.test(html))html=html.replace(expression,()=>block);
+ else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+block+'\n'+html.slice(at);}
+}
+const additionalPath=path.join(root,'vendor/resources/additional-documents.json');
+const additional=JSON.stringify(JSON.parse(fs.readFileSync(additionalPath,'utf8'))).replaceAll('</','<\\/');
+const additionalBlock='<script id="kp-additional-document-data" type="application/json">'+additional+'</script>';
+if(/<script id="kp-additional-document-data"[^>]*>[\s\S]*?<\/script>/.test(html))html=html.replace(/<script id="kp-additional-document-data"[^>]*>[\s\S]*?<\/script>/,()=>additionalBlock);
+else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+additionalBlock+'\n'+html.slice(at);}
 for (const [tag, id, relative] of assets) {
   const body = fs.readFileSync(path.join(root, relative), 'utf8').trimEnd();
   const closing = `</${tag}>`;

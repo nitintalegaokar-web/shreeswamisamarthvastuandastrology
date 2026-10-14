@@ -6,7 +6,7 @@ const catalogue=JSON.parse(document.getElementById('kp-supplied-prediction-data'
 const groups=new Map(),names={Su:'Sun',Mo:'Moon',Ma:'Mars',Me:'Mercury',Ju:'Jupiter',Ve:'Venus',Sa:'Saturn',Ra:'Rahu',Ke:'Ketu',Ur:'Uranus',Ne:'Neptune',Pl:'Pluto'};
 const classical=['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke'];
 for(const row of catalogue.records){if(row.kind==='yoga'&&row.mappingStatus==='review')continue;const key=row.kind+'|'+row.key;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(row);}
-const titles={'yoga-results':['Conjunction Results','युती फल'],'transit-results':['Transit Results','गोचर फल'],'outer-references':['Outer Planet References','बाह्य ग्रह संदर्भ']};
+const titles={'yoga-results':['Conjunction Results','युती फल'],'transit-results':['Transit Results','गोचर फल'],'numerology':['Numerology','अंकशास्त्र']};
 function title(category){const pair=titles[category];if(!pair)return '';return language()==='marathi'?pair[1]:language()==='bilingual'?pair.join(' · '):pair[0];}
 function language(){return window.KPPreferences?.get?.().language||'english';}
 function readable(text){return String(text||'').replace(/\\n/g,'\n').replace(/^[ \t]*#{1,6}[ \t]*/gm,'').replace(/\*\*/g,'').replace(/^\s*[*_-]{3,}\s*$/gm,'').trim();}
