@@ -1,3 +1,15 @@
+## Raphael rounding from the supplied reference image · 14 October 2026
+
+Changed only Ishtabhav rounding from the older 50-second threshold to nearest
+whole arcminute, with 30 seconds rounding upward. This implements the latest
+reference: 45′19″ → 45′ and 43′49″ → 44′. The rounded minutes feed the final cusp
+subtraction. ST, latitude selection, table values and ayanamsha are unchanged.
+
+For 13° N, ST 14:13:47 and 22:48:18 ayanamsha, the six selected bhavas have
+Ishtabhav minutes 45, 45, 45, 44, 45, 45. Final absolute nirayan values are
+192:56:42, 220:56:42, 246:56:42, 273:34:42, 306:56:42 and 340:56:42.
+Only the two Raphael rounding/worksheet tests were run; both PASS.
+
 ## Original KP ayanamsha tables · 14 October 2026
 
 Replaced the old annual interpolation with exact lookup of the user-supplied

@@ -34,7 +34,7 @@ def reference(latitude, time, ayan, columns="numeric", round_ishta=True):
             small=mix(pool[a][low][i],pool[b][low][i],latitude-a)
             large=mix(pool[a][high][i],pool[b][high][i],latitude-a)
             arcseconds=((large-small+180)%360-180)*f*3600
-            minutes=math.floor(abs(arcseconds)/60)+(1 if abs(arcseconds)%60>=50-1e-8 else 0)
+            minutes=math.floor(abs(arcseconds)/60)+(1 if abs(arcseconds)%60>=30-1e-8 else 0)
             values.append((small+(-minutes if arcseconds<0 else minutes)/60)%360)
     else:
         values = [mix(mix(pool[a][low][i], pool[a][high][i], f), mix(pool[b][low][i], pool[b][high][i], f), latitude-a) for i in range(6)]

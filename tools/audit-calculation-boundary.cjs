@@ -26,6 +26,14 @@ const approvedFileBaselines = requestedBaseline ? {} : {
   'vendor/houses/worksheet.js': approvedIshtaBaseline,
   'vendor/houses/ishta-rounding.js': approvedIshtaBaseline,
 };
+// User's latest 14 October reference image replaces only Ishta rounding:
+// 45′19″ => 45′; 43′49″ => 44′ (half-minute, 30-second threshold).
+const imageRoundingFiles = {
+  'vendor/houses/ishta-rounding.js': '7d5e44bd8ca4e1dfb434305c75f69358452439b79e02423675a72c0a835d8125',
+  'vendor/houses/worksheet.js': 'cf0d976b75f3bbb9e1b2f349b0c4491c8052c88c9d600343a70923b1a6aff818',
+  'vendor/houses/README.md': '14cb2ce11aec0923664aa43d5ac22f7dbd98090a3805eb01f220710fac3dfe96',
+};
+const imageRoundingScripts = {'kp-ishta-rounding':'vendor/houses/ishta-rounding.js','kp-uploaded-house-worksheet':'vendor/houses/worksheet.js'};
 const protectedScripts = [
   'kp-legacy-native-calculation-script',
   'kp-ishta-rounding',
@@ -93,6 +101,12 @@ for (const id of protectedScripts) {
     if (digest(upload) !== '95e0c79979bb67f06d8f31382190e024ee8b67796650fefdd6bd43ebc4be4782') failures.push('Original KP upload differs from approved source.');
     continue;
   }
+  if (!requestedBaseline && imageRoundingScripts[id]) {
+    const relative = imageRoundingScripts[id], expected = fs.readFileSync(path.join(root,relative),'utf8');
+    if (digest(expected) !== imageRoundingFiles[relative]) failures.push(`${relative}: differs from approved reference-image rounding.`);
+    if (scriptBody(currentHtml,id).trim() !== expected.trim()) failures.push(`${id}: embedded rounding module is out of sync.`);
+    continue;
+  }
   const expectedCommit = approvedScriptBaselines[id] || baseline;
   const expected = scriptBody(committedHtml(expectedCommit), id);
   const actual = scriptBody(currentHtml, id);
@@ -104,6 +118,10 @@ for (const protectedPath of protectedPaths) {
   const entries = git('ls-tree', '-r', '--name-only', treeBaseline, '--', protectedPath).trim().split('\n').filter(Boolean);
   if (!entries.length) failures.push(`${protectedPath}: missing from baseline`);
   for (const relative of entries) {
+    if (!requestedBaseline && imageRoundingFiles[relative]) {
+      if (digest(fs.readFileSync(path.join(root,relative),'utf8')) !== imageRoundingFiles[relative]) failures.push(`${relative}: differs from approved reference-image rounding.`);
+      continue;
+    }
     const expectedCommit = approvedFileBaselines[relative] || baseline;
     const expected = atCommit(expectedCommit, relative);
     const current = path.join(root, relative);
@@ -121,6 +139,6 @@ if (failures.length) {
   for (const failure of failures) console.error(`- ${failure}`);
   process.exitCode = 1;
 } else {
-  const scope = requestedBaseline ? baseline : `${baseline}, approved 10/6 change ${approvedTenSixBaseline}, approved Ishta change ${approvedIshtaBaseline}, and user-supplied original KP Tables IV-A/IV-B (14 October 2026)`;
+  const scope = requestedBaseline ? baseline : `${baseline}, approved 10/6 change ${approvedTenSixBaseline}, approved Ishta change ${approvedIshtaBaseline}, user-supplied original KP Tables IV-A/IV-B, and latest Raphael reference-image half-minute rounding (14 October 2026)`;
   console.log(`PASS: ${protectedScripts.length} calculation blocks and protected source files match ${scope}.`);
 }

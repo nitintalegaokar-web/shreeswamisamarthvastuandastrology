@@ -1,9 +1,9 @@
 # Uploaded Bhavsadhan house tables
 
-The owner's 13 October 2026 Ishta Farak rule supersedes the earlier unrounded
+The owner's 14 October 2026 reference image supersedes the previous 50-second rule and unrounded
 interpolation described below: calculate the arcminute fraction from the actual
-ST bracket, keep the completed arcminutes when the remainder is below 50
-arcseconds, and add one arcminute at 50 arcseconds or above. Apply those rounded
+ST bracket, keep the completed arcminutes when the remainder is below 30
+arcseconds, and add one arcminute at 30 arcseconds or above. Apply those rounded
 arcminutes to the smaller source cusp before subtracting KP ayanamsha once.
 For latitude 13° N and ST 14:13:47 the six differences are 45′, 45′, 45′,
 43′, 45′, 45′. The Excel rows themselves and the generic table API are unchanged;

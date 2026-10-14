@@ -18,7 +18,7 @@ function lookup(latitude,st,ayan=0,columns='printed'){
  const ishtaMinutes=b.small.map((small,i)=>KPIshtaFarak.roundArcseconds(delta(small,b.large[i])*b.timeFraction*3600));
  const tropicalCusps=Array(12);
  for(const [i,h] of H.entries()){const tropical=norm(b.small[i]+ishtaMinutes[i]/60);tropicalCusps[h-1]=tropical;tropicalCusps[(h+5)%12]=norm(tropical+180);}
- return {...data,unroundedTropicalCusps:data.tropicalCusps,tropicalCusps,cusps:tropicalCusps.map(x=>norm(x-ayan)),ishtaMinutes,ishtaRounding:'seconds-50',latitude,tableLatitude,latitudeRule:'minutes-half-up'};
+ return {...data,unroundedTropicalCusps:data.tropicalCusps,tropicalCusps,cusps:tropicalCusps.map(x=>norm(x-ayan)),ishtaMinutes,ishtaRounding:'minutes-half-up',latitude,tableLatitude,latitudeRule:'minutes-half-up'};
 }
 function sourceRows(data){
  const b=data?.brackets,automatic=enabled(),printed=automatic&&!!b,mr=window.KPPreferences?.get().language==='marathi';

@@ -10,6 +10,8 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-ishta-rounding', 'vendor/houses/ishta-rounding.js'],
+  ['script', 'kp-uploaded-house-worksheet', 'vendor/houses/worksheet.js'],
   ['script', 'kp-transit-selection', 'vendor/interface/transit-selection.js'],
   ['style', 'kp-transit-dark-labels', 'vendor/interface/transit-colours.css'],
   ['style', 'kp-compact-transit-panchang', 'vendor/interface/transit-panchang-layout.css'],
