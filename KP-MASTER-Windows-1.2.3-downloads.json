@@ -1,0 +1,37 @@
+{
+  "version": "1.2.3",
+  "platform": "Windows 10/11 x64",
+  "packagingOnly": true,
+  "downloads": [
+    {
+      "edition": "owner",
+      "version": "1.2.3",
+      "filename": "KP-Master-Owner-Setup-1.2.3-x64.exe",
+      "bytes": 103441613,
+      "sha256": "c53f80ef4b5b6478e20c0195965b0f12ae38c3631bd8a622cb61fa25364f5d95",
+      "commit": "3f54bbfd82775abcff06fe5011aae425b3025892",
+      "sourceCommit": "5a799e242e843fe5f37de67af42d10f1c569e0df",
+      "url": "https://raw.githubusercontent.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/3f54bbfd82775abcff06fe5011aae425b3025892/KP-Master-Owner-Setup-1.2.3-x64.exe"
+    },
+    {
+      "edition": "customer",
+      "version": "1.2.3",
+      "filename": "KP-Master-Setup-1.2.3-x64.exe",
+      "bytes": 103460671,
+      "sha256": "a9235893a503eadbb02587c309669cb26d89af33121cc61b20baebe81796030b",
+      "commit": "b8d1b74ceebc78928b814832eb6e308e10e6509a",
+      "sourceCommit": "5a799e242e843fe5f37de67af42d10f1c569e0df",
+      "url": "https://raw.githubusercontent.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/b8d1b74ceebc78928b814832eb6e308e10e6509a/KP-Master-Setup-1.2.3-x64.exe"
+    },
+    {
+      "edition": "activation",
+      "version": "1.2.3",
+      "filename": "KP-Master-Owner-Activation-Setup-1.2.3-x64.exe",
+      "bytes": 91826652,
+      "sha256": "3aeb5c3c44e4b2ad13a5de293e68125557174bf6fcbeb4fde96b869c517ce809",
+      "commit": "d1c8c9257db156192540aac753f8c57f852797ff",
+      "sourceCommit": "5a799e242e843fe5f37de67af42d10f1c569e0df",
+      "url": "https://raw.githubusercontent.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/d1c8c9257db156192540aac753f8c57f852797ff/KP-Master-Owner-Activation-Setup-1.2.3-x64.exe"
+    }
+  ]
+}
