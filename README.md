@@ -199,3 +199,16 @@ preserved without applying ayanamsha twice.
 Run `PYTHONPATH=tests python3 -m unittest -v test_original_kp_ayanamsha` to verify
 every valid calendar date against the source, approved DMS references and saved
 chart migration.
+
+### Supplied prediction content (14 October 2026)
+
+All 82 source texts are retained in `data/predictions-2026-10-14`, grouped so that
+repeated planet filenames do not overwrite Dasha, transit or natal meanings.
+`vendor/predictions/source-manifest.json` records the sources;
+`supplied-content.json` records parsed text, provenance and source conflicts.
+Run `python3 tools/import-supplied-predictions.py` then
+`node tools/sync-embedded-ui.cjs` to rebuild the embedded prediction content.
+Run `PYTHONPATH=tests python3 -m unittest -v test_supplied_prediction_content`
+for source integrity, calculation-byte preservation, interpretation matching
+and A4 prediction preview checks. New transit interpretations use the existing
+selected Transit Chart's bhava groups. Outer planets remain reference text.

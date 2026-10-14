@@ -10,6 +10,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-personal-predictions-script', 'vendor/predictions/personal-predictions.js'],
   ['script', 'kp-ishta-rounding', 'vendor/houses/ishta-rounding.js'],
   ['script', 'kp-uploaded-house-worksheet', 'vendor/houses/worksheet.js'],
   ['script', 'kp-transit-selection', 'vendor/interface/transit-selection.js'],
@@ -33,9 +34,19 @@ const assets = [
   ['script', 'kp-calculation-source-guard', 'vendor/interface/calculation-source-guard.js'],
   ['style', 'kp-handy-transits-style', 'vendor/interface/handy-transits.css'],
   ['script', 'kp-handy-transits-script', 'vendor/interface/handy-transits.js'],
+  ['script', 'kp-supplied-predictions', 'vendor/predictions/supplied-content.js'],
 ];
 
 let html = fs.readFileSync(target, 'utf8');
+const predictionCatalogue = path.join(root,'vendor/predictions/supplied-content.json');
+if (fs.existsSync(predictionCatalogue)) {
+  const data = JSON.stringify(JSON.parse(fs.readFileSync(predictionCatalogue,'utf8'))).replaceAll('</','<\\/');
+  const block = '<script id="kp-supplied-prediction-data" type="application/json">'+data+'</script>';
+  const expression = /<script id="kp-supplied-prediction-data"[^>]*>[\s\S]*?<\/script>/;
+  if (expression.test(html)) html=html.replace(expression,()=>block);
+  else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+block+'\n'+html.slice(at);}
+}
+
 for (const [tag, id, relative] of assets) {
   const body = fs.readFileSync(path.join(root, relative), 'utf8').trimEnd();
   const closing = `</${tag}>`;

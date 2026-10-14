@@ -23,13 +23,13 @@ class PersonalPredictionTests(unittest.TestCase):
     def tearDown(self):
         self.context.close();self.assertEqual(self.errors,[])
     def test_prediction_sections_never_browse_common_source_records(self):
-        self.page.locator('#quick-prediction').click();expect(self.page.locator('#pred-subtabs button')).to_have_count(7);expect(self.page.locator('#pred-tab-dasha-short')).to_have_count(0);expect(self.page.locator('#pred-tab-all,#pred-library-panel,#pred-reference-view')).to_have_count(0)
+        self.page.locator('#quick-prediction').click();expect(self.page.locator('#pred-subtabs button')).to_have_count(10);expect(self.page.locator('#pred-tab-dasha-short')).to_have_count(0);expect(self.page.locator('#pred-tab-all,#pred-library-panel,#pred-reference-view')).to_have_count(0)
         for category in ['house-results','general-predictions','events','dasha-results','mahadasha-remedies','gemstones']:
             self.page.locator('#pred-tab-'+category).click();d=self.page.evaluate('KPPersonalPredictions.getData()');self.assertTrue(d['ready']);self.assertTrue(all(r['status']=='matched' and r['proof'] for r in d['rows']));report=self.page.evaluate('KPPersonalPredictions.snapshot()');self.assertNotIn('All source entries',report);self.assertNotIn('Reference sources',report);self.assertNotIn('data-reference-entry',report)
         self.assertEqual(self.page.evaluate('typeof KPPredictionLibrary'),'undefined')
         result=self.page.evaluate('''()=>{const m=structuredClone(currentKPModel);m.ready=false;return ['house-results','general-predictions','events','dasha-short','dasha-results','mahadasha-remedies','gemstones'].map(c=>KPPersonalPredictions.matchRules(c,m));}''');self.assertTrue(all(not r['ready'] and not r['rows'] for r in result))
     def test_house_matching_rejects_ambiguous_groups_and_requires_every_house(self):
-        result=self.page.evaluate('''()=>{const decode=KPPersonalPredictions.decodeHouseGroup;const m=structuredClone(currentKPModel);m.fourfold.planets.forEach(r=>{r.A=[2,5];r.B=[];r.C=[];r.D=[];});const d=KPPersonalPredictions.matchRules('house-results',m);return {valid:decode('135810'),ambiguous:decode('12'),invalid:decode('22'),rows:d.rows};}''')
+        result=self.page.evaluate('''()=>{const decode=KPPersonalPredictions.decodeHouseGroup;const m=structuredClone(currentKPModel);m.fourfold.planets.forEach(r=>{r.A=[2,5];r.B=[];r.C=[];r.D=[];});const d=KPPersonalPredictions.matchRules('house-results',m);d.rows=d.rows.filter(r=>/^Bh(1[0-2]|[1-9])R/i.test(r.key));return {valid:decode('135810'),ambiguous:decode('12'),invalid:decode('22'),rows:d.rows};}''')
         self.assertEqual(result['valid'],[1,3,5,8,10]);self.assertIsNone(result['ambiguous']);self.assertIsNone(result['invalid']);self.assertTrue(result['rows']);self.assertTrue(all(set(self.page.evaluate(r'(k)=>KPPersonalPredictions.decodeHouseGroup(k.match(/R(\d+)$/i)[1])',r['key']))<={2,5} for r in result['rows']))
     def test_running_dba_uses_native_clock_and_exclusive_boundaries(self):
         expect(self.page.locator('nav [data-tab="dasha-fal"],#quick-dasha-fal')).to_have_count(0)
@@ -333,7 +333,7 @@ class PersonalPredictionTests(unittest.TestCase):
         for cusp in [1,4,9,10,12]:
             self.page.locator('#pred-house-cusp').select_option(str(cusp))
             d=self.page.evaluate('KPPersonalPredictions.getData()')
-            expected=self.page.evaluate('(c)=>KPPersonalPredictions.matchRules("house-results").rows.filter(r=>Number(/^Bh(1[0-2]|[1-9])R/i.exec(r.key)[1])===c).map(r=>r.id)',cusp)
+            expected=self.page.evaluate('(c)=>KPPersonalPredictions.matchRules("house-results").rows.filter(r=>Number(/^Bh(1[0-2]|[1-9])[RL]/i.exec(r.key)[1])===c).map(r=>r.id)',cusp)
             self.assertEqual([r['id'] for r in d['rows']],expected);self.assertEqual(d['cusp'],cusp)
         self.page.locator('#pred-house-cusp').select_option('10');d=self.page.evaluate('KPPersonalPredictions.getData()')
         with self.page.expect_popup() as opened:self.page.locator('#prediction-preview').click()

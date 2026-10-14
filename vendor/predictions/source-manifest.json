@@ -1,0 +1,494 @@
+[
+  {
+    "group": "nakshatra",
+    "name": "उत्तराभाद्रपदा",
+    "file_id": "file_0000000008c082089233330ab136a880",
+    "path": "data/predictions-2026-10-14/nakshatra/उत्तराभाद्रपदा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "रेवती",
+    "file_id": "file_00000000a04c8211acd7d04234cde34d",
+    "path": "data/predictions-2026-10-14/nakshatra/रेवती.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "पुनर्वसू",
+    "file_id": "file_00000000b7f08211bafc866a1d276192",
+    "path": "data/predictions-2026-10-14/nakshatra/पुनर्वसू.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "शतभिषा",
+    "file_id": "file_000000009ca48211b5bba7fe660f590d",
+    "path": "data/predictions-2026-10-14/nakshatra/शतभिषा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "धनिष्ठा",
+    "file_id": "file_0000000055f8821187a39f065b81eaea",
+    "path": "data/predictions-2026-10-14/nakshatra/धनिष्ठा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "श्रवण",
+    "file_id": "file_00000000cf108211b708980241cacd20",
+    "path": "data/predictions-2026-10-14/nakshatra/श्रवण.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "उत्तराषाढा",
+    "file_id": "file_0000000034f88211a99d3241aaf4cdae",
+    "path": "data/predictions-2026-10-14/nakshatra/उत्तराषाढा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "पूर्वाषाढा",
+    "file_id": "file_000000009d4082078870aef72f0387b2",
+    "path": "data/predictions-2026-10-14/nakshatra/पूर्वाषाढा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "ज्येष्ठा",
+    "file_id": "file_00000000e6808208a042ed51adc8c298",
+    "path": "data/predictions-2026-10-14/nakshatra/ज्येष्ठा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "पूर्वाभाद्रपदा",
+    "file_id": "file_000000002030820eb97ebe7693739b55",
+    "path": "data/predictions-2026-10-14/nakshatra/पूर्वाभाद्रपदा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "अनुराधा",
+    "file_id": "file_0000000080b48211b6e3f8ff72e6c94d",
+    "path": "data/predictions-2026-10-14/nakshatra/अनुराधा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "मूल",
+    "file_id": "file_00000000200481f782f0cacdea9cbb8b",
+    "path": "data/predictions-2026-10-14/nakshatra/मूल.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "स्वाती",
+    "file_id": "file_000000003f10821183ff81c8fa193737",
+    "path": "data/predictions-2026-10-14/nakshatra/स्वाती.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "चित्रा",
+    "file_id": "file_00000000a0c88211ab632289eeb0f56d",
+    "path": "data/predictions-2026-10-14/nakshatra/चित्रा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "हस्त",
+    "file_id": "file_00000000c74082089ca7355e679eb053",
+    "path": "data/predictions-2026-10-14/nakshatra/हस्त.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "विशाखा",
+    "file_id": "file_00000000dde08207b57a78f6736ae483",
+    "path": "data/predictions-2026-10-14/nakshatra/विशाखा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "उत्तर फाल्गुनी",
+    "file_id": "file_00000000df648208b758bbecba961b3d",
+    "path": "data/predictions-2026-10-14/nakshatra/उत्तर फाल्गुनी.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "पूर्वा फाल्गुनी",
+    "file_id": "file_00000000f3b8821191a6c8ddc31435de",
+    "path": "data/predictions-2026-10-14/nakshatra/पूर्वा फाल्गुनी.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "आश्‍लेषा",
+    "file_id": "file_00000000b4d88211a17c61bd4c49f256",
+    "path": "data/predictions-2026-10-14/nakshatra/आश्‍लेषा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "पुष्य",
+    "file_id": "file_00000000d23c82088a3cea8c25e62856",
+    "path": "data/predictions-2026-10-14/nakshatra/पुष्य.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "आर्द्रा",
+    "file_id": "file_0000000050448211afd7e85dee604764",
+    "path": "data/predictions-2026-10-14/nakshatra/आर्द्रा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "मृगशीर्षा",
+    "file_id": "file_00000000c6b4821194b89548e8283fc2",
+    "path": "data/predictions-2026-10-14/nakshatra/मृगशीर्षा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "मघा",
+    "file_id": "file_000000006d0881f48a8fc10684acd347",
+    "path": "data/predictions-2026-10-14/nakshatra/मघा.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "भरणी",
+    "file_id": "file_0000000038388211897ee2d55fba3795",
+    "path": "data/predictions-2026-10-14/nakshatra/भरणी.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "कृत्तिका",
+    "file_id": "file_00000000dcfc8211a649d6cb0c09e4c6",
+    "path": "data/predictions-2026-10-14/nakshatra/कृत्तिका.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "रोहिणी",
+    "file_id": "file_000000009d408206b3f0f4580735f578",
+    "path": "data/predictions-2026-10-14/nakshatra/रोहिणी.txt"
+  },
+  {
+    "group": "nakshatra",
+    "name": "अश्विनी",
+    "file_id": "file_00000000e78c8208b3d7f48a1e941d6f",
+    "path": "data/predictions-2026-10-14/nakshatra/अश्विनी.txt"
+  },
+  {
+    "group": "dasha",
+    "name": "बुध",
+    "file_id": "file_00000000c1f482118bcd57505ed413d9",
+    "path": "data/predictions-2026-10-14/dasha/बुध.txt"
+  },
+  {
+    "group": "dasha",
+    "name": "गुरू",
+    "file_id": "file_0000000013c08211802b6a6166bb9189",
+    "path": "data/predictions-2026-10-14/dasha/गुरू.txt"
+  },
+  {
+    "group": "dasha",
+    "name": "केतू",
+    "file_id": "file_00000000f29c8211b04e11746d1e826a",
+    "path": "data/predictions-2026-10-14/dasha/केतू.txt"
+  },
+  {
+    "group": "dasha",
+    "name": "शुक्र",
+    "file_id": "file_0000000002a482119e751796f233d8f5",
+    "path": "data/predictions-2026-10-14/dasha/शुक्र.txt"
+  },
+  {
+    "group": "dasha",
+    "name": "राहू",
+    "file_id": "file_00000000d8308211a3ef325c6e1fa69f",
+    "path": "data/predictions-2026-10-14/dasha/राहू.txt"
+  },
+  {
+    "group": "dasha",
+    "name": "शनि",
+    "file_id": "file_0000000095208211b244d4328854606e",
+    "path": "data/predictions-2026-10-14/dasha/शनि.txt"
+  },
+  {
+    "group": "dasha",
+    "name": "मंगळ",
+    "file_id": "file_0000000001b482118c859fcb88eb0887",
+    "path": "data/predictions-2026-10-14/dasha/मंगळ.txt"
+  },
+  {
+    "group": "dasha",
+    "name": "सूर्य",
+    "file_id": "file_000000008b00820882c9eac61ea1bb9a",
+    "path": "data/predictions-2026-10-14/dasha/सूर्य.txt"
+  },
+  {
+    "group": "dasha",
+    "name": "चंद्र",
+    "file_id": "file_000000002f90822fa6224b6df3ef4a1f",
+    "path": "data/predictions-2026-10-14/dasha/चंद्र.txt"
+  },
+  {
+    "group": "signs",
+    "name": "कर्क",
+    "file_id": "file_00000000354482119f016404b5af6147",
+    "path": "data/predictions-2026-10-14/signs/कर्क.txt"
+  },
+  {
+    "group": "signs",
+    "name": "वृषभ",
+    "file_id": "file_00000000a9588211adf6fca12ac2e4af",
+    "path": "data/predictions-2026-10-14/signs/वृषभ.txt"
+  },
+  {
+    "group": "signs",
+    "name": "सिंह",
+    "file_id": "file_000000009f9c8210992b550a5dba7df0",
+    "path": "data/predictions-2026-10-14/signs/सिंह.txt"
+  },
+  {
+    "group": "signs",
+    "name": "मेष",
+    "file_id": "file_000000006cc4820892729402c3b27ed0",
+    "path": "data/predictions-2026-10-14/signs/मेष.txt"
+  },
+  {
+    "group": "signs",
+    "name": "मिथुन",
+    "file_id": "file_0000000085808243bca668703f702866",
+    "path": "data/predictions-2026-10-14/signs/मिथुन.txt"
+  },
+  {
+    "group": "signs",
+    "name": "मकर",
+    "file_id": "file_0000000022e08211bc8e6c6e612d5b6b",
+    "path": "data/predictions-2026-10-14/signs/मकर.txt"
+  },
+  {
+    "group": "signs",
+    "name": "मीन",
+    "file_id": "file_000000006d4c82118e7c84ae5ae2e7c0",
+    "path": "data/predictions-2026-10-14/signs/मीन.txt"
+  },
+  {
+    "group": "signs",
+    "name": "कुंभ",
+    "file_id": "file_00000000cf9c82118943ca4ced0993a6",
+    "path": "data/predictions-2026-10-14/signs/कुंभ.txt"
+  },
+  {
+    "group": "signs",
+    "name": "कन्या",
+    "file_id": "file_0000000083e88211b8e45223726e60a2",
+    "path": "data/predictions-2026-10-14/signs/कन्या.txt"
+  },
+  {
+    "group": "signs",
+    "name": "तुला",
+    "file_id": "file_0000000002a48211acb286192ea7f657",
+    "path": "data/predictions-2026-10-14/signs/तुला.txt"
+  },
+  {
+    "group": "signs",
+    "name": "वृश्चिक",
+    "file_id": "file_00000000d14482119889efb3ac6157a8",
+    "path": "data/predictions-2026-10-14/signs/वृश्चिक.txt"
+  },
+  {
+    "group": "signs",
+    "name": "धनु",
+    "file_id": "file_0000000070908211aeb6cfdc5435b686",
+    "path": "data/predictions-2026-10-14/signs/धनु.txt"
+  },
+  {
+    "group": "transit",
+    "name": "शनि",
+    "file_id": "file_00000000780082119511afd049276c23",
+    "path": "data/predictions-2026-10-14/transit/शनि.txt"
+  },
+  {
+    "group": "transit",
+    "name": "राहू",
+    "file_id": "file_00000000c0808211b16210c5c5a60fd1",
+    "path": "data/predictions-2026-10-14/transit/राहू.txt"
+  },
+  {
+    "group": "transit",
+    "name": "सूर्य",
+    "file_id": "file_000000006d4881f496af6a4c988a6324",
+    "path": "data/predictions-2026-10-14/transit/सूर्य.txt"
+  },
+  {
+    "group": "transit",
+    "name": "मंगळ",
+    "file_id": "file_000000008ee48211835643e6590ba2c2",
+    "path": "data/predictions-2026-10-14/transit/मंगळ.txt"
+  },
+  {
+    "group": "transit",
+    "name": "शुक्र",
+    "file_id": "file_0000000096f48210ac1ebbd1f71eeff3",
+    "path": "data/predictions-2026-10-14/transit/शुक्र.txt"
+  },
+  {
+    "group": "transit",
+    "name": "बुध",
+    "file_id": "file_00000000ef208208ae20abe5f900c128",
+    "path": "data/predictions-2026-10-14/transit/बुध.txt"
+  },
+  {
+    "group": "transit",
+    "name": "केतू",
+    "file_id": "file_000000002bf48211ac0896712839b3d4",
+    "path": "data/predictions-2026-10-14/transit/केतू.txt"
+  },
+  {
+    "group": "transit",
+    "name": "चंद्र",
+    "file_id": "file_00000000e08c82119009dd1ee0cfe6ca",
+    "path": "data/predictions-2026-10-14/transit/चंद्र.txt"
+  },
+  {
+    "group": "transit",
+    "name": "गुरु",
+    "file_id": "file_00000000b0888211a053771ceabfa1f6",
+    "path": "data/predictions-2026-10-14/transit/गुरु.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "केतू",
+    "file_id": "file_00000000e9e8821190a2df3ccdfee812",
+    "path": "data/predictions-2026-10-14/planet-houses/केतू.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "शनी",
+    "file_id": "file_000000004258820894e30da1ee318db4",
+    "path": "data/predictions-2026-10-14/planet-houses/शनी.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "राहू",
+    "file_id": "file_000000001db4820893b45242d2396ef2",
+    "path": "data/predictions-2026-10-14/planet-houses/राहू.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "गुरु",
+    "file_id": "file_00000000ddcc8211a8e784254e26a17d",
+    "path": "data/predictions-2026-10-14/planet-houses/गुरु.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "बुध",
+    "file_id": "file_00000000d6f48211bd72252fe2cf3682",
+    "path": "data/predictions-2026-10-14/planet-houses/बुध.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "मंगळ",
+    "file_id": "file_00000000c58c821188a3397ae2918af6",
+    "path": "data/predictions-2026-10-14/planet-houses/मंगळ.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "शुक्र",
+    "file_id": "file_000000009174821180be5617b1f3a786",
+    "path": "data/predictions-2026-10-14/planet-houses/शुक्र.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "चंद्र",
+    "file_id": "file_000000008fc48211919142ab40d8c3ee",
+    "path": "data/predictions-2026-10-14/planet-houses/चंद्र.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "प्लूटो",
+    "file_id": "file_000000004d58821184516eafac48432e",
+    "path": "data/predictions-2026-10-14/planet-houses/प्लूटो.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "नेपच्यून",
+    "file_id": "file_00000000411082118fef623d51be47dc",
+    "path": "data/predictions-2026-10-14/planet-houses/नेपच्यून.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "सूर्य",
+    "file_id": "file_000000001bd881f498470df28d4ab9c9",
+    "path": "data/predictions-2026-10-14/planet-houses/सूर्य.txt"
+  },
+  {
+    "group": "planet-houses",
+    "name": "हर्षल",
+    "file_id": "file_0000000079f48211ac9cfed9caae8ac8",
+    "path": "data/predictions-2026-10-14/planet-houses/हर्षल.txt"
+  },
+  {
+    "group": "coded",
+    "name": "Bhav Fal",
+    "file_id": "file_00000000b31c821195ff5525494e6b52",
+    "path": "data/predictions-2026-10-14/coded/Bhav Fal.txt"
+  },
+  {
+    "group": "coded",
+    "name": "Y-Codes",
+    "file_id": "file_00000000c0d08211bc7aef1372c55ca1",
+    "path": "data/predictions-2026-10-14/coded/# 📌 Y‑Codes.txt"
+  },
+  {
+    "group": "coded",
+    "name": "बुधाचे 12 भावांतील परिणाम",
+    "file_id": "file_00000000eeac8211b6b31e6c723ae928",
+    "path": "data/predictions-2026-10-14/coded/बुधाचे 12 भावांतील परिणाम.txt"
+  },
+  {
+    "group": "coded",
+    "name": "केतूचे 12 भावांतील परिणाम",
+    "file_id": "file_0000000072ec82118fa55e50cc306574",
+    "path": "data/predictions-2026-10-14/coded/केतूचे 12 भावांतील परिणाम.txt"
+  },
+  {
+    "group": "coded",
+    "name": "नक्षत्र विभागीय शीर्षके",
+    "file_id": "file_00000000936082108ac92551e24ba73f",
+    "path": "data/predictions-2026-10-14/coded/# 🌙 नक्षत्र – विभागीय शीर्षके (Nak.txt"
+  },
+  {
+    "group": "coded",
+    "name": "मंगळाचे 12 भावांतील परिणाम",
+    "file_id": "file_00000000fb8c8211aa2017e4a6922458",
+    "path": "data/predictions-2026-10-14/coded/मंगळाचे 12 भावांतील परिणाम.txt"
+  },
+  {
+    "group": "coded",
+    "name": "चंद्राचे 12 भावांतील परिणाम",
+    "file_id": "file_000000000c3c8208b5aa8a3897ebdb79",
+    "path": "data/predictions-2026-10-14/coded/चंद्राचे 12 भावांतील प.txt"
+  },
+  {
+    "group": "coded",
+    "name": "सूर्याचे 12 भावांतील परिणाम",
+    "file_id": "file_00000000724882118a0bc9f4753a760a",
+    "path": "data/predictions-2026-10-14/coded/सूर्याचे 12 भावांतील प.txt"
+  },
+  {
+    "group": "coded",
+    "name": "चरण",
+    "file_id": "file_000000006eac8211940c5edf631b2384",
+    "path": "data/predictions-2026-10-14/coded/चरण.txt"
+  },
+  {
+    "group": "coded",
+    "name": "राहूचे 12 भावांतील परिणाम",
+    "file_id": "file_00000000fd208211a5ba91f88421703f",
+    "path": "data/predictions-2026-10-14/coded/राहूचे 12 भावांतील परिणाम.txt"
+  },
+  {
+    "group": "coded",
+    "name": "शुक्राचे 12 भावांतील परिणाम",
+    "file_id": "file_0000000055708211a75e3c8692a8f31f",
+    "path": "data/predictions-2026-10-14/coded/शुक्राचे 12 भावांतील परिणाम.txt"
+  },
+  {
+    "group": "coded",
+    "name": "शनीचे 12 भावांतील परिणाम",
+    "file_id": "file_00000000209082078f8bf19eee768cfb",
+    "path": "data/predictions-2026-10-14/coded/शनीचे 12 भावांतील परिणाम.txt"
+  },
+  {
+    "group": "coded",
+    "name": "गुरुचे 12 भावांतील परिणाम",
+    "file_id": "file_00000000ee808211b164eff2e1dc9d28",
+    "path": "data/predictions-2026-10-14/coded/गुरुचे 12 भावांतील परिणाम.txt"
+  }
+]

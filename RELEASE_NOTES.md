@@ -1,3 +1,36 @@
+## Supplied prediction content · 14 October 2026
+
+Used the user's uploaded, approved HTML as the exact calculation baseline.
+Imported all 82 supplied text files, preserving every source file and its SHA-256
+in separate folders for nakshatras, Dasha pairs, signs, transits, natal planet
+houses and coded interpretations. Parsed 1,658 text blocks; duplicate filenames
+and exact duplicate text retain their separate provenance.
+
+Prediction updates include 27 nakshatras, supplied pada/section descriptions,
+planet-in-house and planet-in-sign text, all 144 house-lord placements, 81 MD/AD
+pairs, 108 transit-house records and conjunction interpretations. New prediction
+sections show conjunction results, selected Transit Chart bhava interpretations
+and the three supplied outer-planet references. Existing KP house-group,
+event, remedy and gemstone prediction functionality remains available.
+
+Text selection follows Marathi/English/bilingual preferences using the supplied
+translations and existing English fallback. No translations or missing source
+conditions are invented. House-lord text reads existing sign-lord/occupied-house
+fields; transit text reads existing selected-chart bhava groups; Dasha text reads
+the existing running periods. Source durations never replace calculated dates.
+Conjunction matching reuses the existing aspect engine and its existing orbs.
+Outer-planet documents are reference text, not new KP/Dasha calculation rules.
+
+Source heading/code conflicts are recorded in the catalogue review notes. The
+Saturn-in-Virgo heading inside the Scorpio file remains under Virgo. Conjunction
+code/heading conflicts are matched by explicit planet names in their headings;
+original text and source codes remain preserved in the import data.
+
+Validation: source checksums and all unrelated original script/style blocks
+match the approved upload; prediction display, personal matching, native-model
+immutability and multi-page A4 PDF preview PASS. Only prediction-focused tests
+were run; no calculation formulas or source data were changed.
+
 ## Raphael rounding from the supplied reference image · 14 October 2026
 
 Changed only Ishtabhav rounding from the older 50-second threshold to nearest
