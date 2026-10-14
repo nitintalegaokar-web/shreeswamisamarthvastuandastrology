@@ -1,5 +1,8 @@
 # KP MASTER Android · 1.2.3
 
+These are first Android builds; real-phone verification remains pending. Try
+Owner on your phone before distributing Customer.
+
 Two offline APKs use the existing approved single-file calculator unchanged:
 
 - **Owner**: unlocked, package `in.kpmaster.mobile.owner`.
