@@ -13,9 +13,24 @@ try:
  p.evaluate('window.mobileExport=null;const a=document.createElement("a");a.download="chart.txt";a.href=URL.createObjectURL(new Blob(["my chart"],{type:"text/plain"}));document.body.append(a);a.click()')
  p.wait_for_function('window.mobileExport?.name==="chart.txt"');assert p.evaluate('atob(mobileExport.base64)')=='my chart'
  assert p.evaluate('JSON.stringify({model:currentKPModel,periods:mdDashaPeriods})')==before
+ p.locator('#quick-home').click();p.evaluate("KPChartStyle.setStyle('north')");p.wait_for_function("document.querySelector('#home .kp-mobile-planet-list')?.children.length===9")
+ assert p.locator('#home .home-table-mount').first.evaluate('m=>m.scrollWidth>m.clientWidth')
+ assert p.locator('#home .home-table-mount td').first.evaluate('n=>parseFloat(getComputedStyle(n).fontSize)')>=13
+ assert p.locator('#home .kp-mobile-planet-list').first.evaluate('n=>parseFloat(getComputedStyle(n).fontSize)')>=14
+ p.locator('#quick-event-promise').click();p.evaluate('KPEventPromise.refresh(true)')
+ with p.expect_popup() as opened:p.locator('#ep-simple-preview').click()
+ preview=opened.value;preview.wait_for_function('document.querySelector(".kp-a4-page")?.dataset.a4Scale')
+ preview.set_viewport_size({'width':390,'height':844});preview.evaluate('window.KPAndroid={printReport:()=>{}}');preview.evaluate((ROOT/'android/mobile.js').read_text())
+ assert preview.locator('body').evaluate('n=>n.scrollWidth>=740')
+ import fitz
+ pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf')
+ assert len(pdf)==1 and 'Why?' in pdf[0].get_text()
+ assert all(0<=b[0]<b[2]<=pdf[0].rect.width+1 and 0<=b[1]<b[3]<=pdf[0].rect.height+1 for b in pdf[0].get_text('blocks'))
+ pdf.close();preview.close()
+ assert p.evaluate('JSON.stringify({model:currentKPModel,periods:mdDashaPeriods})')==before
  for edition in ['Owner','Customer']:
-  with zipfile.ZipFile(ROOT/f'android/dist/KP-Master-{edition}-1.2.3.apk') as z:
+  with zipfile.ZipFile(ROOT/f'android/dist/KP-Master-{edition}-1.2.4.apk') as z:
    assert z.read('assets/index.html')==(ROOT/'index.html').read_bytes()
    assert 'classes.dex' in z.namelist()
- print('Mobile file export, PDF bridge, backup and unchanged APK calculator assets: PASS')
+ print('Mobile scrolling tables, nine North planets, A4 PDF bounds, exports, backup and unchanged calculator: PASS')
 finally:t.tearDown();T.tearDownClass()
