@@ -11,7 +11,7 @@ async function toggleDeviceCompass(){if(deviceEnabled){window.removeEventListene
 function onOrientation(e){const heading=deviceHeading(e);if(heading==null)return;clearTimeout(toggleDeviceCompass.timer);if(tab==='compass'){compassSet(heading);$('deviceCompassStatus').textContent='Device heading active. Verify against a site measurement.'}}
 // Floor builder uses drawing coordinates; one physical unit is 20 pixels.
 let buildTypeSelection='Bedroom',buildMode='boundary',buildDraft=[],buildView=null,buildSelected=null,buildDrag=null,buildHistory=[];
-function makeBuilderFloor(){return {name:'Drawn Floor',img:null,w:760,h:1360,center:[],boundary:[],bearing:0,rooms:[],objects:[],entrances:[],pixelsPerUnit:20,areaUnit:'ft',builder:{unit:'ft',width:30,height:60,walls:[],doors:[],labels:[]}}}
+function makeBuilderFloor(){return {name:'Drawn Floor',img:null,pdf:null,w:760,h:1360,center:[],boundary:[],bearing:0,rooms:[],objects:[],entrances:[],pixelsPerUnit:20,areaUnit:'ft',builder:{unit:'ft',width:30,height:60,walls:[],doors:[],labels:[]}}}
 function ensureBuilder(){if(floor().builder){floor().builder.labels??=[];return;}let fresh=makeBuilderFloor();if(floor().img){if(data.floors.length>=30)return notify('A project supports up to 30 floors.');data.floors.push(fresh);data.current=data.floors.length-1}else Object.assign(floor(),fresh);buildView=null;buildDraft=[];buildHistory=[];updateBuilderImage();refreshFloors()}
 function buildSnapshot(){return JSON.stringify(floor())}
 function rememberBuild(){buildHistory.push({floor:floor(),snapshot:buildSnapshot()});if(buildHistory.length>40)buildHistory.shift()}
