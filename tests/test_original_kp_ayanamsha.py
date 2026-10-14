@@ -34,10 +34,10 @@ class OriginalKPBrowserTests(unittest.TestCase):
   p=self.page
   p.wait_for_function('window.KPCalculationSources')
   for date,expected in [('1931-10-10','22:48:18'),('1949-04-08','23:02:53'),('1950-12-20','23:04:18'),('2026-10-12','24:07:29')]:
-   result=p.evaluate("date=>{document.getElementById('dob').value=date;calculateAll();return {field:document.getElementById('ayanValue').value,api:KPAnnualAyanamsha.format(KPEphemeris.ayanamsha(date+'T12:00:00Z')*3600),native:currentKPModel.ready};}",date)
-   self.assertEqual(result['field'],expected,date);self.assertEqual(result['api'],expected,date);self.assertTrue(result['native'])
+   result=p.evaluate("date=>{document.getElementById('dob').value=date;calculateAll();return {field:document.getElementById('ayanValue').value,api:KPAnnualAyanamsha.format(KPEphemeris.ayanamsha(date+'T12:00:00Z')*3600),worksheet:[1,2,3,10,11,12].map(h=>document.getElementById('r5_geoayan_'+h).value),native:currentKPModel.ready};}",date)
+   self.assertEqual(result['field'],expected,date);self.assertEqual(result['api'],expected,date);self.assertTrue(result['native']);self.assertEqual(result['worksheet'],[expected]*6,date)
   saved=p.evaluate('getChartData()');saved['calculationSources']['ayanamshaSource']='swiss-kp';saved['fields']['kp-ayanamsha-source']['value']='manual'
-  saved['fields']['dayAyan']['value']='01:00:00';saved['fields']['daySum']['value']='00:00:00';saved['fields']['ayanValue']['value']='01:00:00'
+  saved['fields']['dayAyan']={'value':'01:00:00'};saved['fields']['daySum']={'value':'00:00:00'};saved['fields']['ayanValue']={'value':'01:00:00'}
   p.evaluate('data=>restoreChartData(data)',saved)
   p.wait_for_function("document.getElementById('ayanValue').value==='24:07:29'")
   self.assertEqual(p.evaluate('KPEphemerisSources.sources'),['uploaded-kp']);self.assertEqual(p.evaluate('KPCalculationSources.get().ayanamshaSource'),'uploaded-kp')
