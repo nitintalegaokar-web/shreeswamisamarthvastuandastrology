@@ -42,3 +42,7 @@ PDF rendering uses locally installed PDF.js. Keep `node_modules/pdfjs-dist` avai
 ## Workspace additions
 
 Use **Explore sample** for a fully editable illustrative home. The four-step guide tracks the current floor. Floors can be renamed, duplicated independently, or deleted (one must remain). Drawing review summarizes directional shares and flags room/object/entrance centers outside the boundary; it does not check the entire shape for containment. The optional drawing scale is saved with each floor and included in charts and reports. New Project starts a blank workspace after confirmation.
+
+## Image upload troubleshooting
+
+Extract the complete ZIP before opening the application. Keep `index.html`, `studio.js`, `workspace.js`, and `workspace.css` together. Image uploads do not require PDF.js or a network connection, and remain usable when browser recovery storage is blocked. Accepted image contents are PNG, JPEG, and WebP, up to 20 MB and 40 megapixels. HEIC must first be exported as JPG. On small screens, a successful upload scrolls the plan into view. PDF editing requires the HTTP setup above. Direct file-URL operation could not be browser-tested in this cloud environment because its browser policy blocks file URLs.
