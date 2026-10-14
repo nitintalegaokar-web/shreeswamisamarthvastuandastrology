@@ -25604,21 +25604,15 @@ body.app-ready #about .about-branding-card .about-software h3{
     }
   }
 
-  function removePortrait() {
-    selectionVersion++;
-    renderPortrait('');
-    const removed = persistPortrait(null);
-    setStatus(removed ? 'No portrait selected. Choose a photo to store it offline.' : 'Portrait removed for this session.', removed ? '' : 'session');
-    notify('About portrait removed.', 'success');
-    window.dispatchEvent(new CustomEvent('about-portrait-change', {detail: {ready: false, saved: removed}}));
-  }
+  // The owner's portrait is fixed; presentation controls cannot clear it.
+  function removePortrait() { return false; }
 
   async function restorePortrait() {
     let parsed = null;
     try { parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch (_) { /* Ignore a damaged local record. */ }
     const source = parsed?.version === 1 && dataUrlBytes(parsed.source) <= MAX_OUTPUT_BYTES + 4096 ? parsed.source : '';
     if (!source) {
-      if (parsed) persistPortrait(null);
+      
       renderPortrait('');
       setStatus('No portrait selected. Choose a photo to store it offline.');
       return;
@@ -25628,7 +25622,6 @@ body.app-ready #about .about-branding-card .about-software h3{
       renderPortrait(source);
       setStatus(`Portrait stored on this computer · ${Math.max(1, Math.round(dataUrlBytes(source) / 1024))} KB`, 'saved');
     } catch (_) {
-      persistPortrait(null);
       renderPortrait('');
       setStatus('The saved portrait could not be read. Please choose it again.', 'error');
     }
@@ -25668,34 +25661,6 @@ body.app-ready #about .about-branding-card .about-software h3{
     wrap.className = 'developer-photo-wrap';
     slot.before(wrap);
     wrap.append(slot);
-    const tools = document.createElement('div');
-    tools.className = 'about-photo-tools no-print';
-    const choose = document.createElement('button');
-    choose.type = 'button';
-    choose.id = 'choose-about-photo';
-    choose.textContent = 'Choose portrait';
-    const remove = document.createElement('button');
-    remove.type = 'button';
-    remove.id = 'remove-about-photo';
-    remove.className = 'about-photo-remove';
-    remove.textContent = 'Remove';
-    remove.hidden = true;
-    const input = document.createElement('input');
-    input.id = 'about-photo-input';
-    input.type = 'file';
-    input.accept = 'image/jpeg,image/png,image/webp';
-    input.hidden = true;
-    const status = document.createElement('p');
-    status.id = 'about-photo-status';
-    status.className = 'about-photo-status no-print';
-    status.setAttribute('role', 'status');
-    status.setAttribute('aria-live', 'polite');
-    tools.append(choose, remove, input);
-    wrap.append(tools, status);
-    choose.addEventListener('click', () => input.click());
-    remove.addEventListener('click', removePortrait);
-    input.addEventListener('change', selectPortrait);
-
     restorePortrait();
     window.KPLanguage?.localize?.(card);
     return true;
