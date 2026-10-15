@@ -1,1 +1,23 @@
-{"name":"vastu-master-studio","version":"1.0.0","private":true,"scripts":{"start":"python3 -m http.server 8080 --bind 0.0.0.0","test":"playwright test"},"dependencies":{"pdfjs-dist":"4.10.38"},"devDependencies":{"@playwright/test":"1.56.1"}}
+{
+  "name": "vastu-master-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "python3 -m http.server 8080 --bind 0.0.0.0",
+    "test": "playwright test",
+    "build:pdf": "node scripts/build-pdf.cjs",
+    "build:catalog": "node scripts/build-catalog.cjs",
+    "build:3d": "node scripts/build-3d.cjs",
+    "build": "node scripts/build-all.cjs",
+    "build:cad": "node scripts/build-cad.cjs"
+  },
+  "dependencies": {
+    "dxf-parser": "1.1.2",
+    "pdfjs-dist": "4.10.38",
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "esbuild": "0.25.12"
+  }
+}
