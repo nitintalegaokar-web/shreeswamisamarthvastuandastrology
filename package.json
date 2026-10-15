@@ -9,10 +9,13 @@
     "build:catalog": "node scripts/build-catalog.cjs",
     "build:3d": "node scripts/build-3d.cjs",
     "build": "node scripts/build-all.cjs",
-    "build:cad": "node scripts/build-cad.cjs"
+    "build:cad": "node scripts/build-cad.cjs",
+    "build:report": "node scripts/build-report.cjs"
   },
   "dependencies": {
     "dxf-parser": "1.1.2",
+    "html2canvas": "1.4.1",
+    "jspdf": "3.0.3",
     "pdfjs-dist": "4.10.38",
     "three": "0.180.0"
   },

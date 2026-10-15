@@ -1,1 +1,1 @@
-const {execFileSync}=require('child_process'),path=require('path');for(const name of ['build-pdf.cjs','build-catalog.cjs','build-3d.cjs','build-cad.cjs'])execFileSync(process.execPath,[path.join(__dirname,name)],{stdio:'inherit'});
+const {execFileSync}=require('child_process'),path=require('path');for(const name of ['build-pdf.cjs','build-catalog.cjs','build-3d.cjs','build-cad.cjs','build-report.cjs'])execFileSync(process.execPath,[path.join(__dirname,name)],{stdio:'inherit'});
