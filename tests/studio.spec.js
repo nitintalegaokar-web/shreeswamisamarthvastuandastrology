@@ -1,4 +1,7 @@
 const {test,expect}=require('@playwright/test');
+// Retain coverage of the complete tool interface alongside guided-workflow tests.
+test.beforeEach(async({page})=>{await page.addInitScript(()=>{try{localStorage.setItem('vastu-workspace-mode','expert')}catch{}})});
+
 test('floor editing, bearing recalculation, report selection and project roundtrip',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());await page.goto('http://localhost:8080');
  await page.evaluate(()=>{const c=document.createElement('canvas');c.width=600;c.height=400;c.getContext('2d').fillRect(0,0,600,400);Object.assign(floor(),{img:c.toDataURL(),w:600,h:400,boundary:[{x:10,y:10},{x:590,y:10},{x:590,y:390},{x:10,y:390}]});autoCenter();floor().objects.push({type:'Desk',p:{x:300,y:50},zone:'N'});render()});
