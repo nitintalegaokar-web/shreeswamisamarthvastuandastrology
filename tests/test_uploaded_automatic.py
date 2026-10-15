@@ -40,12 +40,37 @@ class UploadedAutomaticTests(unittest.TestCase):
     def set_birth(self,**values):
         self.page.evaluate("values=>{for(const [id,value] of Object.entries(values))document.getElementById(id).value=value;calculateAll();}",values)
     def compare(self):
-        result=self.page.evaluate("""()=>{const moment=KPAutoCalculator.getData();if(!moment)throw Error(document.getElementById('auto-calculation-status').textContent);const utc=new Date(moment.utc),positions=KPEphemeris.positions(utc),cusps=KPTransitHouses.calculate(utc,moment.latitude,moment.longitude).cusps,m=currentKPModel;return {ready:m.ready,houses:m.houses.map(h=>h.longitude/3600),expectedCusps:cusps,planets:m.planets.map(p=>[p.id,p.longitude/3600]),positions,nodes:m.planets.filter(p=>['Ra','Ke'].includes(p.id)).map(p=>p.longitude),first:document.getElementById('p6_date_1').value,second:document.getElementById('p6_date_2').value,moment};}""")
+        result=self.page.evaluate("""()=>{const moment=KPAutoCalculator.getData();if(!moment)throw Error(document.getElementById('auto-calculation-status').textContent);const utc=new Date(moment.utc),positions=KPEphemeris.positions(utc),cusps=KPTransitHouses.calculate(utc,moment.latitude,moment.longitude).cusps,m=currentKPModel;return {ready:m.ready,houses:m.houses.map(h=>h.longitude/3600),expectedCusps:cusps,worksheet:[10,11,12,1,2,3].map(h=>({house:h,small:document.getElementById('r5_small_'+h).value,large:document.getElementById('r5_large_'+h).value,farak1:document.getElementById('r5_calc_diff1_'+h).value,farak2:document.getElementById('r5_calc_diff2_'+h).value,ishta:Number(document.getElementById('r5_calc_ishta_'+h).value),ishtaDms:document.getElementById('r5_ishta_'+h).value,smallPlus:document.getElementById('r5_smallplus_'+h).value,ayan:document.getElementById('r5_geoayan_'+h).value,nirayan:document.getElementById('r5_nirayan_'+h).value})),planets:m.planets.map(p=>[p.id,p.longitude/3600]),positions,nodes:m.planets.filter(p=>['Ra','Ke'].includes(p.id)).map(p=>p.longitude),first:document.getElementById('p6_date_1').value,second:document.getElementById('p6_date_2').value,moment};}""")
         self.assertTrue(result['ready']);self.assertEqual(len(result['houses']),12);self.assertEqual(len(result['planets']),9)
-        for actual,expected in zip(result['houses'],result['expectedCusps']):self.assertLessEqual(abs((actual-expected+180)%360-180)*3600,.501)
+        def seconds(text):
+            parts=[int(x) for x in text.split(':')];return parts[0]*3600+parts[1]*60+parts[2]
+        for row in result['worksheet']:
+            first=seconds(row['farak1']);second=seconds(row['farak2']);difference=seconds(row['large'])-seconds(row['small'])
+            minutes=(second*difference+first*30)//(first*60)
+            self.assertEqual(row['ishta'],minutes)
+            self.assertEqual(seconds(row['ishtaDms']),minutes*60)
+            self.assertEqual(seconds(row['smallPlus']),seconds(row['small'])+minutes*60)
+            expected=(seconds(row['smallPlus'])-seconds(row['ayan']))%1296000
+            self.assertEqual(seconds(row['nirayan']),expected)
+            self.assertAlmostEqual(result['houses'][row['house']-1]*3600,expected,places=5)
+        for i in range(6):self.assertAlmostEqual((result['houses'][i+6]-result['houses'][i])%360,180,places=8)
         for planet,actual in result['planets']:self.assertLessEqual(abs((actual-result['positions'][planet]+180)%360-180)*3600,.501)
         self.assertEqual((result['nodes'][1]-result['nodes'][0])%1296000,648000)
         return result
+    def test_rounding_boundaries_and_midnight_carry(self):
+        result=self.page.evaluate("""()=>({
+            cutoff:[7199,7200].map(large=>KPAutoHouses.roundedRow(0,large,240,1,0).ishtaMinutes),
+            degree:[7199,7200].map(large=>KPAutoHouses.roundedRow(0,large,240,119,0).ishtaMinutes),
+            seconds:[.49,.5,239.49,239.5].map(t=>KPAutoHouses.roundedRow(0,14400,240,t,0).farak2),
+            wrap:KPAutoHouses.roundedRow(1295970,1296030,240,120,0),
+            longitude:(((-Astronomy.SiderealTime(new Date('2000-01-01T12:00:00Z'))*15-.4/240+180)%360+360)%360)-180
+        })""")
+        self.assertEqual(result['cutoff'],[0,1]);self.assertEqual(result['degree'],[59,60]);self.assertEqual(result['seconds'],[0,1,239,240]);self.assertEqual(result['wrap']['nirayanSeconds'],30)
+        self.set_birth(dob='2000-01-01',birthTime='12:00:00',lat='0',lon=str(result['longitude']),**{'birth-utc-offset':'0'})
+        self.compare();self.assertEqual(self.page.locator('#birthPlaceSiderealTime').input_value(),'00:00:00');self.assertEqual(self.page.locator('#stDiff2Seconds').input_value(),'240')
+        self.assertEqual(self.page.locator('#stDiffSeconds').input_value(),'240')
+        self.assertNotIn('.',self.page.locator('#r5_calc_ishta_1').input_value())
+
     def test_initial_chart_is_complete_without_manual_worksheets(self):
         self.compare();expect(self.page.locator('#auto-calculation-status')).to_contain_text('Automatic')
         self.assertTrue(self.page.locator('#mdBirthDasha').input_value())
@@ -60,7 +85,7 @@ class UploadedAutomaticTests(unittest.TestCase):
         for f in fixtures['PLACIDUS_REFERENCE']:
             d=f['date'];self.set_birth(dob=d[:10],birthTime=d[11:19],**{'birth-utc-offset':'0','lat':str(f['latitude']),'lon':str(f['longitude'])})
             r=self.compare();ayan=r['moment']['ayanamsha']
-            for cusp,expected in zip(r['houses'],f['cuspsTropical']):self.assertLess(abs((cusp+ayan-expected+180)%360-180),.001,(f['date'],f['latitude'],f['longitude'],r['houses'].index(cusp)+1,cusp+ayan,expected))
+            for cusp,expected in zip(r['expectedCusps'],f['cuspsTropical']):self.assertLess(abs((cusp+ayan-expected+180)%360-180),.001,(f['date'],f['latitude'],f['longitude'],r['expectedCusps'].index(cusp)+1,cusp+ayan,expected))
     def test_timezone_dst_midnight_and_0530_references(self):
         cases=[('2000-01-01','00:00:00','5.5','0','1999-12-31T18:30:00.000Z','1999-12-31'),('2026-10-06','05:29:59','5.75','0','2026-10-05T23:44:59.000Z','2026-10-05'),('2026-10-06','05:30:00','5.5','0','2026-10-06T00:00:00.000Z','2026-10-06'),('2026-10-06','23:45:00','-5','60','2026-10-07T03:45:00.000Z','2026-10-06')]
         for date,time,offset,dst,utc,reference in cases:

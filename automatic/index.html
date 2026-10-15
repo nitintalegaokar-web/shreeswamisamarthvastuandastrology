@@ -1019,6 +1019,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid 
 <td><input id="r5_smallplus_3" readonly></td>
 </tr><tr><td class="labelcol">KP अयनांश<br><span class="raphael5-note">(जन्मतारखेचे एकूण अयनांश)</span></td><td><input id="r5_geoayan_10" readonly></td><td><input id="r5_geoayan_11" readonly></td><td><input id="r5_geoayan_12" readonly></td><td><input id="r5_geoayan_1" readonly></td><td><input id="r5_geoayan_2" readonly></td><td><input id="r5_geoayan_3" readonly></td></tr><tr><td class="labelcol">एकूण निरयन</td><td><input id="r5_nirayan_10" readonly></td><td><input id="r5_nirayan_11" readonly></td><td><input id="r5_nirayan_12" readonly></td><td><input id="r5_nirayan_1" readonly></td><td><input id="r5_nirayan_2" readonly></td><td><input id="r5_nirayan_3" readonly></td></tr><tr><td class="labelcol">वजा राशी<br><span class="raphael5-note">ज्यावेळी निरयन अंश वजा करावयाचा</span></td><td><input id="r5_minus_10" ></td><td><input id="r5_minus_11" ></td><td><input id="r5_minus_12" ></td><td><input id="r5_minus_1" ></td><td><input id="r5_minus_2" ></td><td><input id="r5_minus_3" ></td></tr><tr><td class="labelcol">निरयन भाव</td><td><input id="r5_bhava_10" readonly></td><td><input id="r5_bhava_11" readonly></td><td><input id="r5_bhava_12" readonly></td><td><input id="r5_bhava_1" readonly></td><td><input id="r5_bhava_2" readonly></td><td><input id="r5_bhava_3" readonly></td></tr><tr><td class="labelcol">राशीची नावे<br>१ ते ६ भाव</td><td><input id="r5_rashi_10" readonly></td><td><input id="r5_rashi_11" readonly></td><td><input id="r5_rashi_12" readonly></td><td><input id="r5_rashi_1" readonly></td><td><input id="r5_rashi_2" readonly></td><td><input id="r5_rashi_3" readonly></td></tr><tr><td class="labelcol">समोरील<br>७ ते १२ भाव</td><td><input id="r5_opposite_10" readonly></td><td><input id="r5_opposite_11" readonly></td><td><input id="r5_opposite_12" readonly></td><td><input id="r5_opposite_1" readonly></td><td><input id="r5_opposite_2" readonly></td><td><input id="r5_opposite_3" readonly></td></tr></tbody></table><div class="raphael5-calcbox">
   <h3>इष्टभाव फरक — रॅफेल गणना</h3>
+  <p class="raphael5-note">Round-off: Farak 1 / 2 → whole seconds. Ishta Bhav Farak → whole arcminutes; 30″ and above rounds up.</p>
   <div class="notice" style="margin-bottom:10px">
     <b>फरक क्र. १</b> व <b>फरक क्र. २</b> हे <b>4. सांपत्तिक काळ गणना</b> या Tab मधून automatic घेतले जातील.
     <b>फरक क्र. ३</b> हा या रॅफेल टेबलमधील <b>मो. सां. वेळ − छो. सां. वेळ</b> मधून automatic घेतला जाईल.
@@ -7643,6 +7644,21 @@ body.app-ready #report #printReport .report-single-page .sp-md-card :is(td,th),.
     if (value === null || value === undefined || String(value).trim() === '' || !Number.isFinite(Number(value)) || Number(value) < low || Number(value) > high) throw new Error('Enter a valid ' + name + '.');
     return Number(value);
   }
+  // Integer worksheet inputs keep the 30-arcsecond cutoff exact.
+  function roundedRow(smallArcseconds, largeArcseconds, farak1, farak2, ayanamshaArcseconds) {
+    const first = Math.round(farak1), second = Math.round(farak2);
+    if (!Number.isFinite(first) || first <= 0 || !Number.isFinite(second) || second < 0 || second > first) throw new Error('Invalid sidereal-time differences.');
+    const small = Math.round(smallArcseconds), large = Math.round(largeArcseconds);
+    const difference = large - small;
+    if (!Number.isFinite(small) || !Number.isFinite(large) || difference < 0 || !Number.isFinite(ayanamshaArcseconds)) throw new Error('Invalid house-table bracket.');
+    const numerator = second * difference;
+    const ishtaMinutes = Math.floor((numerator + first * 30) / (first * 60));
+    const ishtaSeconds = ishtaMinutes * 60, tropicalSeconds = small + ishtaSeconds;
+    return {farak1:first, farak2:second, smallSeconds:small, largeSeconds:large,
+      differenceSeconds:difference, rawIshtaSeconds:numerator / first,
+      ishtaMinutes, ishtaSeconds, tropicalSeconds,
+      nirayanSeconds:norm(tropicalSeconds - Math.round(ayanamshaArcseconds), CIRCLE * 3600)};
+  }
   function compute(moment) {
     if (!window.Astronomy || !window.KPEphemeris || !window.KPTransitHouses) throw new Error('The offline sidereal-time and house calculator is unavailable.');
     const date = window.KPEphemeris.dateValue(moment?.utc);
@@ -7668,10 +7684,20 @@ body.app-ready #report #printReport .report-single-page .sp-md-card :is(td,th),.
     }
     const solved = window.KPTransitHouses.calculate(date, latitude, longitude);
     const tropical = solved.cusps.map(value => norm(value + sourceAyanamsha));
-    const cusps = tropical.map(value => norm(value - ayanamsha));
+    const exactCusps = tropical.map(value => norm(value - ayanamsha));
     const smallCusps = tropicalAt(smallTime), largeCusps = tropicalAt(largeTime);
     const interpolatedTropical = smallCusps.map((value, index) => norm(value + norm(largeCusps[index] - value) * elapsed / STEP));
     const interpolatedCusps = interpolatedTropical.map(value => norm(value - ayanamsha));
+    const farak1 = Math.round(largeTime - smallTime), farak2 = Math.round(elapsed);
+    const worksheet = {}, cuspSeconds = Array(12).fill(null);
+    for (const house of HOUSE_COLUMNS) {
+      const i = house - 1, small = smallCusps[i], increase = norm(largeCusps[i] - small);
+      const row = roundedRow(small * 3600, (small + increase) * 3600, farak1, farak2, ayanamsha * 3600);
+      worksheet[house] = row;
+      cuspSeconds[i] = row.nirayanSeconds;
+      cuspSeconds[(i + 6) % 12] = norm(row.nirayanSeconds + CIRCLE * 1800, CIRCLE * 3600);
+    }
+    const cusps = cuspSeconds.map(value => value / 3600);
     const latitudeLower = Math.floor(latitude), latitudeUpper = Math.ceil(latitude);
     // These are available to optional latitude-bracket worksheet displays.
     // The authoritative calculation always uses the exact latitude.
@@ -7697,13 +7723,14 @@ body.app-ready #report #printReport .report-single-page .sp-md-card :is(td,th),.
     const cycle = cusps.reduce((sum, value, index) => sum + norm(cusps[(index + 1) % 12] - value), 0);
     if (Math.abs(cycle - CIRCLE) > 1e-6 || cusps.some(value => !Number.isFinite(value))) throw new Error('The calculated house cusps do not form one complete zodiac cycle.');
     const model = {
-      ready: true, source: 'Computed Placidus / Raphael-style worksheet', system: 'Placidus', units: 'degrees',
+      ready: true, source: 'Computed Placidus brackets / rounded Raphael-style worksheet', system: 'Placidus', units: 'degrees',
       utc: date.toISOString(), latitude, longitude, ayanamsha, siderealSeconds, smallTime, largeTime, elapsed,
-      tropical, cusps, smallCusps, largeCusps, interpolatedTropical, interpolatedCusps,
+      tropical, cusps, exactCusps, smallCusps, largeCusps, interpolatedTropical, interpolatedCusps,
+      worksheet, farak1, farak2, rounding: 'Whole seconds for Farak 1/2; whole arcminutes, half up, for Ishta',
       latitudeLower, latitudeUpper, latitudeBrackets,
       referenceUTC: reference.toISOString(), baseSiderealSeconds, localMeanDifference, siderealCorrection, grandTotal,
-      maxInterpolationErrorArcseconds: Math.max(...cusps.map((value, index) => Math.abs(norm(interpolatedCusps[index] - value + 180) - 180) * 3600)),
-      cacheKey, cuspSeconds: cusps.map(value => norm(Math.round(value * 3600), CIRCLE * 3600))
+      maxInterpolationErrorArcseconds: Math.max(...exactCusps.map((value, index) => Math.abs(norm(interpolatedCusps[index] - value + 180) - 180) * 3600)),
+      cacheKey, cuspSeconds
     };
     cachedKey = cacheKey; cachedModel = model;
     return model;
@@ -7718,7 +7745,7 @@ body.app-ready #report #printReport .report-single-page .sp-md-card :is(td,th),.
   }
   function fill(moment) {
     const model = compute(moment);
-    const exactTitle = 'Directly solved Placidus cusp at the exact birth time and latitude; generated calculation, not an original printed Raphael table entry.';
+    const exactTitle = 'Rounded Raphael-style worksheet: whole-second Farak 1/2 and whole-arcminute Ishta; final cusps follow the displayed arithmetic. Computed Placidus brackets, not original printed entries.';
     field('baseSidereal0530', clock(model.baseSiderealSeconds), 'Sidereal time at 82°30′ E at UTC midnight (' + model.referenceUTC.slice(0, 10) + '), equivalent to 05:30 IST.');
     field('stLmtDifference', clock(model.localMeanDifference, false));
     field('stTenSixCorrection', clock(model.siderealCorrection, false), 'Exact sidereal-minus-solar correction; replaces the approximate 10 seconds/hour rule.');
@@ -7729,34 +7756,32 @@ body.app-ready #report #printReport .report-single-page .sp-md-card :is(td,th),.
     field('stSmallTime', clock(model.smallTime));
     field('stLargeTime', clock(model.largeTime));
     field('stSmallTimeAgain', clock(model.smallTime));
-    field('stDiff1', clock(STEP));
-    field('stDiffSeconds', String(STEP));
-    field('stDiff2', clock(model.elapsed));
-    field('stDiff2Seconds', model.elapsed.toFixed(6));
+    field('stDiff1', clock(model.farak1));
+    field('stDiffSeconds', String(model.farak1));
+    field('stDiff2', clock(model.farak2));
+    field('stDiff2Seconds', String(model.farak2));
     window.manualBirthST = clock(model.siderealSeconds);
 
     for (const house of HOUSE_COLUMNS) {
       const index = house - 1;
-      const small = model.smallCusps[index], increase = norm(model.largeCusps[index] - small);
-      const exactIncrement = norm(model.tropical[index] - small);
-      const linearIncrement = increase * model.elapsed / STEP;
+      const row = model.worksheet[house];
       const nir = model.cuspSeconds[index] / 3600, sign = Math.floor(nir / 30);
-      field('r5_large_' + house, angle(small + increase, false), 'Computed tropical cusp at the upper 4-minute sidereal bracket.');
-      field('r5_small_' + house, angle(small, false), 'Computed tropical cusp at the lower 4-minute sidereal bracket.');
-      field('r5_small2_' + house, angle(small, false));
-      field('r5_diff3_' + house, angle(increase, false));
-      field('r5_ishta_' + house, angle(exactIncrement, false), 'Exact increment from the lower bracket to the directly solved tropical cusp.');
-      field('r5_smallplus_' + house, angle(small + exactIncrement, false), exactTitle);
+      field('r5_large_' + house, angle(row.largeSeconds / 3600, false), 'Computed tropical cusp at the upper 4-minute sidereal bracket.');
+      field('r5_small_' + house, angle(row.smallSeconds / 3600, false), 'Computed tropical cusp at the lower 4-minute sidereal bracket.');
+      field('r5_small2_' + house, angle(row.smallSeconds / 3600, false));
+      field('r5_diff3_' + house, angle(row.differenceSeconds / 3600, false));
+      field('r5_ishta_' + house, angle(row.ishtaSeconds / 3600, false), 'Rounded to a whole arcminute: below 30 arcseconds down, 30 or more up.');
+      field('r5_smallplus_' + house, angle(row.tropicalSeconds / 3600, false), exactTitle);
       field('r5_geoayan_' + house, angle(model.ayanamsha));
       field('r5_nirayan_' + house, angle(nir), exactTitle);
       field('r5_minus_' + house, angle(sign * 30));
       field('r5_bhava_' + house, angle(nir - sign * 30));
       field('r5_rashi_' + house, SIGNS[sign]);
       field('r5_opposite_' + house, SIGNS[(sign + 6) % 12]);
-      field('r5_calc_diff1_' + house, clock(STEP));
-      field('r5_calc_diff2_' + house, clock(model.elapsed));
-      field('r5_calc_diff3_' + house, angle(increase, false));
-      field('r5_calc_ishta_' + house, (linearIncrement * 60).toFixed(4), 'Linear 4-minute bracket estimate in arcminutes. The final cusp uses the direct Placidus solution, without whole-minute interpolation rounding.');
+      field('r5_calc_diff1_' + house, clock(model.farak1));
+      field('r5_calc_diff2_' + house, clock(model.farak2));
+      field('r5_calc_diff3_' + house, angle(row.differenceSeconds / 3600, false));
+      field('r5_calc_ishta_' + house, String(row.ishtaMinutes), 'Whole arcminutes, rounded half up; the same value is used in the house-cusp calculation.');
     }
     const rows = document.querySelectorAll('#raphRows tr');
     rows.forEach((row, index) => {
@@ -7780,7 +7805,7 @@ body.app-ready #report #printReport .report-single-page .sp-md-card :is(td,th),.
     document.querySelectorAll('[data-automatic-house="true"]').forEach(input => { input.value = ''; });
     window.cuspResults = Array.from({length: 12}, (_, index) => ({i: index + 1, nir: null, rashi: ''}));
   }
-  window.KPAutoHouses = Object.freeze({compute, fill, clear, get: () => latest, getData: () => latest, system: 'Placidus', source: 'Computed; not a printed Raphael table'});
+  window.KPAutoHouses = Object.freeze({compute, fill, clear, roundedRow, get: () => latest, getData: () => latest, system: 'Placidus', source: 'Computed; not a printed Raphael table'});
 })();
 
 </script>

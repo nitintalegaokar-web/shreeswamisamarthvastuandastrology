@@ -12,7 +12,7 @@ Your uploaded screen layouts, Marathi worksheets, chart styles, settings, `.lkp`
 ## Calculation conventions
 
 - Supported birth years: **1900–2100**. Adjacent ephemeris references at the year boundaries are supported internally.
-- Twelve sidereal **Placidus** house cusps are solved from the birth instant and geographic location. Four-minute sidereal brackets and the existing worksheet rows are populated automatically. Final cusps use the direct solution instead of rounded linear interpolation.
+- Twelve sidereal **Placidus** house cusps are solved from the birth instant and geographic location. Four-minute sidereal brackets and the existing worksheet rows are populated automatically. Farak 1 and Farak 2 are rounded to whole seconds before interpolation. Ishta Bhav Farak is rounded to whole arcminutes, with 30 arcseconds rounding up. The lower table entry plus that rounded increment, minus the displayed ayanamsha, determines the final cusp; the opposite six cusps remain exactly 180° apart.
 - These are **computed Raphael-style worksheet values**, not transcriptions from an original printed Raphael Table of Houses. No claim of comparison with a particular printed edition is made.
 - Sidereal time uses the embedded Astronomy Engine. LMT uses the full longitude conversion, including arcseconds and DST, with correct date rollover.
 - The previously supplied annual **KP ayanamsha table** is embedded. Its DMS column is authoritative, interpolated between January 1 UTC anchors. Differences or decreases in that original table are preserved rather than silently corrected.
@@ -25,9 +25,9 @@ Saving or importing `.lkp` files keeps the birth details, UTC offset, DST and su
 
 ## Verification
 
-Seven browser regression checks cover complete startup, independent planetary/house reference fixtures, midnight/05:30 and timezone/DST boundaries, changes after delayed callbacks, invalid-input clearing, `.lkp` restoration, report metadata, and offline standalone operation. Separately, 72 house cusps at six reference date/locations were compared against Swiss Ephemeris; this is validation only, and Swiss Ephemeris is not bundled or required.
+Browser regression checks cover complete startup, independent planetary/house reference fixtures, midnight/05:30 and timezone/DST boundaries, changes after delayed callbacks, invalid-input clearing, `.lkp` restoration, report metadata, and offline standalone operation. Separately, 72 house cusps at six reference date/locations were compared against Swiss Ephemeris; this is validation only, and Swiss Ephemeris is not bundled or required.
 
-The displayed arcsecond resolution is not a guarantee that the underlying astronomical model or the supplied ayanamsha agrees with every printed ephemeris to one arcsecond. Existing reference tolerances are 0.03° for planetary astronomy and 0.001° for house comparisons, separate from the 0.5″ rounding check between computed results and displayed values.
+The displayed arcsecond resolution is not a guarantee that the underlying astronomical model or the supplied ayanamsha agrees with every printed ephemeris to one arcsecond. Existing reference tolerances are 0.03° for planetary astronomy and 0.001° for house comparisons, separate from the requested worksheet rounding. Final natal cusps follow the rounded worksheet; planetary longitudes retain arcsecond rounding.
 
 This self-contained developer HTML includes its calculation code. Formula confidentiality requires a private calculation service; HTML distributed to a customer cannot enforce that confidentiality.
 
