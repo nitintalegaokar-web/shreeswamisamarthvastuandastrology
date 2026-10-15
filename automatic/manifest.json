@@ -1,0 +1,14 @@
+{
+  "edition": "Automatic edition of uploaded INDEX~1.HTM",
+  "source_sha256": "369c88d7b0b6aac45f18adc6fbd51be01ebb9ded8a478b3828fac2faf9787efb",
+  "index_sha256": "b0a4750ba3cc9463bb63ba1cf1605821da884c9b42b553a92302506712b0a771",
+  "self_contained": true,
+  "birth_years": [
+    1900,
+    2100
+  ],
+  "houses": "Computed Placidus; not printed Raphael transcription",
+  "planet_engine": "Astronomy Engine 2.1.19",
+  "ayanamsha": "Previously uploaded annual KP table, authoritative DMS anchors",
+  "node_model": "Mean Rahu; Ketu opposite"
+}
