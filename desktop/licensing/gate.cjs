@@ -3,6 +3,7 @@ const {ipcMain,dialog,clipboard,BrowserWindow}=require('electron');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const {pathToFileURL}=require('node:url');
+const {fromCode}=require('./activation-code.cjs');
 const {getSystemId}=require('./system-id.cjs');
 const {keyId,verifyControl,applyControl}=require('./core.cjs');
 const {parseAdditionalKeys,approvedKeys,verifyTrustedLicense,verifyTrustedControl}=require('./trust.cjs');
@@ -45,12 +46,8 @@ async function createGate(app,win,indexPath){
     if(claims){win.setMinimumSize(950,650);win.setSize(1440,950);await win.loadFile(indexPath);}
     return result;
   });
-  ipcMain.handle('kp-license:import-control',async event=>{
-    const url=event.senderFrame?.url.split('#')[0];if(event.sender!==win.webContents||url!==activationURL&&!(claims&&url===indexURL))throw Error('Untrusted license-status request.');
-    if(configurationError)throw Error(configurationError);
-    const selected=await dialog.showOpenDialog(win,{title:'Import signed owner license status',properties:['openFile'],filters:[{name:'KP License Status',extensions:['kpcontrol']}]});if(selected.canceled||!selected.filePaths.length)return null;
-    const file=selected.filePaths[0];if((await fs.stat(file)).size>16384)throw Error('The status file is too large.');
-    const control=JSON.parse(await fs.readFile(file,'utf8')),verified=verifyTrustedControl(control,keys,id),command=verified.claims;
+  async function installControl(text,url){
+    const control=JSON.parse(text),verified=verifyTrustedControl(control,keys,id),command=verified.claims;
     let saved;try{if((await fs.stat(licensePath)).size>16384)throw Error('The license file is too large.');saved=verifyTrustedLicense(await fs.readFile(licensePath,'utf8'),keys,id);}catch(error){if(error.code==='ENOENT')throw Error('Import the activation license before applying a status file.');throw error;}
     if(saved.claims.licenseId!==command.licenseId)throw Error('This status file belongs to another license. Use the status file for this installed license.');
     if(saved.ownerKeyId!==verified.ownerKeyId)throw Error('This status file must be signed by the owner key that issued this license.');
@@ -59,6 +56,13 @@ async function createGate(app,win,indexPath){
     if(!claims){for(const popup of BrowserWindow.getAllWindows())if(popup!==win)popup.destroy();await win.loadFile(activationPath);}
     else if(url===activationURL){win.setMinimumSize(950,650);win.setSize(1440,950);await win.loadFile(indexPath);}
     return {action:command.action,active:Boolean(claims)};
+  }
+  ipcMain.handle('kp-license:import-control',async event=>{
+    const url=event.senderFrame?.url.split('#')[0];if(event.sender!==win.webContents||url!==activationURL&&!(claims&&url===indexURL))throw Error('Untrusted license-status request.');
+    if(configurationError)throw Error(configurationError);
+    const selected=await dialog.showOpenDialog(win,{title:'Import signed owner license status',properties:['openFile'],filters:[{name:'KP License Status',extensions:['kpcontrol']}]});if(selected.canceled||!selected.filePaths.length)return null;
+    const file=selected.filePaths[0];if((await fs.stat(file)).size>16384)throw Error('The status file is too large.');
+    return installControl(await fs.readFile(file,'utf8'),url);
   });
   ipcMain.handle('kp-license:copy-id',event=>{check(event);if(!id)throw Error(message);clipboard.writeText(id);return true;});
   ipcMain.handle('kp-license:export-id',async event=>{
@@ -67,16 +71,30 @@ async function createGate(app,win,indexPath){
     if(selected.canceled||!selected.filePath)return false;
     await fs.writeFile(selected.filePath,'KP MASTER · Activation request · '+app.getVersion()+'\nSystem ID: '+id+'\nAccepted owner Key IDs: '+keys.map(keyId).join(', ')+'\n','utf8');return true;
   });
+  async function installLicense(text){
+    const verified=verifyTrustedLicense(text,keys,id);await checkControl(verified.claims,verified.key);
+    await fs.mkdir(path.dirname(licensePath),{recursive:true});
+    await fs.writeFile(licensePath+'.tmp',text,{encoding:'utf8',mode:0o600});await fs.rename(licensePath+'.tmp',licensePath);
+    await refresh();if(!claims)throw Error(message);
+    win.setMinimumSize(950,650);win.setSize(1440,950);await win.loadFile(indexPath);return true;
+  }
   ipcMain.handle('kp-license:activate',async event=>{
     check(event);if(configurationError)throw Error(configurationError);
     const selected=await dialog.showOpenDialog(win,{title:'Import owner activation license',properties:['openFile'],filters:[{name:'KP Activation License',extensions:['kplicense']}]});
     if(selected.canceled||!selected.filePaths.length)return false;
     const file=selected.filePaths[0];if((await fs.stat(file)).size>16384)throw Error('The license file is too large.');
-    const text=await fs.readFile(file,'utf8'),verified=verifyTrustedLicense(text,keys,id);await checkControl(verified.claims,verified.key);
-    await fs.mkdir(path.dirname(licensePath),{recursive:true});
-    await fs.writeFile(licensePath+'.tmp',text,{encoding:'utf8',mode:0o600});await fs.rename(licensePath+'.tmp',licensePath);
-    await refresh();if(!claims)throw Error(message);
-    win.setMinimumSize(950,650);win.setSize(1440,950);await win.loadFile(indexPath);return true;
+    return installLicense(await fs.readFile(file,'utf8'));
+  });
+  ipcMain.handle('kp-license:apply-code',async(event,code)=>{
+    check(event);if(configurationError)throw Error(configurationError);
+    const isStatus=typeof code==='string'&&code.replace(/\s/g,'').startsWith('KP-S1.');
+    const text=fromCode(code,isStatus);
+    return isStatus?installControl(text,activationURL):installLicense(text);
+  });
+  ipcMain.handle('kp-license:show-code',async event=>{
+    const url=event.senderFrame?.url.split('#')[0];
+    if(event.sender!==win.webContents||url!==activationURL&&!(claims&&url===indexURL))throw Error('Untrusted activation request.');
+    await win.loadFile(activationPath);return true;
   });
   await refresh();
   await win.loadFile(claims?indexPath:activationPath);

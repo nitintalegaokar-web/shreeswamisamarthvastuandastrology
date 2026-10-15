@@ -14,6 +14,12 @@ final class LicenseManager {
  private final Context context; private final String systemId; private final SharedPreferences prefs; private final JSONArray keys;
  LicenseManager(Context c,String id)throws Exception{context=c;systemId=id;prefs=c.getSharedPreferences("activation",0);keys=new JSONArray(readKeys(c));}
  private static String readKeys(Context c)throws Exception{try(java.io.InputStream in=c.getAssets().open("owner-public-keys.json");java.io.ByteArrayOutputStream out=new java.io.ByteArrayOutputStream()){byte[] bytes=new byte[1024];int n;while((n=in.read(bytes))!=-1)out.write(bytes,0,n);return out.toString("UTF-8");}}
+ static String codeEnvelope(String text,boolean status)throws Exception{
+  if(text==null||text.length()>16384)throw new Exception("Paste the complete owner key.");
+  String[] parts=text.replaceAll("\\s", "").split("\\.",-1);
+  if(parts.length!=3||!(status?"KP-S1":"KP-A1").equals(parts[0])||!parts[1].matches("[A-Za-z0-9_-]{1,12000}")||!parts[2].matches("[A-Za-z0-9_-]{86}"))throw new Exception("Paste a complete "+(status?"status key (KP-S1…)":"activation key (KP-A1…)"));
+  return new JSONObject().put("payload",parts[1]).put("signature",parts[2]).toString();
+ }
  static final class Signed {JSONObject claims;String key;Signed(JSONObject c,String k){claims=c;key=k;}}
  private Signed signed(String text)throws Exception{
   if(text==null||text.length()>16384)throw new Exception("Choose a valid KP licence/status file.");

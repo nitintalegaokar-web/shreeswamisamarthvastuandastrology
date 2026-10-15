@@ -1,5 +1,5 @@
 {
-  "version": "1.2.5",
+  "version": "1.2.6",
   "minimumAndroid": "9 (API 28)",
   "targetAndroidAPI": 35,
   "sourceSHA256": "fd706a076af0d51400eca55cda72f5280b38a20b16349c3c78a395ba2cacbdaa",
@@ -7,14 +7,14 @@
   "signingCertificateSHA256": "a39eb15bd95eb0f822bec42dfe618a435ff0547cc76d1f99ef51da4db7f4fbb5",
   "files": [
     {
-      "name": "KP-Master-Customer-1.2.5.apk",
+      "name": "KP-Master-Customer-1.2.6.apk",
       "bytes": 14287518,
-      "sha256": "a6608dfd112423766fe26a9021767ecc4ff0ef6fe745e585c3135cc708085df8"
+      "sha256": "cdbc53b3cb30b1ce29841bccc53d81f8fa59350f2ae51bfbeec0fc4edcf919de"
     },
     {
-      "name": "KP-Master-Owner-1.2.5.apk",
+      "name": "KP-Master-Owner-1.2.6.apk",
       "bytes": 14287518,
-      "sha256": "fee7d5ea9659319ee96a154f0993112e1843ad7bce9d30116fbf0c68a822f59d"
+      "sha256": "3c0621d07bcee4e394e710b9bb61466f84624115befe824da003919bb9880a09"
     }
   ]
 }

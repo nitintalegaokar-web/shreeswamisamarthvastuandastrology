@@ -1,0 +1,37 @@
+{
+  "version": "1.2.6",
+  "activation": "Copy/paste signed KP-A1 activation and KP-S1 status keys",
+  "approvedOwnerKeyIds": [
+    "FFD543E7AFCE69618D61325E",
+    "D5909EAD14FB2D4717E98A8C",
+    "77F4455FF0BD330B82760384"
+  ],
+  "calculationSourceSHA256": "fd706a076af0d51400eca55cda72f5280b38a20b16349c3c78a395ba2cacbdaa",
+  "files": [
+    {
+      "name": "KP-Master-Owner-Setup-1.2.6-x64.exe",
+      "bytes": 103442628,
+      "sha256": "046620a0c60d94fce36084db3e72d8f9fc0c378b8c9efcdb265ea0f333316cd4"
+    },
+    {
+      "name": "KP-Master-Setup-1.2.6-x64.exe",
+      "bytes": 103457754,
+      "sha256": "a878eb7e18c5aa5e40867da142299e2b566324208cde2b430532114f76f33042"
+    },
+    {
+      "name": "KP-Master-Owner-Activation-Setup-1.2.6-x64.exe",
+      "bytes": 91827426,
+      "sha256": "16ab034be85b7a0447cc327ec34dc56179c302aa811ba2d87fc24e7bd07552b8"
+    },
+    {
+      "name": "android/dist/KP-Master-Owner-1.2.6.apk",
+      "bytes": 14287518,
+      "sha256": "3c0621d07bcee4e394e710b9bb61466f84624115befe824da003919bb9880a09"
+    },
+    {
+      "name": "android/dist/KP-Master-Customer-1.2.6.apk",
+      "bytes": 14287518,
+      "sha256": "cdbc53b3cb30b1ce29841bccc53d81f8fa59350f2ae51bfbeec0fc4edcf919de"
+    }
+  ]
+}

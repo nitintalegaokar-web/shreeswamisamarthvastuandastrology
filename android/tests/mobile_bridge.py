@@ -29,7 +29,7 @@ try:
  pdf.close();preview.close()
  assert p.evaluate('JSON.stringify({model:currentKPModel,periods:mdDashaPeriods})')==before
  for edition in ['Owner','Customer']:
-  with zipfile.ZipFile(ROOT/f'android/dist/KP-Master-{edition}-1.2.5.apk') as z:
+  with zipfile.ZipFile(ROOT/f'android/dist/KP-Master-{edition}-1.2.6.apk') as z:
    assert z.read('assets/index.html')==(ROOT/'index.html').read_bytes()
    assert 'classes.dex' in z.namelist()
  print('Mobile scrolling tables, nine North planets, A4 PDF bounds, exports, backup and unchanged calculator: PASS')

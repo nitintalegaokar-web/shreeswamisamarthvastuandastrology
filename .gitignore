@@ -46,3 +46,6 @@ desktop/owner-public-key.pem
 desktop/owner-edition/app/
 desktop/owner-edition/dist/
 desktop/owner-edition/node_modules
+
+# Generated owner copy of the signed-code transport module.
+desktop/owner/activation-code.cjs

@@ -9,8 +9,8 @@ function parseClientRequest(text){
   return {systemId:normalizedId(ids[0]),ownerKeyIds};
 }
 function checkClientKey(id,approved,request){
-  if(!approved.includes(id))throw Error('This owner key does not match Customer 1.2.2. Open your existing approved owner key. Accepted Key IDs: '+approved.join(', ')+'.');
-  if(request?.ownerKeyIds&&!request.ownerKeyIds.includes(id))throw Error('This customer request uses a different owner key. Open the matching approved key or install Customer 1.2.2.');
+  if(!approved.includes(id))throw Error('This owner key does not match Customer 1.2.6. Open your existing approved owner key. Accepted Key IDs: '+approved.join(', ')+'.');
+  if(request?.ownerKeyIds&&!request.ownerKeyIds.includes(id))throw Error('This customer request uses a different owner key. Install Customer 1.2.6 on the customer device, then save and open a NEW System ID file.');
   return true;
 }
 module.exports={parseClientRequest,checkClientKey};

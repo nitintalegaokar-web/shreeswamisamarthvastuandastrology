@@ -9,6 +9,9 @@ public class LicenseTest{
   rejects(()->m.importLicence(read(d,"tampered.json")));rejects(()->m.importLicence(read(d,"wrong-device.json")));rejects(()->m.importLicence(read(d,"expired.json")));rejects(()->m.importLicence(read(d,"foreign-key.json")));m.active();assertions++;
   m.importControl(read(d,"deactivate.json"));rejects(()->m.active());m.importControl(read(d,"activate.json"));m.active();assertions++;
   rejects(()->m.importControl(read(d,"deactivate.json")));rejects(()->m.importControl(read(d,"wrong-control.json")));rejects(()->m.importControl(read(d,"altered-control.json")));m.active();assertions++;
+  JSONObject valid=new JSONObject(read(d,"valid.json"));String code="KP-A1."+valid.getString("payload")+"."+valid.getString("signature");m.importLicence(LicenseManager.codeEnvelope(code,false));m.active();assertions++;
+  rejects(()->LicenseManager.codeEnvelope(code,true));rejects(()->LicenseManager.codeEnvelope("bad",false));
+  JSONObject off=new JSONObject(read(d,"deactivate.json"));String offCode="KP-S1."+off.getString("payload")+"."+off.getString("signature");LicenseManager fresh=new LicenseManager(new Context(d.toString()),id);fresh.importLicence(LicenseManager.codeEnvelope(code,false));fresh.importControl(LicenseManager.codeEnvelope(offCode,true));rejects(()->fresh.active());
   JSONObject request=new JSONObject(read(d,"owner-request.json"));if(!m.request().contains(request.getString("systemId")))throw new AssertionError();assertions++;
   System.out.println("Android signed-licence/control compatibility: PASS ("+assertions+" assertions)");
  }
