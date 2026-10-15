@@ -1,3 +1,9 @@
+# Android icon toolbar update · 1.2.5
+
+Added a persistent Hide icons / Show icons arrow above the shortcut toolbar.
+The preference is included in mobile data backups; the arrow is hidden in print.
+Calculator HTML, native code, signing identity and activation are unchanged.
+
 # Android readability update · 1.2.4
 
 Home tables use readable text and horizontal scrolling; North Indian charts have
