@@ -9,6 +9,8 @@ const {readHistory,writeHistory,changeRemoval,historyText}=require('./history.cj
 const {toCode,fromCode}=require('./activation-code.cjs');
 const helpContent=require('./help.json');
 const {keyVault}=require('./key-vault.cjs');
+const {unlock}=require('./owner-access.cjs');
+const accessBundle=require('./owner-access.json');
 let vault,remembered=false,rememberedKeyId='',rememberError='';
 const {parseClientRequest,checkClientKey}=require('./client-request.cjs');
 const approvedKeyIds=require('./client-keys.json').ownerKeyIds;let clientRequest=null;
@@ -16,7 +18,7 @@ const ownerPath=path.join(__dirname,'index.html'),ownerURL=pathToFileURL(ownerPa
 let win,privateKey=null,publicPem='',privateFile='';
 const cleanName=name=>String(name).replace(/[<>:"/\\|?*\x00-\x1f]/g,'_').replace(/[. ]+$/,'').slice(0,100);
 function trusted(event){if(event.sender!==win.webContents||event.senderFrame?.url!==ownerURL)throw Error('Untrusted owner-tool request.');}
-function requireKey(){if(!privateKey)throw Error('Create or open your owner key first.');}
+function requireKey(){if(!privateKey)throw Error('Unlock the owner tool with your owner access code first.');}
 function password(value){if(typeof value!=='string'||value.length<12||value.length>512)throw Error('Use an owner-key password of 12–512 characters.');return value;}
 function setKey(key,file){if(key.asymmetricKeyType!=='ed25519')throw Error('Choose an Ed25519 owner key.');privateKey=key;publicPem=crypto.createPublicKey(key).export({format:'pem',type:'spki'});privateFile=file;}
 function status(){const id=privateKey?keyId(publicPem):'';return {unlocked:Boolean(privateKey),keyId:id,compatible:approvedKeyIds.includes(id),acceptedKeyIds:approvedKeyIds,filename:privateFile?path.basename(privateFile):'',remembered:remembered&&rememberedKeyId===id,canRemember:Boolean(vault?.available()),rememberError};}
@@ -29,8 +31,8 @@ function helpText(lang){const help=helpContent[language(lang)];return '\uFEFF'+[
 if(!app.requestSingleInstanceLock())app.quit();else{
 app.on('second-instance',()=>{if(win){if(win.isMinimized())win.restore();win.focus();}});
 app.whenReady().then(async()=>{
-  vault=keyVault({safeStorage,file:path.join(app.getPath('userData'),'owner-key.dpapi'),approvedKeyIds});
-  try{remembered=await vault.exists();const saved=await vault.load();if(saved){setKey(saved,'Remembered owner key');rememberedKeyId=keyId(saved);}}catch(error){rememberError=error.message;}
+  vault=keyVault({safeStorage,file:path.join(app.getPath('userData'),'owner-access.dpapi'),approvedKeyIds});
+  try{remembered=await vault.exists();const saved=await vault.load();if(saved&&keyId(saved)===accessBundle.ownerKeyId){setKey(saved,'Owner access');rememberedKeyId=keyId(saved);}}catch(error){rememberError=error.message;}
 
   Menu.setApplicationMenu(null);
   session.defaultSession.webRequest.onBeforeRequest({urls:['http://*/*','https://*/*','ws://*/*','wss://*/*']},(_details,callback)=>callback({cancel:true}));
@@ -38,6 +40,11 @@ app.whenReady().then(async()=>{
   win=new BrowserWindow({width:1020,height:780,minWidth:830,minHeight:680,show:false,title:'KP Master · Owner Activation',backgroundColor:'#f2f5f8',webPreferences:{nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,preload:path.join(__dirname,'preload.cjs')}});
   win.webContents.setWindowOpenHandler(()=>({action:'deny'}));win.webContents.on('will-navigate',event=>event.preventDefault());win.webContents.on('will-attach-webview',event=>event.preventDefault());
   ipcMain.handle('kp-owner:status',event=>{trusted(event);return status();});
+  ipcMain.handle('kp-owner:unlock-access',async(event,code)=>{
+    trusted(event);const key=unlock(accessBundle,code,approvedKeyIds);setKey(key,'Owner access');remembered=false;rememberedKeyId='';rememberError='';
+    if(vault.available())try{await vault.save(key);remembered=true;rememberedKeyId=keyId(key);}catch{rememberError='Owner access is ready for this session. Windows could not remember it; enter the code next time.';}
+    return status();
+  });
   ipcMain.handle('kp-owner:create',async(event,passphrase)=>{
     trusted(event);password(passphrase);
     const selected=await dialog.showSaveDialog(win,{title:'Save encrypted owner private key',defaultPath:path.join(app.getPath('documents'),'KP-Owner.private-key.pem'),filters:[{name:'Encrypted owner key',extensions:['pem']}]});

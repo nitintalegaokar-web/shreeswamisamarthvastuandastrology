@@ -5,47 +5,45 @@
       {
         "heading": "Activate a new customer",
         "steps": [
-          "Install Customer 1.2.6 on the customer PC or phone. Ask the customer to copy their System ID and send it to you.",
-          "One time only: open your existing owner key with its password and keep Remember securely on this Windows PC selected. Reuse the same owner key for every customer. Keep the original key and password backed up.",
-          "Paste the customer System ID, enter their name, and select Permanent license or an expiry date.",
-          "Click Generate activation key, then Copy key to send to customer. Send the complete KP-A1 key as text. No licence file is needed.",
-          "The customer pastes the key into Activation key and presses Activate / Apply key (or Enter activation key in the Android app).",
-          "Customer 1.2.6 accepts recovered owner key 77F4455FF0BD330B82760384 and previous approved keys FFD543E7AFCE69618D61325E and D5909EAD14FB2D4717E98A8C. Older customer builds cannot accept the recovered key or pasted codes."
+          "Install Customer 1.2.7 on their PC or phone. Ask them to copy and send their System ID.",
+          "On first use only, enter the new owner access code supplied with Activation 1.2.7 and click Continue. No old key file or password is required.",
+          "Paste the customer System ID, enter their name and choose Permanent license or an expiry date.",
+          "Click Generate activation key → Copy key. Send the complete KP-A1 key as text.",
+          "Customer pastes the key in Activation key and presses Activate / Apply."
         ]
       },
       {
-        "heading": "One-time setup and secure remembering",
+        "heading": "Owner access on this PC",
         "steps": [
-          "Windows protects the remembered key for this Windows account and PC. Keep the original encrypted .pem file and its password in a separate backup.",
-          "Next time go straight to the customer System ID, name, period, then Generate activation key. Your password is not stored.",
-          "Lock and forget this PC removes the remembered copy and locks the current session. Reinstalling Windows, changing accounts or moving computers requires your original backup and password."
+          "Windows securely remembers your access. On later launches, go directly to the customer details.",
+          "Keep your owner access code private and backed up. It unlocks the owner tool; never give it to a customer. No access code or plaintext private key is included in the downloads.",
+          "Lock owner tool removes remembered access on this PC. Enter the same new owner access code to unlock it again. Reinstalling Windows or changing computers also requires that code."
         ]
       },
       {
         "heading": "Activate / Deactivate an existing license",
         "steps": [
-          "In the customer list, green Activate or red Deactivate generates a signed KP-S1 status key. Click Copy key and send it to that customer.",
-          "Customer pastes the status key into the activation key box. In a running Windows app use the top-right menu → Enter Activate / Deactivate key. In Android use ☰ → Enter Activate / Deactivate key.",
-          "Issued status records a generated key. Offline changes apply only after the customer pastes the status key. This list does not confirm the state of an offline device.",
-          "Activate does not extend expiry. To renew, generate a new activation key with the required expiry. Copy key and Copy status key in the list let you resend the saved codes."
+          "Green Activate and red Deactivate generate a KP-S1 status key. Copy it and send it to the customer.",
+          "Customers paste status keys into the same activation screen; running apps provide Enter Activate / Deactivate key in their menu.",
+          "The list shows issued status. An offline device changes status only when its customer pastes the status key. Activate does not extend expiry.",
+          "Earlier licences remain valid. Status changes require the same issuing owner identity; for older entries without that key, issue a new activation key using the new owner tool."
         ]
       },
       {
         "heading": "Remove incorrect entries and save records",
         "steps": [
-          "Remove hides that exact entry from the recent-license list. It does not delete the customer’s license file or deactivate their computer.",
-          "Open Removed entries and click Restore to put an entry back. Its original license ID, expiry and status revision are retained.",
-          "Save list as Text exports all entries in the current list, including entries beyond the first displayed page. Removed entries are excluded.",
-          "Save help as Text saves these instructions. Text exports contain no private key or password."
+          "Remove hides only that exact history entry. It does not deactivate the customer.",
+          "Removed entries → Restore returns it with the same expiry and status revision.",
+          "Save list as Text exports every retained row, including rows not yet displayed. Removed rows are excluded.",
+          "Copy key or Copy status key lets you resend an existing generated code."
         ]
       },
       {
-        "heading": "When activation fails",
+        "heading": "Device changes and compatibility",
         "steps": [
-          "Owner-signature error: compare the opened owner Key ID with the accepted Key IDs on the customer’s activation screen. Use the same approved key for future licenses.",
-          "Different-computer error: get a fresh Copy ID from the actual customer PC and issue a new license for that ID.",
-          "Unavailable System ID: click Retry ID in Customer 1.2.6. Date/time or expired-license errors need the indicated correction.",
-          "Keep your encrypted private key and password on your PC. Send customers only their .kplicense or .kpcontrol file."
+          "The customer must install version 1.2.7 for the new owner identity. A phone and PC have different System IDs and need separate keys.",
+          "Older approved public identities remain accepted: FFD543E7AFCE69618D61325E, D5909EAD14FB2D4717E98A8C and 77F4455FF0BD330B82760384.",
+          "Optional file imports continue to support earlier .kplicense and .kpcontrol files. No calculation formula is changed."
         ]
       }
     ]
@@ -54,51 +52,22 @@
     "title": "मालक सक्रियकरण मदत",
     "sections": [
       {
-        "heading": "सोपे सक्रियकरण · 1.2.6",
+        "heading": "नवीन ग्राहक सक्रिय करा",
         "steps": [
-          "ग्राहकाच्या PC किंवा फोनवर Customer 1.2.6 स्थापित करा. त्यांचा System ID कॉपी करून मागवा.",
-          "एकदाच: मूळ मालक किल्ली पासवर्डने उघडा व या Windows संगणकावर सुरक्षितपणे लक्षात ठेवा निवडा. मूळ किल्ली व पासवर्डचा बॅकअप ठेवा.",
-          "System ID पेस्ट करा, ग्राहकाचे नाव व परवान्याची मुदत निवडा. सक्रियकरण किल्ली तयार करा व कॉपी करा.",
-          "पूर्ण KP-A1 किल्ली ग्राहकाला मजकूर म्हणून पाठवा. ग्राहकाने ती पेस्ट करून सक्रिय करा दाबावे. फाइल पाठवण्याची गरज नाही.",
-          "सक्रिय/निष्क्रिय बटणे KP-S1 स्थिती किल्ली तयार करतात. ग्राहकाने ती पेस्ट केल्यावर स्थिती लागू होते. ऑफलाइन ग्राहकाची प्रत्यक्ष स्थिती येथे आपोआप दिसत नाही."
+          "ग्राहकाकडे Customer 1.2.7 स्थापित करा व त्यांचा System ID मागवा.",
+          "एकदाच नवीन मालक प्रवेश कोड द्या व पुढे चला दाबा. जुनी किल्ली किंवा पासवर्ड नको.",
+          "System ID, नाव व मुदत निवडून सक्रियकरण किल्ली तयार करा व कॉपी करा.",
+          "पूर्ण KP-A1 किल्ली ग्राहकाला पाठवा. ग्राहकाने पेस्ट करून सक्रिय करा दाबावे."
         ]
       },
       {
-        "heading": "पूर्वीच्या फाइल पद्धतीसाठी · नवीन ग्राहक सक्रिय करा",
+        "heading": "मालक प्रवेश व नोंदी",
         "steps": [
-          "ग्राहकाच्या संगणकावर Customer Setup 1.2.6 बसवा. System ID फाइल जतन करा निवडून ती मजकूर फाइल मागवा.",
-          "आपल्या संगणकावर जुन्या किल्लीचा पासवर्ड लिहा आणि Open owner key निवडा. प्रत्येक ग्राहकासाठी तीच मालक किल्ली वापरा.",
-          "Customer 1.2.6 मध्ये सध्याची किल्ली D5909EAD14FB2D4717E98A8C आणि मूळ किल्ली FFD543E7AFCE69618D61325E स्वीकारली जाते. उघडलेल्या किल्लीचा ID तपासा. नवीन किल्लीसाठी जुळणारे ग्राहक सॉफ्टवेअर आवश्यक आहे.",
-          "ग्राहकाची System ID फाइल उघडा निवडून ID आपोआप घ्या किंवा Copy ID लिहा. ग्राहकाचे नाव व कायमस्वरूपी परवाना किंवा पुढील अंतिम तारीख (UTC) निवडा.",
-          "सक्रियकरण परवाना तयार करा निवडा. जतन केलेली .kplicense फाइल ग्राहकाला पाठवा.",
-          "ग्राहकाने सक्रिय करा / सॉफ्टवेअर उघडा निवडून स्वतःची .kplicense फाइल निवडावी. जुळणाऱ्या संगणकावर सॉफ्टवेअर आपोआप उघडेल व ऑफलाइन चालेल."
-        ]
-      },
-      {
-        "heading": "दिलेला परवाना सक्रिय / निष्क्रिय करा",
-        "steps": [
-          "त्या नोंदीचा परवाना देणारी किल्ली उघडा. हिरवे सक्रिय करा व लाल निष्क्रिय करा बटण सही केलेली .kpcontrol फाइल तयार करते.",
-          "स्थिती फाइल ग्राहकाला पाठवा. चालू सॉफ्टवेअरमध्ये वरच्या ⋮ मेनूमधील Import license status वापरा; बंद सक्रियकरण स्क्रीनवर Import status file वापरा.",
-          "दिलेली स्थिती म्हणजे फाइल तयार झाली आहे. ऑफलाइन ग्राहकाने फाइल आयात केल्यानंतरच बदल लागू होतो.",
-          "सक्रिय करा बटण मुदत वाढवत नाही. मुदत संपल्यास योग्य अंतिम तारीख निवडून नवीन .kplicense तयार करा."
-        ]
-      },
-      {
-        "heading": "चुकीच्या नोंदी काढा आणि मजकूर जतन करा",
-        "steps": [
-          "नोंद काढा बटण त्या नोंदीला यादीतून लपवते. ग्राहकाची परवाना फाइल हटत नाही आणि संगणक निष्क्रिय होत नाही.",
-          "काढलेल्या नोंदी उघडून पुनर्स्थापित करा निवडा. मूळ परवाना ID, अंतिम तारीख व स्थिती आवृत्ती कायम राहते.",
-          "यादी मजकूर म्हणून जतन करा बटण सध्याच्या यादीतील सर्व नोंदी निर्यात करते. पुढील पानांवरील नोंदी समाविष्ट होतात; काढलेल्या नोंदी समाविष्ट होत नाहीत.",
-          "मदत मजकूर म्हणून जतन करा बटण या सूचना जतन करते. मजकूर निर्यातीत गुप्त किल्ली किंवा पासवर्ड नसतो."
-        ]
-      },
-      {
-        "heading": "सक्रियकरण अयशस्वी झाल्यास",
-        "steps": [
-          "मालकाची सही जुळत नसल्यास ग्राहकाच्या सक्रियकरण स्क्रीनवरील स्वीकृत किल्ली ID आणि उघडलेली मालक किल्ली तपासा. पुढील परवान्यांसाठी तीच स्वीकृत किल्ली वापरा.",
-          "वेगळ्या संगणकाचा संदेश आल्यास प्रत्यक्ष ग्राहकाच्या संगणकावरून नवीन Copy ID मागवा आणि त्या ID साठी परवाना तयार करा.",
-          "System ID उपलब्ध नसल्यास Customer 1.2.6 मध्ये Retry ID वापरा. चुकीची वेळ किंवा मुदत संपल्याचा संदेश असल्यास त्यानुसार दुरुस्ती करा.",
-          "पासवर्डयुक्त गुप्त किल्ली व पासवर्ड आपल्या संगणकावरच ठेवा. ग्राहकाला फक्त .kplicense किंवा .kpcontrol पाठवा."
+          "Windows मालकाचा प्रवेश या संगणकावर सुरक्षितपणे लक्षात ठेवते. नवीन मालक प्रवेश कोडचा खासगी बॅकअप ठेवा. ग्राहकाला तो देऊ नका.",
+          "मालक साधन बंद करा वापरल्यावर पुन्हा मालक प्रवेश कोड द्यावा लागेल.",
+          "सक्रिय/निष्क्रिय बटणांनी KP-S1 स्थिती किल्ली तयार होते. ती ग्राहकाने पेस्ट केल्यावर स्थिती लागू होते.",
+          "ग्राहकांची नावे, System ID, मुदत व दिलेली स्थिती यादीत दिसते. ऑफलाइन ग्राहकाची प्रत्यक्ष स्थिती येथे आपोआप समजत नाही.",
+          "पूर्वीचे परवाने चालतील. पूर्वीच्या मालक किल्लीशिवाय जुनी स्थिती बदलता येत नसेल तर नवीन परवाना द्या. गणना बदललेल्या नाहीत."
         ]
       }
     ]

@@ -1,6 +1,6 @@
 {
   "name": "kp-master-activation",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Owner tool for issuing computer-bound KP Master licenses",
   "author": "Nitin Talegaonkar",
   "private": true,
@@ -27,7 +27,9 @@
       "client-request.cjs",
       "client-keys.json",
       "key-vault.cjs",
-      "activation-code.cjs"
+      "activation-code.cjs",
+      "owner-access.cjs",
+      "owner-access.json"
     ],
     "asar": true,
     "win": {

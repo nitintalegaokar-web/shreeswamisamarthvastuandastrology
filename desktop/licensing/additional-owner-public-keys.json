@@ -2,6 +2,7 @@
   "version": 1,
   "publicKeys": [
     "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAE51RWCaTF1cQNX/0JU/Y+Bj/57CIojnCgPR7x+BhD8w=\n-----END PUBLIC KEY-----\n",
-    "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAyYQNROeh4BO2dI2J7rVjxJugkt47iYeQd7vsfaZ3YIQ=\n-----END PUBLIC KEY-----\n"
+    "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAyYQNROeh4BO2dI2J7rVjxJugkt47iYeQd7vsfaZ3YIQ=\n-----END PUBLIC KEY-----\n",
+    "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA/GBTwtO9qEhGTE4EAs/2yofNj8QPh/XSIkke0pZpzVo=\n-----END PUBLIC KEY-----\n"
   ]
 }

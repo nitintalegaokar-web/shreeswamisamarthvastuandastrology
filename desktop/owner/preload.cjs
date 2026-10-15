@@ -2,6 +2,7 @@
 const {contextBridge,ipcRenderer}=require('electron');
 contextBridge.exposeInMainWorld('KPOwner',Object.freeze({
   copyCode:code=>ipcRenderer.invoke('kp-owner:copy-code',code),
+  unlockAccess:code=>ipcRenderer.invoke('kp-owner:unlock-access',code),
   status:()=>ipcRenderer.invoke('kp-owner:status'),
   create:password=>ipcRenderer.invoke('kp-owner:create',password),
   open:password=>ipcRenderer.invoke('kp-owner:open',password),
