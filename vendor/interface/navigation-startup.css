@@ -1,0 +1,6 @@
+/* Apply before the first body paint. Legacy shortcuts stay hidden; the left panel is optional. */
+@media screen{
+html body #kp-quick-tools,html body.app-ready #kp-quick-tools,html body .kp-sidebar-arrow,html body.app-ready .kp-sidebar-arrow{display:none!important}
+html body:not(.kp-navigation-ready) .app-sidebar,html body.kp-sidebar-hidden .app-sidebar{display:none!important}
+html body.app-ready.kp-sidebar-hidden :is(.workspace-topbar,main,.software-footer){margin-left:0!important}
+}

@@ -54,6 +54,7 @@ const assets = [
   ['script', 'kp-rules-workspace', 'vendor/resources/rules-workspace.js'],
   ['script', 'kp-developer-credit', 'vendor/interface/developer-credit.js'],
   ['style', 'kp-compact-navigation-style', 'vendor/interface/compact-navigation.css'],
+  ['style', 'kp-compact-horary-sheet', 'vendor/interface/horary-sheet-layout.css'],
   ['style', 'kp-dark-readability', 'vendor/interface/dark-readability.css'],
   ['script', 'kp-compact-navigation-script', 'vendor/interface/compact-navigation.js'],
   ['script', 'kp-panchang-single-summary', 'vendor/interface/panchang-single-summary.js'],
@@ -95,6 +96,10 @@ const eventBlock = '<script id="kp-event-rule-data" type="application/json">'+ev
 const eventExpression = /<script id="kp-event-rule-data"[^>]*>[\s\S]*?<\/script>/;
 if(eventExpression.test(html))html=html.replace(eventExpression,()=>eventBlock);
 else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+eventBlock+'\n'+html.slice(at);}
+// Apply the navigation guard before the first body paint, rather than at the end.
+const navigationGuard = fs.readFileSync(path.join(root,'vendor/interface/navigation-startup.css'),'utf8').trimEnd();
+html=html.replace(/<style id="kp-navigation-startup-guard">[\s\S]*?<\/style>\s*/g,'');
+html=html.replace(/<\/head>/i,()=>'<style id="kp-navigation-startup-guard">'+navigationGuard+'\n</style>\n</head>');
 for (const [tag, id, relative] of assets) {
   const body = fs.readFileSync(path.join(root, relative), 'utf8').trimEnd();
   const closing = `</${tag}>`;
