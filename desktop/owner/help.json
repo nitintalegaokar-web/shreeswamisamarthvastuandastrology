@@ -5,7 +5,7 @@
       {
         "heading": "Activate a new customer",
         "steps": [
-          "Install Customer 1.2.7 on their PC or phone. Ask them to copy and send their System ID.",
+          "Install Customer 1.2.8 on their PC or phone. Ask them to copy and send their System ID.",
           "On first use only, enter the new owner access code supplied with Activation 1.2.7 and click Continue. No old key file or password is required.",
           "Paste the customer System ID, enter their name and choose Permanent license or an expiry date.",
           "Click Generate activation key → Copy key. Send the complete KP-A1 key as text.",
@@ -41,7 +41,7 @@
       {
         "heading": "Device changes and compatibility",
         "steps": [
-          "The customer must install version 1.2.7 for the new owner identity. A phone and PC have different System IDs and need separate keys.",
+          "The customer must install version 1.2.8 for the owner identity. A phone and PC have different System IDs and need separate keys.",
           "Older approved public identities remain accepted: FFD543E7AFCE69618D61325E, D5909EAD14FB2D4717E98A8C and 77F4455FF0BD330B82760384.",
           "Optional file imports continue to support earlier .kplicense and .kpcontrol files. No calculation formula is changed."
         ]
@@ -54,7 +54,7 @@
       {
         "heading": "नवीन ग्राहक सक्रिय करा",
         "steps": [
-          "ग्राहकाकडे Customer 1.2.7 स्थापित करा व त्यांचा System ID मागवा.",
+          "ग्राहकाकडे Customer 1.2.8 स्थापित करा व त्यांचा System ID मागवा.",
           "एकदाच नवीन मालक प्रवेश कोड द्या व पुढे चला दाबा. जुनी किल्ली किंवा पासवर्ड नको.",
           "System ID, नाव व मुदत निवडून सक्रियकरण किल्ली तयार करा व कॉपी करा.",
           "पूर्ण KP-A1 किल्ली ग्राहकाला पाठवा. ग्राहकाने पेस्ट करून सक्रिय करा दाबावे."

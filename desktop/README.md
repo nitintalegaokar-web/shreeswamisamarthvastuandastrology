@@ -1,3 +1,17 @@
+## Current installer release · 1.2.8 · 16 October 2026
+
+Owner calculator, customer calculator and owner activation tool share version 1.2.8.
+The calculators package the updated Windows HTML, including the compact RP timing
+finder with in-app A4 preview, synchronized Event Promise/Horary queries and current
+Dasha/Bhukti selection. Calculation engines and existing activation identities are
+preserved. Existing owner access setup remains valid; no new key is required.
+
+Windows 10/11 x64. Install Owner on your own PC; distribute Customer to clients.
+The separate Activation tool creates activation/status keys for a customer's System ID.
+Keep owner access information private. Installers are unsigned. Native Windows
+installation still needs a Windows machine; payload/CRC checks and the Linux
+Electron owner smoke test are recorded in this release's validation manifest.
+
 ## Current installer release · 1.2.3 · 14 October 2026
 
 - `KP-Master-Owner-Setup-1.2.3-x64.exe`: unlocked owner calculator.

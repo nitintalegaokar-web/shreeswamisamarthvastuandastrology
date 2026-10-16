@@ -1,3 +1,13 @@
+# Updated Android release · 1.2.8 · 16 October 2026
+
+Owner and Customer APKs package the same updated calculator as Windows 1.2.8,
+including in-app RP preview, matching Event Promise/Horary selection and current
+Dasha/Bhukti selection. The original signing certificate, package IDs and customer
+activation trust remain unchanged. Install over the existing app to retain its data;
+export your mobile backup first. Android 9+ with a current System WebView is required.
+Use the existing owner activation access with the Windows Activation 1.2.8 tool.
+Real-phone installation and printing remain to be verified on your device.
+
 # KP MASTER Android · 1.2.3
 
 These are first Android builds; real-phone verification remains pending. Try

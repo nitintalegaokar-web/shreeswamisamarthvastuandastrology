@@ -6,7 +6,7 @@ class RulingFinderTests(personal.PersonalPredictionTests):
   page=self.page
   self.assertEqual(page.locator('.kp-small-shortcuts>button[aria-label="Ruling Planet"]').count(),1)
   self.assertEqual(page.locator('.kp-main-menu button[data-kp-menu-action="@ruling"]').count(),1)
-  page.locator('.kp-small-shortcuts>button[aria-label="Ruling Planet"]').click();page.wait_for_selector('#kp-ruling-finder[open]');self.assertEqual(page.locator('#rpf-range option').count(),6)
+  page.locator('.kp-small-shortcuts>button[aria-label="Ruling Planet"]').click();page.wait_for_selector('#kp-ruling-finder[open]');self.assertEqual(page.locator('#rpf-range option').count(),6);page.locator('#rpf-print').click();page.wait_for_selector('#rpf-preview[open]');self.assertIn('No calculated results yet',page.locator('.rpf-paper').inner_text());page.locator('[data-rpf-close]').click()
   ends=page.evaluate("Object.fromEntries(Object.keys(KPRulingFinder.presets()).map(k=>[k,KPRulingFinder.endOf(new Date('2024-01-31T12:00:00Z'),k).toISOString()]))")
   self.assertEqual(ends['month'],'2024-02-29T12:00:00.000Z');self.assertEqual(ends['years13'],'2037-01-31T12:00:00.000Z')
   page.locator('#rpf-find').click();page.wait_for_function('!document.getElementById("rpf-find").disabled',timeout=90000);self.assertIn('matching intervals',page.locator('#rpf-status').inner_text());self.assertFalse(page.locator('#rpf-print').is_disabled());page.locator('#kp-ruling-finder').screenshot(path='/tmp/kp-ruling-finder.png')
@@ -14,8 +14,9 @@ class RulingFinderTests(personal.PersonalPredictionTests):
   original=page.evaluate("KPRulingFinder.getResults()")
   if original:
    page.locator('[data-rpf-refine]').first.click();page.wait_for_function('!document.getElementById("rpf-find").disabled',timeout=90000);refined=page.evaluate('KPRulingFinder.getResults()');self.assertTrue(all(r['start']>=original[0]['start'] and r['end']<=original[0]['end'] for r in refined));self.assertIn('original query RP retained',page.locator('#rpf-focus').inner_text())
-  with page.expect_popup() as opened:page.locator('#rpf-print').click()
-  popup=opened.value;popup.wait_for_load_state();self.assertIn('Ruling Planet',popup.title());popup.close()
+  page.evaluate('window.open=()=>null');page.locator('#rpf-print').click();page.wait_for_selector('#rpf-preview[open]');self.assertIn('Ruling Planet',page.locator('#rpf-preview h1').inner_text());
+  import fitz
+  pdf=fitz.open(stream=page.pdf(path='/tmp/kp-rpf-preview.pdf',format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf');self.assertGreaterEqual(len(pdf),1);self.assertIn('Ruling Planet',pdf[0].get_text());self.assertTrue(all(0<=b[0]<b[2]<=p.rect.width+1 and 0<=b[1]<b[3]<=p.rect.height+1 for p in pdf for b in p.get_text('blocks')));pdf.close();page.locator('[data-rpf-close]').click()
   checked=page.evaluate("""async()=>{const saved=KPTransit,requests=[];window.KPTransit={...saved,scan:async o=>{requests.push({days:(o.end-o.start)/86400000,planet:o.tracks[0].planet});return []}};try{for(const key of Object.keys(KPRulingFinder.presets())){document.getElementById('rpf-range').value=key;document.getElementById('rpf-range').dispatchEvent(new Event('change',{bubbles:true}));await KPRulingFinder.search();}}finally{window.KPTransit=saved;}return requests;}""")
   self.assertEqual([r['planet'] for r in checked],['As','As','Mo','Mo','Su','Ju']);self.assertGreater(checked[-1]['days'],4740)
   page.set_viewport_size({'width':390,'height':844});self.assertTrue(page.evaluate("document.getElementById('kp-ruling-finder').getBoundingClientRect().right<=innerWidth"));page.locator('#rpf-close').click();page.set_viewport_size({'width':1440,'height':1000})

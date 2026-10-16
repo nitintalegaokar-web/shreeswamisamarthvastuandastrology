@@ -4,7 +4,7 @@ const $=id=>document.getElementById(id),v=id=>$(id)?.value||'',esc=s=>String(s??
 const CSS='*{box-sizing:border-box}body{margin:0;color:#142d42;background:#e9eff4;font:12px Arial,sans-serif}.tools{padding:12px;display:flex;gap:10px;justify-content:center}button{padding:8px 14px;border:1px solid #aac2d3;border-radius:7px;background:white;color:#143951;cursor:pointer}.sheet{width:190mm;height:277mm;margin:12px auto;padding:6mm;background:white;overflow:hidden}.content{transform-origin:top left}h1{font-size:20px;color:#165e79;margin:0 0 7px}h2{font-size:13px;padding:5px;background:#edf4f8;color:#164d65;margin:8px 0 4px}p{margin:4px 0;line-height:1.35;overflow-wrap:anywhere}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:1px solid #bccbd5;padding:4px;vertical-align:top;overflow-wrap:anywhere}th{background:#e7f1f6;text-align:left}.verdict{border-left:4px solid #348865;padding:6px;background:#edf7f0}.notes{white-space:pre-wrap}.muted{color:#496376}@page{size:A4 portrait;margin:10mm}@media print{body{background:white}.tools{display:none}.sheet{margin:0;padding:6mm;width:190mm;height:277mm;break-after:avoid}}';
 function build(model,options={}) {
  if(!model?.ready)throw Error('Calculate the chart before preparing the query sheet.');
- const method=options.method==='sixfold'?'sixfold':'fourfold',event=KPPrediction.getCatalogue().events.find(e=>String(e.id)===String(options.eventId));
+ const method=options.method==='sixfold'?'sixfold':'fourfold',event=(options.catalogue==='handbook'?KPHandbook:KPPrediction).getCatalogue().events.find(e=>String(e.id)===String(options.eventId));
  if(!event)throw Error('Select a query from the event catalogue.');
  const cusp=Number(options.cusp||event.mainHouses?.[0]||1),analysis=KPEventPromise.analyze(model,{cusp,method,event,layers:['CSL','STL','SBL']}),verdict=KPEventOutcome.assess(analysis);
  if(!analysis.ready)throw Error(analysis.reason);
@@ -20,7 +20,7 @@ function build(model,options={}) {
  let periods=[],periodReason='';try{periods=KPDashaFal.current(model,KPHorary.nativeMoment().date).periods.map(p=>({...p,star:model.planets.find(x=>x.id===p.id)?.stl,sub:model.planets.find(x=>x.id===p.id)?.sl}));}catch(e){periodReason=e.message;}
  return {ready:true,eventId:event.id,query:event.event.en||event.event.mr,method,fields,cusp,supporting,analysis,verdict,levels,total,rp,ruling,common,filterRP:ruling.length>(method==='sixfold'?6:4),punarphoo:links.length>0,punarphooProof:links.join('; ')||'No Moon–Saturn lord, conjunction or aspect connection in the chart model.',periods,periodReason,date,time:v('tob'),place:v('birthPlace'),horaryNumber:v('horary-number'),chartKind:v('chart-kind'),question:options.question||'',opinion:options.opinion||''};
 }
-function data(){return build(currentKPModel,{eventId:v('hq-event'),method:v('hq-method'),question:v('hq-question'),opinion:v('hq-opinion')});}
+function data(){return build(currentKPModel,{eventId:v('hq-event'),catalogue:$('hq-event')?.dataset.catalogue,cusp:$('hq-event')?.dataset.catalogue==='handbook'?Number(v('ep-cusp')):undefined,method:v('hq-method'),question:v('hq-question'),opinion:v('hq-opinion')});}
 function snapshot(d=data()) {
  const rows=(a,cols)=>a.map(r=>'<tr>'+cols.map(k=>'<td>'+esc(Array.isArray(r[k])?join(r[k]):r[k]??'—')+'</td>').join('')+'</tr>').join('');
  const title=d.verdict.qualified?'House criteria matched · additional rule review required':d.verdict.promised?'Event is promised by the selected house criteria':'Event is not promised by the selected house criteria';

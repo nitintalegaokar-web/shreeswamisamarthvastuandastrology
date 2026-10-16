@@ -5,7 +5,7 @@ document.documentElement.dataset.kpMobileReady='true';
 window.print=()=>KPAndroid.printReport();
 const send=(blob,name)=>{if(blob.size>16*1024*1024){alert('This export is larger than the mobile file limit. Export smaller sections.');return;}const reader=new FileReader();reader.onload=()=>KPAndroid.saveFile(name||'KP-MASTER-export.txt',(blob.type||'application/octet-stream').split(';')[0],String(reader.result).split(',')[1]);reader.onerror=()=>alert('The file could not be prepared.');reader.readAsDataURL(blob);};
 document.addEventListener('click',async event=>{const a=event.target.closest?.('a[download]');if(!a||!a.href.startsWith('blob:')&&!a.href.startsWith('data:'))return;event.preventDefault();event.stopImmediatePropagation();try{send(await (await fetch(a.href)).blob(),a.download);}catch(e){alert('Unable to save this file: '+e.message);}},true);
-const keys=['kpMobileIconsHidden','kpRaphaelData','kpAstrologerSettings','kpResourcesV1','kpRaphaelSoftwarePreferencesV1','kpReportCoverPhoto','kpAboutPortraitV1','kpVedicChartStyleV1','kpCalculationSourcesV1','kpAspectTableColours'];
+const keys=['kp-master-small-shortcuts-visible-v1','kpMobileIconsHidden','kpRaphaelData','kpAstrologerSettings','kpResourcesV1','kpRaphaelSoftwarePreferencesV1','kpReportCoverPhoto','kpAboutPortraitV1','kpVedicChartStyleV1','kpCalculationSourcesV1','kpAspectTableColours'];
 const allowed=k=>keys.includes(k)||k.startsWith('kpResourceImportedDocument:');
 function backup(){const data={format:'KP-MASTER-mobile-backup',version:1,createdAt:new Date().toISOString(),storage:{},currentChart:typeof getChartData==='function'?getChartData():null};for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(allowed(key))data.storage[key]=localStorage.getItem(key);}send(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),'KP-MASTER-mobile-backup.json');}
 function restoreData(text){try{const data=JSON.parse(text);if(data.format!=='KP-MASTER-mobile-backup'||data.version!==1||!data.storage||Array.isArray(data.storage)||typeof data.storage!=='object')throw Error('Choose a KP MASTER mobile backup.');const entries=Object.entries(data.storage);if(entries.some(([k,v])=>!allowed(k)||typeof v!=='string'))throw Error('Invalid backup entries.');if(!confirm('Restore your saved charts, notes and settings from this backup? Existing matching saved data will be replaced.'))return false;const old=Array.from(new Set([...entries.map(([k])=>k),'kpRaphaelData'])).map(k=>[k,localStorage.getItem(k)]);try{for(const [k,v] of entries)localStorage.setItem(k,v);if(data.currentChart)localStorage.setItem('kpRaphaelData',JSON.stringify(data.currentChart));}catch(e){for(const [k,v] of old)if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v);throw e;}location.reload();return true;}catch(e){alert('Restore failed: '+e.message);return false;}}
@@ -34,7 +34,8 @@ mobileStyle.textContent=`
 document.head.append(mobileStyle);
 function readableCharts(){
  const tools=document.getElementById('kp-quick-tools');
- if(tools&&!document.getElementById('kp-mobile-icons-toggle')){
+ if(document.getElementById('kp-compact-navigation'))document.getElementById('kp-mobile-icons-toggle')?.remove();
+ if(tools&&!document.getElementById('kp-compact-navigation')&&!document.getElementById('kp-mobile-icons-toggle')){
   const toggle=document.createElement('button');toggle.id='kp-mobile-icons-toggle';toggle.type='button';toggle.setAttribute('aria-controls','kp-quick-tools');
   let hidden=false;try{hidden=localStorage.getItem('kpMobileIconsHidden')==='true';}catch(e){}
   const update=()=>{tools.classList.toggle('kp-mobile-icons-hidden',hidden);toggle.textContent=hidden?'▼ Show icons':'▲ Hide icons';toggle.setAttribute('aria-expanded',String(!hidden));};
