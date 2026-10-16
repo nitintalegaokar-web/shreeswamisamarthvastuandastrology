@@ -1,0 +1,31 @@
+/* Screen-only contrast. Printed reports retain their white A4 palette. */
+@media screen{
+body.app-ready[data-kp-theme-type=dark]{background:#122333!important;color:#edf4fc!important;color-scheme:dark}
+body.app-ready[data-kp-theme-type=dark] main :is(.card,.home-panel,.home-chart-panel,.home-calculation-panel,.home-dasha-panel,.kp-feature-card,.gem-companion-panel,.tr-card,.pc-card,.bi-card,.kp-birth-rectifier,.kp-birth-rectifier>div){background:#1c3043!important;color:#edf4fc!important;border-color:#607990!important}
+body.app-ready[data-kp-theme-type=dark] main :is(table,thead,tbody,tr,th,td){background-color:#20374b!important;color:#edf4fc!important;border-color:#617b92!important}
+body.app-ready[data-kp-theme-type=dark] main tbody tr:nth-child(even)>:is(th,td){background-color:#294257!important}
+body.app-ready[data-kp-theme-type=dark] main thead :is(th,td){background-color:#345b7d!important;color:#fff!important}
+body.app-ready[data-kp-theme-type=dark] main :is(td,th) :is(span,a,b,strong,small){color:inherit!important;background-color:transparent!important}
+body.app-ready[data-kp-theme-type=dark] :is(main,dialog) :is(input,select,textarea){background-color:#172b3d!important;color:#f0f6ff!important;border-color:#71899e!important}
+body.app-ready[data-kp-theme-type=dark] main :is(.v38-chart,.v38-cell,.v38-center,.north9-chart){background-color:#172b3d!important;color:#f0f6ff!important}
+body.app-ready[data-kp-theme-type=dark] main :is(.v38-position,.v38-name,.v38-degree,.v38-lords,.v38-lords span,.v38-item){background:transparent!important}
+body.app-ready[data-kp-theme-type=dark] main :is(.v38-name,.v38-degree,.v38-lords,.v38-lords span){color:#f2f6ff!important}
+body.app-ready[data-kp-theme-type=dark] .north9-chart svg text{fill:#edf4fc!important}
+body.app-ready[data-kp-theme-type=dark] :is(.kp-cusp-dialog,.kp-rules-dialog,.kp-menu-options){background:#1c3043!important;color:#edf4fc!important}
+body.app-ready[data-kp-theme-type=dark] :is(#kp-compact-navigation,.kp-menu-options button){background:#20374b!important;color:#f0f6ff!important}
+body.app-ready[data-kp-theme-type=dark] :is(.kp-menu-options button:hover,.kp-menu-options button:focus-visible){background:#345b7d!important}
+body.app-ready[data-kp-theme-type=dark] :is(.kp-chart-below-controls,.kp-shortcut-row) button{background:#29465e!important;color:#f3f7ff!important;border-color:#7992a8!important}
+body.app-ready[data-kp-theme-type=dark] main :is(h1,h2,h3,h4,label,.section-kicker,.home-panel-heading,[data-cusp-mode]){color:#f0f6ff!important}
+body.app-ready[data-kp-theme-type=dark] main :is(.kp-table-scroll,.south-calculations,.kp-basic-calculations,.kundali-toolbar){background:transparent!important;color:#f0f6ff!important}
+}
+@media screen{
+body.app-ready[data-kp-theme-type=dark] #home :is(#home-planets,#home-houses) :is(td,th){background:#20374b!important;color:#edf4fc!important}
+body.app-ready[data-kp-theme-type=dark] #home :is(#home-planets,#home-houses) tr:nth-child(even)>:is(td,th){background:#294257!important}
+body.app-ready[data-kp-theme-type=dark] #home :is(#home-planets,#home-houses) :is(td,th) :is(span,a,strong,b,small){background:transparent!important;color:inherit!important}
+body.app-ready[data-kp-theme-type=dark] :is(#home-nadi-significators,#sig-nadi-significators,#south-calculation-body) .na-tile{background:#20374b!important;color:#edf4fc!important}
+body.app-ready[data-kp-theme-type=dark] main :is(.pc-entry,.tp-dinvisesh,.tp-dinvisesh header,.tp-panchang-cards>div,.tp-solar-card,.almanac-value){background:#20374b!important;color:#edf4fc!important}
+}
+@media screen{
+body.app-ready[data-kp-theme-type=dark] #transit-panchang .tp-transition-card,body.app-ready[data-kp-theme-type=dark] #transit-panchang .tp-solar-card,body.app-ready[data-kp-theme-type=dark] #transit-panchang .tp-summary-extras .almanac-value{background:#294257!important;color:#edf4fc!important}
+body.app-ready[data-kp-theme-type=dark] #transit-panchang :is(.tp-transition-card,.tp-solar-card,.tp-summary-extras) :is(span,strong,dt,dd,small,p){color:#edf4fc!important}
+}

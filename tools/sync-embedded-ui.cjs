@@ -52,6 +52,10 @@ const assets = [
   ['style', 'kp-rules-workspace-style', 'vendor/resources/rules-workspace.css'],
   ['script', 'kp-rules-workspace', 'vendor/resources/rules-workspace.js'],
   ['script', 'kp-developer-credit', 'vendor/interface/developer-credit.js'],
+  ['style', 'kp-compact-navigation-style', 'vendor/interface/compact-navigation.css'],
+  ['style', 'kp-dark-readability', 'vendor/interface/dark-readability.css'],
+  ['script', 'kp-compact-navigation-script', 'vendor/interface/compact-navigation.js'],
+  ['script', 'kp-panchang-single-summary', 'vendor/interface/panchang-single-summary.js'],
 ];
 
 let html = fs.readFileSync(target, 'utf8');

@@ -59,7 +59,7 @@ function refreshLordControls(){
 }
 function mountLordControls(){
   const homeHeading=document.querySelector('#home .home-chart-panel .home-panel-heading');
-  if(homeHeading&&!homeHeading.querySelector('[data-lord-control="home"]'))homeHeading.append(lordControl('home'));
+  if(homeHeading&&!document.querySelector('#home [data-lord-control="home"]'))homeHeading.append(lordControl('home'));
   const toolbar=document.querySelector('#south9 .kundali-toolbar');
   if(toolbar&&!toolbar.querySelector('[data-lord-control="chart"]'))toolbar.append(lordControl('chart'));
   const fontBox=document.querySelector('#settings-pane-display .font-control-box');

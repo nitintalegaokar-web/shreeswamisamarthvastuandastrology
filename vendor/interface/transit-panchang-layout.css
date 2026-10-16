@@ -20,3 +20,6 @@ body.app-ready #transit-panchang .almanac-actions button{height:31px;min-height:
 @media(max-width:1150px){body.app-ready #transit-panchang .almanac-controls{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:700px){body.app-ready #transit-panchang .almanac-controls{grid-template-columns:repeat(2,minmax(0,1fr))}#transit-panchang .almanac-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 }
+/* Keep the original instant summary as a fallback until the daily panel is ready. */
+#transit-panchang:has(#tp-daily-extension .tp-dinvisesh) #tp-summary{display:none!important}
+.tp-summary-extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px;padding:8px}
