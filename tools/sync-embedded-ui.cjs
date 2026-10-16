@@ -48,6 +48,7 @@ const assets = [
   ['script', 'kp-chart-workspace-script', 'vendor/interface/chart-workspace.js'],
   ['script', 'kp-chart-workspace-extras', 'vendor/interface/chart-workspace-extras.js'],
   ['script', 'kp-transit-workspace', 'vendor/interface/transit-workspace.js'],
+  ['script', 'kp-gemstone-event-ranking', 'vendor/predictions/gemstone-event-ranking.js'],
   ['script', 'kp-gemstone-panels', 'vendor/interface/gemstone-panels.js'],
   ['style', 'kp-rules-workspace-style', 'vendor/resources/rules-workspace.css'],
   ['script', 'kp-rules-workspace', 'vendor/resources/rules-workspace.js'],
