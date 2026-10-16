@@ -10,6 +10,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['style', 'kp-chart-workspace-style', 'vendor/interface/chart-workspace.css'],
   ['script', 'kp-feature-updates-script', 'vendor/predictions/dasha-gemstone-workspaces.js'],
   ['script', 'kp-gemstone-document', 'vendor/predictions/gemstone-document.js'],
   ['script', 'kp-horary-result-sheet', 'vendor/predictions/horary-result-sheet.js'],
@@ -42,6 +43,15 @@ const assets = [
   ['script', 'kp-supplied-predictions', 'vendor/predictions/supplied-content.js'],
   ['script', 'kp-numerology', 'vendor/predictions/numerology.js'],
   ['script', 'kp-kaal-resources', 'vendor/resources/kaal-resources.js'],
+  ['script', 'kp-chart-typography', 'vendor/interface/chart-typography.js'],
+  ['script', 'kp-a4-report-contract', 'vendor/interface/a4-reports.js'],
+  ['script', 'kp-chart-workspace-script', 'vendor/interface/chart-workspace.js'],
+  ['script', 'kp-chart-workspace-extras', 'vendor/interface/chart-workspace-extras.js'],
+  ['script', 'kp-transit-workspace', 'vendor/interface/transit-workspace.js'],
+  ['script', 'kp-gemstone-panels', 'vendor/interface/gemstone-panels.js'],
+  ['style', 'kp-rules-workspace-style', 'vendor/resources/rules-workspace.css'],
+  ['script', 'kp-rules-workspace', 'vendor/resources/rules-workspace.js'],
+  ['script', 'kp-developer-credit', 'vendor/interface/developer-credit.js'],
 ];
 
 let html = fs.readFileSync(target, 'utf8');
@@ -75,6 +85,11 @@ const additional=JSON.stringify(JSON.parse(fs.readFileSync(additionalPath,'utf8'
 const additionalBlock='<script id="kp-additional-document-data" type="application/json">'+additional+'</script>';
 if(/<script id="kp-additional-document-data"[^>]*>[\s\S]*?<\/script>/.test(html))html=html.replace(/<script id="kp-additional-document-data"[^>]*>[\s\S]*?<\/script>/,()=>additionalBlock);
 else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+additionalBlock+'\n'+html.slice(at);}
+const eventRules = fs.readFileSync(path.join(root,'vendor/resources/event-rules.json'),'utf8').trim().replaceAll('</','<\\/');
+const eventBlock = '<script id="kp-event-rule-data" type="application/json">'+eventRules+'</script>';
+const eventExpression = /<script id="kp-event-rule-data"[^>]*>[\s\S]*?<\/script>/;
+if(eventExpression.test(html))html=html.replace(eventExpression,()=>eventBlock);
+else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+eventBlock+'\n'+html.slice(at);}
 for (const [tag, id, relative] of assets) {
   const body = fs.readFileSync(path.join(root, relative), 'utf8').trimEnd();
   const closing = `</${tag}>`;

@@ -31,7 +31,7 @@ function update(){
  setText($('tr-handy-csv'),text('Save dates · CSV','दिनांक जतन करा · CSV'));
  setText($('tr-all-planets'),text('All planets','सर्व ग्रह'));setText($('tr-no-planets'),text('Clear','निवड काढा'));
  setText($('tr-handbook-note'),event?text('Entry / exit times satisfy the selected transit rule. Use Advanced rules for natal promise and DBA support.','प्रवेश / निर्गमन वेळा निवडलेल्या गोचर नियमाशी जुळतात. जन्मकुंडलीचे वचन व दशा समर्थनासाठी अतिरिक्त नियम वापरा.'):dasha?text('All six MD / AD / PD directions, using the selected natal or lord-ruled sectors.','निवडलेल्या जन्मस्थान किंवा स्वामीच्या क्षेत्रातून MD / AD / PD च्या सहाही दिशा.'):text('Sun through MD and AD: MD sign + AD star, and AD sign + MD star.','MD व AD मधून सूर्य: MD राशी + AD नक्षत्र आणि AD राशी + MD नक्षत्र.'));
- const running=$('tr-status').dataset.state==='running',rows=KPTransit.getResults(),zero=/No matching intervals/.test($('tr-result-rows').textContent),complete=rows.length>0||zero;
+ const running=$('tr-status').dataset.state==='running',rows=(window.KPTransitWorkspace?.getResults()||KPTransit.getResults()),zero=/No matching intervals/.test($('tr-result-rows').textContent),complete=rows.length>0||zero;
  const table=$('transit').querySelector('.tr-result-mount');table.hidden=!complete;formatRows(rows);
  $('tr-handy-csv').disabled=!rows.length;$('transit-preview').disabled=running||!complete;
  setText($('tr-run'),running?text('Searching…','शोध सुरू…'):text('Find transit dates','गोचर दिनांक शोधा'));
@@ -42,7 +42,7 @@ function update(){
 function currentLabel(value){return value==='event'?text('1 · Event significators','१ · घटनेचे कार्येश'):value==='dasha'?text('2 · DBA through each other','२ · परस्पर दशा गोचर'):text('3 · Sun through DBA','३ · दशेतून सूर्य गोचर');}
 function schedule(){if(queued)return;queued=true;queueMicrotask(()=>{queued=false;update();});}
 function csv(){
- const rows=KPTransit.getResults();if(!rows.length)return;
+ const rows=(window.KPTransitWorkspace?.getResults()||KPTransit.getResults());if(!rows.length)return;
  const quote=value=>'"'+String(value).replace(/"/g,'""')+'"';
  const columns=['Search mode','Event','Planet','Transit condition','Entry UTC','Exit UTC','Entry local','Exit local','UTC offset minutes'];
  const search=$('tr-mode').selectedOptions[0].textContent,event=$('tr-mode').value==='event'?$('tr-event').selectedOptions[0]?.textContent||'':'';

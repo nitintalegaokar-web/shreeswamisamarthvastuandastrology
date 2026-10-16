@@ -22149,7 +22149,7 @@ function installNotepad(){let dialog;const key='kpRaphaelNotepadV1',styleKey='kp
   const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const read=x=>String(x||'').replace(/\\n/g,'\n');
   const records=JSON.parse($('kp-personal-prediction-rules').textContent).entries;
-  const titles={analysis:'Kundali Analysis','house-results':'House Results','general-predictions':'General Predictions',events:'Events','dasha-results':'Dasha Results','mahadasha-remedies':'Remedies',gemstones:'Gemstone Guidance','yoga-results':'Conjunction Results','transit-results':'Transit Results','numerology':'Numerology'};
+  const titles={analysis:'Kundali Analysis','house-results':'Bhav Phal · भाव फल','planet-house-results':'Bhavanusar Phal · भावानुसार फल','general-predictions':'General Predictions',events:'Events','dasha-results':'Dasha Results','mahadasha-remedies':'Remedies',gemstones:'Gemstone Guidance','yoga-results':'Conjunction Results','transit-results':'Transit Results','numerology':'Numerology'};
   const names={Su:'Sun',Mo:'Moon',Ma:'Mars',Me:'Mercury',Ju:'Jupiter',Ve:'Venus',Sa:'Saturn',Ra:'Rahu',Ke:'Ketu'};
   let active='analysis',page=0,initialized=false,houseCusp=1;const roman=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
   const isActive=()=>active!=='analysis';
@@ -22187,7 +22187,7 @@ function installNotepad(){let dialog;const key='kpRaphaelNotepadV1',styleKey='kp
     return {mode:'selected',periods,startUTC:periods[2].startUTC,endUTC:periods[2].endUTC};
   }
   function syncEventSelection(){
-    if(active!=='events')return;KPHomeDasha.refresh();const roots=eventRows();let d;try{d=selectedEventDBA();}catch(e){$('pred-dba-period').textContent=e.message;return;}
+    if(!['events','dasha-results'].includes(active))return;KPHomeDasha.refresh();const roots=eventRows();let d;try{d=selectedEventDBA();}catch(e){$('pred-dba-period').textContent=e.message;return;}
     const indices=eventSelection?{...eventSelection}:{md:roots.findIndex(r=>r.key===d.periods[0].key),ad:0,pd:0};
     const md=roots[indices.md];if(!md)return;const ads=eventADRows(md);if(!eventSelection)indices.ad=ads.findIndex(r=>r.key===d.periods[1].key);
     const ad=ads[indices.ad];if(!ad)return;const pds=eventPDRows(md,ad);if(!eventSelection)indices.pd=pds.findIndex(r=>r.key===d.periods[2].key);
@@ -22200,7 +22200,7 @@ function installNotepad(){let dialog;const key='kpRaphaelNotepadV1',styleKey='kp
   function matchRules(category,model=window.currentKPModel,instant=new Date()){
     if(category==='numerology'&&window.KPNumerology)return window.KPNumerology.match();
     if(!model?.ready||model.planets?.length!==9||model.houses?.length!==12)return {ready:false,reason:model?.reason||'Complete the native kundali to see personal results.',rows:[]};
-    if(['yoga-results','transit-results'].includes(category)&&window.KPSuppliedPredictions)return window.KPSuppliedPredictions.match(category,model,instant);
+    if(['planet-house-results','yoga-results','transit-results'].includes(category)&&window.KPSuppliedPredictions)return window.KPSuppliedPredictions.match(category,model,instant);
     const rows=[],add=(r,proof,title='',text=r.value)=>rows.push({id:r.id,key:r.key,title,proof,text:read(text),status:'matched'});
     if(category==='house-results'){
       for(const r of records.filter(r=>r.categoryId===category)){
@@ -22225,7 +22225,7 @@ function installNotepad(){let dialog;const key='kpRaphaelNotepadV1',styleKey='kp
       }
       return {ready:true,rows,periods:d.periods,mode:d.mode,startUTC:d.startUTC,endUTC:d.endUTC};
     }else if(['dasha-short','dasha-results','mahadasha-remedies'].includes(category)){
-      let d;try{d=window.KPDashaFal.current(model,instant);}catch(error){return {ready:false,reason:error.message,rows:[]};}
+      let d;try{if(category==='dasha-results'){const selected=selectedEventDBA(instant),level=val('pred-dasha-level')||'MD',period=selected.periods.find(p=>p.level===level);d={...KPDashaFal.analyze(model,{lords:[period.id],method:'fourfold',scope:'joint'}),periods:[period],selectedDBA:selected.periods,date:period.startUTC.slice(0,10),time:period.startUTC.slice(11,19)};}else d=window.KPDashaFal.current(model,instant);}catch(error){return {ready:false,reason:error.message,rows:[]};}
       const chain=d.periods.map(p=>p.level+' '+p.id).join(' → ');
       if(category==='mahadasha-remedies'){
         const moon=model.planets.find(p=>p.id==='Mo');
@@ -22244,7 +22244,7 @@ function installNotepad(){let dialog;const key='kpRaphaelNotepadV1',styleKey='kp
           if(d.periods.some(l=>l.id===id)&&p.occ===Number(m[2]))add(r,chain+' · '+id+' occupies Bhav '+m[2],names[id]+' · Bhav '+m[2]);
         }
       }
-      return {ready:true,rows:window.KPSuppliedPredictions?.merge(rows,category,model,instant,d.periods)||rows,periods:d.periods,date:d.date,time:d.time};
+      return {ready:true,rows:window.KPSuppliedPredictions?.merge(rows,category,model,instant,d.selectedDBA&&val('pred-dasha-level')==='AD'?d.selectedDBA.slice(0,2):d.periods)||rows,periods:d.periods,date:d.date,time:d.time};
     }else if(category==='gemstones'){
       const d=window.KPGemstones.getData();if(!d.ready)return {ready:false,reason:d.reason,rows:[]};
       for(const r of d.results.filter(r=>r.qualifies))rows.push({id:'gem-'+r.id,title:names[r.id]+' · '+r.stone,text:r.stone,proof:d.mode==='vedic'?r.ownership.map(h=>({1:'Lagnesh',5:'Panchamesh',11:'Labhesh'})[h]).join(' · '):(d.proof||'Priority '+r.priority+' · '+r.score+'/'+d.required.length+' event houses'),status:'matched'});
@@ -22266,7 +22266,7 @@ function installNotepad(){let dialog;const key='kpRaphaelNotepadV1',styleKey='kp
     $('pred-personal-page').textContent=pages>1?(page+1)+' / '+pages:'';
     $('pred-personal-prev').hidden=$('pred-personal-next').hidden=pages===1;$('pred-personal-prev').disabled=page===0;$('pred-personal-next').disabled=page===pages-1;
     $('pred-open-gems').hidden=active!=='gemstones';
-    $('pred-dba-select').hidden=active!=='events';if(active!=='events')$('pred-event-dba').hidden=true;syncEventSelection();
+    $('pred-dasha-level-wrap').hidden=active!=='dasha-results';$('pred-dba-select').hidden=!['events','dasha-results'].includes(active);if(!['events','dasha-results'].includes(active))$('pred-event-dba').hidden=true;syncEventSelection();
     $('prediction-preview').disabled=!data.ready;
     return data;
   }
@@ -22281,10 +22281,10 @@ function installNotepad(){let dialog;const key='kpRaphaelNotepadV1',styleKey='kp
     for(const [id,label] of Object.entries(titles)){const b=document.createElement('button');b.id='pred-tab-'+id;b.type='button';b.dataset.predTab=id;b.setAttribute('role','tab');b.textContent=label;tabs.append(b);}
     tabs.addEventListener('click',e=>{const b=e.target.closest('[data-pred-tab]');if(!b)return;active=b.dataset.predTab;page=0;refresh();});
     tabs.addEventListener('keydown',e=>{const buttons=[...tabs.querySelectorAll('[data-pred-tab]')],i=buttons.indexOf(e.target);if(i<0||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[n].click();buttons[n].focus();});
-    const panel=document.createElement('div');panel.id='pred-personal-panel';panel.className='kp-feature-card';panel.hidden=true;panel.innerHTML='<h2 id="pred-personal-heading"></h2><p id="pred-personal-status" role="status" aria-live="polite"></p><div class="kp-feature-actions"><label id="pred-house-cusp-wrap" for="pred-house-cusp" hidden>Cusp <select id="pred-house-cusp" aria-label="Select house cusp">'+roman.map((r,i)=>'<option value="'+(i+1)+'">'+r+'</option>').join('')+'</select></label><button id="pred-dba-select" type="button" aria-controls="pred-event-dba" aria-expanded="false" hidden>DBA selection</button><button id="pred-open-gems" type="button" hidden>Gemstone rule</button><button id="pred-personal-prev" type="button">Previous</button><span id="pred-personal-page"></span><button id="pred-personal-next" type="button">Next</button></div><div id="pred-event-dba" class="pred-event-dba" hidden><div class="pred-event-dba-controls"><label>MD / Dasha<select id="pred-event-md"></select></label><label>AD / Bhukti<select id="pred-event-ad"></select></label><label>PD / Antara<select id="pred-event-pd"></select></label><button id="pred-dba-current" type="button">Current DBA</button></div><p id="pred-dba-period"></p></div><div id="pred-personal-results"></div>';
+    const panel=document.createElement('div');panel.id='pred-personal-panel';panel.className='kp-feature-card';panel.hidden=true;panel.innerHTML='<h2 id="pred-personal-heading"></h2><p id="pred-personal-status" role="status" aria-live="polite"></p><div class="kp-feature-actions"><label id="pred-house-cusp-wrap" for="pred-house-cusp" hidden>Cusp <select id="pred-house-cusp" aria-label="Select house cusp">'+roman.map((r,i)=>'<option value="'+(i+1)+'">'+r+'</option>').join('')+'</select></label><label id="pred-dasha-level-wrap" hidden>Show selected dasha <select id="pred-dasha-level"><option value="MD">MD · Mahadasha</option><option value="AD">AD · Antardasha</option><option value="PD">PD · Pratyantardasha</option></select></label><button id="pred-dba-select" type="button" aria-controls="pred-event-dba" aria-expanded="false" hidden>DBA selection</button><button id="pred-open-gems" type="button" hidden>Gemstone rule</button><button id="pred-personal-prev" type="button">Previous</button><span id="pred-personal-page"></span><button id="pred-personal-next" type="button">Next</button></div><div id="pred-event-dba" class="pred-event-dba" hidden><div class="pred-event-dba-controls"><label>MD / Dasha<select id="pred-event-md"></select></label><label>AD / Bhukti<select id="pred-event-ad"></select></label><label>PD / Antara<select id="pred-event-pd"></select></label><button id="pred-dba-current" type="button">Current DBA</button></div><p id="pred-dba-period"></p></div><div id="pred-personal-results"></div>';
     section.append(toolbar,tabs,analysis,panel);
     const compactBar=document.createElement('div');compactBar.className='pred-compact-topbar';section.prepend(compactBar);compactBar.append(tabs,$('prediction-preview'));toolbar.remove();
-    $('pred-house-cusp').addEventListener('change',()=>{houseCusp=Number(val('pred-house-cusp'));page=0;refresh();});$('prediction-preview').addEventListener('click',()=>window.KPReportPreview.open('prediction'));$('pred-personal-prev').addEventListener('click',()=>{page--;refresh();});$('pred-personal-next').addEventListener('click',()=>{page++;refresh();});$('pred-open-gems').addEventListener('click',()=>document.querySelector('[data-tab="gemstones"]').click());
+    $('pred-dasha-level').addEventListener('change',()=>{page=0;refresh();});$('pred-house-cusp').addEventListener('change',()=>{houseCusp=Number(val('pred-house-cusp'));page=0;refresh();});$('prediction-preview').addEventListener('click',()=>window.KPReportPreview.open('prediction'));$('pred-personal-prev').addEventListener('click',()=>{page--;refresh();});$('pred-personal-next').addEventListener('click',()=>{page++;refresh();});$('pred-open-gems').addEventListener('click',()=>document.querySelector('[data-tab="gemstones"]').click());
     $('pred-dba-select').addEventListener('click',()=>{const panel=$('pred-event-dba');panel.hidden=!panel.hidden;syncEventSelection();});$('pred-dba-current').addEventListener('click',()=>{eventSelection=null;page=0;refresh();});for(const level of ['md','ad','pd'])$('pred-event-'+level).addEventListener('change',()=>chooseEventPeriod(level));
     initialized=true;refresh();setInterval(()=>{if(section.classList.contains('active')&&isActive())refresh();},60000);
   }
@@ -24018,21 +24018,28 @@ body>.report-page:not(.kp-a4-page){height:auto!important;min-height:0!important;
 .report-page :is(img,canvas){max-width:100%!important;height:auto}
 .report-page :is(.v-report-content,.bi-facts,.sp-column){min-width:0!important;max-width:100%!important}
 .report-page .v-report-content{overflow:visible!important}
-.report-page thead{display:table-header-group!important}.report-page tfoot{display:table-footer-group!important}
+.report-page :is(.south-calculations-grid,.south9-sheet,.kp-basic-calculations,.kp-feature-card,.tr-card,.pc-card,.sp-page){min-width:0!important;max-width:100%!important;width:auto!important;box-sizing:border-box!important}
+.report-page :is(.south-calculations-grid,.south-calculation-grid){display:block!important}
+.report-page :is(svg,.v38-chart,.north9-chart){max-width:100%!important;box-sizing:border-box!important}
+.report-page pre{white-space:pre-wrap!important;overflow-wrap:anywhere!important}
+.report-page .south-calculations article{break-inside:auto!important}
+.report-page .report-developer-footer{white-space:normal!important;overflow-wrap:anywhere!important;max-width:100%!important;font-size:8px!important;line-height:1.4!important}.report-page .report-fixed-developer-credit{font-weight:bold}.report-page thead{display:table-header-group!important}.report-page tfoot{display:table-footer-group!important}
 .report-page :is(tr,.v-chart,.bi-facts>dl>div){break-inside:avoid!important;page-break-inside:avoid!important}
 .report-page :is(h2,h3,h4){break-after:avoid!important}
 @media print{html,body{background:white!important}.no-print,.kp-preview-tools,.preview-tools,.report-selection-preview-tools,.notepad-preview-tools{display:none!important}body>.report-page{margin:0!important;zoom:1!important;box-shadow:none!important;break-after:page!important;page-break-after:always!important}body>.report-page:last-child{break-after:auto!important;page-break-after:auto!important}}`;
-function prepare(doc){if(!doc?.head)return;let style=doc.getElementById('kp-report-a4-contract');if(!style){style=doc.createElement('style');style.id='kp-report-a4-contract';doc.head.append(style);}style.textContent=css;const language=window.KPPreferences?.get().language||document.documentElement.dataset.kpLanguage||'english';doc.documentElement.lang=window.KPLanguage?.languages?.find?.(l=>l.value===language)?.code||(language==='marathi'?'mr':'en');doc.documentElement.dataset.kpLanguage=language;window.KPLanguage?.localize(doc);doc.querySelectorAll('.report-page .v38-name,.report-page .v38-degree').forEach(n=>n.style.setProperty('font-size',n.classList.contains('v38-name')?'9px':'8px','important'));doc.querySelectorAll('.report-page [data-report-id="basic"],.report-page .pc-entry-pair').forEach(n=>n.remove());}
-function install(){const old=window.KPReportPreview;if(old)window.KPReportPreview=Object.freeze({...old,open(id){const w=old.open(id==='basic'?'vedic-information':id);if(w){prepare(w.document);w.document.fonts.ready.then(()=>{for(const page of w.document.querySelectorAll('.kp-a4-page'))window.KPA4Preview?.fit(w.document,page);});}return w;}});}
+function deduplicate(root){for(const page of root.querySelectorAll('[data-report-section="south9"]')){if(page.querySelector('[data-report-id="south-position-tables"],#south-position-tables,.south-calculations'))page.querySelectorAll('[data-report-id="kp-basic-calculations"],#kp-basic-calculations').forEach(n=>n.remove());}}
+function prepare(doc){if(!doc?.head)return;deduplicate(doc);window.KPDeveloperCredit?.apply(doc);let style=doc.getElementById('kp-report-a4-contract');if(!style){style=doc.createElement('style');style.id='kp-report-a4-contract';doc.head.append(style);}style.textContent=css;const language=window.KPPreferences?.get().language||document.documentElement.dataset.kpLanguage||'english';doc.documentElement.lang=window.KPLanguage?.languages?.find?.(l=>l.value===language)?.code||(language==='marathi'?'mr':'en');doc.documentElement.dataset.kpLanguage=language;window.KPLanguage?.localize(doc);doc.querySelectorAll('.report-page .v38-name,.report-page .v38-degree').forEach(n=>n.style.setProperty('font-size',n.classList.contains('v38-name')?'9px':'8px','important'));doc.querySelectorAll('.report-page [data-report-id="basic"],.report-page .pc-entry-pair').forEach(n=>n.remove());}
+function install(){const render=window.renderReport;if(render)window.renderReport=function(...args){const result=render.apply(this,args);deduplicate(document.getElementById('printReport'));return result;};window.renderReport?.();const old=window.KPReportPreview;if(old)window.KPReportPreview=Object.freeze({...old,open(id){const w=old.open(id==='basic'?'vedic-information':id);if(w){prepare(w.document);w.document.fonts.ready.then(()=>{for(const page of w.document.querySelectorAll('.kp-a4-page'))window.KPA4Preview?.fit(w.document,page);});}return w;}});}
 window.KPA4Reports=Object.freeze({css,prepare});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(install,0));else install();
 })();
 </script>
 <script id="kp-chart-typography">/* Uniform point labels per chart; font controls leave consultation UI untouched. */
 (()=>{'use strict';let scheduled=false;
 function set(node,size,weight){const value=size+'px';if(node.style.fontSize!==value)node.style.setProperty('font-size',value,'important');if(node.style.fontWeight!==weight)node.style.setProperty('font-weight',weight,'important');}
-function refresh(){scheduled=false;const preferences=window.KPPreferences;if(!preferences?.isConfigured())return;const s=preferences.get(),weight=s.fontBold?'700':'400';
+function refresh(){scheduled=false;const preferences=window.KPPreferences;if(!preferences)return;const s=preferences.get(),weight=s.fontBold?'700':'400';
  for(const chart of document.querySelectorAll('.v38-chart')){if(chart.closest('#printReport,[contenteditable]'))continue;const width=chart.getBoundingClientRect().width||600;for(const [selector,base] of [['.v38-name',9],['.v38-degree',7.5]]){const ratio=selector==='.v38-name'?({small:.85,medium:1,large:1.2}[s.planetSize]||1):({small:.85,medium:1,large:1.15}[s.degreeSize]||1),size=width/480*base*(s.fontSize/12)*ratio;chart.querySelectorAll(selector).forEach(n=>{if(!n.closest('[contenteditable],[data-manual-text]'))set(n,size,weight);});}}
- for(const chart of document.querySelectorAll('.north9-chart svg')){if(chart.closest('#printReport'))continue;const labels=[...chart.querySelectorAll('text[data-longitude]')];if(!labels.length)continue;const capacity=Math.min(...labels.map(n=>Number(n.dataset.kpOriginalSize||n.getAttribute('font-size'))).filter(n=>n>0));const size=capacity/1.8*(s.fontSize/12)*({small:.85,medium:1,large:1.2}[s.planetSize]||1);labels.forEach(n=>{set(n,size,weight);n.querySelectorAll('[data-kp-degree-label]').forEach(d=>set(d,size,weight));});}
+ for(const chart of document.querySelectorAll('.north9-chart svg')){if(chart.closest('#printReport'))continue;const labels=[...chart.querySelectorAll('text[data-longitude]')];if(!labels.length)continue;labels.forEach(n=>{const original=Number(n.dataset.kpOriginalSize||n.getAttribute('font-size'))||10;const size=original*(s.fontSize/12)*({small:.85,medium:1,large:1.2}[s.planetSize]||1);set(n,size,weight);n.querySelectorAll('[data-kp-degree-label]').forEach(d=>set(d,size*.75,weight));});}
+
  const style=document.getElementById('kp-uniform-vedic-font')||document.head.appendChild(Object.assign(document.createElement('style'),{id:'kp-uniform-vedic-font'}));const css=`@media screen{#vedic-kundali :is(.v-chart-cell strong,.v-north-house strong){font-size:${s.fontSize}px!important;font-weight:${weight}!important}}`;if(style.textContent!==css)style.textContent=css;
 }
 function queue(){if(!scheduled){scheduled=true;requestAnimationFrame(refresh);}}
@@ -26037,7 +26044,7 @@ function update(){
  setText($('tr-handy-csv'),text('Save dates · CSV','दिनांक जतन करा · CSV'));
  setText($('tr-all-planets'),text('All planets','सर्व ग्रह'));setText($('tr-no-planets'),text('Clear','निवड काढा'));
  setText($('tr-handbook-note'),event?text('Entry / exit times satisfy the selected transit rule. Use Advanced rules for natal promise and DBA support.','प्रवेश / निर्गमन वेळा निवडलेल्या गोचर नियमाशी जुळतात. जन्मकुंडलीचे वचन व दशा समर्थनासाठी अतिरिक्त नियम वापरा.'):dasha?text('All six MD / AD / PD directions, using the selected natal or lord-ruled sectors.','निवडलेल्या जन्मस्थान किंवा स्वामीच्या क्षेत्रातून MD / AD / PD च्या सहाही दिशा.'):text('Sun through MD and AD: MD sign + AD star, and AD sign + MD star.','MD व AD मधून सूर्य: MD राशी + AD नक्षत्र आणि AD राशी + MD नक्षत्र.'));
- const running=$('tr-status').dataset.state==='running',rows=KPTransit.getResults(),zero=/No matching intervals/.test($('tr-result-rows').textContent),complete=rows.length>0||zero;
+ const running=$('tr-status').dataset.state==='running',rows=(window.KPTransitWorkspace?.getResults()||KPTransit.getResults()),zero=/No matching intervals/.test($('tr-result-rows').textContent),complete=rows.length>0||zero;
  const table=$('transit').querySelector('.tr-result-mount');table.hidden=!complete;formatRows(rows);
  $('tr-handy-csv').disabled=!rows.length;$('transit-preview').disabled=running||!complete;
  setText($('tr-run'),running?text('Searching…','शोध सुरू…'):text('Find transit dates','गोचर दिनांक शोधा'));
@@ -26048,7 +26055,7 @@ function update(){
 function currentLabel(value){return value==='event'?text('1 · Event significators','१ · घटनेचे कार्येश'):value==='dasha'?text('2 · DBA through each other','२ · परस्पर दशा गोचर'):text('3 · Sun through DBA','३ · दशेतून सूर्य गोचर');}
 function schedule(){if(queued)return;queued=true;queueMicrotask(()=>{queued=false;update();});}
 function csv(){
- const rows=KPTransit.getResults();if(!rows.length)return;
+ const rows=(window.KPTransitWorkspace?.getResults()||KPTransit.getResults());if(!rows.length)return;
  const quote=value=>'"'+String(value).replace(/"/g,'""')+'"';
  const columns=['Search mode','Event','Planet','Transit condition','Entry UTC','Exit UTC','Entry local','Exit local','UTC offset minutes'];
  const search=$('tr-mode').selectedOptions[0].textContent,event=$('tr-mode').value==='event'?$('tr-event').selectedOptions[0]?.textContent||'':'';
@@ -26113,7 +26120,7 @@ function result(rows,proof,title,fallback,status='matched'){
 }
 function placement(key,model){
  const moon=model.planets.find(p=>p.id==='Mo');let m;
- if((m=/^(Su|Mo|Ma|Me|Ju|Ve|Sa|Ra|Ke)InH(1[0-2]|[1-9])$/.exec(key))){const p=model.planets.find(p=>p.id===m[1]);return p?.occ===Number(m[2])?{proof:names[p.id]+' · Bhav '+m[2],title:names[p.id]+' · Bhav '+m[2]}:null;}
+ if((m=/^(Su|Mo|Ma|Me|Ju|Ve|Sa|Ra|Ke|Ur|Ne|Pl)InH(1[0-2]|[1-9])$/.exec(key))){const p=model.planets.find(p=>p.id===m[1]);return p?.occ===Number(m[2])?{proof:names[p.id]+' · Bhav '+m[2],title:names[p.id]+' · Bhav '+m[2]}:null;}
  if((m=/^(Su|Mo|Ma|Me|Ju|Ve|Sa|Ra|Ke)In(Ar|Ta|Ge|Ca|Le|Vi|Li|Sc|Sg|Cp|Aq|Pi)$/.exec(key))){const p=model.planets.find(p=>p.id===m[1]);return p?.signCode===m[2]?{proof:names[p.id]+' · '+p.sign,title:names[p.id]+' · '+p.sign}:null;}
  if((m=/^(?:nak)(\d+)$/.exec(key))||(m=/^Nak(\d+)R([1-3])$/.exec(key)))return moon?.nakIndex===Number(m[1])-1?{proof:'Moon · '+moon.nakshatra,title:moon.nakshatra}:null;
  if((m=/^Nak(\d+)C([1-4])$/.exec(key)))return moon?.nakIndex===Number(m[1])-1&&moon.pada===Number(m[2])?{proof:'Moon · '+moon.nakshatra+' · Pada '+moon.pada,title:moon.nakshatra+' · Pada '+moon.pada}:null;
@@ -26122,7 +26129,9 @@ function placement(key,model){
 function matching(category,model,instant,periods){
  if(!model?.ready)return {ready:false,reason:'Complete the natal chart to read its supplied interpretations.',rows:[]};
  const rows=[];let context='';
- if(category==='general-predictions'){
+ if(category==='planet-house-results'){
+  for(const group of groups.values())if(group[0].kind==='planet-house'){const match=placement(group[0].key,model);if(match)rows.push({group,...match});}
+ }else if(category==='general-predictions'){
   for(const group of groups.values())if(['planet-house','planet-sign','nakshatra','nakshatra-code'].includes(group[0].kind)){const match=placement(group[0].key,model);if(match)rows.push({group,...match});}
  }else if(category==='house-results'){
   for(const group of groups.values())if(group[0].kind==='house-lord'){
@@ -26146,9 +26155,10 @@ function matching(category,model,instant,periods){
  }else if(category==='transit-results'){
   const data=window.KPTransitChart?.getData?.();
   if(!data?.ready)return {ready:false,reason:'Calculate the selected Transit Chart to see its transit-house interpretations.',rows:[]};
-  context=data.localDate+' '+data.localTime+' · '+(data.place||'')+' · selected Transit Chart bhavas';
+  const moon=model.planets.find(p=>p.id==='Mo');if(!Number.isInteger(moon?.signIndex))return {ready:false,reason:'Calculate the natal Moon sign first.',rows:[]};
+  context=data.localDate+' '+data.localTime+' · '+(data.place||'')+' · whole-sign houses counted from natal Moon '+(moon.sign||moon.signCode||moon.signIndex+1);
   for(const group of groups.values()){const r=group[0];if(r.kind!=='transit-house')continue;
-   if(data.bhavGroups?.[r.house-1]?.some(p=>p.id===r.planet))rows.push({group,title:names[r.planet]+' · Transit Bhav '+r.house,proof:'Selected Transit Chart · '+data.localDate+' '+data.localTime+' · '+r.planet+' in Bhav '+r.house});
+   const planet=data.planets?.find(p=>p.id===r.planet),sign=planet?.details?.signIndex;if(Number.isInteger(sign)&&((sign-moon.signIndex+12)%12)+1===r.house)rows.push({group,title:names[r.planet]+' · '+r.house+' from Moon',proof:'Natal Moon sign '+(moon.sign||moon.signCode||moon.signIndex+1)+' · transit '+r.planet+' sign '+(sign+1)+' · house '+r.house+' from Moon · '+data.localDate+' '+data.localTime});
   }
  }else if(category==='outer-references'){
   for(const group of groups.values())if(group[0].kind==='outer-reference')rows.push({group,title:names[group[0].planet]+' · supplied reference',proof:'Reference text only; no new outer-planet calculations or Dasha lords.',status:'reference'});
@@ -26274,6 +26284,834 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 function init(){const d=JSON.parse(document.getElementById('kp-additional-document-data').textContent);KPResources.importTopics(d.topics,d.sources.map(s=>s.sha256).join(':'));window.KPDocumentReferences=Object.freeze({sources:d.sources,numbers:d.numbers});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,0));else init();
 })();
+</script>
+<style id="kp-chart-workspace-style">.kp-cusp-dialog{width:min(760px,92vw);max-height:90vh;overflow:auto;border:1px solid #9bb7cb;border-radius:16px;padding:22px;background:#f8fbff;color:#173b55;box-shadow:0 20px 80px #173b5555}.kp-cusp-dialog::backdrop{background:#142c4677}.kp-cusp-dialog header,.kp-cusp-dialog footer{display:flex;gap:10px;align-items:center;justify-content:space-between}.kp-cusp-dialog h2{margin:0}.kp-cusp-picker{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:16px 0}.kp-cusp-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.kp-cusp-fields label{display:grid;gap:5px}.kp-cusp-fields input{width:100%;box-sizing:border-box;padding:10px;font:inherit}.kp-cusp-dialog button{padding:9px 14px;border:1px solid #a4bfd0;border-radius:8px;background:#e6f1f8;color:#164766;cursor:pointer}.kp-cusp-dialog [data-apply]{background:#205d83;color:white}.kp-cusp-dialog footer{flex-wrap:wrap;margin-top:16px}[data-cusp-mode]{font-weight:600;color:#8a4f00}@media(max-width:550px){.kp-cusp-fields{grid-template-columns:repeat(2,1fr)}.kp-cusp-dialog{padding:14px}.kp-cusp-picker{gap:4px}}
+body.app-ready .kp-quick-tools{gap:0!important;background:#edf1f8!important}body.app-ready .kp-quick-tools button{width:auto!important;height:auto!important;min-height:29px!important;padding:4px 9px!important;border:0!important;border-right:1px solid #b2c1d4!important;border-radius:0!important;background:transparent!important;color:#173b55!important;font:12px Arial!important;box-shadow:none!important}body.app-ready .kp-quick-tools .kp-quick-icon{display:none!important}body.app-ready .kp-quick-tools .kp-quick-label{display:inline!important;font-size:12px!important}.kp-chart-readable{padding:8px;margin:8px 0;border:1px solid #aac3d7;border-radius:8px;font-size:14px}.kp-chart-readable>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.kp-chart-readable p{margin:3px;overflow-wrap:anywhere}.kp-transition-tools{display:flex;flex-wrap:wrap;gap:10px}.kp-transition-tools label{display:grid;gap:4px}@media print{.kp-chart-readable{display:none!important}}
+#transit.kp-current-dba-only :is(#tr-handy-dates,#tr-date-dba-selection,#tr-use-current-dba,#tr-search-scope){display:none!important}#transit.kp-current-dba-only .tr-card{max-width:1100px;margin:auto}#transit.kp-current-dba-only #tr-current-periods{margin:8px 0}#transit.kp-current-dba-only #tr-handbook-note{display:none}#transit.kp-current-dba-only #tr-handy-dba-rules #tr-mutual-controls{display:none!important}
+.kp-astro-chart-colours{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}.kp-astro-chart-colours label{display:flex;align-items:center;justify-content:space-between;gap:8px}.kp-astro-chart-colours input{width:45px;height:32px}.gem-companion-panel{padding:16px;border:1px solid #b7ccdc;border-radius:12px;margin:18px 0;background:#f5f9fd}@media(max-width:480px){.kp-astro-chart-colours{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+<script id="kp-chart-workspace-script">/* Explicit manual cusp inputs. Approved worksheet and ephemeris formulas are untouched. */
+(()=>{'use strict';const $=id=>document.getElementById(id),R=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];let manual=null,selected=0,dialog;
+function signature(){return JSON.stringify(['dob','birthTime','lat','lon','birth-utc-offset','birth-dst-minutes','instant-prashna'].map(id=>[id,$(id)?.value]));}
+function active(){return manual&&manual.signature===signature();}
+function validate(values){if(!Array.isArray(values)||values.length!==12||values.some(n=>!Number.isInteger(n)||n<0||n>=1296000))throw Error('Enter twelve valid cusp positions from 0° to 359°59′59″.');const gaps=values.map((n,i)=>(values[(i+1)%12]-n+1296000)%1296000);if(gaps.some(n=>n===0)||gaps.reduce((a,b)=>a+b,0)!==1296000)throw Error('Cusps must follow I–XII in zodiac order, without duplicates.');return values.slice();}
+const originalSync=window.syncKPWorksheetPositions;
+window.syncKPWorksheetPositions=function(...args){const data=originalSync.apply(this,args);if(active()){data.cusps=manual.cusps.slice();window.cuspResults=data.cusps.map((nir,i)=>({i:i+1,nir,rashi:['मेष','वृषभ','मिथुन','कर्क','सिंह','कन्या','तुळ','वृश्चिक','धनु','मकर','कुंभ','मीन'][Math.floor(nir/108000)]}));}return data;};
+function status(){document.querySelectorAll('[data-cusp-mode]').forEach(n=>n.textContent=active()?'Manual cusp positions applied':'Automatic calculated cusps');}
+function refresh(){window.kundaliManual=false;window.updateKaryeshTables?.();window.renderChart?.(true);window.KPChartStyle?.refresh();window.refreshHomeDashboard?.();window.KPHomeDashboard?.refresh();status();window.dispatchEvent(new Event('chart-manual-change'));}
+function apply(cusps){manual={version:1,signature:signature(),cusps:validate(cusps)};refresh();}
+function reset(){manual=null;refresh();}
+const oldSave=window.getChartData;if(oldSave)window.getChartData=function(...args){const data=oldSave.apply(this,args);if(active())data.manualCuspOverrides=structuredClone(manual);return data;};
+const oldRestore=window.restoreChartData;if(oldRestore)window.restoreChartData=function(data,...args){const saved=data?.manualCuspOverrides;if(saved)validate(saved.cusps);manual=null;const result=oldRestore.call(this,data,...args);if(saved){manual={version:1,signature:signature(),cusps:saved.cusps.slice()};refresh();}else status();return result;};
+function format(value){const n=Math.round(value);return [Math.floor(n/3600),Math.floor(n%3600/60),n%60].map((v,i)=>i?String(v).padStart(2,'0'):v).join(':');}
+function read(value){const parts=value.trim().split(/[:°′″\s]+/).filter(Boolean).map(Number);if(parts.length!==3||parts.some(n=>!Number.isInteger(n))||parts[0]<0||parts[0]>=360||parts[1]<0||parts[1]>=60||parts[2]<0||parts[2]>=60)throw Error('Use degrees:minutes:seconds, for example 192:56:42.');return parts[0]*3600+parts[1]*60+parts[2];}
+function open(){if(!dialog){dialog=document.createElement('dialog');dialog.className='kp-cusp-dialog';dialog.innerHTML='<form method="dialog"><header><h2>Cusp Setting Tool</h2><button aria-label="Close">×</button></header></form><p>Manual changes affect charts and significators. Automatic calculation formulas are preserved.</p><div class="kp-cusp-picker"></div><div class="kp-cusp-fields"></div><p role="status" data-cusp-feedback></p><footer><button type="button" data-apply>Apply manual cusps</button><button type="button" data-reset>Restore automatic cusps</button><button type="button" data-close>Close</button></footer>';document.body.append(dialog);const picker=dialog.querySelector('.kp-cusp-picker'),fields=dialog.querySelector('.kp-cusp-fields');R.forEach((name,i)=>{const b=document.createElement('button');b.textContent=name;b.type='button';b.onclick=()=>{selected=i;fields.children[i].querySelector('input').focus();};picker.append(b);const label=document.createElement('label');label.textContent='Cusp '+name+' · D:M:S';const input=document.createElement('input');input.dataset.cuspIndex=i;input.inputMode='text';input.autocomplete='off';label.append(input);fields.append(label);});dialog.querySelector('[data-close]').onclick=()=>dialog.close();dialog.querySelector('[data-reset]').onclick=()=>{reset();fill();dialog.querySelector('[data-cusp-feedback]').textContent='Automatic calculated cusps restored.';};dialog.querySelector('[data-apply]').onclick=()=>{try{apply([...fields.querySelectorAll('input')].map(n=>read(n.value)));dialog.querySelector('[data-cusp-feedback]').textContent='Manual cusps applied. Use Save to include them in your chart backup.';}catch(e){dialog.querySelector('[data-cusp-feedback]').textContent=e.message;}};}
+fill();dialog.showModal();dialog.querySelectorAll('input')[selected].focus();}
+function fill(){const values=active()?manual.cusps:originalSync().cusps;dialog.querySelectorAll('input').forEach((n,i)=>n.value=Number.isFinite(values[i])?format(values[i]):'');}
+function init(){const bar=document.querySelector('#south9 .kundali-toolbar');if(bar&&!bar.querySelector('[data-cusp-tool]')){const update=document.createElement('button');update.textContent='Update Chart';update.onclick=refresh;const cusp=document.createElement('button');cusp.textContent='Cusp Setting Tool';cusp.dataset.cuspTool='';cusp.onclick=open;const save=document.createElement('button');save.textContent='Save';save.onclick=()=>document.querySelector('[data-action="save-kundali"]')?.click();const note=document.createElement('span');note.dataset.cuspMode='';bar.append(update,cusp,save,note);}status();}
+window.KPManualCusps=Object.freeze({open,apply,reset,get:()=>active()?structuredClone(manual):null,validate});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
+</script>
+<script id="kp-chart-workspace-extras">/* Chart presentation, navigation and transition lists; no natal formula changes. */
+(()=>{'use strict';const $=id=>document.getElementById(id);let busy=false,transitionDialog;
+const decorate=window.KPQuickTools?.decorate;if(decorate)window.KPQuickTools.decorate=function(button,tab,name){decorate(button,tab,name);const label=button.querySelector('.kp-quick-label');if(label)label.textContent=name;};
+function menu(){for(const button of document.querySelectorAll('.kp-quick-tools button[data-quick-function]')){const title=button.getAttribute('aria-label');const label=button.querySelector('.kp-quick-label');if(label&&title&&label.textContent!==title)label.textContent=title;}document.querySelector('.kp-quick-tools')?.setAttribute('aria-label','KP Master menu');}
+function legend(){for(const host of document.querySelectorAll('#kundali-north,#home-kundali')){const svg=host.querySelector('.north9-chart svg')||host.querySelector('svg');if(!svg)continue;const entries=[...svg.querySelectorAll('text[data-longitude]')];if(!entries.length)continue;let details=host.parentElement.querySelector(':scope > .kp-chart-readable');if(!details){details=document.createElement('details');details.className='kp-chart-readable';details.innerHTML='<summary>Chart positions · readable list</summary><div></div>';host.after(details);}const content=entries.map(n=>{const id=n.dataset.planet||n.dataset.cusp||n.dataset.kpOriginalLabel||n.textContent;return id+' · '+n.dataset.longitude;}).join('|');if(details.dataset.signature===content)continue;details.dataset.signature=content;details.lastElementChild.replaceChildren(...entries.map(n=>{const line=document.createElement('p');const arc=Number(n.dataset.longitude),degree=Number.isFinite(arc)?(arc/3600).toFixed(5)+'°':'';line.textContent=(n.dataset.kpOriginalLabel||n.textContent)+' · '+degree;return line;}));}}
+function colours(){const pane=$('settings-pane-astrologer');if(!pane||$('kp-chart-colours-link'))return;const box=document.createElement('section');box.id='kp-chart-colours-link';box.innerHTML='<h4>Chart colours and text</h4><p>Choose planet colours, chart font size and bold text.</p>';for(const [name,tab]of [['Planet colours','themes'],['Chart font size','display']]){const b=document.createElement('button');b.type='button';b.textContent=name;b.onclick=()=>{$('settings-tab-'+tab)?.click();const field=$(tab==='themes'?'setting-planetColorSu':'setting-fontSize');field?.scrollIntoView({block:'center'});field?.focus();};box.append(b);}const grid=document.createElement('div');grid.className='kp-astro-chart-colours';for(const id of ['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke']){const original=$('setting-planetColor'+id);if(!original)continue;const label=document.createElement('label');label.textContent=(window.KPDisplay?.names[id]||id)+' colour';const input=document.createElement('input');input.type='color';input.value=original.value;input.id='kp-astro-colour-'+id;input.addEventListener('input',()=>{original.value=input.value;original.dispatchEvent(new Event('input',{bubbles:true}));original.dispatchEvent(new Event('change',{bubbles:true}));});original.addEventListener('input',()=>input.value=original.value);label.append(input);grid.append(label);}box.append(grid);pane.append(box);$('settings-tab-astrologer')?.addEventListener('click',()=>{for(const id of ['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke']){const n=$('kp-astro-colour-'+id),source=$('setting-planetColor'+id);if(n&&source)n.value=source.value;}});}
+function printable(title,body){const w=window.open('','_blank');if(!w)return;w.document.open();w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>'+title+'</title><style>@page{size:A4;margin:12mm}body{font:12px Arial;color:#17364c;margin:0}table{width:100%;border-collapse:collapse;table-layout:fixed}th,td{border:1px solid #a8b8c5;padding:7px;overflow-wrap:anywhere}thead{display:table-header-group}tr{break-inside:avoid}button{padding:10px}@media print{button{display:none}}</style></head><body><button onclick="print()">Print / Save PDF</button><h2>'+title+'</h2>'+body+'</body></html>');w.document.close();}
+async function transitions(){if(!transitionDialog){transitionDialog=document.createElement('dialog');transitionDialog.className='kp-cusp-dialog';transitionDialog.innerHTML='<h2>Ascendant / Moon transitions</h2><div class="kp-transition-tools"><label>Planet <select data-body><option value="As">Ascendant · next 24 hours</option><option value="Mo">Moon · next 30 days</option></select></label><label>Combination <select data-level><option value="star">Nakshatra</option><option value="sub">Sub lord</option></select></label><button data-find>Find transitions</button><button data-print>Preview / Print / PDF</button><button data-close>Close</button></div><p data-status>Starting at the current moment, using the native chart location.</p><div data-results></div>';document.body.append(transitionDialog);transitionDialog.querySelector('[data-close]').onclick=()=>transitionDialog.close();transitionDialog.querySelector('[data-find]').onclick=find;transitionDialog.querySelector('[data-print]').onclick=()=>printable('Ascendant / Moon transitions',transitionDialog.querySelector('[data-results]').innerHTML);}
+transitionDialog.showModal();}
+async function find(){if(busy)return;busy=true;const d=transitionDialog,button=d.querySelector('[data-find]'),status=d.querySelector('[data-status]');button.disabled=true;try{const planet=d.querySelector('[data-body]').value,level=d.querySelector('[data-level]').value,start=new Date(),end=new Date(start.getTime()+(planet==='As'?1:30)*86400000),native=KPHorary.nativeMoment(),tracks=[];const lords=['Ke','Ve','Su','Mo','Ma','Ra','Ju','Sa','Me'];for(let n=0;n<27;n++)for(const lord of level==='sub'?lords:[null])tracks.push({id:n+':'+lord,planet,label:'',levels:[level],test:p=>p.nakIndex===n&&(!lord||p.sl===lord)});const rows=await KPTransit.scan({start,end,tracks,location:native,onProgress:p=>status.textContent='Searching… '+Math.round(p*100)+'%'}),offset=KPHomeDasha.getData().timeZoneHours*3600000;const table=document.createElement('table');table.className='kp-feature-table';table.innerHTML='<thead><tr><th>Combination · sign / star / sub</th><th>Entry · local time</th><th>Longitude</th></tr></thead><tbody></tbody>';for(const row of rows.filter(r=>!r.startClipped)){const date=new Date(Date.parse(row.start)+1500),lon=planet==='As'?KPTransitHouses.ascendant(date,native.latitude,native.longitude):KPEphemeris.longitude(date,planet),p=KPDisplay.longitudeDetails(lon*3600),tr=document.createElement('tr');for(const value of [p.sgl+' / '+p.stl+' / '+p.sl,new Date(Date.parse(row.start)+offset).toISOString().replace('T',' ').slice(0,19),lon.toFixed(6)+'°']){const td=document.createElement('td');td.textContent=value;tr.append(td);}table.tBodies[0].append(tr);}d.querySelector('[data-results]').replaceChildren(table);status.textContent=table.tBodies[0].rows.length+' transitions · local chart time · boundary precision 1 second.';}catch(e){status.textContent=e.message;}finally{busy=false;button.disabled=false;}}
+function init(){menu();colours();const bar=document.querySelector('#south9 .kundali-toolbar');if(bar){const b=document.createElement('button');b.textContent='Ascendant / Moon transitions';b.onclick=transitions;bar.after(b);}const observer=new MutationObserver(()=>requestAnimationFrame(legend));for(const id of ['kundali-north','home-kundali'])if($(id))observer.observe($(id),{childList:true,subtree:true});legend();}
+window.KPChartWorkspace=Object.freeze({transitions,printable});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,100));else init();})();
+</script>
+<script id="kp-transit-workspace">/* Current-DBA workflow using the existing ephemeris and boundary solver. */
+(()=>{'use strict';const $=id=>document.getElementById(id);let results=[],version=0;
+function current(){for(const [id,value]of [['tr-dba-selection-source','current'],['tr-date-range-source','period'],['tr-period','PD'],['tr-dasha-source','auto'],['tr-direction','all']])if($(id))$(id).value=value;KPTransitSelection.sync();KPTransit.refresh();return KPTransit.currentPeriods();}
+function sunTracks(data){const pairs=[['MD','AD','PD'],['MD','PD','AD'],['AD','MD','PD'],['AD','PD','MD'],['PD','MD','AD'],['PD','AD','MD']];return pairs.map(order=>{const lords=order.map(k=>data.periods[k].id),natal=$('tr-zone').value==='natal',points=lords.map(id=>currentKPModel.planets.find(p=>p.id===id));return {id:'sun:'+order.join('-'),planet:'Su',label:'Sun · '+order.map((k,i)=>k+' '+lords[i]+' '+['sign','star','sub'][i]).join(' + '),levels:['sign','star','sub'],test:p=>natal?p.signIndex===points[0].signIndex&&p.nakIndex===points[1].nakIndex&&p.nakIndex===points[2].nakIndex&&p.sl===points[2].sl:p.sgl===lords[0]&&p.stl===lords[1]&&p.sl===lords[2]};});}
+function draw(){const tbody=$('tr-result-rows');tbody.replaceChildren();for(const row of results){const tr=document.createElement('tr');tr.dataset.track=row.trackId;tr.dataset.entry=row.start;tr.dataset.exit=row.end;for(const value of [row.planet,row.label,row.start,row.end]){const td=document.createElement('td');td.textContent=value;tr.append(td);}tbody.append(tr);}if(!results.length){const tr=document.createElement('tr');const td=document.createElement('td');td.colSpan=4;td.textContent='No matching intervals in the current MD / AD / PD window.';tr.append(td);tbody.append(tr);}}
+async function run(){const token=++version;results=[];KPTransit.cancel();try{const data=current(),pd=data.periods.PD,start=new Date(Math.max(Date.now(),Date.parse(pd.startUTC))),end=new Date(pd.endUTC),mode=$('tr-mode').value,tracks=mode==='sun'?sunTracks(data):KPTransit.makeTracks(data);let periods=null;if(mode==='event'){const required=$('tr-houses').value.split(/[,\s]+/).filter(Boolean).map(Number);periods=KPEventOutcome.periodMatches(currentKPModel,{method:$('tr-significator-method').value},{start,end},required);if(!periods.length){draw();$('tr-status').textContent='Current MD, AD and PD do not jointly support the selected event houses. No supported date found in this PD.';return;}}
+$('tr-status').dataset.state='running';$('tr-run').disabled=true;$('tr-cancel').hidden=false;let found=await KPTransit.scan({start,end,tracks,shouldCancel:()=>token!==version,onProgress:p=>{if(token===version)$('tr-status').textContent='Searching current MD / AD / PD… '+Math.round(p*100)+'%';}});if(token!==version)return;if(periods)found=KPEventOutcome.intersect(found,periods);results=found;draw();$('tr-status').dataset.state='complete';$('tr-status').textContent=results.length+' matching transit intervals · current MD '+data.periods.MD.id+' / AD '+data.periods.AD.id+' / PD '+pd.id+' · upcoming dates only. Entry is a transit boundary, not a guaranteed event date.';
+}catch(e){if(token===version){$('tr-status').dataset.state='error';$('tr-status').textContent=e.message;}}finally{if(token===version){$('tr-run').disabled=false;$('tr-cancel').hidden=true;if($('tr-status').dataset.state==='running')$('tr-status').dataset.state='complete';}}}
+function cancel(){version++;$('tr-status').dataset.state='idle';$('tr-status').textContent='Search cancelled.';$('tr-run').disabled=false;$('tr-cancel').hidden=true;}
+function init(){document.querySelectorAll('#tr-planet-options input').forEach(n=>n.checked=true);const section=$('transit');section.classList.add('kp-current-dba-only');document.addEventListener('click',event=>{const button=event.target.closest('button');if(!button)return;if(button.id==='tr-run'){event.preventDefault();event.stopImmediatePropagation();run();}else if(button.id==='tr-cancel'){event.preventDefault();event.stopImmediatePropagation();cancel();}else if(button.dataset.trSearchMode){event.preventDefault();event.stopImmediatePropagation();KPHandyTransits.mode(button.dataset.trSearchMode);run();}else if(button.id==='transit-preview'){event.preventDefault();event.stopImmediatePropagation();const table=section.querySelector('.tr-result-mount');KPChartWorkspace.printable('Transit dates · current MD / AD / PD','<p>'+ $('tr-status').textContent+'</p>'+table.outerHTML);}else if(button.dataset.tab==='transit'||button.dataset.quickFunction==='transit'){setTimeout(()=>{try{current();}catch(e){$('tr-status').textContent=e.message;}},0);}},true);section.addEventListener('change',()=>{version++;results=[];},true);window.addEventListener('chart-manual-change',()=>{version++;results=[];});try{current();}catch(_){} }
+window.KPTransitWorkspace=Object.freeze({run,cancel,getResults:()=>results.map(r=>({...r})),sunTracks,current});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,200));else init();})();
+</script>
+<script id="kp-gemstone-panels">/* Two views of the existing approved gemstone evaluators. */
+(()=>{'use strict';const $=id=>document.getElementById(id);let last='';function refresh(){const mode=$('gem-mode')?.value;if(!mode||!window.currentKPModel?.ready)return;const other=mode==='kp'?'vedic':'kp',stones=Object.fromEntries(['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke'].map(id=>[id,$('gem-stone-'+id)?.value||'']));try{const data=KPGemstones.evaluate(currentKPModel,{mode:other,required:$('gem-required').value,excluded:'',method:'fourfold',roles:['planet','star','sub'],excludeRetrograde:true,excludeCombust:true,stones});const signature=JSON.stringify(data);if(signature===last)return;last=signature;const panel=$('gem-companion-panel');panel.replaceChildren();const title=document.createElement('h3');title.textContent=other==='vedic'?'According to Vedic Jyotish · houses 1, 5, 11':'According to KP · approved XI cusp rule';panel.append(title);if(data.proof){const proof=document.createElement('p');proof.textContent=data.proof;panel.append(proof);}const table=document.createElement('table');table.className='kp-feature-table';table.innerHTML='<thead><tr><th>Planet</th><th>Gemstone</th><th>Significator evidence</th></tr></thead><tbody></tbody>';for(const row of data.results.filter(r=>r.qualifies)){const tr=document.createElement('tr');for(const value of [KPDisplay.names[row.id]||row.id,row.stone,other==='vedic'?'Owns houses '+row.ownership.join(', '):'Houses '+row.houses.join(', ')]){const td=document.createElement('td');td.textContent=value;tr.append(td);}table.tBodies[0].append(tr);}if(!table.tBodies[0].rows.length){const p=document.createElement('p');p.textContent='No gemstone qualifies under this approved rule.';panel.append(p);}else panel.append(table);const note=document.createElement('p');note.textContent='Mantra, worship and donation: consult the Original Ratna guidance below.';panel.append(note);}catch(e){$('gem-companion-panel').textContent=e.message;}}
+function init(){const card=$('gemstones')?.querySelector('.gem-simple-card');if(!card)return;const panel=document.createElement('section');panel.id='gem-companion-panel';panel.className='gem-companion-panel';const heading=document.createElement('h3');heading.id='gem-primary-panel-title';heading.textContent='According to KP / Vedic · selected rule';$('gem-status').before(heading);card.querySelector('details').before(panel);new MutationObserver(refresh).observe($('gem-results'),{childList:true});$('gem-mode').addEventListener('change',()=>{last='';refresh();});const old=KPGemstones;window.KPGemstones=Object.freeze({...old,snapshot(){refresh();return old.snapshot()+'<section class="gem-companion-panel">'+panel.innerHTML+'</section>';}});refresh();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,150));else init();})();
+</script>
+<script id="kp-event-rule-data" type="application/json">{
+  "version": 1,
+  "rules": [
+    {
+      "id": "supplied-rule-1",
+      "title": "Accident & Assassination",
+      "topic": "Health and longevity",
+      "text": "Accident & Assassination\nAccident / escape from accident:\nIf the sub lord of the Ascendant, 8th or 12th cusp be the significator of 8 or 12, the native is likely to meet with an accident.\nIf the sub lord of the Ascendant, 8th or 12th cusp be the significator of 8 or 7 or 2, the native is likely to meet with a fatal accident; if significator of 1 or 5 or 11, one will be safe from accidents.\nIf the sub lord of the 8th or 12th cusp be the significator of 1-5-11 the native will overcome danger, during the joint period of 1-5-11.\nAccidents and unnatural deaths are caused during the joint period of the significators of 8-12, Badhaka and Maraka.\n\nAssassinations (हत्या):\nIf 8th or 12th sub lord signifies 8-12-Badhaka-Maraka, one can get assassinated in the joint period of 8-12-Badhaka-Maraka.\nIf 8th or 12th sub lord signifies 8-12-Badhaka-Maraka, the native is likely to meet with a fatal assassination during joint period of 8-12-Maraka and Badhaka. If it be a significator of 1-5-11, one will be safe from assassination.\n",
+      "source": "Accident & Assassination.txt",
+      "path": "data/rules-2026-10-16/Accident & Assassination.txt",
+      "sha256": "48da8c92b29aa9deb88f564c2424a637e4adab1181d76251d1d5d1fe24223007"
+    },
+    {
+      "id": "supplied-rule-2",
+      "title": "Admission in Desired College",
+      "topic": "Education",
+      "text": "Admission in Desired College\nIf the cuspal sub lord of the 4th be the significator of 4-11, admission in desired college is promised during the joint period of 4-11.\nIf the cuspal sub lord of the 11th be the significator of 4-11, admission in desired college is promised during the joint period of 4-11.\n",
+      "source": "Admission in Desired College.txt",
+      "path": "data/rules-2026-10-16/Admission in Desired College.txt",
+      "sha256": "fa327491497a97cea31a27e2aa15d3352a4e0da4387d0f4f773be95952c610e3"
+    },
+    {
+      "id": "supplied-rule-3",
+      "title": "Acting in Cinema",
+      "topic": "General",
+      "text": "Acting in Cinema\nIf the cuspal sub lord of the 5th cusp be the significator of 5th (art) - 6th (efficiency in work) - 10th (business/job/reputation), one can get success in acting.\nIf the significators of 6th and 10th be connected with 5th, then during their joint period, one gets success as a cinema actor.\n",
+      "source": "Acting in Cinema.txt",
+      "path": "data/rules-2026-10-16/Acting in Cinema.txt",
+      "sha256": "b69848480123b70a9c73889f79380afe278b9aa6d7757a4f3f26a1dd90e6dcc9"
+    },
+    {
+      "id": "supplied-rule-4",
+      "title": "Arrest & Legal Proceedings",
+      "topic": "Law and disputes",
+      "text": "Arrest & Legal Proceedings\nArrest a person:\nIf 6th sub lord (Police) signifies 1 (Self effort) and 11 (Success), Police will be able to arrest runaway person during the joint period of 1-11.\nIf 11th sub lord (Court order) signifies 6 (Victory on enemy) - 11 (Success), one can get arrested by police on court order during the joint period of 6-11.\nIf 7th sub lord signifies 5 (Gain to opponent) - 10 (4th from 7th come back home) - 6 (12th from 7th Lost reputation), arrest on court order during joint period of 5-6-10.\n",
+      "source": "Arrest & Legal Proceedings.txt",
+      "path": "data/rules-2026-10-16/Arrest & Legal Proceedings.txt",
+      "sha256": "84815aa7c62cc5b08e4e7a1e347231854804bb91dc0225b1934612e6320b28a8"
+    },
+    {
+      "id": "supplied-rule-5",
+      "title": "Astrology as a Profession",
+      "topic": "Career and business",
+      "text": "Astrology as a Profession\nIf sub-lord of Ascendant be the significator of 9-12, one will get mastery in astrology. Jupiter is natural ruler of 9 and 12. Moon gives thoroughness. Saturn gives deep thinking. If sub lord (esp. Saturn) signifies 9-12 then one gets mastery.\nIf sub-lord of 10th be the significator of 2-9-10-11, one will be a successful astrologer during the joint period of 2-9-10-11.\n",
+      "source": "Astrology as a Profession.txt",
+      "path": "data/rules-2026-10-16/Astrology as a Profession.txt",
+      "sha256": "56b2421dcc5200ce8ab557f83b9c5c6f9535f806c595b0cc467b3420ada8a890"
+    },
+    {
+      "id": "supplied-rule-6",
+      "title": "BUSINESS & PROFESSION",
+      "topic": "Career and business",
+      "text": "BUSINESS & PROFESSION\r\nPROFESSION INDICATED BY PLANETS\r\n046 Professional Qualities indicated by the Planets:\r\n Sun indicates independent spirit and working within social\r\nand government laws;\r\n Moon indicates emotional involvement for social purpose;\r\n Mars indicates analytical ability, argumentative disposition,\r\nindependent outlook and logical analysis;\r\n Mercury indicates quick speech, calculation and grasp of\r\narguments;\r\n Jupiter indicates strong knowledge and acumen to judge;\r\n Venus indicates managing capability without having\r\nemotional involvement;\r\n Saturn indicates rendering justice, working hard and being\r\ncool head;\r\n Rahu indicates working on software and big machines; and\r\n Kethu indicates perfectness and calculative ability.\r\nDOING A BUSINESS\r\n047 Rule for business or Service:\r\n If 10th Cuspal Sub Lord is deposited in constellation of a planet\r\nwhich signifies 6th house, then it indicates that the native will\r\nwork in service sector.\r\n If 10th Cuspal Sub Lord is deposited in constellation of a planet\r\nwhich signifies 7th house, then it indicates that the native will\r\ncarry his own business or profession.\r\n If 10th Cuspal Sub Lord is deposited in constellation of a planet\r\nwhich signifies both 6th as well as 7th house, then it indicates that\r\nthe native will be working in service sector for some time and then\r\nhe will be switching over to his own business or profession. \r\n\r\n",
+      "source": "BUSINESS & PROFESSION.txt",
+      "path": "data/rules-2026-10-16/BUSINESS & PROFESSION.txt",
+      "sha256": "55afd4c391d6a4186fbb6180e3d8d20be44161b9107ff1720a12e1b97e0af5d3"
+    },
+    {
+      "id": "supplied-rule-7",
+      "title": "Business Future",
+      "topic": "Career and business",
+      "text": "Business Future\nIf the cuspal sub lord of the 10 (Independent business) be the significator of 2 (Money/wealth) - 7 (business with others) - 10 (Business) an independent business or profession is promised during the joint period of 2-7-10.\nIf the cuspal sub lord of the 7th be the significator of 2-10-11, gain in business is promised during the joint period of 2-10-11.\nIf the cuspal sub lord of the 7th be the significator of 7-11, partnership is promised during the joint period of 7-11.\nIf the cuspal sub lord of the 7th be the significator of 8-12, break-up in partnership is indicated during the joint period of 8-12.\n",
+      "source": "Business Future.txt",
+      "path": "data/rules-2026-10-16/Business Future.txt",
+      "sha256": "2fbc0f63f3ad16b8f86e5fa1cf320d9e32f0060113e5af6a13b7aca607665b61"
+    },
+    {
+      "id": "supplied-rule-8",
+      "title": "Change in Job",
+      "topic": "Career and business",
+      "text": "Change in Job / Change in place of Job\nIf the cuspal sub lord of 3 (journey; 3rd is 12th from 4th) or 12 (Life in completely unfamiliar atmosphere) be the significator of 3-12 and connected with 10, transfer from present place to another is promised.\nIf the sub lord of the 10th cusp be the significator of 3-12, the transfer may happen in service from one place to another.\nThe transfer takes place during the joint period of the significators of 3-10-12.\n",
+      "source": "Change in Job.txt",
+      "path": "data/rules-2026-10-16/Change in Job.txt",
+      "sha256": "04bd5bc6d1caeab1ed53ddf074295cac5e2cf796eb45c46828a0c064e55d9eb6"
+    },
+    {
+      "id": "supplied-rule-9",
+      "title": "Change of House",
+      "topic": "Property and residence",
+      "text": "Change of House\nIf 9th (house you plan to move to) sub lord signifies 4 (House) - 11 (Gain) - 12 (Expenses), one can succeed to get new house.\n",
+      "source": "Change of House.txt",
+      "path": "data/rules-2026-10-16/Change of House.txt",
+      "sha256": "642e81837882615d99df0ade05ef56f09d2d3f7484946a42334557b272deb305"
+    },
+    {
+      "id": "supplied-rule-10",
+      "title": "Change of Residence",
+      "topic": "Property and residence",
+      "text": "Change of Residence\nIf the cuspal sub lord of the 4th be the significator of 3-12, one will be able to change residence during the joint period of 3-12.\n",
+      "source": "Change of Residence.txt",
+      "path": "data/rules-2026-10-16/Change of Residence.txt",
+      "sha256": "13642cd0309b46addd37c0fe90188963c5f528c019c501a98480c827f5b38428"
+    },
+    {
+      "id": "supplied-rule-11",
+      "title": "Buying a Car (Old／New)",
+      "topic": "Property and residence",
+      "text": "Buying a Car (Old/New)\nBuying an old car:\nIf the cuspal sub lord of the 4th (Car) be the significator of 4 (Car) - 11 (Success/Fulfillment of desire) - 12 (Investment) one will have his own vehicle during the joint period of 4-11-12.\nNote: For old car, check 10th (Old things). Benefit can be judged by 11th sub lord as well.\n\nBuying a car (new):\nIf the cuspal sub lord of the 4th (Car) be the significator of 4 - 11 - 12, purchase is promised during joint period of 4-11-12.\n",
+      "source": "Buying a Car (Old／New).txt",
+      "path": "data/rules-2026-10-16/Buying a Car (Old／New).txt",
+      "sha256": "1d1d5f9927d0117cb176a4748d7fa4235832a5e4895618637e06e6b02126c60d"
+    },
+    {
+      "id": "supplied-rule-12",
+      "title": "Cheating",
+      "topic": "Law and disputes",
+      "text": "Cheating\nIf the cuspal sub lord of the 12th be the significator of 5 (Gain to opponent) - 8 (Unfair thing) - 12 (misfortune), there is a chance that one can be cheated. Cheating will happen during the joint period of 8-12.\n",
+      "source": "Cheating.txt",
+      "path": "data/rules-2026-10-16/Cheating.txt",
+      "sha256": "931273745a2ee2f6208d38086d0edfb339cd592c4d7e82fb43a1edd60e1b9237"
+    },
+    {
+      "id": "supplied-rule-13",
+      "title": "Child Birth",
+      "topic": "Relationships and children",
+      "text": "Child Birth\nIf the sub lord of the 5th cusp (Female) or the 11th cusp (Male) is the significator of 2 (Increase in family) - 5 (Conception, child) - 11 (Desire), child birth is promised during joint period of 2-5-11.\nIf it is the significator of 1-4-10 (being 12th from 2-5-11), child birth is not promised.\nIf the cuspal sub lord of the 5th house occupies fruitful sign Cancer, Scorpio or Pisces and is the significator of 2-5-11, the woman concerned is pregnant.\nIf the cuspal sub lord of the 5th house occupies barren sign Aries, Gemini, Leo or Virgo and is in the star of the planet in the barren sign, then the woman concerned is not pregnant.\nIf the cuspal sub lord of the 5th house occupies the star of the planet in dual sign Gemini, Sagittarius, Pisces or Mercury, the woman delivers twins or more than one child.\n",
+      "source": "Child Birth.txt",
+      "path": "data/rules-2026-10-16/Child Birth.txt",
+      "sha256": "ba2b9c1c148cd90f3c8ade9d58a28768c8ed77192ec3d5ae403d137fda5458f8"
+    },
+    {
+      "id": "supplied-rule-14",
+      "title": "CHILDREN AND PROGENY PROGENY RULES",
+      "topic": "Relationships and children",
+      "text": "CHILDREN AND PROGENY PROGENY RULES\r\n040 Which Houses are relevant for Child Birth?\r\n 2nd house indicates addition of a member to family.\r\n 5th house is the primary house of child birth.\r\n 8th house indicates surgical implications in child birth.\r\n 11th house indicates fulfillment of desire.\r\n 12th house indicates hospitalization, expenditures and\r\nmisfortunes related to child birth.\r\n041 Which Planets are relevant for Child Birth?\r\n Jupiter is the Chief Karaka for child.\r\n Mars or Sun connection indicates surgical aid.\r\n Kethu connection indicates abortion or miscarriage.\r\n Moon connection indicates emotional instability and depression.\r\n Saturn connection indicates delay in child birth or lapses unnoticed by doctors.\r\n042 Which Houses represents child in a horoscope?\r\n 5th house indicates first child;\r\n 7th house indicates second child;\r\n 9th house indicates third child; and\r\n 11th house indicates fourth child and so on.\r\n043 Rule for determining whether Child Birth is Promised or Not\r\n First Step: 5th Cuspal Sub Lord should be in direct motion and not\r\nin retrograde motion.\r\n Second Step: 5th Cuspal Sub Lord should be deposited in the\r\nconstellation of a planet which should be in direct motion.\r\n Third Step: 5th Cuspal Sub Lord should signify 2nd, 5th or 11th\r\nhouse.\r\nNote:\r\nx The Horary number for child should preferably be obtained from\r\nthe female side, instead of male as the child is conceived by\r\nfemales only.A Compendium on KP Astrology\r\n17\r\nx In the horary chart, 5th house indicates capability of female to\r\nconceive whereas 11th house indicates capability of the male to\r\ngenerate sperm.\r\nx Regarding fertility: Please note that if both the houses (i.e., 5th and\r\n11th house) are favourable, then only both are considered fertile\r\nto give birth to a child.\r\nRemedy: If any one of them is infertile, then remedy is to be provided to\r\nboth the couple so that the couple may give birth to a child by the\r\nblessing of Lord Narayana. I will be covering the detail of remedy in my\r\nnext book.\r\n045 How to determine the Auspicious time for conceiving for\r\nthose who have not been able to conceive?\r\nThis situation is applicable for those women who have not been able\r\nto conceive a child since long. These women should only conceive\r\nwhen the following conditions are satisfied:\r\n Moon should be transiting in the constellation and sub of a planet\r\nwhich signifies 2nd, 5th and 11th house; without having\r\nsignification to 1st, 4th and 10th house.\r\n The Sub Lord of Moon should be transited by an Ascendant whose\r\nLord which signifies 2nd, 5th and 11th house.\r\n Further, the current Dasha and Bhukti should also signify 2nd, 5th\r\nand 11th house; without having signification to 1st, 4th and 10th\r\nhouse. \r\n",
+      "source": "CHILDREN AND PROGENY PROGENY RULES.txt",
+      "path": "data/rules-2026-10-16/CHILDREN AND PROGENY PROGENY RULES.txt",
+      "sha256": "bbd250a9bc5be0a1992b68bd683161c0e6d4dd260a36140bcc07c525af29221a"
+    },
+    {
+      "id": "supplied-rule-15",
+      "title": "Coalition ／ Alliance",
+      "topic": "Politics and public events",
+      "text": "Coalition / Alliance (and Breaking)\nIf the cuspal sub lord of the 11th (Coalition) be the significator of 4 (support/supporter) - 7 (Alliance) - 11, possibility of coalition/alliance between political party/company during joint period of 4-7-11.\nBreaking of Coalition/Alliance: If 11th cuspal sub lord be the significator of 12 (unfortunate circumstances) - 8 (Breaking up) - 1 (Interruption), breaking is possible during 1-8-12.\n",
+      "source": "Coalition ／ Alliance.txt",
+      "path": "data/rules-2026-10-16/Coalition ／ Alliance.txt",
+      "sha256": "1b6bce21ab57d20c79d21e4374794a70772ed121c6236907bc42b91bc9522178"
+    },
+    {
+      "id": "supplied-rule-16",
+      "title": "Commission Business",
+      "topic": "Career and business",
+      "text": "Commission Business\nIf the cuspal sub lord of 3rd (Commission) be the significator of 2-6-11, the querent gets benefited from commission work during the joint period of the significators of 2-6-11.\n",
+      "source": "Commission Business.txt",
+      "path": "data/rules-2026-10-16/Commission Business.txt",
+      "sha256": "9ba805e5d4d117884e9f81f2f1607e8927a009c0136ef0eb129b82e12ad2a351"
+    },
+    {
+      "id": "supplied-rule-17",
+      "title": "Constructing Religious Building",
+      "topic": "General",
+      "text": "Constructing Religious Building\nIf the cuspal sub lord of the 10th be the significator of 10 (Construction) - 9 (Religious Place) - 12 (Investment), constructing a religious building is promised during the joint period of 10-9-12.\n",
+      "source": "Constructing Religious Building.txt",
+      "path": "data/rules-2026-10-16/Constructing Religious Building.txt",
+      "sha256": "98289d202258739404334ddf35193c5789625bec11915d126b8834a9ac815901"
+    },
+    {
+      "id": "supplied-rule-18",
+      "title": "Contract Job",
+      "topic": "Career and business",
+      "text": "Contract Job\nIf the cuspal sub lord of 3rd (contract) be the significator of 2-6-10-11, one gets benefitted from contract work during the joint period of the significators of 2-6-10-11.\n",
+      "source": "Contract Job.txt",
+      "path": "data/rules-2026-10-16/Contract Job.txt",
+      "sha256": "f4218e5fd73d0fb2dd7c03eabf6c6b7fca549d006b95c60b6ff944fdc44343da"
+    },
+    {
+      "id": "supplied-rule-19",
+      "title": "Criminal Proceedings",
+      "topic": "Law and disputes",
+      "text": "Criminal Proceedings (आपराधिक कार्यवाही)\nIf the sub lord of the 10th cusp (status) be the significator of 7 (court proceedings) - 8 (infamy) - 12 (crimes), the native will be involved in court proceedings relating to crimes, be ill-reputed and punished during the joint period of 7-8-12.\nIf the sub lord of the 12th cusp (jail) be the significator of 3 (away from home), 8 (misfortune) or 12 (restrictions), one has to court jail during the joint period of 3-8-12.\n",
+      "source": "Criminal Proceedings.txt",
+      "path": "data/rules-2026-10-16/Criminal Proceedings.txt",
+      "sha256": "81ebcaa24cf196c61649a0ae3ce006d693d3fbb21d4db09598ee630c659994dd"
+    },
+    {
+      "id": "supplied-rule-20",
+      "title": "Dancing Career",
+      "topic": "Career and business",
+      "text": "Dancing Career\nDancing comes under 5th cusp. If 5th cusp sublord signifies 5 (Creative ability/Capability) - 10 (Accomplishment/Achievement/Aura of authority) - 11 (Special consideration/Desire), one can achieve a good position in dancing.\n",
+      "source": "Dancing Career.txt",
+      "path": "data/rules-2026-10-16/Dancing Career.txt",
+      "sha256": "2457b11f46dcc5bc101dd50e38ee8af05ecdc118aa2f32a8b8b0ff4134306fca"
+    },
+    {
+      "id": "supplied-rule-21",
+      "title": "Cure",
+      "topic": "Health and longevity",
+      "text": "Cure (1,5,11)\nIf the sublord of the 6th or 8th or 12th or 11th cusp be the significator of 1-5-11 disease is cured, or the native is saved from any danger.\nDuring the joint period of the significators of 1-5-11, disease is cured or the native is saved from any danger.\nAstrologers need to select from sublord of Ascendant or 6th or 8th or 12th as per their experience. It is advisable that first examine all the cusp sub lords and then come to any conclusion.\nIf the sub lord of the Ascendant cusp be the significator of 1-5-11, the native may recover after accident or escape from accident during the sub period of this cuspal sublord of 1-5-11. (In Char lagna consider 9th instead of 11).\nDuring the joint period of the significator of 2-4-11 discharge from hospital.\n",
+      "source": "Cure.txt",
+      "path": "data/rules-2026-10-16/Cure.txt",
+      "sha256": "1fff1b3d526e9190a0bf6a4d75bac66a82284460646ade098d506a10bf19cecb"
+    },
+    {
+      "id": "supplied-rule-22",
+      "title": "DEBAUCHERY AND INCEST",
+      "topic": "Relationships and children",
+      "text": "DEBAUCHERY AND INCEST\r\n015 Rule for judging debauchery/incest:\r\n First Step: All 1st Cusp Co-Rulers (Sign Lord, Constellation Lord\r\nand Sub Lord) shall be connected fully to either Saturn or Mars\r\nor Venus.\r\n Second Step: All 5th Cusp Co-Rulers (Sign Lord, Constellation Lord\r\nand Sub Lord) shall be connected fully to either Saturn or Mars\r\nor Venus.\r\n Third Step: All 11th Cusp Co-Rulers (Sign Lord, Constellation Lord\r\nand Sub Lord) shall be connected fully to either Saturn or Mars\r\nor Venus.\r\nNote: For the benefit of readers, it is concluded that if all the co rulers\r\nof 1st house, 5th house and 11th house are connected to Saturn or Mars\r\nor Venus; then the person will be debauch, even to the extent of\r\ncommitting incest (having sexual pleasure prior to legal marriage).\r\n016 Rule for judging Loss of reputation due to Incest:\r\n5th Cuspal Sub Lord should be deposited in constellation of a planet\r\nwhich signifies 10th house and 12th house.\r\n017 Rule for judging Loss of Property due to Incest:\r\n5th Cuspal Sub Lord should be deposited in constellation of a planet\r\nwhich signifies 4th house and 12th house.\r\n018 Rule for judging Loss of Cash or Bank balances due to\r\nIncest:\r\n5th Cuspal Sub Lord should be deposited in constellation of a planet\r\nwhich signifies 2nd house and 12th house. \r\n",
+      "source": "DEBAUCHERY AND INCEST.txt",
+      "path": "data/rules-2026-10-16/DEBAUCHERY AND INCEST.txt",
+      "sha256": "444df2307706c7d9e0d975d8869694a9e8a8a0153452b18fc70ab5bebf0bb5d9"
+    },
+    {
+      "id": "supplied-rule-23",
+      "title": "Disease",
+      "topic": "Health and longevity",
+      "text": "Disease (6th)\nIf the sub lord of the 6th cusp be the significator of 6-8-12 and connected with 1, the native may suffer from disease during the sub period of this cuspal sub lord of 6.\nIf the sub lord of the 8th or 12th cusp be the significator of 6-8-12 then native suffers from the disease and permanent defect.\nDuring the joint period of the significators of 1-5-11 disease is cured, during the joint period of the significator of 2-11 relieved from hospital.\n",
+      "source": "Disease.txt",
+      "path": "data/rules-2026-10-16/Disease.txt",
+      "sha256": "4bc80cca271a33b119a999d9261acce0525d41d35fab0b8f1b1929dd4850b1b2"
+    },
+    {
+      "id": "supplied-rule-24",
+      "title": "Desired Job ／ Promotion",
+      "topic": "Career and business",
+      "text": "Desired Job / Promotion\nDesired job:\nIf the cuspal sub lord of the 6th or 10th be the significator of 2-6-10, service or earning is promised during 2-6-10. If the cuspal sub lord of the 11th be the significator of 2-6-10-11, the querent gets a job of expectation during 2-6-10.\nPromotion:\nIf the cuspal sub lord of the 11th be the significator of 2-6-10-11, promotion in service is promised during 2-6-10-11.\n",
+      "source": "Desired Job ／ Promotion.txt",
+      "path": "data/rules-2026-10-16/Desired Job ／ Promotion.txt",
+      "sha256": "07995df4499727aabe542bf3ae50603f2d9664c664fad249d0113e235130e660"
+    },
+    {
+      "id": "supplied-rule-25",
+      "title": "DIVORCE AND REUNION",
+      "topic": "Relationships and children",
+      "text": "DIVORCE AND REUNION\r\n022 Which Houses are to be considered for divorce?\r\n 6th house significators brings separation due to partner walking\r\nout or deserting the relationship;\r\n 8th house significators do not threaten separation, but indicates\r\ndifficulties in living together; and\r\n 12th house significators indicates separation due to disharmony,\r\nquarrel and misunderstanding with the partner.\r\n Note: 12th house also provides negative stimulation to the\r\nnative/querent to seek separation and live single.Basic Rules & Applied Horoscopes\r\n10\r\n023 Rule for divorce/separation from spouse:\r\n First Step:\r\nx If 7th Cuspal Sub Lord signifies 1st, 6th and 12th house along with\r\n11th house, then marriage will take place but will end in divorce;\r\nx OR If 7th Cuspal Sub Lord is connected to 6th, 8th and 12th house,\r\nthen though marriage is promised, there will be separation\r\nbetween the partners;\r\n Alternative Step: Promise of Second Marriage in Chart also denotes\r\nend of first marriage. This can be checked from 2nd Cuspal Sub\r\nLord, i.e., 2nd Cuspal Sub Lord should be connected to the 7th\r\nHouse.\r\n Timing of Event: The timing of event of divorce/ separation will be\r\nduring the conjoined period of joint significators of 1st, 6th, 10th\r\nand 12th house as agreeing with the Ruling Planets at the date,\r\ntime and place of judgement.\r\n024 Reasons for Divorce or breaking of Marriage:\r\nNote the 6th Cuspal Sub Lord and observe in which house it is\r\npositioned.\r\n If it is positioned in 1st house, then personal concerns will be the\r\nmain reason for divorce/separation;\r\n If it is positioned in 2nd house, then financial security or family\r\nconcerns will be the main reason for divorce/separation;\r\n If it is positioned in 3rd house, then agreement or contract will be\r\nthe main reason for divorce/separation;\r\n If it is positioned in 4th house, then mother or property will be the\r\nmain reason for divorce/separation;\r\n If it is positioned in 5th house, then children or colleagues will be\r\nthe main reason for divorce/separation;\r\n If it is positioned in 6th house, then health problems will be the\r\nmain reason for divorce/separation;\r\n If it is positioned in 7th house, then ex-partner or business deals\r\nwill be the main reason for divorce/separation;\r\n If it is positioned in 8th house, then debts, legal issues or dowry\r\nwill be the main reason for divorce/separation;\r\n If it is positioned in 9th house, then father, stranger, internet\r\nfriends or higher education will be the main reason for\r\ndivorce/separation;\r\n If it is positioned in 10th house, then job or status in society will\r\nbe the main reason for divorce/separation;\r\n If it is positioned in 11th house, then colleagues or known friends\r\nwill be the main reason for divorce/separation; and \r\n  If it is positioned in 12th house, then foreigners or unknown people\r\nwill be the main reason for divorce/separation.\r\n025 Rule for checking who will initiate divorce:\r\n Rule for initiation by the Querent: - If 7th Cuspal Sub Lord signifies\r\n12th house, then the querent will initiate for divorce.\r\n Rule for initiation by the Partner: If 7th Cuspal Sub Lord signifies\r\n6th house, then the partner will initiate the petition for divorce.\r\n026 Rule for reunion with Spouse:\r\n First Step: 11th Cuspal Sub Lord should signify 2nd house and 7th\r\nhouse.\r\n Second Step: 7th Cuspal Sub Lord should be deposited in the\r\nconstellation of a planet which signifies 2nd, 7th or 11th house;\r\nwithout signifying 1st, 6th and 10th house.\r\n Timing of Event: The reunion with spouse will fructify during the\r\nconjoined period of significators of 2nd, 7th and 11th house.\r\n",
+      "source": "DIVORCE AND REUNION.txt",
+      "path": "data/rules-2026-10-16/DIVORCE AND REUNION.txt",
+      "sha256": "603f7003d2c4e81f6a0f710d18e3237dfb2e8d9ae9a80391dee30670b0278742"
+    },
+    {
+      "id": "supplied-rule-26",
+      "title": "Election Ticket",
+      "topic": "Politics and public events",
+      "text": "Election Ticket\nOne can be selected as a candidate for election if 3rd (view of people) sub lord signifies 6 (victory)-10 (One’s political position)-11 (gain).\nBut if 9th (opposite view of people) sub lord signifies 12 (victory of opponent)-4 (Opponent’s political position)-5 (gain of opponent), the opponent will be selected as a candidate.\n",
+      "source": "Election Ticket.txt",
+      "path": "data/rules-2026-10-16/Election Ticket.txt",
+      "sha256": "5e57874ee5d158e768b9cb66d9b7f92ac92ca7356e2ecec488c737c572733a62"
+    },
+    {
+      "id": "supplied-rule-27",
+      "title": "Education & Examination",
+      "topic": "Education",
+      "text": "Education & Examination\nEducation:\nIf the sub lord of the 4th cusp be the significator of 4 (education, preparations for examinations, academic qualifications) - 9 (deep study and higher education) - 11 (success, fulfillment), the native will get academic qualifications during the joint period of 4-9-11.\nEducation will either be completed or postponed during the joint period of the significators of 3-8-10 (being 12th from 4-9-11 respectively).\n\nSuccess in examination:\nIf the sub lord of the 4th cusp is the significator of 4 (examinations) - 9 (higher studies) - 11 (Success), success in examination is promised, when during the days of examination the joint period of 4-9-11 is active.\n",
+      "source": "Education & Examination.txt",
+      "path": "data/rules-2026-10-16/Education & Examination.txt",
+      "sha256": "3de5bf42f64d94e4b1f91cfa785a13a7136f0b3556c1716889fde13d5d1056e3"
+    },
+    {
+      "id": "supplied-rule-28",
+      "title": "Election Timing & Outcome",
+      "topic": "Politics and public events",
+      "text": "Election — Timing & Outcome\nTiming:\nIf 3rd (Election, view of people) sub lord signifies 3 (Election) - 9 (Opposite view) - 11 (Fulfillment of desire), election will be held during the joint period of 3-9-11.\n\nOutcome:\nIf Ascendant or 10th sub lord (Tendency of people of country) signifies 6 (Military dictatorship) - 11 (Gain), power comes to Military/dictator.\nIf Ascendant or 10th sub lord signifies 4 (Democracies, democratic government and movements) - 11 (Gain), power comes to Democratic Government.\nIf Ascendant or 10th sub lord signifies 9 (Religious leader) - 11 (Gain), power comes to Religious leaders.\n",
+      "source": "Election Timing & Outcome.txt",
+      "path": "data/rules-2026-10-16/Election Timing & Outcome.txt",
+      "sha256": "9422f1d04709a4b9fe7ce8194018087042216113dff21b883e8a6dddff8115ab"
+    },
+    {
+      "id": "supplied-rule-29",
+      "title": "Elections",
+      "topic": "Politics and public events",
+      "text": "Elections\nOne can be selected as a candidate for election, if Ascendant (Tendency of people of country) sub-lord signifies 6 (victory)-10 (One’s political position)-11 (gain).\nFor the opponent candidate, Ascendant (tendency of people of country) sub-lord should signify 12 (victory of opponent)-4 (Opponent’s political position)-5 (gain of opponent).\n",
+      "source": "Elections.txt",
+      "path": "data/rules-2026-10-16/Elections.txt",
+      "sha256": "41f41bcb174f6f4175ee9d993d86f043b1e1d8f115e292dff1aa62629b8cee55"
+    },
+    {
+      "id": "supplied-rule-30",
+      "title": "EXTRA MARITAL AFFAIRS ,ILLEGAL RELATION",
+      "topic": "Relationships and children",
+      "text": "EXTRA MARITAL AFFAIRS/ ILLEGAL RELATION\r\n020 Rule for Extra Marital Relation/Illegal Relation/\r\nLicentiousness:\r\n First Step: If 2nd Cuspal Sub Lord is connected with 11th house\r\nand/or 5th house; with no connection to 7th house, then extra\r\nmarital affair is indicated.\r\n Alternative Step: Sun positioned in 7th house is not favourable for\r\nmarried life, except in its own sign Leo as, it indicates illegal\r\nrelation with more than one partner.\r\n Timing of Event: The timing of the event of extra marital affairs will\r\nbe during the conjoined period of joint significators of 2nd, 5th and\r\n11th house.\r\n021 Rule for illegal husband after marriage and children:\r\n First Step:\r\nx 2nd Cuspal Sub Lord should be positioned in a dual sign (Gemini,\r\nVirgo, Sagittarius or Pisces) OR\r\nx 2nd Cuspal Sub Lord should be deposited in the constellation of a\r\nplanet positioned in dual sign (Gemini, Virgo, Sagittarius or\r\nPisces).\r\n Second Step: 2nd Cuspal Sub Lord should be the significator of\r\n12th, 3rd, 4th and 5th house.\r\n",
+      "source": "EXTRA MARITAL AFFAIRS ,ILLEGAL RELATION.txt",
+      "path": "data/rules-2026-10-16/EXTRA MARITAL AFFAIRS ,ILLEGAL RELATION.txt",
+      "sha256": "fadf9aea3921282e383832b83416da887a5fd052537b4b14d64667bd707d1d24"
+    },
+    {
+      "id": "supplied-rule-31",
+      "title": "End of Dictator",
+      "topic": "Politics and public events",
+      "text": "End of Dictator / Military Ruler\nIf 8th Sublord (Secret work of enemy/opposition) signifies 5 (12th from 6 — Dictator), 9 (12th from 10 — those in power), 12 (loss), ruler faces trouble and end of his govt. or rule.\nIf 10th (Ruler) signifies 2 (Maraka) - 7 (Maraka) - 12 (Moksha) and Badhaka, rule will end with death (2-7-12 from 10th).\n",
+      "source": "End of Dictator.txt",
+      "path": "data/rules-2026-10-16/End of Dictator.txt",
+      "sha256": "4dceeb657ac8a48313e825c024d73c9d75c746492da021dc912c424d02fe48a4"
+    },
+    {
+      "id": "supplied-rule-32",
+      "title": "Financial Help from Partner",
+      "topic": "Finance",
+      "text": "Financial Help from Partner\nIf the sub lord of the 11th be the significator of 2-6-11, native gets loan/financial help during joint period of 2-6-11. Partner is 7th; partner’s money is 8th, thus check 8th sub lord also.\n",
+      "source": "Financial Help from Partner.txt",
+      "path": "data/rules-2026-10-16/Financial Help from Partner.txt",
+      "sha256": "09eafbf0c64dabb613e48c3e3e25e09e6c518a50f2b4da75f168d29713dd6a30"
+    },
+    {
+      "id": "supplied-rule-33",
+      "title": "Gain by Advertisement",
+      "topic": "Finance",
+      "text": "Gain by Advertisement\nIf the sub lord of the 11th be the significator of 2-6-11, native gets financial gain during joint period of 2-6-11.\n",
+      "source": "Gain by Advertisement.txt",
+      "path": "data/rules-2026-10-16/Gain by Advertisement.txt",
+      "sha256": "0cc9c53d96c20fe8f68c25b0c542e6bc3dfae61c08ab65e7d944c2482ba190ae"
+    },
+    {
+      "id": "supplied-rule-34",
+      "title": "Financial Position",
+      "topic": "Finance",
+      "text": "Financial Position (2nd cusp)\nIf 2nd cusp sub lord signifies 2-6-11, then one can get good financial earning, during the joint period of 2-6-11.\n",
+      "source": "Financial Position.txt",
+      "path": "data/rules-2026-10-16/Financial Position.txt",
+      "sha256": "5556a29ce07441ad690b43b2f4a8ea3d1f78527eccd95d1991886336ed0e52f7"
+    },
+    {
+      "id": "supplied-rule-35",
+      "title": "Gain from Machine Purchase",
+      "topic": "Finance",
+      "text": "Gain from Machine Purchase\nAny movable things are considered under 2nd house. 7th indicates opponent; 6th indicates purchase of movable things (12th from 7th means opponents sell movable things) and 4th indicates place of delivery.\nIf 11th cusp sub lord signifies 2-6-11, then one can gain from movable things during the joint period of 2-6-11.\n",
+      "source": "Gain from Machine Purchase.txt",
+      "path": "data/rules-2026-10-16/Gain from Machine Purchase.txt",
+      "sha256": "38b2593ba114196a5f96abfb867d1bc85de9fdd8f1231191b0cd18427d29956e"
+    },
+    {
+      "id": "supplied-rule-36",
+      "title": "Gender of Child",
+      "topic": "Relationships and children",
+      "text": "Gender of Child\nSun, Mars, Jupiter are male planets; Moon, Venus, and Rahu are female; Mercury and Ketu are neuter. Odd signs (1-3-5-7-9-11) indicate male and even signs (2-4-6-8-10-12) indicate female.\n5th cusp sign-star-sub lord indicates gender of child. (Prediction is difficult and must be judged holistically.)\n",
+      "source": "Gender of Child.txt",
+      "path": "data/rules-2026-10-16/Gender of Child.txt",
+      "sha256": "b5ad977df3b32b661fff66b650de241dfc641c01cb265aef62a388a247c69e10"
+    },
+    {
+      "id": "supplied-rule-37",
+      "title": "Getting Donation or Dues",
+      "topic": "Finance",
+      "text": "Getting Donation or Dues\nDonation:\nIf 8th sub lord be the significator of 2-6-11, during the joint period of 2-6-11 getting donation is promised.\n\nDues:\nIf 8th sub lord be the significator of 2-6-11 during the joint period of 2-6-11, getting due amount is promised.\n",
+      "source": "Getting Donation or Dues.txt",
+      "path": "data/rules-2026-10-16/Getting Donation or Dues.txt",
+      "sha256": "a2b9184c41326550d383eab7fad74e2d118d80012c1879472ca8c3bd885aaef1"
+    },
+    {
+      "id": "supplied-rule-38",
+      "title": "Getting Green Card ／ PR ／ Passport",
+      "topic": "Property and residence",
+      "text": "Getting Green Card / PR / Passport\nIf 10th (matter depending with others) cusp sub lord signifies 5 (one’s self interest) - 9 (Legal action/success in venture/making something legal/passport) - 11 (one’s reputation as a winner), then in the DBA of 5-9-11, success is assured.\n",
+      "source": "Getting Green Card ／ PR ／ Passport.txt",
+      "path": "data/rules-2026-10-16/Getting Green Card ／ PR ／ Passport.txt",
+      "sha256": "72ecee480dc547eed8172a75d62a21d9e7fd22c0fd81434262cea0ee5fbb25dc"
+    },
+    {
+      "id": "supplied-rule-39",
+      "title": "Getting Loan",
+      "topic": "Finance",
+      "text": "Getting Loan\nIf the cuspal sub lord of the 6th be the significator of 2-6-10-11, borrowing from bank is promised during the joint period of 2-6-10-11.\n",
+      "source": "Getting Loan.txt",
+      "path": "data/rules-2026-10-16/Getting Loan.txt",
+      "sha256": "c1053632c02fa1934d4519d01f82ab63d14a5ee8d53137df3538cab9fc95ee48"
+    },
+    {
+      "id": "supplied-rule-40",
+      "title": "Going Abroad for Higher Studies",
+      "topic": "Education",
+      "text": "Going Abroad for Higher Studies\nIf the cuspal sub lord of the 5th (since 9th is higher study and 9th from 9th is 5th) be the significator of 9-12, going abroad for higher study is promised during the joint period of 3-9-12.\n",
+      "source": "Going Abroad for Higher Studies.txt",
+      "path": "data/rules-2026-10-16/Going Abroad for Higher Studies.txt",
+      "sha256": "8434fc07cef4f896314795dbf1c2af221f95a530e7adff4dff37d872ddfc63b1"
+    },
+    {
+      "id": "supplied-rule-41",
+      "title": "Getting Tenant",
+      "topic": "Property and residence",
+      "text": "Getting Tenant (Vacant tenant)\nNeighbour is 3rd. Tenant is 6th, thus neighbour of tenant is 8th (6th from 3rd).\nIf the cuspal sub lord of the 8th be the significator of 10 (3rd from 8th, loss of home), 7 (12th from 8th, loss to tenant) or 1 (11th from 3rd, gain to neighbour) vacating the house is promised during the joint period of 10-7-1.\n",
+      "source": "Getting Tenant.txt",
+      "path": "data/rules-2026-10-16/Getting Tenant.txt",
+      "sha256": "52f01597863346ccf704167f58563342c9518eb2457968ff06932bbbedc50ef4"
+    },
+    {
+      "id": "supplied-rule-42",
+      "title": "Government Job",
+      "topic": "Career and business",
+      "text": "Government Job\nIf the cuspal sub lord of the 10th (Government Job) be the significator of 2-6-10 and connected with 10, service in Government sector is promised during the joint period of 2-6-10.\n",
+      "source": "Government Job.txt",
+      "path": "data/rules-2026-10-16/Government Job.txt",
+      "sha256": "53f4f9b4ce4c3e607dafb0f3e38e17d8328370d3c32b6271b04b9c1d5ef58af6"
+    },
+    {
+      "id": "supplied-rule-43",
+      "title": "Health",
+      "topic": "Health and longevity",
+      "text": "Health (1st)\nIf the sub lord of the Ascendant, be in the star of the occupant of the house 1 or 11, health is normal.\nIf the sub lord of the Ascendant, be the significator of the house 6 (sickness) or 8 (danger to life) or 12 (hospitalization), it is not good for health.\nThe native may suffer from sickness or disease during the joint period of the significators of 1 and 6, or 1 and 8, or 1 and 12.\n",
+      "source": "Health.txt",
+      "path": "data/rules-2026-10-16/Health.txt",
+      "sha256": "cedf46991af250877edf176accd290255574296d023c75357a408baa00514cf2"
+    },
+    {
+      "id": "supplied-rule-44",
+      "title": "Imprisonment ／ Bail",
+      "topic": "Law and disputes",
+      "text": "Imprisonment / Bail\nImprisonment:\nIf the cuspal sub lord of the 12th be the significator of 3 (away from home) - 8 (misfortune) - 12 (restrictions), and connected with Mars or Saturn or Rahu or Ketu, one has to face jail during the joint period of 3-8-12.\n\nBail:\nOne can get bail if 12th (any kind of confinement) signifies 2 (Freedom) - 4 (change of environment, Home) - 11 (Fulfillment of desire) during the joint period of 2-4-11.\n",
+      "source": "Imprisonment ／ Bail.txt",
+      "path": "data/rules-2026-10-16/Imprisonment ／ Bail.txt",
+      "sha256": "b359e82b2e40a35369accf62616565b6d4136459e5aedf43cccb8fa9d8f2029a"
+    },
+    {
+      "id": "supplied-rule-45",
+      "title": "Home Confinement",
+      "topic": "Law and disputes",
+      "text": "Home Confinement\nOne can free from house confinement if 2nd (Freedom) signifies 2 (Freedom)-4 (Change of environment, Home)-11 (Fulfill of desire), during the joint period of 2-4-11.\nOne can free from house confinement if 12th (any kind of Confinement) signifies 2 (Freedom)-4 (Change of environment, Home)-11 (Fulfill of desire), during the joint period of 2-4-11.\n",
+      "source": "Home Confinement.txt",
+      "path": "data/rules-2026-10-16/Home Confinement.txt",
+      "sha256": "67fbca1a90255c81242d664922e663cdb7c9f2276426f8a43ae60999f9ff1288"
+    },
+    {
+      "id": "supplied-rule-46",
+      "title": "Independent Business",
+      "topic": "Career and business",
+      "text": "Independent Business\nIf the cuspal sub lord of the 10th (Independent business) be the significator of 2 (Money/wealth) - 7 (Business with others) - 10 (Business), an independent business or profession is promised during the joint period of 2-7-10.\nIf the cuspal sub lord of the 7th be the significator of 2-10-11, gain in business is promised during the joint period of 2-10-11.\n",
+      "source": "Independent Business.txt",
+      "path": "data/rules-2026-10-16/Independent Business.txt",
+      "sha256": "151a9fe014fde3c061b6370e5babe85d89c1294933a4fdee3e4785f1f714c8ae"
+    },
+    {
+      "id": "supplied-rule-47",
+      "title": "Inheritance Property",
+      "topic": "Property and residence",
+      "text": "Inheritance Property\nIf the sub lord of the 9th cusp be the significator of 2-11, inheritance property is assured during the joint period of 2-11.\n",
+      "source": "Inheritance Property.txt",
+      "path": "data/rules-2026-10-16/Inheritance Property.txt",
+      "sha256": "036a7c7f152d9f28ea462af70357c63dc4c847d7f700248b1b21d1a2b50ddf06"
+    },
+    {
+      "id": "supplied-rule-48",
+      "title": "Interview for Higher Studies",
+      "topic": "Education",
+      "text": "Interview for Higher Studies\n3rd indicates interview/meeting; 7th indicates person we meet; from 7th, 3rd is 9th. For interview consider 3rd & 9th; for fulfillment, consider 11th.\nIf the cuspal sub lord of the 11th be the significator of 3 - 9 - 11, a meeting is possible.\nMeeting is for higher study, so check 9th cusp sub lord. If 9th cuspal sub lord be significator of 4-9-11 then meeting for admission is successful during 4-9-11.\n",
+      "source": "Interview for Higher Studies.txt",
+      "path": "data/rules-2026-10-16/Interview for Higher Studies.txt",
+      "sha256": "c541b19ea7b3f0be1bde640dc30a6d717c5ec2f7bf2a4dc7a6ff124c88124722"
+    },
+    {
+      "id": "supplied-rule-49",
+      "title": "Interview for Job",
+      "topic": "Career and business",
+      "text": "Interview for Job\n3rd indicates interview/meeting; 7th indicates person we meet; from 7th, 3rd is 9th — so meeting with other person is 9th cusp. For interview consider 3rd and 9th cusps. For fulfillment, consider 11th cusp.\nIf the cuspal sub lord of the 11th be the significator of 3 (Meeting, Interview) - 9 (meeting with person) - 11 (Gain, Success, fulfillment), a meeting is possible.\nIf the cuspal sub lord of the 3rd or 9th be the significator of 2-6-10-11 then meeting for job is successful during the joint period of the significators of 2-6-10-11.\n",
+      "source": "Interview for Job.txt",
+      "path": "data/rules-2026-10-16/Interview for Job.txt",
+      "sha256": "3a8c842d7ddd20d0165504e78cfd6f33c059eeb3c4d0dc5b1834c84414a60e3e"
+    },
+    {
+      "id": "supplied-rule-50",
+      "title": "Investment in Property",
+      "topic": "Property and residence",
+      "text": "Investment in Property\nIf 2nd (Immovable Property) or 11th (Gain) cusp sub lord signifies 6-11, then one can get benefits during the joint period of 6-11.\n",
+      "source": "Investment in Property.txt",
+      "path": "data/rules-2026-10-16/Investment in Property.txt",
+      "sha256": "528de59569fde7fa1e6546b12b65b72e1753bc9bfdd0d1c06f06e67663429b4e"
+    },
+    {
+      "id": "supplied-rule-51",
+      "title": "Job Change & Promotion",
+      "topic": "Career and business",
+      "text": "Job Change & Promotion\nChange of job:\nFor job/business we check 2-6-10. 12th from these (1-5-9) are negative for 2-6-10. For change consider 1-5-9-12. If sub lord of 10th or 6th be significator of 1-5-9-12, change of job during 1-5-9; service promised when significator of 2-6-10 is active.\nPromotion:\nIf the cuspal sub lord of the 11th be the significator of 2-6-10-11, promotion in service is promised during the joint period of 2-6-10-11.\n",
+      "source": "Job Change & Promotion.txt",
+      "path": "data/rules-2026-10-16/Job Change & Promotion.txt",
+      "sha256": "203039aacb784fe9bab02153d242a0ad86420a602153f944082aa20b9146f59e"
+    },
+    {
+      "id": "supplied-rule-52",
+      "title": "Job in India or Abroad",
+      "topic": "Career and business",
+      "text": "Job in India or Abroad\nIf the cuspal sub lord of the 2nd (9th from 6th) be the significator of 9 (abroad/ long journey) or 12 (Stay in abroad) and also signifies 2-6-10, the foreign travel for job is promised during the joint period of the significator of 3-9-12.\n",
+      "source": "Job in India or Abroad.txt",
+      "path": "data/rules-2026-10-16/Job in India or Abroad.txt",
+      "sha256": "75bf206af2c08960a4de694d945fe5c3b395606b329419948e6530b94527995a"
+    },
+    {
+      "id": "supplied-rule-53",
+      "title": "JUDGING PROFESSION",
+      "topic": "Career and business",
+      "text": "JUDGING PROFESSION\r\n054 Rules for judging the profession of a native or querent\r\n Note the 10th house sign lord, star lord and sub lord.\r\n Note the planets occupying 10th house.\r\n Note the planets conjoined with 10th house.\r\n All the planets together shall be churned for making fruitful\r\nprediction.\r\nFor Example:\r\nIf 10th House sign lord, star lord and sub lord planets are Sun, Mars\r\nand Mercury, then we can state that the native/querent may have the\r\nfollowing professions:\r\nx Mars represents surgical, Mercury gives quick understanding and\r\ngrasp of knowledge and Sun represents healing, doctor, etc.\r\nHence, the profession may be Doctor or Surgeon.\r\nx Similarly, Mars and Mercury represent Mechanical Engineer and\r\nSun for government service. Hence, the profession may be\r\nmechanical engineer in government organizations.\r\nx Or Mars represents industrial workers, Mercury represents\r\naccounts, audit, finance and Sun represents government service.\r\nHence, the native may be handling finance jobs at government\r\nindustries relating to industrial workers.\r\n\r\nLEGAL PROFESSION\r\n055 Rule for Legal Profession:\r\n First Step: 10th Cuspal Sub Lord is Mercury or Jupiter or Mars or\r\nSun or Saturn.\r\n Second Step: AND 10th Cuspal Sub Lord should be connected\r\nwith Libra, Aquarius and Sagittarius.\r\n\r\n056 Rule for becoming a Judge\r\n First Step: 10th Cuspal Sub Lord is Mercury or Jupiter or Mars or\r\nSun or Saturn.\r\n Second Step: AND 10th Cuspal Sub Lord should be connected\r\nwith Libra, Aquarius and Sagittarius.\r\n Third Step: AND Saturn should be well connected with 10th\r\nCuspal Sub Lord and Libra, Aquarius and Sagittarius.\r\n\r\nASTROLOGY PROFESSION\r\n057 Rule for knowing Well versed/ Genius/ Popular native in\r\nastrology\r\n First Step: 9th Cuspal Sub Lord is either Mercury or Jupiter\r\n Second Step: AND 9th Cuspal Sub Lord should signify 10th house,\r\n2nd house, 5th house, 9th house or 11th house.\r\n058 Rule for conducting research in astrology\r\n First Step: 9th Cuspal Sub Lord is either Mercury or Jupiter\r\n Second Step: AND 9th Cuspal Sub Lord should signify 10th house,\r\n2nd house, 5th house, 9th house or 11th house.Basic Rules & Applied Horoscopes\r\n22\r\n Third Step: AND 9th Cuspal Sub Lord should be connected to 12th\r\nhouse.\r\n\r\n059 Rule for knowing a Person who pretends to know everything\r\nin astrology and his predictions will be a bundle of lies\r\n First Step: 9th Cuspal Sub Lord is either Mercury or Jupiter.\r\n Second Step: AND 9th Cuspal Sub Lord should signify negative\r\nhouses (9th house, 5th house and 8th house) and\r\n Third Step: AND 9th Cuspal Sub Lord should not signify positive\r\nhouses (10th house, 2nd house, 5th house, 9th house or 11th\r\nhouse).\r\n060 Rule for Good Astrologer / Good in Occult Science\r\n First Step: If 2nd Cuspal Sub Lord signifies either 9th house or\r\n12th house, then the native will definitely be a good astrologer and\r\ngood in occult science too.\r\n\r\nCINEMA / ACTING PROFESSION\r\n061 Rule for acting profession\r\n First Step: 5th Cuspal Sub Lord should be deposited in the\r\nconstellation of a planet positioned in 5th house or 6th house or\r\n11th house.\r\n Second Step: AND 5th Cuspal Sub Lord should have direct or\r\nindirect connection with Venus.\r\n062 Rule for Musical Profession/ Musical talents:\r\n First Step: 5th Cuspal Sub Lord is deposited in the constellation\r\nof a planet positioned in 1st house.\r\n Second Step: AND the Ascendant of the native/querent must be\r\npositioned in Leo Sign or Aquarius sign.A Compendium on KP Astrology\r\n23\r\n\r\nJOURNALISM PROFESSION\r\n063 Rule for Journalism Profession:\r\n First Step: 3rd Cuspal Sub Lord should be deposited in\r\nconstellation of a planet which should signify 11th house.\r\n Second Step: AND 3rd Cuspal Sub Lord should be connected to\r\nMercury and Jupiter.\r\n\r\nPRINTING PROFESSION /BUSINESS OF OWNING A\r\nPRINTING UNIT\r\n064 Rule for owning a printing unit\r\n First Step: 10th Cuspal Sub Lord should signify 2nd house or 6th\r\nhouse or 10th house.\r\n Second Step: AND Mercury should signify 2nd house or 6th house\r\nor 10th house.\r\n Third Step: AND Jupiter should signify 2nd house or 6th house or\r\n10th house.\r\n Fourth Step: AND Mars should signify 2nd house or 6th house or\r\n10th house.\r\n\r\nTEACHING PROFESSION\r\n065 Rule for Teaching Profession:\r\n First Step: 10th Cuspal Sub Lord should be Mercury or any other\r\nplanet which is positioned in a dual sign.\r\n Second Step: AND Mercury should be well connected to 2nd house\r\nwhich is the house of speech.\r\n066 Rule for knowing Prosperity of an Institution:\r\n First Step: 11th Cuspal Sub Lord should not signify 6th house and\r\n10th house.Basic Rules & Applied Horoscopes\r\n24\r\n",
+      "source": "JUDGING PROFESSION.txt",
+      "path": "data/rules-2026-10-16/JUDGING PROFESSION.txt",
+      "sha256": "c9eb0ee25823a9e647fde3abc1a571e3bfabf186556d75781e12ff0927a1f683"
+    },
+    {
+      "id": "supplied-rule-54",
+      "title": "Level of Wealth",
+      "topic": "Finance",
+      "text": "Level of Wealth / Earn handsome money\nNo wealth:\nIf 2nd (Money) signifies 5 (12th from 6th Daily income) - 8 (Financial Loss, income of opponent) - 12 (Loss).\n\nSome Wealth:\nIf 2nd (Money/Income) signifies 5 (12th from 6th Daily income) - 8 (Financial Loss, income of opponent) - 12 (Loss) along with 2 (Income) - 6 (Daily income) - 11 (Gain).\n\nEnormous Wealth:\nIf 2nd (Income) signifies 2 (Income) - 6 (Daily income) - 10 (Profession/Status) - 11 (Gain) AND NOT CONNECTED to 5 (12th from 6th) - 8 (Financial Loss) - 12 (Loss).\n",
+      "source": "Level of Wealth.txt",
+      "path": "data/rules-2026-10-16/Level of Wealth.txt",
+      "sha256": "2e796f4314e77efacdfa50c95cdaeb6d3f435a0dc4fad619183a017081307539"
+    },
+    {
+      "id": "supplied-rule-55",
+      "title": "Longevity",
+      "topic": "Health and longevity",
+      "text": "Longevity: दीर्घायु\n\nRule 1:\nIf the cuspal sub lord of the Ascendant, be the significator of the house 6 or 8 or 12 the life is short (about 33 years).\nIf the cuspal sub lord of the Ascendant, be the significator of the house 1 or 5 or 9 or 10 the life is long (about more than 66 years).\nIf the cuspal sub lord of the Ascendant, be the significator of the house 6 or 8 or 12 and 1 or 5 or 9 or 10, the life is medium (about 66 years).\nBut if the cuspal sub lord of the Ascendant, be the significator of the Badhaka and Maraka houses with the above mentioned houses, it is not good for life.\nIf the cuspal joint rulers (the sign lord, star lord and sub lord) of the Ascendant or the 8th cusp be the significator of the Badhaka and Maraka houses, their joint period is very critical for life.\nIn the short life term within 33 years, in the medium life term within 66 years and in the long life term above 66 years, also check the 3rd and 8th cusps too.\nBadhaka bhava is more danger than Maraka bhava. So while checking about longevity, first check the Badhaka bhava and then Maraka bhava.\n\nRule 2:\nIf the cuspal sub lord of the Ascendant be the significator of the Badhaka and Maraka houses, the life term is short during their joint period and is very critical for life.\n",
+      "source": "Longevity.txt",
+      "path": "data/rules-2026-10-16/Longevity.txt",
+      "sha256": "b8a00a2c72241cb43cf66967238f8c57769d39e8be995168d7f7835642624821"
+    },
+    {
+      "id": "supplied-rule-56",
+      "title": "Lost Article",
+      "topic": "General",
+      "text": "Lost Article\nIf the cuspal sub lord of 2nd be the significator of 2 (movable article which is lost or stolen) - 6 (Article) - 11 (regaining), movable property will be regained during the joint period of the significator of 2-6-11.\n",
+      "source": "Lost Article.txt",
+      "path": "data/rules-2026-10-16/Lost Article.txt",
+      "sha256": "c878cea30354e7e47787fb5742f7708a76780a01e994cc8987b79b764d76097d"
+    },
+    {
+      "id": "supplied-rule-57",
+      "title": "LEVEL OF INCOME",
+      "topic": "Career and business",
+      "text": "LEVEL OF INCOME/ WEALTH FROM BUSINESS OR\r\nPROFESSION\r\n051 Rule for checking that native will have some wealth from\r\nBusiness or Profession:\r\n First Step: 2nd Cuspal Sub Lord is connected to positive houses\r\n(2nd house or 6th house or 10th house or 11th house) along with\r\nnegative house (5th house or 8th house or 12th house).\r\n Second Step: AND 6th Cuspal Sub Lord is connected to positive\r\nhouses (2nd house or 6th house or 10th house or 11th house)\r\nalong with negative houses (5th house or 8th house or 12th\r\nhouse).Basic Rules & Applied Horoscopes\r\n20\r\n052 Rule for checking that native will have enormous health/\r\nBecome a Crorepati/ Very prosperous financially:\r\n First Step: 2nd Cuspal Sub Lord should be connected to houses\r\n(2nd house or 6th house or 10th house or 11th house) without\r\nhaving any connection with (5th house or 8th house or 12th\r\nhouses).\r\n Second Step: AND 6th Cuspal Sub Lord should be connected to\r\nhouses (2nd house or 6th house or 10th house or 11th house)\r\nwithout having any connection with (5th or 8th or 12th houses).\r\n053 Rule for checking that native will have no wealth/ Become\r\na beggar or pauper:\r\n First Step: 6th Cuspal Sub Lord is not connected to houses (2nd\r\nhouse or 6th house or 10th house or 11th house) but is connected\r\nto (5th house or 8th house or 12th house).\r\n Second Step: AND 2nd Cuspal Sub Lord is not connected to\r\nhouses (2nd house or 6th house or 10th house or 11th house) but\r\nis connected to houses (5th house or 8th house or 12th house).\r\n",
+      "source": "LEVEL OF INCOME.txt",
+      "path": "data/rules-2026-10-16/LEVEL OF INCOME.txt",
+      "sha256": "2f867a744a9d2a298822541247b6da031e2a63f5cae8b18227b03b0904d718a4"
+    },
+    {
+      "id": "supplied-rule-58",
+      "title": "Love Affair & Marriage",
+      "topic": "Relationships and children",
+      "text": "Love Affair & Marriage\nLove affair:\n1) If 5th cusp sub lord signifies 11-2 (7), have a love partner/success in love affair (falls in love without sexual contact) during the joint period of 2-5-11.\n2) If 5th cusp sublord signifies 5 & 12 or 5 & 8 or 11 & 8, having a love affair with sexual relations during period 5-8-12-11.\n3) If 5th cusp sub lord signifies 5-8-12, scandalous love affair during joint period 5-8-12.\n4) If 5th cusp sub lord signifies 5-6-8-12 (10), termination of love affair during joint period 5-6-8-12 (10).\n5) If 5th cusp sub lord signifies 7 and 7th cusp sub lord signifies 5, then only love marriage is promised, during the joint period of 7-11-2-5.\n\nMarriage:\nIf the cuspal sub lord of the 7th be the significator of 2 (Addition in family, Family life) - 7 (Marriage) - 11 (permanent relationship) marriage takes place during the joint period of 2-7-11.\n\nLove marriage: If 5th cusp sub lord signifies 7 and 7th cusp sub lord signifies 5, then only love marriage is promised during 7-11-2-5.\n\nDivorce/Separation:\nIf the sub lord of the 7th cusp be the significator of 1-6-10 (being 12th from 2-7-11), it does not promise marriage or denotes absence of married life.\nIf already married, during 1-6-10 joint period there may be no conjugal life or estrangement/separation; it also denotes divorce.\n\nReunion with spouse:\nIf the cuspal sub lord of the 7th be the significator of 2-7-5-11, reunion takes place during the joint period of 2-7-5-11.\n\nSecond Marriage:\nIf 7th cusp sub lord is Mercury or deposited in a dual sign (Gemini, Sagittarius, Pisces) or any planet occupying/deposited in star of dual sign or in the star of owner of dual sign (Mercury/Jupiter) and is a significator of 2-11, then during 2-11 there is a chance of second marriage.\n\n LOVE & MARRIAGE\nGENERAL MARRIAGE RULES\n001 Which Planets are relevant for love and marriage?\n Venus is the chief karaka of love and marriage. It also indicates love and sexual instinct of the native.\n Note: Sun is not good for married life as it indicates illegal relation with more than one partner when positioned in 7th house. The only exception is when Sun is placed in its own sign Leo.\n\n002 Which Houses are considered for love and marriage?\nThe houses relevant for love and marriage are: -\n 2nd House denotes family or kutumbha;\n 3rd house indicates friendship and relationship;\n 4th house denotes sexual pleasures between husband and wife in home;\n 5th House denotes love marriage, love affairs, fulfillment of sexual pleasure and the quantum of success or failure achieved in love affairs;\n 7th house denotes husband and contract of marriage in legal way;\n 8th house denotes sexual enjoyment, dowry and parents·expenditure on wedding;\n 9th house represents negotiation or contract for marriage as it is3rd from the 7th house;\n 11th House indicates friendship, pleasure and strong ties, which may not be permanent;\n 12th House indicates bed comforts and illegal affairs;\n In case where marriage is being solemnized to a foreigner, then 3rd, 9th or 12th house of the bride·s chart indicates travel to far-off place, preferably in a foreign country, for settling with groom's family; and\n 6th or 10th house indicates break in love affairs.\n\n003 Rule for Promise of Marriage:\n First Step:\nx 7th Cuspal Sub Lord should signify 2nd or 7th or 11th house.\nx OR 7th Cuspal Sub Lord and 2nd, 5th or 11th Cuspal Sub Lord should be the same planet.\n Alternative Step: If the aforesaid rule is not satisfied, then 7th Cuspal Sub Lord should signify 5th house or 8th house.\n\n004 Rule for No Marriage at all/ Rule for denial of Marriage:\n First Step: If 7th Cuspal Sub Lord signifies 6th, 12th and 10th House; without having any connection to 2nd, 3rd, 7th, 11th or 5th house,then the native will never get married.\n Alternative Step: If 7th Cuspal Sub Lord does not signify 2nd, 7th or 11th house at stellar level and sub level, then the native remain unmarried forever.\nNote:\nx Please remember that this situation will be very rare, hence one should be careful in making this prediction.\nx If a planet is significator of 2nd, 7th or 11th house and it itself happens to be a single strong significator of 6th house (denoting separation), then that planet will not allow marriage in its Dasha or Bhukti.\n\n005 Rule for Knowing Reasons for Marriage:\nNote the 7th Cuspal Sub Lord and observe the house in which it is positioned.\n If it is positioned in 1st house, then personal concerns will be the main reason for marriage;\n If it is positioned in 2nd house, then financial security or family concerns will be the main reason for marriage;\n If it is positioned in 3rd house, then agreement or contract will be the main reason for marriage;\n If it is positioned in 4th house, then mother or property will be the main reason for marriage;\n If it is positioned in 5th house, then knowledge, love or colleagues will be the main reason for marriage;\n If it is positioned in 6th house, then health problems will be the main reason for marriage;\n If it is positioned in 7th house, then ex-partner or business deals will be the main reason for marriage;\n If it is positioned in 8th house, then debts or legal issues will be the main reason for marriage;\n If it is positioned in 9th house, then father, stranger, internet friends or higher education will be the main reason for marriage;\n If it is positioned in 10th house, then job or status in society will be the main reason for marriage;\n If it is positioned in 11th house, then colleagues or known friends will be the main reason for marriage; \n If it is positioned in 12th house, then spiritual people, foreigners or unknown people will be the main reason for marriage.\n\n006 Rule for Delay in Marriage/ Rule for Late Marriage/ Rule for failing of Marriage proposals:\n First Step:\nx 7th Cuspal Sub Lord should signify 2nd, 7th or 11th house and should be connected to 4th and 10th house also.\nx Further, 7th Cuspal Sub Lord should not signify 3rd house.\n Alternative Step:\nx If 7th Cuspal Sub Lord does not signify 2nd, 7th or 11th house at stellar signification, then sub level signification to 2nd, 7th or 11th house shall be studied.\nx If the Sub Lord of 7th Cuspal Sub Lord signifies 2nd, 7th or 11th house, then the native will get married, but late in life.\n Note: Indication of Punarphoo Dosha, a condition of conjunction or aspect of Saturn and Moon in a horoscope, also indicates delay in marriage.\n\n007 Rule for marriage with the same girl twice:\n 7th Cuspal Sub Lord should be aspected by Lord of 8th house and there must be a Punarphoo Dosha in the houses under consideration for marriage.\n Note: This condition may arise in situation where the first marriage had occurred after running from home and then the couple subsequently got married again in front of the society after acceptance by both the families.\n\n008 Rule for Grand Marriage:\n 11th Cuspal Sub Lord should signify 11th house along with 2nd and 7th house.\n\n009 Rule for marrying rich bride or groom:\n First Step: 7th Cuspal Sub Lord should be deposited in the constellation of a planet which signifies 2nd, 7th and 11th house.\n Second Step: The significator of 2nd, 7th and 11th house in one horoscope should also be the Ruling Planets in another·s horoscope.\n\n010 Rule for knowing the physical feature and characteristics of spouse\nThe physical feature and characteristics of spouse will depend upon 7th Cuspal Sub Lord and the Sign in which it is positioned. Hence the same is to be noted.\n If it is positioned in Aries, then the person will generally be of average height and possess lean and muscular body (neither stout nor thick). He/She may be of wheatish complexion with expressive eyes, long face and curly hair.\n If it is positioned in Taurus, then the person will generally be of medium stature with broad forehead, thick neck and bright eyes. He/she may have dark hair, fair complexion, broad shoulders,\nwell developed muscles and will be of cheering personality.\n If it is positioned in Gemini, then the person will generally be tall and upright coupled with moderate complexion (neither too fair nor too dark). He/She may have long hands, sharp eyes, long nose and charming personality.\n If it is positioned in Cancer, then the person will generally be of short stature with heavy body, slender limbs, powerful claws and prominent abdomen. The portion above abdomen will be more prominent than the lower parts. He/She may also walk with a rolling gait/pace.\n If it is positioned in Leo, then the person will generally be of moderate stature with a muscular body, well developed bones and broad forehead. He/She may have royal outlook, dignified personality and commanding appearance.\n If it is positioned in Virgo, then the person will generally have a tall and slender body. He/She may have shrill voice and curved eyebrows with bushy hair. He/She may often appear to be younger than his/her actual age. They will be very active and brisk walking people.\n If it is positioned in Libra, then the person will generally be of tall stature with well-proportioned body having slender but strong limbs and parrot like nose. He/She may be graceful and have humanitarian instincts with charming appearance and influential personality.\n If it is positioned in Scorpio, then the person will generally be of average stature with well-proportioned body having long hands and broad face. He/She may have commanding appearance with good and respectful personality.\n If it is positioned in Sagittarius, then the person will generally be of tall stature with well-developed muscles and broad forehead.He/She may have bushy eyebrows, long nose, graceful bright eyes, smiling face, fair complexion and handsome figure.\n If it is positioned in Capricorn, then the person will generally be emaciated, gaunt and weak. He/She may have long nose, deep set eyes, and coarse hair but the body growth will be slow.\n If it is positioned in Aquarius, then the person will generally be tall having fair complexion and handsome appearance.\n If it is positioned in Pisces, then the person will generally be short heighted having plumpy body, small hands and small feet.\n\n011 Rule for checking about the partner:\n7th Cuspal Sub Lord indicates the Spouse; hence the details of the spouse can be checked by churning the results of the following steps:\n First Step: Note the 7th Cuspal Sub Lord and observe the house where it is placed.\n Second Step: Further, note the house where constellation lord of 7th Cuspal Sub Lord is placed.\n\n012 Rule for judging the age difference between partners:\nEach planet indicates certain age difference:\nx Saturn indicates much difference;\nx Mars, Mercury and Moon indicate very little difference;\nx Jupiter, Venus and Sun indicate proper difference; and\nx Rahu and Kethu indicates the age of planet which is the lord of the zodiac sign in which it is positioned.\n7th Cuspal Sub Lord indicates the age differences between partners, hence 7th Cuspal Sub Lord and Constellation Lord in which the 7th Cuspal Sub Lord is positioned is to be noted and predictions is to be made as follows:\nx If both the planets are Saturn, then the age difference between partners will be more than 8-9 years.\nx In case, if one planet is Saturn and the other planet is Moon, then the age difference between partners will be around 5-7 years.\n\n013 Rule for checking who will survive whom:\n Rule from Husband’s Chart: If 7th Cuspal Sub Lord is positioned in dual sign and it also happens to be a significator of Marakasthana and Badhakasthana house, then his wife will die earlier, i.e., he will survive longer than his wife.\n Rule from Wife’s Chart: If 7th Cuspal Sub Lord is positioned in dual sign and it also happens to be a significator of Marakasthana and Badhakasthana houses, then her husband will die earlier, i.e., she will survive longer than her husband.\n\n014 Rule to determine who will dominate Husband or Wife:\n Rule from Husband’s Chart: - If 7th Cuspal Sub Lord is a significator of 7th, 8th, 12th and 5th house, then his wife will dominate over all the affairs of life.\n Rule from Wife Chart: - If 7th Cuspal Sub Lord is a significator of 7th, 8th, 12th and 5th house, then her husband will dominate over all the affairs of the life.\n\n\n",
+      "source": "Love Affair & Marriage.txt",
+      "path": "data/rules-2026-10-16/Love Affair & Marriage.txt",
+      "sha256": "8dc7a18e9461064243fe500a696560d9c2535589df86c518540c80657ed52ad2"
+    },
+    {
+      "id": "supplied-rule-59",
+      "title": "MARRIED LIFE",
+      "topic": "Relationships and children",
+      "text": "MARRIED LIFE\r\n028 Rule for Happy Married Life/ Rule for harmonious married\r\nLife/ Rule for checking good relation between spouses:\r\n First Step: 11th Cuspal Sub Lord should signify 7th house or 11th\r\nhouse.\r\n Alternative Step: 11th Cuspal Sub Lord should signify 2nd, 5th, 7th\r\nor 11th house, without signifying 6th house and/or 12th house.\r\n Alternative Step: 7th Cuspal Sub Lord is either Venus or Jupiter\r\nand should signify 2nd and 11th house.\r\n029 Rule for Unhappy Married Life/ Rule for frequent quarrel or\r\ndispleasure in Married life:\r\n First Step: 11th Cuspal Sub Lord should strongly signify 6th house\r\n(denoting deserting by the partner), 8th house (denoting\r\ndisharmony and quarrel) and 12th House (denoting native seeks\r\nseparation); without having signification to 7th or 11th house;\r\n Alternative Step: 7th Cuspal Sub Lord should signify 6th, 8th or 12th\r\nhouse.\r\n Note: -\r\nx Role of Mars: Mars in 8th house indicates quarrel and displeasure\r\nbetween partners, except when Mars occupies its own sign.\r\nx Role of Saturn: Saturn in 8th house indicates disturbed married\r\nlife and lack of warmness between the couple. It may also be on\r\naccount of denial of sexual intercourse.\r\nINTER-CASTE / UNCONVENTIONAL MARRIAGE\r\n030 Rule for inter caste marriage:\r\n First Step: 7th Cusp Co-rulers (i.e., Sign Lord, Constellation Lord\r\nand Sub Lord) should be connected to either Mars or Saturn or\r\nRahu.\r\n Alternative Step: If 7th Cuspal Sub Lord signifies 5th house and\r\n11th house, then it denotes love marriage. Further, if it is also\r\nconnected to Rahu or Kethu, then it indicates an inter-caste\r\nmarriage or unconventional marriage.A Compendium on KP Astrology\r\n13\r\nLIVE-IN RELATIONSHIP\r\n031 Rule for going for live-in relationship:\r\n First Step: 11th Cuspal Sub Lord should not be in retrograde\r\nmotion.\r\n Second Step: 11th Cuspal Sub Lord should not be deposited in\r\nconstellation of a planet which is retrograde in motion.\r\n Third Step: 11th Cuspal Sub Lord should signify 2nd, 5th, 7th and\r\n11th house.\r\n032 Rule for checking who will start the live-in relationship:\r\n Rule for native/querent: If 11th Cuspal Sub Lord signifies 3rd\r\nhouse, then the querent will take the initiative for staring the\r\nrelationship.\r\n Rule for person other than querent: If 11th Cuspal Sub Lord\r\nsignifies 9th house, then the other person will take the initiative\r\nfor starting the relationship.\r\n Timing of Event: The conjoined period of significators of 2nd, 5th,\r\n7th and 11th house will be taken into consideration for\r\nfructification of the event which should agree with the ruling\r\nplanets at the date, place and time of judgement.\r\nLOVE AFFAIRS\r\n033 Rule for love marriage/ Rule for materialization of love\r\naffair into marriage\r\n First Step: 7th Cuspal Sub Lord should signify 5th house and either\r\n2nd or 7th or 11th house. Further 5th Cuspal Sub Lord should also\r\nsignify 2nd, 7th or 11th house.\r\n Alternative Step: 5th Cuspal Sub Lord and 7th Cuspal Sub Lord\r\nshould be the same planet.\r\n Alternative Step: 5th Cuspal Sub Lord should directly/indirectly be\r\nconnected to 5th house and 7th house.\r\n Alternative Step: 5th Cuspal Sub Lord should be strong significator\r\nof 7th house and 11th house.Basic Rules & Applied Horoscopes\r\n14\r\n034 Rule for judging whether the love affair is one side or both\r\nsided:\r\n 11th Cuspal Sub Lord and 5th Cuspal Sub Lord are to be studied\r\nfor judging whether love affair is both sided or one sided.\r\nIn case the query is asked by the girl querent, then, if 5th Cuspal\r\nSub Lord signifies 11th house, it is predicted that the girl loves\r\nthe boy.\r\n035 Rule for checking whether boy loves the girl:\r\n For knowing this, the horary chart must be rotated to 11th\r\nhouse, so that the 11th house can be treated as the ascendant\r\nof the boy.\r\nNow in this rotated chart, if 3rd Cuspal Sub Lord (i.e., 5th from 11th\r\nhouse) signifies 1st house, then it is predicted that the boy loves the\r\ngirl.\r\n036 Rule for Time pass love/ Rule for Casual Love affair\r\n First Step: If 5th Cuspal Sub Lord is directly /indirectly connected\r\nto 6th house and 12th house along with the signification of 2nd, 5th,\r\n7th and 11th house, then it will be a time pass love affair.\r\n Alternative Step: If 5th Cuspal Sub Lord signifies both positive\r\nhouses (2nd, 5th, 7th and 11th house) as well as negative houses (6th\r\nand 12th house), then it will be a casual love affair.\r\n037 Rule for Failure /Non-Materialization of Love affair into\r\nmarriage:\r\n First Step: 5th Cuspal Sub Lord should be deposited in\r\nconstellation of a planet which signifies 6th house and/or 12th\r\nhouse.\r\n Alternative Step: OR 5th Cuspal Sub Lord should be deposited in\r\nthe constellation of a planet which signifies 4th house and 10th\r\nhouse.\r\n038 Rule for judging who will drop from the idea of love\r\nmarriage:\r\n Rule for dropping of idea by the Querent: If 5th Cuspal Sub Lord is\r\ndeposited in constellation of a planet which signifies 12th house,\r\nthen the querent will drop the idea of love marriage.\r\n Rule for dropping of idea by the Lover: If 5th Cuspal Sub Lord is\r\ndeposited in constellation of a planet which signifies 6th house,\r\nthen the querent·s lover will withdraw from the idea of love\r\nmarriage.A Compendium on KP Astrology\r\n15\r\n039 Rule for Sexual Pleasure with Companion without getting\r\nmarried:\r\n First Step: 7th Cuspal Sub Lord should signify 5th House and 8th\r\nHouse (obstacles and opposition); without signifying 2nd, 7th or\r\n11th house.\r\n Second Step: 5th Cuspal Sub Lord should signify 5th, 4th and 8th\r\nhouse; without signifying 2nd, 7th or 11th house. \r\n",
+      "source": "MARRIED LIFE.txt",
+      "path": "data/rules-2026-10-16/MARRIED LIFE.txt",
+      "sha256": "611d5541a99e1d1fc5c6a22e89b1ae02db6dbcef9fc5236fbbb9c1cd07d7c0c3"
+    },
+    {
+      "id": "supplied-rule-60",
+      "title": "Missing Person ／ Pet",
+      "topic": "General",
+      "text": "Missing Person / Pet\nMissing person:\nIf the cuspal sublord of 11th be the significator of 2-8-11, a person returns home during the joint period of 2-8-11.\n\nMissing Pet:\nIf the cuspal sublord of 11th be the significator of 2, 8 or 11, a pet returns home during the joint period of 2, 8 and 11. (Also check 4th Sub Lord as 6th is pet and 11th from 6th is 4th.)\n",
+      "source": "Missing Person ／ Pet.txt",
+      "path": "data/rules-2026-10-16/Missing Person ／ Pet.txt",
+      "sha256": "a3575c33d6432b40c262eea9c07356c06820aa97b93f0178a2c7c05ebd3c9e0b"
+    },
+    {
+      "id": "supplied-rule-61",
+      "title": "MULTIPLE MARRIAGES",
+      "topic": "Relationships and children",
+      "text": "MULTIPLE MARRIAGES\r\n027 Rule for Multiple Marriages:\r\n First Step: 7th Cuspal Sub Lord should signify 9th house along with\r\neither 2nd or 7th or 11th house.\r\n Second Step: 7th Cuspal Sub Lord should be Mercury or Jupiter\r\nOR if 7th Cuspal Sub Lord is a planet other that Mercury or\r\nJupiter, then it should be placed in a dual sign (Gemini, Virgo,\r\nSagittarius or Pisces) OR 7th Cuspal Sub Lord should be deposited\r\nin the constellation of a planet which is in dual sign (Gemini,\r\nVirgo, Sagittarius or Pisces).\r\n Third Step: 2nd Cuspal Sub Lord should signify either7th house or\r\n11th house.\r\n Timing of Event: The timing for fructification of event shall be\r\ndetermined by considering the planet signification of 2nd house,\r\n7th house, 9th house and 11th house as agreeing with the ruling\r\nplanets at the time and place of judgement.\r\n Note: Jupiter indicates two marriages whereas Mercury indicates\r\nmultiple marriages. \r\n",
+      "source": "MULTIPLE MARRIAGES.txt",
+      "path": "data/rules-2026-10-16/MULTIPLE MARRIAGES.txt",
+      "sha256": "00b69f4d700ee1f80d2913d902a10d85ded597ffab8faa1a1aadde8e5e975693"
+    },
+    {
+      "id": "supplied-rule-62",
+      "title": "Negotiation Success",
+      "topic": "General",
+      "text": "Negotiation Success\nIf the sub-lord of the 3rd cusp be the significator of the houses 6 and 11, then one will have success. But if it be significator of the houses 5 and 12, one cannot have success.\nThe houses which are to be considered for judgment depend on query: marriage (7th, 3, 9); business/job (10th, 6, 3, 9); adoption (5th, 3, 9).\n",
+      "source": "Negotiation Success.txt",
+      "path": "data/rules-2026-10-16/Negotiation Success.txt",
+      "sha256": "d2539a398633903dfccfdd9d2aa2693d19851b6b8be3ecfa62309133fb616bd1"
+    },
+    {
+      "id": "supplied-rule-63",
+      "title": "New Business ／ Project",
+      "topic": "Career and business",
+      "text": "New Business / Project\nIf the cuspal sub lord of the Ascendant or 11th be the significator of 1-2-3-6-10-11, then success in effort/planning in project is promised.\n",
+      "source": "New Business ／ Project.txt",
+      "path": "data/rules-2026-10-16/New Business ／ Project.txt",
+      "sha256": "87382d348f362e5506614f24ede7a91056d7f2a83ce024e3e422d88f25f10da3"
+    },
+    {
+      "id": "supplied-rule-64",
+      "title": "Partnership & Breakup",
+      "topic": "General",
+      "text": "Partnership & Breakup\nIf the sub lord of the 8th cusp (partner’s money) be the significator of 6-11, the native gets a partner.\nIf the sub lord of the 8th cusp (partner’s money) be the significator of 5-12, the native will not get a partner.\nIf the sub lord of the 7th cusp (partnership) be the significator of 5-11, the partnership continues for a long time.\nIf the sub lord of the 7th cusp be the significator of 8-12, the partnership will break.\nIf 7th cusp sub lord be the significator of 6th, partner will break; if significator of 12th, querent will break partnership during joint period of 6-12.\nIf owner of 7th and occupant of 7th be a significator of 11th, querent gets benefit from partnership. But if they be a significator of 7-12, it is loss in partnership.\n",
+      "source": "Partnership & Breakup.txt",
+      "path": "data/rules-2026-10-16/Partnership & Breakup.txt",
+      "sha256": "3db80ab92fa9df7cfe8750295435a06aee5064353945394360fada692a3ed7f9"
+    },
+    {
+      "id": "supplied-rule-65",
+      "title": "Planning for Expanding Business",
+      "topic": "Career and business",
+      "text": "Planning for Expanding Business\nIf the cuspal sub lord of the Ascendant or cuspal sub lord of 11th be the significator of the 1-2-3-6-10-11, then planning/success in effort/success in project is promised.\n",
+      "source": "Planning for Expanding Business.txt",
+      "path": "data/rules-2026-10-16/Planning for Expanding Business.txt",
+      "sha256": "2a06b9487427e731536b427fdb6fcd3da86ffb37c5ebcd9872710df1284af63e"
+    },
+    {
+      "id": "supplied-rule-66",
+      "title": "Professional Examination",
+      "topic": "Education",
+      "text": "Professional Examination\nFor competitive/professional examinations consider 4-6-9-11.\nIf the cuspal sub lord of the 11th be the significator of 4-6-9-11, success is promised during the joint period of 4-6-9-11.\n",
+      "source": "Professional Examination.txt",
+      "path": "data/rules-2026-10-16/Professional Examination.txt",
+      "sha256": "9ea208a9b17b34bec287ef714a83c77c1e85df2f47a00c6a28bc907251ba7baa"
+    },
+    {
+      "id": "supplied-rule-67",
+      "title": "Redevelopment of House",
+      "topic": "Property and residence",
+      "text": "Redevelopment of House\nIf the cuspal sub lord of the 7th (renovate building) be the significator of 4 (land/building) - 7 (renovate building) - 11 (success/fulfillment of desire) one will be able to renovate house during the joint period of 7-4-11.\n",
+      "source": "Redevelopment of House.txt",
+      "path": "data/rules-2026-10-16/Redevelopment of House.txt",
+      "sha256": "50963bd4bb3d630ba6f95f4d08f6bdd30b1e6d7fc9a7416ca7be7fe6eda1fb77"
+    },
+    {
+      "id": "supplied-rule-68",
+      "title": "Relation with Friend",
+      "topic": "Relationships and children",
+      "text": "Relation with Friend\nIf the cuspal sub lord of the 11th be the significator of 1-5-11, relation with friend will be good during the joint period of 1-5-11.\nIf the cuspal sub lord of the 11th be the significator of 6-8-12, relation with friend will be not good during the joint period of 6-8-12.\n",
+      "source": "Relation with Friend.txt",
+      "path": "data/rules-2026-10-16/Relation with Friend.txt",
+      "sha256": "102ed573ae346816251af374aad1544e497f65c7d5d25e70c5c892f9f74fb522"
+    },
+    {
+      "id": "supplied-rule-69",
+      "title": "Relations with Others",
+      "topic": "Relationships and children",
+      "text": "Relations with Others\nIf the cuspal sub lord of the 10th be the significator of 7-8-12, person faces lot of trouble from relatives or opponents during the joint period of 7-8-12.\nIf the cuspal sub lord of the 10th be the significator of 1-5-11, one gets relief during the joint period of 1-5-11.\n",
+      "source": "Relations with Others.txt",
+      "path": "data/rules-2026-10-16/Relations with Others.txt",
+      "sha256": "67949248109647e437d6b67ca5cdcd323e017925e1a0818ea77351bde221b185"
+    },
+    {
+      "id": "supplied-rule-70",
+      "title": "Retirement",
+      "topic": "Career and business",
+      "text": "Retirement in Job\nFor job/business we check 2-6-10. 12th from these (1-5-9) are negative for 2-6-10. Thus for retirement consider 1-5-9-12.\nIf sub lord of 10th or 6th be the significator of 1-5-9-12, the querent can retire from service during the joint period of 1-5-9-12. (Generally connected with 2-6-10 service houses.)\n",
+      "source": "Retirement.txt",
+      "path": "data/rules-2026-10-16/Retirement.txt",
+      "sha256": "827bd6e3fcd6f4a230501610a40ef2ec25ea1e84300d6c7d7b7e5e6f135a83e5"
+    },
+    {
+      "id": "supplied-rule-71",
+      "title": "Return to Homeland",
+      "topic": "Property and residence",
+      "text": "Return to Homeland / Motherland\nIf the 11th cuspal sublord signifies 2-8-11, during the joint period of 2-8-11 one can come back to homeland.\nIf the cuspal sub lord of the 11th be the significator of 2, 8 and 11, return to home is promised during the joint period of the significators of 2, 8 and 11.\n",
+      "source": "Return to Homeland.txt",
+      "path": "data/rules-2026-10-16/Return to Homeland.txt",
+      "sha256": "e3957dc9b6242688e95ee14245d93a87c7e888850d829f0f39c3bbae42d565d4"
+    },
+    {
+      "id": "supplied-rule-72",
+      "title": "Reunion with Spouse",
+      "topic": "Relationships and children",
+      "text": "Reunion with Spouse\nIf the cuspal sub lord of the 11th be the significator of 2-7-11, reunion with spouse is promised during the joint period of 2-7-11.\n",
+      "source": "Reunion with Spouse.txt",
+      "path": "data/rules-2026-10-16/Reunion with Spouse.txt",
+      "sha256": "f7d73da88c3f545d9b6c4c51ab3c2d16d6cdc308f681b0b1784820f27f09f58b"
+    },
+    {
+      "id": "supplied-rule-73",
+      "title": "Rule for doing Business Profess",
+      "topic": "Career and business",
+      "text": "  doing Business /Profession:\r\n First Step:\r\nx 10th Cuspal Sub Lord should signify 7th house.\r\nx OR 10th Cuspal Sub Lord should be connected to 7th and 10th\r\nhouse.\r\n Second Step: 7th Cuspal Sub Lord should signify either 2nd ,6th or\r\n10th house.\r\n Timing of Event: The timing of starting new business/ profession\r\nwill be during the conjoined period of Joint significators of 2nd, 7th\r\nand 10th house.\r\n049 Rule for being Trader/ Business Person:\r\nFor becoming a trader or businessman, 10th Cuspal Sub Lord should\r\nsignify 7th and 2nd house.\r\n050 Rule for judging whether one will start a business:\r\n First Step: 7th Cuspal Sub Lord should be deposited in the\r\nconstellation of a planet which should be in direct motion.\r\n Second Step: 7th Cuspal Sub Lord should signify 11th and 1st\r\nhouse.\r\n Timing of Event: The timing of starting business will be determined\r\nduring the conjoined period of joint significators of 7th, 11th and\r\n1st house.\r\n",
+      "source": "Rule for doing Business Profess.txt",
+      "path": "data/rules-2026-10-16/Rule for doing Business Profess.txt",
+      "sha256": "2844c5662dc5ff88e2a046f26f4d0acd3e9b66513fc144eee7ae7387cd41eb5f"
+    },
+    {
+      "id": "supplied-rule-74",
+      "title": "Selling Property",
+      "topic": "Property and residence",
+      "text": "Selling Property (House/Land)\nIf the cuspal sub lord of the 10th house (land/building of opponent, 4th from 7th) be the significator of 3 (absence of land/building, 12th from 4th) - 5 (success/fulfillment of desire of opponent, 11th from 7th) - 10 (land/building of opponent, 4th from 7th), selling is promised during the joint period of 3-5-10.\n",
+      "source": "Selling Property.txt",
+      "path": "data/rules-2026-10-16/Selling Property.txt",
+      "sha256": "7b5028cc5b1ae44bd6cb7580015786ca99b98b710f19f3c9bc6576e24e45038d"
+    },
+    {
+      "id": "supplied-rule-75",
+      "title": "Rumour – True or False",
+      "topic": "General",
+      "text": "Rumour – True or False\nIf the cuspal sub lord of 3rd happens to be Saturn, the rumour is false. If it is Mars, it is mischievous. If it is Jupiter, it is true.\nIf the lord is connected with Saturn in any manner the report is false; if connected with Jupiter, the report will be correct.\n",
+      "source": "Rumour – True or False.txt",
+      "path": "data/rules-2026-10-16/Rumour – True or False.txt",
+      "sha256": "8498b849aa6dd46338767258f9858300c7b8745871f3645d05bb2e26741fb764"
+    },
+    {
+      "id": "supplied-rule-76",
+      "title": "SEXUAL PLEASURE",
+      "topic": "Relationships and children",
+      "text": "\r\nSEXUAL PLEASURE\r\n019 Rule for judging sexual pleasure with Spouse/ Married\r\npartners:\r\n7th Cuspal Sub Lord will help in knowing the degree of sexual pleasure\r\nbetween the partners.\r\n First Step: Note 7th Cuspal Sub Lord and its sexual traits as per\r\nthe detailed description mentioned in Note below.\r\n Second Step: Further, note the sexual traits of the constellation\r\nlord in which the 7th Cuspal Sub Lord is positioned as per the\r\ndetailed description mentioned in Note below.\r\n Third Step: Predict the results after churning the sexual traits of\r\nthe planets obtained in the first Step and Second Step. For\r\nexample:\r\nx If both the planets are Venus, then the person will be highly\r\nsexed and would prefer doing sexual intercourse on regular\r\nbasis.\r\nx If one planet is Venus and the other is Mars, then the person\r\nwill love having sexual intercourse in aggressive mood.\r\nNote: Every Planet has unique traits with respect to their sexual\r\nbehaviour. These are listed below for understanding and reference of\r\nthe readers:\r\nx Saturn indicates dissatisfaction after intercourse or denial of sex\r\nwith the partner.\r\nx Mars indicates silly quarrel during sex or aggressive sex or male\r\nforces female for sex or displeasure exceeds pleasure after sex.\r\nx Mercury indicates talking while having sex or having sex more\r\nthan once.\r\nx Moon indicates very pleasant sex like honeymoon.\r\nx Jupiter indicates normal, pleasant and dutiful sex. Normally,\r\nsuch people avoid having sex on religious days or tithis.\r\nx Venus indicates sixty-four leela sex, i.e., extreme pleasure.\r\nx Sun indicates repulsion during sex or no pleasure from sex.\r\nx Rahu and Kethu indicate the results of the planets which is the\r\nLord of the zodiac sign in which they are positioned.\r\n\r\n",
+      "source": "SEXUAL PLEASURE.txt",
+      "path": "data/rules-2026-10-16/SEXUAL PLEASURE.txt",
+      "sha256": "f66d4cf8eb7dccd7b607b9c66851a0d66975c320388300b774fd807d1c8a0a2f"
+    },
+    {
+      "id": "supplied-rule-77",
+      "title": "Success in Deal",
+      "topic": "General",
+      "text": "Success in Deal\nIf the sub lord of the Ascendant (Deal/Transaction) cusp be the significator of 3-9-11 then native succeeds in dealing, during the joint period of 3-9-11.\n",
+      "source": "Success in Deal.txt",
+      "path": "data/rules-2026-10-16/Success in Deal.txt",
+      "sha256": "bf2c760b4e229f74c53e14e6aea1525873580f5f503f3efa0e4718aed891c359"
+    },
+    {
+      "id": "supplied-rule-78",
+      "title": "Success in Politics",
+      "topic": "Politics and public events",
+      "text": "Success in Politics / Position in Politics\nIf the cuspal sub lord of the 10th (one’s position in politics) be the significator of 3 (one’s ability) - 10 (one’s Reputation) - 11 (one’s reputation as a winner), then during the joint period of 3-10-11, winning in election or getting higher position in politics is assured.\n",
+      "source": "Success in Politics.txt",
+      "path": "data/rules-2026-10-16/Success in Politics.txt",
+      "sha256": "69758886b848d7bdbbb145759e5700094a838162ac624472655f85b2f0e1c76b"
+    },
+    {
+      "id": "supplied-rule-79",
+      "title": "Treasure in House",
+      "topic": "Property and residence",
+      "text": "Treasure in House\nIf the sub lord of the 4th cusp be the significator of the houses 2-11-6 and connected with Saturn, one will surely have the treasure in house during joint period of 2-6-11.\nIf the sub-lord of the 11th cusp be the significator of the houses 4-11, one will surely have the treasure in house during joint period of 4-8-11.\n",
+      "source": "Treasure in House.txt",
+      "path": "data/rules-2026-10-16/Treasure in House.txt",
+      "sha256": "0ebcf3fd6b6df3231ed4b6d2328563967d7330cb1ae3c1e9e4bf06812b061013"
+    },
+    {
+      "id": "supplied-rule-80",
+      "title": "War – Timing & Outcome",
+      "topic": "Politics and public events",
+      "text": "War – Timing & Outcome\nIs there any war? When?\nIf 3rd (relations with neighbouring country) sub lord be the significator of 4th (concern of national security), 9th (foreign relation), 7th (International disputes), there will be a war during joint period of 4-9-7.\n\nWho will win?\nIf 10th (national reputation) sub lord be the significator of 4 (outcome of anything) - 10 (national reputation, the end of war) - 2 (enemy’s death), one will win in war during joint period of 4-10-2.\n",
+      "source": "War – Timing & Outcome.txt",
+      "path": "data/rules-2026-10-16/War – Timing & Outcome.txt",
+      "sha256": "5f6307134077000dc9c0aab16e6acbf6b912d91be74ba581c898d2bcf4000c11"
+    },
+    {
+      "id": "supplied-rule-81",
+      "title": "Winning in Court Case",
+      "topic": "Law and disputes",
+      "text": "Winning in Court Case\nIf the cuspal sub lord of the 4th (Result of Lawsuit) be the significator of 2 (Winning) - 10 (Success) - 11 (Gain), one will be able to win lawsuit during the joint period of 2-10-11.\n",
+      "source": "Winning in Court Case.txt",
+      "path": "data/rules-2026-10-16/Winning in Court Case.txt",
+      "sha256": "8d709e8e9a5af38c4c622d644df00396ef2e4a0d7697b1c104d12d02d8edbbbd"
+    },
+    {
+      "id": "supplied-rule-82",
+      "title": "Terrorist Attack",
+      "topic": "Politics and public events",
+      "text": "Terrorist Attack (Where?)\nIf 12th (Secret Organizations) signifies 2 (Maraka) - 7 (Maraka) - 8 (Violent Death/Disaster) - Badhaka, then there is a chance of terror attack, during the joint period of 8 - Maraka - Badhaka.\nWhere? Places signified by 8th (terrorist) sublord can be the target e.g.,\n3 = Post office, Telephone Office, Train, Junior School, Library, News Room.\n4 = Department store / shopping mall, place near water.\n5 = Amusement park, cinema theatre, stock exchange.\n6 = Clinic.\n9 = Ashram, temple, college — religious places.\n10 = Private club, office space, terminal.\n",
+      "source": "Terrorist Attack.txt",
+      "path": "data/rules-2026-10-16/Terrorist Attack.txt",
+      "sha256": "aed87a11ec2ded9156ae678578f2526f32fb6fda5335ad9bbd912f90512f52c6"
+    }
+  ]
+}</script>
+<style id="kp-rules-workspace-style">.kp-rules-dialog{box-sizing:border-box;width:min(1150px,96vw);max-height:94vh;overflow:auto;padding:22px;background:#f7faff;color:#173b55;border:1px solid #9ebbd0;border-radius:16px;box-shadow:0 20px 80px #173b5544}.kp-rules-dialog::backdrop{background:#132b4577}.kp-rules-dialog header{display:flex;justify-content:space-between;align-items:center}.kp-rules-dialog h2{margin:0 0 16px}.kp-rules-actions{display:flex;align-items:center;flex-wrap:wrap;gap:9px}.kp-rules-actions input[type=search]{flex:1;min-width:160px}.kp-rules-grid{display:grid;grid-template-columns:minmax(200px,1fr) minmax(0,2.4fr);gap:18px}.kp-rule-editor,.kp-rule-editor label{display:grid;gap:6px}.kp-rule-editor{gap:12px}.kp-rules-dialog :is(input,textarea,select){box-sizing:border-box;max-width:100%;padding:9px;border:1px solid #b0c4d5;border-radius:6px;font:14px/1.5 Arial,sans-serif}.kp-rules-dialog textarea{resize:vertical;width:100%;white-space:pre-wrap}.kp-rules-dialog button,.kp-rule-import{padding:9px 12px;border:1px solid #a4bbcd;border-radius:7px;background:#e6f0f8;color:#194c6e;cursor:pointer}.kp-rules-dialog [data-save]{background:#205d83;color:#fff}.kp-rule-import input{max-width:130px;font-size:11px}.kp-rules-dialog [data-list]{width:100%}@media(max-width:650px){.kp-rules-grid{grid-template-columns:1fr}.kp-rules-dialog [data-list]{height:150px}.kp-rules-dialog{padding:14px}}
+</style>
+<script id="kp-rules-workspace">/* User supplied rule text is data, never executable code. */
+(()=>{'use strict';const KEY='kp-master-custom-rules-v1',$=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const supplied=JSON.parse($('kp-event-rule-data').textContent).rules;let custom=[],dialog,selected=null;
+function validate(rows){if(!Array.isArray(rows)||rows.length>2000)throw Error('Invalid rules backup.');return rows.map(r=>{if(typeof r.id!=='string'||r.id.length>100||typeof r.title!=='string'||!r.title.trim()||r.title.length>200||typeof r.text!=='string'||!r.text.trim()||r.text.length>100000)throw Error('Invalid rule title or text.');return {id:r.id,title:r.title,topic:String(r.topic||'Other').slice(0,100),text:r.text,custom:true};});}
+try{custom=validate(JSON.parse(localStorage.getItem(KEY)||'[]'));}catch(_){}
+function all(){const map=new Map(supplied.map(r=>[r.id,{...r}]));for(const r of custom)map.set(r.id,{...r});return [...map.values()].sort((a,b)=>a.title.localeCompare(b.title));}
+function persist(){localStorage.setItem(KEY,JSON.stringify(custom));}
+function snapshot(){return {version:1,custom:structuredClone(custom)};}
+function restore(data){const rows=validate(data?.custom);localStorage.setItem(KEY,JSON.stringify(rows));custom=rows;if(dialog)list();}
+function filter(){const q=dialog.querySelector('[data-search]').value.trim().toLowerCase(),topic=dialog.querySelector('[data-topic]').value;return all().filter(r=>(!topic||r.topic===topic)&&(!q||(r.title+' '+r.text).toLowerCase().includes(q)));}
+function list(){const rows=filter(),select=dialog.querySelector('[data-list]');select.replaceChildren(...rows.map(r=>{const n=document.createElement('option');n.value=r.id;n.textContent=r.title+(r.custom?' · saved edit':'');return n;}));if(rows.some(r=>r.id===selected))select.value=selected;else selected=rows[0]?.id||null;select.value=selected||'';show();dialog.querySelector('[data-count]').textContent=rows.length+' / '+all().length+' rules';}
+function show(){const row=all().find(r=>r.id===selected);dialog.querySelector('[data-title]').value=row?.title||'';dialog.querySelector('[data-rule-topic]').value=row?.topic||'Other';dialog.querySelector('[data-text]').value=row?.text||'';dialog.querySelector('[data-rule-status]').textContent=row?(row.custom?'Saved on this computer.':'Supplied reference · '+row.source):'Enter a title, topic and rule text.';}
+function save(){try{const row=validate([{id:selected||'custom-'+crypto.randomUUID(),title:dialog.querySelector('[data-title]').value.trim(),topic:dialog.querySelector('[data-rule-topic]').value.trim(),text:dialog.querySelector('[data-text]').value.trim()}])[0],next=custom.filter(r=>r.id!==row.id).concat(row);localStorage.setItem(KEY,JSON.stringify(next));custom=next;selected=row.id;dialog.querySelector('[data-search]').value='';dialog.querySelector('[data-topic]').value='';list();dialog.querySelector('[data-rule-status]').textContent='Rule saved. Included in chart backups and Export rules backup.';}catch(e){dialog.querySelector('[data-rule-status]').textContent=e.message;}}
+function printable(rows){return rows.map((r,i)=>'<article style="break-before:'+(i?'page':'auto')+'"><h2>'+esc(r.title)+'</h2><p>'+esc(r.topic)+'</p><div style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(r.text)+'</div></article>').join('');}
+function download(){const data={version:1,exportedAt:new Date().toISOString(),rules:all(),custom:structuredClone(custom)},url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='KP-MASTER-Rules-Backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+function open(){if(!dialog){dialog=document.createElement('dialog');dialog.className='kp-rules-dialog';dialog.innerHTML='<header><h2>Rules · नियम</h2><button data-close aria-label="Close rules">×</button></header><div class="kp-rules-actions"><input type="search" data-search placeholder="Search rules or text" aria-label="Search rules"><select data-topic aria-label="Filter topic"><option value="">All topics</option></select><button data-new>Add New Rule</button><button data-backup>Export rules backup</button><label class="kp-rule-import">Import backup<input type="file" data-import accept=".json,application/json"></label></div><p data-count></p><div class="kp-rules-grid"><select data-list size="18" aria-label="Rules list"></select><div class="kp-rule-editor"><label>Rule title<input data-title maxlength="200"></label><label>Topic<input data-rule-topic maxlength="100"></label><label>Rule text<textarea data-text rows="18" maxlength="100000"></textarea></label><p data-rule-status role="status"></p><div class="kp-rules-actions"><button data-save>Save Rule</button><button data-print>Preview / Print selected rule</button><button data-print-all>Preview / Print filtered rules</button></div></div></div>';document.body.append(dialog);for(const topic of [...new Set(supplied.map(r=>r.topic))].sort()){const n=document.createElement('option');n.value=n.textContent=topic;dialog.querySelector('[data-topic]').append(n);}dialog.querySelector('[data-close]').onclick=()=>dialog.close();dialog.querySelector('[data-search]').oninput=list;dialog.querySelector('[data-topic]').onchange=list;dialog.querySelector('[data-list]').onchange=e=>{selected=e.target.value;show();};dialog.querySelector('[data-new]').onclick=()=>{selected=null;show();dialog.querySelector('[data-title]').focus();};dialog.querySelector('[data-save]').onclick=save;dialog.querySelector('[data-backup]').onclick=download;dialog.querySelector('[data-import]').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>10000000)throw Error('Rules backup is too large.');const data=JSON.parse(await file.text()),rows=validate(data.custom);const merged=new Map(custom.map(r=>[r.id,r]));rows.forEach(r=>merged.set(r.id,r));restore({custom:[...merged.values()]});dialog.querySelector('[data-rule-status]').textContent='Rules backup imported.';}catch(err){dialog.querySelector('[data-rule-status]').textContent=err.message;}e.target.value='';};dialog.querySelector('[data-print]').onclick=()=>{const row=all().find(r=>r.id===selected);if(row)KPChartWorkspace.printable('KP Master · Rules',printable([row]));};dialog.querySelector('[data-print-all]').onclick=()=>KPChartWorkspace.printable('KP Master · Rules',printable(filter()));}
+list();dialog.showModal();}
+const oldSave=window.getChartData;if(oldSave)window.getChartData=function(...args){return {...oldSave.apply(this,args),predictionRules:snapshot()};};const oldRestore=window.restoreChartData;if(oldRestore)window.restoreChartData=function(data,...args){if(data?.predictionRules)validate(data.predictionRules.custom);const result=oldRestore.call(this,data,...args);if(data?.predictionRules)restore(data.predictionRules);return result;};
+function init(){for(const target of [document.querySelector('.kp-quick-tools'),$('prediction')?.querySelector('.pred-compact-topbar'),$('resources')?.querySelector('.card')].filter(Boolean)){const b=document.createElement('button');b.type='button';b.textContent='Rules';b.className='kp-rules-button';b.onclick=open;target.append(b);}}
+window.KPRules=Object.freeze({open,all,snapshot,restore,exportBackup:download});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,250));else init();})();
+</script>
+<script id="kp-developer-credit">/* Fixed software authorship, separate from editable astrologer contact details. */
+(()=>{'use strict';const NAME='Nitin Rajendra Talegaonkar',MOBILE='+918412098690',CREDIT='Software Developer Name: '+NAME+' · Mob: '+MOBILE;
+function apply(root=document){const value=id=>document.getElementById(id)?.value.trim()||'',astro=[value('astroName')?'Astrologer: '+value('astroName'):'',value('astroAddress')?'Address: '+value('astroAddress'):'',value('astroMobile')?'Contact: '+value('astroMobile'):''].filter(Boolean).join(' · ');for(const footer of root.querySelectorAll('.report-developer-footer')){footer.dataset.fixedDeveloper='true';footer.replaceChildren();if(astro){const line=root.ownerDocument?.createElement('div')||root.createElement('div');line.className='report-astrologer-credit';line.textContent=astro;footer.append(line);}const line=root.ownerDocument?.createElement('div')||root.createElement('div');line.className='report-fixed-developer-credit';line.dataset.noLocalize='true';line.textContent=CREDIT;footer.append(line);}const footer=root.querySelector('#softwareDeveloperFooter');if(footer){footer.textContent=CREDIT;footer.dataset.noLocalize='true';}}
+const oldRender=window.renderReport;if(oldRender)window.renderReport=function(...args){const result=oldRender.apply(this,args);apply();return result;};const oldApply=window.applyAstrologerSettings;if(oldApply)window.applyAstrologerSettings=function(...args){const result=oldApply.apply(this,args);apply();return result;};
+function init(){apply();document.addEventListener('click',e=>{if(e.target.closest('#settings-save,[onclick="saveAstrologerSettings()"],[onclick="resetAstrologerSettings()"]'))setTimeout(()=>apply(),0);});window.addEventListener('kp-preferences-changed',()=>apply());}
+window.KPDeveloperCredit=Object.freeze({name:NAME,mobile:MOBILE,text:CREDIT,apply});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,100));else init();})();
 </script>
 </body>
 </html>

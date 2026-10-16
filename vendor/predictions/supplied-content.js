@@ -23,7 +23,7 @@ function result(rows,proof,title,fallback,status='matched'){
 }
 function placement(key,model){
  const moon=model.planets.find(p=>p.id==='Mo');let m;
- if((m=/^(Su|Mo|Ma|Me|Ju|Ve|Sa|Ra|Ke)InH(1[0-2]|[1-9])$/.exec(key))){const p=model.planets.find(p=>p.id===m[1]);return p?.occ===Number(m[2])?{proof:names[p.id]+' · Bhav '+m[2],title:names[p.id]+' · Bhav '+m[2]}:null;}
+ if((m=/^(Su|Mo|Ma|Me|Ju|Ve|Sa|Ra|Ke|Ur|Ne|Pl)InH(1[0-2]|[1-9])$/.exec(key))){const p=model.planets.find(p=>p.id===m[1]);return p?.occ===Number(m[2])?{proof:names[p.id]+' · Bhav '+m[2],title:names[p.id]+' · Bhav '+m[2]}:null;}
  if((m=/^(Su|Mo|Ma|Me|Ju|Ve|Sa|Ra|Ke)In(Ar|Ta|Ge|Ca|Le|Vi|Li|Sc|Sg|Cp|Aq|Pi)$/.exec(key))){const p=model.planets.find(p=>p.id===m[1]);return p?.signCode===m[2]?{proof:names[p.id]+' · '+p.sign,title:names[p.id]+' · '+p.sign}:null;}
  if((m=/^(?:nak)(\d+)$/.exec(key))||(m=/^Nak(\d+)R([1-3])$/.exec(key)))return moon?.nakIndex===Number(m[1])-1?{proof:'Moon · '+moon.nakshatra,title:moon.nakshatra}:null;
  if((m=/^Nak(\d+)C([1-4])$/.exec(key)))return moon?.nakIndex===Number(m[1])-1&&moon.pada===Number(m[2])?{proof:'Moon · '+moon.nakshatra+' · Pada '+moon.pada,title:moon.nakshatra+' · Pada '+moon.pada}:null;
@@ -32,7 +32,9 @@ function placement(key,model){
 function matching(category,model,instant,periods){
  if(!model?.ready)return {ready:false,reason:'Complete the natal chart to read its supplied interpretations.',rows:[]};
  const rows=[];let context='';
- if(category==='general-predictions'){
+ if(category==='planet-house-results'){
+  for(const group of groups.values())if(group[0].kind==='planet-house'){const match=placement(group[0].key,model);if(match)rows.push({group,...match});}
+ }else if(category==='general-predictions'){
   for(const group of groups.values())if(['planet-house','planet-sign','nakshatra','nakshatra-code'].includes(group[0].kind)){const match=placement(group[0].key,model);if(match)rows.push({group,...match});}
  }else if(category==='house-results'){
   for(const group of groups.values())if(group[0].kind==='house-lord'){
@@ -56,9 +58,10 @@ function matching(category,model,instant,periods){
  }else if(category==='transit-results'){
   const data=window.KPTransitChart?.getData?.();
   if(!data?.ready)return {ready:false,reason:'Calculate the selected Transit Chart to see its transit-house interpretations.',rows:[]};
-  context=data.localDate+' '+data.localTime+' · '+(data.place||'')+' · selected Transit Chart bhavas';
+  const moon=model.planets.find(p=>p.id==='Mo');if(!Number.isInteger(moon?.signIndex))return {ready:false,reason:'Calculate the natal Moon sign first.',rows:[]};
+  context=data.localDate+' '+data.localTime+' · '+(data.place||'')+' · whole-sign houses counted from natal Moon '+(moon.sign||moon.signCode||moon.signIndex+1);
   for(const group of groups.values()){const r=group[0];if(r.kind!=='transit-house')continue;
-   if(data.bhavGroups?.[r.house-1]?.some(p=>p.id===r.planet))rows.push({group,title:names[r.planet]+' · Transit Bhav '+r.house,proof:'Selected Transit Chart · '+data.localDate+' '+data.localTime+' · '+r.planet+' in Bhav '+r.house});
+   const planet=data.planets?.find(p=>p.id===r.planet),sign=planet?.details?.signIndex;if(Number.isInteger(sign)&&((sign-moon.signIndex+12)%12)+1===r.house)rows.push({group,title:names[r.planet]+' · '+r.house+' from Moon',proof:'Natal Moon sign '+(moon.sign||moon.signCode||moon.signIndex+1)+' · transit '+r.planet+' sign '+(sign+1)+' · house '+r.house+' from Moon · '+data.localDate+' '+data.localTime});
   }
  }else if(category==='outer-references'){
   for(const group of groups.values())if(group[0].kind==='outer-reference')rows.push({group,title:names[group[0].planet]+' · supplied reference',proof:'Reference text only; no new outer-planet calculations or Dasha lords.',status:'reference'});
