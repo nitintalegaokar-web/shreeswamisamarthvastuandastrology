@@ -1,3 +1,11 @@
+# Mobile single-page preview · build 10210
+
+Single-page Kundali Preview now opens inside the app with an isolated A4 report
+frame, Fit, Zoom, Save PDF and Close. Existing Home/South preview buttons and
+KPReportPreview.open('single-page') use this panel instead of a WebView popup.
+PDF export retains the displayed preview snapshot when the panel is open.
+Other report previews are unchanged. Real-phone preview/PDF checks remain pending.
+
 # Android startup toolbar correction · 1.2.8 / build 10210 · 17 October 2026
 
 The APK-only page now includes an unconditional startup CSS guard before the
