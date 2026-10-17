@@ -1,0 +1,55 @@
+{
+  "version": "1.2.8",
+  "edition": "customer-demo",
+  "limits": {
+    "kundali": 15,
+    "matchmaking": 10
+  },
+  "counting": "Every new calculation; the initial app-launch chart consumes one kundali credit. Internal refreshes are idempotent.",
+  "activation": {
+    "registration": "KP-R1",
+    "purchase": "KP-A1",
+    "separateKeysRequired": true,
+    "registrationResetsUsage": false
+  },
+  "androidVersionCode": 10211,
+  "sourceSHA256": "bb0a9c1e1c3172e5c90caa772f57a6cd06fb17cab61e0c1e0e549f8fc6f75a35",
+  "fixes": [
+    "Current DBA and selectable MD/AD/PD beside Horary results",
+    "Event-name selection without leading IDs",
+    "Saved astrologer location and DMS coordinate inputs"
+  ],
+  "validation": {
+    "desktopTestFilesPassed": 14,
+    "androidNativeTests": "Licence/control compatibility and demo quotas/two-key activation passed",
+    "windowsPayloadSourceParity": true,
+    "physicalDeviceUI": "Not run; browser permission request interrupted",
+    "windowsInstallerArchiveCRC": true,
+    "windowsInstallerPayloadParity": true,
+    "windowsUninstallerIncluded": true,
+    "androidSignatureVerified": true
+  },
+  "htmlBackup": "Unrestricted owner calculator/data backup. Native demo limits apply to customer EXE/APK only.",
+  "files": [
+    {
+      "name": "KP-Master-Customer-Demo-Setup-1.2.8-x64.exe",
+      "bytes": 103497881,
+      "sha256": "0166469383eee37946829f84137f729628c2550192f44a93e215448128ae3f7e"
+    },
+    {
+      "name": "KP-Master-Customer-Demo-1.2.8.apk",
+      "bytes": 14349021,
+      "sha256": "b61e444333ab8f3d1388e6005c29972bec0d512fbbb7178116a648a9fb482f41"
+    },
+    {
+      "name": "KP-Master-Demo-Activation-Setup-1.2.8-x64.exe",
+      "bytes": 91826390,
+      "sha256": "ef28dafcc6872380b6bfaf74c5d34e7e156fb18b783c3c21c333e0ed3a35933f"
+    },
+    {
+      "name": "KP-MASTER-HTML-Demo-Update-1.2.8.zip",
+      "bytes": 39599413,
+      "sha256": "b536e7432ed9e23d44cb1685f22d6e980cf744491f20408016ac5a9a9732e55c"
+    }
+  ]
+}

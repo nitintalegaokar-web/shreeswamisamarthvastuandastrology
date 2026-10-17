@@ -1,19 +1,25 @@
 'use strict';
-const {ipcMain,dialog,clipboard,BrowserWindow}=require('electron');
+const {ipcMain,dialog,clipboard,BrowserWindow,safeStorage}=require('electron');
+const {DemoStore}=require('./demo.cjs');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const {pathToFileURL}=require('node:url');
 const {fromCode}=require('./activation-code.cjs');
 const {getSystemId}=require('./system-id.cjs');
 const {keyId,verifyControl,applyControl}=require('./core.cjs');
-const {parseAdditionalKeys,approvedKeys,verifyTrustedLicense,verifyTrustedControl}=require('./trust.cjs');
+const {parseAdditionalKeys,approvedKeys,verifyTrustedLicense,verifyTrustedControl,verifyTrustedRegistration}=require('./trust.cjs');
 async function createGate(app,win,indexPath){
   const activationPath=path.join(__dirname,'activation.html');
   const activationURL=pathToFileURL(activationPath).href,indexURL=pathToFileURL(indexPath).href;
   const licensePath=path.join(app.getPath('userData'),'system-license.json');
   const identityPath=path.join(app.getPath('userData'),'system-identity.json');
   const controlsPath=path.join(app.getPath('userData'),'license-status.json');
+  const registrationPath=path.join(app.getPath('userData'),'customer-registration.json');
+  let registration=null;
   let id='',keys=[],configurationError='',claims=null,message='Activation is required.';
+  let demoStore=null,hasStoredLicense=false;
+  const canUseDemo=()=>!configurationError&&!hasStoredLicense&&!!demoStore;
+  const hasAccess=()=>Boolean(claims)||canUseDemo();
   let configuring;
   async function configure(){
     if(configuring)return configuring;
@@ -25,6 +31,7 @@ async function createGate(app,win,indexPath){
     try{await configuring;}finally{configuring=null;}
   }
   await configure();
+  if(!configurationError)demoStore=new DemoStore(path.join(app.getPath('userData'),'demo-usage.dat'),id,{seal:s=>{if(!safeStorage.isEncryptionAvailable())throw Error('Windows secure storage is unavailable. Register the software to continue.');return safeStorage.encryptString(s);},open:b=>safeStorage.decryptString(b)});
   const trusted=event=>event.sender===win.webContents&&event.senderFrame?.url.split('#')[0]===activationURL;
   function check(event){if(!trusted(event))throw Error('Untrusted activation request.');}
   async function controls(){
@@ -32,14 +39,19 @@ async function createGate(app,win,indexPath){
     catch(error){if(error.code==='ENOENT')return {};throw error;}
   }
   async function checkControl(nextClaims,signingKey){const current=(await controls())[nextClaims.licenseId];if(current&&verifyControl(current,signingKey,id).action==='deactivate')throw Error('This license was deactivated by the owner. Import the latest activation status file.');}
+  async function registered(){try{return verifyTrustedRegistration(await fs.readFile(registrationPath,'utf8'),keys,id);}catch(e){if(e.code==='ENOENT')return null;throw e;}}
+  async function checkPurchase(verified,newImport=false){if(verified.claims.kind!=='customer-purchase'){if(newImport)throw Error('Use separate registration and purchase keys for the demo edition.');return;}const r=await registered();if(!r||r.ownerKeyId!==verified.ownerKeyId||r.claims.registrationId!==verified.claims.registrationId)throw Error('Enter the matching registration key before the purchase key.');}
   async function refresh(){
     if(configurationError){claims=null;return;}
-    let nextClaims=null,nextMessage='';
-    try{if((await fs.stat(licensePath)).size>16384)throw Error('The license file is too large.');const verified=verifyTrustedLicense(await fs.readFile(licensePath,'utf8'),keys,id);nextClaims=verified.claims;await checkControl(nextClaims,verified.key);nextMessage='Activated';}
+    try{await fs.stat(licensePath);hasStoredLicense=true;}catch(e){if(e.code==='ENOENT')hasStoredLicense=false;else hasStoredLicense=true;}
+    let nextClaims=null,nextMessage='';try{registration=await registered();}catch{registration=null;}
+    try{if((await fs.stat(licensePath)).size>16384)throw Error('The license file is too large.');const verified=verifyTrustedLicense(await fs.readFile(licensePath,'utf8'),keys,id);await checkPurchase(verified);nextClaims=verified.claims;await checkControl(nextClaims,verified.key);nextMessage='Activated';}
     catch(error){nextClaims=null;nextMessage=error.code==='ENOENT'?'Activation is required.':error.message;}
     claims=nextClaims;message=nextMessage;
   }
-  const status=()=>({systemId:id,active:Boolean(claims),message,configured:!configurationError,ownerKeyIds:keys.map(keyId)});
+  const status=()=>({systemId:id,active:Boolean(claims),message,configured:!configurationError,ownerKeyIds:keys.map(keyId),registered:Boolean(registration),demo:canUseDemo()?demoStore.status():null});
+  ipcMain.on('kp-demo:request',(event,request)=>{try{if(event.sender!==win.webContents||event.senderFrame?.url.split('#')[0]!==indexURL)throw Error('Untrusted demo request.');if(claims){event.returnValue={allowed:true,paid:true};return;}if(!canUseDemo())throw Error('Registration/purchase activation is required.');event.returnValue={...(request?.action==='status'?demoStore.status():demoStore.use(request?.kind,request?.signature,request?.consume!==false)),registered:Boolean(registration)};}catch(error){event.returnValue={allowed:false,error:error.message};}});
+  ipcMain.handle('kp-demo:continue',async event=>{check(event);if(!canUseDemo())throw Error('Purchase activation is required.');await win.loadFile(indexPath);return true;});
   ipcMain.handle('kp-license:status',event=>{check(event);return status();});
   ipcMain.handle('kp-license:retry',async event=>{
     check(event);await configure();await refresh();const result=status();
@@ -58,7 +70,7 @@ async function createGate(app,win,indexPath){
     return {action:command.action,active:Boolean(claims)};
   }
   ipcMain.handle('kp-license:import-control',async event=>{
-    const url=event.senderFrame?.url.split('#')[0];if(event.sender!==win.webContents||url!==activationURL&&!(claims&&url===indexURL))throw Error('Untrusted license-status request.');
+    const url=event.senderFrame?.url.split('#')[0];if(event.sender!==win.webContents||url!==activationURL&&!(hasAccess()&&url===indexURL))throw Error('Untrusted license-status request.');
     if(configurationError)throw Error(configurationError);
     const selected=await dialog.showOpenDialog(win,{title:'Import signed owner license status',properties:['openFile'],filters:[{name:'KP License Status',extensions:['kpcontrol']}]});if(selected.canceled||!selected.filePaths.length)return null;
     const file=selected.filePaths[0];if((await fs.stat(file)).size>16384)throw Error('The status file is too large.');
@@ -72,7 +84,9 @@ async function createGate(app,win,indexPath){
     await fs.writeFile(selected.filePath,'KP MASTER · Activation request · '+app.getVersion()+'\nSystem ID: '+id+'\nAccepted owner Key IDs: '+keys.map(keyId).join(', ')+'\n','utf8');return true;
   });
   async function installLicense(text){
-    const verified=verifyTrustedLicense(text,keys,id);await checkControl(verified.claims,verified.key);
+    let kind='';try{kind=JSON.parse(Buffer.from(JSON.parse(text).payload,'base64url')).kind||'';}catch{}
+    if(kind==='customer-registration'){const checked=verifyTrustedRegistration(text,keys,id);await fs.mkdir(path.dirname(registrationPath),{recursive:true});await fs.writeFile(registrationPath+'.tmp',text,{mode:0o600});await fs.rename(registrationPath+'.tmp',registrationPath);registration=checked;message='Registration saved. Enter the separate purchase key to unlock full use.';return {registered:true,active:false};}
+    const verified=verifyTrustedLicense(text,keys,id);await checkPurchase(verified,true);await checkControl(verified.claims,verified.key);
     await fs.mkdir(path.dirname(licensePath),{recursive:true});
     await fs.writeFile(licensePath+'.tmp',text,{encoding:'utf8',mode:0o600});await fs.rename(licensePath+'.tmp',licensePath);
     await refresh();if(!claims)throw Error(message);
@@ -93,16 +107,16 @@ async function createGate(app,win,indexPath){
   });
   ipcMain.handle('kp-license:show-code',async event=>{
     const url=event.senderFrame?.url.split('#')[0];
-    if(event.sender!==win.webContents||url!==activationURL&&!(claims&&url===indexURL))throw Error('Untrusted activation request.');
+    if(event.sender!==win.webContents||url!==activationURL&&!(hasAccess()&&url===indexURL))throw Error('Untrusted activation request.');
     await win.loadFile(activationPath);return true;
   });
   await refresh();
-  await win.loadFile(claims?indexPath:activationPath);
+  await win.loadFile(hasAccess()?indexPath:activationPath);
   const timer=setInterval(async()=>{
     if(win.isDestroyed())return;
     const wasActive=Boolean(claims);await refresh();
     if(wasActive&&!claims){for(const popup of BrowserWindow.getAllWindows())if(popup!==win)popup.destroy();await win.loadFile(activationPath);}
   },60000);timer.unref();win.on('closed',()=>clearInterval(timer));
-  return {isActive:()=>Boolean(claims),activationURL};
+  return {isActive:hasAccess,isPaid:()=>Boolean(claims),activationURL};
 }
 module.exports={createGate};

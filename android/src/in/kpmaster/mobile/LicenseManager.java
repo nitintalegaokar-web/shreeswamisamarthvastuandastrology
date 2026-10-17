@@ -17,7 +17,7 @@ final class LicenseManager {
  static String codeEnvelope(String text,boolean status)throws Exception{
   if(text==null||text.length()>16384)throw new Exception("Paste the complete owner key.");
   String[] parts=text.replaceAll("\\s", "").split("\\.",-1);
-  if(parts.length!=3||!(status?"KP-S1":"KP-A1").equals(parts[0])||!parts[1].matches("[A-Za-z0-9_-]{1,12000}")||!parts[2].matches("[A-Za-z0-9_-]{86}"))throw new Exception("Paste a complete "+(status?"status key (KP-S1…)":"activation key (KP-A1…)"));
+  if(parts.length!=3||!(status?"KP-S1".equals(parts[0]):("KP-A1".equals(parts[0])||"KP-R1".equals(parts[0])))||!parts[1].matches("[A-Za-z0-9_-]{1,12000}")||!parts[2].matches("[A-Za-z0-9_-]{86}"))throw new Exception("Paste a complete "+(status?"status key (KP-S1…)":"activation key (KP-A1…)"));
   return new JSONObject().put("payload",parts[1]).put("signature",parts[2]).toString();
  }
  static final class Signed {JSONObject claims;String key;Signed(JSONObject c,String k){claims=c;key=k;}}
@@ -42,10 +42,16 @@ final class LicenseManager {
  }
  Signed licence(String text)throws Exception{
   Signed s=signed(text);JSONObject c=s.claims;common(c);
+  if(!c.optString("kind").isEmpty()&&!"customer-purchase".equals(c.optString("kind")))throw new Exception("Enter a purchase key, not a registration key.");
+  if("customer-purchase".equals(c.optString("kind"))){Signed r=registration(prefs.getString("registration",""));if(!s.key.equals(r.key)||!c.optString("registrationId").equals(r.claims.optString("registrationId")))throw new Exception("Enter the matching registration key first.");}
   if(c.optString("licenseId").isEmpty()||c.optString("clientName").isEmpty()||!c.has("expiresAt"))throw new Exception("Invalid licence claims.");
   if(!c.isNull("expiresAt")){long expiry=time(c.getString("expiresAt"));if(expiry<time(c.getString("issuedAt")))throw new Exception("Invalid licence expiry.");if(System.currentTimeMillis()>expiry)throw new Exception("Licence expired. Contact the owner.");}
   return s;
  }
+ boolean hasStoredLicence(){return !prefs.getString("license","").isEmpty();}
+ boolean isRegistered(){try{registration(prefs.getString("registration",""));return true;}catch(Exception e){return false;}}
+ private Signed registration(String text)throws Exception{Signed s=signed(text);JSONObject c=s.claims;common(c);if(!"customer-registration".equals(c.optString("kind"))||!c.optString("registrationId").matches("[a-fA-F0-9-]{36}")||!c.optString("registrationId").equals(c.optString("licenseId"))||c.optString("clientName").isEmpty()||!c.has("expiresAt")||!c.isNull("expiresAt"))throw new Exception("Enter a valid registration key for this device.");return s;}
+ boolean importKey(String text)throws Exception{Signed s=signed(text);if("customer-registration".equals(s.claims.optString("kind"))){registration(text);if(!prefs.edit().putString("registration",text).commit())throw new Exception("Could not save registration.");return false;}if(!"customer-purchase".equals(s.claims.optString("kind")))throw new Exception("This demo requires separate registration and purchase keys.");importLicence(text);return true;}
  JSONObject active()throws Exception{
   long now=System.currentTimeMillis(),seen=prefs.getLong("lastSeen",0);if(now+300000<seen)throw new Exception("Check the phone date and time before using the app.");
   Signed license=licence(prefs.getString("license",""));JSONObject controls=new JSONObject(prefs.getString("controls","{}"));String id=license.claims.getString("licenseId");

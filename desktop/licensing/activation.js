@@ -4,11 +4,12 @@ const english=Object.fromEntries(Object.keys(mr).map(id=>[id,$(id).textContent])
 function language(){const pack=$('language').value==='mr'?mr:english;for(const [id,text]of Object.entries(pack))$(id).textContent=text;try{localStorage.setItem('kpLicenseLanguage',$('language').value);}catch{}document.documentElement.lang=$('language').value;}
 try{$('language').value=localStorage.getItem('kpLicenseLanguage')||'en';}catch{}$('language').addEventListener('change',language);language();
 async function run(callback){try{await callback();}catch(error){$('status').textContent=error.message.replace(/^Error invoking remote method '[^']+': (Error: )?/,'');}}
-function display(next){status=next;$('system-id').value=status.systemId||'Unavailable';$('status').textContent=status.message;$('owner-key-ids').textContent=(status.ownerKeyIds||[]).join(' · ');for(const id of ['copy','export'])$(id).disabled=!status.systemId;$('activate').disabled=$('import-control').disabled=$('activate-code').disabled=!status.configured;$('copy-visible').disabled=!status.systemId;}
+function display(next){status=next;$('system-id').value=status.systemId||'Unavailable';$('status').textContent=status.message+(status.registered?' · Registration saved; purchase key required for full access.':'');if($('continue-demo'))$('continue-demo').hidden=!status.demo;$('owner-key-ids').textContent=(status.ownerKeyIds||[]).join(' · ');for(const id of ['copy','export'])$(id).disabled=!status.systemId;$('activate').disabled=$('import-control').disabled=$('activate-code').disabled=!status.configured;$('copy-visible').disabled=!status.systemId;}
 $('copy').onclick=()=>run(async()=>{await KPLicensing.copyId();$('status').textContent=$('language').value==='mr'?'ID कॉपी झाला.':'System ID copied.';});$('export').onclick=()=>run(async()=>{if(await KPLicensing.exportId())$('status').textContent=$('language').value==='mr'?'ID जतन झाला.':'System ID saved.';});$('activate').onclick=()=>run(async()=>{if(await KPLicensing.activate())$('status').textContent='Activated';});$('close').onclick=()=>window.close();
 $('import-control').onclick=()=>run(async()=>{await KPLicensing.importControl();display(await KPLicensing.status());});
 $('copy-visible').onclick=()=>$('copy').click();
-$('activate-code').onclick=()=>run(async()=>{await KPLicensing.applyCode($('activation-code').value);});
+$('activate-code').onclick=()=>run(async()=>{const r=await KPLicensing.applyCode($('activation-code').value);if(r?.registered){$('activation-code').value='';display(await KPLicensing.status());}});
 $('open-software').onclick=()=>run(async()=>{display(await KPLicensing.retry());});
 $('retry').onclick=()=>run(async()=>{$('retry').disabled=true;try{display(await KPLicensing.retry());}finally{$('retry').disabled=false;}});
+if($('continue-demo'))$('continue-demo').onclick=()=>run(()=>KPLicensing.continueDemo());
 run(async()=>display(await KPLicensing.status()));})();

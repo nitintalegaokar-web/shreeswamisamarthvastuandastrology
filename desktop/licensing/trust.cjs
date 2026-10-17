@@ -1,5 +1,5 @@
 'use strict';
-const {publicKey,keyId,verify,verifyControl}=require('./core.cjs');
+const {publicKey,keyId,verify,verifyControl,verifyRegistration}=require('./core.cjs');
 // This list is bundled by the builder. Keys supplied by a license or renderer
 // never become trusted, and only explicitly approved public keys are packaged.
 function parseAdditionalKeys(text){
@@ -24,4 +24,5 @@ function verifyTrusted(input,keys,id,now,check){
 }
 function verifyTrustedLicense(input,keys,id,now=new Date()){return verifyTrusted(input,keys,id,now,verify);}
 function verifyTrustedControl(input,keys,id,now=new Date()){return verifyTrusted(input,keys,id,now,verifyControl);}
-module.exports={parseAdditionalKeys,approvedKeys,verifyTrustedLicense,verifyTrustedControl};
+function verifyTrustedRegistration(input,keys,id,now=new Date()){return verifyTrusted(input,keys,id,now,verifyRegistration);}
+module.exports={verifyTrustedRegistration,parseAdditionalKeys,approvedKeys,verifyTrustedLicense,verifyTrustedControl};

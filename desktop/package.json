@@ -41,7 +41,8 @@
       "licensing/activation.js",
       "app/**/*",
       "package.json",
-      "licensing/activation-code.cjs"
+      "licensing/activation-code.cjs",
+      "licensing/demo.cjs"
     ],
     "asar": true,
     "win": {

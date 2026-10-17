@@ -12,6 +12,7 @@ function restoreData(text){try{const data=JSON.parse(text);if(data.format!=='KP-
 function restore(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.hidden=true;document.body.append(input);input.onchange=async()=>{try{const f=input.files[0];if(f){if(f.size>16*1024*1024)throw Error('Backup file is too large.');restoreData(await f.text());}}catch(e){alert(e.message);}finally{input.remove();}};input.click();}
 let savingSinglePage=false;
 async function singlePagePDF(){
+ if(window.KPCustomerDemo&&!KPCustomerDemo.authorize('kundali',true))return;
  if(savingSinglePage)return;savingSinglePage=true;let frame;
  try{
   if(!window.currentKPModel?.ready)throw Error('Calculate the kundali first.');
@@ -23,6 +24,7 @@ async function singlePagePDF(){
 }
 let singlePreviewDialog=null,singlePreviewFrame=null;
 function previewSinglePage(){
+ if(window.KPCustomerDemo&&!KPCustomerDemo.authorize('kundali',true))return;
  try{
   renderReport();const source=document.querySelector('#printReport>[data-report-section="single-page"]');if(!source)throw Error('Calculate the kundali first.');
   if(!singlePreviewDialog){singlePreviewDialog=document.createElement('dialog');singlePreviewDialog.id='kp-mobile-kundali-preview';singlePreviewDialog.innerHTML='<header><strong>Kundali · A4 preview</strong><button type="button" data-preview-close>Close</button></header><div class="mobile-preview-actions"><button type="button" data-preview-save>Save PDF</button><button type="button" data-preview-fit>Fit</button><button type="button" data-preview-minus aria-label="Zoom out">−</button><button type="button" data-preview-plus aria-label="Zoom in">+</button></div><p data-preview-status>Preparing preview…</p><div class="mobile-preview-surface"><iframe title="Single-page kundali preview"></iframe></div>';document.body.append(singlePreviewDialog);singlePreviewFrame=singlePreviewDialog.querySelector('iframe');singlePreviewFrame.style.cssText='width:820px;height:1160px;border:0;display:block;transform-origin:top left';singlePreviewDialog.querySelector('[data-preview-close]').onclick=()=>singlePreviewDialog.close();singlePreviewDialog.querySelector('[data-preview-save]').onclick=singlePagePDF;let zoom=1;const setZoom=value=>{zoom=Math.max(.25,Math.min(2,value));singlePreviewFrame.style.zoom=String(zoom);};singlePreviewDialog.querySelector('[data-preview-fit]').onclick=()=>setZoom((singlePreviewDialog.querySelector('.mobile-preview-surface').clientWidth-4)/820);singlePreviewDialog.querySelector('[data-preview-minus]').onclick=()=>setZoom(zoom/1.2);singlePreviewDialog.querySelector('[data-preview-plus]').onclick=()=>setZoom(zoom*1.2);}

@@ -56,6 +56,8 @@ const assets = [
   ['style', 'kp-compact-navigation-style', 'vendor/interface/compact-navigation.css'],
   ['style', 'kp-compact-horary-sheet', 'vendor/interface/horary-sheet-layout.css'],
   ['script', 'kp-event-query-selection', 'vendor/interface/event-query-selection.js'],
+  ['script', 'kp-horary-dba-selection', 'vendor/interface/horary-dba.js'],
+  ['script', 'kp-coordinate-dms-inputs', 'vendor/interface/coordinate-dms.js'],
   ['style', 'kp-ruling-finder-style', 'vendor/interface/ruling-planet-finder.css'],
   ['script', 'kp-ruling-finder-script', 'vendor/interface/ruling-planet-finder.js'],
   ['script', 'kp-dasha-current-selection', 'vendor/interface/dasha-current-selection.js'],

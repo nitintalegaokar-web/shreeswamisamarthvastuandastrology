@@ -4,7 +4,7 @@ const fs=require('node:fs/promises');
 const path=require('node:path');
 const crypto=require('node:crypto');
 const {pathToFileURL}=require('node:url');
-const {issue,keyId,issueControl,normalizedId}=require('./license-core.cjs');
+const {issue,keyId,issueControl,normalizedId,issueRegistration,issuePurchase}=require('./license-core.cjs');
 const {readHistory,writeHistory,changeRemoval,historyText}=require('./history.cjs');
 const {toCode,fromCode}=require('./activation-code.cjs');
 const helpContent=require('./help.json');
@@ -88,7 +88,7 @@ app.whenReady().then(async()=>{
   ipcMain.handle('kp-owner:copy-code',(event,code)=>{trusted(event);fromCode(code,String(code).replace(/\s/g,'').startsWith('KP-S1.'));clipboard.writeText(code);return true;});
   ipcMain.handle('kp-owner:issue',async(event,request)=>{
     trusted(event);if(!request||typeof request!=='object')throw Error('Enter the client details.');requireClientKey(normalizedId(request.systemId));
-    const issuerKeyId=keyId(publicPem),license=issue(privateKey,request);const claims=JSON.parse(Buffer.from(license.payload,'base64url').toString('utf8'));
+    const issuerKeyId=keyId(publicPem),license=request.keyType==='registration'?issueRegistration(privateKey,request):request.keyType==='purchase'?issuePurchase(privateKey,request):issue(privateKey,request);const claims=JSON.parse(Buffer.from(license.payload,'base64url').toString('utf8'));
     const code=toCode(license);let filename='';
     if(request.output!=='code'){
       const selected=await dialog.showSaveDialog(win,{title:'Save client activation license',defaultPath:path.join(app.getPath('documents'),cleanName(claims.clientName)+'-'+claims.systemId.slice(-9)+'.kplicense'),filters:[{name:'KP Activation License',extensions:['kplicense']}]});
@@ -101,6 +101,7 @@ app.whenReady().then(async()=>{
   ipcMain.handle('kp-owner:set-status',async(event,request)=>{
     trusted(event);requireKey();if(!request||!['activate','deactivate'].includes(request.action))throw Error('Choose Activate or Deactivate.');
     const list=await history(),row=list.find(r=>r.licenseId===request.licenseId);if(!row)throw Error('The issued license was not found.');if(row.removedAt)throw Error('Restore this entry before changing its license status.');
+    if(row.kind==='customer-registration')throw Error('Registration records do not activate or deactivate the software. Select the purchase record.');
     if(row.ownerKeyId!==keyId(publicPem))throw Error('Open the owner key that issued this license before changing its status.');
     if(request.action==='activate'&&row.expiresAt&&Date.parse(row.expiresAt)<Date.now())throw Error('This license has expired. Issue a new license to renew it.');
     const revision=(Number.isSafeInteger(row.controlRevision)?row.controlRevision:0)+1;

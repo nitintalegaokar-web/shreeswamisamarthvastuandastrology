@@ -39,6 +39,8 @@ function signedClaims(license,key){
 }
 function verify(license,key,id,now=new Date()){
   const claims=signedClaims(license,key);
+  if(claims.kind==='customer-registration')throw Error('This is a registration key, not a purchase key.');
+  if(claims.kind&&claims.kind!=='customer-purchase')throw Error('This license belongs to another product or version.');
   if(claims.product!==PRODUCT||claims.version!==1||typeof claims.licenseId!=='string'||!claims.licenseId||typeof claims.clientName!=='string'||!claims.clientName)throw Error('This license belongs to another product or version.');
   if(normalizedId(claims.systemId)!==normalizedId(id))throw Error('This license belongs to a different computer. Send this computer’s System ID to the owner.');
   const issued=Date.parse(claims.issuedAt);
@@ -66,4 +68,9 @@ function applyControl(controls,control,key,id,now=new Date()){
   if(old){const previous=verifyControl(old,key,id,now);if(c.revision<previous.revision||c.revision===previous.revision&&c.commandId!==previous.commandId)throw Error('This status file is older than the status already applied. Import the latest owner file.');}
   return {...controls,[c.licenseId]:control};
 }
-module.exports={PRODUCT,SYSTEM_ID,systemId,normalizedId,publicKey,keyId,issue,verify,issueControl,verifyControl,applyControl};
+function registrationId(key,request){const id=normalizedId(request.systemId),client=String(request.clientName||'').trim();if(!client||client.length>160||/[\x00-\x1f]/.test(client))throw Error('Enter a valid client name.');const h=crypto.createHash('sha256').update(JSON.stringify([keyId(key),id,client.toLowerCase()])).digest('hex').slice(0,32);return [h.slice(0,8),h.slice(8,12),h.slice(12,16),h.slice(16,20),h.slice(20)].join('-');}
+function envelope(privateKey,claims){const data=Buffer.from(JSON.stringify(claims),'utf8');return {payload:data.toString('base64url'),signature:crypto.sign(null,data,privateKey).toString('base64url')};}
+function issueRegistration(privateKey,request,now=new Date()){const registration=registrationId(privateKey,request);return envelope(privateKey,{product:PRODUCT,version:1,kind:'customer-registration',licenseId:registration,registrationId:registration,systemId:normalizedId(request.systemId),clientName:String(request.clientName).trim(),issuedAt:now.toISOString(),expiresAt:null});}
+function issuePurchase(privateKey,request,now=new Date()){const base=issue(privateKey,request,now),claims=JSON.parse(Buffer.from(base.payload,'base64url'));return envelope(privateKey,{...claims,kind:'customer-purchase',registrationId:registrationId(privateKey,request)});}
+function verifyRegistration(input,key,id,now=new Date()){const c=signedClaims(input,key);if(c.product!==PRODUCT||c.version!==1||c.kind!=='customer-registration'||!LICENSE_ID.test(c.registrationId)||c.licenseId!==c.registrationId||!c.clientName||c.expiresAt!==null||normalizedId(c.systemId)!==normalizedId(id))throw Error('Choose the registration key for this device.');const issued=Date.parse(c.issuedAt);if(!Number.isFinite(issued)||issued>now.getTime()+300000)throw Error('Check the device date and time.');return Object.freeze(c);}
+module.exports={PRODUCT,SYSTEM_ID,systemId,normalizedId,publicKey,keyId,issue,verify,issueControl,verifyControl,applyControl,issueRegistration,issuePurchase,verifyRegistration,registrationId};

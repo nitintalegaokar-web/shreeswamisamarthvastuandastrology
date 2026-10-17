@@ -6,9 +6,9 @@ try{const events=KPHandbook.getCatalogue().events;let cusp=Number($('ep-cusp').v
  if(['hq-event','ep-event'].includes(source)&&chosen&&!chosen.mainHouses.includes(cusp))cusp=chosen.mainHouses[0];
  $('ep-auto-cusp').checked=false;$('ep-cusp').value=String(cusp);$('ep-category').value=String(cusp);if(['ep-cusp','hq-event'].includes(source))$('ep-search').value='';
  $('ep-category').dispatchEvent(new Event('change',{bubbles:true}));$('ep-event').querySelector('[value="custom"]')?.remove();
- const options=[...$('ep-event').options];if(!options.some(o=>o.value===wanted))wanted=options[0]?.value||'';
+ const options=[...$('ep-event').options];for(const option of options)option.textContent=option.textContent.replace(/^\s*\d+\s*[·.:-]\s*/, '');if(!options.some(o=>o.value===wanted))wanted=options[0]?.value||'';
  $('ep-event').value=wanted;$('hq-event').dataset.catalogue='handbook';$('hq-event').replaceChildren(...options.map(o=>new Option(o.textContent,o.value)));$('hq-event').value=wanted;
- $('ep-event').dispatchEvent(new Event('change',{bubbles:true}));$('ep-cusp').value=String(cusp);KPEventPromise.refresh(true);window.KPHoraryResults?.refresh();
+ $('ep-event').dispatchEvent(new Event('change',{bubbles:true}));$('ep-cusp').value=String(cusp);KPEventPromise.refresh(true);for(const option of $('ep-event').options)option.textContent=option.textContent.replace(/^\s*\d+\s*[·.:-]\s*/, '');window.KPHoraryResults?.refresh();
 }finally{busy=false;}}
 document.addEventListener('change',e=>{if(!busy&&['ep-cusp','ep-category','ep-event','ep-search','hq-event'].includes(e.target.id)){const id=e.target.id;queueMicrotask(()=>sync(id));}});
 function init(){if(!$('hq-event')||!$('ep-cusp'))return false;sync('ep-cusp');return true;}
