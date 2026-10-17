@@ -1,3 +1,18 @@
+# Android startup toolbar correction · 1.2.8 / build 10210 · 17 October 2026
+
+The APK-only page now includes an unconditional startup CSS guard before the
+closing head tag. It hides the duplicated menu/shortcuts before scripts run.
+The mobile bridge is loaded by a script tag in the APK page as well as by the
+native fallback, and removes the duplicate navigation element after creation.
+The existing left drawer and Ruling Planet entry are retained. WebView resource
+caching is disabled; chart/preferences/activation storage is not cleared.
+
+Removing the two Android-only startup additions from the packaged HTML yields
+the approved root HTML byte-for-byte. Windows/root HTML are unchanged. Visible
+version is still 1.2.8; Android versionCode 10210 permits an in-place update.
+APK signatures, version metadata, startup guard and calculation-source parity
+are verified. Real-device UI/PDF validation remains pending.
+
 # Mobile follow-up · visible version 1.2.8 · 17 October 2026
 
 Removed the duplicate menu/shortcut block from Android only. The existing Home

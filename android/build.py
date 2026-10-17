@@ -18,12 +18,19 @@ pin.write_text(certificateHash+'\n')
 run('node',APP/'tools/public-keys.cjs')
 (APP/'dist').mkdir(exist_ok=True)
 source=(ROOT/'index.html').read_bytes();sourceHash=hashlib.sha256(source).hexdigest()
+startup=b'<style id="kp-android-startup">'+(APP/'startup.css').read_bytes()+b'</style>'
+bridge=b'<script id="kp-android-mobile-bridge" src="mobile.js"></script>'
+head=source.find(b'</head>');body=source.rfind(b'</body>')
+if head<0 or body<head:raise RuntimeError('The application document boundaries are missing.')
+packagedSource=source[:head]+startup+source[head:body]+bridge+source[body:]
+assert packagedSource.replace(startup,b'',1).replace(bridge,b'',1)==source
+
 for edition in ['owner','customer']:
- b=APP/'build'/edition;b.mkdir(parents=True,exist_ok=True);assets=b/'assets';assets.mkdir(exist_ok=True);(assets/'index.html').write_bytes(source);shutil.copy(APP/'mobile.js',assets/'mobile.js');shutil.copy(APP/'assets/owner-public-keys.json',assets/'owner-public-keys.json')
+ b=APP/'build'/edition;b.mkdir(parents=True,exist_ok=True);assets=b/'assets';assets.mkdir(exist_ok=True);(assets/'index.html').write_bytes(packagedSource);shutil.copy(APP/'mobile.js',assets/'mobile.js');shutil.copy(APP/'assets/owner-public-keys.json',assets/'owner-public-keys.json')
  config=b/'BuildConfig.java';config.write_text('package in.kpmaster.mobile; public final class BuildConfig {public static final boolean OWNER='+str(edition=='owner').lower()+';public static final String APP_ID="in.kpmaster.mobile.'+edition+'";public static final String VERSION="'+VERSION+'";}')
  manifest=b/'AndroidManifest.xml';manifest.write_text((APP/'AndroidManifest.xml').read_text().replace('android:label="KP MASTER"','android:label="KP MASTER '+edition.title()+'"'))
  run(TOOLS/'aapt2','compile','--dir',APP/'res','-o',b/'res.zip')
- run(TOOLS/'aapt2','link','-o',b/'unsigned.apk','--manifest',manifest,'-I',API,'--rename-manifest-package','in.kpmaster.mobile.'+edition,'--version-name',VERSION,'--version-code','10209','--min-sdk-version','28','--target-sdk-version','35',b/'res.zip')
+ run(TOOLS/'aapt2','link','-o',b/'unsigned.apk','--manifest',manifest,'-I',API,'--rename-manifest-package','in.kpmaster.mobile.'+edition,'--version-name',VERSION,'--version-code','10210','--min-sdk-version','28','--target-sdk-version','35',b/'res.zip')
  classes=b/'classes';classes.mkdir(exist_ok=True)
  run('java','--module','jdk.compiler/com.sun.tools.javac.Main','-source','8','-target','8','-bootclasspath',str(TOOLS/'core-lambda-stubs.jar')+os.pathsep+str(API),'-classpath',APP/'vendor/bcprov-jdk15to18-1.81.jar','-d',classes,config,*sorted((APP/'src').rglob('*.java')))
  dex=b/'dex';dex.mkdir(exist_ok=True)
@@ -35,4 +42,4 @@ for edition in ['owner','customer']:
  output=APP/'dist'/('KP-Master-'+edition.title()+'-'+VERSION+'.apk')
  run(TOOLS/'apksigner','sign','--ks',store,'--ks-key-alias','kp-master-android','--ks-pass','file:'+str(password_file),'--out',output,b/'aligned.apk')
  print(edition,output.name,output.stat().st_size,'bytes',flush=True)
-(APP/'dist/build-manifest.json').write_text(json.dumps({'version':VERSION,'minimumAndroid':'9 (API 28)','targetAndroidAPI':35,'sourceSHA256':sourceHash,'mobileBridgeSHA256':hashlib.sha256((APP/'mobile.js').read_bytes()).hexdigest(),'signingCertificateSHA256':certificateHash,'files':[{'name':p.name,'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted((APP/'dist').glob('*'+VERSION+'.apk'))]},indent=2)+'\n')
+(APP/'dist/build-manifest.json').write_text(json.dumps({'version':VERSION,'minimumAndroid':'9 (API 28)','targetAndroidAPI':35,'sourceSHA256':sourceHash,'packagedHTMLSHA256':hashlib.sha256(packagedSource).hexdigest(),'versionCode':10210,'mobileBridgeSHA256':hashlib.sha256((APP/'mobile.js').read_bytes()).hexdigest(),'signingCertificateSHA256':certificateHash,'files':[{'name':p.name,'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted((APP/'dist').glob('*'+VERSION+'.apk'))]},indent=2)+'\n')

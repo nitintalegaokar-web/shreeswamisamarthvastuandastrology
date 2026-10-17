@@ -1,0 +1,12 @@
+/* Android-only startup guard: hide duplicate menus before any application script. */
+html body #kp-compact-navigation,
+html body #kp-quick-tools,
+html body .kp-small-shortcuts,
+html body .kp-shortcut-row {
+ display:none!important;
+ visibility:hidden!important;
+ height:0!important;
+ min-height:0!important;
+ margin:0!important;
+ padding:0!important;
+}

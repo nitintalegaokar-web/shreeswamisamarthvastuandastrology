@@ -3,21 +3,22 @@
   "minimumAndroid": "9 (API 28)",
   "targetAndroidAPI": 35,
   "sourceSHA256": "e7657db56bf5b4f0affe8e74bbe49f611027b7c1502d44395827a392bfa5ced4",
-  "mobileBridgeSHA256": "1a609258eb547d57e3835e059f1d916b4f709e6481d6bfbc10d5c0e48dae40d0",
+  "packagedHTMLSHA256": "c2b354eb69d0db0c29f9628a68dc18e9cd6682403c22cfb5e99d1514fc1d0e0a",
+  "versionCode": 10210,
+  "mobileBridgeSHA256": "95a99f855a3e9577754caf0d1c8af041c9a5e1b4080e5931f82af8b91e92527c",
   "signingCertificateSHA256": "a39eb15bd95eb0f822bec42dfe618a435ff0547cc76d1f99ef51da4db7f4fbb5",
   "files": [
     {
       "name": "KP-Master-Customer-1.2.8.apk",
       "bytes": 14340766,
-      "sha256": "890351613e3cd7020b20f33b22e5fb9c604f6114d46a9220f283aa5fd1e3519d"
+      "sha256": "7d14cf82b68708dde8ccef41f2c2354a21b1ac91d7bf9c3790b0156cef734217"
     },
     {
       "name": "KP-Master-Owner-1.2.8.apk",
       "bytes": 14340766,
-      "sha256": "4914add4291a987aa575b69788e31dfaf7944cac52c873be1d6a930745993c5b"
+      "sha256": "cbb7c0575e6e67cf7bf4619b7509dfd7d037f9c39c9f17deb4a8c43d62455709"
     }
   ],
-  "versionCode": 10209,
-  "mobileFollowUp": "Duplicate mobile toolbar removed; existing left navigation retained; direct single-page A4 export added.",
-  "uiDeviceValidation": "Not completed for this follow-up; sandboxed browser launch blocked and approval attempts interrupted."
+  "toolbarGuard": "unconditional CSS in APK head plus duplicate DOM removal",
+  "deviceUIValidation": "pending"
 }

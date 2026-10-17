@@ -26,7 +26,7 @@ window.KPMobile=Object.freeze({backup,restore,restoreData,singlePagePDF,prepareP
 document.addEventListener('click',event=>{if(event.target.closest('#home-single-page-print,#south-single-page-print')){event.preventDefault();event.stopImmediatePropagation();singlePagePDF();}},true);
 // Presentation only: preserve the approved chart and calculation objects.
 function installMobileNavigation(){
- if(!document.getElementById('home'))return;document.body.classList.add('kp-mobile-sidebar-navigation');
+ if(!document.getElementById('home'))return;document.body.classList.add('kp-mobile-sidebar-navigation');document.getElementById('kp-compact-navigation')?.remove();document.getElementById('kp-mobile-icons-toggle')?.remove();
  const nav=document.querySelector('.app-sidebar nav');if(nav&&!document.getElementById('kp-mobile-ruling-link')){const button=document.createElement('button');button.id='kp-mobile-ruling-link';button.type='button';button.textContent='Ruling Planet';button.onclick=event=>{event.stopPropagation();document.querySelector('.sidebar-close')?.click();KPRulingFinder.open();};nav.append(button);}
 }
 
@@ -57,15 +57,6 @@ html body.kp-mobile-sidebar-navigation #menu-toggle{display:inline-flex!importan
 document.head.append(mobileStyle);
 function readableCharts(){
  installMobileNavigation();
- const tools=document.getElementById('kp-quick-tools');
- if(document.getElementById('kp-compact-navigation'))document.getElementById('kp-mobile-icons-toggle')?.remove();
- if(tools&&!document.getElementById('kp-compact-navigation')&&!document.getElementById('kp-mobile-icons-toggle')){
-  const toggle=document.createElement('button');toggle.id='kp-mobile-icons-toggle';toggle.type='button';toggle.setAttribute('aria-controls','kp-quick-tools');
-  let hidden=false;try{hidden=localStorage.getItem('kpMobileIconsHidden')==='true';}catch(e){}
-  const update=()=>{tools.classList.toggle('kp-mobile-icons-hidden',hidden);toggle.textContent=hidden?'▼ Show icons':'▲ Hide icons';toggle.setAttribute('aria-expanded',String(!hidden));};
-  toggle.addEventListener('click',()=>{hidden=!hidden;update();try{localStorage.setItem('kpMobileIconsHidden',String(hidden));}catch(e){}});tools.before(toggle);update();
- }
-
  if(!document.getElementById('home')&&document.querySelector('.report-page,.sheet,.kp-preview-tools,.preview-tools'))document.body.classList.add('kp-mobile-report');
  document.querySelectorAll('#home .home-table-mount').forEach(m=>{if(m.dataset.mobileScroll)return;m.dataset.mobileScroll='true';m.tabIndex=0;const hint=document.createElement('p');hint.className='kp-mobile-scroll-hint';hint.textContent='Swipe sideways to see all table columns.';m.before(hint);});
  document.querySelectorAll('#home .north9-chart,#kundali-north').forEach(chart=>{

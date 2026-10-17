@@ -30,7 +30,7 @@ try:
  assert p.evaluate('JSON.stringify({model:currentKPModel,periods:mdDashaPeriods})')==before
  for edition in ['Owner','Customer']:
   with zipfile.ZipFile(ROOT/f'android/dist/KP-Master-{edition}-1.2.8.apk') as z:
-   assert z.read('assets/index.html')==(ROOT/'index.html').read_bytes()
+   packaged=z.read('assets/index.html');startup=b'<style id="kp-android-startup">'+(ROOT/'android/startup.css').read_bytes()+b'</style>';bridge=b'<script id="kp-android-mobile-bridge" src="mobile.js"></script>';assert startup in packaged and bridge in packaged;assert packaged.replace(startup,b'',1).replace(bridge,b'',1)==(ROOT/'index.html').read_bytes()
    assert 'classes.dex' in z.namelist()
  print('Mobile scrolling tables, nine North planets, A4 PDF bounds, exports, backup and unchanged calculator: PASS')
 finally:t.tearDown();T.tearDownClass()

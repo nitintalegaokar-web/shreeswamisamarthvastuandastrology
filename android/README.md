@@ -1,3 +1,11 @@
+## Android-only toolbar correction · same version 1.2.8 (build 10210)
+
+Use the freshly downloaded APK to update the installed app. The duplicated top
+menu is blocked from the first page load; navigation remains in the left drawer.
+The packaged HTML adds only startup CSS and the mobile script loader. All original
+HTML/script bytes remain intact after those two additions are stripped. Existing
+activation, signing identity and saved data are preserved.
+
 # Updated Android release · 1.2.8 · 16 October 2026
 
 Owner and Customer APKs package the same updated calculator as Windows 1.2.8,

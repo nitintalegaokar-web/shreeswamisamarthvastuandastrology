@@ -21,12 +21,12 @@
     {
       "name": "KP-Master-Owner-1.2.8.apk",
       "bytes": 14340766,
-      "sha256": "4914add4291a987aa575b69788e31dfaf7944cac52c873be1d6a930745993c5b"
+      "sha256": "cbb7c0575e6e67cf7bf4619b7509dfd7d037f9c39c9f17deb4a8c43d62455709"
     },
     {
       "name": "KP-Master-Customer-1.2.8.apk",
       "bytes": 14340766,
-      "sha256": "890351613e3cd7020b20f33b22e5fb9c604f6114d46a9220f283aa5fd1e3519d"
+      "sha256": "7d14cf82b68708dde8ccef41f2c2354a21b1ac91d7bf9c3790b0156cef734217"
     },
     {
       "name": "KP-MASTER-HTML-All-Data-1.2.8.zip",
@@ -54,11 +54,10 @@
   "androidFollowUp": {
     "date": "2026-10-17",
     "visibleVersion": "1.2.8",
-    "versionCode": 10209,
+    "versionCode": 10210,
     "windowsUnchanged": true,
-    "removed": "duplicate top navigation and shortcuts",
-    "navigation": "existing left drawer",
-    "checks": "Java compilation, APK archive/signatures, original HTML and bridge parity",
-    "uiAndPDFCheck": "not completed for this follow-up"
+    "fix": "APK startup CSS hides duplicate toolbar before scripts; mobile bridge removes duplicate DOM; resource cache bypassed",
+    "checks": "compiled, signed, archives verified; stripping APK-only guard/loader restores original HTML byte-for-byte",
+    "deviceUIValidation": "pending"
   }
 }
