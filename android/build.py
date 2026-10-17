@@ -23,7 +23,7 @@ for edition in ['owner','customer']:
  config=b/'BuildConfig.java';config.write_text('package in.kpmaster.mobile; public final class BuildConfig {public static final boolean OWNER='+str(edition=='owner').lower()+';public static final String APP_ID="in.kpmaster.mobile.'+edition+'";public static final String VERSION="'+VERSION+'";}')
  manifest=b/'AndroidManifest.xml';manifest.write_text((APP/'AndroidManifest.xml').read_text().replace('android:label="KP MASTER"','android:label="KP MASTER '+edition.title()+'"'))
  run(TOOLS/'aapt2','compile','--dir',APP/'res','-o',b/'res.zip')
- run(TOOLS/'aapt2','link','-o',b/'unsigned.apk','--manifest',manifest,'-I',API,'--rename-manifest-package','in.kpmaster.mobile.'+edition,'--version-name',VERSION,'--version-code','10208','--min-sdk-version','28','--target-sdk-version','35',b/'res.zip')
+ run(TOOLS/'aapt2','link','-o',b/'unsigned.apk','--manifest',manifest,'-I',API,'--rename-manifest-package','in.kpmaster.mobile.'+edition,'--version-name',VERSION,'--version-code','10209','--min-sdk-version','28','--target-sdk-version','35',b/'res.zip')
  classes=b/'classes';classes.mkdir(exist_ok=True)
  run('java','--module','jdk.compiler/com.sun.tools.javac.Main','-source','8','-target','8','-bootclasspath',str(TOOLS/'core-lambda-stubs.jar')+os.pathsep+str(API),'-classpath',APP/'vendor/bcprov-jdk15to18-1.81.jar','-d',classes,config,*sorted((APP/'src').rglob('*.java')))
  dex=b/'dex';dex.mkdir(exist_ok=True)

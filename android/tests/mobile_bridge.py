@@ -8,7 +8,7 @@ T.setUpClass();t=T();t.setUp()
 try:
  p=t.page;p.set_viewport_size({'width':390,'height':844});before=p.evaluate('JSON.stringify({model:currentKPModel,periods:mdDashaPeriods})')
  p.evaluate('window.KPAndroid={printReport:()=>window.mobilePrintCalled=true,saveFile:(name,mime,base64)=>window.mobileExport={name,mime,base64}}')
- p.evaluate((ROOT/'android/mobile.js').read_text());p.wait_for_selector('.kp-shortcut-toggle');p.locator('.kp-shortcut-toggle').click();assert p.locator('.kp-small-shortcuts').is_hidden();p.locator('.kp-shortcut-toggle').click();assert p.locator('.kp-small-shortcuts').is_visible();assert p.locator('#kp-mobile-icons-toggle').count()==0;p.evaluate('window.print()');assert p.evaluate('mobilePrintCalled')
+ p.evaluate((ROOT/'android/mobile.js').read_text());p.wait_for_selector('#menu-toggle');assert p.locator('#kp-compact-navigation').is_hidden();p.locator('#menu-toggle').click();assert p.locator('.app-sidebar').is_visible();p.locator('.sidebar-close').click();assert p.locator('.app-sidebar').is_hidden();assert p.locator('#kp-mobile-icons-toggle').count()==0;p.evaluate("KPCompactNavigation.activate('event-promise');window.print()");assert p.evaluate('mobilePrintCalled')
  p.evaluate('KPMobile.backup()');p.wait_for_function('window.mobileExport');backup=json.loads(p.evaluate('atob(mobileExport.base64)'));assert backup['format']=='KP-MASTER-mobile-backup' and backup['currentChart']
  p.evaluate('window.mobileExport=null;const a=document.createElement("a");a.download="chart.txt";a.href=URL.createObjectURL(new Blob(["my chart"],{type:"text/plain"}));document.body.append(a);a.click()')
  p.wait_for_function('window.mobileExport?.name==="chart.txt"');assert p.evaluate('atob(mobileExport.base64)')=='my chart'

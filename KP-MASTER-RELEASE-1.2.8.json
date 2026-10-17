@@ -21,12 +21,12 @@
     {
       "name": "KP-Master-Owner-1.2.8.apk",
       "bytes": 14340766,
-      "sha256": "926d956f6cad5b1e695815cacfc4ae5314ff6664f6d2eb8501f69bbff94d12f4"
+      "sha256": "4914add4291a987aa575b69788e31dfaf7944cac52c873be1d6a930745993c5b"
     },
     {
       "name": "KP-Master-Customer-1.2.8.apk",
       "bytes": 14340766,
-      "sha256": "0c8c53e7de4dc5ea64d538624b1ad7e79dbc3ce662a6f17c2a0fd64aa589484b"
+      "sha256": "890351613e3cd7020b20f33b22e5fb9c604f6114d46a9220f283aa5fd1e3519d"
     },
     {
       "name": "KP-MASTER-HTML-All-Data-1.2.8.zip",
@@ -50,5 +50,15 @@
     "androidSignature": "passed both; original certificate preserved",
     "windowsNativeInstallation": "not run in this Linux environment",
     "physicalAndroidDevice": "not run"
+  },
+  "androidFollowUp": {
+    "date": "2026-10-17",
+    "visibleVersion": "1.2.8",
+    "versionCode": 10209,
+    "windowsUnchanged": true,
+    "removed": "duplicate top navigation and shortcuts",
+    "navigation": "existing left drawer",
+    "checks": "Java compilation, APK archive/signatures, original HTML and bridge parity",
+    "uiAndPDFCheck": "not completed for this follow-up"
   }
 }
