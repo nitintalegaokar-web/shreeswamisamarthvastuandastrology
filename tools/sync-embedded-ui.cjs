@@ -10,9 +10,6 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
-  ['script','kp-matchmaking-script','vendor/matchmaking/workspace.js'],
-  ['script','kp-vedic-workbook-data','vendor/matchmaking/workbook-data.js'],
-  ['script','kp-vedic-workbook-scores','vendor/matchmaking/workbook-scores.js'],
   ['style', 'kp-chart-workspace-style', 'vendor/interface/chart-workspace.css'],
   ['script', 'kp-feature-updates-script', 'vendor/predictions/dasha-gemstone-workspaces.js'],
   ['script', 'kp-gemstone-document', 'vendor/predictions/gemstone-document.js'],
