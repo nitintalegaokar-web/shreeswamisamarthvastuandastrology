@@ -1,0 +1,22 @@
+/* Matchmaking presentation only; retain the original 1.2.8 scoring and reports. */
+@media screen {
+  body.app-ready #matchmaking { --mm-border:#ccd9e5; --mm-surface:#fff; --mm-soft:#f2f6fa; --mm-ink:#213b53; --mm-accent:#245c87; }
+  body.app-ready #matchmaking > :is(.mm-analysis-picker,.mm-pair,#mm-traditional-panel,#mm-kp-panel,.mm-reference-main,#mm-settings-drawer,.mm-reference-footer) { width:100%!important; max-width:1220px!important; margin-left:auto!important; margin-right:auto!important; box-sizing:border-box; min-width:0; }
+  body.app-ready #matchmaking :is(.mm-reference-main,#mm-settings-drawer) { padding:8px 10px!important; margin-top:8px!important; margin-bottom:8px!important; border:1px solid var(--mm-border)!important; border-radius:9px!important; background:var(--mm-surface)!important; color:var(--mm-ink)!important; box-shadow:0 2px 7px #16324a08; }
+  body.app-ready #matchmaking .mm-reference-main > :is(h2,.section-kicker) { margin:0 0 6px!important; }
+  body.app-ready #matchmaking :is(.mm-reference-main,#mm-settings-drawer) details { padding:0!important; margin:5px 0!important; border:1px solid var(--mm-border)!important; border-radius:6px!important; background:var(--mm-soft)!important; min-height:0!important; }
+  body.app-ready #matchmaking :is(.mm-reference-main,#mm-settings-drawer) details > summary { padding:7px 10px!important; font-size:12px!important; line-height:1.35!important; color:var(--mm-ink)!important; }
+  body.app-ready #matchmaking :is(.mm-reference-main,#mm-settings-drawer) details[open] > :not(summary) { margin:7px 10px!important; }
+  body.app-ready #matchmaking #mm-status { margin:5px 0!important; padding:6px 9px!important; font-size:11px!important; line-height:1.45!important; border-left:3px solid var(--mm-accent); border-radius:4px; background:var(--mm-soft); color:var(--mm-ink); }
+  body.app-ready #matchmaking #mm-status[data-state="error"] { border-left-color:#bd4747; color:#a42a2a; }
+  body.app-ready #matchmaking .mm-reference-footer { display:flex!important; align-items:center; justify-content:flex-end!important; flex-wrap:wrap; gap:7px!important; min-height:0!important; padding:8px 10px!important; margin-top:8px!important; margin-bottom:12px!important; border:1px solid var(--mm-border)!important; border-radius:9px!important; background:var(--mm-surface)!important; box-shadow:0 2px 7px #16324a08; }
+  body.app-ready #matchmaking .mm-reference-footer button { width:auto!important; min-height:34px!important; padding:6px 14px!important; margin:0!important; border:1px solid var(--mm-border)!important; border-radius:6px!important; background:var(--mm-surface)!important; color:var(--mm-ink)!important; font-size:12px!important; line-height:1.35!important; }
+  body.app-ready #matchmaking .mm-reference-footer #mm-calculate { background:var(--mm-accent)!important; border-color:var(--mm-accent)!important; color:#fff!important; font-weight:600; }
+  body.app-ready #matchmaking .mm-reference-footer button:focus-visible { outline:2px solid var(--mm-accent); outline-offset:3px; }
+  body.app-ready #matchmaking .mm-reference-footer button:hover { filter:brightness(.96); }
+  body.app-ready.dark-theme #matchmaking { --mm-border:#49637b; --mm-surface:#172a3c; --mm-soft:#20374b; --mm-ink:#e0edf8; --mm-accent:#3579ac; }
+  @media(max-width:600px) {
+    body.app-ready #matchmaking .mm-reference-footer { justify-content:stretch!important; }
+    body.app-ready #matchmaking .mm-reference-footer button { flex:1 1 auto; min-height:42px!important; }
+  }
+}

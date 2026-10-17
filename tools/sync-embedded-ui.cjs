@@ -10,6 +10,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['style', 'kp-matchmaking-compact', 'vendor/interface/matchmaking-compact.css'],
   ['style', 'kp-chart-workspace-style', 'vendor/interface/chart-workspace.css'],
   ['script', 'kp-feature-updates-script', 'vendor/predictions/dasha-gemstone-workspaces.js'],
   ['script', 'kp-gemstone-document', 'vendor/predictions/gemstone-document.js'],
