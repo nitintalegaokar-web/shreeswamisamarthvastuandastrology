@@ -11,15 +11,14 @@ function title(category){const pair=titles[category];if(!pair)return '';return l
 function language(){return window.KPPreferences?.get?.().language||'english';}
 function readable(text){return String(text||'').replace(/\\n/g,'\n').replace(/^[ \t]*#{1,6}[ \t]*/gm,'').replace(/\*\*/g,'').replace(/^\s*[*_-]{3,}\s*$/gm,'').trim();}
 function textFor(rows,fallback){
- const lang=language(),mr=rows.filter(r=>r.language==='mr'),en=rows.filter(r=>r.language==='en');
- const pick=lang==='marathi'?mr:lang==='bilingual'?[...mr,...en]:en;
- let texts=(pick.length?pick:lang==='english'&&fallback?[]:rows).map(r=>readable(r.text));
- if(lang==='bilingual'&&!en.length&&fallback)texts.push(readable(fallback.text));
- if(!texts.length&&fallback)return readable(fallback.text);
+ const lang=language(),code=window.KPLanguage?.languages.find(l=>l.value===lang)?.code||({english:'en',marathi:'mr',hindi:'hi'}[lang]||lang);
+ const pick=lang==='bilingual'?rows.filter(r=>['mr','en'].includes(r.language)):rows.filter(r=>r.language===code||r.language===lang);
+ const texts=pick.map(r=>readable(r.text));
+ if(fallback&&(lang==='english'||lang==='bilingual')&&!pick.some(r=>r.language==='en'))texts.push(readable(fallback.text));
  return [...new Set(texts)].join('\n\n');
 }
 function result(rows,proof,title,fallback,status='matched'){
- const first=rows[0];return {id:'supplied-'+first.kind+'-'+first.key,key:first.key,title,proof,text:textFor(rows,fallback),status,supplied:true,sources:[...new Set(rows.flatMap(r=>r.sources||[r.source]))]};
+ const first=rows[0];return {id:'supplied-'+first.kind+'-'+first.key,key:first.key,language:language(),title,proof,text:textFor(rows,fallback),status,supplied:true,sources:[...new Set(rows.flatMap(r=>r.sources||[r.source]))]};
 }
 function placement(key,model){
  const moon=model.planets.find(p=>p.id==='Mo');let m;

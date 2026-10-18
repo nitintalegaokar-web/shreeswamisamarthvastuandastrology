@@ -10,6 +10,10 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-child-gender-sheet', 'vendor/predictions/child-gender-sheet.js'],
+  ['script', 'kp-childbirth-engine', 'vendor/predictions/childbirth.js'],
+  ['script', 'kp-event-outcome-script', 'vendor/predictions/event-outcome.js'],
+  ['script', 'kp-prediction-language-policy', 'vendor/predictions/prediction-language.js'],
   ['script', 'kp-rashi-karkatva-data', 'vendor/interface/rashi-karkatva-data.js'],
   ['script', 'kp-rashi-karkatva', 'vendor/interface/rashi-karkatva.js'],
   ['script', 'kp-planet-karkatva-data', 'vendor/interface/planet-karkatva-data.js'],

@@ -11,7 +11,7 @@ function plain(text){return String(text).replace(/^[ \t]*#{1,6}[ \t]*/gm,'').rep
 function match(){
  try{
   const result=numbers(document.getElementById('dob').value),marathi=window.KPPreferences?.get?.().language==='marathi';
-  const rows=catalogue().records.filter(r=>r.number===(r.kind==='birth'?result.birth:result.destiny)).map(r=>({id:'numerology-'+r.id,key:r.id,title:(r.kind==='birth'?'मूलांक ':'भाग्यांक ')+r.number,proof:(r.kind==='birth'?'Birth day':'Complete birth date')+' · '+result.date+' → '+r.number,text:plain(r.text),status:'matched'}));
+  const rows=catalogue().records.filter(r=>r.number===(r.kind==='birth'?result.birth:result.destiny)).map(r=>({id:'numerology-'+r.id,language:'marathi',key:r.id,title:(r.kind==='birth'?'मूलांक ':'भाग्यांक ')+r.number,proof:(r.kind==='birth'?'Birth day':'Complete birth date')+' · '+result.date+' → '+r.number,text:plain(r.text),status:'matched'}));
   return {ready:true,rows,numerology:result,context:(marathi?'मूलांक ':'Birth number ')+result.birth+' · '+(marathi?'भाग्यांक ':'Destiny number ')+result.destiny};
  }catch(error){return {ready:false,reason:error.message,rows:[]};}
 }

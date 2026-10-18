@@ -120,11 +120,18 @@ function createDialog(){
   });
   modal.addEventListener('close',()=>{modal.querySelector('.kp-enlarge-content').replaceChildren();document.body.classList.remove('kp-enlarge-open');});document.body.append(modal);return modal;
 }
+function preserveTransitPresentation(source,clone){
+  if(!source.matches('.tc-diagram')||!source.closest('#transit-chart'))return false;
+  const properties=['fill','fill-opacity','stroke','stroke-width','stroke-opacity','stroke-dasharray','opacity','color','font-family','font-size','font-weight','font-style','text-anchor','dominant-baseline','paint-order','transform','transform-origin','transform-box','background-color'];
+  const originals=[...source.querySelectorAll('svg,svg *')],copies=[...clone.querySelectorAll('svg,svg *')];
+  originals.forEach((node,index)=>{const copy=copies[index];if(!copy)return;const style=getComputedStyle(node);for(const property of properties){const value=style.getPropertyValue(property);if(value)copy.style.setProperty(property,value,'important');}});
+  const style=getComputedStyle(source),rect=source.getBoundingClientRect();clone.dataset.kpPreserveTransit='true';clone.style.setProperty('--kp-transit-preview-aspect',String(rect.width/Math.max(1,rect.height)));clone.style.backgroundColor=style.backgroundColor;clone.style.border=style.border;clone.setAttribute('data-no-localize','');return true;
+}
 function openEnlarged(source){
-  if(!(source instanceof Element))return false;dialog=dialog||createDialog();const clone=source.cloneNode(true);removeCloneIds(clone,source);copyCanvases(source,clone);
+  if(!(source instanceof Element))return false;dialog=dialog||createDialog();const clone=source.cloneNode(true),preserved=preserveTransitPresentation(source,clone);removeCloneIds(clone,source);copyCanvases(source,clone);
   const content=dialog.querySelector('.kp-enlarge-content');content.replaceChildren(clone);dialog.querySelector('#kp-enlarge-title').textContent=sourceTitle(source);
   window.KPHoverDetails?.hide?.();document.body.classList.add('kp-enlarge-open');if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
-  const rect=source.getBoundingClientRect(),available=Math.max(320,Math.min(window.innerWidth*.82,900));setZoom(source.matches('table')?1:clamp(available/Math.max(rect.width,1),1,1.5));dialog.querySelector('.kp-enlarge-close')?.focus({preventScroll:true});return true;
+  const rect=source.getBoundingClientRect(),available=Math.max(320,Math.min(window.innerWidth*.82,900));setZoom(source.matches('table')||preserved?1:clamp(available/Math.max(rect.width,1),1,1.5));dialog.querySelector('.kp-enlarge-close')?.focus({preventScroll:true});return true;
 }
 
 function readBirth(){

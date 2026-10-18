@@ -8,14 +8,24 @@ Extract this ZIP and open index.html in Chrome or Edge.
 
 Changes:
 - Fixes repeated Marathi label updates in the North Indian transit chart.
+- Enlarged transit charts retain the colours, fonts, aspect ratio and labels of the on-screen chart.
+- Predictions no longer show Jyotish source filenames or line-number references.
 - Click a Bhava number for concise standard English/Marathi meanings.
 - Click a planet for the supplied Planet Karkatva fields.
-- Click a Rashi label/sign number for the supplied Rashi Karkatva fields.
+- Home South Indian kundali: click the small Rashi name at the top of any sign box for its Karkatva popup.
+- Rashi labels/sign numbers in Transit and North Indian charts also open the same popup.
 - English, Marathi and bilingual modes are supported in these reference popups.
 - Cancer uses the exact text supplied separately by the user. The duplicate Gemini is retained in source provenance, not shown twice.
-- Prediction > Vedic Prediction: Marathi source excerpts selected by natal ascendant and the seven classical planets' Bhav Chalit occupied houses.
+- Prediction > Vedic Prediction: Marathi source excerpts selected by the Vedic D1 ascendant and seven classical planets' whole-sign houses.
 - Undefined auspicious/inauspicious yoga conditions are stored as references, not automatically asserted as confirmed natal matches.
-- Original calculations and restored matchmaking rules remain unchanged.
+- Vedic predictions show source-backed positive and negative bullet points, without the old introduction.
+- Prediction prose follows the selected software language only; missing translations are marked unavailable instead of falling back to another language. The uploaded Vedic source is Marathi.
+- Ascendant / Moon transitions are available only with a ready natal chart, never Instant Prashna or Horary.
+- Event Promise uses an explicit majority-match convention (more than half a required group), retaining exclusions and marking partial support provisional.
+- Longevity choices compare the same supporting/adverse groups, showing the strongest category and mixed support; this is not a confirmed lifespan.
+- Separate Childbirth prediction tab: first/second/third child cusps, matching traditional conditions, language-specific text and horary-only delivery reference. Ambiguous or conflicting medical/sex/survival formulas remain review-only; the exact supplied tables are retained in data/childbirth-2026-10-18/.
+- Childbirth > Child Gender A4: a separate printable worksheet with seven RP posts, cusp/sub-sub chains, horary-number parity, joint-ruler table, Prashna dasha and editable opinion/outcome. No invented aggregate sex determination; source gaps are retained.
+- Original planetary calculations and restored matchmaking rules remain unchanged.
 
 The root HTML is self-contained. data/, vendor/ and tools/ contain the backend source data, translations, reproducible import/sync tools and browser regression harness.
 This package updates HTML/source only. Existing Windows installers and Android APKs have not been rebuilt.
@@ -25,7 +35,7 @@ with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
  for folder in ['data','vendor','tools']:
   for p in sorted((root/folder).rglob('*')):
    if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc':z.write(p,str(p.relative_to(root)))
- for name in ['karkatva.test.cjs','vedic-natal-predictions.test.cjs']:z.write(root/'desktop/test'/name,'desktop/test/'+name)
+ for name in ['karkatva.test.cjs','vedic-natal-predictions.test.cjs','prediction-language.test.cjs','event-support.test.cjs','childbirth.test.cjs','child-gender-sheet.test.cjs']:z.write(root/'desktop/test'/name,'desktop/test/'+name)
 with zipfile.ZipFile(out) as z:
  assert z.read('index.html')==(root/'index.html').read_bytes()
  assert 'data/rashi-karkatva-2026-10-18/Cancer-supplied.txt' in z.namelist()

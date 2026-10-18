@@ -201,3 +201,11 @@
   #kp-enlarge-dialog,
   #home .kp-birth-rectifier { display:none!important; }
 }
+
+/* Keep the live Transit Chart geometry and paint in its enlarged preview. */
+@media screen{
+#kp-enlarge-dialog .kp-enlarge-content>.tc-diagram[data-kp-preserve-transit]{box-sizing:border-box;width:min(790px,84vw)!important;height:auto!important;min-width:0!important;min-height:0!important;aspect-ratio:var(--kp-transit-preview-aspect);overflow:hidden;margin:0!important;padding:0!important}
+#kp-enlarge-dialog .kp-enlarge-content>.tc-diagram[data-kp-preserve-transit]>svg{display:block;width:100%!important;height:auto!important;max-width:none!important}
+}
+
+@media screen{#kp-enlarge-dialog .kp-enlarge-shell{min-width:0;grid-template-columns:minmax(0,1fr)}#kp-enlarge-dialog .kp-enlarge-viewport{min-width:0}#kp-enlarge-dialog .kp-enlarge-stage:has([data-kp-preserve-transit]){width:100%;min-width:0}}

@@ -83,7 +83,8 @@
    const id=entry.dataset.planet || ID_BY_LABEL[originalName];
    const modelPoint=cusp?window.currentKPModel?.houses?.find(point=>point.id===house):window.currentKPModel?.planets?.find(point=>point.id===id);
    const longitude=entry.dataset.longitude!==undefined?Number(entry.dataset.longitude):modelPoint?.longitude;
-   setText(label,cusp && settings.houseNotation==='numeric'?String(house):cusp?originalName:planetLabel(id,originalName));
+   const relative=cusp&&entry.closest('#home-kundali')?Number(entry.dataset.relativeHouse):0,shownHouse=Number.isInteger(relative)&&relative>=1&&relative<=12?relative:house;
+   setText(label,cusp && settings.houseNotation==='numeric'?String(shownHouse):cusp&&relative?ROMAN[shownHouse-1]:cusp?originalName:planetLabel(id,originalName));
    setText(degree,degreeLabel(originalDegree,longitude));
    const lords=entry.querySelector('.v38-lords');
    hoverFields(entry,modelPoint,cusp?'House '+house:NAMES[id]?.[0]||originalName,originalDegree,lords);

@@ -1,0 +1,168 @@
+{
+  "source": "User-supplied tables, 18 October 2026",
+  "policy": "Traditional rule review only; not a medical diagnosis, pregnancy confirmation, treatment decision, sex determination or survival prediction. Undefined conditions remain review-only.",
+  "assumptions": {
+    "NK": "Star lord of cusp sub lord",
+    "barrenSigns": [
+      "Aries",
+      "Gemini",
+      "Leo",
+      "Virgo"
+    ],
+    "childCusps": [
+      5,
+      7,
+      9
+    ],
+    "significators": "Union of CSL and its star lord, existing four-fold A–D; complete groups required"
+  },
+  "rows": [
+    [
+      "Barren",
+      "Barren",
+      "1,4,10 or 6,8,12 or 2,5,11",
+      "केवल बच्चा गोद लेना या सेरोगेसी"
+    ],
+    [
+      "No Barren",
+      "Barren",
+      "2,5,11 + 4,8,10 or 6,8,12",
+      "इलाज व आइ.वी.एफ"
+    ],
+    [
+      "Barren",
+      "No Barren",
+      "2,5,11 or 6,8,12 + 4",
+      "सामान्य इलाज"
+    ],
+    [
+      "Barren",
+      "No Barren",
+      "2,5,11 or 1,4,6,12 only -ve significators show",
+      "पहले गोद लेगा या उसके गर्भपात के बाद ही संतान प्राप्ति होगी"
+    ],
+    [
+      "Mars",
+      "Mars",
+      "Both are mars",
+      "No baby or have child so will be die"
+    ],
+    [
+      "Ketu(Any Planet)",
+      "Ketu(Fixed)",
+      "Both are ketu or any one placed in ketu",
+      "only one baby"
+    ],
+    [
+      "any planets or ketu",
+      "Mars",
+      "signify -ve houses",
+      "no baby or died baby or big operation 20% only"
+    ],
+    [
+      "any planets",
+      "any planets",
+      "signify -ve houses",
+      "have birth of baby"
+    ]
+  ],
+  "delivery": {
+    "horaryOnly": true,
+    "onTime": [
+      "Ke",
+      "Mo",
+      "Su",
+      "Ju"
+    ],
+    "premature": [
+      "Me",
+      "Ve"
+    ],
+    "delayed": [
+      "Ma",
+      "Sa",
+      "Ra"
+    ],
+    "pregnancyMonth": "Number of houses Moon is ahead of fifth house",
+    "maleHoraryConception": "1st CSL in houses 1,3,5,6"
+  },
+  "sexFormula": {
+    "ordinary": {
+      "0-20": "same rashi",
+      "20-30": "next rashi"
+    },
+    "nodes": {
+      "0-10": "previous rashi",
+      "10-30": "same rashi"
+    },
+    "same": "Male rashi-male child; female rashi-female child",
+    "shifted": "Male rashi-female child; female rashi-male child"
+  },
+  "twins": {
+    "3": [
+      [
+        "Mars",
+        "Both child die"
+      ],
+      [
+        "Rahu",
+        "one girl and one boy, one of them die"
+      ],
+      [
+        "Jupiter",
+        "Both girls"
+      ]
+    ],
+    "9": [
+      [
+        "Ketu",
+        "one live and one die"
+      ],
+      [
+        "Venus",
+        "Both girls"
+      ],
+      [
+        "Sun",
+        "Both boys"
+      ]
+    ],
+    "12": [
+      [
+        "Jupiter",
+        "Both girls"
+      ],
+      [
+        "Saturn",
+        "Both boys"
+      ],
+      [
+        "Mercury",
+        "one boy and one girl"
+      ]
+    ]
+  },
+  "reviewIssues": [
+    "Barren/No Barren rows overlap and have conflicting results",
+    "Scope of or and + is not always defined",
+    "Negative houses clarified by user as 1,4,10; the older broad negative-house birth row conflicts with this clarification and is not automatically asserted",
+    "Ketu fixed condition and placed in Ketu need definition",
+    "Pregnancy-month formula does not define inclusive counting or validate pregnancy",
+    "Twins table does not specify whether CSL or NK planet selects result when they differ",
+    "Sex and survival outcomes are not medical findings"
+  ],
+  "clarifications": {
+    "positiveHouses": [
+      2,
+      5,
+      11
+    ],
+    "negativeHouses": [
+      1,
+      4,
+      10
+    ],
+    "negativeMeaning": "sterility/no child — traditional wording, not medical diagnosis",
+    "twinsLordSelection": "Unanswered; remain review-only"
+  }
+}

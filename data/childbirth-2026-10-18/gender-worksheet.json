@@ -1,0 +1,39 @@
+{
+  "source": "User-supplied KP gender prediction sheet, 18 October 2026",
+  "steps": {
+    "1": "5th CSL -> its STL -> sign male/female (odd/even sign)",
+    "2": "7 RP posts: Day lord, ASC SGL/STL/SBL, Moon SGL/STL/SBL; each planet -> its sub -> star of that sub -> star planet sign. Count male/female; tie uses Moon sub chain. Keep duplicate posts.",
+    "3": "5th cusp SSL -> its STL -> sign",
+    "4": "Horary 1-249 modulo12: even remainder female, odd remainder male",
+    "5": "Joint rulers of fifth cusp: SGL, STL, SBL; planet nature, its star nature/sign and sub nature/sign; attributed in supplied notes to V.S.N. Murthy",
+    "6": "Current Prashna MD plus its STL/SBL; sign odd/even. Natal MD is not substituted."
+  },
+  "planetNature": {
+    "male": [
+      "Su",
+      "Ma",
+      "Ju"
+    ],
+    "female": [
+      "Mo",
+      "Ve",
+      "Ra"
+    ],
+    "neutral": [
+      "Me",
+      "Sa",
+      "Ke"
+    ]
+  },
+  "openConditions": [
+    "Hora definition absent; sign parity is used and no Hora branch is invented",
+    "No combining rule for fifth joint-ruler table supplied",
+    "No combining rule for all six methods supplied; keep comparison and editable opinion/outcome",
+    "Traditional astrology labels are not clinical fetal-sex determination"
+  ],
+  "print": {
+    "paper": "A4 portrait",
+    "separatePage": true,
+    "language": "selected software language, English or Marathi"
+  }
+}
