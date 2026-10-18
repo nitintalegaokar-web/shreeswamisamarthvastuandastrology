@@ -4,7 +4,7 @@
   const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const read=x=>String(x||'').replace(/\\n/g,'\n');
   const records=JSON.parse($('kp-personal-prediction-rules').textContent).entries;
-  const titles={analysis:'Kundali Analysis','house-results':'Bhav Phal · भाव फल','planet-house-results':'Bhavanusar Phal · भावानुसार फल','general-predictions':'General Predictions',events:'Events','dasha-results':'Dasha Results','mahadasha-remedies':'Remedies',gemstones:'Gemstone Guidance','yoga-results':'Conjunction Results','transit-results':'Transit Results','numerology':'Numerology'};
+  const titles={analysis:'Kundali Analysis','vedic-predictions':'Vedic Prediction · वैदिक भविष्य','house-results':'Bhav Phal · भाव फल','planet-house-results':'Bhavanusar Phal · भावानुसार फल','general-predictions':'General Predictions',events:'Events','dasha-results':'Dasha Results','mahadasha-remedies':'Remedies',gemstones:'Gemstone Guidance','yoga-results':'Conjunction Results','transit-results':'Transit Results','numerology':'Numerology'};
   const names={Su:'Sun',Mo:'Moon',Ma:'Mars',Me:'Mercury',Ju:'Jupiter',Ve:'Venus',Sa:'Saturn',Ra:'Rahu',Ke:'Ketu'};
   let active='analysis',page=0,initialized=false,houseCusp=1;const roman=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
   const isActive=()=>active!=='analysis';
@@ -53,6 +53,7 @@
   function chooseEventPeriod(level){const indices={md:Number(val('pred-event-md')),ad:Number(val('pred-event-ad')),pd:Number(val('pred-event-pd'))};if(level==='md'){indices.ad=0;indices.pd=0;}if(level==='ad')indices.pd=0;eventSelection=indices;page=0;refresh();}
 
   function matchRules(category,model=window.currentKPModel,instant=new Date()){
+    if(category==='vedic-predictions')return window.KPVedicPredictions.match(model);
     if(category==='numerology'&&window.KPNumerology)return window.KPNumerology.match();
     if(!model?.ready||model.planets?.length!==9||model.houses?.length!==12)return {ready:false,reason:model?.reason||'Complete the native kundali to see personal results.',rows:[]};
     if(['planet-house-results','yoga-results','transit-results'].includes(category)&&window.KPSuppliedPredictions)return window.KPSuppliedPredictions.match(category,model,instant);
@@ -107,7 +108,7 @@
     return {ready:true,rows:window.KPSuppliedPredictions?.merge(rows,category,model,instant)||rows};
   }
   function getData(){const data=matchRules(active);if(active==='house-results')data.rows=data.rows.filter(r=>Number(/^Bh(1[0-2]|[1-9])[RL]/i.exec(r.key)?.[1])===houseCusp);return {...data,active:isActive(),category:active,page:page+1,cusp:active==='house-results'?houseCusp:null};}
-  function cards(rows,print=false){return rows.map(r=>'<article class="personal-prediction" data-personal-result="'+esc(r.id)+'" data-status="'+esc(r.status||'matched')+'">'+(!print&&r.title&&r.title!==r.text?'<h3>'+esc(r.title)+'</h3>':'')+'<p class="personal-result-text">'+esc(r.text)+'</p>'+'</article>').join('');}
+  function cards(rows,print=false){if(active==='vedic-predictions')return window.KPVedicPredictions.render(rows,print);return rows.map(r=>'<article class="personal-prediction" data-personal-result="'+esc(r.id)+'" data-status="'+esc(r.status||'matched')+'">'+(!print&&r.title&&r.title!==r.text?'<h3>'+esc(r.title)+'</h3>':'')+'<p class="personal-result-text">'+esc(r.text)+'</p>'+'</article>').join('');}
   function refresh(){
     if(!initialized)return;
     $('pred-analysis-panel').hidden=isActive();$('pred-personal-panel').hidden=!isActive();
@@ -117,6 +118,7 @@
     const data=getData(),pages=Math.max(1,Math.ceil(data.rows.length/30));page=Math.max(0,Math.min(page,pages-1));
     $('pred-house-cusp-wrap').hidden=active!=='house-results';$('pred-personal-heading').textContent=(window.KPSuppliedPredictions?.title?.(active)||titles[active])+(active==='house-results'?' · Cusp '+roman[houseCusp-1]:'');
     $('pred-personal-status').textContent=!data.ready?data.reason:data.rows.length+(active==='outer-references'?' supplied references':' kundali-matched results')+(data.context?' · '+data.context:'')+(data.periods?' · '+data.periods.map(p=>p.level+' '+p.id).join(' → '):'');
+    if(active==='vedic-predictions')$('pred-personal-status').textContent=data.ready?'जन्मकुंडलीनुसार '+data.rows.length+' लागू फलविचार · मराठी':data.reason;
     $('pred-personal-results').innerHTML=cards(data.rows.slice(page*30,(page+1)*30))||'<p>'+esc(data.ready?'No supplied rule matches this kundali for this section.':data.reason)+'</p>';
     $('pred-personal-page').textContent=pages>1?(page+1)+' / '+pages:'';
     $('pred-personal-prev').hidden=$('pred-personal-next').hidden=pages===1;$('pred-personal-prev').disabled=page===0;$('pred-personal-next').disabled=page===pages-1;

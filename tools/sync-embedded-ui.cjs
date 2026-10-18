@@ -10,6 +10,18 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-rashi-karkatva-data', 'vendor/interface/rashi-karkatva-data.js'],
+  ['script', 'kp-rashi-karkatva', 'vendor/interface/rashi-karkatva.js'],
+  ['script', 'kp-planet-karkatva-data', 'vendor/interface/planet-karkatva-data.js'],
+  ['style', 'kp-planet-karkatva-style', 'vendor/interface/planet-karkatva.css'],
+  ['script', 'kp-planet-karkatva', 'vendor/interface/planet-karkatva.js'],
+  ['script', 'kp-jyotish-source-data', 'vendor/predictions/jyotish-data.js'],
+  ['script', 'kp-vedic-predictions-engine', 'vendor/predictions/vedic-predictions.js'],
+  ['style', 'kp-vedic-predictions-style', 'vendor/predictions/vedic-predictions.css'],
+  ['script', 'kp-preference-engine', 'vendor/interface/chart-preferences.js'],
+  ['script', 'kp-transit-chart-ui', 'vendor/interface/transit-chart.js'],
+  ['style', 'kp-bhava-karkatva-style', 'vendor/interface/bhava-karkatva.css'],
+  ['script', 'kp-bhava-karkatva', 'vendor/interface/bhava-karkatva.js'],
   ['style', 'kp-matchmaking-compact', 'vendor/interface/matchmaking-compact.css'],
   ['style', 'kp-chart-workspace-style', 'vendor/interface/chart-workspace.css'],
   ['script', 'kp-feature-updates-script', 'vendor/predictions/dasha-gemstone-workspaces.js'],

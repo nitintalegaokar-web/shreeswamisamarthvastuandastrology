@@ -1,0 +1,14 @@
+.kp-vedic-results{font:14px/1.8 Arial,sans-serif;color:inherit}
+.kp-vedic-results .kp-vedic-intro{margin:0 0 10px;padding:8px 12px;border-radius:6px;background:#edf4f9;color:#244d6a}
+.kp-vedic-card{padding:12px 14px;margin:9px 0;border:1px solid #cad9e5;border-radius:8px;background:#fff;color:#21384b;break-inside:avoid-page}
+.kp-vedic-card h3{margin:0 0 4px;font-size:16px;color:#245c87}
+.kp-vedic-card p{margin:6px 0}
+.kp-vedic-card .kp-vedic-basis{font-size:12px;color:#4d6579}
+.kp-vedic-card details{padding:6px 9px!important;margin:8px 0 0!important;font-size:13px}
+.kp-vedic-card .kp-vedic-source{white-space:pre-line;overflow-wrap:anywhere}
+.kp-vedic-card small{font-size:11px;color:#4d6579}
+body.dark-theme .kp-vedic-card{background:#172a3c;color:#e0edf8;border-color:#49637b}
+body.dark-theme .kp-vedic-results .kp-vedic-intro{background:#21394e;color:#e0edf8}
+body.dark-theme .kp-vedic-card :is(h3,.kp-vedic-basis,small){color:#b8d6f4}
+@media print{.kp-vedic-results{font-size:10pt;line-height:1.6}.kp-vedic-card{box-shadow:none;margin:2mm 0;padding:2mm;color:#111}.kp-vedic-card h3{font-size:11pt;color:#111}.kp-vedic-results .kp-vedic-intro{background:none;color:#111}}
+@media screen{#pred-personal-results>.kp-vedic-results{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-width:0}#pred-personal-results>.kp-vedic-results>.kp-vedic-intro{grid-column:1/-1;margin:0}#pred-personal-results .kp-vedic-card{min-width:0;margin:0;align-self:start}@media(max-width:760px){#pred-personal-results>.kp-vedic-results{grid-template-columns:minmax(0,1fr)}}}
