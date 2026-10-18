@@ -9729,7 +9729,7 @@ body.app-ready #report .almanac-report table :is(td,th),.almanac-report table :i
     const control=$(prefix+'-event');if(!control)return;const old=preserve?control.value:'',category=Number(val(prefix+'-category')),search=val(prefix+'-search').toLocaleLowerCase();
     const events=catalogue().events.filter(event=>(!category||!event.mainHouses.length||event.mainHouses.includes(category))&&(!search||[event.id,event.event?.en,event.event?.mr].join(' ').toLocaleLowerCase().includes(search)));
     const option=(value,label)=>{const node=document.createElement('option');node.value=value;node.textContent=label;return node;};
-    control.replaceChildren(option('custom','Custom house group'),...events.map(event=>option(String(event.id),event.id+' · '+eventLabel(event)+(event.automaticEligible?'':' · review'))));
+    control.replaceChildren(option('custom','Custom house group'),...events.map(event=>option(String(event.id),eventLabel(event)+(event.automaticEligible?'':' · review'))));
     if(preserve&&[...control.options].some(node=>node.value===old))control.value=old;else control.value=events[0]?String(events[0].id):'custom';
     if($(prefix+'-event-count'))$(prefix+'-event-count').textContent=events.length+' catalogue events';choiceSignatures[prefix]=JSON.stringify([val(prefix+'-category'),val(prefix+'-search'),window.KPPreferences?.get?.().language]);
   }
