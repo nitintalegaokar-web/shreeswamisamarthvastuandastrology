@@ -10,6 +10,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-table-karkatva', 'vendor/interface/table-karkatva.js'],
   ['script', 'kp-event-house-data', 'vendor/predictions/event-house-data.js'],
   ['script', 'kp-event-house-rules', 'vendor/predictions/event-house-rules.js'],
   ['script', 'kp-marriage-source-data', 'vendor/predictions/marriage-source-data.js'],

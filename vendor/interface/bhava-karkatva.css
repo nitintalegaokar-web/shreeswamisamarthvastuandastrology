@@ -15,3 +15,5 @@ body.dark-theme #kp-bhava-karkatva-dialog{background:#172a3c;color:#e0edf8;borde
 body.dark-theme #kp-bhava-karkatva-dialog :is(header,header button){background:#21394e;color:#e0edf8;border-color:#49637b}
 @media(max-width:600px){#kp-bhava-karkatva-dialog header button{min-height:44px}}
 @media print{#kp-bhava-karkatva-dialog{display:none!important}}
+
+.kp-house-reference{cursor:pointer;border-radius:2px}.kp-house-reference:hover,.kp-house-reference:focus-visible{background:#dceaf7;outline:1px solid #5b83a7;text-decoration:underline}

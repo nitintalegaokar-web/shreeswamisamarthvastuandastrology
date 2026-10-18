@@ -12,7 +12,7 @@ Changes:
 - Predictions no longer show Jyotish source filenames or line-number references.
 - Click a Bhava number for concise standard English/Marathi meanings.
 - Click a planet for the supplied Planet Karkatva fields.
-- Home South Indian kundali: click the small Rashi name at the top of any sign box for its Karkatva popup.
+- South Indian chart sign headings are removed. Click the Rashi entry in a planetary or cuspal position table for its Karkatva popup.
 - Rashi labels/sign numbers in Transit and North Indian charts also open the same popup.
 - English, Marathi and bilingual modes are supported in these reference popups.
 - Cancer uses the exact text supplied separately by the user. The duplicate Gemini is retained in source provenance, not shown twice.
@@ -27,7 +27,7 @@ Changes:
 - Childbirth > Child Gender A4: a separate printable worksheet with seven RP posts, cusp/sub-sub chains, horary-number parity, joint-ruler table, Prashna dasha and editable opinion/outcome. Comparison counts available Male/Female checks equally, excludes blanks, shows the majority or a clear tie/unavailable result; the editable opinion prints on A4. This is a traditional worksheet indication, not fetal-sex determination.
 - Fortuna: click its chart label or position summary for the supplied interpretation of its exact occupied house; English/Marathi, natal/transit cusp boundaries, rotation-independent popup and mobile/dark styling.
 - Childbirth and Child Gender previews open in an in-app modal, with visible Zoom +, Zoom -, Fit, Print/PDF and Close controls; no separate-window permission required.
-- South Indian Kundali calculation tables: planet names and cusp numbers open their corresponding significations. Click a nakshatra name for lord, deity, symbol, gana, zodiac span, themes and pada information (27 English/Marathi entries).
+- Basic, Four-fold, Six-fold, Four-step and Nadi Significators: planet names and individual house numbers open their corresponding significations. Rashi and Nakshatra entries also open popups wherever those columns are present. Click a nakshatra name for lord, deity, symbol, gana, zodiac span, themes and pada information (27 English/Marathi entries).
 - Prediction > Eighth Cusp Rules: all 40 supplied English/Marathi rules, explicit KP occupied-house/sign checks and existing aspect/benefic/fourfold logic where applicable. Unclear compound rules remain for review. Preview includes Zoom +, Zoom -, Fit, Print/PDF and Close.
 - Uploaded event tables: 168 English and 157 Marathi rows preserved independently; Prediction > Event House Rules and Event Promise share the event, cusp, groups and assessment. Unparsed planet/sign qualifiers and missing primary cusps remain for review.
 - Marriage Points: 19 supplied points, existing KP signification/aspect checks, original source grid and 12 spouse-appearance references. Ten relevant marriage point checks are also selectable in Event Promise.
