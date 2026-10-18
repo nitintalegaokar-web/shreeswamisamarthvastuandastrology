@@ -35,5 +35,16 @@
     "paper": "A4 portrait",
     "separatePage": true,
     "language": "selected software language, English or Marathi"
+  },
+  "comparisonPolicy": {
+    "authorizedBy": "User follow-up requesting counts and clear conclusion",
+    "method": "Count one vote per completed method; ignore blanks; majority indication; tie/no-data inconclusive",
+    "opinion": "Prefilled with majority interpretation; editable and retained in print",
+    "example": {
+      "male": 3,
+      "female": 2,
+      "excluded": 1,
+      "indication": "male"
+    }
   }
 }

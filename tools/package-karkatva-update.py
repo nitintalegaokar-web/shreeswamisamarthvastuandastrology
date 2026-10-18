@@ -24,7 +24,7 @@ Changes:
 - Event Promise uses an explicit majority-match convention (more than half a required group), retaining exclusions and marking partial support provisional.
 - Longevity choices compare the same supporting/adverse groups, showing the strongest category and mixed support; this is not a confirmed lifespan.
 - Separate Childbirth prediction tab: first/second/third child cusps, matching traditional conditions, language-specific text and horary-only delivery reference. Ambiguous or conflicting medical/sex/survival formulas remain review-only; the exact supplied tables are retained in data/childbirth-2026-10-18/.
-- Childbirth > Child Gender A4: a separate printable worksheet with seven RP posts, cusp/sub-sub chains, horary-number parity, joint-ruler table, Prashna dasha and editable opinion/outcome. No invented aggregate sex determination; source gaps are retained.
+- Childbirth > Child Gender A4: a separate printable worksheet with seven RP posts, cusp/sub-sub chains, horary-number parity, joint-ruler table, Prashna dasha and editable opinion/outcome. Comparison counts available Male/Female checks equally, excludes blanks, shows the majority or a clear tie/unavailable result; the editable opinion prints on A4. This is a traditional worksheet indication, not fetal-sex determination.
 - Fortuna: click its chart label or position summary for the supplied interpretation of its exact occupied house; English/Marathi, natal/transit cusp boundaries, rotation-independent popup and mobile/dark styling.
 - Original planetary calculations and restored matchmaking rules remain unchanged.
 
