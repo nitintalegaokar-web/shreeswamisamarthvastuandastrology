@@ -10,6 +10,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-nakshatra-karkatva', 'vendor/interface/nakshatra-karkatva.js'],
   ['style', 'kp-fortuna-interpretation-style', 'vendor/interface/fortuna-interpretation.css'],
   ['script', 'kp-fortuna-interpretation', 'vendor/interface/fortuna-interpretation.js'],
   ['script', 'kp-child-gender-sheet', 'vendor/predictions/child-gender-sheet.js'],

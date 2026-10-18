@@ -26,6 +26,8 @@ Changes:
 - Separate Childbirth prediction tab: first/second/third child cusps, matching traditional conditions, language-specific text and horary-only delivery reference. Ambiguous or conflicting medical/sex/survival formulas remain review-only; the exact supplied tables are retained in data/childbirth-2026-10-18/.
 - Childbirth > Child Gender A4: a separate printable worksheet with seven RP posts, cusp/sub-sub chains, horary-number parity, joint-ruler table, Prashna dasha and editable opinion/outcome. Comparison counts available Male/Female checks equally, excludes blanks, shows the majority or a clear tie/unavailable result; the editable opinion prints on A4. This is a traditional worksheet indication, not fetal-sex determination.
 - Fortuna: click its chart label or position summary for the supplied interpretation of its exact occupied house; English/Marathi, natal/transit cusp boundaries, rotation-independent popup and mobile/dark styling.
+- Childbirth and Child Gender previews open in an in-app modal, with visible Zoom +, Zoom -, Fit, Print/PDF and Close controls; no separate-window permission required.
+- South Indian Kundali calculation tables: planet names and cusp numbers open their corresponding significations. Click a nakshatra name for lord, deity, symbol, gana, zodiac span, themes and pada information (27 English/Marathi entries).
 - Original planetary calculations and restored matchmaking rules remain unchanged.
 
 The root HTML is self-contained. data/, vendor/ and tools/ contain the backend source data, translations, reproducible import/sync tools and browser regression harness.
@@ -36,7 +38,7 @@ with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
  for folder in ['data','vendor','tools']:
   for p in sorted((root/folder).rglob('*')):
    if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc':z.write(p,str(p.relative_to(root)))
- for name in ['karkatva.test.cjs','vedic-natal-predictions.test.cjs','prediction-language.test.cjs','event-support.test.cjs','childbirth.test.cjs','child-gender-sheet.test.cjs','fortuna-interpretation.test.cjs']:z.write(root/'desktop/test'/name,'desktop/test/'+name)
+ for name in ['karkatva.test.cjs','vedic-natal-predictions.test.cjs','prediction-language.test.cjs','event-support.test.cjs','childbirth.test.cjs','child-gender-sheet.test.cjs','fortuna-interpretation.test.cjs','nakshatra-karkatva.test.cjs']:z.write(root/'desktop/test'/name,'desktop/test/'+name)
 with zipfile.ZipFile(out) as z:
  assert z.read('index.html')==(root/'index.html').read_bytes()
  assert 'data/rashi-karkatva-2026-10-18/Cancer-supplied.txt' in z.namelist()

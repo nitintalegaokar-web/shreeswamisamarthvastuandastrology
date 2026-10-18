@@ -2,25 +2,25 @@
 [data-rashi-karkatva]:focus-visible{outline:2px solid #2e76b6;outline-offset:3px}
 [data-planet-karkatva]{cursor:pointer}
 [data-planet-karkatva]:focus-visible{outline:2px solid #2e76b6;outline-offset:3px}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog){box-sizing:border-box;width:min(620px,calc(100vw - 24px));max-height:84dvh;padding:0;border:1px solid #b2c5d5;border-radius:14px;background:#fff;color:#20384b;box-shadow:0 20px 70px #0e233755;font:14px/1.65 Arial,sans-serif;overflow:auto}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog)::backdrop{background:#10273988}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) header{position:sticky;top:0;display:flex;align-items:center;gap:12px;padding:15px 18px;border-bottom:1px solid #d5e1ea;background:#f0f5f9;z-index:1}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) .kp-planet-symbol{display:grid;place-items:center;width:46px;height:46px;flex:0 0 46px;border-radius:12px;background:var(--planet-accent);color:#fff;font:28px/1 Georgia,serif}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) .kp-planet-kicker{font-size:11px;color:#516b80}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) h2{margin:0;font-size:20px;color:inherit;line-height:1.4}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) header button{margin-left:auto;width:auto;min-height:36px;padding:5px 12px;border:1px solid #b2c5d5;border-radius:7px;background:#fff;color:inherit;cursor:pointer}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) .kp-planet-content{padding:16px}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) h3{margin:0 0 8px;font-size:14px}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) dl>div{padding:10px 12px;border:1px solid #d5e1ea;border-left:3px solid var(--planet-accent);border-radius:7px;background:#fbfdff}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) dt{font-weight:700;font-size:12px;color:var(--planet-accent)}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) dd{margin:4px 0 0;overflow-wrap:anywhere}
-:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) section+section{border-top:1px solid #d5e1ea;padding-top:14px;margin-top:14px}
-body.dark-theme :is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog){background:#172a3c;color:#e0edf8;border-color:#49637b}
-body.dark-theme :is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) :is(header,header button,dl>div){background:#21394e;color:#e0edf8;border-color:#49637b}
-body.dark-theme :is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) :is(dt,.kp-planet-kicker){color:#b8d6f4}
-@media(max-width:560px){:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) dl{grid-template-columns:minmax(0,1fr)}:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) header{padding:12px}:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) header button{min-height:44px}:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog) .kp-planet-content{padding:12px}}
-@media print{:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog){display:none!important}}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog){box-sizing:border-box;width:min(620px,calc(100vw - 24px));max-height:84dvh;padding:0;border:1px solid #b2c5d5;border-radius:14px;background:#fff;color:#20384b;box-shadow:0 20px 70px #0e233755;font:14px/1.65 Arial,sans-serif;overflow:auto}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog)::backdrop{background:#10273988}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) header{position:sticky;top:0;display:flex;align-items:center;gap:12px;padding:15px 18px;border-bottom:1px solid #d5e1ea;background:#f0f5f9;z-index:1}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) .kp-planet-symbol{display:grid;place-items:center;width:46px;height:46px;flex:0 0 46px;border-radius:12px;background:var(--planet-accent);color:#fff;font:28px/1 Georgia,serif}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) .kp-planet-kicker{font-size:11px;color:#516b80}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) h2{margin:0;font-size:20px;color:inherit;line-height:1.4}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) header button{margin-left:auto;width:auto;min-height:36px;padding:5px 12px;border:1px solid #b2c5d5;border-radius:7px;background:#fff;color:inherit;cursor:pointer}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) .kp-planet-content{padding:16px}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) h3{margin:0 0 8px;font-size:14px}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) dl>div{padding:10px 12px;border:1px solid #d5e1ea;border-left:3px solid var(--planet-accent);border-radius:7px;background:#fbfdff}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) dt{font-weight:700;font-size:12px;color:var(--planet-accent)}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) dd{margin:4px 0 0;overflow-wrap:anywhere}
+:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) section+section{border-top:1px solid #d5e1ea;padding-top:14px;margin-top:14px}
+body.dark-theme :is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog){background:#172a3c;color:#e0edf8;border-color:#49637b}
+body.dark-theme :is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) :is(header,header button,dl>div){background:#21394e;color:#e0edf8;border-color:#49637b}
+body.dark-theme :is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) :is(dt,.kp-planet-kicker){color:#b8d6f4}
+@media(max-width:560px){:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) dl{grid-template-columns:minmax(0,1fr)}:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) header{padding:12px}:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) header button{min-height:44px}:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog) .kp-planet-content{padding:12px}}
+@media print{:is(#kp-planet-karkatva-dialog,#kp-rashi-karkatva-dialog,#kp-nakshatra-dialog){display:none!important}}
 
 /* Reserve a small header in each Home chart cell so Rashi names never cover planet/cusp lanes. */
 @media screen{
@@ -29,3 +29,5 @@ body.app-ready :is(#home-kundali,.kp-enlarge-content) .v38-cell:has(>.kp-rashi-c
 body.app-ready.dark-theme :is(#home-kundali,.kp-enlarge-content) .kp-rashi-cell-label{background:#21394e!important;color:#dcecf9!important;border-color:#49637b!important}
 }
 @media print{.kp-rashi-cell-label{display:none!important}}
+
+[data-nakshatra-karkatva]{cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}[data-nakshatra-karkatva]:focus-visible{outline:2px solid #377b93;outline-offset:2px}

@@ -1,0 +1,1976 @@
+{
+  "source": "Concise standard traditional reference properties; not imported from user documents",
+  "entries": [
+    {
+      "index": 0,
+      "english": {
+        "index": 0,
+        "name": "Ashwini",
+        "lord": "Ke",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Ketu"
+          },
+          {
+            "label": "Deity",
+            "text": "Ashwini Kumaras"
+          },
+          {
+            "label": "Symbol",
+            "text": "Horse head"
+          },
+          {
+            "label": "Gana",
+            "text": "Deva"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Aries 0°00′ – Aries 13°20′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Initiative, speed, healing and service"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 0,
+        "name": "अश्विनी",
+        "lord": "Ke",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "केतू"
+          },
+          {
+            "label": "देवता",
+            "text": "अश्विनीकुमार"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "घोड्याचे मस्तक"
+          },
+          {
+            "label": "गण",
+            "text": "देव"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "मेष 0°00′ – मेष 13°20′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "पुढाकार, वेग, उपचारसेवा व मदत"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "english": {
+        "index": 1,
+        "name": "Bharani",
+        "lord": "Ve",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Venus"
+          },
+          {
+            "label": "Deity",
+            "text": "Yama"
+          },
+          {
+            "label": "Symbol",
+            "text": "Womb"
+          },
+          {
+            "label": "Gana",
+            "text": "Manushya"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Aries 13°20′ – Aries 26°40′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Responsibility, restraint and endurance"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 1,
+        "name": "भरणी",
+        "lord": "Ve",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "शुक्र"
+          },
+          {
+            "label": "देवता",
+            "text": "यम"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "योनी"
+          },
+          {
+            "label": "गण",
+            "text": "मनुष्य"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "मेष 13°20′ – मेष 26°40′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "जबाबदारी, संयम व सहनशीलता"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "english": {
+        "index": 2,
+        "name": "Krittika",
+        "lord": "Su",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Sun"
+          },
+          {
+            "label": "Deity",
+            "text": "Agni"
+          },
+          {
+            "label": "Symbol",
+            "text": "Blade / flame"
+          },
+          {
+            "label": "Gana",
+            "text": "Rakshasa"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Aries 26°40′ – Taurus 10°00′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Discernment, purification and determination"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 2,
+        "name": "कृत्तिका",
+        "lord": "Su",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "रवी"
+          },
+          {
+            "label": "देवता",
+            "text": "अग्नी"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "धारदार पाते / ज्वाला"
+          },
+          {
+            "label": "गण",
+            "text": "राक्षस"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "मेष 26°40′ – वृषभ 10°00′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "विवेक, शुद्धीकरण व निर्धार"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 3,
+      "english": {
+        "index": 3,
+        "name": "Rohini",
+        "lord": "Mo",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Moon"
+          },
+          {
+            "label": "Deity",
+            "text": "Prajapati / Brahma"
+          },
+          {
+            "label": "Symbol",
+            "text": "Chariot"
+          },
+          {
+            "label": "Gana",
+            "text": "Manushya"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Taurus 10°00′ – Taurus 23°20′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Growth, creativity and nourishment"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 3,
+        "name": "रोहिणी",
+        "lord": "Mo",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "चंद्र"
+          },
+          {
+            "label": "देवता",
+            "text": "प्रजापती / ब्रह्मा"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "रथ"
+          },
+          {
+            "label": "गण",
+            "text": "मनुष्य"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "वृषभ 10°00′ – वृषभ 23°20′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "वाढ, सर्जनशीलता व पोषण"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 4,
+      "english": {
+        "index": 4,
+        "name": "Mrigashira",
+        "lord": "Ma",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Mars"
+          },
+          {
+            "label": "Deity",
+            "text": "Soma"
+          },
+          {
+            "label": "Symbol",
+            "text": "Deer head"
+          },
+          {
+            "label": "Gana",
+            "text": "Deva"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Taurus 23°20′ – Gemini 6°40′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Curiosity, searching and adaptability"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 4,
+        "name": "मृगशीर्ष",
+        "lord": "Ma",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "मंगळ"
+          },
+          {
+            "label": "देवता",
+            "text": "सोम"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "हरिणाचे मस्तक"
+          },
+          {
+            "label": "गण",
+            "text": "देव"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "वृषभ 23°20′ – मिथुन 6°40′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "जिज्ञासा, शोध व जुळवून घेणे"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 5,
+      "english": {
+        "index": 5,
+        "name": "Ardra",
+        "lord": "Ra",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Rahu"
+          },
+          {
+            "label": "Deity",
+            "text": "Rudra"
+          },
+          {
+            "label": "Symbol",
+            "text": "Teardrop"
+          },
+          {
+            "label": "Gana",
+            "text": "Manushya"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Gemini 6°40′ – Gemini 20°00′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Change, intense inquiry and renewal"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 5,
+        "name": "आर्द्रा",
+        "lord": "Ra",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "राहू"
+          },
+          {
+            "label": "देवता",
+            "text": "रुद्र"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "अश्रुबिंदू"
+          },
+          {
+            "label": "गण",
+            "text": "मनुष्य"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "मिथुन 6°40′ – मिथुन 20°00′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "परिवर्तन, सखोल शोध व नवसुरुवात"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 6,
+      "english": {
+        "index": 6,
+        "name": "Punarvasu",
+        "lord": "Ju",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Jupiter"
+          },
+          {
+            "label": "Deity",
+            "text": "Aditi"
+          },
+          {
+            "label": "Symbol",
+            "text": "Quiver of arrows"
+          },
+          {
+            "label": "Gana",
+            "text": "Deva"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Gemini 20°00′ – Cancer 3°20′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Restoration, optimism and returning home"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 6,
+        "name": "पुनर्वसू",
+        "lord": "Ju",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "गुरु"
+          },
+          {
+            "label": "देवता",
+            "text": "अदिती"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "बाणांचा भाता"
+          },
+          {
+            "label": "गण",
+            "text": "देव"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "मिथुन 20°00′ – कर्क 3°20′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "पुनर्स्थापना, आशावाद व गृहसुख"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 7,
+      "english": {
+        "index": 7,
+        "name": "Pushya",
+        "lord": "Sa",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Saturn"
+          },
+          {
+            "label": "Deity",
+            "text": "Brihaspati"
+          },
+          {
+            "label": "Symbol",
+            "text": "Udder"
+          },
+          {
+            "label": "Gana",
+            "text": "Deva"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Cancer 3°20′ – Cancer 16°40′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Nurturing, teaching and support"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 7,
+        "name": "पुष्य",
+        "lord": "Sa",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "शनि"
+          },
+          {
+            "label": "देवता",
+            "text": "बृहस्पती"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "गायीची कास"
+          },
+          {
+            "label": "गण",
+            "text": "देव"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "कर्क 3°20′ – कर्क 16°40′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "संगोपन, अध्यापन व आधार"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 8,
+      "english": {
+        "index": 8,
+        "name": "Ashlesha",
+        "lord": "Me",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Mercury"
+          },
+          {
+            "label": "Deity",
+            "text": "Serpent deities"
+          },
+          {
+            "label": "Symbol",
+            "text": "Coiled serpent"
+          },
+          {
+            "label": "Gana",
+            "text": "Rakshasa"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Cancer 16°40′ – Cancer 30°00′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Perception, strategy and attachment"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 8,
+        "name": "आश्लेषा",
+        "lord": "Me",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "बुध"
+          },
+          {
+            "label": "देवता",
+            "text": "सर्पदेवता"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "वेटोळे घातलेला सर्प"
+          },
+          {
+            "label": "गण",
+            "text": "राक्षस"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "कर्क 16°40′ – कर्क 30°00′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "सूक्ष्म आकलन, रणनीती व आसक्ती"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 9,
+      "english": {
+        "index": 9,
+        "name": "Magha",
+        "lord": "Ke",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Ketu"
+          },
+          {
+            "label": "Deity",
+            "text": "Ancestors"
+          },
+          {
+            "label": "Symbol",
+            "text": "Throne"
+          },
+          {
+            "label": "Gana",
+            "text": "Rakshasa"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Leo 0°00′ – Leo 13°20′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Heritage, authority and respect"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 9,
+        "name": "मघा",
+        "lord": "Ke",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "केतू"
+          },
+          {
+            "label": "देवता",
+            "text": "पितर"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "सिंहासन"
+          },
+          {
+            "label": "गण",
+            "text": "राक्षस"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "सिंह 0°00′ – सिंह 13°20′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "परंपरा, अधिकार व सन्मान"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 10,
+      "english": {
+        "index": 10,
+        "name": "Purva Phalguni",
+        "lord": "Ve",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Venus"
+          },
+          {
+            "label": "Deity",
+            "text": "Bhaga"
+          },
+          {
+            "label": "Symbol",
+            "text": "Front legs of a bed"
+          },
+          {
+            "label": "Gana",
+            "text": "Manushya"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Leo 13°20′ – Leo 26°40′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Pleasure, art and partnership"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 10,
+        "name": "पूर्वा फाल्गुनी",
+        "lord": "Ve",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "शुक्र"
+          },
+          {
+            "label": "देवता",
+            "text": "भग"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "मंचकाचे पुढील पाय"
+          },
+          {
+            "label": "गण",
+            "text": "मनुष्य"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "सिंह 13°20′ – सिंह 26°40′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "आनंद, कला व भागीदारी"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 11,
+      "english": {
+        "index": 11,
+        "name": "Uttara Phalguni",
+        "lord": "Su",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Sun"
+          },
+          {
+            "label": "Deity",
+            "text": "Aryaman"
+          },
+          {
+            "label": "Symbol",
+            "text": "Rear legs of a bed"
+          },
+          {
+            "label": "Gana",
+            "text": "Manushya"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Leo 26°40′ – Virgo 10°00′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Commitment, agreements and assistance"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 11,
+        "name": "उत्तरा फाल्गुनी",
+        "lord": "Su",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "रवी"
+          },
+          {
+            "label": "देवता",
+            "text": "अर्यमा"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "मंचकाचे मागील पाय"
+          },
+          {
+            "label": "गण",
+            "text": "मनुष्य"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "सिंह 26°40′ – कन्या 10°00′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "बांधिलकी, करार व सहकार्य"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 12,
+      "english": {
+        "index": 12,
+        "name": "Hasta",
+        "lord": "Mo",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Moon"
+          },
+          {
+            "label": "Deity",
+            "text": "Savitar"
+          },
+          {
+            "label": "Symbol",
+            "text": "Hand"
+          },
+          {
+            "label": "Gana",
+            "text": "Deva"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Virgo 10°00′ – Virgo 23°20′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Skill, craftsmanship and dexterity"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 12,
+        "name": "हस्त",
+        "lord": "Mo",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "चंद्र"
+          },
+          {
+            "label": "देवता",
+            "text": "सविता"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "हात"
+          },
+          {
+            "label": "गण",
+            "text": "देव"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "कन्या 10°00′ – कन्या 23°20′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "कौशल्य, हस्तकला व हातोटी"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 13,
+      "english": {
+        "index": 13,
+        "name": "Chitra",
+        "lord": "Ma",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Mars"
+          },
+          {
+            "label": "Deity",
+            "text": "Tvashtar"
+          },
+          {
+            "label": "Symbol",
+            "text": "Bright jewel"
+          },
+          {
+            "label": "Gana",
+            "text": "Rakshasa"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Virgo 23°20′ – Libra 6°40′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Design, beauty and construction"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 13,
+        "name": "चित्रा",
+        "lord": "Ma",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "मंगळ"
+          },
+          {
+            "label": "देवता",
+            "text": "त्वष्टा"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "तेजस्वी रत्न"
+          },
+          {
+            "label": "गण",
+            "text": "राक्षस"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "कन्या 23°20′ – तूळ 6°40′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "रचना, सौंदर्य व निर्मिती"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 14,
+      "english": {
+        "index": 14,
+        "name": "Swati",
+        "lord": "Ra",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Rahu"
+          },
+          {
+            "label": "Deity",
+            "text": "Vayu"
+          },
+          {
+            "label": "Symbol",
+            "text": "Young shoot in the wind"
+          },
+          {
+            "label": "Gana",
+            "text": "Deva"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Libra 6°40′ – Libra 20°00′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Independence, flexibility and commerce"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 14,
+        "name": "स्वाती",
+        "lord": "Ra",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "राहू"
+          },
+          {
+            "label": "देवता",
+            "text": "वायू"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "वाऱ्यात डोलणारा अंकुर"
+          },
+          {
+            "label": "गण",
+            "text": "देव"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "तूळ 6°40′ – तूळ 20°00′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "स्वातंत्र्य, लवचिकता व व्यापार"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 15,
+      "english": {
+        "index": 15,
+        "name": "Vishakha",
+        "lord": "Ju",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Jupiter"
+          },
+          {
+            "label": "Deity",
+            "text": "Indra and Agni"
+          },
+          {
+            "label": "Symbol",
+            "text": "Triumphal arch"
+          },
+          {
+            "label": "Gana",
+            "text": "Rakshasa"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Libra 20°00′ – Scorpio 3°20′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Purpose, ambition and sustained effort"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 15,
+        "name": "विशाखा",
+        "lord": "Ju",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "गुरु"
+          },
+          {
+            "label": "देवता",
+            "text": "इंद्र व अग्नी"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "विजयतोरण"
+          },
+          {
+            "label": "गण",
+            "text": "राक्षस"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "तूळ 20°00′ – वृश्चिक 3°20′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "ध्येय, महत्त्वाकांक्षा व सातत्यपूर्ण प्रयत्न"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 16,
+      "english": {
+        "index": 16,
+        "name": "Anuradha",
+        "lord": "Sa",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Saturn"
+          },
+          {
+            "label": "Deity",
+            "text": "Mitra"
+          },
+          {
+            "label": "Symbol",
+            "text": "Lotus"
+          },
+          {
+            "label": "Gana",
+            "text": "Deva"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Scorpio 3°20′ – Scorpio 16°40′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Friendship, devotion and cooperation"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 16,
+        "name": "अनुराधा",
+        "lord": "Sa",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "शनि"
+          },
+          {
+            "label": "देवता",
+            "text": "मित्र"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "कमळ"
+          },
+          {
+            "label": "गण",
+            "text": "देव"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "वृश्चिक 3°20′ – वृश्चिक 16°40′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "मैत्री, निष्ठा व सहकार्य"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 17,
+      "english": {
+        "index": 17,
+        "name": "Jyeshtha",
+        "lord": "Me",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Mercury"
+          },
+          {
+            "label": "Deity",
+            "text": "Indra"
+          },
+          {
+            "label": "Symbol",
+            "text": "Earring / umbrella"
+          },
+          {
+            "label": "Gana",
+            "text": "Rakshasa"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Scorpio 16°40′ – Scorpio 30°00′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Responsibility, protection and seniority"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 17,
+        "name": "ज्येष्ठा",
+        "lord": "Me",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "बुध"
+          },
+          {
+            "label": "देवता",
+            "text": "इंद्र"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "कुंडल / छत्र"
+          },
+          {
+            "label": "गण",
+            "text": "राक्षस"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "वृश्चिक 16°40′ – वृश्चिक 30°00′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "जबाबदारी, संरक्षण व ज्येष्ठत्व"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 18,
+      "english": {
+        "index": 18,
+        "name": "Mula",
+        "lord": "Ke",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Ketu"
+          },
+          {
+            "label": "Deity",
+            "text": "Nirriti"
+          },
+          {
+            "label": "Symbol",
+            "text": "Roots"
+          },
+          {
+            "label": "Gana",
+            "text": "Rakshasa"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Sagittarius 0°00′ – Sagittarius 13°20′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Roots, investigation and transformation"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 18,
+        "name": "मूळ",
+        "lord": "Ke",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "केतू"
+          },
+          {
+            "label": "देवता",
+            "text": "निऋती"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "मुळांचा जुडगा"
+          },
+          {
+            "label": "गण",
+            "text": "राक्षस"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "धनु 0°00′ – धनु 13°20′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "मुळांचा शोध, संशोधन व परिवर्तन"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 19,
+      "english": {
+        "index": 19,
+        "name": "Purva Ashadha",
+        "lord": "Ve",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Venus"
+          },
+          {
+            "label": "Deity",
+            "text": "Apas / Water deities"
+          },
+          {
+            "label": "Symbol",
+            "text": "Winnowing fan"
+          },
+          {
+            "label": "Gana",
+            "text": "Manushya"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Sagittarius 13°20′ – Sagittarius 26°40′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Conviction, inspiration and renewal"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 19,
+        "name": "पूर्वाषाढा",
+        "lord": "Ve",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "शुक्र"
+          },
+          {
+            "label": "देवता",
+            "text": "आप / जलदेवता"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "सूप"
+          },
+          {
+            "label": "गण",
+            "text": "मनुष्य"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "धनु 13°20′ – धनु 26°40′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "ठाम विश्वास, प्रेरणा व नवचैतन्य"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 20,
+      "english": {
+        "index": 20,
+        "name": "Uttara Ashadha",
+        "lord": "Su",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Sun"
+          },
+          {
+            "label": "Deity",
+            "text": "Vishwadevas"
+          },
+          {
+            "label": "Symbol",
+            "text": "Elephant tusk"
+          },
+          {
+            "label": "Gana",
+            "text": "Manushya"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Sagittarius 26°40′ – Capricorn 10°00′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Lasting achievement, duty and integrity"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 20,
+        "name": "उत्तराषाढा",
+        "lord": "Su",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "रवी"
+          },
+          {
+            "label": "देवता",
+            "text": "विश्वेदेव"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "हत्तीचा दात"
+          },
+          {
+            "label": "गण",
+            "text": "मनुष्य"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "धनु 26°40′ – मकर 10°00′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "स्थायी यश, कर्तव्य व प्रामाणिकपणा"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 21,
+      "english": {
+        "index": 21,
+        "name": "Shravana",
+        "lord": "Mo",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Moon"
+          },
+          {
+            "label": "Deity",
+            "text": "Vishnu"
+          },
+          {
+            "label": "Symbol",
+            "text": "Ear"
+          },
+          {
+            "label": "Gana",
+            "text": "Deva"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Capricorn 10°00′ – Capricorn 23°20′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Listening, learning and communication"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 21,
+        "name": "श्रवण",
+        "lord": "Mo",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "चंद्र"
+          },
+          {
+            "label": "देवता",
+            "text": "विष्णू"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "कान"
+          },
+          {
+            "label": "गण",
+            "text": "देव"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "मकर 10°00′ – मकर 23°20′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "श्रवण, अध्ययन व संवाद"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 22,
+      "english": {
+        "index": 22,
+        "name": "Dhanishta",
+        "lord": "Ma",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Mars"
+          },
+          {
+            "label": "Deity",
+            "text": "Vasus"
+          },
+          {
+            "label": "Symbol",
+            "text": "Drum"
+          },
+          {
+            "label": "Gana",
+            "text": "Rakshasa"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Capricorn 23°20′ – Aquarius 6°40′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Rhythm, resources and collective work"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 22,
+        "name": "धनिष्ठा",
+        "lord": "Ma",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "मंगळ"
+          },
+          {
+            "label": "देवता",
+            "text": "वसू"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "मृदंग"
+          },
+          {
+            "label": "गण",
+            "text": "राक्षस"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "मकर 23°20′ – कुंभ 6°40′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "ताल, साधनसंपत्ती व सामूहिक कार्य"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 23,
+      "english": {
+        "index": 23,
+        "name": "Shatabhisha",
+        "lord": "Ra",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Rahu"
+          },
+          {
+            "label": "Deity",
+            "text": "Varuna"
+          },
+          {
+            "label": "Symbol",
+            "text": "Empty circle"
+          },
+          {
+            "label": "Gana",
+            "text": "Rakshasa"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Aquarius 6°40′ – Aquarius 20°00′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Privacy, research and healing themes"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 23,
+        "name": "शततारका",
+        "lord": "Ra",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "राहू"
+          },
+          {
+            "label": "देवता",
+            "text": "वरुण"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "रिकामे वर्तुळ"
+          },
+          {
+            "label": "गण",
+            "text": "राक्षस"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "कुंभ 6°40′ – कुंभ 20°00′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "एकांत, संशोधन व उपचारसेवेचे संकेत"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 24,
+      "english": {
+        "index": 24,
+        "name": "Purva Bhadrapada",
+        "lord": "Ju",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Jupiter"
+          },
+          {
+            "label": "Deity",
+            "text": "Aja Ekapada"
+          },
+          {
+            "label": "Symbol",
+            "text": "Front legs of a funeral cot"
+          },
+          {
+            "label": "Gana",
+            "text": "Manushya"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Aquarius 20°00′ – Pisces 3°20′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Intensity, ideals and spiritual inquiry"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 24,
+        "name": "पूर्वाभाद्रपदा",
+        "lord": "Ju",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "गुरु"
+          },
+          {
+            "label": "देवता",
+            "text": "अजैकपाद"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "अंत्यशय्येचे पुढील पाय"
+          },
+          {
+            "label": "गण",
+            "text": "मनुष्य"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "कुंभ 20°00′ – मीन 3°20′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "तीव्रता, आदर्श व आध्यात्मिक शोध"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 25,
+      "english": {
+        "index": 25,
+        "name": "Uttara Bhadrapada",
+        "lord": "Sa",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Saturn"
+          },
+          {
+            "label": "Deity",
+            "text": "Ahir Budhnya"
+          },
+          {
+            "label": "Symbol",
+            "text": "Rear legs of a funeral cot"
+          },
+          {
+            "label": "Gana",
+            "text": "Manushya"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Pisces 3°20′ – Pisces 16°40′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Depth, patience and inner stability"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 25,
+        "name": "उत्तराभाद्रपदा",
+        "lord": "Sa",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "शनि"
+          },
+          {
+            "label": "देवता",
+            "text": "अहिर्बुध्न्य"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "अंत्यशय्येचे मागील पाय"
+          },
+          {
+            "label": "गण",
+            "text": "मनुष्य"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "मीन 3°20′ – मीन 16°40′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "सखोलता, संयम व अंतःस्थैर्य"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    },
+    {
+      "index": 26,
+      "english": {
+        "index": 26,
+        "name": "Revati",
+        "lord": "Me",
+        "fields": [
+          {
+            "label": "Nakshatra lord",
+            "text": "Mercury"
+          },
+          {
+            "label": "Deity",
+            "text": "Pushan"
+          },
+          {
+            "label": "Symbol",
+            "text": "Fish"
+          },
+          {
+            "label": "Gana",
+            "text": "Deva"
+          },
+          {
+            "label": "Zodiac span",
+            "text": "Pisces 16°40′ – Pisces 30°00′"
+          },
+          {
+            "label": "Traditional themes",
+            "text": "Guidance, safe journeys and compassion"
+          },
+          {
+            "label": "Padas",
+            "text": "4 padas; each pada spans 3°20′"
+          }
+        ]
+      },
+      "marathi": {
+        "index": 26,
+        "name": "रेवती",
+        "lord": "Me",
+        "fields": [
+          {
+            "label": "नक्षत्र स्वामी",
+            "text": "बुध"
+          },
+          {
+            "label": "देवता",
+            "text": "पूषा"
+          },
+          {
+            "label": "प्रतीक",
+            "text": "मासा"
+          },
+          {
+            "label": "गण",
+            "text": "देव"
+          },
+          {
+            "label": "राशीतील विस्तार",
+            "text": "मीन 16°40′ – मीन 30°00′"
+          },
+          {
+            "label": "कारकत्व",
+            "text": "मार्गदर्शन, सुरक्षित प्रवास व करुणा"
+          },
+          {
+            "label": "चरण",
+            "text": "४ चरण; प्रत्येक चरण ३°२०′"
+          }
+        ]
+      }
+    }
+  ]
+}
