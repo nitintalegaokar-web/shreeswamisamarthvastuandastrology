@@ -1,0 +1,41 @@
+8th Sub lord in 1, 5 or 9 and afflicted - Long life. 	आयुष्य	दीर्घायुष्य	8वा सबलॉर्ड 1,5 किंवा 9 मध्ये	पीडित असला तरी दीर्घायुष्य
+8th Sub lord in good aspect with Planets - Long life. 	आयुष्य	दीर्घायुष्य	8वा सबलॉर्ड	शुभ ग्रहांच्या दृष्टीत
+8th Sub lord not connected to Badhaka & Maraka sthanas - Long life. 	आयुष्य	दीर्घायुष्य	8वा सबलॉर्ड	मारक व बाधक भावांशी संबंध नसणे
+8th Sub lord afflicted by Moon, Saturn or Mars - Short life. 	आयुष्य	अल्पायुष्य	8वा सबलॉर्ड	चंद्र, शनी किंवा मंगळाने पीडित
+8th Sub lord in 6th afflicted by Saturn - Death in middle age. 	आयुष्य	मध्यम वयात मृत्यू	8वा सबलॉर्ड 6 मध्ये	शनीची पीडा
+8th Sub lord in 1 afflicted by Mars or Saturn - Death by weapons. 	आयुष्य	शस्त्रामुळे मृत्यू	8वा सबलॉर्ड 1 मध्ये	मंगळ किंवा शनीची पीडा
+8th Sub lord in 1 afflicted by Mars & Saturn - Death by stone hit or lightning. 	आयुष्य	दगड, वीज इत्यादीमुळे मृत्यू	8वा सबलॉर्ड 1 मध्ये	मंगळ व शनीची संयुक्त पीडा
+8th Sub lord Mars afflicted by Saturn - Death by wicked men. 	आयुष्य	दुष्ट व्यक्तींमुळे मृत्यू	8वा सबलॉर्ड मंगळ	शनीची पीडा
+8th Sub lord in 6 or 12 - Death by wicked men. 	आयुष्य	दुष्ट व्यक्तींमुळे मृत्यू	8वा सबलॉर्ड 6 किंवा 12 मध्ये	पीडित
+8th Sub lord Venus afflicted by Planets - Death by revenge	आयुष्य	सूड किंवा वैरातून मृत्यू	8वा सबलॉर्ड शुक्र	ग्रहपीडित
+8th Sub lord Nodes in 8 & 12 - Death by Robbers. 	आयुष्य	दरोडेखोरांमुळे मृत्यू	8वा सबलॉर्ड राहू/केतू	8 व 12 शी संबंध
+8th Sub lord in 4 or 10 afflicted by Planets - Death by drowning. 	आयुष्य	बुडून मृत्यू	8वा सबलॉर्ड 4 किंवा 10 मध्ये	ग्रहपीडित
+8th Sub lord in watery sign and afflicted - Death by drowning. 	आयुष्य	बुडून मृत्यू	8वा सबलॉर्ड जल राशीत	पीडित
+8th Sub lord in 5, 8 or 9 - afflicted - Death by weapons. 	आयुष्य	शस्त्रामुळे मृत्यू	8वा सबलॉर्ड 5,8,9 मध्ये	पीडित
+8th Sub lord Sun and Saturn in 1 8th - Death by Dyspepsia and bloating of bowels.	आयुष्य	पोटाचे विकार, अजीर्णामुळे मृत्यू	8वा सबलॉर्ड सूर्य	शनीसह 1 किंवा 8 संबंध
+8th Sub lord in 1 afflicted by Moon or Saturn - Death by ugly wounds and Scar	आयुष्य	जखमा व व्रणांमुळे मृत्यू	8वा सबलॉर्ड 1 मध्ये	चंद्र किंवा शनीची पीडा
+8th Sub lord in 4 or 2 - Death in birth place. 	आयुष्य	जन्मगावी मृत्यू	8वा सबलॉर्ड 2 किंवा 4 मध्ये	-
+8th Sub lord Sun, Moon or Saturn 2, 7 or 12 - Death due to Leprosy. 	आयुष्य	कुष्ठरोगामुळे मृत्यू	सूर्य, चंद्र किंवा शनी	2,7 किंवा 12 मध्ये
+8th Sub lord in 3 or 6 afflicted - Death by Poison.	आयुष्य	विषबाधेमुळे मृत्यू	8वा सबलॉर्ड 3 किंवा 6 मध्ये	पीडित
+8th Sub lord Venus in 4, or 8 - Death by vehicles.	आयुष्य	वाहन अपघातामुळे मृत्यू	8वा सबलॉर्ड शुक्र 4 किंवा 8 मध्ये	-
+8th & 4th Sub lord in 6, 8 and 12 - Death by vehicles. 	आयुष्य	वाहन अपघातामुळे मृत्यू	8वा व 4था सबलॉर्ड	6,8,12 मध्ये
+8th Sub lord in 4 or 6 and connected to watery sign - Death by drowning. 	आयुष्य	बुडून मृत्यू	8वा सबलॉर्ड 4 किंवा 6 मध्ये	जल राशी संबंध
+8th Sub lord Mars in 4 or 6th - Death by fall from trees. 	आयुष्य	झाडावरून पडून मृत्यू	8वा सबलॉर्ड मंगळ 4 किंवा 6 मध्ये	-
+8th Sub lord Moon or Saturn 4, 7 or 8 - Death by Birds. 	आयुष्य	पक्ष्यांमुळे मृत्यू	8वा सबलॉर्ड चंद्र किंवा शनी	4,7,8 मध्ये
+8th Sub lord Saturn in 5, 7 or 9 - Death by headache.	आयुष्य	डोकेदुखीमुळे मृत्यू	8वा सबलॉर्ड शनी	5,7,9 मध्ये
+8th Sub lord in 5, 9 or 10, afflicted by Sun, Moon or Mars - Death by smoke or suffocation. 	आयुष्य	धूर किंवा गुदमरल्याने मृत्यू	8वा सबलॉर्ड 5,9,10 मध्ये	सूर्य, चंद्र किंवा मंगळ पीडित
+8th Sub lord in 5, 8 or 9 afflicted by Sun, Moon or Saturn - Death by a fall of walls or buildings. 	आयुष्य	भिंत किंवा इमारत कोसळून मृत्यू	8वा सबलॉर्ड 5,8,9 मध्ये	सूर्य, चंद्र किंवा शनी पीडित
+8th Sub lord Mars in 6, 8 or 12 - Death by Ulcer & Stomach disorders. 	आयुष्य	अल्सर किंवा पोटाच्या रोगांमुळे मृत्यू	8वा सबलॉर्ड मंगळ	6,8,12 मध्ये
+8th Sub lord Rahu, Saturn or Sun in 7th - Death by snake bite. 	आयुष्य	सर्पदंशामुळे मृत्यू	राहू, शनी किंवा सूर्य	7व्या भावात
+8th Sub lord in 12th - Death in a far off place. 	आयुष्य	परदेशात किंवा दूरस्थ ठिकाणी मृत्यू	8वा सबलॉर्ड 12 मध्ये	-
+8th Sub lord Moon or Saturn in 12 - Death by headache. 	आयुष्य	डोकेदुखीमुळे मृत्यू	8वा सबलॉर्ड चंद्र किंवा शनी	12 मध्ये
+8th Sub lord afflicted by Sun or Mars - Death by fire. 	आयुष्य	आगीमुळे मृत्यू	8वा सबलॉर्ड	सूर्य किंवा मंगळ पीडित
+8th Sub lord afflicted by Moon & Saturn - Death by fever and Meningitis.	आयुष्य	ताप किंवा मेंदूज्वरामुळे मृत्यू	8वा सबलॉर्ड	चंद्र व शनी पीडित
+8th Sub lord afflicted by Mercury - Death by complicated diseases. 	आयुष्य	गुंतागुंतीच्या रोगांमुळे मृत्यू	8वा सबलॉर्ड	बुध पीडित
+8th Sub lord afflicted by Sun, Moon, Mars or Saturn - Death Machinery. 	आयुष्य	यंत्रसामग्री अपघातामुळे मृत्यू	8वा सबलॉर्ड	सूर्य, चंद्र, मंगळ किंवा शनी पीडित
+8th Sub lord Mercury in Sagittarius or Pisces - Death by animals. 	आयुष्य	प्राण्यांमुळे मृत्यू	8वा सबलॉर्ड बुध	धनु किंवा मीन राशीत
+8th Sub lord Moon or Saturn in Taurus or Libra - Death by stabbing. 	आयुष्य	भोसकून मृत्यू	8वा सबलॉर्ड चंद्र किंवा शनी	वृषभ किंवा तुळ राशीत
+8th Sub lord Mars afflicted by Planets - Loss of limbs.	आयुष्य	अवयव गमावणे	8वा सबलॉर्ड मंगळ	ग्रहपीडित
+8th Sub lord Mars, Saturn or nodes in lagna afflicted - Death by Insanity & madness	आयुष्य	वेडेपणा किंवा मानसिक असंतुलनामुळे मृत्यू	8वा सबलॉर्ड मंगळ, शनी, राहू किंवा केतू	लग्नात व पीडित
+8th Sub lord Rahu in 12th - Death in prison.	आयुष्य	कारागृहात मृत्यू	8वा सबलॉर्ड राहू	12व्या भावात
+				

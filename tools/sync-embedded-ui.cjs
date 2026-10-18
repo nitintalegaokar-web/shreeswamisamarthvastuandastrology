@@ -10,6 +10,12 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-event-house-data', 'vendor/predictions/event-house-data.js'],
+  ['script', 'kp-event-house-rules', 'vendor/predictions/event-house-rules.js'],
+  ['script', 'kp-marriage-source-data', 'vendor/predictions/marriage-source-data.js'],
+  ['script', 'kp-marriage-points', 'vendor/predictions/marriage-points.js'],
+  ['script', 'kp-eighth-cusp-data', 'vendor/predictions/eighth-cusp-data.js'],
+  ['script', 'kp-eighth-cusp-rules', 'vendor/predictions/eighth-cusp-rules.js'],
   ['script', 'kp-nakshatra-karkatva', 'vendor/interface/nakshatra-karkatva.js'],
   ['style', 'kp-fortuna-interpretation-style', 'vendor/interface/fortuna-interpretation.css'],
   ['script', 'kp-fortuna-interpretation', 'vendor/interface/fortuna-interpretation.js'],

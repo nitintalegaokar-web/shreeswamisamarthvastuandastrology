@@ -8,6 +8,7 @@
   function assess(data){
     if(!data?.ready)return {promised:false,incomplete:true,reason:data?.reason||'Complete the chart.'};
     if(data.cuspMismatch)return {promised:false,reason:'The selected cusp is not the event’s main cusp.'};
+    const uploaded=window.KPEventHouseRules?.assess?.(data);if(uploaded)return uploaded;const marriage=window.KPMarriagePoints?.assess?.(data);if(marriage)return marriage;
     const houses=data.houses||[], label=String(data.rule?.label||'');
     // Customer-requested majority convention; this is an explicit scoring policy,
     // not an additional source-book rule or a prediction of actual lifespan.

@@ -3,7 +3,7 @@
 function sync(source){if(busy||!$('hq-event')||!$('ep-cusp'))return;busy=true;
 try{const events=KPHandbook.getCatalogue().events;let cusp=Number($('ep-cusp').value),wanted=source==='hq-event'?$('hq-event').value:$('ep-event').value;const chosen=events.find(e=>String(e.id)===wanted);
  if(source==='ep-category'&&Number($('ep-category').value))cusp=Number($('ep-category').value);
- if(['hq-event','ep-event'].includes(source)&&chosen&&!chosen.mainHouses.includes(cusp))cusp=chosen.mainHouses[0];
+ if(['hq-event','ep-event'].includes(source)&&chosen&&chosen.mainHouses.length&&!chosen.mainHouses.includes(cusp))cusp=chosen.mainHouses[0];
  $('ep-auto-cusp').checked=false;$('ep-cusp').value=String(cusp);$('ep-category').value=String(cusp);if(['ep-cusp','hq-event'].includes(source))$('ep-search').value='';
  $('ep-category').dispatchEvent(new Event('change',{bubbles:true}));$('ep-event').querySelector('[value="custom"]')?.remove();
  const options=[...$('ep-event').options];for(const option of options)option.textContent=option.textContent.replace(/^\s*\d+\s*[·.:-]\s*/, '');if(!options.some(o=>o.value===wanted))wanted=options[0]?.value||'';
