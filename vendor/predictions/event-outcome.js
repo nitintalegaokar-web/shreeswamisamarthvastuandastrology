@@ -25,7 +25,7 @@
     const ratio=best?(best.matched?.length||0)/best.required.length:0;
     const excluded=String(data.rule.remarks||'').match(/not connected to\s+((?:1[0-2]|[1-9])(?:\s*,\s*(?:1[0-2]|[1-9]))*)/i);
     if(excluded){const prohibited=excluded[1].split(',').map(Number),conflicts=houses.filter(h=>prohibited.includes(h));if(conflicts.length)return {promised:false,reason:'The handbook excludes houses '+prohibited.join(', ')+', but the selected chain also signifies '+conflicts.join(', ')+'.'};}
-    if(ratio<=.5)return {promised:false,coverage:ratio,reason:'Insufficient house support: '+(best?.matched.length||0)+'/'+(best?.required.length||0)+' required houses match. A strict majority (more than half) is needed; missing: '+(best?.missing.join(', ')||'no evaluable group')+'.'};
+    if(ratio<=.5)return {promised:false,coverage:ratio,reason:'Insufficient house support: '+(best?.matched?.length||0)+'/'+(best?.required.length||0)+' required houses match. A strict majority (more than half) is needed; missing: '+(best?.missing?.join(', ')||'no evaluable group')+'.'};
     const partial=ratio<1;
     return {promised:true,qualified:partial||data.status==='review',coverage:ratio,basis:partial?'majority-match':'complete-match',reason:(partial?'Majority-match convention: ':'Complete house match: ')+best.matched.length+'/'+best.required.length+' houses match ('+best.matched.join(', ')+').'+(partial?' Remaining houses: '+best.missing.join(', ')+'. Partial support is provisional and does not override additional source conditions.':'')};
   }
