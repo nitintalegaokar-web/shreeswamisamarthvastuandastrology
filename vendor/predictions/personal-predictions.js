@@ -55,8 +55,8 @@
   function chooseEventPeriod(level){const indices={md:Number(val('pred-event-md')),ad:Number(val('pred-event-ad')),pd:Number(val('pred-event-pd'))};if(level==='md'){indices.ad=0;indices.pd=0;}if(level==='ad')indices.pd=0;eventSelection=indices;page=0;refresh();}
 
   function matchRulesRaw(category,model=window.currentKPModel,instant=new Date()){
-    if(category==='marriage-points')return window.KPMarriagePoints.evaluate(model);
-    if(category==='event-house-rules')return window.KPEventHouseRules.match(model);
+    if(category==='marriage-points'){const d=window.KPMarriagePoints.evaluate(model);return {...d,rows:d.rows.filter(r=>r.status==='matched')};}
+    if(category==='event-house-rules'){const d=window.KPEventHouseRules.match(model);return {...d,rows:d.rows.filter(r=>r.status==='matched')};}
     if(category==='eighth-cusp-rules')return window.KPEighthCuspRules.match(model,val('pred-eighth-scope')||'applicable');
     if(category==='childbirth')return window.KPChildbirth.analyze(model,Number(val('pred-child-cusp'))||5);
     if(category==='vedic-predictions')return window.KPVedicPredictions.match();

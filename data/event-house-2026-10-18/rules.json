@@ -12,7 +12,7 @@
         "count": 157
       }
     },
-    "policy": "Language files are independent source tables; never pair rows by index. Numeric comma/plus lists are joint groups. Unparsed qualifiers and missing primary houses remain review-only. Existing majority-match convention is used for house support."
+    "policy": "Language files are independent source tables; never pair rows by index. Numeric comma/plus lists are joint groups. Unparsed qualifiers and missing primary houses remain review-only. A complete house-group match is required; unresolved extra conditions cannot confirm a prediction."
   },
   "entries": [
     {

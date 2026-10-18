@@ -31,6 +31,8 @@ Changes:
 - Basic, Four-fold, Six-fold, Four-step and Nadi Significators: planet names and individual house numbers open their corresponding significations. Rashi and Nakshatra entries also open popups wherever those columns are present. Click a nakshatra name for lord, deity, symbol, gana, zodiac span, themes and pada information (27 English/Marathi entries).
 - Prediction > Eighth Cusp Rules: all 40 supplied English/Marathi rules, explicit KP occupied-house/sign checks and existing aspect/benefic/fourfold logic where applicable. Unclear compound rules remain for review. Preview includes Zoom +, Zoom -, Fit, Print/PDF and Close.
 - Uploaded event tables: 168 English and 157 Marathi rows preserved independently; Prediction > Event House Rules and Event Promise share the event, cusp, groups and assessment. Unparsed planet/sign qualifiers and missing primary cusps remain for review.
+- Transit search: all three methods show an expanded DBA selector and start at current MD/AD/PD. Manual DBA and date selections are respected when scanning; method selection does not start a search automatically.
+- Marriage Points and Event House Rules prediction views show only fully matched conditions. Uploaded event groups require all houses; unresolved extra conditions remain review-only.
 - Marriage Points: 19 supplied points, existing KP signification/aspect checks, original source grid and 12 spouse-appearance references. Ten relevant marriage point checks are also selectable in Event Promise.
 - Original planetary calculations and restored matchmaking rules remain unchanged.
 

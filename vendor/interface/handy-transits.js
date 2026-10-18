@@ -6,7 +6,7 @@ const text=(en,m)=>mr()?m:en;
 function label(id){return $(id)?.closest('label')||$(id)?.parentElement;}
 function dispatch(id){$(id).dispatchEvent(new Event('change',{bubbles:true}));}
 function setText(node,value){if(node&&node.textContent!==value)node.textContent=value;}
-function mode(value){if(!MODES.includes(value))return; $('tr-mode').value=value;dispatch('tr-mode');schedule();}
+function mode(value){if(!MODES.includes(value))return; $('tr-mode').value=value;dispatch('tr-mode');window.KPTransitWorkspace?.current();schedule();}
 function filterEvents(){
  const query=document.querySelector('[data-tr-event-filter]')?.value.trim().toLocaleLowerCase()||'',select=$('tr-event');
  const options=[...select.options];let first=null;matches=0;
@@ -62,7 +62,7 @@ function init(){
  $('tr-simple-event-choice').before(query);query.querySelector('input').addEventListener('input',filterEvents);
  const datebar=document.createElement('div');datebar.className='tr-handy-dates';datebar.id='tr-handy-dates';
  modes.after(datebar);for(const id of ['tr-date-range-source','tr-search-date-start','tr-search-date-end','tr-timezone'])datebar.append(label(id));
- const dba=$('tr-date-dba-selection');dba.open=false;dba.querySelector('.tr-selection-note')?.remove();
+ const dba=$('tr-date-dba-selection');dba.open=true;dba.querySelector('.tr-selection-grid').append(...datebar.children);dba.querySelector('.tr-selection-note')?.remove();
  const actions=card.querySelector('.tr-actions');actions.append($('tr-use-current-dba'));modes.after(card.querySelector('.tr-simple-choice'));
  const eventRules=document.createElement('div');eventRules.id='tr-handy-event-rules';eventRules.className='tr-handy-rules';for(const id of ['tr-houses','tr-significator-method','tr-match'])eventRules.append(label(id));dba.after(eventRules);
  const dbaRules=document.createElement('div');dbaRules.id='tr-handy-dba-rules';dbaRules.className='tr-handy-dba-rules';dbaRules.append(label('tr-zone'),$('tr-mutual-controls'));eventRules.after(dbaRules);
