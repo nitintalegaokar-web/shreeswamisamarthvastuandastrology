@@ -41,11 +41,27 @@
     }
   ],
   "android": {
-    "status": "blocked",
-    "reason": "Original release.p12 and store-password.txt signing files are unavailable; the released signing identity was not replaced.",
-    "expectedSigningCertificateSHA256": "a39eb15bd95eb0f822bec42dfe618a435ff0547cc76d1f99ef51da4db7f4fbb5",
-    "sourceVersionCode": 10212,
-    "oldAPKsIncluded": false
+    "status": "fresh-install-built",
+    "version": "1.2.8",
+    "versionCode": 10212,
+    "files": [
+      {
+        "edition": "Owner",
+        "file": "KP-Master-Owner-Fresh-Install-1.2.8.apk",
+        "bytes": 14672608,
+        "sha256": "ee5c2672bf194ab79cb2f8375b1e27ce4a567ba0c3127012098dfeda6637b4d8"
+      },
+      {
+        "edition": "Customer",
+        "file": "KP-Master-Customer-Fresh-Install-1.2.8.apk",
+        "bytes": 14676831,
+        "sha256": "ba06c831d0dfac6d607bf2a10402cea2288ffebe5f6b5b763d949daaff9eb6e6"
+      }
+    ],
+    "signingCertificateSHA256": "96ce4efeea93600a90213f9eda7c43fdd9038b139125d492de687e0148aebc74",
+    "requiresUninstallOfOldApps": true,
+    "sourceParityVerified": true,
+    "physicalDeviceTested": false
   },
   "validation": {
     "unitTestFilesPassed": 29,

@@ -1,3 +1,9 @@
+# Fresh-install Android release · 1.2.8 · 19 October 2026
+
+Customer and Owner fresh-install APKs use a newly generated signing identity, explicitly authorized by the owner. The displayed version remains **1.2.8**, with internal versionCode 10212. Back up kundali data, uninstall the old corresponding app, then install the fresh APK. The Customer app needs its new System ID registered/activated. Android 9+ is required. Signature, alignment, package identity and bundled source parity were checked; no physical phone test was performed.
+
+Build using `python3 android/build.py --fresh-install`. Its new key is retained privately at `/workspace/kp-master-android-signing-fresh-128/`. Keep a separate private backup of that folder. Never commit or publish the keystore or password. The original `signing-certificate.sha256` is preserved; the fresh certificate has its own `fresh-install-signing-certificate.sha256` record. Ordinary builds still refuse an unapproved certificate change.
+
 ## Android-only toolbar correction · same version 1.2.8 (build 10210)
 
 Use the freshly downloaded APK to update the installed app. The duplicated top
