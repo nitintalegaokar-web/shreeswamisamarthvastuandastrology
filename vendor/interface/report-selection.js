@@ -22,20 +22,22 @@ async function prepare(options={}){
  // Capture report groups at the click, including pages added by calculation.
  const sections=new Set(KPReportPages.selected().map(p=>p.dataset.reportSection));
  if(!options.vedic&&!sections.size)throw Error(tr('Select at least one page to print.'));
- const needs=options.vedic?KPVedicUI.needsViewPreparation():[...sections].some(id=>['vedic-sade-sati','vedic-varshaphal'].includes(id));
+ if(options.vedic&&window.KPCustomerFeatures&&!window.KPCustomerFeatures.allowed('vedic'))throw Error(tr('This feature is locked in your package.'));
+ const needs=options.completeVedic?KPVedicUI.needsPreparation():options.vedic?KPVedicUI.needsViewPreparation():[...sections].some(id=>['vedic-sade-sati','vedic-varshaphal'].includes(id));
  if(needs)await KPVedicUI.prepareReports();
+ if(options.completeVedic){const data=KPVedic.core();if(!data.ready)throw Error(data.reason||'Complete the native kundali.');return KPCompleteVedicReport.pages(data);}
  window.renderReport?.();window.KPLanguage?.localize($('printReport'));
  if(options.vedic){const page=document.createElement('section');page.className='report-page v-report-page';page.dataset.reportSection='vedic-kundali';page.innerHTML='<h2 class="report-page-title">Vedic Kundali</h2>'+KPVedicUI.snapshot();window.KPLanguage?.localize(page);return [page];}
  return KPReportPages.selected().filter(p=>sections.has(p.dataset.reportSection));
 }
-function writePreview(preview,pages){
- preview.document.open();preview.document.write('<!doctype html><html><head><meta charset="UTF-8"><title>Selected report</title>'+styles()+'<style>'+FLOW_CSS+'</style></head><body><div class="report-selection-preview-tools no-print"><button id="preview-save-pdf" onclick="window.print()">Print / Save PDF</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.min(2,(parseFloat(p.style.zoom)||1)+.1))">Zoom +</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.max(.5,(parseFloat(p.style.zoom)||1)-.1))">Zoom −</button><button onclick="window.close()">Close preview</button></div>'+pages.map(p=>p.outerHTML).join('')+'</body></html>');preview.document.close();normalize(preview.document);
+function writePreview(preview,pages,options={}){
+ preview.document.open();preview.document.write('<!doctype html><html><head><meta charset="UTF-8"><title>Selected report</title>'+styles()+'<style>'+FLOW_CSS+'</style></head><body><div class="report-selection-preview-tools no-print"><button id="preview-save-pdf" onclick="window.print()">Print / Save PDF</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.min(2,(parseFloat(p.style.zoom)||1)+.1))">Zoom +</button><button onclick="document.querySelectorAll(\'.report-page\').forEach(p=>p.style.zoom=Math.max(.5,(parseFloat(p.style.zoom)||1)-.1))">Zoom −</button><button onclick="window.close()">Close preview</button></div>'+pages.map(p=>p.outerHTML).join('')+'</body></html>');preview.document.close();normalize(preview.document);if(options.completeVedic){preview.document.title=KPCompleteVedicReport.title();KPCompleteVedicReport.decorate(preview.document);}
 }
 async function selectedPreview(print=false,options={}){
  // Open synchronously inside the user's click, before rendering or awaiting.
  const preview=window.open('','_blank');if(!preview){fail(tr('Allow popups to preview or print reports.'));return null;}
  preview.document.body.textContent=tr('Preparing selected reports…');
- try{const pages=await prepare(options);if(preview.closed)return null;writePreview(preview,pages);
+ try{const pages=await prepare(options);if(preview.closed)return null;writePreview(preview,pages,options);
   await preview.document.fonts.ready;
   if(print){await new Promise(resolve=>preview.requestAnimationFrame(()=>preview.requestAnimationFrame(resolve)));preview.focus();preview.print();}
   return preview;

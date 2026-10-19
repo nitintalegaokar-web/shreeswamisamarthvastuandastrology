@@ -10,6 +10,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script','kp-selected-report-window','vendor/interface/report-selection.js'],
   ['script','kp-higher-education-data','vendor/predictions/higher-education-data.js'],
   ['script','kp-education-profession-script','vendor/predictions/education-profession.js'],
   ['script','kp-cuspal-supplied-data','vendor/predictions/cuspal-supplied-data.js'],
@@ -18,6 +19,8 @@ const assets = [
   ['script','kp-disease-supplied','vendor/predictions/disease-supplied.js'],
   ['script','kp-hover-details','vendor/interface/hover-details.js'],
   ['script','kp-vedic-adapter','vendor/vedic/adapter.js'],
+  ['script','kp-vedic-symbols','vendor/vedic/symbols.js'],
+  ['script','kp-vedic-complete-report','vendor/vedic/complete-report.js'],
   ['script','kp-vedic-ui','vendor/vedic/ui.js'],
   ['style','kp-vedic-style','vendor/vedic/style.css'],
   ['style','kp-help-tutorial-style','vendor/interface/help-tutorial.css'],
