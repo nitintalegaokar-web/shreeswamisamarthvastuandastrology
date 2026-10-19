@@ -1,6 +1,6 @@
 /* Zodiac sign labels open source-backed significations; no chart calculation or transit mutation. */
 (()=>{'use strict';
-const DATA=window.KPRashiKarkatvaData,LABELS=['Lord','Element','Modality','Traits','Body','Profession','Places','Objects','Health','Events'],SYMBOLS={1:'♈',2:'♉',3:'♊',4:'♋',5:'♌',6:'♍',7:'♎',8:'♏',9:'♐',10:'♑',11:'♒',12:'♓'},COLOURS={1:'#af6414',2:'#22806b',3:'#376dae',4:'#267c89',5:'#af6414',6:'#22806b',7:'#376dae',8:'#267c89',9:'#af6414',10:'#22806b',11:'#376dae',12:'#267c89'};
+const DATA=window.KPRashiKarkatvaData,LABELS=['Lord','Element','Modality','Traits','Body','Profession','Places','Objects','Health','Events','Gender class','Polarity','Fruitfulness class','Expression class','Form class','Double-bodied','Ascension length','Masculine / feminine quality'],SYMBOLS={1:'♈',2:'♉',3:'♊',4:'♋',5:'♌',6:'♍',7:'♎',8:'♏',9:'♐',10:'♑',11:'♒',12:'♓'},COLOURS={1:'#af6414',2:'#22806b',3:'#376dae',4:'#267c89',5:'#af6414',6:'#22806b',7:'#376dae',8:'#267c89',9:'#af6414',10:'#22806b',11:'#376dae',12:'#267c89'};
 let dialog=null,selected='',returnFocus=null,queued=false;
 const language=()=>window.KPPreferences?.get?.().language||'english';
 function get(id,lang=language()){const e=DATA.entries[id];if(!e){if(Number(id)!==4)return null;return {id,language:lang,name:lang==='marathi'?'कर्क':'Cancer',fields:[],unavailable:true};}const mr=lang==='marathi';return {id,language:mr?'marathi':'english',name:mr?e.mrName:e.enName,symbol:SYMBOLS[id],fields:mr?e.mr.map(f=>({...f})):e.en.map((text,i)=>({label:LABELS[i],text})),source:{...DATA.metadata}};}

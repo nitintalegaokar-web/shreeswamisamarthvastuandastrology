@@ -1,9 +1,10 @@
 {
   "metadata": {
     "date": "2026-10-14",
-    "sourceCount": 82,
-    "recordCount": 1658,
-    "importPolicy": "Literal source text; no calculation formula is imported or modified."
+    "sourceCount": 83,
+    "recordCount": 1762,
+    "importPolicy": "Source interpretations only; no calculation formula is imported or modified. User conjunction summaries replace duplicate interpretations; unsupported diagnoses and allegations are not asserted.",
+    "updated": "2026-10-19"
   },
   "sources": [
     {
@@ -661,6 +662,11 @@
       "path": "data/predictions-2026-10-14/coded/गुरुचे 12 भावांतील परिणाम.txt",
       "sha256": "c5e27e4a475598c1f886d8cc72b262e4e35f58d51539dee2b32010d29d59ad2e",
       "bytes": 8506
+    },
+    {
+      "id": "user-conjunction-2026-10-19",
+      "name": "User-supplied bilingual conjunction table",
+      "note": "113 rows, 111 unique combinations; duplicate pairs merged. Customer wording excludes unsupported diagnosis, lifespan, self-harm, criminality or sexual-conduct conclusions."
     }
   ],
   "records": [
@@ -15536,550 +15542,6 @@
       ]
     },
     {
-      "id": "upload-1106",
-      "source": "source-71",
-      "key": "Y3",
-      "sourceKey": "Y3",
-      "text": "Y3 = Sun and Moon - In this conjunction (yuti) the life of a person is painful, attaining physical well-being in puberty, place of birth, change in place, destruction of wealth, progress in the world with suffering, honor in society, subject to his wife, sinful person, hold on his words, persistent in doing work, mighty, miser person. This conjunction (yuti) is superior to honor and prestige, but if inauspicious makes person a mental patient.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Mo"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1107",
-      "source": "source-71",
-      "key": "Y5",
-      "sourceKey": "Y5",
-      "text": "Y5 = Sun and Mars - In this conjunction (yuti), the person is generous, fearless, quarrelsome with elders, spends accordingto earning, glorious, sinful, untruthful, foolish, ready to assassinate and strong. This conjunction makes the person most ambitious, gives the person excellent will and courage. These individuals are capable of proving themselves superior in any field. In this conjunction (yuti), a person may have a heart attack or brain hemorrhage.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ma"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1108",
-      "source": "source-71",
-      "key": "Y9",
-      "sourceKey": "Y9",
-      "text": "Y9 = Sun and Mercury - In this conjunction (yuti), people are sweet in speech and they remain wise in education, but they are less educated. They have more behavioral knowledge. Their hand writing is beautiful and durable. This summation makes the person behavior- efficient. Provides success in business. Man is a scholar, a noble person, a servant seeking prestige from the King, with a successful and immovable material in this conjunction. He is prudent and visionary.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Me"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1109",
-      "source": "source-71",
-      "key": "Y17",
-      "sourceKey": "Y17",
-      "text": "Y17 = Sun and Jupiter -This conjunction (yuti), gives man great excellence, honor, prestige, and glory. It gives remote Migration for higher education and extraordinary success in the intellectual field. In this union, the man is the beloved of the King, ready to do religious works, friendly, wealthy, teacher and very famous. Person may have high blood pressure or you can get doctor's work. The person gets good results.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ju"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1110",
-      "source": "source-71",
-      "key": "Y33",
-      "sourceKey": "Y33",
-      "text": "Y33 = Sun and Venus - In this conjunction (yuti), man gets injury from the weapon, gets restrictions, i.e. chains etc., knower of singing and dance etc., weak with eyes, benefiting from meeting with other women and sensual. In this union person has wealth and is industrialist. He gets special achievement in the art field. Creates dramatic situations in marriage and love relationships. Accepts fame in acting and art.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1111",
-      "source": "source-71",
-      "key": "Y65",
-      "sourceKey": "Y65",
-      "text": "Y65 = Sun and Saturn - In this conjunction person has short life. In this union, the person gets fit or, madness, fallis, skin disease can be there. Trouble in the education of the person, after long efforts, the education is complete or does not complete. He neither gets promotions nor stability in his job. He is transferred to an unwanted place. Extremely inauspicious union, delays in every area of life get success. Rivalry betwen father and son, fate is not favourable is the result of this union. In this conjunction, man is a scholar, willing to take action, knows about metal, behave like elderly and priests and devoid of the son and the woman. In this conjunction, man gets suffered with low blood pressure and he may have a disease related to the body. His thoughts contradicts with father. The fear of the scepter can also be there.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1112",
-      "source": "source-71",
-      "key": "Y129",
-      "sourceKey": "Y129",
-      "text": "Y129 = Sun and Rahu - This conjunction makes man cruel, philosophical, dominated and domesticated in politics. In this union person gets controversial ancestral property. There are differences between father and son. Fear of scepter and humiliation can also happen. The person gets more angry. There are frequent health problems. Person's father has a stubborn nature. The person does not get the happiness of his father.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1113",
-      "source": "source-71",
-      "key": "Y257",
-      "sourceKey": "Y257",
-      "text": "Y257 = Sun and Ketu - In this conjunction (yuti), the person becomes the politician and is of nature of cutting the wrong point of all. Person and his father are religious, both face difficulty in their deeds, father has some kind of land, where farming can not be done, Grandfather (maternal) has long life and big part of person's life is spent with grandfather due to negative influence of father.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1114",
-      "source": "source-71",
-      "key": "Y6",
-      "sourceKey": "Y6",
-      "text": "Y6 = Moon and Mars - In this conjunction, man has suffering of blood, make leather and metal painting, is rich and brave in battle. In this union, there is courage in the person's mind that he works with certainty and peace. In this union, the person is punctual, help the poor people and philanthropist. This conjunction makes the person stubborn and very ambitious. Person gets fame but this yuti is harmful for health. There are blood related diseases. Person is rich and obsessive.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ma"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1115",
-      "source": "source-71",
-      "key": "Y10",
-      "sourceKey": "Y10",
-      "text": "Y10 = Moon and Mercury - In this conjunction (yuti), the person's voice is sweet and soft, his voice is delicate and the body is also fragile. Body is long and height remains medium. He passes in exams through difficulties. Wisdom remains fickle in the family, which leads to libel. The person is shy, has beautiful body, an intellectual worker, clever in poetrystable minded, obsessed for woman wealthy, talented, and cheerful in this conjunction. This union make increase in intelligence and speech tactics. Such people are skilled and capable of connecting and knowing people. Achieve success in the behavioral work. The person gets hostile. He is of playful nature and makes change in speech.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Me"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1116",
-      "source": "source-71",
-      "key": "Y18",
-      "sourceKey": "Y18",
-      "text": "Y18 = Moon and Jupiter- The person does not have wealth in this conjunction (yuti). The person is tolerant in this union, is good and peaceful, of calm and steady behavior. It is very fruitful union from the point of education, job, marriage, children, person gets wealth, prosperity and happiness in lifel. In this union, man who is absorbed in worshiping Brahmin and Gods, is a reputable, wealthy, strong loving, good natured to his brother. In this union, the person gets auspicious fruit.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ju"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1117",
-      "source": "source-71",
-      "key": "Y34",
-      "sourceKey": "Y34",
-      "text": "Y34 = Moon and Venus - In this union, person is sensual, knower of disciplines, fond of singing, playing, dancing and painting, good behavior, living with garlands, lives in harmony in situation of conflict. It is a fruitful union for matrimonial Life, gets a good spouse, fortune rises after marriage, gets success. Gets success in field of art. Luck favours. In this conjunction, the person gets a disease called diabetes. The attraction towards the opposite sex, the desires increases.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1118",
-      "source": "source-71",
-      "key": "Y66",
-      "sourceKey": "Y66",
-      "text": "Y66 = Moon and Saturn - In this conjunction, the person feds elephant and horses, is of frustrated nature, loves the elderly woman, associated with wealth related to prostitute and the son of Akshay. For other zodiac signs, every work is adversely affected by delay, financial hardships and hardness of speech. It is also called venom conjunction. Person is less emotional and hard hearted. Contains narrow thinking.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1119",
-      "source": "source-71",
-      "key": "Y130",
-      "sourceKey": "Y130",
-      "text": "Y130 = Moon and Rahu- In this conjunction, the person gets eclipse amount, harmful for health, brings obstacles in life. Person gets sufferings from water, ghost-vampire obstacles, trouble comes from secret enemies. Person gets pre-earned wealth and remains wealthy. His wealth increases through sinful path. Eye disease is possible. Mother's health starts to deteriorate with the person's birth or mother dies. he is a mental patient and has obsessive mind.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1120",
-      "source": "source-71",
-      "key": "Y258",
-      "sourceKey": "Y258",
-      "text": "Y258 = Moon and Ketu - This conjunction makes person a pessimistic and lazy person. Tilting towards sickness and retirement, health problems are also persisted. The person suffers from depression and psychiatry. Person remain confused and mother becomes ill, of narow ideology, blood pressure, passionate, precipitant in doing every task.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1121",
-      "source": "source-71",
-      "key": "Y12",
-      "sourceKey": "Y12",
-      "text": "Y12 = Mars and Mercury - In this conjunction, the person is very thinkable, calm, abstemious, efficient, positive, intelligent, clever, soft-spoken, doctor, does not have wealth, husband of a widow woman, associated with ugly women, loves shopping, gold iron, debatable and truthful. He is logical and researcher.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Me"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1122",
-      "source": "source-71",
-      "key": "Y20",
-      "sourceKey": "Y20",
-      "text": "Y20 = Mars and Jupiter - In this conjunction, the situation of the person's birth time varies. He gets the right and stays till the end. In this union, person is priest, proficient in taking photographs, gets knowledge just by hearing, priest in conversation, horse loving, is the chief person. He gets the pleasure of the property and the decision maker.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ju"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1123",
-      "source": "source-71",
-      "key": "Y36",
-      "sourceKey": "Y36",
-      "text": "Y36 = Mars and Venus - In this conjunction (yuti), the person gets a wife who is beautiful, virtuous, tall, high nostril, attractive face, big eyes and has attractive stature. To achieve dominance and success on dance, drama and female caste in every type of cast (film stars). In this union the person is chief, astrologer, characterless, gambler, lecherous, deceitful, attracted towards other woman and honorable by virtue of his qualities. He is extremely erotic and obsessive.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1124",
-      "source": "source-71",
-      "key": "Y68",
-      "sourceKey": "Y68",
-      "text": "Y68 = Mars and Saturn - There is uncertainty and contingency in person's life in this conjunction. Accident in life, instability in life, sudden events can happen. In this union, man is smart in speaking, skillful in the Indrajaal, believer of other religions except his religion, lover of discord. The person is accomplished in the Yantrik, master of skill, logician and expert in debate.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1125",
-      "source": "source-71",
-      "key": "Y132",
-      "sourceKey": "Y132",
-      "text": "Y132 = Mars and Rahu - In this conjunction, the person is stubborn, clamant and mischief, and is not subject to anybody and their education is not complete. The person is arrogant in this union. Spontaneous events, shortage of success, differences of opinion with spouse and of clean instincts. Person's personality is miserable, anti-rude, harsh, surgery, negative thoughts, impulsive and conspiratorial.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1126",
-      "source": "source-71",
-      "key": "Y260",
-      "sourceKey": "Y260",
-      "text": "Y260 = Mars and Ketu- In this conjunction, the person becomes an engineer and is in the thoughts of opposing the wrong point. The person is expert in the Yantrik, master of skill, logician and expert in debate. There is vibration disease in the body, leprosy or tuberculosis, death of males at home, short tempered, ups and downs in life, property problems and problems related to money, lack of mother's happiness, difficulties in childbirth.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1127",
-      "source": "source-71",
-      "key": "Y24",
-      "sourceKey": "Y24",
-      "text": "Y24 = Mercury and Jupiter- In this conjunction, the person has good knowledge, good in speaking, wise, stubborn, gaining greater knowledge. In this union, the person has stable wisdom and he becomes a good adviser, very humble, author of furious writing. In this union, man is smart, patient, priest, and happy to play vocal and instrument. The grace of the Guru is there, is accomplished in skill, expert in speaking skill, communication skills.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1128",
-      "source": "source-71",
-      "key": "Y40",
-      "sourceKey": "Y40",
-      "text": "Y40 = Mercury and Venus - In this conjunction, person is painter, artist, builder of art building, distributor, exhibitor, collector, successful in love, achievement of education, and especially for success in music. In this union, man is known for being a man of science, knower of many craftsmanship, wealthy, speaks nice words, knows Vedas, knows singing and comedic lover. In this union, the person gets the majestic pleasure. He is of a gentle nature and poet.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1129",
-      "source": "source-71",
-      "key": "Y72",
-      "sourceKey": "Y72",
-      "text": "Y72 = Mercury and Saturn - In this conjunction, the person is prone to speech defect, miser, sneaky, delay in studies, skin disease, a person who likes mental work instead of physical work, good businessman, working properly, lacks courage, sensible but still delay in understanding something. In business, He is manages well, visionary and of serious nature.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1130",
-      "source": "source-71",
-      "key": "Y136",
-      "sourceKey": "Y136",
-      "text": "Y136 = Mercury and Rahu- In this conjunction, the intellect of the person is steady, estimates correct, the correct assumption, the excellent grasping power. High intellect to find a secret. Wisdom becomes corrupted in an inauspicious union. There is obstruction in speech, weakness in the veins and nerves. Conflicts with spouses, skin diseases, epilepsy and endless disease, obstruction of education, unnecessary expenditure, less bed pleasure and selfish.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1131",
-      "source": "source-71",
-      "key": "Y264",
-      "sourceKey": "Y264",
-      "text": "Y264 = Mercury and Ketu - In this conjunction, the person is seen as a adoptive son and works of communication. Person is in the field of information and technical work. The process of refining of physics, insight, perviousness, disturbance, factors of mental qualities, cruel, material pleasure, flickering, fearless, malicious, anti, verbose, unhygienic, arthritis, dredged.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1132",
-      "source": "source-71",
-      "key": "Y48",
-      "sourceKey": "Y48",
-      "text": "Y48 = Jupiter and Venus - In this union, one is willing to adapt to love-related attraction and mass group. In this conjunction, the person receive more pleasure from woman and loves his wife truely. In this union, man is associated with the beautiful wife, wealthy, knower of religion and belief, earns livelihood from knowlege.In this union, a person has wealth and is successful in life. The person of opposite nature is sometimes voluptuous and sometimes yogi.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ju",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1133",
-      "source": "source-71",
-      "key": "Y80",
-      "sourceKey": "Y80",
-      "text": "Y80 = Jupiter and Saturn- In this conjunction (yuti), the person easily accomplish any task, is lazy, education interrupted, he does not get the pleasure of having a son and his financial condition remains poor. In this union, man is able to earn livelihood, strong, successful, the master of the city, the leader of the community and the army. In this union, person has no attachment with home, philosophical and has good power to do justice. The person is wise and the pious and is just.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ju",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1134",
-      "source": "source-71",
-      "key": "Y144",
-      "sourceKey": "Y144",
-      "text": "Y144 = Jupiter and Rahu- There is a possibility of destruction of child. This summation remain ancestors curse disrupted. In this there are chances of two marriage of a person and the possibility is also there that he goes for adoption. Person is rebel of master and is a selfish person. Person is anti-tradition and does not take interest in spirituality. In this, person is atheist, get success in politics, hypocritical and indicater of poverty.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ju",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1135",
-      "source": "source-71",
-      "key": "Y272",
-      "sourceKey": "Y272",
-      "text": "Y272 = Jupiter and Ketu - In this union, person is respected and duality of thoughts is there. Person is religious, beggar and of spiritual nature. Person is a jurist and of thinking of cutting the right things.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ju",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1136",
-      "source": "source-71",
-      "key": "Y96",
-      "sourceKey": "Y96",
-      "text": "Y96 = Venus and Saturn - In this conjunction, the person does not have supply of money, gets poverty, failure, sorrow, humility, poverty, and he has physical, mental, financial and social suffering. In this union, man is drunk, the owner of the animal, clever in wood work, involved in cutting wood, knows the art of craft, likes to eat sour substances. He is poor and be in mental depression. Jupiter and Ketu , person works as Archbishop. After knowing the law, he becomes a legal officer. With the law, he also becomes an officer to punish.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ve",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1137",
-      "source": "source-71",
-      "key": "Y160",
-      "sourceKey": "Y160",
-      "text": "Y160 = Venus and Rahu- There is a possibility of having two husbands / wives in this conjunction. Person gets lesser pleasure of spouse at home and gets more outside. There are obstacles in the industry business. The person is involved in lust and is of evil tendency. It is going to be humiliated by immoral relationships.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ve",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1138",
-      "source": "source-71",
-      "key": "Y288",
-      "sourceKey": "Y288",
-      "text": "Y288 = Venus and Ketu- In this conjunction, the person lacks wealth, gets failure in his work, there are changes in his thoughts. Person becomes a lover and keep distance from physical pleasures. Person is weak with eyes. A person may be caught in a court case or charge.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1139",
-      "source": "source-71",
-      "key": "Y192",
-      "sourceKey": "Y192",
-      "text": "Y192 = Saturn and Rahu - In this yuti, person gets the wealth earned by father. Person gets rid of sin done in the past three to four generations. The householder that is left behind, starting to move forward. The person has a disease related to the upper part of the heart and throat. And this conjunction is detrimental to the work and losses. Such people are generally cruel and have terrorist tendencies. As a result, the person gets happiness, glory and prosperity too. In this union, there is a lack of matrimonial pleasure of the person.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Sa",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
       "id": "upload-1140",
       "source": "source-71",
       "key": "Y320",
@@ -16096,23 +15558,6 @@
       ]
     },
     {
-      "id": "upload-1141",
-      "source": "source-71",
-      "key": "Y7",
-      "sourceKey": "Y7",
-      "text": "Y7 = Sun, moon and Mars - In this conjunction, a person is timid, does many tasks, does the work of others, and is kind. Person gets less happiness from parents. In this union, man is expert in machinery, skill and deception, suffers from pain, big warrior, does not have son.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Mo",
-        "Ma"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
       "id": "upload-1142",
       "source": "source-71",
       "key": "Y320",
@@ -16121,1247 +15566,6 @@
       "language": "en",
       "kind": "yoga",
       "planets": [
-        "Sa",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1143",
-      "source": "source-71",
-      "key": "Y7",
-      "sourceKey": "Y19",
-      "text": "Y19 = Sun, moon and Mars - In this conjunction, a person is timid, does many tasks, does the work of others, and is kind. Person gets less happiness from parents. In this union, man is expert in machinery, skill and deception, suffers from pain, big warrior, does not have son.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Mo",
-        "Ma"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1144",
-      "source": "source-71",
-      "key": "Y11",
-      "sourceKey": "Y35",
-      "text": "Y35 = Sun, moon and Mercury - This war is inauspicious for any person's parents. This conjunction creates mental condition, black mailer, is disturbing, cause mental stress. In this union, the person gets good wife and he lacks money. In this union, the man is sweet-spoken, likes to attend gathering of 'katha\", rich and loyal.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Mo",
-        "Me"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1145",
-      "source": "source-71",
-      "key": "Y67",
-      "sourceKey": "Y67",
-      "text": "Y67 = Sun, moon and Saturn - In this conjunction, person is expert in the debate, follows other's path and is poor. In this yuti, future of the person rises after the parents. Such a person is determined or corageous. The loss of wealth of the person, fits, insanity, disaffection between the father and son, the mental patient, the willingness to act, person is blunt in nature, financial hardships and stiffness of speech .",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Mo",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1146",
-      "source": "source-71",
-      "key": "Y131",
-      "sourceKey": "Y131",
-      "text": "Y131 = Surya, Chandra and Rahu- In this conjunction, person's mind remain confused and he is greedy. Both the father and the son likes to watch TV and portraying on the computer; photography is also their hobby, grandfather is luxurious, on eson is considered to be unwilling, The union of Rahu and Moon is of making relation with heterogeneous woman.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Mo",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1147",
-      "source": "source-71",
-      "key": "Y259",
-      "sourceKey": "Y259",
-      "text": "Y259 = Sun, moon and Ketu - In this conjunction, the person is disturbed for the employment, no peace day and night, the intellect does not work, even if he become millionaire remains powerless. The grandfather has been a Vedic expert, Nani is also associated with reading and teaching of religious and Vedic books; Mother has trouble with cough, person has tools related to farming or water or has tools related to silver work, he knows how to do work with the help of these weapons, moon farming is there and ayurveda is also there, a son is also considered astrologer or farmer. In cities, this work is also related to the water rectifier and the meter reader. The work of government pipeline or water tank is also added to this planetary alliance.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Mo",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1148",
-      "source": "source-71",
-      "key": "Y13",
-      "sourceKey": "Y13",
-      "text": "Y13 = Sun, Mars and Mercury - In this conjunction, the person remains devoid of wife, children and property, is a famous wrestler, courageous, ruthless, ungrateful, hard-hearted, famous. Ego remains in the person's nature. Dual inheritance is possible. Become an officer for their rights, but remain oppressed. In this union, the person gets a military engineer or a brick kiln.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ma",
-        "Me"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1149",
-      "source": "source-71",
-      "key": "Y21",
-      "sourceKey": "Y21",
-      "text": "Y21 = Sun, Mars and Jupiter - In this union, the person is smart to talk, Minister of State. is very wealthy and truthful. He becomes a big man and is always true and good speaker. In this union, the person remains in contradiction with his father and earns fame by himself and becomes a writer, poet and astrologer. Fearless, untrue speaker, beloved of fools, willing to do religious tasks, rich and have blood pressure.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ma",
-        "Ju"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1150",
-      "source": "source-71",
-      "key": "Y37",
-      "sourceKey": "Y37",
-      "text": "Y37 = Sun, Mars and Venus - In this union, the person has eye-disease, person is good-loking, loves his family, born in a big house or best in behaviour, fortunate, soft-spoken, wea;thy, beautiful, gentle, loves his wife and children. He is very compassionate and sensual. One recieves vehicle in this union.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ma",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1151",
-      "source": "source-71",
-      "key": "Y69",
-      "sourceKey": "Y69",
-      "text": "Y69 = Sun, Mars and Saturn - In this conjunction, a person is daring, devoid of money, always sick, devoid of family, worried, quarrelsome. The person is extremely foolish. The person have good thoughts, propagandist of world bondage, of good behaviour. Unpleasantness between father-son, mental patient, cruel, ready to do religious tasks, instability in life, clever in speaking, rationalist, quarresome and expert in Indrajaal.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ma",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1152",
-      "source": "source-71",
-      "key": "Y133",
-      "sourceKey": "Y133",
-      "text": "Y133 = Sun, Mars and Rahu - This union is considered inauspicious for a person's father. In this union, person is very fickle, a brother of a person met with an accident in some way; the last phase of person's life is in trouble, the person get suffering from the son, has job of the computer or photography. Furious, negative thoughts, impulsive, excellent will and courageous, sinful heart, famous, problems related to the body, devoid of the father's love.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ma",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1153",
-      "source": "source-71",
-      "key": "Y261",
-      "sourceKey": "Y261",
-      "text": "Y261 = Sun, Mars and Ketu - In this union, there is a sense of discontent in the family, knower of law, life is pleasurable, rudeness in nature, blood disorder, body disorder, lies, sarcasm, rumor and cut the right words. There is always rift in the person's family, the person has the knowledge of the law, and the life of the person is not pleasant, he has a tendency to be rude, work of leadership happens, a son remains in trouble, person has blood disorders in body.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ma",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1154",
-      "source": "source-71",
-      "key": "Y25",
-      "sourceKey": "Y25",
-      "text": "Y25 = Sun, Mercury and Jupiter- This union is considered inauspicious for the father of the person, Person is proficient in some discipline, wealthy person and has eye disease. In this yuti, the person's temperament is a bit egoistic. In this union, the person has eye disease, rich, proficient in science and painting and is a writer. The writing of their hands is beautiful and durable. It is conscience and visionary.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Me",
-        "Ju"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1155",
-      "source": "source-71",
-      "key": "Y41",
-      "sourceKey": "Y41",
-      "text": "Y41 = Sun, Mercury and Venus - In this conjunction, our body gets warm with heat. Talkative, always take interest in traveling, getting disdainful from the guru, visiting the direction in curse, getting cursed, becomes a foreigner, woman lover. He has to go ahead on its own earnings. There is no shortage of food and he becomes a poet or a writer",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Me",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1156",
-      "source": "source-71",
-      "key": "Y73",
-      "sourceKey": "Y73",
-      "text": "Y73 = Sun, Mercury and Saturn - In this union, behaving like an impotent, hateful of other people, wins over everyone, keeps away from brothers etc. Speak lies and do wrong things. In this union, man is evil-minded, boycotted by fellows, and tend to enmity.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Me",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1157",
-      "source": "source-71",
-      "key": "Y137",
-      "sourceKey": "Y137",
-      "text": "Y137 = Sun, Mercury and Rahu - In this yuti, you have a problem with marriage, you can have trouble related to your child, so that there is frustration in your life. Both the father and grandfather of the person are famous, the father also has wealth and land, but after the birth of the person, he starts wasting money in medicines or sudden accidents or alcohol etc.. He get work related to air lines or work related to the agency, work related to arrange travels and work of road measurement, the person gets less ancestral property .",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Me",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1158",
-      "source": "source-71",
-      "key": "Y265",
-      "sourceKey": "Y265",
-      "text": "Y265 = Sun, Mercury and Ketu - In this conjunction, person is a politician, opposes lies, suffers court case, allegation, illegal relations, tension in the family, trouble with the body. The maternal uncle's family of the person is effective, the father or the person suffers from court cases and the wrong ellegations, there is tension in the family because of the father's illegal relations, and the person has trouble with these things.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Me",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1159",
-      "source": "source-71",
-      "key": "Y49",
-      "sourceKey": "Y49",
-      "text": "Y49 = Sun, Jupiter and Venus - The person is of weak eyes, is powerful, valiant, highly intelligent, wise, does not own wealth of his own, minister of the king, always does work of others. The son of person has wife, is highly intellect, an eye patient and rich. In this union, there is a delivery of a person. Person is religious, friendly and very famous.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ju",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1160",
-      "source": "source-71",
-      "key": "Y81",
-      "sourceKey": "Y81",
-      "text": "Y81 = Sun, Jupiter, and Saturn - In this conjunction, person has uneven body, the respected person and the other is greedy. Gets nice wife, kids child friend etc. It is official. The person is popular, fearless and satvik. Has high Blood Pressure, doctor, excellent Yoga, dear of the Kings, The person gets good results. The strong, successful, the owner of the city, the power of justice, is knower of philosophy.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ju",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1161",
-      "source": "source-71",
-      "key": "Y145",
-      "sourceKey": "Y145",
-      "text": "Y145 = Sun, Jupiter and Rahu- In this union, the person is disobedient to the command, the destroyer of the house, the ancestor cursed, has two wives or husband, the possibility of adoption, cruel, philosophical. In this union person achieves honor, and reputation. Humans have high blood pressure. Person opposes tradition and are not interested in spirituality.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ju",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1162",
-      "source": "source-71",
-      "key": "Y273",
-      "sourceKey": "Y273",
-      "text": "Y273 = Sun, Jupiter and Ketu - In this union, the person has thinking of cutting the wrong words, attainment of respect, the person holds the duality of thoughts. Values are respected, honorable, judicious, thinking of cutting out the right things, problems related to body, dramatic in marriage and love relations and famous in art and acting.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ju",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1163",
-      "source": "source-71",
-      "key": "Y97",
-      "sourceKey": "Y97",
-      "text": "Y97 = Sun, Venus and Saturn - in this union, you can be separated from your spouse, that means you can be divorced. There can be unrest in your home and your government job also has some possibilities of getting disturbed. constantly indifferent with the fear of the enemy. Does not receive honors. They do not get expertise in any art. Devoid of poetic knowledge, poor conduct and leprosy sick. In this union, man is art skill, devoid of respect, suffered from leprosy, fear of enemy, sad, miserable person.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ve",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1164",
-      "source": "source-71",
-      "key": "Y161",
-      "sourceKey": "Y161",
-      "text": "Y161 = Sun, Venus and Rahu - In this union, the person has two wives or husband, the industry is obstructed, and the cruel philosopher. Weak with eyes, knower of dance-singing etc., the man confluent with the other women, famous in art and acting, is injured by the weapon, he is insulted by unethical relations.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ve",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1165",
-      "source": "source-71",
-      "key": "Y289",
-      "sourceKey": "Y289",
-      "text": "Y289 = Sun, Venus, and Ketu - In this union, a person can be accused, court case, devoid of physical pleasures. The person is weak with eyes. famous in the field of art and acting. The person has money. He is also an industrialist. The person's maternal grandfather's age is high. The person's father and the person himself are of religious tendencies.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1166",
-      "source": "source-71",
-      "key": "Y193",
-      "sourceKey": "Y193",
-      "text": "Y193 = Sun, Saturn and Rahu - Trouble in the education of the person with the combination of Sun, Saturn and Rahu, or completed after long efforts or does not be completed. There is no promotions or stability in his job. He is transferred to an unwanted place. People are famous in the field of art and acting. people have low blood pressure in this union. There are frequent health problems. The person does not get the pleasure of the father.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Sa",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1167",
-      "source": "source-71",
-      "key": "Y321",
-      "sourceKey": "Y321",
-      "text": "Y321 = Sun, Saturn and Ketu - Person is scholar, ready to act, knowing the metals, behave like the elderly or like the Pandits, and the son is devoid of the woman. In this union, the father's son's contention, knowing of metal, good conduct, devoid of wife and son, disagreements with the father, willingness to act, negative thinking, respect and self-respecting thoughts.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Su",
-        "Sa",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1168",
-      "source": "source-71",
-      "key": "Y14",
-      "sourceKey": "Y14",
-      "text": "Y14 = Moon,Mars and Mercury - These unions are considered good for the person because their combination increases courage in the mind of the person. He is able to reconcile his life with his intellect. Their health is also always good. These people are considered as brave, courageous. But the person is timid. The possibility of an accident increases with him and he starts living in his world of thoughts. The person practices sin, inferior to the livelihood, fellowless in this world, and of evil conduct .",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ma",
-        "Me"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1169",
-      "source": "source-71",
-      "key": "Y22",
-      "sourceKey": "Y22",
-      "text": "Y22 = Moon, Mars and Jupiter: In this union, people have soft body, are temperamental, with caste symbols, attractive personality, attracted towards women, thieves, wife moves towards senior officials with the permission of husband, are angry and quarrelsome themselves. In this union, the person shows his position on the servants under him which leads to dissatisfaction.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ma",
-        "Ju"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1170",
-      "source": "source-71",
-      "key": "Y38",
-      "sourceKey": "Y38",
-      "text": "Y38 = Moon, Mars and Venus - Husband and wife are adulterers in this union. And their son is also adulterous. Always interested in migration and is afraid of winter disorders. Sensual love with the wife. In this union, person is the husband or son of a woman with an evil nature, he is constant excursionist and fearful of cold.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ma",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1171",
-      "source": "source-71",
-      "key": "Y70",
-      "sourceKey": "Y70",
-      "text": "Y70 = Moon, Mars and Saturn- The weakness of your eyes in this union. You are surrounded by unknowable disease, your mental stress, hatred of seeing the lowly people, hateful, chaotic / horrible, mother expires in childhood. It is fraught by nature. The behavior remains in opposition to ethos. Gets results like enmity with people. He is a playful, intellect, a wicked minder, and a tormentor to the mother.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ma",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1172",
-      "source": "source-71",
-      "key": "Y134",
-      "sourceKey": "Y134",
-      "text": "Y134 = Moon, Mars and Rahu- In this union, the person is less favorable or inauspicious for father, versatile, less favourable for mother and brother. In this conjunction, there is courage in the person's mind. He works with definite peace. The person is capable of doing poetry, clever, intellectual, good speaker, talented, cheerful, inconsolable enemy, eye patients.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ma",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1173",
-      "source": "source-71",
-      "key": "Y262",
-      "sourceKey": "Y262",
-      "text": "Y262 = Moon, Mars and Ketu - The person is related to sarcasm, lies and rumors. Enthusiastic, confused, hurried to every task, suffers from depression and psychiatry. Pessimistic, lazy, speechless, arrogant, health-related troubles, stable intellect, talented, cheerful.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ma",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1174",
-      "source": "source-71",
-      "key": "Y26",
-      "sourceKey": "Y26",
-      "text": "Y26 = Moon, Mercury and Jupiter - In this union, person is wealthy, clever, healthy, speaker, stunning, very wealthy, generator of alot of offsprings, is famous and successful, have fellows and brothers. The person is going to get popularity and become a politician. This person is inauspicious for the father and his mother is always sick.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Me",
-        "Ju"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1175",
-      "source": "source-71",
-      "key": "Y42",
-      "sourceKey": "Y42",
-      "text": "Y42 = Moon, Mercury and Venus - This union brings unrest to your life and affects every area of your life. As it hinders the relationship between your relatives, your government job, your business, and create obstacles in your child's birth. Silence in behavior,greedy of wealth. In this yuti, person is oriented with knowledge, extremely greedy of wealth, very covetous of wealth, behaves like a lowly person.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Me",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1176",
-      "source": "source-71",
-      "key": "Y74",
-      "sourceKey": "Y74",
-      "text": "Y74 = Moon, Mercury and Saturn - The chances of diseases of the filament system are more likely to be caused by the combination of this conjunction, as well as they get unconscious too. Their mind is troubled, and is suffering from mental stress. Solitaire is respected and valued by the king. In this yuti, person is a priest, honored by the king, has a very long body, strong body and speaker.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Me",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1177",
-      "source": "source-71",
-      "key": "Y138",
-      "sourceKey": "Y138",
-      "text": "Y138 = Moon, Mercury and Rahu- This union is not good for the people of the person's family. In this union, the mother of the person has trouble and person is not favourable for the father. The person has trouble related to the body. In this union, a person may have trouble by accident and the person gets less pleasure from his mother.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Me",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1178",
-      "source": "source-71",
-      "key": "Y266",
-      "sourceKey": "Y266",
-      "text": "Y266 = Moon, Mercury and Ketu - In this conjunction, health of father deteriorates, lack of dignity, short age, lack of happiness, suffers from artharitis. Person is unexpectedly funny, negative thinking, playfulness, changes in speech, tall body, sweet spoken, passionate, blood pressure, discouraged, cruel, sensibility, ferment, mental discomfort, introspection, anti, bad.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Me",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1179",
-      "source": "source-71",
-      "key": "Y50",
-      "sourceKey": "Y50",
-      "text": "Y50 = Moon, Jupiter and Venus - This person is born from the a sadhvi. He is extremely learned, knowledgeable. The well-known artist, priest, perfect man, beautiful, fortunate, become a monk and earns fame. The person is a great magician, a son, a good person and expert in one art. This union is not good for your love affair. Because there will be two marriages according to this. There is a shortage of money in life.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ju",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1180",
-      "source": "source-71",
-      "key": "Y82",
-      "sourceKey": "Y82",
-      "text": "Y82 = Moon, Jupiter and Saturn - In this conjunction, the person is a scholarly interpreter, a philosophical intellect, female companion, disease free person, and nurishes village. He lives healthy, he is married to his wife, remains a master in scriptural discourse, being a omniscient,he becomes the guardian of the village.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ju",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1181",
-      "source": "source-71",
-      "key": "Y146",
-      "sourceKey": "Y146",
-      "text": "Y146 = Moon, Jupiter and Rahu- In this union, the person gets wealth from wrong actions and the health of the mother deteriorates. singing, fond of painting painting, time for marriage, wealthy, strong lover, mental patient, disturbed mind, eye disease, feelings of child destruction, atheist, gurudrohi and selfish tendencies.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ju",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1182",
-      "source": "source-71",
-      "key": "Y274",
-      "sourceKey": "Y274",
-      "text": "Y274 = Moon, Jupiter and Ketu - In this conjunction, the person is interested in astrology, opposing the tradition. There is rift in the family of the person. Fond of dance & painting, eye problem, jurist, having the idea of cutting the right things, religious, recieves honor, narrow ideology, blood pressure, pessimistic, lazy, confused.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ju",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1183",
-      "source": "source-71",
-      "key": "Y98",
-      "sourceKey": "Y98",
-      "text": "Y98 = Moon, Venus and Saturn - In this yuti, the person acts as a writer and a reader and becomes a priest. Does good deeds. He is known to know the trouble of the people. Person is a teacher, the paster of the state and fortunate. In this yuti, the person does not get the son, if he gets the son, then he (son) dies.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ve",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1184",
-      "source": "source-71",
-      "key": "Y162",
-      "sourceKey": "Y162",
-      "text": "Y162 = Moon, Venus and Rahu - In this conjunction, person remains unmarried, miserable, bizarre imagination. There is hindrance in the business. Face humiliation due to immoral relationships. He is a mental patient and has a troubled mind. Eye diseases is possible. There are problems with hidden enemies. The attraction of the opposite sex, has great desire.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ve",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1185",
-      "source": "source-71",
-      "key": "Y290",
-      "sourceKey": "Y290",
-      "text": "Y290 = Moon, Venus And Ketu - In this union person gets pre-earned money. He increases the wealth through sinful path. People are pessimistic and lazy. Person suffer from depression and psychiatry. He gets life partner of his choice. Fortune rises after marriage. Fame is attained. People are fond of Anangrang, Singing and painting.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1186",
-      "source": "source-71",
-      "key": "Y194",
-      "sourceKey": "Y194",
-      "text": "Y194 = Moon, Saturn and Rahu - This yuti is considered inauspicious for the person. In this, person has to face mental troubles. In this there is a cardiovascular disease and health is light. In this union, the person gets less pleasure of mother and you have trouble with blood pressure. You feel the fear of something.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Sa",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1187",
-      "source": "source-71",
-      "key": "Y322",
-      "sourceKey": "Y322",
-      "text": "Y322 = Moon, Saturn and Ketu - In this union, one can practice suicide or his health will not be fine.He does the wrong thing. In this union, the person is inclined towards spirituality. Person is of frustrating nature, gets prostitute wealth, has akshay son, hard-hearted, narrow-minded, painful person.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Mo",
-        "Sa",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1188",
-      "source": "source-71",
-      "key": "Y28",
-      "sourceKey": "Y28",
-      "text": "Y28 = Mars, Mercury and Jupiter- This conjunction is very good for person because the person of this union is the king of his own kin, he is considered a scholar, as well as he likes to sing and also get married with a nice girl. In this union, man is scholar, lover of young women, philanthropist, intelligent and singer.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Me",
-        "Ju"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1189",
-      "source": "source-71",
-      "key": "Y44",
-      "sourceKey": "Y44",
-      "text": "Y44 = Mars, Mercury and Venus - The people of this union are always happy. Their temperament is also always flawless, but they sometimes adopt a cruel tendency. There is no shortage of money in his life. Full playful from physical appearance, not born in the noble family, always remains enthusiastic, remain self-satisfactory. In this union, the person is organless, unsteady, born in lowly family, always enthusiastic, satisfied and a leader.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Me",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1190",
-      "source": "source-71",
-      "key": "Y76",
-      "sourceKey": "Y76",
-      "text": "Y76 = Mars, Mercury and Saturn - This union causes eye disorders. They also have blood disorder or disease. The person is afraid of the accident . Person has extremely dark eye, is always a migrant, is mouth patient. In this union, the person lives in the state, suffered with eye disease, works as a servant, is prone to disease in the mouth and is humorous.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Me",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1191",
-      "source": "source-71",
-      "key": "Y140",
-      "sourceKey": "Y140",
-      "text": "Y140 = Mars, Mercury and Rahu - In this union, the person becomes greedy, miser, mystic and bad. In this yuti, the person's dignity can be harmed. Whatever a person does in this union, he does evil work. His nature is bad too. This union makes the person unhealthy and poor. The person does more of in vain works in this union.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Me",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1192",
-      "source": "source-71",
-      "key": "Y268",
-      "sourceKey": "Y268",
-      "text": "Y268 = Mars, Mercury and Ketu - In this union, the person is poor, patient and does useless works. He may have trouble related to the body. In this union a person is involved in bad company and is engaged in acts of worthlessness. In this state, the person does inauspicious and useless acts. He always likes people with dirty work and filthy accompaniment.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Me",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1193",
-      "source": "source-71",
-      "key": "Y52",
-      "sourceKey": "Y52",
-      "text": "Y52 = Mars, Jupiter and Venus - In this union, person is politic, virtuous, enjoy a lot of happiness from his friends, luxurious, with wife and children, king's beloved, gives love to everyone. In this union, the person is happy, the one who makes everyone happy, the beloved of the king.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ju",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1194",
-      "source": "source-71",
-      "key": "Y84",
-      "sourceKey": "Y84",
-      "text": "Y84 = Mars, Jupiter and Saturn - In this union, the person receives respect by the state, mischievous, abandoned by friends, leprosy body, worshiped with the king, lowly conducting, poor, humiliated with friends, lost his courage. Suffered by leprosy, ruthless, poor, and left by friends.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ju",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1195",
-      "source": "source-71",
-      "key": "Y148",
-      "sourceKey": "Y148",
-      "text": "Y148 = Mars, Jupiter and Rahu- In this union, the person remains stubborn, stubborn, obstinate and miserable and his education is not completed. The person's family is destroyed. In order to achieve success in quarrels or court cases, makes public opinion in his favour in the enemy path too. Person does not nothing else more than boasting himself. The people resort to lies and farebas.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ju",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1196",
-      "source": "source-71",
-      "key": "Y276",
-      "sourceKey": "Y276",
-      "text": "Y276 = Mars, Jupiter and Ketu - In this union, the person gets respect, humility, sadness, poor, cut the wrong words. Person is the Dharmadhikari. He makes the public opinion favourable in enemity also. Earns respect and honour. Becomes the officer to punish with law. Person is of a spiritual instinct.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ju",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1197",
-      "source": "source-71",
-      "key": "Y100",
-      "sourceKey": "Y100",
-      "text": "Y100 = Mars, Venus and Saturn - In this union, a person has a son who does not behave well, no goodness. Husband does not get any happiness. Always traveler. Husband of a woman with a bad behavior, beautiful, living in a state, always be sad. Person achieves success in every task.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ve",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1198",
-      "source": "source-71",
-      "key": "Y164",
-      "sourceKey": "Y164",
-      "text": "Y164 = Mars, Venus and Rahu- In this union, the person deliberately thinks of delusion, greedy, diction of thoughts, thinks according to right and wrong. In order to achieve dominance on female race and success in the dance, drama of every type of artist, humiliated of unethical relations, virtuous and obsessive.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ve",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1199",
-      "source": "source-71",
-      "key": "Y292",
-      "sourceKey": "Y292",
-      "text": "Y292 = Mars, Venus and Ketu - In this union, there is failure, physical and mental pain, diseases related to the heart or throat, disappointment in individual activities. The person lacks wealth. He is a priest of love. Remains away from material pleasures. He is a husband of a woman with a bad behavior. Persons are characterless. People are sensual and obsessive. A person is chief by his qualities, fortune teller, astrologer, lying and deceitful.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1200",
-      "source": "source-71",
-      "key": "Y196",
-      "sourceKey": "Y196",
-      "text": "Y196 = Mars, Saturn and Rahu - In the combination, there is accident in the life of a person, instability in life, sudden incidents can happen. Working in technical work, instability in life, clever in speaking, expert in indrajaal, adhering to other religions, quarrelsome, stubborn, obstinate, malicious, proudy, lacking in success and differences with life partner.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Sa",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1201",
-      "source": "source-71",
-      "key": "Y324",
-      "sourceKey": "Y324",
-      "text": "Y324 = Mars, Saturn and Ketu - In this combination, person is clever in speaking, expert in indrajaal, adhere to other religions by leaving his religion and he is quarrelsome. Person is a master of machanical, logic and debate, frustrating thoughts. Throat and heart related diseases occur.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ma",
-        "Sa",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1202",
-      "source": "source-71",
-      "key": "Y56",
-      "sourceKey": "Y56",
-      "text": "Y56 = Mercury, Jupiter and Venus - In this union, the person becomes beautiful, destroyer of the enemy, King, the lucky person, is prosperous and truthful, becomes a king. The person is remarkable and mighty. The person's family life is bad. This combination is considered inauspicious for business and work.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Ve"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1203",
-      "source": "source-71",
-      "key": "Y88",
-      "sourceKey": "Y88",
-      "text": "Y88 = Mercury, Jupiter and Saturn - In this union, person is honored, wealthy, has austerity, knowledge, excellent perception power, beautiful wife, fortunate, rich and wealthy, priest, happiness and patience, consuming excessive enjoyment, enjoys with wife, with a power of perception, achieving good pleasure and having a great fortune. In this yuti, a person is supposed to be rich and close to his wife.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1204",
-      "source": "source-71",
-      "key": "Y152",
-      "sourceKey": "Y152",
-      "text": "Y152 = Mercury, Jupiter and Rahu - In this union, there is destruction of ancestral family, cursed ancestors, having two husbands or wives, the possibility of adoption of person, stable minded, guesses correct. The person is more verbose in speech. He remains in the post related to religion and justice. Person also has legal knowledge. People resort to lies and guile. Such a person's intellect remains steady.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1205",
-      "source": "source-71",
-      "key": "Y280",
-      "sourceKey": "Y280",
-      "text": "Y280 = Mercury, Guru and Ketu - In the combination, there is duality in man's thoughts, gets less honor and dignity. The person is mouthy, on the post related to religion and justice, author, law officer, does job related to communications, the person works in the field of information and technology, is expert in communication skills, knowledgeable, stubborn, best adviser.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1206",
-      "source": "source-71",
-      "key": "Y104",
-      "sourceKey": "Y104",
-      "text": "Y104 = Mercury, Venus and Saturn - In this union, the person is very talkative, harsh, tricky, untruthful, is related to other woman, walks through a crooked road, is a master of an art and is makes his fortune shine in a country. Person's money is stolen and he fails in property dealind work. The head of the house of the person is the wife or woman of the person.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ve",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1207",
-      "source": "source-71",
-      "key": "Y168",
-      "sourceKey": "Y168",
-      "text": "Y168 = Mercury, Venus and Rahu- In this conjunction, the person's has stable mind, perfect policy maker, best receptive power, obstruction in trade, possibility of adoption.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ve",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1208",
-      "source": "source-71",
-      "key": "Y168",
-      "sourceKey": "Y296",
-      "text": "Y296 = Mercury, Venus and Rahu- In this conjunction, the person's has stable mind, perfect policy maker, best receptive power, obstruction in trade, possibility of adoption.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ve",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1209",
-      "source": "source-71",
-      "key": "Y296",
-      "sourceKey": "Y200",
-      "text": "Y200 = Mercury, Venus and Ketu - In this union, person has confused mind, he has the idea to cut false things, lack of money, failure in work, physical problems. Person is knower of crafts. In this union, person is policy maker, comedian, knower of the Vedas, adoptive son, pervasiveness, mischief, material happiness, flawless, mischievous, anti-depressant, discouraged, gouty.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1210",
-      "source": "source-71",
-      "key": "Y200",
-      "sourceKey": "Y328",
-      "text": "Y328 = Mercury, Saturn and Rahu - person likes to work mental work, a good businessman, works in right manner, not arrogant, despite being sensible delays in understanding the things The intellect is steady, the perfect guess, perfect policy maker, speech is interrupted, miser, cowardly, skin disease, the person who performs the mental work instead of the physical work, is in business management and visionary.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Sa",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1211",
-      "source": "source-71",
-      "key": "Y112",
-      "sourceKey": "Y112",
-      "text": "Y112 = Jupiter, Venus and Saturn - In this union, even after being born in the low family, person becomes a king on his own calibre and deeds and earns fame. He is of pure thoughts, famous and happy. In this yuti, man is a king and gets success, he is king by nature despite being born in low cast. This union reflects the battles, riots and quarrels in your life. Person is unpleasant with his son.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ju",
-        "Ve",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1212",
-      "source": "source-71",
-      "key": "Y176",
-      "sourceKey": "Y176",
-      "text": "Y176 = Jupiter, Venus and Rahu - In this conjunction, one takes the legal support for lies and cheats. The person wants to see the law in materiality. People resort to lies and guile. People believe in religion. But also works to spread hypocrisy. People are involved in lust and evil tendencies.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ju",
-        "Ve",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1213",
-      "source": "source-71",
-      "key": "Y304",
-      "sourceKey": "Y304",
-      "text": "Y304 = Jupiter, Venus and Ketu - In this union, the person is law officer, anti-trader, interested in astrology. He is considered from spiritual to materiality. He takes more interest in religious activities. He wants to see the law materially. There is a lack of money and he gets failure in his work.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ju",
-        "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1214",
-      "source": "source-71",
-      "key": "Y208",
-      "sourceKey": "Y208",
-      "text": "Y208 = In the combination of Jupiter, Saturn and Rahu, person has no attachment to family, likes philosophy, he has good power to do justice. The person has heart and throat related diseases. In this union, the person does not get any success in any work. He does not like to be in his house. He has habit of considering pain.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ju",
-        "Sa",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1215",
-      "source": "source-71",
-      "key": "Y336",
-      "sourceKey": "Y336",
-      "text": "Y336 = In the union of Jupiter, Saturn and Ketu, the person is obstructed in studies; he does not have son and his financial condition remains poor. Person is Dharmadhikari. He also becomes a magistrate in the field of law. In the person the cold air begins to circulate. The person has physical and mental pain. He get disappointing thoughts in his mind.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Ju",
         "Sa",
         "Ke"
       ],
@@ -18782,96 +16986,6 @@
         "Ma",
         "Ju",
         "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1295",
-      "source": "source-71",
-      "key": "Y120",
-      "sourceKey": "Y120",
-      "text": "Y120 = Mercury, Jupiter, Venus and Saturn - In this union, people are very rich, wise and enamored by his own wife and urbane, faithful husband.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Ve",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1296",
-      "source": "source-71",
-      "key": "Y184",
-      "sourceKey": "Y184",
-      "text": "Y184 = Mercury, Jupiter, Venus and Rahu- This union is considered inauspicious for a person. In this union, person faces mental troubles. Person gets cardiovascular disease and health does not remains very good. In this union, the person gets less pleasure of mother and there is trouble related to blood pressure.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Ve",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1297",
-      "source": "source-71",
-      "key": "Y312",
-      "sourceKey": "Y312",
-      "text": "Y312 = Mercury, Jupiter, Venus and Ketu - In this conjunction, one can commit suicide or his health will not remain fine. He does the wrong thing.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1298",
-      "source": "source-71",
-      "key": "Y232",
-      "sourceKey": "Y232",
-      "text": "Y232 = Mercury, Venus, Saturn and Rahu - In the union, person becomes husband of a woman of bad conduct, beautiful, lives in state, miserable, migratory, always remain sad.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ve",
-        "Sa",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1299",
-      "source": "source-71",
-      "key": "Y360",
-      "sourceKey": "Y360",
-      "text": "Y360 = Mercury, Venus, Saturn and Ketu - In this union, person is talkative, of an evil tongue, sly, liar, adulterer, adopts unsymmetrical ways.",
-      "language": "en",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ve",
-        "Sa",
         "Ke"
       ],
       "sources": [
@@ -20471,96 +18585,6 @@
         "Ma",
         "Ju",
         "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1384",
-      "source": "source-71",
-      "key": "Y120",
-      "sourceKey": "Y120",
-      "text": "## **Y120 – Mercury, Jupiter, Venus and Saturn**\nव्यक्ती अत्यंत धनवान, बुद्धिमान, पत्नीवर प्रेम करणारा, सुव्यवस्थित, सुसंस्कृत.",
-      "language": "mr",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Ve",
-        "Sa"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1385",
-      "source": "source-71",
-      "key": "Y184",
-      "sourceKey": "Y184",
-      "text": "## **Y184 – Mercury, Jupiter, Venus and Rahu**\nही युती व्यक्तीसाठी अशुभ. मानसिक त्रास, हृदयविकार, आरोग्य कमजोर. आईचे सुख कमी.",
-      "language": "mr",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Ve",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1386",
-      "source": "source-71",
-      "key": "Y312",
-      "sourceKey": "Y312",
-      "text": "## **Y312 – Mercury, Jupiter, Venus and Ketu**\nया युतीत व्यक्ती आत्महत्येचा विचार करू शकतो. आरोग्य खालावते. चुकीचे कार्य करण्याची प्रवृत्ती.",
-      "language": "mr",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ju",
-        "Ve",
-        "Ke"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1387",
-      "source": "source-71",
-      "key": "Y232",
-      "sourceKey": "Y232",
-      "text": "## **Y232 – Mercury, Venus, Saturn and Rahu**\nव्यक्ती वाईट चरित्राच्या स्त्रीचा पती असू शकतो. सुंदर पण दुःखी, भ्रमणशील आणि सदैव दु:खी.",
-      "language": "mr",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ve",
-        "Sa",
-        "Ra"
-      ],
-      "sources": [
-        "source-71"
-      ]
-    },
-    {
-      "id": "upload-1388",
-      "source": "source-71",
-      "key": "Y360",
-      "sourceKey": "Y360",
-      "text": "## **Y360 – Mercury, Venus, Saturn and Ketu**\nव्यक्ती वाईट वाणीचा, धूर्त, खोटारडा, व्यभिचारी, वाकडी वाट धरणारा.",
-      "language": "mr",
-      "kind": "yoga",
-      "planets": [
-        "Me",
-        "Ve",
-        "Sa",
         "Ke"
       ],
       "sources": [
@@ -24325,6 +22349,3722 @@
       "kind": "planet-house",
       "sources": [
         "source-82"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y3-en",
+      "kind": "yoga",
+      "key": "Y3",
+      "sourceKey": "Y3",
+      "planets": [
+        "Su",
+        "Mo"
+      ],
+      "text": "Progress through hardship; relocation; financial losses; recognition; persistence and thrift.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y3-mr",
+      "kind": "yoga",
+      "key": "Y3",
+      "sourceKey": "Y3",
+      "planets": [
+        "Su",
+        "Mo"
+      ],
+      "text": "कष्टातून प्रगती; स्थलांतर; धनहानी; मान-सन्मान; शब्दांवर ठाम; काटकसर.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y5-en",
+      "kind": "yoga",
+      "key": "Y5",
+      "sourceKey": "Y5",
+      "planets": [
+        "Su",
+        "Ma"
+      ],
+      "text": "Generosity, fearlessness, disagreements with elders, spending up to income, fame, ambition and courage.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y5-mr",
+      "kind": "yoga",
+      "key": "Y5",
+      "sourceKey": "Y5",
+      "planets": [
+        "Su",
+        "Ma"
+      ],
+      "text": "उदार; निर्भय; वडीलधाऱ्यांशी वाद; उत्पन्नाइतका खर्च; कीर्ती; महत्त्वाकांक्षा व धैर्य.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y9-en",
+      "kind": "yoga",
+      "key": "Y9",
+      "sourceKey": "Y9",
+      "planets": [
+        "Su",
+        "Me"
+      ],
+      "text": "Pleasant speech, practical intelligence, limited formal education, good handwriting, business success and foresight.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y9-mr",
+      "kind": "yoga",
+      "key": "Y9",
+      "sourceKey": "Y9",
+      "planets": [
+        "Su",
+        "Me"
+      ],
+      "text": "मधुर वाणी; व्यवहारज्ञान; औपचारिक शिक्षण कमी; सुंदर अक्षर; व्यवसायात यश; दूरदृष्टी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y17-en",
+      "kind": "yoga",
+      "key": "Y17",
+      "sourceKey": "Y17",
+      "planets": [
+        "Su",
+        "Ju"
+      ],
+      "text": "Recognition, education overseas, intelligence, religious interests, teaching and prosperity.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y17-mr",
+      "kind": "yoga",
+      "key": "Y17",
+      "sourceKey": "Y17",
+      "planets": [
+        "Su",
+        "Ju"
+      ],
+      "text": "मान-प्रतिष्ठा; परदेश शिक्षण; बुद्धिवैभव; धर्मप्रिय; शिक्षक; संपन्नता.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y33-en",
+      "kind": "yoga",
+      "key": "Y33",
+      "sourceKey": "Y33",
+      "planets": [
+        "Su",
+        "Ve"
+      ],
+      "text": "Restrictions, artistic ability, wealth, industrial success and recognition in acting.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y33-mr",
+      "kind": "yoga",
+      "key": "Y33",
+      "sourceKey": "Y33",
+      "planets": [
+        "Su",
+        "Ve"
+      ],
+      "text": "बंधने; कला-ज्ञान; संपत्ती; औद्योगिक यश; अभिनयातील कीर्ती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y65-en",
+      "kind": "yoga",
+      "key": "Y65",
+      "sourceKey": "Y65",
+      "planets": [
+        "Su",
+        "Sa"
+      ],
+      "text": "Educational obstacles, career delays, father–child disagreements and fear of humiliation.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y65-mr",
+      "kind": "yoga",
+      "key": "Y65",
+      "sourceKey": "Y65",
+      "planets": [
+        "Su",
+        "Sa"
+      ],
+      "text": "शिक्षणात अडथळे; नोकरीत विलंब; पिता-पुत्र मतभेद; अपमानाची भीती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y129-en",
+      "kind": "yoga",
+      "key": "Y129",
+      "sourceKey": "Y129",
+      "planets": [
+        "Su",
+        "Ra"
+      ],
+      "text": "Philosophy, political influence, inherited-property disputes, father–child disagreements and anger.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y129-mr",
+      "kind": "yoga",
+      "key": "Y129",
+      "sourceKey": "Y129",
+      "planets": [
+        "Su",
+        "Ra"
+      ],
+      "text": "तत्त्वज्ञान; राजकीय वर्चस्व; पितृसंपत्तीचे वाद; पिता-पुत्र मतभेद; राग.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y257-en",
+      "kind": "yoga",
+      "key": "Y257",
+      "sourceKey": "Y257",
+      "planets": [
+        "Su",
+        "Ke"
+      ],
+      "text": "Political interests, challenging incorrect arguments, religious and family obstacles, and influence of the maternal grandfather.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y257-mr",
+      "kind": "yoga",
+      "key": "Y257",
+      "sourceKey": "Y257",
+      "planets": [
+        "Su",
+        "Ke"
+      ],
+      "text": "राजकीय प्रवृत्ती; चुकीचे मुद्दे छेदणे; धार्मिक व कौटुंबिक अडथळे; मातामहाचा प्रभाव.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y6-en",
+      "kind": "yoga",
+      "key": "Y6",
+      "sourceKey": "Y6",
+      "planets": [
+        "Mo",
+        "Ma"
+      ],
+      "text": "Leather and metalworking skills, wealth, courage, punctuality, generosity, stubbornness and ambition.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y6-mr",
+      "kind": "yoga",
+      "key": "Y6",
+      "sourceKey": "Y6",
+      "planets": [
+        "Mo",
+        "Ma"
+      ],
+      "text": "चर्म व धातुकाम कौशल्य; संपन्नता; धैर्य; समयसूचकता; परोपकार; हट्टीपणा; महत्त्वाकांक्षा.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y10-en",
+      "kind": "yoga",
+      "key": "Y10",
+      "sourceKey": "Y10",
+      "planets": [
+        "Mo",
+        "Me"
+      ],
+      "text": "A soft voice, delicate build, examination success through effort, shyness, poetry, intelligence, cheerfulness and speaking skills.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y10-mr",
+      "kind": "yoga",
+      "key": "Y10",
+      "sourceKey": "Y10",
+      "planets": [
+        "Mo",
+        "Me"
+      ],
+      "text": "मधुर आवाज; नाजूक देह; परीक्षांत कष्टाने यश; लाजाळूपणा; काव्य; बुद्धिमत्ता; आनंदी व खेळकर स्वभाव; वाक्चातुर्य.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y18-en",
+      "kind": "yoga",
+      "key": "Y18",
+      "sourceKey": "Y18",
+      "planets": [
+        "Mo",
+        "Ju"
+      ],
+      "text": "Mixed financial indications, tolerance, steadiness, favourable education, employment, marriage and children themes, religious service and standing.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y18-mr",
+      "kind": "yoga",
+      "key": "Y18",
+      "sourceKey": "Y18",
+      "planets": [
+        "Mo",
+        "Ju"
+      ],
+      "text": "धनस्थितीत मिश्र परिणाम; सहनशील; शांत व स्थिर; शिक्षण, नोकरी, विवाह व संततीचे अनुकूल संकेत; धार्मिक सेवा; प्रतिष्ठा.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y34-en",
+      "kind": "yoga",
+      "key": "Y34",
+      "sourceKey": "Y34",
+      "planets": [
+        "Mo",
+        "Ve"
+      ],
+      "text": "Art, singing, dance, painting, gentle conduct, reconciliation, improved fortune after marriage and attraction.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y34-mr",
+      "kind": "yoga",
+      "key": "Y34",
+      "sourceKey": "Y34",
+      "planets": [
+        "Mo",
+        "Ve"
+      ],
+      "text": "कला, गायन, नृत्य, चित्रकला; सौम्य वर्तन; कलहात सलोखा; विवाहानंतर भाग्यवृद्धी; आकर्षण.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y66-en",
+      "kind": "yoga",
+      "key": "Y66",
+      "sourceKey": "Y66",
+      "planets": [
+        "Mo",
+        "Sa"
+      ],
+      "text": "Animal care, a subdued outlook, attraction to an older partner, delays, harsh speech and difficulty expressing feelings.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y66-mr",
+      "kind": "yoga",
+      "key": "Y66",
+      "sourceKey": "Y66",
+      "planets": [
+        "Mo",
+        "Sa"
+      ],
+      "text": "प्राणिपालन; खिन्न स्वभाव; मोठ्या वयाच्या जोडीदाराकडे आकर्षण; विलंब; कठोर वाणी; भावना व्यक्त करण्यात अडचण.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y130-en",
+      "kind": "yoga",
+      "key": "Y130",
+      "sourceKey": "Y130",
+      "planets": [
+        "Mo",
+        "Ra"
+      ],
+      "text": "Obstacles, water-related difficulties, hidden opposition, reduced maternal comfort or peace of mind, and attachment.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y130-mr",
+      "kind": "yoga",
+      "key": "Y130",
+      "sourceKey": "Y130",
+      "planets": [
+        "Mo",
+        "Ra"
+      ],
+      "text": "अडथळे; पाण्याशी संबंधित त्रास; गुप्त विरोध; मातृसुख व मनःशांतीत अडचणी; आसक्ती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y258-en",
+      "kind": "yoga",
+      "key": "Y258",
+      "sourceKey": "Y258",
+      "planets": [
+        "Mo",
+        "Ke"
+      ],
+      "text": "A pessimistic or inactive outlook, confusion, reduced maternal comfort and impulsiveness.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y258-mr",
+      "kind": "yoga",
+      "key": "Y258",
+      "sourceKey": "Y258",
+      "planets": [
+        "Mo",
+        "Ke"
+      ],
+      "text": "निराशावादी किंवा आळशी वृत्ती; संभ्रम; मातृसुख कमी; उतावळेपणा.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y12-en",
+      "kind": "yoga",
+      "key": "Y12",
+      "sourceKey": "Y12",
+      "planets": [
+        "Ma",
+        "Me"
+      ],
+      "text": "Thoughtfulness, restraint, efficiency, gentle speech, limited wealth, a previously married partner and an investigative outlook.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y12-mr",
+      "kind": "yoga",
+      "key": "Y12",
+      "sourceKey": "Y12",
+      "planets": [
+        "Ma",
+        "Me"
+      ],
+      "text": "विचारशील; शांत; संयमी; कार्यक्षम; सौम्यवाणी; संपत्ती कमी; पुनर्विवाहित जोडीदार; संशोधक वृत्ती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y20-en",
+      "kind": "yoga",
+      "key": "Y20",
+      "sourceKey": "Y20",
+      "planets": [
+        "Ma",
+        "Ju"
+      ],
+      "text": "Changes in early circumstances, religious interests, photography skills, decisiveness and property gains.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y20-mr",
+      "kind": "yoga",
+      "key": "Y20",
+      "sourceKey": "Y20",
+      "planets": [
+        "Ma",
+        "Ju"
+      ],
+      "text": "जन्मपरिस्थितीत बदल; धार्मिक वृत्ती; छायाचित्रणकौशल्य; निर्णायक स्वभाव; संपत्तीलाभ.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y36-en",
+      "kind": "yoga",
+      "key": "Y36",
+      "sourceKey": "Y36",
+      "planets": [
+        "Ma",
+        "Ve"
+      ],
+      "text": "An attractive partner, artistic influence, romance and attraction to luxury or gambling.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y36-mr",
+      "kind": "yoga",
+      "key": "Y36",
+      "sourceKey": "Y36",
+      "planets": [
+        "Ma",
+        "Ve"
+      ],
+      "text": "आकर्षक व सद्गुणी जोडीदार; कलाक्षेत्रात प्रभाव; प्रेम, विलास किंवा जुगाराकडे आकर्षण.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y68-en",
+      "kind": "yoga",
+      "key": "Y68",
+      "sourceKey": "Y68",
+      "planets": [
+        "Ma",
+        "Sa"
+      ],
+      "text": "Uncertainty, instability, clever speech, interest in occult arts and a disputatious outlook.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y68-mr",
+      "kind": "yoga",
+      "key": "Y68",
+      "sourceKey": "Y68",
+      "planets": [
+        "Ma",
+        "Sa"
+      ],
+      "text": "अनिश्चितता; अस्थिरता; चतुर वाणी; गूढकलांत रुची; वादप्रिय वृत्ती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y132-en",
+      "kind": "yoga",
+      "key": "Y132",
+      "sourceKey": "Y132",
+      "planets": [
+        "Ma",
+        "Ra"
+      ],
+      "text": "Stubbornness, interrupted education, pride and negative thinking.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y132-mr",
+      "kind": "yoga",
+      "key": "Y132",
+      "sourceKey": "Y132",
+      "planets": [
+        "Ma",
+        "Ra"
+      ],
+      "text": "हट्टीपणा; शिक्षण अपूर्ण राहणे; अहंमन्यता; नकारात्मक विचार.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y260-en",
+      "kind": "yoga",
+      "key": "Y260",
+      "sourceKey": "Y260",
+      "planets": [
+        "Ma",
+        "Ke"
+      ],
+      "text": "Engineering, logical ability, anger, property difficulties and reduced maternal comfort.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y260-mr",
+      "kind": "yoga",
+      "key": "Y260",
+      "sourceKey": "Y260",
+      "planets": [
+        "Ma",
+        "Ke"
+      ],
+      "text": "अभियांत्रिकी; तर्कशक्ती; राग; मालमत्तेच्या समस्या; मातृसुख कमी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y24-en",
+      "kind": "yoga",
+      "key": "Y24",
+      "sourceKey": "Y24",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "text": "Knowledge, good speech, steady judgement, advisory skills, humility and musical interests.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y24-mr",
+      "kind": "yoga",
+      "key": "Y24",
+      "sourceKey": "Y24",
+      "planets": [
+        "Me",
+        "Ju"
+      ],
+      "text": "ज्ञान; उत्तम वाणी; स्थिर बुद्धी; सल्लागार कौशल्य; विनम्रता; संगीताची आवड.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y40-en",
+      "kind": "yoga",
+      "key": "Y40",
+      "sourceKey": "Y40",
+      "planets": [
+        "Me",
+        "Ve"
+      ],
+      "text": "Painting, artistic skills, romantic success, knowledge, pleasant speech, poetry and prosperity.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y40-mr",
+      "kind": "yoga",
+      "key": "Y40",
+      "sourceKey": "Y40",
+      "planets": [
+        "Me",
+        "Ve"
+      ],
+      "text": "चित्रकला; कलाकौशल्य; प्रेमात यश; ज्ञान; मधुर वाणी; काव्य; ऐश्वर्य.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y72-en",
+      "kind": "yoga",
+      "key": "Y72",
+      "sourceKey": "Y72",
+      "planets": [
+        "Me",
+        "Sa"
+      ],
+      "text": "Thrift, delayed education, business skills, seriousness and communication difficulties.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y72-mr",
+      "kind": "yoga",
+      "key": "Y72",
+      "sourceKey": "Y72",
+      "planets": [
+        "Me",
+        "Sa"
+      ],
+      "text": "काटकसर; शिक्षणात विलंब; उत्तम व्यापारकौशल्य; गंभीर स्वभाव; संवादात अडथळे.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y136-en",
+      "kind": "yoga",
+      "key": "Y136",
+      "sourceKey": "Y136",
+      "planets": [
+        "Me",
+        "Ra"
+      ],
+      "text": "Sharp intelligence, investigative ability and communication obstacles.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y136-mr",
+      "kind": "yoga",
+      "key": "Y136",
+      "sourceKey": "Y136",
+      "planets": [
+        "Me",
+        "Ra"
+      ],
+      "text": "तीक्ष्ण बुद्धी; रहस्य शोधण्याची क्षमता; संवादात अडथळे.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y264-en",
+      "kind": "yoga",
+      "key": "Y264",
+      "sourceKey": "Y264",
+      "planets": [
+        "Me",
+        "Ke"
+      ],
+      "text": "Adoptive-family themes, information technology and communications, restlessness and material interests.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y264-mr",
+      "kind": "yoga",
+      "key": "Y264",
+      "sourceKey": "Y264",
+      "planets": [
+        "Me",
+        "Ke"
+      ],
+      "text": "दत्तक कुटुंबाशी संबंध; माहिती-तंत्रज्ञान व संवादक्षेत्र; चंचलपणा; भौतिक सुखांची आवड.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y48-en",
+      "kind": "yoga",
+      "key": "Y48",
+      "sourceKey": "Y48",
+      "planets": [
+        "Ju",
+        "Ve"
+      ],
+      "text": "Love, devotion to a partner, prosperity, religious knowledge, earning through knowledge and tension between pleasure and spirituality.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y48-mr",
+      "kind": "yoga",
+      "key": "Y48",
+      "sourceKey": "Y48",
+      "planets": [
+        "Ju",
+        "Ve"
+      ],
+      "text": "प्रेम; जोडीदारावर निष्ठा; संपन्नता; धर्मज्ञान; ज्ञानावर उपजीविका; भोग व अध्यात्म यांतील ओढाताण.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y80-en",
+      "kind": "yoga",
+      "key": "Y80",
+      "sourceKey": "Y80",
+      "planets": [
+        "Ju",
+        "Sa"
+      ],
+      "text": "Interrupted education, financial fluctuations, livelihood, leadership, philosophy, justice and religious interests.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y80-mr",
+      "kind": "yoga",
+      "key": "Y80",
+      "sourceKey": "Y80",
+      "planets": [
+        "Ju",
+        "Sa"
+      ],
+      "text": "शिक्षणात खंड; आर्थिक चढ-उतार; उपजीविका; नेतृत्व; तत्त्वज्ञान; न्यायप्रिय व धार्मिक वृत्ती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y144-en",
+      "kind": "yoga",
+      "key": "Y144",
+      "sourceKey": "Y144",
+      "planets": [
+        "Ju",
+        "Ra"
+      ],
+      "text": "Challenges to tradition, self-interest, political success, mixed marriage or adoption themes and financial difficulties.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y144-mr",
+      "kind": "yoga",
+      "key": "Y144",
+      "sourceKey": "Y144",
+      "planets": [
+        "Ju",
+        "Ra"
+      ],
+      "text": "परंपराविरोध; स्वहिताला प्राधान्य; राजकीय यश; विवाह किंवा दत्तक कुटुंबाचे मिश्र संकेत; आर्थिक अडचणी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y272-en",
+      "kind": "yoga",
+      "key": "Y272",
+      "sourceKey": "Y272",
+      "planets": [
+        "Ju",
+        "Ke"
+      ],
+      "text": "Recognition, divided thinking, religion, spirituality, legal knowledge and logical challenges to incorrect arguments.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y272-mr",
+      "kind": "yoga",
+      "key": "Y272",
+      "sourceKey": "Y272",
+      "planets": [
+        "Ju",
+        "Ke"
+      ],
+      "text": "मान-प्रतिष्ठा; विचारद्वैध; धर्म व अध्यात्म; न्यायज्ञान; चुकीच्या युक्तिवादाला तर्काने उत्तर.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y96-en",
+      "kind": "yoga",
+      "key": "Y96",
+      "sourceKey": "Y96",
+      "planets": [
+        "Ve",
+        "Sa"
+      ],
+      "text": "Financial shortages, setbacks, sorrow, humility, animal care, woodworking and preference for sour foods.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y96-mr",
+      "kind": "yoga",
+      "key": "Y96",
+      "sourceKey": "Y96",
+      "planets": [
+        "Ve",
+        "Sa"
+      ],
+      "text": "आर्थिक टंचाई; अपयश; दुःख; नम्रता; प्राणिपालन; लाकूडकाम; आंबट पदार्थांची आवड.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y160-en",
+      "kind": "yoga",
+      "key": "Y160",
+      "sourceKey": "Y160",
+      "planets": [
+        "Ve",
+        "Ra"
+      ],
+      "text": "Relationship dissatisfaction, outside attractions, business obstacles and concerns about reputation through relationships.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y160-mr",
+      "kind": "yoga",
+      "key": "Y160",
+      "sourceKey": "Y160",
+      "planets": [
+        "Ve",
+        "Ra"
+      ],
+      "text": "वैवाहिक असमाधान; अन्य आकर्षणे; उद्योग किंवा व्यवसायात अडथळे; संबंधांमुळे प्रतिष्ठेची चिंता.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y288-en",
+      "kind": "yoga",
+      "key": "Y288",
+      "sourceKey": "Y288",
+      "planets": [
+        "Ve",
+        "Ke"
+      ],
+      "text": "Limited finances, setbacks, changing thoughts, affection with material detachment and legal difficulties.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y288-mr",
+      "kind": "yoga",
+      "key": "Y288",
+      "sourceKey": "Y288",
+      "planets": [
+        "Ve",
+        "Ke"
+      ],
+      "text": "धनाभाव; अपयश; बदलते विचार; प्रेम असूनही भौतिक सुखांपासून अलिप्तता; न्यायालयीन अडचणी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y192-en",
+      "kind": "yoga",
+      "key": "Y192",
+      "sourceKey": "Y192",
+      "planets": [
+        "Sa",
+        "Ra"
+      ],
+      "text": "Inherited paternal wealth, progress in stalled domestic matters, work losses, possible recognition or prosperity and reduced marital comfort.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y192-mr",
+      "kind": "yoga",
+      "key": "Y192",
+      "sourceKey": "Y192",
+      "planets": [
+        "Sa",
+        "Ra"
+      ],
+      "text": "पित्यार्जित संपत्ती; अडलेले गृहकार्य पुढे जाणे; कार्यहानी किंवा तोटा; काही बाबतीत कीर्ती व समृद्धी; दाम्पत्यसुख कमी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y7-en",
+      "kind": "yoga",
+      "key": "Y7",
+      "sourceKey": "Y7",
+      "planets": [
+        "Su",
+        "Mo",
+        "Ma"
+      ],
+      "text": "Timidity alongside courage, multitasking, helping others, kindness, reduced parental comfort, mechanical skills and hardship.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y7-mr",
+      "kind": "yoga",
+      "key": "Y7",
+      "sourceKey": "Y7",
+      "planets": [
+        "Su",
+        "Mo",
+        "Ma"
+      ],
+      "text": "भीताड तरी धैर्यशील; अनेक कामे; परकार्य; दयाळूपणा; पालकसुख कमी; यंत्रकौशल्य; कष्ट.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y11-en",
+      "kind": "yoga",
+      "key": "Y11",
+      "sourceKey": "Y11",
+      "planets": [
+        "Su",
+        "Mo",
+        "Me"
+      ],
+      "text": "Family strain, sweet speech, religious storytelling, loyalty and mixed financial outcomes.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y11-mr",
+      "kind": "yoga",
+      "key": "Y11",
+      "sourceKey": "Y11",
+      "planets": [
+        "Su",
+        "Mo",
+        "Me"
+      ],
+      "text": "कौटुंबिक व मानसिक ताण; गोड वाणी; धार्मिक कथा-कीर्तनाची आवड; निष्ठा; धनस्थितीत मिश्र परिणाम.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y67-en",
+      "kind": "yoga",
+      "key": "Y67",
+      "sourceKey": "Y67",
+      "planets": [
+        "Su",
+        "Mo",
+        "Sa"
+      ],
+      "text": "Debating skills, determination, later improvement in fortune, financial losses, father–child disagreements and blunt speech.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y67-mr",
+      "kind": "yoga",
+      "key": "Y67",
+      "sourceKey": "Y67",
+      "planets": [
+        "Su",
+        "Mo",
+        "Sa"
+      ],
+      "text": "वादविवादात कौशल्य; दृढनिश्चय; पालकांनंतर भाग्योदय; धनहानी; पिता-पुत्र मतभेद; कठोर वाणी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y131-en",
+      "kind": "yoga",
+      "key": "Y131",
+      "sourceKey": "Y131",
+      "planets": [
+        "Su",
+        "Mo",
+        "Ra"
+      ],
+      "text": "Confused thinking, desire for wealth, computer and photography interests and family distance.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y131-mr",
+      "kind": "yoga",
+      "key": "Y131",
+      "sourceKey": "Y131",
+      "planets": [
+        "Su",
+        "Mo",
+        "Ra"
+      ],
+      "text": "गोंधळलेले विचार; धनाची ओढ; संगणक व छायाचित्रणाची आवड; कौटुंबिक दुरावा.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y259-en",
+      "kind": "yoga",
+      "key": "Y259",
+      "sourceKey": "Y259",
+      "planets": [
+        "Su",
+        "Mo",
+        "Ke"
+      ],
+      "text": "Livelihood obstacles, restlessness, a religious maternal family and work involving farming, water, silver, pipelines or tanks.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y259-mr",
+      "kind": "yoga",
+      "key": "Y259",
+      "sourceKey": "Y259",
+      "planets": [
+        "Su",
+        "Mo",
+        "Ke"
+      ],
+      "text": "उपजीविकेत अडथळे; अशांतता; धार्मिक मातृकुळ; शेती, पाणी, चांदी, पाइपलाइन किंवा टाकीशी संबंधित काम.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y13-en",
+      "kind": "yoga",
+      "key": "Y13",
+      "sourceKey": "Y13",
+      "planets": [
+        "Su",
+        "Ma",
+        "Me"
+      ],
+      "text": "Family and property difficulties, wrestling, courage, recognition, official roles, military engineering or kiln work.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y13-mr",
+      "kind": "yoga",
+      "key": "Y13",
+      "sourceKey": "Y13",
+      "planets": [
+        "Su",
+        "Ma",
+        "Me"
+      ],
+      "text": "कुटुंब व संपत्तीसंबंधी अडचणी; कुस्ती व धैर्य; कीर्ती; अधिकारपद; सैनिकी अभियांत्रिकी किंवा भट्टी व्यवसाय.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y21-en",
+      "kind": "yoga",
+      "key": "Y21",
+      "sourceKey": "Y21",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ju"
+      ],
+      "text": "Speaking skills, leadership, wealth, disagreements with the father, self-made recognition, writing, poetry, astrology and religious work.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y21-mr",
+      "kind": "yoga",
+      "key": "Y21",
+      "sourceKey": "Y21",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ju"
+      ],
+      "text": "वक्तृत्व; नेतृत्व; संपन्नता; पित्याशी मतभेद; स्वतःच्या कर्तृत्वावर कीर्ती; लेखन, काव्य, ज्योतिष; धार्मिक कार्य.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y37-en",
+      "kind": "yoga",
+      "key": "Y37",
+      "sourceKey": "Y37",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ve"
+      ],
+      "text": "Attractive appearance, family affection, fortune, gentle speech, prosperity, love for partner and children, and vehicle acquisition.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y37-mr",
+      "kind": "yoga",
+      "key": "Y37",
+      "sourceKey": "Y37",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ve"
+      ],
+      "text": "देखणे व्यक्तिमत्त्व; कुटुंबप्रेम; भाग्य; सौम्यवाणी; संपन्नता; जोडीदार व अपत्यांवर प्रेम; वाहनप्राप्ती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y69-en",
+      "kind": "yoga",
+      "key": "Y69",
+      "sourceKey": "Y69",
+      "planets": [
+        "Su",
+        "Ma",
+        "Sa"
+      ],
+      "text": "Boldness, financial and family difficulties, worry, disputes, disagreements with the father, religious work, instability, logic and occult interests.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y69-mr",
+      "kind": "yoga",
+      "key": "Y69",
+      "sourceKey": "Y69",
+      "planets": [
+        "Su",
+        "Ma",
+        "Sa"
+      ],
+      "text": "धिटाई; आर्थिक व कौटुंबिक अडचणी; चिंता; वाद; पित्याशी मतभेद; धार्मिक कार्य; अस्थिरता; तर्क व गूढकलांत कौशल्य.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y133-en",
+      "kind": "yoga",
+      "key": "Y133",
+      "sourceKey": "Y133",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ra"
+      ],
+      "text": "Reduced paternal comfort, restlessness, family concerns, computer or photography work, impulsiveness, willpower and recognition.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y133-mr",
+      "kind": "yoga",
+      "key": "Y133",
+      "sourceKey": "Y133",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ra"
+      ],
+      "text": "पितृसुख कमी; चंचलपणा; कुटुंबाची चिंता; संगणक किंवा छायाचित्रण व्यवसाय; उतावळेपणा; इच्छाशक्ती; कीर्ती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y261-en",
+      "kind": "yoga",
+      "key": "Y261",
+      "sourceKey": "Y261",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ke"
+      ],
+      "text": "Family dissatisfaction, legal knowledge, comforts, sharp or sarcastic speech, disputes and leadership.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y261-mr",
+      "kind": "yoga",
+      "key": "Y261",
+      "sourceKey": "Y261",
+      "planets": [
+        "Su",
+        "Ma",
+        "Ke"
+      ],
+      "text": "कौटुंबिक असंतोष; न्यायज्ञान; सुखसोयी; उग्र किंवा उपरोधिक संवाद; कलह; नेतृत्व.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y25-en",
+      "kind": "yoga",
+      "key": "Y25",
+      "sourceKey": "Y25",
+      "planets": [
+        "Su",
+        "Me",
+        "Ju"
+      ],
+      "text": "Expertise, prosperity, paternal difficulties, science, art, writing, good handwriting, judgement and foresight.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y25-mr",
+      "kind": "yoga",
+      "key": "Y25",
+      "sourceKey": "Y25",
+      "planets": [
+        "Su",
+        "Me",
+        "Ju"
+      ],
+      "text": "विशिष्ट विषयात प्रावीण्य; संपन्नता; पित्याशी अडचणी; विज्ञान, चित्रकला, लेखन; सुंदर हस्ताक्षर; विवेक व दूरदृष्टी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y41-en",
+      "kind": "yoga",
+      "key": "Y41",
+      "sourceKey": "Y41",
+      "planets": [
+        "Su",
+        "Me",
+        "Ve"
+      ],
+      "text": "Talkativeness, travel, living abroad, self-earned income, food security, poetry and writing.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y41-mr",
+      "kind": "yoga",
+      "key": "Y41",
+      "sourceKey": "Y41",
+      "planets": [
+        "Su",
+        "Me",
+        "Ve"
+      ],
+      "text": "बोलके; प्रवासप्रिय; परदेशवास; स्वकमाई; अन्नाची उपलब्धता; काव्य व लेखन.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y73-en",
+      "kind": "yoga",
+      "key": "Y73",
+      "sourceKey": "Y73",
+      "planets": [
+        "Su",
+        "Me",
+        "Sa"
+      ],
+      "text": "Distance from others and siblings, opposition, reputation difficulties and a drive to win contests.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y73-mr",
+      "kind": "yoga",
+      "key": "Y73",
+      "sourceKey": "Y73",
+      "planets": [
+        "Su",
+        "Me",
+        "Sa"
+      ],
+      "text": "लोकांशी व भावंडांशी दुरावा; विरोध; प्रतिष्ठेच्या अडचणी; स्पर्धेत विजयाची ओढ.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y137-en",
+      "kind": "yoga",
+      "key": "Y137",
+      "sourceKey": "Y137",
+      "planets": [
+        "Su",
+        "Me",
+        "Ra"
+      ],
+      "text": "Marriage and children concerns, a prominent paternal family, family expenses, airline, agency, travel or road-survey work and limited inheritance.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y137-mr",
+      "kind": "yoga",
+      "key": "Y137",
+      "sourceKey": "Y137",
+      "planets": [
+        "Su",
+        "Me",
+        "Ra"
+      ],
+      "text": "विवाह व संततीची चिंता; प्रसिद्ध पितृकुळ; कौटुंबिक खर्च; विमानसेवा, एजन्सी, प्रवास किंवा रस्तामोजणीचे काम; वारसा कमी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y265-en",
+      "kind": "yoga",
+      "key": "Y265",
+      "sourceKey": "Y265",
+      "planets": [
+        "Su",
+        "Me",
+        "Ke"
+      ],
+      "text": "Political interests, opposition to falsehood, legal proceedings, family tension and maternal-uncle influence.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y265-mr",
+      "kind": "yoga",
+      "key": "Y265",
+      "sourceKey": "Y265",
+      "planets": [
+        "Su",
+        "Me",
+        "Ke"
+      ],
+      "text": "राजकीय प्रवृत्ती; असत्याला विरोध; न्यायालयीन प्रकरणे; कौटुंबिक तणाव; मामाकडील प्रभाव.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y49-en",
+      "kind": "yoga",
+      "key": "Y49",
+      "sourceKey": "Y49",
+      "planets": [
+        "Su",
+        "Ju",
+        "Ve"
+      ],
+      "text": "Courage, intelligence, knowledge, limited personal wealth, advisory or ministerial roles, religious interests, friendliness and recognition.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y49-mr",
+      "kind": "yoga",
+      "key": "Y49",
+      "sourceKey": "Y49",
+      "planets": [
+        "Su",
+        "Ju",
+        "Ve"
+      ],
+      "text": "पराक्रम; बुद्धिमत्ता; ज्ञान; स्वतःची संपत्ती कमी; सल्लागार किंवा मंत्रीपद; धार्मिक व स्नेही स्वभाव; प्रसिद्धी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y81-en",
+      "kind": "yoga",
+      "key": "Y81",
+      "sourceKey": "Y81",
+      "planets": [
+        "Su",
+        "Ju",
+        "Sa"
+      ],
+      "text": "Standing, supportive family and friends, official roles, popularity, fearlessness, medicine, justice and philosophy.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y81-mr",
+      "kind": "yoga",
+      "key": "Y81",
+      "sourceKey": "Y81",
+      "planets": [
+        "Su",
+        "Ju",
+        "Sa"
+      ],
+      "text": "सन्मान; चांगले कौटुंबिक व मैत्रीसंबंध; शासकीय दर्जा; लोकप्रियता; निर्भयता; वैद्यक, न्याय व तत्त्वज्ञान.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y145-en",
+      "kind": "yoga",
+      "key": "Y145",
+      "sourceKey": "Y145",
+      "planets": [
+        "Su",
+        "Ju",
+        "Ra"
+      ],
+      "text": "Challenges to tradition, family difficulties, mixed marriage or adoption indications, philosophy and recognition.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y145-mr",
+      "kind": "yoga",
+      "key": "Y145",
+      "sourceKey": "Y145",
+      "planets": [
+        "Su",
+        "Ju",
+        "Ra"
+      ],
+      "text": "परंपराविरोध; कौटुंबिक अडचणी; विवाह किंवा दत्तकाचे मिश्र संकेत; तत्त्वचिंतन; मान-प्रतिष्ठा.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y273-en",
+      "kind": "yoga",
+      "key": "Y273",
+      "sourceKey": "Y273",
+      "planets": [
+        "Su",
+        "Ju",
+        "Ke"
+      ],
+      "text": "Challenging incorrect arguments, recognition, divided thinking, fairness, dramatic relationships and artistic or acting success.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y273-mr",
+      "kind": "yoga",
+      "key": "Y273",
+      "sourceKey": "Y273",
+      "planets": [
+        "Su",
+        "Ju",
+        "Ke"
+      ],
+      "text": "चुकीच्या मुद्द्यांना उत्तर; सन्मान; विचारद्वैध; न्यायनिष्ठा; प्रेमात नाट्य; कला व अभिनयात प्रसिद्धी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y97-en",
+      "kind": "yoga",
+      "key": "Y97",
+      "sourceKey": "Y97",
+      "planets": [
+        "Su",
+        "Ve",
+        "Sa"
+      ],
+      "text": "Possible separation, domestic disputes, government-employment obstacles, concerns about opponents and recognition difficulties.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y97-mr",
+      "kind": "yoga",
+      "key": "Y97",
+      "sourceKey": "Y97",
+      "planets": [
+        "Su",
+        "Ve",
+        "Sa"
+      ],
+      "text": "विभक्तपणाची शक्यता; गृहकलह; सरकारी नोकरीत अडथळे; विरोधकांची चिंता; मान-सन्मानात अडचणी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y161-en",
+      "kind": "yoga",
+      "key": "Y161",
+      "sourceKey": "Y161",
+      "planets": [
+        "Su",
+        "Ve",
+        "Ra"
+      ],
+      "text": "Relationship complications, business obstacles, dance and music skills, artistic recognition and reputation concerns.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y161-mr",
+      "kind": "yoga",
+      "key": "Y161",
+      "sourceKey": "Y161",
+      "planets": [
+        "Su",
+        "Ve",
+        "Ra"
+      ],
+      "text": "वैवाहिक गुंतागुंत; उद्योगात अडथळे; नृत्य व संगीतकौशल्य; कला किंवा अभिनयात कीर्ती; प्रतिष्ठेची चिंता.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y289-en",
+      "kind": "yoga",
+      "key": "Y289",
+      "sourceKey": "Y289",
+      "planets": [
+        "Su",
+        "Ve",
+        "Ke"
+      ],
+      "text": "Allegations or legal cases, material detachment, artistic recognition, wealth, industry and a religious family.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y289-mr",
+      "kind": "yoga",
+      "key": "Y289",
+      "sourceKey": "Y289",
+      "planets": [
+        "Su",
+        "Ve",
+        "Ke"
+      ],
+      "text": "आरोप किंवा खटले; भौतिक सुखांपासून अलिप्तता; कला व अभिनयात प्रसिद्धी; संपन्नता; उद्योग; धार्मिक कुटुंब.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y193-en",
+      "kind": "yoga",
+      "key": "Y193",
+      "sourceKey": "Y193",
+      "planets": [
+        "Su",
+        "Sa",
+        "Ra"
+      ],
+      "text": "Education delays, promotion and stability obstacles, unwanted transfers, artistic recognition and reduced paternal comfort.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y193-mr",
+      "kind": "yoga",
+      "key": "Y193",
+      "sourceKey": "Y193",
+      "planets": [
+        "Su",
+        "Sa",
+        "Ra"
+      ],
+      "text": "शिक्षणात विलंब; बढती व स्थैर्यात अडथळे; अनिच्छित बदली; कला-अभिनयातील प्रसिद्धी; पितृसुख कमी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y321-en",
+      "kind": "yoga",
+      "key": "Y321",
+      "sourceKey": "Y321",
+      "planets": [
+        "Su",
+        "Sa",
+        "Ke"
+      ],
+      "text": "Scholarship, action, metalworking knowledge, an elder-like or priestly outlook, reduced family comfort, paternal disagreements and self-respect.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y321-mr",
+      "kind": "yoga",
+      "key": "Y321",
+      "sourceKey": "Y321",
+      "planets": [
+        "Su",
+        "Sa",
+        "Ke"
+      ],
+      "text": "विद्वत्ता; कृतीशीलता; धातूज्ञान; ज्येष्ठ किंवा पुरोहितासारखी वृत्ती; कुटुंबसुख कमी; पितृमतभेद; स्वाभिमान.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y14-en",
+      "kind": "yoga",
+      "key": "Y14",
+      "sourceKey": "Y14",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Me"
+      ],
+      "text": "Courage, an intellectual approach to life, occasional timidity, imagination, livelihood difficulties and limited friendship support.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y14-mr",
+      "kind": "yoga",
+      "key": "Y14",
+      "sourceKey": "Y14",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Me"
+      ],
+      "text": "धैर्य; बुद्धिनिष्ठ जीवन; कधी भीती; कल्पनाजग; उपजीविकेतील अडचणी; मित्रसुख कमी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y22-en",
+      "kind": "yoga",
+      "key": "Y22",
+      "sourceKey": "Y22",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Ju"
+      ],
+      "text": "Attractive appearance, restlessness, strong attraction, disputes and dissatisfaction arising from domineering treatment of staff.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y22-mr",
+      "kind": "yoga",
+      "key": "Y22",
+      "sourceKey": "Y22",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Ju"
+      ],
+      "text": "आकर्षक व्यक्तिमत्त्व; चंचलपणा; आकर्षण; उग्र व वादग्रस्त स्वभाव; कर्मचाऱ्यांवर अधिकार गाजवल्याने असमाधान.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y38-en",
+      "kind": "yoga",
+      "key": "Y38",
+      "sourceKey": "Y38",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Ve"
+      ],
+      "text": "Pleasure-focused romance, frequent travel, relocation interests and relationship complications.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y38-mr",
+      "kind": "yoga",
+      "key": "Y38",
+      "sourceKey": "Y38",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Ve"
+      ],
+      "text": "भोगप्रधान प्रेम; सतत प्रवास; स्थलांतराची आवड; नात्यांतील गुंतागुंत.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y70-en",
+      "kind": "yoga",
+      "key": "Y70",
+      "sourceKey": "Y70",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Sa"
+      ],
+      "text": "Family tension, reduced maternal comfort, conflicts with others, restless thinking and disagreements about conduct.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y70-mr",
+      "kind": "yoga",
+      "key": "Y70",
+      "sourceKey": "Y70",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Sa"
+      ],
+      "text": "कुटुंबातील ताण; मातृसुख कमी; लोकांशी वैर; चंचल विचार; आचारातील मतभेद.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y134-en",
+      "kind": "yoga",
+      "key": "Y134",
+      "sourceKey": "Y134",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Ra"
+      ],
+      "text": "Difficulties involving parents or siblings, composed courage, poetry, intelligence, speaking skills, talent and cheerfulness.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y134-mr",
+      "kind": "yoga",
+      "key": "Y134",
+      "sourceKey": "Y134",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Ra"
+      ],
+      "text": "पालक व भावंडांशी अडचणी; शांत व निश्चित धैर्य; कविता; बुद्धिमत्ता; वक्तृत्व; प्रतिभा; आनंदी वृत्ती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y262-en",
+      "kind": "yoga",
+      "key": "Y262",
+      "sourceKey": "Y262",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Ke"
+      ],
+      "text": "Sarcastic speech, enthusiasm mixed with confusion, haste, a subdued outlook, reserve, inner steadiness and talent.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y262-mr",
+      "kind": "yoga",
+      "key": "Y262",
+      "sourceKey": "Y262",
+      "planets": [
+        "Mo",
+        "Ma",
+        "Ke"
+      ],
+      "text": "उपरोधिक संवाद; उत्साह व संभ्रम; घाई; खिन्नता; कमी बोलणे; अंतर्गत स्थिरता व प्रतिभा.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y26-en",
+      "kind": "yoga",
+      "key": "Y26",
+      "sourceKey": "Y26",
+      "planets": [
+        "Mo",
+        "Me",
+        "Ju"
+      ],
+      "text": "Wealth, intelligence, eloquence, recognition, a wide family circle, political popularity and concerns involving parents.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y26-mr",
+      "kind": "yoga",
+      "key": "Y26",
+      "sourceKey": "Y26",
+      "planets": [
+        "Mo",
+        "Me",
+        "Ju"
+      ],
+      "text": "संपन्नता; चाणाक्षपणा; प्रभावी वक्तृत्व; प्रसिद्धी; संतती व नातेसंबंधांचा विस्तार; राजकीय लोकप्रियता; पालकांची चिंता.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y42-en",
+      "kind": "yoga",
+      "key": "Y42",
+      "sourceKey": "Y42",
+      "planets": [
+        "Mo",
+        "Me",
+        "Ve"
+      ],
+      "text": "Instability, obstacles involving relatives, work, business or children, reserve and a strong desire for money.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y42-mr",
+      "kind": "yoga",
+      "key": "Y42",
+      "sourceKey": "Y42",
+      "planets": [
+        "Mo",
+        "Me",
+        "Ve"
+      ],
+      "text": "अस्थिरता; नातेवाईक, नोकरी, व्यवसाय किंवा संततीत अडथळे; संकोच; धनाची तीव्र ओढ.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y74-en",
+      "kind": "yoga",
+      "key": "Y74",
+      "sourceKey": "Y74",
+      "planets": [
+        "Mo",
+        "Me",
+        "Sa"
+      ],
+      "text": "Restlessness, solitude, priestly or religious work, recognition, a tall or strong build and speaking ability.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y74-mr",
+      "kind": "yoga",
+      "key": "Y74",
+      "sourceKey": "Y74",
+      "planets": [
+        "Mo",
+        "Me",
+        "Sa"
+      ],
+      "text": "अस्वस्थता; एकांत; पुरोहित किंवा धार्मिक कार्य; मान-सन्मान; उंच व मजबूत बांधा; वक्तृत्व.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y138-en",
+      "kind": "yoga",
+      "key": "Y138",
+      "sourceKey": "Y138",
+      "planets": [
+        "Mo",
+        "Me",
+        "Ra"
+      ],
+      "text": "Family difficulties, maternal concerns and reduced paternal comfort.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y138-mr",
+      "kind": "yoga",
+      "key": "Y138",
+      "sourceKey": "Y138",
+      "planets": [
+        "Mo",
+        "Me",
+        "Ra"
+      ],
+      "text": "कौटुंबिक अडचणी; मातृकष्ट; पितृसुख कमी; काळजीची गरज.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y266-en",
+      "kind": "yoga",
+      "key": "Y266",
+      "sourceKey": "Y266",
+      "planets": [
+        "Mo",
+        "Me",
+        "Ke"
+      ],
+      "text": "Paternal concerns, recognition difficulties, humour, changing speech, a tall build, pleasant speech, passion and introspection.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y266-mr",
+      "kind": "yoga",
+      "key": "Y266",
+      "sourceKey": "Y266",
+      "planets": [
+        "Mo",
+        "Me",
+        "Ke"
+      ],
+      "text": "पित्याची चिंता; मान-सन्मानात अडचणी; विनोदबुद्धी; बदलती वाणी; उंच बांधा; गोडवाणी; उत्कटता; अंतर्मुखता.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y50-en",
+      "kind": "yoga",
+      "key": "Y50",
+      "sourceKey": "Y50",
+      "planets": [
+        "Mo",
+        "Ju",
+        "Ve"
+      ],
+      "text": "Scholarship, artistic or religious recognition, beauty, fortune, renunciation, mastery of an art and mixed romantic or financial outcomes.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y50-mr",
+      "kind": "yoga",
+      "key": "Y50",
+      "sourceKey": "Y50",
+      "planets": [
+        "Mo",
+        "Ju",
+        "Ve"
+      ],
+      "text": "विद्वत्ता; कला किंवा धार्मिक कार्यात प्रसिद्धी; सौंदर्य; भाग्य; संन्यस्त वृत्ती; एका कलेत प्रावीण्य; प्रेम व धनाचे मिश्र परिणाम.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y82-en",
+      "kind": "yoga",
+      "key": "Y82",
+      "sourceKey": "Y82",
+      "planets": [
+        "Mo",
+        "Ju",
+        "Sa"
+      ],
+      "text": "Scriptural interpretation, philosophy, devotion to a partner, scholarship and community service or protection.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y82-mr",
+      "kind": "yoga",
+      "key": "Y82",
+      "sourceKey": "Y82",
+      "planets": [
+        "Mo",
+        "Ju",
+        "Sa"
+      ],
+      "text": "शास्त्रभाष्य; तत्त्वज्ञान; पत्नीव्रत; शास्त्रप्रभुत्व; ग्रामसेवा व संरक्षण.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y146-en",
+      "kind": "yoga",
+      "key": "Y146",
+      "sourceKey": "Y146",
+      "planets": [
+        "Mo",
+        "Ju",
+        "Ra"
+      ],
+      "text": "Mixed finances, maternal concerns, singing, painting, marriage and romance interests, and disagreements about tradition or teachers.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y146-mr",
+      "kind": "yoga",
+      "key": "Y146",
+      "sourceKey": "Y146",
+      "planets": [
+        "Mo",
+        "Ju",
+        "Ra"
+      ],
+      "text": "धनस्थितीत मिश्र परिणाम; मातृचिंता; गायन व चित्रकला; विवाह व प्रेमाची ओढ; परंपरा व गुरुंबद्दल मतभेद.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y274-en",
+      "kind": "yoga",
+      "key": "Y274",
+      "sourceKey": "Y274",
+      "planets": [
+        "Mo",
+        "Ju",
+        "Ke"
+      ],
+      "text": "Astrology, challenges to tradition, family disputes, dance, painting, legal knowledge, religion, recognition and uncertainty.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y274-mr",
+      "kind": "yoga",
+      "key": "Y274",
+      "sourceKey": "Y274",
+      "planets": [
+        "Mo",
+        "Ju",
+        "Ke"
+      ],
+      "text": "ज्योतिष; परंपराविरोध; कौटुंबिक कलह; नृत्य व चित्रकला; न्यायज्ञान; धार्मिकता; सन्मान; संभ्रम.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y98-en",
+      "kind": "yoga",
+      "key": "Y98",
+      "sourceKey": "Y98",
+      "planets": [
+        "Mo",
+        "Ve",
+        "Sa"
+      ],
+      "text": "Writing, reading, priestly duties, good deeds, empathy, teaching, fortune and concerns involving children.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y98-mr",
+      "kind": "yoga",
+      "key": "Y98",
+      "sourceKey": "Y98",
+      "planets": [
+        "Mo",
+        "Ve",
+        "Sa"
+      ],
+      "text": "लेखन व वाचन; पुरोहित कार्य; सत्कृत्य; लोकदुःखाची जाण; अध्यापन; भाग्य; संततीची चिंता.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y162-en",
+      "kind": "yoga",
+      "key": "Y162",
+      "sourceKey": "Y162",
+      "planets": [
+        "Mo",
+        "Ve",
+        "Ra"
+      ],
+      "text": "Marriage and business obstacles, unusual imagination, reputation concerns, hidden opposition and strong attraction.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y162-mr",
+      "kind": "yoga",
+      "key": "Y162",
+      "sourceKey": "Y162",
+      "planets": [
+        "Mo",
+        "Ve",
+        "Ra"
+      ],
+      "text": "वैवाहिक व व्यावसायिक अडथळे; विचित्र कल्पनाशक्ती; प्रतिष्ठेची चिंता; गुप्त विरोध; तीव्र आकर्षण.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y290-en",
+      "kind": "yoga",
+      "key": "Y290",
+      "sourceKey": "Y290",
+      "planets": [
+        "Mo",
+        "Ve",
+        "Ke"
+      ],
+      "text": "Previously accumulated wealth, financial growth, a chosen partner, improved fortune after marriage, recognition, singing and painting.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y290-mr",
+      "kind": "yoga",
+      "key": "Y290",
+      "sourceKey": "Y290",
+      "planets": [
+        "Mo",
+        "Ve",
+        "Ke"
+      ],
+      "text": "पूर्वसंचित धन; धनवृद्धी; पसंतीचा जोडीदार; विवाहानंतर भाग्योदय; कीर्ती; गायन व चित्रकला.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y194-en",
+      "kind": "yoga",
+      "key": "Y194",
+      "sourceKey": "Y194",
+      "planets": [
+        "Mo",
+        "Sa",
+        "Ra"
+      ],
+      "text": "Family strain, reduced maternal comfort and feelings of fear.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y194-mr",
+      "kind": "yoga",
+      "key": "Y194",
+      "sourceKey": "Y194",
+      "planets": [
+        "Mo",
+        "Sa",
+        "Ra"
+      ],
+      "text": "कौटुंबिक व मानसिक ताण; मातृसुख कमी; भीतीची भावना.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y322-en",
+      "kind": "yoga",
+      "key": "Y322",
+      "sourceKey": "Y322",
+      "planets": [
+        "Mo",
+        "Sa",
+        "Ke"
+      ],
+      "text": "A subdued outlook, spiritual interests, detachment, rigid thinking and hardship.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y322-mr",
+      "kind": "yoga",
+      "key": "Y322",
+      "sourceKey": "Y322",
+      "planets": [
+        "Mo",
+        "Sa",
+        "Ke"
+      ],
+      "text": "खिन्नता; अध्यात्माकडे कल; अलिप्तता; कठोर किंवा संकुचित विचार; कष्ट.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y28-en",
+      "kind": "yoga",
+      "key": "Y28",
+      "sourceKey": "Y28",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ju"
+      ],
+      "text": "Scholarship, leadership within a circle, singing, a favourable marriage, generosity and intelligence.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y28-mr",
+      "kind": "yoga",
+      "key": "Y28",
+      "sourceKey": "Y28",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ju"
+      ],
+      "text": "विद्वत्ता; आपल्या वर्तुळात नेतृत्व; गायन; अनुकूल विवाह; परोपकार; बुद्धिमत्ता.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y44-en",
+      "kind": "yoga",
+      "key": "Y44",
+      "sourceKey": "Y44",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ve"
+      ],
+      "text": "Cheerfulness, enthusiasm, financial resources, playful expression, contentment and leadership.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y44-mr",
+      "kind": "yoga",
+      "key": "Y44",
+      "sourceKey": "Y44",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ve"
+      ],
+      "text": "आनंदी; उत्साही; धनाची उपलब्धता; खेळकर देहबोली; समाधान; नेतृत्व.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y76-en",
+      "kind": "yoga",
+      "key": "Y76",
+      "sourceKey": "Y76",
+      "planets": [
+        "Ma",
+        "Me",
+        "Sa"
+      ],
+      "text": "Relocation, public service, helpfulness, humour and communication difficulties.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y76-mr",
+      "kind": "yoga",
+      "key": "Y76",
+      "sourceKey": "Y76",
+      "planets": [
+        "Ma",
+        "Me",
+        "Sa"
+      ],
+      "text": "स्थलांतर; राज्यसेवा; सेवाभाव; विनोदबुद्धी; संवादाशी संबंधित अडचणी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y140-en",
+      "kind": "yoga",
+      "key": "Y140",
+      "sourceKey": "Y140",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ra"
+      ],
+      "text": "A strong desire for money, thrift, occult interests, reputation and livelihood difficulties, and unproductive effort.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y140-mr",
+      "kind": "yoga",
+      "key": "Y140",
+      "sourceKey": "Y140",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ra"
+      ],
+      "text": "धनाची तीव्र ओढ; काटकसर; गूढ विषय; मान-सन्मान व उपजीविकेत अडचणी; व्यर्थ प्रयत्न.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y268-en",
+      "kind": "yoga",
+      "key": "Y268",
+      "sourceKey": "Y268",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ke"
+      ],
+      "text": "Financial difficulties, patience, unproductive work and a need for care in companionship and conduct.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y268-mr",
+      "kind": "yoga",
+      "key": "Y268",
+      "sourceKey": "Y268",
+      "planets": [
+        "Ma",
+        "Me",
+        "Ke"
+      ],
+      "text": "आर्थिक अडचणी; संयम; कमी फलदायी काम; संगती व कृतींविषयी सावधपणा.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y52-en",
+      "kind": "yoga",
+      "key": "Y52",
+      "sourceKey": "Y52",
+      "planets": [
+        "Ma",
+        "Ju",
+        "Ve"
+      ],
+      "text": "Political interests, virtues, supportive friends, comforts, family affection, recognition and bringing happiness to others.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y52-mr",
+      "kind": "yoga",
+      "key": "Y52",
+      "sourceKey": "Y52",
+      "planets": [
+        "Ma",
+        "Ju",
+        "Ve"
+      ],
+      "text": "राजकीय व सद्गुणी प्रवृत्ती; मित्रसुख; आरामाची आवड; कुटुंबप्रेम; मान्यता; इतरांना आनंद.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y84-en",
+      "kind": "yoga",
+      "key": "Y84",
+      "sourceKey": "Y84",
+      "planets": [
+        "Ma",
+        "Ju",
+        "Sa"
+      ],
+      "text": "Official recognition, mischievousness, distance from friends, religious duties, humiliation concerns and reduced confidence.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y84-mr",
+      "kind": "yoga",
+      "key": "Y84",
+      "sourceKey": "Y84",
+      "planets": [
+        "Ma",
+        "Ju",
+        "Sa"
+      ],
+      "text": "शासकीय सन्मान; खोडकरपणा; मित्रांपासून दुरावा; धार्मिक कार्य; अपमानाची चिंता; धैर्य कमी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y148-en",
+      "kind": "yoga",
+      "key": "Y148",
+      "sourceKey": "Y148",
+      "planets": [
+        "Ma",
+        "Ju",
+        "Ra"
+      ],
+      "text": "Stubbornness, sorrow, interrupted education, family difficulties and persuasive ability in disputes or legal matters.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y148-mr",
+      "kind": "yoga",
+      "key": "Y148",
+      "sourceKey": "Y148",
+      "planets": [
+        "Ma",
+        "Ju",
+        "Ra"
+      ],
+      "text": "हट्टीपणा; दुःख; शिक्षणात खंड; कौटुंबिक अडचणी; न्याय किंवा वादात जनमत वळवण्याचे कौशल्य.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y276-en",
+      "kind": "yoga",
+      "key": "Y276",
+      "sourceKey": "Y276",
+      "planets": [
+        "Ma",
+        "Ju",
+        "Ke"
+      ],
+      "text": "Recognition, humility, financial difficulties, challenging incorrect arguments and religious or judicial work.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y276-mr",
+      "kind": "yoga",
+      "key": "Y276",
+      "sourceKey": "Y276",
+      "planets": [
+        "Ma",
+        "Ju",
+        "Ke"
+      ],
+      "text": "सन्मान; नम्रता; आर्थिक अडचणी; चुकीच्या मुद्द्यांना उत्तर; धार्मिक किंवा न्यायक्षेत्रातील कार्य.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y100-en",
+      "kind": "yoga",
+      "key": "Y100",
+      "sourceKey": "Y100",
+      "planets": [
+        "Ma",
+        "Ve",
+        "Sa"
+      ],
+      "text": "Dissatisfaction involving partner or children, travel and success in work despite sorrow.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y100-mr",
+      "kind": "yoga",
+      "key": "Y100",
+      "sourceKey": "Y100",
+      "planets": [
+        "Ma",
+        "Ve",
+        "Sa"
+      ],
+      "text": "जोडीदार व संततीविषयी असमाधान; प्रवास; दुःख असूनही कार्यात यश.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y164-en",
+      "kind": "yoga",
+      "key": "Y164",
+      "sourceKey": "Y164",
+      "planets": [
+        "Ma",
+        "Ve",
+        "Ra"
+      ],
+      "text": "Imagination, greed, a desire for influence in relationships, dance or drama success and reputation concerns.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y164-mr",
+      "kind": "yoga",
+      "key": "Y164",
+      "sourceKey": "Y164",
+      "planets": [
+        "Ma",
+        "Ve",
+        "Ra"
+      ],
+      "text": "कल्पनाशक्ती; लोभ; संबंधांत वर्चस्वाची ओढ; नृत्य व नाट्यात यश; प्रतिष्ठेची चिंता.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y292-en",
+      "kind": "yoga",
+      "key": "Y292",
+      "sourceKey": "Y292",
+      "planets": [
+        "Ma",
+        "Ve",
+        "Ke"
+      ],
+      "text": "Setbacks, hardship, financial difficulties and material detachment.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y292-mr",
+      "kind": "yoga",
+      "key": "Y292",
+      "sourceKey": "Y292",
+      "planets": [
+        "Ma",
+        "Ve",
+        "Ke"
+      ],
+      "text": "अपयश; कष्ट; आर्थिक अडचणी; भौतिक सुखांपासून अलिप्तता.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y196-en",
+      "kind": "yoga",
+      "key": "Y196",
+      "sourceKey": "Y196",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Ra"
+      ],
+      "text": "Instability, technical skills, stubbornness, disputes and obstacles to success.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y196-mr",
+      "kind": "yoga",
+      "key": "Y196",
+      "sourceKey": "Y196",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Ra"
+      ],
+      "text": "अस्थिरता; तांत्रिक कौशल्य; हट्टीपणा; वाद; यशात अडथळे.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y324-en",
+      "kind": "yoga",
+      "key": "Y324",
+      "sourceKey": "Y324",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Ke"
+      ],
+      "text": "Clever speech, occult interests, changing religious views, mechanical skill, logic and debate.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y324-mr",
+      "kind": "yoga",
+      "key": "Y324",
+      "sourceKey": "Y324",
+      "planets": [
+        "Ma",
+        "Sa",
+        "Ke"
+      ],
+      "text": "चतुर वक्तृत्व; गूढ विषय; धार्मिक विचारांत बदल; यंत्रकौशल्य; तर्क व वाद.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y56-en",
+      "kind": "yoga",
+      "key": "Y56",
+      "sourceKey": "Y56",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ve"
+      ],
+      "text": "Attractive appearance, overcoming opposition, leadership, prosperity, honesty and domestic disputes.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y56-mr",
+      "kind": "yoga",
+      "key": "Y56",
+      "sourceKey": "Y56",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ve"
+      ],
+      "text": "आकर्षक व्यक्तिमत्त्व; विरोधावर मात; नेतृत्व; समृद्धी; सत्यप्रियता; गृहकलह.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y88-en",
+      "kind": "yoga",
+      "key": "Y88",
+      "sourceKey": "Y88",
+      "planets": [
+        "Me",
+        "Ju",
+        "Sa"
+      ],
+      "text": "Recognition, prosperity, austerity, knowledge, an attractive partner, fortune and restraint.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y88-mr",
+      "kind": "yoga",
+      "key": "Y88",
+      "sourceKey": "Y88",
+      "planets": [
+        "Me",
+        "Ju",
+        "Sa"
+      ],
+      "text": "सन्मान; संपन्नता; तपश्चर्या; ज्ञान; आकर्षक जोडीदार; भाग्य; संयम.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y152-en",
+      "kind": "yoga",
+      "key": "Y152",
+      "sourceKey": "Y152",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ra"
+      ],
+      "text": "Concerns about family continuity, relationship complications, law, talkativeness and perceptive judgement.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y152-mr",
+      "kind": "yoga",
+      "key": "Y152",
+      "sourceKey": "Y152",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ra"
+      ],
+      "text": "कौटुंबिक सातत्याची चिंता; वैवाहिक गुंतागुंत; न्यायक्षेत्र; बोलकेपणा; अचूक अंदाज.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y280-en",
+      "kind": "yoga",
+      "key": "Y280",
+      "sourceKey": "Y280",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ke"
+      ],
+      "text": "Divided thinking, recognition difficulties, writing, law, information technology, communication, stubbornness and advisory skills.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y280-mr",
+      "kind": "yoga",
+      "key": "Y280",
+      "sourceKey": "Y280",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ke"
+      ],
+      "text": "विचारद्वैध; सन्मानात अडचणी; लेखन; कायदा; माहिती-तंत्रज्ञान; संवाद; हट्टीपणा; सल्लागार कौशल्य.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y104-en",
+      "kind": "yoga",
+      "key": "Y104",
+      "sourceKey": "Y104",
+      "planets": [
+        "Me",
+        "Ve",
+        "Sa"
+      ],
+      "text": "Talkativeness, harsh speech, relationship complications, financial loss and property-transaction setbacks.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y104-mr",
+      "kind": "yoga",
+      "key": "Y104",
+      "sourceKey": "Y104",
+      "planets": [
+        "Me",
+        "Ve",
+        "Sa"
+      ],
+      "text": "बोलकेपणा; कठोर संवाद; संबंधांतील गुंतागुंत; धनहानी; मालमत्ता व्यवहारात अपयश.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y168-en",
+      "kind": "yoga",
+      "key": "Y168",
+      "sourceKey": "Y168",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ra"
+      ],
+      "text": "Steady thinking, planning, policy skills, trade obstacles and adoptive-family themes.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y168-mr",
+      "kind": "yoga",
+      "key": "Y168",
+      "sourceKey": "Y168",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ra"
+      ],
+      "text": "स्थिर बुद्धी; उत्तम योजना; धोरणकौशल्य; व्यापारात अडथळे; दत्तक कुटुंबाचे संकेत.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y296-en",
+      "kind": "yoga",
+      "key": "Y296",
+      "sourceKey": "Y296",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ke"
+      ],
+      "text": "Confused thinking, challenging falsehood, financial shortages, craft skills, humour, material interests and discouragement.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y296-mr",
+      "kind": "yoga",
+      "key": "Y296",
+      "sourceKey": "Y296",
+      "planets": [
+        "Me",
+        "Ve",
+        "Ke"
+      ],
+      "text": "गोंधळलेले विचार; असत्याला विरोध; धनाभाव; शिल्पकला; विनोद; भौतिकता; निरुत्साह.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y200-en",
+      "kind": "yoga",
+      "key": "Y200",
+      "sourceKey": "Y200",
+      "planets": [
+        "Me",
+        "Sa",
+        "Ra"
+      ],
+      "text": "Business skills, humility, slower understanding, communication obstacles, thrift and management ability.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y200-mr",
+      "kind": "yoga",
+      "key": "Y200",
+      "sourceKey": "Y200",
+      "planets": [
+        "Me",
+        "Sa",
+        "Ra"
+      ],
+      "text": "व्यापारकौशल्य; नम्रता; समजण्यासाठी वेळ; संवादात अडथळे; काटकसर; व्यवस्थापन.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y112-en",
+      "kind": "yoga",
+      "key": "Y112",
+      "sourceKey": "Y112",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Sa"
+      ],
+      "text": "Leadership from modest circumstances, principled thinking, recognition, struggle and disagreements with children.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y112-mr",
+      "kind": "yoga",
+      "key": "Y112",
+      "sourceKey": "Y112",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Sa"
+      ],
+      "text": "साध्या परिस्थितीतून नेतृत्व; शुद्ध विचार; प्रसिद्धी; संघर्ष; संततीशी मतभेद.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y176-en",
+      "kind": "yoga",
+      "key": "Y176",
+      "sourceKey": "Y176",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Ra"
+      ],
+      "text": "Legal complications, ethical challenges in dealings, attraction and challenges to tradition.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y176-mr",
+      "kind": "yoga",
+      "key": "Y176",
+      "sourceKey": "Y176",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Ra"
+      ],
+      "text": "कायदेशीर गुंतागुंत; व्यवहारातील नैतिक आव्हाने; आकर्षण; परंपराविरोध.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y304-en",
+      "kind": "yoga",
+      "key": "Y304",
+      "sourceKey": "Y304",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Ke"
+      ],
+      "text": "Legal or official work, business difficulties, astrology, religion, financial shortages and setbacks.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y304-mr",
+      "kind": "yoga",
+      "key": "Y304",
+      "sourceKey": "Y304",
+      "planets": [
+        "Ju",
+        "Ve",
+        "Ke"
+      ],
+      "text": "कायदा किंवा अधिकृत कार्य; व्यापारातील अडचणी; ज्योतिष; धार्मिकता; धनाभाव; अपयश.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y208-en",
+      "kind": "yoga",
+      "key": "Y208",
+      "sourceKey": "Y208",
+      "planets": [
+        "Ju",
+        "Sa",
+        "Ra"
+      ],
+      "text": "Family detachment, philosophy, legal authority, inactivity and limited domestic interest.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y208-mr",
+      "kind": "yoga",
+      "key": "Y208",
+      "sourceKey": "Y208",
+      "planets": [
+        "Ju",
+        "Sa",
+        "Ra"
+      ],
+      "text": "कौटुंबिक दुरावा; तत्त्वज्ञान; न्यायक्षेत्र; निष्क्रियता; घरात रस कमी.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y336-en",
+      "kind": "yoga",
+      "key": "Y336",
+      "sourceKey": "Y336",
+      "planets": [
+        "Ju",
+        "Sa",
+        "Ke"
+      ],
+      "text": "Educational obstacles, concerns involving children, financial difficulties, religious or judicial work and hardship.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y336-mr",
+      "kind": "yoga",
+      "key": "Y336",
+      "sourceKey": "Y336",
+      "planets": [
+        "Ju",
+        "Sa",
+        "Ke"
+      ],
+      "text": "शिक्षणात अडथळे; संततीची चिंता; आर्थिक अडचणी; धार्मिक व न्यायक्षेत्रातील कार्य; कष्ट.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y120-en",
+      "kind": "yoga",
+      "key": "Y120",
+      "sourceKey": "Y120",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ve",
+        "Sa"
+      ],
+      "text": "Prosperity, scholarship, love for a partner, refinement and loyalty.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y120-mr",
+      "kind": "yoga",
+      "key": "Y120",
+      "sourceKey": "Y120",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ve",
+        "Sa"
+      ],
+      "text": "संपन्नता; विद्वत्ता; जोडीदारावर प्रेम; सुसंस्कृतपणा; निष्ठा.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y184-en",
+      "kind": "yoga",
+      "key": "Y184",
+      "sourceKey": "Y184",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ve",
+        "Ra"
+      ],
+      "text": "Strain, reduced maternal comfort and adverse health associations in the traditional source.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y184-mr",
+      "kind": "yoga",
+      "key": "Y184",
+      "sourceKey": "Y184",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ve",
+        "Ra"
+      ],
+      "text": "मानसिक ताण; मातृसुख कमी; आरोग्याविषयी स्रोतामध्ये प्रतिकूल उल्लेख.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y312-en",
+      "kind": "yoga",
+      "key": "Y312",
+      "sourceKey": "Y312",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ve",
+        "Ke"
+      ],
+      "text": "A need for care in conduct, with adverse health and emotional associations in the traditional source.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y312-mr",
+      "kind": "yoga",
+      "key": "Y312",
+      "sourceKey": "Y312",
+      "planets": [
+        "Me",
+        "Ju",
+        "Ve",
+        "Ke"
+      ],
+      "text": "वर्तनाविषयी सावधपणा; आरोग्य व मनःस्थितीविषयी स्रोतामध्ये प्रतिकूल उल्लेख.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y232-en",
+      "kind": "yoga",
+      "key": "Y232",
+      "sourceKey": "Y232",
+      "planets": [
+        "Me",
+        "Ve",
+        "Sa",
+        "Ra"
+      ],
+      "text": "Relationship dissatisfaction, official connections, frequent travel and a subdued outlook.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y232-mr",
+      "kind": "yoga",
+      "key": "Y232",
+      "sourceKey": "Y232",
+      "planets": [
+        "Me",
+        "Ve",
+        "Sa",
+        "Ra"
+      ],
+      "text": "वैवाहिक असमाधान; शासकीय संबंध; भ्रमंती; दुःखी वृत्ती.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y360-en",
+      "kind": "yoga",
+      "key": "Y360",
+      "sourceKey": "Y360",
+      "planets": [
+        "Me",
+        "Ve",
+        "Sa",
+        "Ke"
+      ],
+      "text": "Talkativeness, sharp speech, complicated relationships or dealings and attraction to indirect approaches.",
+      "language": "en",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
+      ]
+    },
+    {
+      "id": "user-conjunction-Y360-mr",
+      "kind": "yoga",
+      "key": "Y360",
+      "sourceKey": "Y360",
+      "planets": [
+        "Me",
+        "Ve",
+        "Sa",
+        "Ke"
+      ],
+      "text": "बोलकेपणा; कटु वाणी; संबंध व व्यवहारात गुंतागुंत; अप्रत्यक्ष मार्गांची ओढ.",
+      "language": "mr",
+      "source": "user-conjunction-2026-10-19",
+      "sources": [
+        "user-conjunction-2026-10-19"
       ]
     }
   ],

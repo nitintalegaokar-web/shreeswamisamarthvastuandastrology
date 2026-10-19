@@ -1,0 +1,260 @@
+KP Sub Lord Tables(1-249)								
+Sub No.	Rashi	From (Deg/Min/Sec)	To (DeglMin/Sec)	Sign Lord	Star lord	Sub lord	3rd House : Mindset	स्वभाव / मनोवृत्ती
+1	Aries	00"00'00"	00"46'40"	Mars	Ketu	Ketu	Fears - Anxiety - Jealousy 	भीती, चिंता, मत्सर
+2	Aries	00"46'40"	03'00'00"	Mars	Ketu	Venus	worried about other women	इतर स्त्रियांबद्दल चिंता किंवा आकर्षण
+3	Aries	03"00'00"	03'40'00"	Mars	Ketu	Sun	Effeminate 	स्त्रीसदृश स्वभाव
+4	Aries	03'40'00"	04"46'40"	Mars	Ketu	Moon	Worries about lands and cultivation, Dispute in the family	जमीन, शेती व कौटुंबिक वादांची चिंता
+5	Aries	04"46',40"	05"33',20"	Mars	Ketu	Mars	Dispute and Violence	वाद व हिंसक प्रवृत्ती
+6	Aries	05"33',20"	07"33'20"	Mars	Ketu	Rahu	Irritable and quarrel-some - Fear of black magic 	चिडचिडा, भांडखोर, काळ्या जादूची भीती
+7	Aries	07"33',20"	09"20'00"	Mars	Ketu	Jupiter	Accident Prone - Fearful of Law - Fear of animals - Averse to blood 	अपघातप्रवण, कायद्याची भीती, प्राण्यांची भीती, रक्त पाहण्याची भीती
+8	Aries	09"20',00"	11"26'40"	Mars	Ketu	Saturn	Fear of black magic - Argumentative - Adament	काळ्या जादूची भीती, वादप्रिय, हट्टी
+9	Aries	17"26',40"	13"20'00"	Mars	Ketu	Mercury	Quarrel-some 	भांडखोर स्वभाव
+10	Aries	13"20',00"	15"33'20"	Mars	Venus	Venus	Amourous and fond of pleasure and chain- smoker.	प्रेमसंबंध व सुखोपभोगाची आवड, साखळी धूम्रपानाची सवय
+11	Aries	15"33',20"	16"13',20"	Mars	Venus	Sun	Bad habits - Will carry-out his affairs to the end -Magnanimous	वाईट सवयी, पण काम शेवटपर्यंत पूर्ण करणारा, उदार
+12	Aries	16"13'20"	17"20',00',	Mars	Venus	Moon	Fond of hot - drinks - avaricious and wanting it character - Clever.	गरम पेये आवडणारा, लोभी पण चतुर
+13	Aries	17"20',00"	18"06',40"	Mars	Venus	Mars	Ever active and healthy - Fond of pleasure.	सदैव सक्रिय, निरोगी व सुखोपभोगी
+14	Aries	18"06',40"	20"06'40"	Mars	Venus	Rahu	Aspiring and low-born	महत्त्वाकांक्षी, सामान्य पार्श्वभूमीचा
+15	Aries	20"06',40"	21"53'20"	Mars	Venus	Jupiter	Escapes of accidents - Indulges in pleasure - Clever - Happy - Higher studies and wisdom 	अपघातातून बचाव, सुखोपभोग, उच्च शिक्षण व बुद्धिमत्ता
+16	Aries	21"53'20"	24"00',00"	Mars	Venus	Saturn	Low-born - Fond of other ladies -Meet with accidents.	सामान्य पार्श्वभूमी, परस्त्री आकर्षण, अपघातप्रवण
+17	Aries	24"00',00"	25"53'20"	Mars	Venus	Mercury	Wavering	चंचल व अस्थिर मन
+18	Aries	25"53'20"	26"40'00"	Mars	Venus	Ketu	Thief - Sharp - Eye for detail	चोरटेपणा, बारकाईने निरीक्षण करणारा
+19	Aries	26"40',00"	27"20',00"	Mars	Sun	Sun	Bold – Active	धाडसी व सक्रिय
+20	Aries	27"20',00"	28"26',40"	Mars	Sun	Moon	Muscular - Pushy type - and competitive nature 	मजबूत शरीरयष्टी, दबाव टाकणारा, स्पर्धात्मक
+21	Aries	28"26',40"	29"13',20"	Mars	Sun	Mars	Robust health - Commanding - Argumentative 	उत्तम आरोग्य, अधिकार गाजवणारा, वादप्रिय
+22	Aries	29"13',20"	30"00'00"	Mars	Sun	Rahu	Commanding - Eat much - Fond of other's wives	अधिकारशाली, भरपूर खाणारा, परस्त्री आकर्षण
+23	Taurus	00"00'00"	01"13',20"	Venus	Sun	Rahu	Speculative – Selfish	सट्टेबाज व स्वार्थी
+24	Taurus	01"13',20"	03"00'00'	Venus	Sun	Jupiter	Social – Generous - Cheerful - Wins enemies 	सामाजिक, उदार, आनंदी, शत्रूंवर विजय मिळवणारा
+25	Taurus	03'00'00"	05'06'40"	Venus	Sun	Saturn	Selfish - dishonest - Loss by bad debts	स्वार्थी, बेईमान, वाईट कर्जामुळे नुकसान
+26	Taurus	05"06'40"	07"00'00"	Venus	Sun	Mercury	Intelligent - Cheerful - Fit for business - Creative ability	हुशार, आनंदी, व्यवसायासाठी योग्य, सर्जनशील
+27	Taurus	07"00'00"	07"46'40"	Venus	Sun	Ketu	Discourteous - ill-repute - inimical - Jealous 	असभ्य, बदनामीग्रस्त, मत्सरी
+28	Taurus	07:46'40"	10"00'00"	Venus	Sun	Venus	Speculative mind - Popular - Prosperous	सट्टेबाज वृत्ती, लोकप्रिय व समृद्ध
+29	Taurus	10"00'00"	11"06',40"	Venus	Moon	Moon	Pleasing manners - Sweet voice - Lovely appearance	गोड बोलणारा, आकर्षक व्यक्तिमत्त्व
+30	Taurus	11"06'40"	11"53',20"	Venus	Moon	Mars	Fond of other sex – Aggressive	विपरीत लिंगाकडे आकर्षण, आक्रमक स्वभाव
+31	Taurus	11"53'20"	13"53',20"	Venus	Moon	Rahu	Unsettled mind - Lack of manners - Lives on other's money	अस्थिर मन, शिष्टाचाराचा अभाव, इतरांच्या पैशांवर अवलंबून
+32	Taurus	13"53'20"	15"40'00"	Venus	Moon	Jupiter	Sympathetic - Steady - Maternal affection - Charm – Higher Education	दयाळू, स्थिर, मातृप्रेमी, आकर्षक, उच्च शिक्षणाची आवड
+33	Taurus	15'40'00"	17'46'40"	Venus	Moon	Saturn	Selfish - Timid - Mischievous - Stealthy	स्वार्थी, भित्रा, खोडकर, गुप्त प्रवृत्ती
+34	Taurus	17"46'40"	19"40'00"	Venus	Moon	Mercury	Enjoyment nature - Speaker - Agreeable on both sides	आनंदी स्वभाव, उत्तम वक्ता, दोन्ही बाजूंना पटवून देणारा
+35	Taurus	19"40'O0"	20'26'40"	Venus	Moon	Ketu	Wavering - Worried - Fear Complex	चिंताग्रस्त, भीतीग्रस्त, मानसिक ताण
+36	Taurus	20"26'40"	22"40'00"	Venus	Moon	Venus	Charm - Sweet talk - Humorous - Imaginative 	आकर्षक, गोड बोलणारा, विनोदी, कल्पनाशील
+37	Taurus	22'40'00"	23"20'00"	Venus	Moon	Sun	Light reading - Sex with many women	हलके वाचन, अनेक प्रेमसंबंध
+38	Taurus	23"20'00"	24'06:40"	Venus	Mars	Mars	Excited - One sided sex - Selfish	उत्तेजित स्वभाव, एकतर्फी आकर्षण, स्वार्थी
+39	Taurus	24"06'40"	26"06'40"	Venus	Mars	Rahu	Lack of manners	शिष्टाचाराचा अभाव
+40	Taurus	26"06',40"	27'53'20'	Venus	Mars	Jupiter	Good manners - Learned	सुसंस्कृत, विद्वान
+41	Taurus	27"53'20"	30'00'00"	Venus	Mars	Saturn	Shameless - Naughty	निर्लज्ज, खोडकर
+42	Gemini	00"00'00"	01"53'20"	Mercury	Mars	Mercury	Alert - Energetic	सतर्क, ऊर्जावान
+43	Gemini	01"53'20"	02'40'00"	Mercury	Mars	Ketu	Excited - Bad talks	उत्तेजित स्वभाव, वाईट बोलण्याची प्रवृत्ती
+44	Gemini	02"40'00"	04"53'20"	Mercury	Mars	Venus	Quick - Imaginative - Sharp - Wealthy - Sexy	जलद विचार करणारा, कल्पक, तीक्ष्ण बुद्धी, श्रीमंत, आकर्षक
+45	Gemini	04'53'20"	05"33',20"	Mercury	Mars	Sun	Excited - Fluent - Eloquent	उत्तेजित, प्रभावी व ओघवता वक्ता
+46	Gemini	05"33'20"	06'40'00"	Mercury	Mars	Moon	Impulsive and mischievous	उतावळा व खोडकर
+47	Gemini	06'40'00"	08"40'00"	Mercury	Rahu	Rahu	Liar - Ungrateful - Sinful	खोटारडा, कृतघ्न, चुकीच्या कृतींकडे झुकणारा
+48	Gemini	08'40'00"	10"26'40"	Mercury	Rahu	Jupiter	Ingenious - Scholar - Character-Reader	हुशार, विद्वान, व्यक्तिमत्त्व ओळखणारा
+49	Gemini	10"26'40"	12'33'20"	Mercury	Rahu	Saturn	Cheating nature - Poor Education	फसवणूक करणारा स्वभाव, शिक्षणात अडथळे
+50	Gemini	12"33'20	14"26'40"	Mercury	Rahu	Mercury	Active – Critical	सक्रिय, टीकात्मक विचारसरणी
+51	Gemini	14"26'40"	15"13'20"	Mercury	Rahu	Ketu	Cruel - Rogue - Ungrateful - Petition writer – Childless	क्रूर, दुष्ट, कृतघ्न, अर्ज-लेखनात कुशल, अपत्यसुख कमी
+52	Gemini	15"13'20"	17"26'40"	Mercury	Rahu	Venus	Ingenious – Humorous	हुशार, विनोदी
+53	Gemini	17"26'40"	18"06',40"	Mercury	Rahu	Sun	Cruel - Perfidious - Art of Boggling	क्रूर, विश्वासघातकी, फसवणुकीत कुशल
+54	Gemini	18'06',40"	19"13',20"	Mercury	Rahu	Moon	Intuition – Thief	अंतर्ज्ञानी, चोरट्या प्रवृत्तीचा
+55	Gemini	19"13'20"	20'00'00"	Mercury	Rahu	Mars	Murderer - Lobber - Rogue – Mischievous	खूनी, दरोडेखोर, दुष्ट, खोडकर
+56	Gemini	20'00'00"	21"46'40"	Mercury	Jupiter	Jupiter	Broad outlook - Proper Judgement - True and Rich	व्यापक दृष्टिकोन, योग्य निर्णयक्षमता, सत्यवादी व श्रीमंत
+57	Gemini	21'46'40"	23'53'20"	Mercury	Jupiter	Saturn	Wise – Sincere	शहाणा, प्रामाणिक
+58	Gemini	23"53'20"	25"46',40"	Mercury	Jupiter	Mercury	Active - Ingenious - Scholar 	सक्रिय, हुशार, विद्वान
+59	Gemini	25"46'40"	26'33'20"	Mercury	Jupiter	Ketu	Religious - Poor Judgement - Pessimistic - Worried	धार्मिक, निर्णयक्षमतेचा अभाव, निराशावादी, चिंताग्रस्त
+60	Gemini	26"33',20"	28"46'40"	Mercury	Jupiter	Venus	Good memory - Proper judgment - Intelligent - easily convinced 	चांगली स्मरणशक्ती, योग्य निर्णयक्षमता, बुद्धिमान, सहज पटणारा
+61	Gemini	28"46'40"	29"26'40"	Mercury	Jupiter	Sun	Broad outlook - Clear in thought 	व्यापक दृष्टिकोन, स्पष्ट विचारसरणी
+62	Gemini	29"26'40"	30"00'00"	Mercury	Jupiter	Moon	Good Memory - Intuition	चांगली स्मरणशक्ती, अंतर्ज्ञानशक्ती
+63	Cancer	00"00'00"	00"33'20"	Moon	Jupiter	Moon	Imaginative - Honest - Forging nature – Sympathetic	कल्पनाशील, प्रामाणिक, सहानुभूतीशील
+64	Cancer	00"33'20"	01"20'00"	Moon	Jupiter	Mars	Lover of beauty - Good argument -good vitality and fertility - Rich 	सौंदर्यप्रेमी, उत्तम वादक, चांगली जीवनशक्ती, समृद्ध
+65	Cancer	07"20'00"	03'20'00"	Moon	Jupiter	Rahu	Reliable - Compassionate 	विश्वासार्ह, दयाळू
+66	Cancer	03"20',00"	05"26'40"	Moon	Saturn	Saturn	Tuberculosis - Lungs and ribs - Cancer - Eczema - Pyorrhoea 	क्षयरोग, फुफ्फुसांचे विकार, त्वचारोगाची प्रवृत्ती
+67	Cancer	05"26'40"	07"20'00"	Moon	Saturn	Mercury	Self reliance - Intelligent – Systematic	आत्मनिर्भर, बुद्धिमान, शिस्तबद्ध
+68	Cancer	07"20'00"	08"06'40"	Moon	Saturn	Ketu	Timid and Fear complex 	भित्रा, न्यूनगंड व भीतीग्रस्त
+69	Cancer	08'06'40"	10"20',00"	Moon	Saturn	Venus	Prudent and Careful - Liked by all - Wealthy	विचारी, सावध, सर्वांना आवडणारा, श्रीमंत
+70	Cancer	10"20'00"	11"00'00'	Moon	Saturn	Sun	Learned - Methodical - Attains Positions of Trust 	विद्वान, पद्धतशीर, विश्वासार्ह पद मिळवणारा
+71	Cancer	11"00',00',	12"06'40'	Moon	Saturn	Moon	Attentive - Contemplative 	लक्षपूर्वक विचार करणारा, चिंतनशील
+72	Cancer	12"06'40',	12"53'20"	Moon	Saturn	Mars	Cold - Grounded - Earthy - Loves hair	शांत, स्थिर, पृथ्वीस्वभावी
+73	Cancer	12"53',20"	14"53',20"	Moon	Saturn	Rahu	Fearing - Irresponsible	भीतीग्रस्त, बेजबाबदार
+74	Cancer	14"53',20"	16"40'00"	Moon	Saturn	Jupiter	Economical - Conservative - Wealthy - Virtuous 	काटकसरी, परंपरावादी, श्रीमंत, सद्गुणी
+75	Cancer	16"40',00"	18"33',21"	Moon	Mercury	Mercury	Versatile - Quick wits. - Mimicry - clown - Fond of travel – Hypocrite	बहुगुणी, चपळ बुद्धी, नक्कल करण्यात पटाईत, प्रवासप्रिय
+76	Cancer	18"33',21,"	19"20',00"	Moon	Mercury	Ketu	Learns all languages - Ungrateful - Sinful - Failures 	अनेक भाषा शिकणारा, कृतघ्न, अपयशी
+77	Cancer	19"20',00"	21"33',20"	Moon	Mercury	Venus	Drunkenness - Imitate others in music, art - insincere - Fond of other's company and Picnic 	मद्यपानाची आवड, इतरांची नक्कल करणारा, असत्यप्रिय
+78	Cancer	21"33',20"	22"13',20"	Moon	Mercury	Sun	Nervous - Timid 	चिंताग्रस्त, भित्रा
+79	Cancer	22"13',20"	23"20',00	Moon	Mercury	Moon	Versatile - Mimicry - Drunkenness 	बहुगुणी, नक्कल करणारा, मद्यपानाची प्रवृत्ती
+80	Cancer	23"20',00	24"06',40"	Moon	Mercury	Mars	Correspondent - Travel Agents 	पत्रव्यवहार व प्रवास व्यवस्थापनात कुशल
+81	Cancer	24"06',40"	26"06',40"	Moon	Mercury	Rahu	Copious in speech - Fond of Travel 	खूप बोलणारा, प्रवासप्रिय
+82	Cancer	26"06'40"	27"53'20"	Moon	Mercury	Jupiter	Learns art and literature - fond of Travel - Grateful 	कला व साहित्य शिकणारा, प्रवासप्रिय, कृतज्ञ
+83	Cancer	27"53'20"	30'00'00"	Moon	Mercury	Saturn	Windiness - Deceitful - Underhand dealings 	फसवणूक करणारा, गुप्त व्यवहार करणारा
+84	Leo	00"00'00"	00"46'40"	Sun	Ketu	Ketu	Selfish - Fearing - Dreams 	स्वार्थी, भीतीग्रस्त, स्वप्नाळू
+85	Leo	00"46'40"	03'00'00"	Sun	Ketu	Venus	Pleasing - Good manners 	आकर्षक, सुसंस्कृत, चांगले वागणारा
+86	Leo	03'00'00"	03'40'00"	Sun	Ketu	Sun	Truthful - Reserved	सत्यवादी, अबोल
+87	Leo	03"40'00"	04"46'40',	Sun	Ketu	Moon	Confused - Brooding over 	गोंधळलेला, सतत विचारात मग्न
+88	Leo	04"46',40',	05"33'20"	Sun	Ketu	Mars	Like disputes and litigations 	वादविवाद व न्यायालयीन प्रकरणांची आवड
+89	Leo	05"33',20"	07"33'20"	Sun	Ketu	Rahu	Black magic - Fear - depression - Disharmony 	काळी जादू, भीती, नैराश्य, विसंवाद
+90	Leo	07"33',20"	09"20'00"	Sun	Ketu	Jupiter	Religious - Philosophical - Learned 	धार्मिक, तत्त्वज्ञानी, विद्वान
+91	Leo	09"20'00"	11"26'40"	Sun	Ketu	Saturn	Slow - Dull - Dirty	मंद, आळशी, अस्वच्छ
+92	Leo	11"26',40"	13"20',00"	Sun	Ketu	Mercury	Nervous - Talkative 	चिंताग्रस्त, खूप बोलणारा
+93	Leo	13"20'00"	15"33'20"	Sun	Venus	Venus	Fond of company - Charming - Generous - Courteous	मित्रप्रिय, आकर्षक, उदार, नम्र
+94	Leo	15"33'20"	16"13'20"	Sun	Venus	Sun	Generous - Amiable - Affectionate 	उदार, प्रेमळ, स्नेही
+95	Leo	16"13',20"	17'20',00"	Sun	Venus	Moon	Pleasing - Love Affairs - Social - Charming 	आकर्षक, प्रेमसंबंधप्रिय, सामाजिक
+96	Leo	17"20'00"	18"06',40"	Sun	Venus	Mars	Fond of pleasure Adventure - Amorous - Artistic - Extravagant - Wastes money - Independent 	सुखोपभोगी, साहसी, प्रेमळ, कलाप्रेमी, खर्चिक
+97	Leo	18"06',40"	20"06'40"	Sun	Venus	Rahu	Selfish - Speculative 	स्वार्थी, सट्टेबाज
+98	Leo	20"06'40"	21"53'20"	Sun	Venus	Jupiter	Generous - Cheerful 	उदार, आनंदी
+99	Leo	21"53',20"	24"00',00"	Sun	Venus	Saturn	Selfish - Dishonest 	स्वार्थी, बेईमान
+100	Leo	24"00'00"	25"53'20'	Sun	Venus	Mercury	Intelligent - Cheerful - Creative mind 	बुद्धिमान, आनंदी, सर्जनशील विचारसरणी
+101	Leo	25"53'20"	26"40'00"	Sun	Venus	Ketu	Discourteous 	असभ्य, उद्धट
+102	Leo	26"40'00"	27"20',00"	Sun	Sun	Sun	Affectionate - Quick recovery of health - Passionate – Commanding	प्रेमळ, उत्साही, अधिकारशाली, आरोग्यातून लवकर सावरणारा
+103	Leo	27"20'00"	28"26'40"	Sun	Sun	Moon	Fast action - Quick judgment	जलद कृती करणारा, झटपट निर्णय घेणारा
+104	Leo	28"26',40"	29'13'20"	Sun	Sun	Mars	Good health and appearance - Fair - Energetic - Bold - Violent - Wealthy - Tendency to boss over - Donates land - Higher education - Frequent long journey 	उत्तम आरोग्य, देखणे व्यक्तिमत्त्व, ऊर्जावान, धाडसी
+105	Leo	29"13'20'	30"00'00"	Sun	Sun	Rahu	Leading tendency - Over sexual	नेतृत्वगुण असलेला, अतिलैंगिक प्रवृत्ती
+106	Virgo	00'00'00"	01'13'20"	Mercury	Sun	Rahu	Careless about diet - Nervous 	आहाराबाबत निष्काळजी, चिंताग्रस्त
+L07	Virgo	01"13'20"	03"00'00"	Mercury	Sun	Jupiter	Doesn't acre about eating	खाण्यापिण्याकडे दुर्लक्ष करणारा
+108	Virgo	03'00'00"	05"06'40"	Mercury	Sun	Saturn	Careless about diet - Eats anything and everything 	काहीही खाणारा, आहाराबाबत निष्काळजी
+109	Virgo	05"06'40"	07"00'00"	Mercury	Sun	Mercury	Intelligent - Sentimental. 	बुद्धिमान, भावनाशील
+110	Virgo	07"00'00"	07"46',40"	Mercury	Sun	Ketu	Fear Complex 	भीतीग्रस्त स्वभाव
+111	Virgo	07'46'40"	10'00'00"	Mercury	Sun	Venus	Very active 	अत्यंत सक्रिय
+112	Virgo	10'00'00"	11"06'40"	Mercury	Moon	Moon	Unnecessary brooding 	अनावश्यक चिंता करणारा
+113	Virgo	11'06'40"	11"53'20"	Mercury	Moon	Mars	Prefers hot drinks and food 	गरम पेये व गरम अन्न आवडणारा
+114	Virgo	11"53'20"	13"53'20"	Mercury	Moon	Rahu	Fond of Travel - Ungrateful 	प्रवासप्रिय, कृतघ्न
+115	Virgo	13"53'20"	15'40'00"	Mercury	Moon	Jupiter	Over eating - Fond of travel - Grateful 	जास्त खाणारा, प्रवासप्रिय, कृतज्ञ
+116	Virgo	15"40'00"	17"46',40"	Mercury	Moon	Saturn	Bad thinking and Bad Advisor 	वाईट विचार करणारा, चुकीचा सल्ला देणारा
+117	Virgo	17"46'40"	19"40'00"	Mercury	Moon	Mercury	Uneasy and Restless 	अस्वस्थ, बेचैन
+118	Virgo	19"40'00"	20"26',40"	Mercury	Moon	Ketu	Ungrateful 	कृतघ्न
+119	Virgo	20"26'40"	22"40'00"	Mercury	Moon	Venus	Fond of travel - Insincere 	प्रवासप्रिय, असत्यप्रिय
+120	Virgo	22'40'00"	23"20',00"	Mercury	Moon	Sun	Bold and courageous 	धाडसी व शूर
+121	Virgo	23'20'00"	24"06',40"	Mercury	Mars	Mars	Saves money - Find fault with others 	पैसे साठवणारा, इतरांमध्ये दोष शोधणारा
+122	Virgo	24'06'40"	26'06'40"	Mercury	Mars	Rahu	Fear - Depression - Unhappy 	भीती, नैराश्य, दुःखी स्वभाव
+123	Virgo	26"06'40"	27'53'20"	Mercury	Mars	Jupiter	Very quick and commercial minded 	अत्यंत चपळ व व्यावसायिक विचारसरणी
+124	Virgo	27"53'20"	30'00'00"	Mercury	Mars	Saturn	Hard worker - Miser - Timid - Forgery 	कष्टाळू, कंजूस, भित्रा, बनावट कागदपत्रे करणारा
+125	Libra	00'00'00"	01"53',20"	Venus	Mars	Mercury	Intuition - Brilliant - Boring the people with meticulous details - Good Lover 	अंतर्ज्ञानी, बुद्धिमान, प्रेमळ, पण बारकाव्यांनी लोकांना कंटाळवाणा वाटणारा
+126	Libra	01"53'20"	02"40'00"	Venus	Mars	Ketu	Jealous 	मत्सरी
+127	Libra	02"40'00"	04"53'20"	Venus	Mars	Venus	Fond of opposite sex - Helps others - Pleasing - Sincere 	विपरीत लिंगाकडे आकर्षित, मदत करणारा, प्रामाणिक
+128	Libra	04"53',20"	05"33'20"	Venus	Mars	Sun	Good Health 	चांगले आरोग्य
+129	Libra	05"33',20"	06"40'00"	Venus	Mars	Moon	Fertile imagination - Gentle - Lovable 	समृद्ध कल्पनाशक्ती, सौम्य, प्रेमळ
+130	Libra	06"40'00"	08'40'00'	Venus	Rahu	Rahu	Liar - Ungrateful 	खोटारडा, कृतघ्न
+131	Libra	08"40'00'	10"26',40"	Venus	Rahu	Jupiter	Ingenious - Scholar 	हुशार, विद्वान
+132	Libra	10"26'40"	12"33'20"	Venus	Rahu	Saturn	Poor - Wicked - Slow grasping 	गरीब, दुष्ट, मंद आकलनशक्ती
+133	Libra	12"33'20"	14"26'40"	Venus	Rahu	Mercury	Critic - Active mind - Intelligent 	टीकाकार, सक्रिय बुद्धी, बुद्धिमान
+134	Libra	14'26'40"	15"13'20"	Venus	Rahu	Ketu	Adulterer - Cruel minded - Ungrateful - Petition Writer 	व्यभिचारी, क्रूर, कृतघ्न, अर्जलेखक
+135	Libra	15"13'20"	17"26'40"	Venus	Rahu	Venus	Ingenious - Humorous 	हुशार, विनोदी
+136	Libra	17"26'40"	18"06'40"	Venus	Rahu	Sun	Honest - Courteous - Intelligent 	प्रामाणिक, नम्र, बुद्धिमान
+137	Libra	18'06'40"	19'13'20"	Venus	Rahu	Moon	Sympathetic - Flexible - Sensitive	सहानुभूतीशील, लवचिक, संवेदनशील
+138	Libra	19"13'20"	20"00'00"	Venus	Rahu	Mars	Fond of other sex - Loses temper 	विपरीत लिंगाकडे आकर्षित, पटकन रागावणारा
+139	Libra	20'00'00"	21"46'40"	Venus	Jupiter	Jupiter	True - Honest - Noble - Charming 	सत्यवादी, उदात्त, आकर्षक
+140	Libra	21'46'40"	23"53'20"	Venus	Jupiter	Saturn	Hypocrite - Diplomatic - Selfish - Unreliable 	ढोंगी, मुत्सद्दी, स्वार्थी, अविश्वासू
+141	Libra	23"53'20"	25"46',40"	Venus	Jupiter	Mercury	Twin Birth - Good Master - Pleasing - Tactful - Enjoys life - Lovable - Adviser - Careful in Diet 	जुळी मुले, उत्तम मार्गदर्शक, प्रेमळ, आनंदी
+142	Libra	25"46'40"	26"33'20"	Venus	Jupiter	Ketu	Extremist - Influential - Secret enemies 	अतिवादी, प्रभावशाली, गुप्त शत्रू असणारा
+143	Libra	26"33'20"	28"46'40"	Venus	Jupiter	Venus	Pleasing - Sweet manners - Right action - Good-health - Rich 	आकर्षक, गोड वागणारा, योग्य कृती करणारा
+144	Libra	28"46'40"	29'26'40"	Venus	Jupiter	Sun	Charming - Good built - Generous - Magnanimous 	आकर्षक व्यक्तिमत्त्व, उदार, मोठ्या मनाचा
+145	Libra	29"26'40"	30"00'00"	Venus	Jupiter	Moon	Sweet and pleasing manners - Always active 	गोड स्वभाव, सतत सक्रिय
+146	Scorpio	00"00'00"	00"33',20"	Mars	Jupiter	Moon	Worldly wisdom - Quick - Graceful - Optimistic - Strong likes and dislikes - Fatty and Tall 	व्यावहारिक शहाणपण, आशावादी, वेगवान विचार
+147	Scorpio	00"33'20"	01"20'00"	Mars	Jupiter	Mars	Energetic - Quick recovery from diseases - Commanding appearance - Sharp and curly hair - Muscular body - Never-minds obstacles - Rash, dash and crash - Over critical - Self assertion - Impulsive action - Gets excited - Makes large money - Fortune favours - Expects appreciation from lover	ऊर्जावान, आजारातून लवकर बरा होणारा, प्रभावी व्यक्तिमत्त्व, कुरळे केस, मजबूत शरीरयष्टी, अडथळ्यांची पर्वा न करणारा, उतावळा, टीकाकार, आत्मविश्वासी, मोठी कमाई करणारा, भाग्यवान, प्रेमातून कौतुकाची अपेक्षा
+148	Scorpio	01"20'00"	03"20'00"	Mars	Jupiter	Rahu	Over liberal - Extremist - Conservative Criminal Judge - 	अतिउदार, अतिरेकी विचारसरणी, कठोर न्यायनिष्ठ
+149	Scorpio	03"20',00"	05"26',40"	Mars	Saturn	Saturn	Hard working - Gossip - Funky - Lacks sympathy from lover - Less comforts Miserly - Very stingy - Tall - Old look 	कष्टाळू, गप्पिष्ट, विचित्र स्वभाव, प्रेमात सहानुभूतीचा अभाव, कमी सुखसोयी, अतिशय कंजूस, उंच बांधा, वृद्ध दिसणारा
+150	Scorpio	05"26'40"	07"20'00"	Mars	Saturn	Mercury	Hides Black Money - Wavering - Forgery - Long nose - thin chin - Confident - Successful bargain - Clever - Fifth Columnist 	काळा पैसा लपवणारा, चंचल, बनावट कागदपत्रे करणारा, लांब नाक, आत्मविश्वासी, हुशार सौदागर
+151	Scorpio	07"20'00"	08"06'40"	Mars	Saturn	Ketu	Selfish – Cruel	स्वार्थी, क्रूर
+152	Scorpio	08"06'40"	10"20'00"	Mars	Saturn	Venus	Fond of other sex - Secretive - Loose character - Addicted to liquor - Pleasant expenses 	विपरीत लिंगाकडे आकर्षित, गुप्त स्वभाव, चारित्र्यदोष, मद्यपानाची सवय, खर्चिक
+153	Scorpio	10"20'00"	11"00'00"	Mars	Saturn	Sun	Steady - Never follows old custom - Black-mailing - Interested in Psychic subjects 	स्थिर विचारांचा, जुन्या परंपरा न पाळणारा, ब्लॅकमेलिंग प्रवृत्ती, गूढशास्त्रात रस
+154	Scorpio	11'00'00"	12"06'40"	Mars	Saturn	Moon	Steady in love affairs - Good personality - Broad face - Meditation - Lazy - Lethargic - Miserly - Reserved - Funky - Interested in mysteries of nature - Proper intuition and action - Muscular body 	प्रेमात स्थिर, चांगले व्यक्तिमत्त्व, ध्यानधारणा करणारा, आळशी, कंजूस, अबोल, गूढ विषयांत रस, उत्तम अंतर्ज्ञान
+155	Scorpio	12'06'40"	12"53'20"	Mars	Saturn	Mars	Arrogant - Revengeful - Intelligent - Never-minds obstacles 	अहंकारी, सूडबुद्धीचा, बुद्धिमान, अडथळ्यांना न जुमानणारा
+156	Scorpio	12"53',20"	14"53'20"	Mars	Saturn	Rahu	Dishonest - Unscrupulous - Selfish - Cannot bear hunger 	बेईमान, स्वार्थी, नीतीमत्तेचा अभाव, भूक सहन न करणारा
+157	Scorpio	14'53',20"	16"40'00"	Mars	Saturn	Jupiter	Clever - Well-built - Good imagination - Will not accept any .theory Thoughtful - Honest -Non-interfering - Learned - Manager - Administrator 	हुशार, सुदृढ शरीरयष्टी, उत्तम कल्पनाशक्ती, विचारशील, प्रामाणिक, विद्वान, व्यवस्थापक
+158	Scorpio	16"40'00"	18"33',20"	Mars	Mercury	Mercury	Long nose - Clever - Critical - Sharp - Intelligence - Quick grasping - Reverend 	लांब नाक, हुशार, टीकाकार, तीक्ष्ण बुद्धी, झटपट आकलनशक्ती
+159	Scorpio	18"33'20"	19"20'00"	Mars	Mercury	Ketu	Excited - Short temper - Selfish and Venomous type 	उत्तेजित, लवकर रागावणारा, स्वार्थी, विषारी स्वभाव
+160	Scorpio	19"20'00"	21"33',20"	Mars	Mercury	Venus	Fair - Muscular - Frank - Plain - Intuitive - Personality - Earns more and spends more - Fortunate - Sympathetic - Expects appreciation from Partner - Comfortable and smooth life 	गोरा, मजबूत शरीरयष्टी, स्पष्टवक्ता, अंतर्ज्ञानी, भाग्यवान, सहानुभूतीशील, सुखी जीवन
+161	Scorpio	21"33'20"	22"13',20"	Mars	Mercury	Sun	Healthy - Round face - Intelligent - Steady - Methodical - Rational Practical- Quick recovery - Steady income and expenditure - Steadiness in love affairs 	निरोगी, गोल चेहरा, बुद्धिमान, पद्धतशीर, व्यवहारवादी, स्थिर उत्पन्न-खर्च, प्रेमात स्थिरता
+162	Scorpio	22"13',20"	23"20'00"	Mars	Mercury	Moon	Healthy - Wavering - Crosses the floor - Talkative 	निरोगी पण चंचल, जास्त बोलणारा
+163	Scorpio	23"20',00"	24"06'40"	Mars	Mercury	Mars	Well-built - Short Curly hair - Emotional - Self-assertion - Impulsive - Extravagant - Ever borrowing - Plural purchases 	सुदृढ शरीरयष्टी, भावनिक, आत्मविश्वासी, उतावळा, खर्चिक, सतत कर्ज घेणारा
+164	Scorpio	24"06'40"	26"06',40"	Mars	Mercury	Rahu	Murderous - Robber - Rogue - Mischievous 	खूनी, दरोडेखोर, दुष्ट, खोडकर
+165	Scorpio	26"06'40"	27"53'20"	Mars	Mercury	Jupiter	Hale and Healthy - Stalwart - Talkative - Versatile - Meditation 	निरोगी, बलवान, बोलका, बहुगुणी, ध्यानधारणेची आवड
+166	Scorpio	27"53'20"	30"00'00"	Mars	Mercury	Saturn	Deepest eyes - Long nose - No cheek-at all No bed comforts and furniture - Interested in mysteries of nature Philosophical -Meditation - Hypnotism - Concentration - Forgery	खोल डोळे, लांब नाक, गूढ विषयांत रस, तत्त्वज्ञानी, संमोहन व ध्यानाची आवड
+167	Sagittarius	00"00'00"	00'46'40"	Jupiter	Ketu	Ketu	Bold - Greedy - God fearing - Karma Yogi - Spends much Loss in speculation - Cares more for society than for family life - gives freedom to wife 	धाडसी, लोभी, ईश्वरभक्त, कर्मयोगी, समाजासाठी जगणारा
+168	Sagittarius	00"46'40	03"00'00"	Jupiter	Ketu	Venus	Well-built - Fair - Energetic - Sincere - True - Honest - No Black Money cares- equally for society and home - Very rich 	सुदृढ, गोरा, ऊर्जावान, प्रामाणिक, अत्यंत श्रीमंत
+169	Sagittarius	03'00'00"	03"40'00"	Jupiter	Ketu	Sun	Well-built - Broad eyes - Aspiring - Ambitious - Honest - good vitality - Good health - Quick recovery - Steady in love affairs 	सुदृढ, मोठे डोळे, महत्त्वाकांक्षी, प्रामाणिक, उत्तम आरोग्य, प्रेमात स्थिर
+170	Sagittarius	03"40',00"	04"46'40"	Jupiter	Ketu	Moon	Charming - Humpy body - Timid - Lack of confidence - Wavering - Lack of decision - Changeable - Not a good lover - Immoral 	आकर्षक, भित्रा, आत्मविश्वासाचा अभाव, निर्णयक्षमता कमी, चारित्र्यदोष
+171	Sagittarius	04'46'40"	05'53'20"	Jupiter	Ketu	Mars	Well-built - Muscular - Optimistic - Bold - Doubtless - Over confident - Makes plenty of money and spend it - Loss in speculation - Wife questionable character	मजबूत शरीरयष्टी, आशावादी, धाडसी, अतिआत्मविश्वासू, भरपूर पैसा कमावणारा
+172	Sagittarius	05"53'20"	07"33',20"	Jupiter	Ketu	Rahu	Unprincipled - Dishonest - Greedy - dirty habits 	तत्त्वहीन, बेईमान, लोभी, अस्वच्छ सवयी
+173	Sagittarius	07"33'20"	09"20'00"	Jupiter	Ketu	Jupiter	Well-built - Commanding appearance - Ambitious - Confident - Enthusiastic er gets disappointed - Earn by fair means - False prestige - donates much	प्रभावी व्यक्तिमत्त्व, महत्त्वाकांक्षी, आत्मविश्वासू, प्रामाणिक मार्गाने कमाई करणारा
+174	Sagittarius	09"20'00"	11"26'40"	Jupiter	Ketu	Saturn	High and bushy eye brows - Lean - Weak - Beautiful - Lazy - Lethargic - Failures-obstacles - Philosopher - Black Money - Loss of speculation - Jealousy - Miserly - benefitted by friends - suspects wife and Business partner 	"दाट व उंच भुवया,कृश व अशक्त शरीरयष्टी,आकर्षक व्यक्तिमत्त्व,आळशी व सुस्त स्वभाव,अपयश व अडथळ्यांना सामोरे जाणारा,तत्त्वज्ञानी विचारसरणी
+काळ्या पैशाकडे झुकाव,सट्टा किंवा गुंतवणुकीत नुकसान,मत्सरी स्वभाव
+कंजूस वृत्ती,मित्रांकडून लाभ मिळणारा,पत्नी किंवा व्यावसायिक भागीदाराबद्दल संशय घेणारा"
+175	Sagittarius	11"26'40"	13'20'00"	Jupiter	Ketu	Mercury	Graceful - Fair - Versatile - Crosses floor - Earns by all means - Black Money - Gains in speculations - Interested in games , gives freedom to wife 	आकर्षक व्यक्तिमत्त्व, गोरा वर्ण, बहुगुणी, सर्व प्रकारे पैसा कमावण्याची क्षमता, काळ्या पैशाकडे झुकाव, सट्टेबाजीत लाभ, खेळांमध्ये रस, पत्नीला स्वातंत्र्य देणारा
+176	Sagittarius	13"20'00"	15"33'20"	Jupiter	Venus	Venus	Handsome - Well-built - Wins enemies - More confident - Sincere - Firm - Gains in speculations - Lottery - True to wife - Profits 	देखणा, सुदृढ शरीरयष्टी, शत्रूंवर विजय मिळवणारा, आत्मविश्वासू, प्रामाणिक, ठाम, सट्टा व लॉटरीत लाभ, पत्नीशी निष्ठावान, आर्थिक लाभ मिळवणारा
+177	Sagittarius	15"33'20"	16"13'20"	Jupiter	Venus	Sun	Round face - Broad eyes - Good Complexion - Energetic - Magnanimous -  Journey - Higher studies - Steady income - Gains in speculations - True to wife	गोल चेहरा, मोठे डोळे, आकर्षक व्यक्तिमत्त्व, ऊर्जावान व उदार, प्रवासप्रिय, उच्च शिक्षण घेणारा, स्थिर उत्पन्न, सट्ट्यात लाभ, पत्नीशी निष्ठावान
+178	Sagittarius	16"13'20"	17"20'00"	Jupiter	Venus	Moon	Unreliable - Many love affairs - Make money by all means - Loss in speculation - Failure - False prestige	अविश्वासार्ह स्वभाव, अनेक प्रेमसंबंध, कोणत्याही मार्गाने पैसा कमावण्याची प्रवृत्ती, सट्ट्यात नुकसान, अपयश व खोटी प्रतिष्ठा
+179	Sagittarius	17"20'00"	18"06'40"	Jupiter	Venus	Mars	Well-built - Commanding appearance - Most enthusiastic - Greedy - Courageous - Stealthy mind - Quick recovery from illness - Loss in speculation - earn by all means - Most extravagant - temper flares up - Free with Partner - Social - No morals – Lacks integrity 	सुदृढ शरीरयष्टी, प्रभावी व्यक्तिमत्त्व, अत्यंत उत्साही, लोभी, धाडसी, गुप्त स्वभाव, आजारातून लवकर बरा होणारा, सट्ट्यात नुकसान, अतिखर्चिक, लवकर रागावणारा, सामाजिक पण नैतिकतेचा अभाव
+180	Sagittarius	18"06',40"	20'06'40"	Jupiter	Venus	Rahu	Over liberal - Gets into financial trouble - Spends too much - wavering - Does not respect the society 	अतिउदार स्वभाव, आर्थिक अडचणी निर्माण करणारा, जास्त खर्च करणारा, चंचल, समाजाच्या नियमांचा आदर न करणारा
+181	Sagittarius	20"06'40"	21'53'20"	Jupiter	Venus	Jupiter	Plump body - Charming - Tall - Gigantic figure - Bold - Pushful - Over confident - Law abiding - True & sincere God-fearing - Religious - Earns by fair means - Good in Art and Music - Drawing 	भरदार शरीरयष्टी, आकर्षक, उंच बांधा, धाडसी, पुढाकार घेणारा, अतिआत्मविश्वासू, कायद्याचे पालन करणारा, प्रामाणिक, धार्मिक व ईश्वरभक्त, योग्य मार्गाने पैसा कमावणारा, कला, संगीत व चित्रकलेत रस
+182	Sagittarius	21"53'20"	24'00'00"	Jupiter	Venus	Saturn	Very fair and lean - Cannot produce children - Cannot satisfy Partner - Stealthy connections - Black-mailing - Writing anonymous letters - Mean in love affairs 	अतिशय गोरा व कृश, अपत्यप्राप्तीत अडचणी, जोडीदाराला समाधान देण्यात कमी पडणारा, गुप्त संबंध ठेवणारा, ब्लॅकमेलिंगची प्रवृत्ती, निनावी पत्रे लिहिणारा, प्रेमसंबंधात संकुचित वृत्ती
+183	Sagittarius	24"00'00"	25"53'20"	Jupiter	Venus	Mercury	Long nose - Impressive eyes - Charming - Changing ideas - Very bad subordinates 	लांब नाक, प्रभावी डोळे, आकर्षक व्यक्तिमत्त्व, सतत विचार बदलणारा, अधीनस्थांकडून अपेक्षित सहकार्य न मिळणारा
+184	Sagittarius	25"53',20"	26"40',00"	Jupiter	Venus	Ketu	Timid - Womanish - always fearing something	भित्रा स्वभाव, स्त्रीसदृश वर्तन, नेहमी भीतीत राहणारा
+185	Sagittarius	26'40'00"	27"20',00"	Jupiter	Sun	Sun	Plump body - Round face - Highly qualified - commanding appearance - Quick -recovery from illness - Good vitality	भरदार शरीर, गोल चेहरा, उच्चशिक्षित, प्रभावी व्यक्तिमत्त्व, आजारातून लवकर बरा होणारा, चांगली जीवनशक्ती
+186	Sagittarius	27"20'00"	28"26'40"	Jupiter	Sun	Moon	Interested in Games and Society - Graceful - Fair - Changeability - Unsteady - Hates parents and relatives - Slowly recovery from illness	खेळ व समाजकार्याची आवड, आकर्षक व गोरा, अस्थिर स्वभाव, पालक व नातेवाईकांशी मतभेद, आजारातून हळूहळू बरा होणारा
+187	Sagittarius	28"26'40	29'13'20"	Jupiter	Sun	Mars	Wastes money - Fortune in abroad - Well proportioned body - Commanding appearance - Fair - Over optimistic avaricious - Energetic - success in Examinations- Loss in speculation -Love affairs with divorcee - High class people - Cheat 	उधळपट्टी करणारा, परदेशात भाग्यवान, प्रभावी व्यक्तिमत्त्व, अतिआशावादी व लोभी, परीक्षेत यशस्वी, सट्ट्यात नुकसान, घटस्फोटित व्यक्तीशी प्रेमसंबंध, उच्चभ्रू लोकांशी संबंध, फसवणुकीची प्रवृत्ती
+188	Sagittarius	29"13'20"	30"00'00"	Jupiter	Sun	Rahu	Optimistic - Bad intentions 	आशावादी पण चुकीचे हेतू असलेला
+189	Capricorn	00"00'00"	01"13'20"	Saturn	Sun	Rahu	Lazy - Lethargic - False prestige 	आळशी, सुस्त, खोट्या प्रतिष्ठेचा हव्यास
+190	Capricorn	01"13'20"	03"00'00"	Saturn	Sun	Jupiter	Magnanimous - Materialistic - True - Honest - Sincere - Fat and bulky body	उदार, भौतिकवादी, प्रामाणिक व सत्यनिष्ठ, मोठ्या शरीरयष्टीचा
+191	Capricorn	03'00'00"	05"06'40"	Saturn	Sun	Saturn	Dishonest - Cheat - Meditation 	बेईमान, फसवणूक करणारा, ध्यानधारणेची आवड
+192	Capricorn	05"06'40"	07'00'00"	Saturn	Sun	Mercury	Unlawful - Tall - Fake Currency - Gains from Foreigners/Father - Long journey -Partnership Business - Liar - Inherits property from father or stranger	बेकायदेशीर मार्गाकडे झुकणारा, उंच बांधा, बनावट चलनाशी संबंध, परदेशी व्यक्ती किंवा वडिलांकडून लाभ, लांब प्रवास, भागीदारी व्यवसाय, खोटे बोलण्याची प्रवृत्ती, वडील किंवा परक्या व्यक्तीकडून मालमत्ता मिळणे
+193	Capricorn	07"00'00"	07'46'40"	Saturn	Sun	Ketu	Timid - Wavery - Always in trouble 	भित्रा, चंचल, सतत अडचणीत राहणारा
+194	Capricorn	07"46',40"	10"00'00"	Saturn	Sun	Venus	Thin - Lean - Popular - Deep set eyes - Like loneliness - Unsocial - Secret love affairs - Speculate with others money - Reserved - Talks sweetly 	कृश, लोकप्रिय, खोल डोळे, एकांतप्रिय, गुप्त प्रेमसंबंध, इतरांच्या पैशांवर सट्टा खेळणारा, अबोल पण गोड बोलणारा
+195	Capricorn	10"00'00"	11'06'40"	Saturn	Moon	Moon	Timid - Wavering - Failure in first attempt - Disappointment -Pessimist-Partnership business - Attached to Partner - Bony - Thin and Lean	भित्रा, चंचल, पहिल्या प्रयत्नात अपयश, निराशावादी, भागीदारी व्यवसायाकडे कल, जोडीदारावर अवलंबून राहणारा, हाडकुळा बांधा
+196	Capricorn	11"06'40"	11"53'20"	Saturn	Moon	Mars	Muscular - Popular - Success in Litigation/examination - Partner - a working girl 	मजबूत शरीरयष्टी, लोकप्रिय, परीक्षा व न्यायालयीन प्रकरणांत यशस्वी, नोकरी करणारा जोडीदार लाभणारा
+197	Capricorn	11'53'20"	13"53'20"	Saturn	Moon	Rahu	Delayed ambition - Confused - Disappointed - Pessimist 	महत्त्वाकांक्षा पूर्ण होण्यास विलंब, गोंधळलेला, निराशावादी
+198	Capricorn	13"53',20"	15'40'00"	Saturn	Moon	Jupiter	Loss to the native - Partner -Gains - Repaying the loans - Sick partner - Frequent tour - Change of house - Loss of prestige 	स्वतःला नुकसान, जोडीदाराला लाभ, कर्जफेड, आजारी जोडीदार, वारंवार प्रवास, घरबदल, प्रतिष्ठा कमी होणे
+							Thin - Lean - Bony structure Secretive and depressed mind - Timid - Partner depressed 	कृश, हाडकुळा बांधा, गुप्त स्वभाव, नैराश्यग्रस्त मन, भित्रा, जोडीदारही नैराश्यग्रस्त
+199	Capricorn	15'40',00"	17"46'40"	Saturn	Moon	Saturn	Wavering and depressed mind - Tall - Talkative - Shuns crowd - Gains from Foreigner or father or brother-in-law 	चंचल व नैराश्यग्रस्त मन, उंच बांधा, बोलका, गर्दी टाळणारा, परदेशी व्यक्ती, वडील किंवा मेव्हण्याकडून लाभ
+200	Capricorn	17"46',40	19"40',00"	Saturn	Moon	Mercury	Wavering - Timid - Sober - Pessimistic - Contemplating - Funky 	चंचल, भित्रा, गंभीर, निराशावादी, विचारमग्न, विचित्र स्वभाव
+201	Capricorn	19'40',00"	20"46'40"	Saturn	Moon	Ketu	Wavering - Timid - Sober - Pessimistic - Contemplating - Funky 	चंचल, भित्रा, गंभीर, निराशावादी, विचारमग्न, विचित्र स्वभाव
+202	Capricorn	20"46'40"	22"40',00"	Saturn	Moon	Venus	Speculative - Beautiful - Deep set eyes - Profuse hair growth on eyes, head and chest - Immoral - happy - Popular - Musician 	सट्टेबाज वृत्ती, आकर्षक, खोल डोळे, डोके व छातीवर दाट केस, चारित्र्यदोष, आनंदी, लोकप्रिय, संगीतप्रेमी
+203	Capricorn	22"40'00"	23"20',00"	Saturn	Moon	Sun	Ever in trouble - Danger to life - slow and steady - Position of trust 	सतत अडचणीत राहणारा, जीवितास धोका, सावकाश पण स्थिर प्रगती, विश्वासार्ह पद मिळणारा
+204	Capricorn	23"20'00"	24"06',40"	Saturn	Mars	Mars	Muscular and thin - Thief - Attacked by Dacoits - Success in examination - Danger to Vehicles 	कृश पण स्नायूयुक्त शरीर, चोरीची प्रवृत्ती, दरोडेखोरांचा धोका, परीक्षेत यश, वाहनांपासून धोका
+205	Capricorn	24"06'40"	26"06'40"	Saturn	Mars	Rahu	Selfish - Greedy - Arrogant - Violent - Invite troubles 	स्वार्थी, लोभी, अहंकारी, हिंसक, स्वतःच अडचणी ओढवून घेणारा
+206	Capricorn	26"06',40"	27"53'20"	Saturn	Mars	Jupiter	Acquires landed property - Ever changing of residence - Superiority complex 	जमीन-जुमला मिळवणारा, वारंवार घरबदल करणारा, श्रेष्ठत्वाचा अहंकार
+207	Capricorn	27"53'20"	30"00'00"	Saturn	Mars	Saturn	Liar - Dacoit - Thief - Quarrelsome - No principles Thin and muscular body -Secretive - Successful in disputes 	खोटारडा, दरोडेखोर वृत्ती, चोरीची प्रवृत्ती, भांडखोर, तत्त्वहीन, कृश व स्नायूयुक्त शरीर, गुप्त स्वभाव, वादविवादात यशस्वी
+208	Aquarius	00'00'00"	01"53'20"	Saturn	Mars	Mercury	Wavering - Funky - Timid - Nervous - Always confused 	चंचल, विचित्र, भित्रा, चिंताग्रस्त, नेहमी गोंधळलेला
+209	Aquarius	01"53'20"	02"40'00"	Saturn	Mars	Ketu	Quarrelsome - Short temper - Fickle minded - Organiser of Clubs 	भांडखोर, लवकर रागावणारा, चंचल मन, क्लब किंवा संघटनांचा आयोजक
+210	Aquarius	02"40'00"	04"53'20"	Saturn	Mars	Venus	Fair - Pleasing manners - Social worker - Loved by women 	गोरा वर्ण, चांगले शिष्टाचार, समाजसेवक, महिलांमध्ये लोकप्रिय
+211	Aquarius	04"53'20'	05"33'20"	Saturn	Mars	Sun	Bold - Honest - Discipline 	धाडसी, प्रामाणिक, शिस्तप्रिय
+212	Aquarius	05"33',20"	06"40'20"	Saturn	Mars	Moon	Fair - Pleasing - Loved by women 	गोरा वर्ण, आकर्षक, महिलांमध्ये लोकप्रिय
+213	Aquarius	06"40'20"	08"40'00"	Saturn	Rahu	Rahu	Lazy - Lethargic - Fond of rest - Arrogant 	आळशी, सुस्त, आरामप्रिय, अहंकारी
+214	Aquarius	08'40'00"	10"26'40"	Saturn	Rahu	Jupiter	Sincere - Honest - Patience - Pleasing nature - Higher qualities - Scholar – Dynamic	प्रामाणिक, संयमी, आनंददायी स्वभाव, उच्च गुण, विद्वान, गतिशील
+215	Aquarius	10"26'40"	12"33',20',	Saturn	Rahu	Saturn	Lazy and lethargic - Fond of rest 	आळशी व सुस्त, आरामप्रिय
+216	Aquarius	12"33'20"	14"26'40"	Saturn	Rahu	Mercury	Intelligent - Strong decision -sometimes act in a foolish way - wrong advisor 	बुद्धिमान, ठाम निर्णयक्षमता, कधी कधी मूर्खपणाचे निर्णय घेणारा, चुकीचा सल्लागार
+217	Aquarius	14'26'40"	15"13'20"	Saturn	Rahu	Ketu	Ugly appearance - Selfish - Bad dreams - Abortive thinking 	अप्रिय व्यक्तिमत्त्व, स्वार्थी, वाईट स्वप्ने, नकारात्मक विचार
+218	Aquarius	15"13'20"	17"26'40"	Saturn	Rahu	Venus	Pleasing - Fair - set manners - Liked by all - Good qualities - Well built 	आकर्षक, गोरा, उत्तम शिष्टाचार, सर्वांना आवडणारा, चांगले गुण, सुदृढ शरीरयष्टी
+219	Aquarius	17"26'40"	18"06',40"	Saturn	Rahu	Sun	Honest - True - Sincere - Discipline 	प्रामाणिक, सत्यवादी, शिस्तप्रिय
+220	Aquarius	18"06'40"	19"13'20"	Saturn	Rahu	Moon	Fair - Pleasing - Liked by all – Sympathetic - Sincere – Dynamic	गोरा, आकर्षक, सर्वांना आवडणारा, सहानुभूतीशील, प्रामाणिक, गतिशील
+221	Aquarius	19"13',20"	20"00'00"	Saturn	Rahu	Mars	Forceful - Independent - Arrogant - Commanding 	दबदबा असलेला, स्वतंत्र, अहंकारी, प्रभावी व्यक्तिमत्त्व
+222	Aquarius	20"00'00"	21'46'40"	Saturn	Jupiter	Jupiter	Religious minded - Generous - Honest and Sincere 	धार्मिक वृत्ती, उदार, प्रामाणिक, सत्यनिष्ठ
+223	Aquarius	21"46',40"	23"53'20"	Saturn	Jupiter	Saturn	Lazy - Lethargic - Selfish - Sluggish 	आळशी, सुस्त, स्वार्थी, मंदगती
+224	Aquarius	23"53',20"	25"46'40"	Saturn	Jupiter	Mercury	Timid - Funky - Nervous 	भित्रा, विचित्र, चिंताग्रस्त
+225	Aquarius	25"46'40"	26"33'20"	Saturn	Jupiter	Ketu	Arrogant - Critic - Bad intentions - Henpecked - Miser 	अहंकारी, टीकाकार, चुकीचे हेतू, जोडीदाराच्या प्रभावाखाली राहणारा, कंजूस
+226	Aquarius	26'33'20"	28"46'40"	Saturn	Jupiter	Venus	Fair - Loved by all - Pleasing and Sweet manners 	सर्वांना आवडणारा, आकर्षक व गोड शिष्टाचार असलेला
+227	Aquarius	28"46'40"	29"26'40"	Saturn	Jupiter	Sun	Honest - Sincere - Discipline - Steady income	प्रामाणिक, सत्यनिष्ठ, शिस्तप्रिय, स्थिर उत्पन्न मिळवणारा
+228	Aquarius	29"26',40"	30"00'00"	Saturn	Jupiter	Moon	Pleasing - Liked by all - Soft manners - Fond of travel - Love of Romance - Roaming and changing	आकर्षक, सर्वांना आवडणारा, मृदू स्वभाव, प्रवासप्रिय, प्रेमसंबंधांची आवड, भटकंती करणारा
+229	Pisces	00"00'00"	00"33'20"	Jupiter	Jupiter	Moon	Fair complexion - Courteous - Ever changing habits - Unsteady - Tries to lead a peaceful life - Hospitable - Avoids anxiety - Reliable - Medium built - Fleshy face - Full eyes - Dark hair -Passionate - Mysterious - Loves music and nature - Like change of job - Over work 	गोरा वर्ण, विनम्र, सतत बदलणाऱ्या सवयी, अस्थिर स्वभाव, शांत जीवन जगण्याचा प्रयत्न करणारा, आदरातिथ्यशील, विश्वासार्ह, संगीत व निसर्गप्रेमी, नोकरी बदलण्याची प्रवृत्ती, अतिश्रम करणारा
+230	Pisces	00"33'20"	01"20'00"	Jupiter	Jupiter	Mars	Bold - Emotional - Good health - Independent - Short married life - Quick in understanding – Inspirational	धाडसी, भावनिक, चांगले आरोग्य, स्वतंत्र विचारसरणी, वैवाहिक जीवनात काही अडचणी, जलद आकलनशक्ती, प्रेरणादायी व्यक्तिमत्त्व
+231	Pisces	01"20'00"	03"20'00"	Jupiter	Jupiter	Rahu	Arrogant - Rough Character - Disregards Society 	अहंकारी, कठोर स्वभाव, समाजाच्या नियमांकडे दुर्लक्ष करणारा
+232	Pisces	03"20',00"	05"26'40"	Jupiter	Saturn	Saturn	Imaginative - Reserved nature - Anxious - Patient - Economical - Discontentment - Rich person 	कल्पनाशील, अबोल, चिंताग्रस्त, संयमी, काटकसरी, असमाधानी पण श्रीमंत
+233	Pisces	05'26'40"	07"20'00"	Jupiter	Saturn	Mercury	Stature above average - Medium complexion - Imaginative - Hospitable - Intelligent -Studious - Learns without a teacher - Traveller - Mathematician - Learns occult Science - Respects others - Unhappy married life - Marries twice - Divorce 	सरासरीपेक्षा उंच, बुद्धिमान, अभ्यासू, शिक्षकाविना शिकणारा, प्रवासप्रिय, गणित व गूढशास्त्रात रस, इतरांचा आदर करणारा, वैवाहिक जीवनात अडचणी, दोन विवाह किंवा घटस्फोटाची शक्यता
+234	Pisces	07"20'o0"	08'06'40"	Jupiter	Saturn	Ketu	Confusion - Unsteady - Wavering - Timid - Bad dreams - Fraud 	गोंधळलेला, अस्थिर, भित्रा, वाईट स्वप्ने पाहणारा, फसवणूक करणारा
+235	Pisces	08'06'40"	10'20'00"	Jupiter	Saturn	Venus	Diplomatic - Selfish - Fair - Loved by women 	मुत्सद्दी, स्वार्थी, गोरा वर्ण, महिलांमध्ये लोकप्रिय
+236	Pisces	10"20'00"	11'00'00"	Jupiter	Saturn	Sun	Liberal - Honest - Proud - Generous - Fond of jewels 	उदारमतवादी, प्रामाणिक, स्वाभिमानी, उदार, दागिन्यांची आवड
+237	Pisces	11'00'00"	12"06'40"	Jupiter	Saturn	Moon	Pale complexion - Reserved - Calm - Wavering and vacillating - Traditional mind 	फिकट वर्ण, अबोल, शांत, चंचल, पारंपरिक विचारसरणी
+238	Pisces	12"06'40"	12'53',20"	Jupiter	Saturn	Mars	White complexion with Red shade - Muscular - Bold - Courageous - Not rash - Impulsive - Aggressive - Patient endurance - Locality - Murderous tendency 	गोरा-लालसर वर्ण, स्नायूयुक्त शरीर, धाडसी, शूर, आक्रमक पण संयमी, सहनशील, हिंसक प्रवृत्तीची शक्यता
+239	Pisces	12"53',20"	14"53',20"	Jupiter	Saturn	Rahu	Arrogant - Unfair - Rough manners 	अहंकारी, अन्यायी, उद्धट वर्तन
+240	Pisces	14"53'20"	16'40'00"	Jupiter	Saturn	Jupiter	Healthy - Good manners - Pleasing - Gentle and Honest 	निरोगी, चांगले शिष्टाचार, आकर्षक, सौम्य व प्रामाणिक
+241	Pisces	16"40'00"	18"33',20"	Jupiter	Mercury	Mercury	Optimistic - Always in good spirits - Broad minded - Versatile - Slow Judgement - Controversial decision - Brings disputes and litigations 	आशावादी, आनंदी, व्यापक दृष्टिकोन, बहुगुणी, निर्णय घेण्यास विलंब, वादग्रस्त निर्णय घेणारा, वाद-विवाद निर्माण करणारा
+242	Pisces	18"33'20"	19"20'00"	Jupiter	Mercury	Ketu	Vacillation - Flexible - Bad dreams - Confused - Sober 	चंचल, लवचिक, वाईट स्वप्ने, गोंधळलेला, गंभीर स्वभाव
+243	Pisces	19"20'00"	21"33'20'	Jupiter	Mercury	Venus	Cheerful - Handsome - Two Partners - Two Partners - Two attachments - Ever smiling - Social prestige - Generous - Many friends - Liked by all - Fond of Fine Arts - Gives Surety and Free from troubles 	आनंदी, देखणा, दोन नातेसंबंध किंवा दोन जोडीदारांची शक्यता, सामाजिक प्रतिष्ठा, उदार, अनेक मित्र, कला प्रेमी, इतरांना मदत करणारा
+244	Pisces	21"33'20"	22"13'20"	Jupiter	Mercury	Sun	Generous - Courteous - Loves nature - Social - Easy life - Fond of opposite sex - Fine Arts - Poetry - sickly wife - Unhappy married life - Interested in Astrology and Astronomy - Ambitious - Capable - Inspiring 	उदार, विनम्र, निसर्गप्रेमी, सामाजिक, सुखी जीवन, विपरीत लिंगाकडे आकर्षण, कविता व कलांची आवड, महत्त्वाकांक्षी, प्रेरणादायी व्यक्तिमत्त्व
+245	Pisces	22"13'20"	23"20',00"	Jupiter	Mercury	Moon	Average height - Stout - Long hands - Slender - Dark hair - Expressive eyes - Thin and shrill voice - Looks younger - Intelligent - Imaginative - Emotional - Mental Imbalance - Spreads false rumours - Anxious - Learns many languages - Short journeys - Frequent changes - Pessimistic Wiser as age grows up - Criticised by public - Unhappy dealings with relatives	सरासरी उंची, बुद्धिमान, कल्पनाशील, भावनिक, मानसिक अस्थिरता, अफवा पसरवण्याची प्रवृत्ती, अनेक भाषा शिकणारा, वारंवार प्रवास करणारा, सार्वजनिक टीका सहन करणारा
+246	Pisces	23"20',00"	24"06',40"	Jupiter	Mercury	Mars	Medium stature - Healthy - Round eyes - Narrow waist - Loves. work - duty minded - Quick - Organising ability -Humorous - Ingenious - Constructive - Practical - Business like - Great mental and intellectual powers - Impulsive - Rash - Irritated and Irritates others - Disputes - Litigations - Risky - Ventures - Hasty decision - Public scandal - Criticised by others - Loss in speculation - Fraud - Cheating - Physical fight with wife	मध्यम उंची, निरोगी, कर्तव्यदक्ष, संघटन कौशल्य असलेला, विनोदी, व्यवहारकुशल, उच्च बौद्धिक क्षमता, उतावळा, जोखमी घेणारा, वादविवादात अडकणारा, सार्वजनिक बदनामीचा धोका
+247	Pisces	24"06'40"	26"06'40'	Jupiter	Mercury	Rahu	Flexible - Cruel - Bad intentions - Wavering - No Principles 	लवचिक पण क्रूर, चुकीचे हेतू, चंचल, तत्त्वहीन
+248	Pisces	26"06'40"	27"53'20"	Jupiter	Mercury	jupiter	Huge body - Tall - Stout - Looks younger - Clear thoughts - good Judgement -god-fearing -Honest - Religious-minded - Liberal 	उंच, मजबूत शरीरयष्टी, स्पष्ट विचारसरणी, योग्य निर्णयक्षमता, ईश्वरभक्त, धार्मिक, उदार, प्रामाणिक
+249	Pisces	27"53'20	30'00'00"	Jupiter	Mercury	Saturn	Thin built - Pale complexion - Looks older - Deep set eyes - Fear complex - Spreads rumours 	कृश शरीरयष्टी, फिकट वर्ण, वयापेक्षा मोठा दिसणारा, खोल बसलेले डोळे, भीतीग्रस्त, अफवा पसरवणारा
+								
+								
+								
+								
+								
+								

@@ -10,17 +10,8 @@
     if(data.cuspMismatch)return {promised:false,reason:'The selected cusp is not the event’s main cusp.'};
     const uploaded=window.KPEventHouseRules?.assess?.(data);if(uploaded)return uploaded;const marriage=window.KPMarriagePoints?.assess?.(data);if(marriage)return marriage;
     const houses=data.houses||[], label=String(data.rule?.label||'');
-    // Customer-requested majority convention; this is an explicit scoring policy,
-    // not an additional source-book rule or a prediction of actual lifespan.
-    const longevity=/^(short|middle|long) life(?:$| \()/i.exec(label);
-    if(longevity){
-      const good=[1,5,9,10].filter(h=>houses.includes(h)),adverse=[6,8,12].filter(h=>houses.includes(h));
-      const g=good.length/4,a=adverse.length/3;
-      if(!g&&!a)return {promised:false,qualified:true,reason:'No longevity-group houses are present; there is insufficient support to classify this selection.'};
-      const strongest=g>.5&&a>.5?'middle':g===a?'middle':g>a?'long':'short';
-      const selected=longevity[1].toLowerCase(),promised=selected===strongest;
-      return {promised,qualified:true,basis:'majority-comparison',strongest,coverage:{supporting:g,adverse:a},reason:'Comparative house support: supporting group '+good.length+'/4 ('+(good.join(', ')||'none')+'); adverse group '+adverse.length+'/3 ('+(adverse.join(', ')||'none')+'). Strongest category: '+strongest+' life'+(g>.5&&a>.5?' (mixed majority support)':'')+'. '+(promised?'The selected category has the strongest support.':'The selected category is weaker than the strongest category.')+' This comparison is not a confirmed lifespan; Saturn, badhaka/maraka and the relevant cusps still require review.'};
-    }
+    const longevity=/^(short|middle|medium|long) life(?:$| \()/i.exec(label);
+    if(longevity&&window.KPLifespanReference)return window.KPLifespanReference.assess(longevity[1].toLowerCase());
     const proofs=data.proofs||[],best=[...proofs].filter(p=>p.required?.length).sort((a,b)=>(b.matched?.length||0)/b.required.length-(a.matched?.length||0)/a.required.length)[0];
     const ratio=best?(best.matched?.length||0)/best.required.length:0;
     const excluded=String(data.rule.remarks||'').match(/not connected to\s+((?:1[0-2]|[1-9])(?:\s*,\s*(?:1[0-2]|[1-9]))*)/i);
