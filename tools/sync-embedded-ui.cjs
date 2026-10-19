@@ -10,6 +10,13 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script','kp-hover-details','vendor/interface/hover-details.js'],
+  ['script','kp-vedic-adapter','vendor/vedic/adapter.js'],
+  ['script','kp-vedic-ui','vendor/vedic/ui.js'],
+  ['style','kp-vedic-style','vendor/vedic/style.css'],
+  ['style','kp-help-tutorial-style','vendor/interface/help-tutorial.css'],
+  ['script','kp-help-tutorial','vendor/interface/help-tutorial.js'],
+  ['script', 'kp-aspect-legend-language', 'vendor/interface/aspect-legend.js'],
   ['script', 'kp-personal-workspace', 'vendor/interface/personal-workspace.js'],
   ['script', 'kp-prediction-quick-language', 'vendor/interface/prediction-quick-language.js'],
   ['style', 'kp-settings-easy-style', 'vendor/interface/settings-easy.css'],
@@ -90,6 +97,7 @@ const assets = [
   ['script', 'kp-horary-dba-selection', 'vendor/interface/horary-dba.js'],
   ['script', 'kp-coordinate-dms-inputs', 'vendor/interface/coordinate-dms.js'],
   ['style', 'kp-ruling-finder-style', 'vendor/interface/ruling-planet-finder.css'],
+  ['script', 'kp-live-ruling-calculator', 'vendor/interface/live-ruling.js'],
   ['script', 'kp-ruling-finder-script', 'vendor/interface/ruling-planet-finder.js'],
   ['script', 'kp-dasha-current-selection', 'vendor/interface/dasha-current-selection.js'],
   ['style', 'kp-dark-readability', 'vendor/interface/dark-readability.css'],
@@ -151,5 +159,11 @@ for (const [tag, id, relative] of assets) {
     html = html.slice(0, at) + block + '\n' + html.slice(at);
   }
 }
+const guideData = JSON.stringify({file:'KP-MASTER-User-Tutorial-1.2.8.pdf',language:'english',base64:fs.readFileSync(path.join(root,'docs/KP-MASTER-User-Tutorial-1.2.8.pdf')).toString('base64')});
+const guideBlock='<script id="kp-user-tutorial-pdf" type="application/json">'+guideData+'</script>';
+if(/<script id="kp-user-tutorial-pdf"[^>]*>[\s\S]*?<\/script>/.test(html))html=html.replace(/<script id="kp-user-tutorial-pdf"[^>]*>[\s\S]*?<\/script>/,()=>guideBlock);else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+guideBlock+'\n'+html.slice(at);}
+const featureCatalog = fs.readFileSync(path.join(root,'desktop/licensing/features.json'),'utf8').trim();
+const featureBlock='<script id="kp-feature-catalog" type="application/json">'+featureCatalog+'</script>';
+if(/<script id="kp-feature-catalog"[^>]*>[\s\S]*?<\/script>/.test(html))html=html.replace(/<script id="kp-feature-catalog"[^>]*>[\s\S]*?<\/script>/,()=>featureBlock);else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+featureBlock+'\n'+html.slice(at);}
 fs.writeFileSync(target, html);
 console.log(`Synchronized ${assets.length} reviewed embedded modules.`);

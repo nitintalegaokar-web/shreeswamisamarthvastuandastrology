@@ -1,6 +1,7 @@
 'use strict';
 const {ipcMain,dialog,clipboard,BrowserWindow,safeStorage}=require('electron');
 const {DemoStore}=require('./demo.cjs');
+const {entitlements}=require('./feature-policy.cjs');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const {pathToFileURL}=require('node:url');
@@ -51,6 +52,7 @@ async function createGate(app,win,indexPath){
   }
   const status=()=>({systemId:id,active:Boolean(claims),message,configured:!configurationError,ownerKeyIds:keys.map(keyId),registered:Boolean(registration),demo:canUseDemo()?demoStore.status():null});
   ipcMain.on('kp-demo:request',(event,request)=>{try{if(event.sender!==win.webContents||event.senderFrame?.url.split('#')[0]!==indexURL)throw Error('Untrusted demo request.');if(claims){event.returnValue={allowed:true,paid:true};return;}if(!canUseDemo())throw Error('Registration/purchase activation is required.');event.returnValue={...(request?.action==='status'?demoStore.status():demoStore.use(request?.kind,request?.signature,request?.consume!==false)),registered:Boolean(registration)};}catch(error){event.returnValue={allowed:false,error:error.message};}});
+  ipcMain.handle('kp-license:features',event=>{if(event.sender!==win.webContents||event.senderFrame?.url.split('#')[0]!==indexURL||!hasAccess())throw Error('Untrusted feature request.');return {active:Boolean(claims),demo:!claims,edition:claims?.edition||'Full',features:entitlements(claims)};});
   ipcMain.handle('kp-demo:continue',async event=>{check(event);if(!canUseDemo())throw Error('Purchase activation is required.');await win.loadFile(indexPath);return true;});
   ipcMain.handle('kp-license:status',event=>{check(event);return status();});
   ipcMain.handle('kp-license:retry',async event=>{

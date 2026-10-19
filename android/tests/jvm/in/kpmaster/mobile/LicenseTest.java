@@ -13,6 +13,7 @@ public class LicenseTest{
   rejects(()->LicenseManager.codeEnvelope(code,true));rejects(()->LicenseManager.codeEnvelope("bad",false));
   JSONObject off=new JSONObject(read(d,"deactivate.json"));String offCode="KP-S1."+off.getString("payload")+"."+off.getString("signature");LicenseManager fresh=new LicenseManager(new Context(d.toString()),id);fresh.importLicence(LicenseManager.codeEnvelope(code,false));fresh.importControl(LicenseManager.codeEnvelope(offCode,true));rejects(()->fresh.active());
   JSONObject request=new JSONObject(read(d,"owner-request.json"));if(!m.request().contains(request.getString("systemId")))throw new AssertionError();assertions++;
+  m.importLicence(read(d,"feature-plan.json"));if(!m.active().getJSONArray("features").getString(0).equals("vedic"))throw new AssertionError();assertions++;rejects(()->m.importLicence(read(d,"invalid-feature.json")));
   System.out.println("Android signed-licence/control compatibility: PASS ("+assertions+" assertions)");
  }
 }

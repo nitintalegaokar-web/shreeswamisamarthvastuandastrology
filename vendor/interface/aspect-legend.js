@@ -1,0 +1,10 @@
+/* Translate legend labels only; aspect classifications and colours stay unchanged. */
+(()=>{'use strict';const KEYS=['very-good','good','bad','very-bad','conjunction'],EN=['Very good','Good','Bad','Very bad','Conjunction'],MR=['अतिशय शुभ','शुभ','अशुभ','अतिशय अशुभ','युती'];let queued=false;
+function labels(language=window.KPPreferences?.get().language||'english'){return {title:language==='marathi'?'रंग संकेत':language==='bilingual'?'Colour code · रंग संकेत':'Colour code',values:KEYS.map((key,i)=>({key,label:language==='marathi'?MR[i]:language==='bilingual'?EN[i]+' · '+MR[i]:EN[i]}))};}
+function content(){const d=labels(),palette=KPWesternAspects.getPalette();return '<h4>'+d.title+'</h4>'+d.values.map(p=>'<span style="--am-color:'+palette[p.key].color+';color:'+palette[p.key].color+'">'+p.label+'</span>').join('');}
+function html(){return '<div class="am-legend" data-no-localize>'+content()+'</div>';}
+function refresh(){queued=false;const d=labels(),expected=d.title+d.values.map(p=>p.label).join('');document.querySelectorAll('#aspects .am-legend').forEach(e=>{e.setAttribute('data-no-localize','');if(e.textContent!==expected)e.innerHTML=content();});document.querySelectorAll('#aspects .western-color-legend').forEach(e=>{e.setAttribute('data-no-localize','');e.dataset.legendTitle=d.title;[...e.children].forEach((span,i)=>{if(d.values[i]&&span.textContent!==d.values[i].label)span.textContent=d.values[i].label;});});}
+function schedule(){if(!queued){queued=true;requestAnimationFrame(refresh);}}
+function init(){const style=document.createElement('style');style.textContent='#aspects .western-color-legend::before{content:attr(data-legend-title)!important}';document.head.append(style);refresh();const target=document.getElementById('aspects');if(target)new MutationObserver(schedule).observe(target,{childList:true,subtree:true});window.addEventListener('kp-preferences-changed',refresh);}
+window.KPAspectLegend=Object.freeze({labels,html,refresh});if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();

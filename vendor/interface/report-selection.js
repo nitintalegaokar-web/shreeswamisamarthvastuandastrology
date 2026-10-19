@@ -65,7 +65,7 @@ async function exportPDF(){let frame;const button=$('report-selection-pdf');butt
    while(start<total-0.5){const header=continuationHeader(page,start),headerHeight=header?.getBoundingClientRect().height||0,end=safeCut(start,maxHeight-headerHeight,total,blocks);
     if(sheet++)pdf.addPage();let y=10;
     if(header){const rect=header.getBoundingClientRect(),left=rect.left-page.getBoundingClientRect().left,canvas=await html2canvas(header,{scale:2,backgroundColor:'#ffffff',logging:false});pdf.addImage(canvas.toDataURL('image/png'),'PNG',10+left*190/width,y,rect.width*190/width,headerHeight*190/width,undefined,'FAST');canvas.width=canvas.height=0;y+=headerHeight*190/width;}
-    const canvas=await html2canvas(page,{scale:2,backgroundColor:'#ffffff',logging:false,x:0,y:start,width,height:end-start,scrollX:0,scrollY:0,windowWidth:820,windowHeight:1200});pdf.addImage(canvas.toDataURL('image/png'),'PNG',10,y,190,(end-start)*190/width,undefined,'FAST');canvas.width=canvas.height=0;start=end;
+    const canvas=await html2canvas(page,{scale:2,backgroundColor:'#ffffff',logging:false,x:0,y:start,width,height:end-start,scrollX:0,scrollY:0,windowWidth:820,windowHeight:1200});pdf.addImage(canvas.toDataURL('image/png'),'PNG',10,y,190,(end-start)*190/width,undefined,'FAST');canvas.width=canvas.height=0;pdf.setDrawColor(92,68,52);pdf.setLineWidth(.35);pdf.rect(9,9,192,279);start=end;
    }
   }
   pdf.save('KP-Selected-Report.pdf');

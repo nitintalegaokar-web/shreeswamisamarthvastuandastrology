@@ -26,3 +26,5 @@ body .report-page.v-report-page{box-sizing:border-box!important;border:3px doubl
 .v-report-page .v-north-house:is([data-vedic-house="2"],[data-vedic-house="12"]){top:12%!important}
 .v-report-page .v-north-house:is([data-vedic-house="6"],[data-vedic-house="8"]){top:88%!important}
 .v-report-page .v-varga-print-grid .v-chart{max-width:58mm}
+
+.v-symbol-legend{margin:16px 0;padding:12px;border:1px solid #9cab98;border-radius:8px;background:#fff;color:#183c36;break-inside:avoid}.v-symbol-legend h3{text-align:center;margin:0 0 10px;font-size:16px}.v-symbol-columns{display:grid;grid-template-columns:2fr 1fr;gap:12px}.v-symbol-legend table{width:100%;border-collapse:collapse;font-size:12px}.v-symbol-legend :is(td,th){padding:5px 7px;border:1px solid #c7d5ca;text-align:left}.v-symbol-legend th{background:#edf4ec}.v-symbol-legend .v-symbol{font-family:"DejaVu Sans","Segoe UI Symbol",sans-serif;font-size:17px;color:#28579b;white-space:nowrap}@media(max-width:600px){.v-symbol-columns{grid-template-columns:1fr}}@media print{.v-symbol-legend{border-radius:0;background:white;break-inside:avoid}.v-symbol-columns{grid-template-columns:2fr 1fr}}

@@ -29,7 +29,10 @@
       "key-vault.cjs",
       "activation-code.cjs",
       "owner-access.cjs",
-      "owner-access.json"
+      "owner-access.json",
+      "feature-policy.cjs",
+      "features.json",
+      "feature-catalog.js"
     ],
     "asar": true,
     "win": {

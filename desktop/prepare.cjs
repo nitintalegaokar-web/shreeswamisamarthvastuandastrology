@@ -22,13 +22,14 @@ let html = fs.readFileSync(path.join(target,'index.html'),'utf8');
 const matchEntry='function refresh(){if(!initialized)return null;try{data=calculate();';
 if(!html.includes(matchEntry))throw Error('Customer matchmaking guard entry is missing.');
 html=html.replace(matchEntry,'function refresh(){if(window.KPCustomerDemo&&!KPCustomerDemo.permitMatchRefresh())return null;if(!initialized)return null;try{data=calculate();');
+const features=fs.readFileSync(path.join(root,'customer','features.js'),'utf8');
 const demo=fs.readFileSync(path.join(root,'customer','demo-ui.js'),'utf8');
 const files = fs.readFileSync(path.join(__dirname,'files.js'),'utf8');
 // Report templates contain closing body tags inside JavaScript strings.
 // Append to the real document, after every application module has initialized.
 const closingBody = html.lastIndexOf('</body>');
 if (closingBody < 0) throw Error('Application closing body tag is missing.');
-fs.writeFileSync(path.join(target,'index.html'), html.slice(0,closingBody)+'<script id="kp-desktop-files">'+files+'</script><script id="kp-customer-demo">'+demo+'</script>'+html.slice(closingBody));
+fs.writeFileSync(path.join(target,'index.html'), html.slice(0,closingBody)+'<script id="kp-customer-features">'+features+'</script><script id="kp-desktop-files">'+files+'</script><script id="kp-customer-demo">'+demo+'</script>'+html.slice(closingBody));
 function copyNotices(dir) {
   for (const entry of fs.readdirSync(dir, {withFileTypes:true})) {
     const source = path.join(dir, entry.name);

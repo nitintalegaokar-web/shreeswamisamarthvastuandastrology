@@ -2,6 +2,7 @@
 'use strict';
 if(document.documentElement.dataset.kpMobileReady)return;
 document.documentElement.dataset.kpMobileReady='true';
+if(KPAndroid.featureStatus)window.KPLicensing=Object.freeze({features:async()=>JSON.parse(KPAndroid.featureStatus()),enterKey:()=>KPAndroid.registerDemo()});
 window.print=()=>{if(document.querySelector('body>.report-single-page')&&KPAndroid.saveSinglePageKundali)KPAndroid.saveSinglePageKundali();else KPAndroid.printReport();};
 const send=(blob,name)=>{if(blob.size>16*1024*1024){alert('This export is larger than the mobile file limit. Export smaller sections.');return;}const reader=new FileReader();reader.onload=()=>KPAndroid.saveFile(name||'KP-MASTER-export.txt',(blob.type||'application/octet-stream').split(';')[0],String(reader.result).split(',')[1]);reader.onerror=()=>alert('The file could not be prepared.');reader.readAsDataURL(blob);};
 document.addEventListener('click',async event=>{const a=event.target.closest?.('a[download]');if(!a||!a.href.startsWith('blob:')&&!a.href.startsWith('data:'))return;event.preventDefault();event.stopImmediatePropagation();try{send(await (await fetch(a.href)).blob(),a.download);}catch(e){alert('Unable to save this file: '+e.message);}},true);

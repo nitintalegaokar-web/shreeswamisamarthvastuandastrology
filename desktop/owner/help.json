@@ -45,6 +45,16 @@
           "Older approved public identities remain accepted: FFD543E7AFCE69618D61325E, D5909EAD14FB2D4717E98A8C and 77F4455FF0BD330B82760384.",
           "Optional file imports continue to support earlier .kplicense and .kpcontrol files. No calculation formula is changed."
         ]
+      },
+      {
+        "heading": "Packages and paid features",
+        "steps": [
+          "Choose Purchase key or legacy activation after entering the customer details.",
+          "Enter your package name and tick the features purchased by the customer. Core kundali, saving, settings and Help remain available.",
+          "Generate and send the signed purchase key. Offline customers apply it on their own device.",
+          "For an upgrade or package change, issue a replacement purchase key for the same name and System ID. Existing keys without feature choices keep full access.",
+          "Feature locks require the updated customer application; older builds and standalone HTML do not enforce these package choices."
+        ]
       }
     ]
   },
@@ -68,6 +78,16 @@
           "सक्रिय/निष्क्रिय बटणांनी KP-S1 स्थिती किल्ली तयार होते. ती ग्राहकाने पेस्ट केल्यावर स्थिती लागू होते.",
           "ग्राहकांची नावे, System ID, मुदत व दिलेली स्थिती यादीत दिसते. ऑफलाइन ग्राहकाची प्रत्यक्ष स्थिती येथे आपोआप समजत नाही.",
           "पूर्वीचे परवाने चालतील. पूर्वीच्या मालक किल्लीशिवाय जुनी स्थिती बदलता येत नसेल तर नवीन परवाना द्या. गणना बदललेल्या नाहीत."
+        ]
+      },
+      {
+        "heading": "पॅकेज व खरेदी केलेल्या सुविधा",
+        "steps": [
+          "ग्राहकाची माहिती देऊन खरेदी किल्ली किंवा जुने सक्रियकरण निवडा.",
+          "पॅकेजचे नाव लिहा व खरेदी केलेल्या सुविधा निवडा. मूलभूत कुंडली, जतन, सेटिंग व मदत उपलब्ध राहते.",
+          "सही केलेली खरेदी किल्ली ग्राहकाला पाठवा. ती ग्राहकाने त्याच्या संगणकावर द्यावी.",
+          "अपग्रेडसाठी त्याच नाव व System ID साठी नवीन खरेदी किल्ली द्या. सुविधांची निवड नसलेल्या जुन्या किल्ल्यांना पूर्ण प्रवेश राहतो.",
+          "सुविधांचे कुलूप अद्ययावत ग्राहक अनुप्रयोगात लागू होते; जुन्या आवृत्ती किंवा स्वतंत्र एचटीएमएलमध्ये नाही."
         ]
       }
     ]

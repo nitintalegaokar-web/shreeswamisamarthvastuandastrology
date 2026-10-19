@@ -108,7 +108,7 @@
   function tables(data) {
     byId('tc-planets').querySelector('tbody').replaceChildren(...data.planets.map(planet => {
       const details = planet.details;
-      const row = makeRow([planet.id,details.signCode,degreeText(details),planet.retrograde ? 'R' : 'D',details.sgl,details.stl,details.sl,details.ssl],{planet:planet.id,longitude:planet.longitude,motion:planet.motionDegreesPerDay,retrograde:planet.retrograde});
+      const row = makeRow([planet.id,details.signCode,degreeText(details),['Ra','Ke'].includes(planet.id)?'—':planet.retrograde ? 'R' : 'D',details.sgl,details.stl,details.sl,details.ssl],{planet:planet.id,longitude:planet.longitude,motion:planet.motionDegreesPerDay,retrograde:planet.retrograde});
       row.children[2].className = 'tc-dms'; if (planet.retrograde) row.children[3].className = 'tc-retro'; return row;
     }));
     byId('tc-cusps').querySelector('tbody').replaceChildren(...data.cusps.map(cusp => {
@@ -164,7 +164,7 @@
       entries[sign].forEach(({index,planets})=>{
         const label=kind==='bhav'?ROMAN[index]:(index===0?'Lagna':'');
         if(label)g.append(svgElement('text',{x:x+5,y:y+29+line++*12,fill:'#437225','font-size':10,'data-bhava':index+1},label));
-        for(let start=0;start<planets.length;start+=3){const text=svgElement('text',{x:x+5,y:y+29+line++*12,'font-size':10,fill:'#293627'});planets.slice(start,start+3).forEach((p,i)=>{if(i)text.append(document.createTextNode(' '));text.append(svgElement('tspan',{'data-planet':p.id,'data-longitude':p.longitude},p.id+(p.retrograde?'ᴿ':'')));});g.append(text);}
+        for(let start=0;start<planets.length;start+=3){const text=svgElement('text',{x:x+5,y:y+29+line++*12,'font-size':10,fill:'#293627'});planets.slice(start,start+3).forEach((p,i)=>{if(i)text.append(document.createTextNode(' '));text.append(svgElement('tspan',{'data-planet':p.id,'data-longitude':p.longitude},p.id+(p.retrograde&&!['Ra','Ke'].includes(p.id)?'ᴿ':'')));});g.append(text);}
       });svg.append(g);
     });
     svg.append(svgElement('text',{x:240,y:195,'text-anchor':'middle','font-size':15,fill:'#437225'},kind==='rashi'?'Rashi kundali':'Bhav kundali'));
@@ -189,7 +189,7 @@
         const text = svgElement('text',{x,y,'text-anchor':'middle',fill:'#293627','font-size':12,'font-weight':500});
         row.forEach((planet,planetIndex) => {
           if (planetIndex) text.append(document.createTextNode('  '));
-          text.append(svgElement('tspan',{'data-planet':planet.id,'data-longitude':planet.longitude,fill:planet.retrograde ? '#a84b20' : '#293627'},planet.id + (planet.retrograde ? 'ᴿ' : '')));
+          text.append(svgElement('tspan',{'data-planet':planet.id,'data-longitude':planet.longitude,fill:planet.retrograde ? '#a84b20' : '#293627'},planet.id + (planet.retrograde&&!['Ra','Ke'].includes(planet.id) ? 'ᴿ' : '')));
         });
         group.append(text);
       });

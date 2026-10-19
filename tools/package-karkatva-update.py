@@ -7,6 +7,14 @@ readme='''KP MASTER — updated HTML 1.2.8 (18 October 2026)
 Extract this ZIP and open index.html in Chrome or Edge.
 
 Changes:
+- Help now includes a bundled, offline 12-page English A4 tutorial with view/open/download controls. Vedic Kundali has an English/Marathi symbol legend, limited to its own chart/report.
+- RP settings include independent retrograde-star, retrograde-sub and combined filters, node evidence columns, sunrise/civil day and hora choices. RP preview has zoom and print borders.
+- Report evidence details expand into normal flow before preview/printing; page frames repeat on printed continuation pages and exported PDFs.
+- Astrologer Settings > Ruling Planets includes an Include retrograde planets switch. It filters the live RP list and timing finder; Rahu/Ketu retain their normal eligibility and omit the R marker.
+- KP gemstone guidance applies confirmed event-specific house 6 and 12 exceptions; house 8 always blocks recommendations.
+- Western aspect colour legends use English or Marathi on screen and in reports.
+- Ruling Planet timing: relevant houses combine primary and supporting houses; location inputs and India lookup use separate responsive rows.
+- The redundant Report photo library button is removed; report photo controls remain in Astrologer Settings.
 - Fixes repeated Marathi label updates in the North Indian transit chart.
 - Enlarged transit charts retain the colours, fonts, aspect ratio and labels of the on-screen chart.
 - Predictions no longer show Jyotish source filenames or line-number references.
@@ -43,14 +51,14 @@ Changes:
 - Original planetary calculations and restored matchmaking rules remain unchanged.
 
 The root HTML is self-contained. data/, vendor/ and tools/ contain the backend source data, translations, reproducible import/sync tools and browser regression harness.
-This package updates HTML/source only. Existing Windows installers and Android APKs have not been rebuilt.
+This ZIP contains HTML/source only. Updated Windows installers are separate downloads. Android APK upgrades require the original private Android signing files.
 '''
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
  z.write(root/'index.html','index.html');z.writestr('READ-ME.txt',readme)
- for folder in ['data','vendor','tools','Kundali Backup','Report Photos','App Logo']:
+ for folder in ['docs','data','vendor','tools','Kundali Backup','Report Photos','App Logo']:
   for p in sorted((root/folder).rglob('*')):
-   if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc':z.write(p,str(p.relative_to(root)))
- for name in ['karkatva.test.cjs','vedic-natal-predictions.test.cjs','prediction-language.test.cjs','event-support.test.cjs','childbirth.test.cjs','child-gender-sheet.test.cjs','fortuna-interpretation.test.cjs','nakshatra-karkatva.test.cjs','eighth-cusp-rules.test.cjs','event-house-rules.test.cjs','marriage-points.test.cjs','horary-dba.test.cjs','settings-easy.test.cjs']:z.write(root/'desktop/test'/name,'desktop/test/'+name)
+   if p.is_file() and p.relative_to(root).as_posix()!='vendor/panchang/toolkit-engine.js' and '__pycache__' not in p.parts and p.suffix!='.pyc':z.write(p,str(p.relative_to(root)))
+ for name in ['karkatva.test.cjs','vedic-natal-predictions.test.cjs','prediction-language.test.cjs','event-support.test.cjs','childbirth.test.cjs','child-gender-sheet.test.cjs','fortuna-interpretation.test.cjs','nakshatra-karkatva.test.cjs','eighth-cusp-rules.test.cjs','event-house-rules.test.cjs','marriage-points.test.cjs','horary-dba.test.cjs','settings-easy.test.cjs','gemstone-event-ranking.test.cjs','live-ruling.test.cjs']:z.write(root/'desktop/test'/name,'desktop/test/'+name)
 with zipfile.ZipFile(out) as z:
  assert z.read('index.html')==(root/'index.html').read_bytes()
  assert 'data/rashi-karkatva-2026-10-18/Cancer-supplied.txt' in z.namelist()

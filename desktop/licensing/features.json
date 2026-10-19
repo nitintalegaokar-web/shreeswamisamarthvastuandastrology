@@ -1,0 +1,14 @@
+[
+ {"id":"prediction","en":"Predictions","mr":"भविष्य","sections":["prediction","education-profession","disease"]},
+ {"id":"events","en":"Event Promise and Dasha Promise","mr":"घटना व दशा फल","sections":["event-promise","dasha-promise"]},
+ {"id":"ruling","en":"Ruling Planets and RP timing","mr":"शासक ग्रह व कालशोध","sections":[]},
+ {"id":"transit","en":"Transits and ephemeris","mr":"गोचर व पंचांग ग्रहस्थिती","sections":["transit","transit-chart","ephemeris"]},
+ {"id":"panchang","en":"Transit Panchang and Muhurta","mr":"गोचर पंचांग व मुहूर्त","sections":["transit-panchang","muhurta"]},
+ {"id":"vedic","en":"Vedic Kundali","mr":"वैदिक कुंडली","sections":["vedic-kundali"]},
+ {"id":"matchmaking","en":"Matchmaking","mr":"गुणमेलन","sections":["matchmaking"]},
+ {"id":"nadi","en":"Nadi Astrology","mr":"नाडी ज्योतिष","sections":["nadi-astrology"]},
+ {"id":"gemstones","en":"Gemstone Guidance","mr":"रत्न मार्गदर्शन","sections":["gemstones"]},
+ {"id":"reports","en":"Report preview, print and PDF","mr":"अहवाल पूर्वदृश्य, प्रिंट व पीडीएफ","sections":["report"]},
+ {"id":"teaching","en":"Teaching and drawing tools","mr":"अध्यापन व रेखाटन साधने","sections":["tutorial"]},
+ {"id":"references","en":"KP Resources and HIT Theory","mr":"केपी संदर्भ व हिट सिद्धांत","sections":["resources","hit-theory"]}
+]

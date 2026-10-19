@@ -1,5 +1,6 @@
 'use strict';
 const crypto=require('node:crypto');
+const {normalizeFeatures,edition}=require('./feature-policy.cjs');
 const PRODUCT='kp-master-offline';
 const SYSTEM_ID=/^KP1-(?:[A-F0-9]{4}-){7}[A-F0-9]{4}$/;
 function systemId(input){
@@ -26,6 +27,7 @@ function issue(privateKey,request,now=new Date()){
     expiresAt=date.toISOString();
   }
   const claims={product:PRODUCT,version:1,licenseId:crypto.randomUUID(),systemId:id,clientName:client,issuedAt:now.toISOString(),expiresAt};
+  if(request.features!==undefined){claims.features=normalizeFeatures(request.features);claims.edition=edition(request.edition);}
   const data=Buffer.from(JSON.stringify(claims),'utf8');
   return {payload:data.toString('base64url'),signature:crypto.sign(null,data,privateKey).toString('base64url')};
 }
@@ -43,6 +45,7 @@ function verify(license,key,id,now=new Date()){
   if(claims.kind&&claims.kind!=='customer-purchase')throw Error('This license belongs to another product or version.');
   if(claims.product!==PRODUCT||claims.version!==1||typeof claims.licenseId!=='string'||!claims.licenseId||typeof claims.clientName!=='string'||!claims.clientName)throw Error('This license belongs to another product or version.');
   if(normalizedId(claims.systemId)!==normalizedId(id))throw Error('This license belongs to a different computer. Send this computer’s System ID to the owner.');
+  if(claims.features!==undefined){normalizeFeatures(claims.features);edition(claims.edition);}
   const issued=Date.parse(claims.issuedAt);
   if(!Number.isFinite(issued)||issued>now.getTime()+5*60000)throw Error('Check the computer date and time before activating.');
   if(claims.expiresAt!==null){const expires=Date.parse(claims.expiresAt);if(!Number.isFinite(expires)||expires<issued)throw Error('The license expiry is invalid.');if(now.getTime()>expires)throw Error('This license has expired. Contact the owner for renewal.');}

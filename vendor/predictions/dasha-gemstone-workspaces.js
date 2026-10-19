@@ -179,7 +179,7 @@
     for(const group of $('gem-event').querySelectorAll('optgroup'))group.hidden=[...group.children].every(option=>option.hidden);
   }
   function gemstoneRule() {
-    return {mode:val('gem-mode'),required:val('gem-required'),excluded:'',method:'fourfold',roles:['planet','star','sub'],excludeRetrograde:true,excludeCombust:true,stones:Object.fromEntries(codes.map(id=>[id,val('gem-stone-'+id)]))};
+    return {mode:val('gem-mode'),purpose:val('gem-event'),required:val('gem-required'),excluded:'',method:'fourfold',roles:['planet','star','sub'],excludeRetrograde:true,excludeCombust:true,stones:Object.fromEntries(codes.map(id=>[id,val('gem-stone-'+id)]))};
   }
   function gemstoneRows(data) {
     const labels={1:'Lagnesh',5:'Panchamesh',11:'Labhesh'},matched=data.results.filter(row=>row.qualifies);

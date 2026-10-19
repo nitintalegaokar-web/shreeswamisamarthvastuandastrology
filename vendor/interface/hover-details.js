@@ -7,6 +7,7 @@ const tr=s=>window.KPLanguage?.translate(s)||s;
 function hide(){clearTimeout(timer);if(tip){tip.hidden=true;tip.replaceChildren();}for(const [node,value] of originalTitles)if(node.isConnected&&!node.hasAttribute('title'))node.setAttribute('title',value);originalTitles=[];target=null;}
 function candidate(node){
  if(!(node instanceof Element)||window.KPPreferences?.get().tooltips===false||node.closest('dialog textarea,.preview-tools,#kp-hover-detail'))return null;
+ const cell=node.closest('td,th');if(cell&&clipped(cell))return cell;
  const chart=node.closest('[data-hover-dms]'),reference=node.closest('.kp-planet-reference,[data-planet-ref]');
  if(chart||reference)return chart||reference;
  const heading=node.closest('th[scope=row]');if(heading?.closest('tr[data-house]'))return heading;
@@ -22,8 +23,12 @@ function details(node){
  const name=tr(d.hoverName||''),code=entry.dataset.planet;
  return {name:code&&window.KPPreferences?.get().language!=='marathi'?name+' ('+code+')':name,dms:[tr(d.hoverSign||''),d.hoverDms].filter(Boolean).join(' '),sgl:tr(planetNames[d.hoverSgl]||d.hoverSgl||'—'),stl:tr(planetNames[d.hoverStl]||d.hoverStl||'—'),sbl:tr(planetNames[d.hoverSbl]||d.hoverSbl||'—')};
 }
-function information(node){if(!node||!node.getClientRects().length)return '';const structured=details(node);if(structured)return structured;const explicit=clean(node.getAttribute('data-hover-detail')||node.getAttribute('title'));if(explicit)return explicit;const text=clean(node.textContent),clipped=[node,...node.querySelectorAll('span,strong,small,div')].some(n=>n.scrollWidth>n.clientWidth+1||n.scrollHeight>n.clientHeight+1);return clipped&&text?text:'';}
+function clipped(node){return [node,...node.querySelectorAll('span,strong,small,div')].some(n=>n.clientWidth>0&&(n.scrollWidth>n.clientWidth+1||n.scrollHeight>n.clientHeight+1));}
+function fullCell(node){const clone=node.cloneNode(true),mr={Su:'रवी',Mo:'चंद्र',Ma:'मंगळ',Me:'बुध',Ju:'गुरु',Ve:'शुक्र',Sa:'शनि',Ra:'राहू',Ke:'केतू'};clone.querySelectorAll('[data-planet-ref]').forEach(ref=>{const id=ref.dataset.planetRef;if(planetNames[id])ref.textContent=window.KPPreferences?.get().language==='marathi'?mr[id]:tr(planetNames[id]);});return clean(clone.textContent);}
+function information(node){if(!node||!node.getClientRects().length)return '';if(node.matches('td,th')&&clipped(node))return fullCell(node);const structured=details(node);if(structured)return structured;const explicit=clean(node.getAttribute('data-hover-detail')||node.getAttribute('title'));if(explicit)return explicit;const text=clean(node.textContent);return clipped(node)&&text?text:'';}
+
 function render(data){
+ const host=target?.closest('dialog[open]')||document.body;if(tip.parentElement!==host)host.append(tip);
  tip.replaceChildren();tip.classList.toggle('kp-hover-chart',typeof data==='object');
  if(typeof data==='string'){tip.textContent=data;return;}
  const heading=document.createElement('strong');heading.className='kp-hover-heading';heading.textContent=data.name;tip.append(heading);
@@ -37,7 +42,7 @@ function init(){
  if(document.getElementById('kp-hover-detail'))return;
  tip=document.createElement('div');tip.id='kp-hover-detail';tip.setAttribute('role','tooltip');tip.hidden=true;document.body.append(tip);
  const style=document.createElement('style');style.textContent='#kp-hover-detail{position:fixed;z-index:2147483000;max-width:min(290px,calc(100vw - 24px));padding:7px 10px;font:12px/1.45 Arial,"Nirmala UI",sans-serif;color:#183e47;background:rgba(238,250,247,.98);border:1px solid #84bfb5;border-radius:7px;box-shadow:0 4px 14px #174e4226;pointer-events:none;white-space:normal;overflow-wrap:anywhere}#kp-hover-detail.kp-hover-chart{min-width:210px;padding:0 10px 6px}.kp-hover-heading{display:block;margin:0 -10px 5px;padding:6px 10px;background:#17685f;color:#fff;border-radius:6px 6px 0 0;font-size:12px}.kp-hover-row{display:grid;grid-template-columns:50px 1fr;gap:9px;padding:4px 0;border-bottom:1px solid #cce6df}.kp-hover-row:last-child{border-bottom:0}.kp-hover-label{font-size:10px;font-weight:700;color:#52706e;align-self:center}.kp-hover-row b{font-size:12px;font-weight:600;color:#153d61}#kp-hover-detail[hidden]{display:none!important}body.dark-theme #kp-hover-detail{background:rgba(23,48,57,.98);color:#ecf6f4;border-color:#428a83}body.dark-theme .kp-hover-row{border-color:#315760}body.dark-theme .kp-hover-row b,body.dark-theme .kp-hover-label{color:#d8eeeb}@media print{#kp-hover-detail{display:none!important}}';document.head.append(style);
- document.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;hide();point={x:e.clientX,y:e.clientY};schedule(candidate(e.target));},{passive:true});
+ document.addEventListener('pointermove',e=>{if(e.pointerType==='touch')return;point={x:e.clientX,y:e.clientY};const next=candidate(e.target);if(next===target){if(tip&&!tip.hidden)position();return;}hide();schedule(next);},{passive:true});
  document.addEventListener('pointerout',e=>{if(target&&(!e.relatedTarget||!target.contains(e.relatedTarget)))hide();},{passive:true});
  document.addEventListener('scroll',hide,{passive:true,capture:true});document.addEventListener('pointerdown',hide,{passive:true});window.addEventListener('blur',hide);document.addEventListener('keydown',hide);window.addEventListener('kp-preferences-changed',hide);
 }
