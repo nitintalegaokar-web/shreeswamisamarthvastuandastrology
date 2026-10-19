@@ -4,6 +4,8 @@
 (()=>{'use strict';
 const catalogue=JSON.parse(document.getElementById('kp-supplied-prediction-data').textContent);
 const groups=new Map(),names={Su:'Sun',Mo:'Moon',Ma:'Mars',Me:'Mercury',Ju:'Jupiter',Ve:'Venus',Sa:'Saturn',Ra:'Rahu',Ke:'Ketu',Ur:'Uranus',Ne:'Neptune',Pl:'Pluto'};
+const marathiNames={Su:'रवी',Mo:'चंद्र',Ma:'मंगळ',Me:'बुध',Ju:'गुरु',Ve:'शुक्र',Sa:'शनि',Ra:'राहू',Ke:'केतू',Ur:'हर्षल',Ne:'नेपच्यून',Pl:'प्लूटो'};
+function transitTitle(planet,house){const en=names[planet]+' · '+house+' from Moon',mr=marathiNames[planet]+' · चंद्रापासून भाव '+house;return language()==='marathi'?mr:language()==='bilingual'?en+'\n'+mr:en;}
 const classical=['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke'];
 for(const row of catalogue.records){if(row.kind==='yoga'&&row.mappingStatus==='review')continue;const key=row.kind+'|'+row.key;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(row);}
 const titles={'yoga-results':['Conjunction Results','युती फल'],'transit-results':['Transit Results','गोचर फल'],'numerology':['Numerology','अंकशास्त्र']};
@@ -60,7 +62,7 @@ function matching(category,model,instant,periods){
   const moon=model.planets.find(p=>p.id==='Mo');if(!Number.isInteger(moon?.signIndex))return {ready:false,reason:'Calculate the natal Moon sign first.',rows:[]};
   context=data.localDate+' '+data.localTime+' · '+(data.place||'')+' · whole-sign houses counted from natal Moon '+(moon.sign||moon.signCode||moon.signIndex+1);
   for(const group of groups.values()){const r=group[0];if(r.kind!=='transit-house')continue;
-   const planet=data.planets?.find(p=>p.id===r.planet),sign=planet?.details?.signIndex;if(Number.isInteger(sign)&&((sign-moon.signIndex+12)%12)+1===r.house)rows.push({group,title:names[r.planet]+' · '+r.house+' from Moon',proof:'Natal Moon sign '+(moon.sign||moon.signCode||moon.signIndex+1)+' · transit '+r.planet+' sign '+(sign+1)+' · house '+r.house+' from Moon · '+data.localDate+' '+data.localTime});
+   const planet=data.planets?.find(p=>p.id===r.planet),sign=planet?.details?.signIndex;if(Number.isInteger(sign)&&((sign-moon.signIndex+12)%12)+1===r.house)rows.push({group,title:transitTitle(r.planet,r.house),proof:'Natal Moon sign '+(moon.sign||moon.signCode||moon.signIndex+1)+' · transit '+r.planet+' sign '+(sign+1)+' · house '+r.house+' from Moon · '+data.localDate+' '+data.localTime});
   }
  }else if(category==='outer-references'){
   for(const group of groups.values())if(group[0].kind==='outer-reference')rows.push({group,title:names[group[0].planet]+' · supplied reference',proof:'Reference text only; no new outer-planet calculations or Dasha lords.',status:'reference'});

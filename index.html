@@ -26164,6 +26164,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (()=>{'use strict';
 const catalogue=JSON.parse(document.getElementById('kp-supplied-prediction-data').textContent);
 const groups=new Map(),names={Su:'Sun',Mo:'Moon',Ma:'Mars',Me:'Mercury',Ju:'Jupiter',Ve:'Venus',Sa:'Saturn',Ra:'Rahu',Ke:'Ketu',Ur:'Uranus',Ne:'Neptune',Pl:'Pluto'};
+const marathiNames={Su:'रवी',Mo:'चंद्र',Ma:'मंगळ',Me:'बुध',Ju:'गुरु',Ve:'शुक्र',Sa:'शनि',Ra:'राहू',Ke:'केतू',Ur:'हर्षल',Ne:'नेपच्यून',Pl:'प्लूटो'};
+function transitTitle(planet,house){const en=names[planet]+' · '+house+' from Moon',mr=marathiNames[planet]+' · चंद्रापासून भाव '+house;return language()==='marathi'?mr:language()==='bilingual'?en+'\n'+mr:en;}
 const classical=['Su','Mo','Ma','Me','Ju','Ve','Sa','Ra','Ke'];
 for(const row of catalogue.records){if(row.kind==='yoga'&&row.mappingStatus==='review')continue;const key=row.kind+'|'+row.key;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(row);}
 const titles={'yoga-results':['Conjunction Results','युती फल'],'transit-results':['Transit Results','गोचर फल'],'numerology':['Numerology','अंकशास्त्र']};
@@ -26220,7 +26222,7 @@ function matching(category,model,instant,periods){
   const moon=model.planets.find(p=>p.id==='Mo');if(!Number.isInteger(moon?.signIndex))return {ready:false,reason:'Calculate the natal Moon sign first.',rows:[]};
   context=data.localDate+' '+data.localTime+' · '+(data.place||'')+' · whole-sign houses counted from natal Moon '+(moon.sign||moon.signCode||moon.signIndex+1);
   for(const group of groups.values()){const r=group[0];if(r.kind!=='transit-house')continue;
-   const planet=data.planets?.find(p=>p.id===r.planet),sign=planet?.details?.signIndex;if(Number.isInteger(sign)&&((sign-moon.signIndex+12)%12)+1===r.house)rows.push({group,title:names[r.planet]+' · '+r.house+' from Moon',proof:'Natal Moon sign '+(moon.sign||moon.signCode||moon.signIndex+1)+' · transit '+r.planet+' sign '+(sign+1)+' · house '+r.house+' from Moon · '+data.localDate+' '+data.localTime});
+   const planet=data.planets?.find(p=>p.id===r.planet),sign=planet?.details?.signIndex;if(Number.isInteger(sign)&&((sign-moon.signIndex+12)%12)+1===r.house)rows.push({group,title:transitTitle(r.planet,r.house),proof:'Natal Moon sign '+(moon.sign||moon.signCode||moon.signIndex+1)+' · transit '+r.planet+' sign '+(sign+1)+' · house '+r.house+' from Moon · '+data.localDate+' '+data.localTime});
   }
  }else if(category==='outer-references'){
   for(const group of groups.values())if(group[0].kind==='outer-reference')rows.push({group,title:names[group[0].planet]+' · supplied reference',proof:'Reference text only; no new outer-planet calculations or Dasha lords.',status:'reference'});
@@ -29086,6 +29088,7 @@ root.KPVedicBhav=Object.freeze({rows});if(typeof module!=='undefined'&&module.ex
 </script>
 <script id="kp-theft-profile">/* Traditional archetypes only: these are not evidence identifying an offender. */
 (function(root){'use strict';
+const signLords=['Ma','Ve','Me','Mo','Su','Me','Ve','Ma','Ju','Sa','Sa','Ju'];
 const profiles={
  Su:['A middle-aged, confident, authoritative man; strong build and a bright or stern expression. Proud, bold and status-conscious. Traditional role associations: official, officer, senior or prominent person.','मध्यम वयाचा, आत्मविश्वासू व अधिकारवाणी पुरुष; मजबूत बांधा; तेजस्वी किंवा रागीट भाव. अभिमानी, धाडसी व प्रतिष्ठेला महत्त्व देणारा. पारंपरिक क्षेत्रसंबंध: सरकारी कर्मचारी, अधिकारी, वरिष्ठ किंवा प्रतिष्ठित व्यक्ती.'],
  Mo:['A young woman or emotionally sensitive person; round face and changeable manner. Restless, apprehensive or emotional. Traditional role associations: a familiar woman, household woman or nurse.','तरुण स्त्री किंवा भावनिक व्यक्ती; गोल चेहरा व बदलता स्वभाव. चंचल, घाबरणारी किंवा भावनिक वृत्ती. पारंपरिक क्षेत्रसंबंध: परिचित महिला, घरातील स्त्री किंवा परिचारिका.'],
@@ -29098,14 +29101,15 @@ const profiles={
 function match(model=root.currentKPModel,lang=root.KPPreferences?.get?.().language||'english'){
  const cusp=model?.houses?.find(h=>h.id===7),lord=model?.planets?.find(p=>p.id===cusp?.sl);
  if(!model?.ready||!lord)return {ready:false,rows:[],reason:lang==='marathi'?'पूर्ण कुंडली व सप्तम उपस्वामी आवश्यक.':'A complete chart and seventh cusp sub lord are required.'};
+ const node=['Ra','Ke'].includes(lord.id),sign=Number.isFinite(lord.longitude)?Math.floor(((lord.longitude%1296000)+1296000)%1296000/108000):Number.isInteger(lord.signIndex)&&lord.signIndex>=0&&lord.signIndex<12?lord.signIndex:null,profileLord=node?(sign===null?lord.sgl:signLords[sign]):lord.id;
  const rows=[];
  for(const selected of lang==='bilingual'?['english','marathi']:[lang]){
-  if(!['english','marathi'].includes(selected))continue;const mr=selected==='marathi',pair=profiles[lord.id];
+  if(!['english','marathi'].includes(selected))continue;const mr=selected==='marathi',pair=profiles[profileLord];
   const notice=mr?'ही अप्रमाणित पारंपरिक रूपरेषा आहे. यावरून चोराची ओळख किंवा कोणाचाही दोष ठरत नाही; वय, लिंग, व्यवसाय किंवा दिसण्यावरून कोणावर आरोप करू नये.':'This is an unverified traditional profile. It cannot identify a thief or establish guilt; age, gender, occupation or appearance is not evidence against anyone.';
   rows.push({id:'theft-notice-'+selected,language:selected,title:mr?'ओळखीचा पुरावा नाही':'Not identification evidence',text:notice,status:'reference'});
-  rows.push({id:'theft-profile-'+lord.id+'-'+selected,language:selected,title:mr?'पारंपरिक संभाव्य रूपरेषा':'Traditional possible profile',text:pair?pair[mr?1:0]:mr?'राहू किंवा केतूसाठी या तक्त्यात स्वतंत्र वर्णन दिलेले नाही.':'No separate Rahu or Ketu profile was supplied in this table.',status:'reference'});
+  rows.push({id:'theft-profile-'+lord.id+'-'+selected,language:selected,title:mr?'पारंपरिक संभाव्य रूपरेषा':'Traditional possible profile',text:pair?pair[mr?1:0]:mr?'राहू किंवा केतूच्या राशीस्वामीची माहिती अपुरी आहे; ग्रहस्थिती पूर्ण करा.':'The node’s Rashi lord is unavailable; complete its sign position.',status:'reference'});
  }
- return {ready:true,rows,lord:lord.id};
+ return {ready:true,rows,lord:lord.id,profileLord:profiles[profileLord]?profileLord:null,usedRashiLord:node};
 }
 root.KPTheftProfile=Object.freeze({match});if(typeof module!=='undefined'&&module.exports)module.exports=root.KPTheftProfile;
 })(typeof window==='undefined'?globalThis:window);
