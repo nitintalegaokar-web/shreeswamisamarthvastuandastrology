@@ -159,23 +159,11 @@
   function removePortrait() { return false; }
 
   async function restorePortrait() {
-    let parsed = null;
-    try { parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch (_) { /* Ignore a damaged local record. */ }
-    const source = parsed?.version === 1 && dataUrlBytes(parsed.source) <= MAX_OUTPUT_BYTES + 4096 ? parsed.source : '';
-    if (!source) {
-      
-      renderPortrait('');
-      setStatus('No portrait selected. Choose a photo to store it offline.');
-      return;
-    }
-    try {
-      await decodeImage(source);
-      renderPortrait(source);
-      setStatus(`Portrait stored on this computer · ${Math.max(1, Math.round(dataUrlBytes(source) / 1024))} KB`, 'saved');
-    } catch (_) {
-      renderPortrait('');
-      setStatus('The saved portrait could not be read. Please choose it again.', 'error');
-    }
+    // Only the publisher's bundled portrait is used; previous customer overrides are ignored.
+    const source = window.KPFixedAboutPortrait || '';
+    if (!source) { renderPortrait(''); setStatus(''); return; }
+    try { await decodeImage(source); renderPortrait(source); setStatus(''); }
+    catch (_) { renderPortrait(''); setStatus(''); }
   }
 
   function enhanceAbout() {
@@ -220,7 +208,6 @@
   window.KPAboutBranding = Object.freeze({
     storageKey: STORAGE_KEY,
     getPortrait: () => currentPortrait,
-    selectFile: file => selectPortrait({currentTarget:{files:[file],value:''}}),
     clearPortrait: removePortrait,
     refresh: enhanceAbout
   });
