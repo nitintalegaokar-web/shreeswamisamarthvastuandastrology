@@ -8,14 +8,14 @@ function civil(ms){return new Date(ms).toISOString().slice(0,19).replace('T',' '
 function message(data){return '<p class="v-message">'+esc(data?.reason||'Complete the native kundali.')+'</p>';}
 function chart(rows,title,options={}){
  const bySign=Array.from({length:12},()=>[]);for(const row of rows)bySign[row.sign].push(row.id);
- const planets=sign=>'<strong data-hover-detail="'+esc(SIGNS[sign]+' · '+bySign[sign].join(', '))+'">'+bySign[sign].map(id=>KPVedicSymbols.planet(rows.find(p=>p.id===id),rows,true,options)).join(' ')+'</strong>';
+ const planets=sign=>'<strong data-hover-detail="'+esc(SIGNS[sign]+' · '+bySign[sign].join(', '))+'">'+bySign[sign].map(id=>'<span data-no-localize>'+esc(window.KPPreferences?.get().language==='marathi'?({As:'लग्न',NatalAsc:'जन्मलग्न',Su:'रवी',Mo:'चंद्र',Ma:'मंगळ',Me:'बुध',Ju:'गुरु',Ve:'शुक्र',Sa:'शनि',Ra:'राहू',Ke:'केतू'}[id]||id):id)+'</span>').join(' ')+'</strong>';
  if(chartStyle==='north'){
   const asc=rows.find(p=>p.id==='As')?.sign??rows[0].sign;
   const centres=[[50,24],[25,9],[9,26],[24,50],[9,74],[25,91],[50,76],[75,91],[91,74],[76,50],[91,26],[75,9]];
-  return '<div class="v-chart v-chart-north" role="img" data-vedic-chart-style="north" aria-label="'+esc(title)+'"><svg class="v-north-lines" viewBox="0 0 100 100" aria-hidden="true"><path d="M0 0H100V100H0ZM0 0L100 100M100 0L0 100M50 0L100 50L50 100L0 50Z"/></svg><div class="v-north-title">'+esc(title)+'</div>'+centres.map(([x,y],i)=>{const sign=(asc+i)%12;return '<div class="v-north-house" data-vedic-sign="'+sign+'" data-vedic-house="'+(i+1)+'" style="left:'+x+'%;top:'+y+'%;width:'+([2,4,8,10].includes(i)?17:27)+'%"><small>'+KPVedicSymbols.signLabel(sign,true)+' · '+(sign+1)+'</small>'+planets(sign)+'</div>';}).join('')+'</div>';
+  return '<div class="v-chart v-chart-north" role="img" data-vedic-chart-style="north" aria-label="'+esc(title)+'"><svg class="v-north-lines" viewBox="0 0 100 100" aria-hidden="true"><path d="M0 0H100V100H0ZM0 0L100 100M100 0L0 100M50 0L100 50L50 100L0 50Z"/></svg><div class="v-north-title">'+esc(title)+'</div>'+centres.map(([x,y],i)=>{const sign=(asc+i)%12;return '<div class="v-north-house" data-vedic-sign="'+sign+'" data-vedic-house="'+(i+1)+'" style="left:'+x+'%;top:'+y+'%;width:'+([2,4,8,10].includes(i)?17:27)+'%"><small>'+'<span data-no-localize>'+SIGNS[sign]+'</span>'+' · '+(sign+1)+'</small>'+planets(sign)+'</div>';}).join('')+'</div>';
  }
  const cells=[11,0,1,2,10,-1,-1,3,9,-1,-1,4,8,7,6,5];
- return '<div class="v-chart" role="img" data-vedic-chart-style="south" aria-label="'+esc(title)+'"><div class="v-chart-center">'+esc(title)+'</div>'+cells.map(r=>'<div class="v-chart-cell"'+(r<0?' data-empty="true"':' data-vedic-sign="'+r+'"')+'>'+(r>=0?'<small>'+KPVedicSymbols.signLabel(r,true)+'</small>'+planets(r):'')+'</div>').join('')+'</div>';
+ return '<div class="v-chart" role="img" data-vedic-chart-style="south" aria-label="'+esc(title)+'"><div class="v-chart-center">'+esc(title)+'</div>'+cells.map(r=>'<div class="v-chart-cell"'+(r<0?' data-empty="true"':' data-vedic-sign="'+r+'"')+'>'+(r>=0?'<small>'+'<span data-no-localize>'+SIGNS[r]+'</span>'+'</small>'+planets(r):'')+'</div>').join('')+'</div>';
 }
 function positionTable(rows,options={}){return KPVedicSymbols.positionTable(rows,options);}
 function identity(data){return '<p class="v-native" data-no-localize>'+esc(data.native.name)+' · '+esc(stamp(data.native.date))+' · '+esc(data.native.location.place)+' · UTC '+esc(data.native.location.timezone)+'</p>';}

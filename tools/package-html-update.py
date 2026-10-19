@@ -14,7 +14,7 @@ Extract this ZIP completely, then open KP-MASTER/index.html in Chrome or Edge.
 
 Latest updates:
 - Rashi labels appear once in Marathi; bilingual labels contain one pair.
-- Vedic charts and planetary tables display their applicable symbols directly.
+- Vedic charts use compact text labels; symbols appear only in the reference and planetary tables.
 - Vedic Kundali has a separate Complete Vedic Report preview for printing all report pages.
 - Transit Results retain planet names on screen and in reports.
 - Rahu/Ketu use the Rashi lord in Theft Prediction.

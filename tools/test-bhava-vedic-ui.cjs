@@ -3,7 +3,7 @@ const path=require('node:path'),os=require('node:os'),ROOT=path.resolve(__dirnam
  if(process.argv.includes('--complete-vedic-report-only')){
  await page.evaluate(()=>{KPPreferences.save({...KPPreferences.get(),language:'marathi'});document.querySelector('[data-tab="vedic-kundali"]').click();});
  await page.locator('#vedic-complete-preview').waitFor({state:'visible'});
- for(const style of ['south','north']){await page.evaluate(style=>KPVedicUI.setChartStyle(style),style);assert.equal(await page.locator('#v-results .v-chart .v-sign-glyph').count(),12);assert.equal(await page.locator('#v-results [data-vedic-symbol-positions] tbody tr').count(),10);}
+ for(const style of ['south','north']){await page.evaluate(style=>KPVedicUI.setChartStyle(style),style);assert.equal(await page.locator('#v-results .v-chart .v-sign-glyph,.v-chart .v-planet-glyph,.v-chart [data-vedic-state]').count(),0);assert.equal(await page.locator('#v-results [data-vedic-symbol-positions] tbody tr').count(),10);}
  const [preview]=await Promise.all([page.waitForEvent('popup'),page.locator('#vedic-complete-preview').click()]);
  await preview.waitForSelector('[data-vedic-complete]',{timeout:180000});await preview.evaluate(()=>document.fonts.ready);
  const expected=await page.evaluate(()=>KPVedicUI.definitions.map(d=>d[0]));const sections=await preview.locator('[data-vedic-complete]').evaluateAll(ns=>ns.map(n=>n.dataset.reportSection));assert.ok(sections.length>expected.length);for(const id of expected)assert.ok(sections.includes(id),id);
@@ -25,7 +25,7 @@ const path=require('node:path'),os=require('node:os'),ROOT=path.resolve(__dirnam
  for(const style of ['south','north']){
  await page.evaluate(style=>KPVedicUI.setChartStyle(style),style);
  const table=page.locator('#v-results [data-vedic-symbol-positions]');assert.equal(await table.locator('tbody tr').count(),10);assert.equal(await table.locator('.v-sign-glyph').count(),10);assert.equal(await table.locator('.v-planet-glyph').count(),10);assert.ok(await table.locator('[data-vedic-state]').count()>6);
- assert.equal(await page.locator('#v-results .v-chart .v-sign-glyph').count(),12);assert.equal(await page.locator('#v-results .v-chart [data-vedic-planet]').count(),10);
+ assert.equal(await page.locator('#v-results .v-chart .v-sign-glyph,.v-chart .v-planet-glyph,.v-chart [data-vedic-state]').count(),0);assert.equal(await page.locator('#v-results .v-chart [data-vedic-planet]').count(),0);
  const html=await page.evaluate(()=>KPVedicUI.contents('vedic-rashi',KPVedic.core()).join(''));assert.ok(html.includes('data-vedic-symbol-positions')&&html.includes('v-sign-glyph')&&html.includes('v-planet-state'));
  }
  }
