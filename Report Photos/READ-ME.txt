@@ -1,0 +1,1 @@
+Store PNG, JPG and WebP images here. In Astrologer Settings > Astrologer Info, choose the software folder, Refresh folders and Use selected photo. The chosen image is used on the report cover, not on every chart sheet.

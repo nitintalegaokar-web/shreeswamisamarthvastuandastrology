@@ -1,0 +1,49 @@
+body.app-ready #astrosettings{--settings-ink:#23384e;--settings-line:#dbe4ec;--settings-card:#fff;--settings-soft:#f5f8fb;max-width:1250px;margin:0 auto}
+body.app-ready #astrosettings .settings-shell{background:var(--settings-card);border:1px solid var(--settings-line);border-radius:12px;box-shadow:0 3px 18px #17364e0d;overflow:clip;color:var(--settings-ink)}
+body.app-ready #astrosettings .settings-heading{padding:18px 22px;background:var(--settings-soft);border-bottom:1px solid var(--settings-line)}
+body.app-ready #astrosettings .settings-heading h2{font-size:22px;font-weight:650;color:var(--settings-ink);margin:0 0 4px}
+body.app-ready #astrosettings .settings-heading p{color:var(--settings-ink);font-size:12px}
+body.app-ready #astrosettings .settings-layout{grid-template-columns:190px minmax(0,1fr);min-height:460px}
+body.app-ready #astrosettings .settings-rail{padding:10px;background:var(--settings-soft);gap:5px;border-color:var(--settings-line)}
+body.app-ready #astrosettings .settings-tab{border:0;border-radius:7px;padding:10px 12px;text-align:left;min-height:40px;font-size:12px;color:var(--settings-ink)}
+body.app-ready #astrosettings .settings-tab[hidden]{display:none!important}
+body.app-ready #astrosettings .settings-tab[aria-selected=true]{background:#e2eefb;color:#174f86;box-shadow:none;font-weight:700}
+body.app-ready #astrosettings .settings-content{min-width:0;max-height:calc(100dvh - 275px);min-height:400px;overflow:auto;scrollbar-gutter:stable}
+body.app-ready #astrosettings .settings-pane{padding:22px;min-width:0}
+body.app-ready #astrosettings .settings-pane h3{font-size:19px;font-weight:600;margin:0 0 20px;color:var(--settings-ink)}
+body.app-ready #astrosettings .settings-pane h4{font-size:13px;margin:0 0 4px;color:var(--settings-ink)}
+body.app-ready #astrosettings .settings-grid{gap:20px 30px}
+body.app-ready #astrosettings .settings-column{gap:14px}
+body.app-ready #astrosettings .settings-field{gap:6px;font-size:12px}
+body.app-ready #astrosettings :is(input:not([type=checkbox]):not([type=color]),select){min-height:36px;border:1px solid #bdccda;border-radius:6px;max-width:100%;width:100%;padding:7px 9px;background:var(--settings-card);color:var(--settings-ink);box-sizing:border-box;font-size:12px}
+body.app-ready #astrosettings input[hidden]{display:none!important}
+body.app-ready #astrosettings input[type=checkbox]{width:16px;height:16px;min-height:16px;margin:0;accent-color:#1687ee;flex:none}
+body.app-ready #astrosettings .settings-check{display:flex;align-items:center;gap:9px;font-size:12px;min-height:30px;line-height:1.5;margin:0}
+body.app-ready #astrosettings .settings-note{font-size:11px;color:var(--settings-ink);line-height:1.7}
+body.app-ready #astrosettings .settings-actions{position:sticky;bottom:0;z-index:10;background:var(--settings-card);border-top:1px solid var(--settings-line);padding:12px 20px;gap:8px;box-shadow:0 -3px 12px #17364e08}
+body.app-ready #astrosettings .settings-actions button{min-height:36px;padding:8px 20px;border-radius:6px;font-size:12px}
+body.app-ready #astrosettings #settings-save{background:#1687ee;color:#fff;border-color:#1687ee}
+body.app-ready #astrosettings .settings-accordion{padding:0;border:1px solid var(--settings-line);border-radius:8px;margin:0 0 14px;background:var(--settings-card)}
+body.app-ready #astrosettings .settings-accordion>summary{padding:14px;font-size:13px;cursor:pointer;font-weight:600;background:var(--settings-soft);border-radius:8px}
+body.app-ready #astrosettings .settings-accordion>:not(summary){margin:14px}
+body.app-ready #astrosettings .settings-aspect-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(100px,150px);align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--settings-line)}
+body.app-ready #astrosettings .settings-aspect-head{font-size:11px;font-weight:600}
+body.app-ready #astrosettings .settings-colour-control{display:flex;gap:8px;align-items:center;min-width:0}
+body.app-ready #astrosettings input[type=color]{padding:3px;min-width:60px;width:64px;height:36px;border:1px solid #bdccda;border-radius:6px;background:white}
+body.app-ready #astrosettings [data-colour-hex]{font-family:monospace;max-width:130px}
+body.app-ready #astrosettings .settings-swatches{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+body.app-ready #astrosettings .settings-swatches button{width:21px;height:21px;min-height:21px;padding:0;border:1px solid #99a9b9;border-radius:4px}
+body.app-ready #astrosettings #settings-theme-preview{padding:14px;border:1px solid var(--settings-line);border-radius:8px;background:var(--sample-bg);color:#17364e}
+#settings-theme-preview .sample-header{background:var(--sample-primary);color:white;margin-top:10px;padding:8px;border-radius:4px 4px 0 0}
+#settings-theme-preview .sample-row{padding:6px 8px;background:white}#settings-theme-preview .sample-row:nth-of-type(3){background:var(--sample-stripe)}
+#settings-theme-preview .sample-action{display:inline-block;padding:7px 12px;background:var(--sample-secondary);color:white;border-radius:5px;margin-top:10px}
+body.app-ready #astrosettings .settings-preset-list{display:none}body.app-ready #astrosettings .settings-preset-picker{max-width:360px}
+body.app-ready #astrosettings .settings-search{display:grid;grid-template-columns:auto minmax(160px,320px) auto;align-items:center;gap:10px;margin-top:14px;font-size:12px}body.app-ready #astrosettings .settings-search output{font-size:11px}
+body.app-ready[data-kp-theme-type=dark] #astrosettings{--settings-ink:#e4edf5;--settings-line:#43586e;--settings-card:#203448;--settings-soft:#172b3e}
+@media(max-width:700px){body.app-ready #astrosettings .settings-layout{display:block}body.app-ready #astrosettings .settings-rail{display:flex;flex-direction:row;overflow-x:auto;border:0;border-bottom:1px solid var(--settings-line)}body.app-ready #astrosettings .settings-tab{flex:0 0 auto;white-space:nowrap}body.app-ready #astrosettings .settings-content{max-height:calc(100dvh - 325px);min-height:300px}body.app-ready #astrosettings .settings-pane{padding:16px}body.app-ready #astrosettings .settings-heading{padding:16px}body.app-ready #astrosettings .settings-search{grid-template-columns:1fr}body.app-ready #astrosettings .settings-grid{grid-template-columns:1fr;gap:18px}body.app-ready #astrosettings .settings-actions{padding:10px 14px}body.app-ready #astrosettings .settings-actions button{min-height:42px}body.app-ready #astrosettings #settings-status{flex:1 1 100%;font-size:11px}}
+
+@media(max-width:700px){body.app-ready:has(#astrosettings.active) #kp-compact-navigation{display:none!important}}
+.prediction-quick-language{display:flex;align-items:center;gap:7px;margin-left:auto;font-size:12px;min-width:0}.prediction-quick-language select{max-width:180px;min-height:34px;border:1px solid #a9bfd3;border-radius:6px;padding:5px 8px}
+.personal-file-panel{border-top:1px solid #cbd9e5;margin-top:22px;padding-top:18px}.personal-folder-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}.personal-folder-grid article{min-width:0;padding:12px;border:1px solid #cbd9e5;border-radius:8px}.personal-actions,.personal-logo-choice{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}.personal-file-panel button{min-height:34px;padding:6px 10px;border:1px solid #afc3d5;background:#f2f7fb;color:#234665;border-radius:6px}.personal-logo-choice img{width:90px;height:70px;object-fit:contain}.personal-brand-icon{width:32px;height:32px;object-fit:contain}.app-brand:has(.personal-brand-icon)>svg{display:none}.personal-file-panel #personal-photo-preview{width:120px;max-height:120px;object-fit:contain;margin-top:10px}.kp-small-shortcuts>button[hidden]{display:none!important}
+#astrosettings .settings-icon-choices{margin-top:20px}
+@media(max-width:700px){.personal-folder-grid{grid-template-columns:1fr}.prediction-quick-language{margin-left:0;flex:1 1 160px}.prediction-quick-language select{max-width:100%;min-width:0}}

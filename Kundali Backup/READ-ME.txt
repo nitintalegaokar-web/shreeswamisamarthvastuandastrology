@@ -1,0 +1,1 @@
+Store .lkp kundali backup files here. In Astrologer Settings > Astrologer Info, choose the extracted software folder, then Save current kundali or Restore selected. You can also use Download Backup and Restore File in browsers without folder access.

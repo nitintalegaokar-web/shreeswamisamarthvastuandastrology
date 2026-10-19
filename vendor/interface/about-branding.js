@@ -144,6 +144,7 @@
       setStatus(saved ? `Portrait saved on this computer · ${size} KB` : `Portrait ready for this session · ${size} KB`, saved ? 'saved' : 'session');
       notify(saved ? 'About portrait saved.' : 'Portrait added for this session. Browser storage is unavailable.', saved ? 'success' : 'warning');
       window.dispatchEvent(new CustomEvent('about-portrait-change', {detail: {ready: true, saved}}));
+      return result.source;
     } catch (error) {
       if (version === selectionVersion) {
         setStatus(error.message, 'error');
@@ -219,6 +220,7 @@
   window.KPAboutBranding = Object.freeze({
     storageKey: STORAGE_KEY,
     getPortrait: () => currentPortrait,
+    selectFile: file => selectPortrait({currentTarget:{files:[file],value:''}}),
     clearPortrait: removePortrait,
     refresh: enhanceAbout
   });

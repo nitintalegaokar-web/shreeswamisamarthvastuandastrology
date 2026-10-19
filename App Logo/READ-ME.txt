@@ -1,0 +1,1 @@
+The supplied chat logo needs to be selected as an image file in Astrologer Settings > Astrologer Info > Choose startup logo. The chosen logo is stored on this device and appears on startup. The included logo.png is the existing application icon.

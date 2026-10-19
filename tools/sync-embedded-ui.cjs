@@ -10,6 +10,10 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script', 'kp-personal-workspace', 'vendor/interface/personal-workspace.js'],
+  ['script', 'kp-prediction-quick-language', 'vendor/interface/prediction-quick-language.js'],
+  ['style', 'kp-settings-easy-style', 'vendor/interface/settings-easy.css'],
+  ['script', 'kp-settings-easy', 'vendor/interface/settings-easy.js'],
   ['script', 'kp-table-karkatva', 'vendor/interface/table-karkatva.js'],
   ['script', 'kp-event-house-data', 'vendor/predictions/event-house-data.js'],
   ['script', 'kp-event-house-rules', 'vendor/predictions/event-house-rules.js'],

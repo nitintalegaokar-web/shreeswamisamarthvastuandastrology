@@ -31,6 +31,11 @@ Changes:
 - Basic, Four-fold, Six-fold, Four-step and Nadi Significators: planet names and individual house numbers open their corresponding significations. Rashi and Nakshatra entries also open popups wherever those columns are present. Click a nakshatra name for lord, deity, symbol, gana, zodiac span, themes and pada information (27 English/Marathi entries).
 - Prediction > Eighth Cusp Rules: all 40 supplied English/Marathi rules, explicit KP occupied-house/sign checks and existing aspect/benefic/fourfold logic where applicable. Unclear compound rules remain for review. Preview includes Zoom +, Zoom -, Fit, Print/PDF and Close.
 - Uploaded event tables: 168 English and 157 Marathi rows preserved independently; Prediction > Event House Rules and Event Promise share the event, cusp, groups and assessment. Unparsed planet/sign qualifiers and missing primary cusps remain for review.
+- Home is the first shortcut. Display settings can show/hide each shortcut and the startup logo. Startup opens Home after the splash. The included icon is the existing application logo; choose the supplied image with Astrologer Info > Choose startup logo to store it on this device.
+- Kundali Backup/ and Report Photos/ are included as separate folders. Astrologer Info > Choose software folder connects them; Save current kundali, Restore selected, Add photos to folder and Use selected photo use those folders. Folder access depends on browser support; Download Backup, Restore File and Choose Photo are available as alternatives.
+- Prediction has a common quick Language selector, synchronized with Astrologer Settings and used by all Prediction tabs and previews.
+- Astrologer Info > Choose About photo stores the developer portrait separately from report cover photos and the startup logo; the About layout preserves its proportions. Supplied inline chat images are not included as embedded files; choose their PNG/JPG image files with these controls.
+- Astrologer Settings redesigned: searchable sections, RP sub/sub-sub columns and refresh interval, significator column choices, collapsible Vedic/Western panels, DMS orb editors, supported layout presets, theme swatches/HEX/preview, sticky Save/Cancel and mobile settings navigation. Existing unsupported calculation presets/retrograde filters are not presented as functional controls.
 - Transit search: all three methods show an expanded DBA selector and start at current MD/AD/PD. Manual DBA and date selections are respected when scanning; method selection does not start a search automatically.
 - Marriage Points and Event House Rules prediction views show only fully matched conditions. Uploaded event groups require all houses; unresolved extra conditions remain review-only.
 - Marriage Points: 19 supplied points, existing KP signification/aspect checks, original source grid and 12 spouse-appearance references. Ten relevant marriage point checks are also selectable in Event Promise.
@@ -41,10 +46,10 @@ This package updates HTML/source only. Existing Windows installers and Android A
 '''
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
  z.write(root/'index.html','index.html');z.writestr('READ-ME.txt',readme)
- for folder in ['data','vendor','tools']:
+ for folder in ['data','vendor','tools','Kundali Backup','Report Photos','App Logo']:
   for p in sorted((root/folder).rglob('*')):
    if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc':z.write(p,str(p.relative_to(root)))
- for name in ['karkatva.test.cjs','vedic-natal-predictions.test.cjs','prediction-language.test.cjs','event-support.test.cjs','childbirth.test.cjs','child-gender-sheet.test.cjs','fortuna-interpretation.test.cjs','nakshatra-karkatva.test.cjs','eighth-cusp-rules.test.cjs','event-house-rules.test.cjs','marriage-points.test.cjs']:z.write(root/'desktop/test'/name,'desktop/test/'+name)
+ for name in ['karkatva.test.cjs','vedic-natal-predictions.test.cjs','prediction-language.test.cjs','event-support.test.cjs','childbirth.test.cjs','child-gender-sheet.test.cjs','fortuna-interpretation.test.cjs','nakshatra-karkatva.test.cjs','eighth-cusp-rules.test.cjs','event-house-rules.test.cjs','marriage-points.test.cjs','settings-easy.test.cjs']:z.write(root/'desktop/test'/name,'desktop/test/'+name)
 with zipfile.ZipFile(out) as z:
  assert z.read('index.html')==(root/'index.html').read_bytes()
  assert 'data/rashi-karkatva-2026-10-18/Cancer-supplied.txt' in z.namelist()
