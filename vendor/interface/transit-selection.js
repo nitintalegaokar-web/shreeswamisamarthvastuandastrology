@@ -10,9 +10,9 @@ function options(id,rows,preferred){const n=$(id);if(!n)return;const index=Numbe
 function sync(force=false){
  if(!initialized)return;KPHomeDasha.refresh();const native=KPHomeDasha.getData(),next=JSON.stringify([$('dob')?.value,$('birthTime')?.value,native.timeZoneHours,native.levels?.[0]?.rows?.map(r=>[r.lord,r.startMs,r.endMs])]);
  const changed=next!==signature;if(changed){signature=next;roots=native.ready?native.levels[0].rows:[];if(!restoring)$('tr-dba-selection-source').value='current';}
- if(!force&&!changed&&!['current','date'].includes(source()))return;
+ if(!force&&!changed&&!['current','auto-forward','date'].includes(source()))return;
  let md=selectedIndex('tr-selected-md',roots),ads=children(roots[md]),ad=selectedIndex('tr-selected-ad',ads),pds=children(ads[ad]),pd=selectedIndex('tr-selected-pd',pds);
- if(['current','date'].includes(source())){
+ if(['current','auto-forward','date'].includes(source())){
   let instant=Date.now();if(source()==='date')try{instant=utc($('tr-search-date-start').value).getTime();}catch(_){}
   const civil=instant+Number(native.timeZoneHours)*3600000,at=rows=>Math.max(0,rows.findIndex(r=>r.startMs<=civil&&civil<r.endMs));md=at(roots);ads=children(roots[md]);ad=at(ads);pds=children(ads[ad]);pd=at(pds);
  }
@@ -37,6 +37,7 @@ function setDefaults(range){if(!initialized||dateSource()==='custom')return;cons
 function filterPeriods(rows,data){if(source()!=='selected')return rows;const pd=data.periods.PD,a=Date.parse(pd.startUTC),b=Date.parse(pd.endUTC);return rows.filter(row=>row.lords.every(lord=>lord.id===data.periods[lord.level].id)).map(row=>({...row,start:new Date(Math.max(a,Date.parse(row.start))).toISOString(),end:new Date(Math.min(b,Date.parse(row.end))).toISOString()})).filter(row=>row.end>row.start);}
 function changed(event){
  const id=event.target.id;if(!ids.includes(id))return;
+ if(id==='tr-dba-selection-source'&&source()==='auto-forward'){window.KPTransitWorkspace?.setForwardDates();}
  if(id==='tr-dba-selection-source')$('tr-date-range-source').value=source()==='date'?'custom':source()==='current'?'period':dateSource();
  if(id==='tr-date-range-source'){if(dateSource()==='custom'&&source()==='current')$('tr-dba-selection-source').value='date';else if(dateSource()==='period'&&source()==='date')$('tr-dba-selection-source').value='selected';}
  if(id==='tr-selected-md'||id==='tr-selected-ad'||id==='tr-selected-pd')$('tr-dba-selection-source').value='selected';

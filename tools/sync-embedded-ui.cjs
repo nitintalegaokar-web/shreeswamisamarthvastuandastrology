@@ -106,6 +106,7 @@ const assets = [
   ['script', 'kp-a4-report-contract', 'vendor/interface/a4-reports.js'],
   ['script', 'kp-chart-workspace-script', 'vendor/interface/chart-workspace.js'],
   ['script', 'kp-chart-workspace-extras', 'vendor/interface/chart-workspace-extras.js'],
+  ['script','kp-transit-event-chains','vendor/interface/transit-event-chains.js'],
   ['script', 'kp-transit-workspace', 'vendor/interface/transit-workspace.js'],
   ['script', 'kp-gemstone-event-ranking', 'vendor/predictions/gemstone-event-ranking.js'],
   ['script', 'kp-gemstone-panels', 'vendor/interface/gemstone-panels.js'],

@@ -14,6 +14,7 @@ Extract this ZIP completely, then open KP-MASTER/index.html in Chrome or Edge.
 
 Latest updates:
 - Rashi labels appear once in Marathi; bilingual labels contain one pair.
+- Transit timing automatically searches event-supported future DBA periods, uses natal Rashi lords for node signs, and refines Sun timing through direct/reverse MD-AD or ranked LSRD chains.
 - Muhurta includes 70 supplied Panchang references, ceremony-specific search rules and English topics, Matchmaking autofill, compact editable notes, and astrologer credit when sharing or printing.
 - Vedic charts use compact text labels; symbols appear only in the reference and planetary tables.
 - Vedic Kundali has a separate Complete Vedic Report preview for printing all report pages.
