@@ -13,6 +13,8 @@ readme = f'''KP MASTER {version} - Updated HTML
 Extract this ZIP completely, then open KP-MASTER/index.html in Chrome or Edge.
 
 Latest updates:
+- Compact Rules editor has fixed action buttons, search/topic filters, a backup menu and Cancel edits.
+- Shared hover cards explain table headings, reveal clipped values, fit the viewport and support keyboard focus/Escape.
 - Planet short-name preference applies to shared labels and report text in English and Marathi.
 - Home birth details stay compact; North Indian planet, Rashi and DMS text follows font zoom.
 - Editing custom transit dates also releases an old Selected DBA lock.
