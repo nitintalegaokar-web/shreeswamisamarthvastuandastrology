@@ -13,10 +13,9 @@ readme = f'''KP MASTER {version} - Updated HTML
 Extract this ZIP completely, then open KP-MASTER/index.html in Chrome or Edge.
 
 Latest updates:
+- Event significators mode follows only the Transit Reader rule: moving significator, star lord and sub lord must all be event significators. Sign/house position, RP and additional Sun/Moon/Jupiter/Saturn conditions are not used in this mode.
 - Transit planet selection, All planets and Clear are enabled; selected planets control displayed results.
-- Candidate refinement separately checks Sun/Moon/Jupiter/Saturn, with explicit notes when all planets are significators.
-- Event-significator transit searches include all nine planets and list each Rashi/nakshatra/sub entry and exit within the supported DBA.
-- Candidate event windows distinguish preliminary Moon-PD sub triggers from combined Sun DBA/Jupiter/Saturn support.
+- Checked event significators are scanned through qualifying nakshatra/sub sectors inside supported DBA periods. No sign-boundary splits are added.
 - Transit DBA eligibility follows event-significator membership; repeated lords are not rejected merely for lacking full house-group union coverage.
 - Ascendant/Moon transitions start from the natal birth timestamp and birth location.
 - Selecting MD/AD/PD sets its actual search dates, including historical periods; stale non-overlapping saved dates recover automatically.

@@ -1,0 +1,5 @@
+Supplied Transit Reader rule, 20 October 2026
+
+Find the transit of the significators in the constellation and sub of the significators of a particular matter. The moving planet, constellation lord and sub lord must each belong to the event significator set. Sign and transit-house positions do not enter this predicate.
+
+Implementation: checked moving significators only; nakshatra lord AND sub lord membership; preserve selected historical/supported DBA windows. No extra RP, Sun-chain, compulsory Moon, Jupiter, Saturn or PD-sub identity gate is used in Event significators mode. Rule matches are dated intervals, not a guarantee that a real event will occur.

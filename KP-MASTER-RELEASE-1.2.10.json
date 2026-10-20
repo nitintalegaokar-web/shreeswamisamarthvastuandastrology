@@ -1,0 +1,93 @@
+{
+  "version": "1.2.10",
+  "builtAt": "2026-10-20T13:48:41.736611+00:00",
+  "sourceHTMLSHA256": "29a40e64871cb8eb21cf66c2e7e3e2e047d9e080cbb92e742971772f6310b84d",
+  "artifacts": [
+    {
+      "edition": "Windows Customer",
+      "file": "KP-Master-Customer-Setup-1.2.10-x64.exe",
+      "bytes": 103817459,
+      "sha256": "8489b0952edb4d221ac0c8b8fe4eb6998bec07332931f505a7ac6178630fd951"
+    },
+    {
+      "edition": "Windows Owner",
+      "file": "KP-Master-Owner-Setup-1.2.10-x64.exe",
+      "bytes": 103805053,
+      "sha256": "2370af7c7fab12e992c13dada79aa359b195d7923162f8e1664cb79f58b2217c"
+    },
+    {
+      "edition": "Windows Owner Activation",
+      "file": "KP-Master-Owner-Activation-Setup-1.2.10-x64.exe",
+      "bytes": 91825826,
+      "sha256": "6a5ee158ff90d2a13f32082fd59df6c4beeddd933bf9a6827fb3b350fe345992"
+    },
+    {
+      "edition": "Android Owner",
+      "file": "KP-Master-Owner-1.2.10.apk",
+      "bytes": 14795488,
+      "sha256": "508e67c10ae0018bc7e7b82358f30f7242c1ce5ba973240b2e65583c712ff894"
+    },
+    {
+      "edition": "Android Customer",
+      "file": "KP-Master-Customer-1.2.10.apk",
+      "bytes": 14803807,
+      "sha256": "0c5ac189cd85ec3560938c710e868a13a51923594c23a5f031528d67ecef0d42"
+    },
+    {
+      "edition": "Owner Web",
+      "file": "KP-MASTER-Owner-Web-1.2.10.zip",
+      "bytes": 14944153,
+      "sha256": "cbd8af13e4a992ab353dda25d445cd28946b20c1ac666f612dd8a3a9d7b266a3"
+    },
+    {
+      "edition": "Customer Web",
+      "file": "KP-MASTER-Customer-Web-1.2.10.zip",
+      "bytes": 14949032,
+      "sha256": "80379f0a1d20bda4674cdc05d4ed1cd7564d3cf3adcb4ab8754b62ab3224be9d"
+    },
+    {
+      "edition": "HTML and available backup data",
+      "file": "KP-MASTER-HTML-All-Data-1.2.10.zip",
+      "bytes": 41204723,
+      "sha256": "a0953e57b1f55de1c37b1bd9579660ed65e9a8f64f29cbf5c53b1fb19280394b"
+    },
+    {
+      "edition": "Standalone HTML",
+      "file": "KP-MASTER-Updated-HTML-1.2.10.zip",
+      "bytes": 14736151,
+      "sha256": "c5d63e7e021f5411974ae7de35caa6089fb1d700ed72351765eedafea0f62a3f"
+    },
+    {
+      "edition": "Tutorial PDF",
+      "file": "docs/KP-MASTER-User-Tutorial-1.2.10.pdf",
+      "bytes": 64754,
+      "sha256": "7eacb02a05ab45204c76814af95ddf92a7f44b7027daa1a49da8bb73cdbce5b3"
+    }
+  ],
+  "android": {
+    "versionCode": 10214,
+    "signingCertificateSHA256": "96ce4efeea93600a90213f9eda7c43fdd9038b139125d492de687e0148aebc74",
+    "signingContinuity": "Same certificate as the previously released fresh-install 1.2.8 edition. Original older-certificate apps require backup and reinstall.",
+    "minimumAndroid": "9",
+    "physicalDeviceTested": false
+  },
+  "iphone": {
+    "nativeIPA": "not built",
+    "reason": "macOS/Xcode and Apple signing/provisioning are unavailable in this Linux workspace. APKs cannot install on iPhone.",
+    "alternative": "Owner/Customer web archives can be hosted over HTTPS; browser/device testing on iPhone has not been performed."
+  },
+  "backup": {
+    "included": "Current HTML, available data/vendor/docs files and workspace backup folders; per-file checksums in the ZIP.",
+    "unavailable": "Actual saved kundali and report-photo folders contain instructions only. Browser/device-local data and private signing/activation keys are not in this archive."
+  },
+  "validation": {
+    "desktopUnitTestFiles": 40,
+    "androidLicenceAssertions": 20,
+    "androidDemo": "passed",
+    "mobileBrowserBackupExportsPDF": "passed",
+    "androidSignatureAndAlignment": "passed both",
+    "windowsInstallerPayloadAndAsarParity": "passed all three",
+    "nativeWindowsInstallation": false,
+    "physicalAndroidDevice": false
+  }
+}
