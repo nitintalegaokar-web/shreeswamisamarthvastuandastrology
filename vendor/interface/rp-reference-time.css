@@ -1,0 +1,6 @@
+#kp-live-ruling .live-rp-history-controls{display:grid;grid-template-columns:1fr 1.2fr 1fr 85px;gap:7px;margin:10px 0;padding:9px;border:1px solid #d1dde7;border-radius:7px;background:#f4f8fc}
+#kp-live-ruling .live-rp-history-controls label{display:grid;gap:4px;font-size:10px;min-width:0;margin:0}
+#kp-live-ruling .live-rp-history-controls :is(input,select){box-sizing:border-box;width:100%;min-width:0;height:29px;padding:4px;border:1px solid #b8cada;border-radius:4px;font:11px Arial;background:#fff;color:#173850}
+#kp-live-ruling .live-rp-history-actions{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+#kp-live-ruling[data-reference-mode=selected] .live-rp-indicator{background:#b37923}
+@media(max-width:550px){#kp-live-ruling .live-rp-history-controls{grid-template-columns:1fr 1fr}}

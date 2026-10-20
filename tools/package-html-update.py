@@ -13,6 +13,8 @@ readme = f'''KP MASTER {version} - Updated HTML
 Extract this ZIP completely, then open KP-MASTER/index.html in Chrome or Edge.
 
 Latest updates:
+- RP has selectable historical date, time and UTC offset, previous/next day controls, and a Live reset.
+- Transit searches accept past dates and preserve manual ranges across all three search modes.
 - Rashi labels appear once in Marathi; bilingual labels contain one pair.
 - Dasha Promise admits only event-significator PD lords and refines Sun, Moon or Lagna inside the selected PD. Jupiter/Saturn results are clipped to the same PD.
 - Transit timing automatically searches event-supported future DBA periods, uses natal Rashi lords for node signs, and refines Sun timing through direct/reverse MD-AD or ranked LSRD chains.

@@ -6,7 +6,7 @@ const text=(en,m)=>mr()?m:en;
 function label(id){return $(id)?.closest('label')||$(id)?.parentElement;}
 function dispatch(id){$(id).dispatchEvent(new Event('change',{bubbles:true}));}
 function setText(node,value){if(node&&node.textContent!==value)node.textContent=value;}
-function mode(value){if(!MODES.includes(value))return; $('tr-mode').value=value;dispatch('tr-mode');window.KPTransitWorkspace?.current();schedule();}
+function mode(value){if(!MODES.includes(value))return; $('tr-mode').value=value;dispatch('tr-mode');if($('tr-dba-selection-source')?.value==='auto-forward')window.KPTransitWorkspace?.current();schedule();}
 function filterEvents(){
  const query=document.querySelector('[data-tr-event-filter]')?.value.trim().toLocaleLowerCase()||'',select=$('tr-event');
  const options=[...select.options];let first=null;matches=0;

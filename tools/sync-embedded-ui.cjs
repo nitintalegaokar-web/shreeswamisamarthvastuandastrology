@@ -122,6 +122,8 @@ const assets = [
   ['script', 'kp-horary-dba-selection', 'vendor/interface/horary-dba.js'],
   ['script', 'kp-coordinate-dms-inputs', 'vendor/interface/coordinate-dms.js'],
   ['style', 'kp-ruling-finder-style', 'vendor/interface/ruling-planet-finder.css'],
+  ['script','kp-rp-reference-time','vendor/interface/rp-reference-time.js'],
+  ['style','kp-rp-reference-time-style','vendor/interface/rp-reference-time.css'],
   ['script', 'kp-live-ruling-calculator', 'vendor/interface/live-ruling.js'],
   ['script', 'kp-ruling-finder-script', 'vendor/interface/ruling-planet-finder.js'],
   ['script', 'kp-dasha-current-selection', 'vendor/interface/dasha-current-selection.js'],
