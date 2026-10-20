@@ -24,6 +24,7 @@ function periods(){
  const md=roots[selectedIndex('tr-selected-md',roots)],ads=children(md),ad=ads[selectedIndex('tr-selected-ad',ads)],pds=children(ad),pd=pds[selectedIndex('tr-selected-pd',pds)];
  const offset=Number(native.timeZoneHours)*3600000,result={};let lower=-Infinity,upper=Infinity;
  for(const [i,row] of [md,ad,pd].entries()){if(!row)throw Error('Choose a valid MD, AD and PD.');lower=Math.max(lower,row.startMs);upper=Math.min(upper,row.endMs);result[LEVELS[i]]={...row,id:code(row.lord),startMs:lower,endMs:upper,startUTC:new Date(lower-offset).toISOString(),endUTC:new Date(upper-offset).toISOString()};}
+ if(dateSource()==='custom'){try{const start=utc($('tr-search-date-start').value),end=utc($('tr-search-date-end').value),pd=result.PD;if(+end<=Date.parse(pd.startUTC)||+start>=Date.parse(pd.endUTC)){$('tr-date-range-source').value='period';$('tr-period').value='PD';setDefaults({start:new Date(pd.startUTC),end:new Date(pd.endUTC)});}}catch(_){} }
  return {periods:result,timeZoneHours:native.timeZoneHours,instant:new Date().toISOString(),selection:'selected'};
 }
 function utc(text){if(!/^\d{4}-\d\d-\d\dT\d\d:\d\d(?::\d\d)?$/.test(text))throw Error('Choose valid start and end dates and times.');const offset=Number($('tr-timezone').value);const date=new Date(Date.parse(text+'Z')-offset*60000);if(!Number.isFinite(date.getTime()))throw Error('Choose valid start and end dates and times.');return date;}
@@ -40,7 +41,7 @@ function changed(event){
  if(id==='tr-dba-selection-source'&&source()==='auto-forward'){window.KPTransitWorkspace?.setForwardDates();}
  if(id==='tr-dba-selection-source')$('tr-date-range-source').value=source()==='date'?'custom':source()==='current'?'period':dateSource();
  if(id==='tr-date-range-source'){if(dateSource()==='custom'&&['current','auto-forward','selected'].includes(source()))$('tr-dba-selection-source').value='date';else if(dateSource()==='period'&&source()==='date')$('tr-dba-selection-source').value='selected';}
- if(id==='tr-selected-md'||id==='tr-selected-ad'||id==='tr-selected-pd')$('tr-dba-selection-source').value='selected';
+ if(id==='tr-selected-md'||id==='tr-selected-ad'||id==='tr-selected-pd'||id==='tr-dba-selection-source'&&source()==='selected'){$('tr-dba-selection-source').value='selected';$('tr-date-range-source').value='period';$('tr-period').value='PD';}
  if(id==='tr-selected-md'){$('tr-selected-ad').value='0';$('tr-selected-pd').value='0';}else if(id==='tr-selected-ad')$('tr-selected-pd').value='0';
  if(id==='tr-search-date-start'||id==='tr-search-date-end'){$('tr-date-range-source').value='custom';$('tr-dba-selection-source').value='date';}
  sync(true);KPTransit.cancel();KPTransit.refresh();

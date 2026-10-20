@@ -67,7 +67,7 @@
       if(chain.length===3){
         const layers=chain.map((p,i)=>{const id=KPDisplay.idByName[p.lord]||p.lord;return {level:['MD','AD','PD'][i],id,houses:house(id)};});
         const combined=unique(layers.flatMap(p=>p.houses));
-        if(layers.every(p=>required.some(h=>p.houses.includes(h)))&&required.every(h=>combined.includes(h)))found.push({start:new Date(a).toISOString(),end:new Date(b).toISOString(),lords:layers,coverage:layers.map(p=>p.houses.filter(h=>required.includes(h)).length)});
+        if(layers.every(p=>required.some(h=>p.houses.includes(h)))&&(data.requireAllHouses===false||required.every(h=>combined.includes(h))))found.push({start:new Date(a).toISOString(),end:new Date(b).toISOString(),lords:layers,coverage:layers.map(p=>p.houses.filter(h=>required.includes(h)).length)});
         return;
       }
       for(const child of KPHomeDasha.subdivide(parent)){const from=Math.max(a,child.startMs-offset),to=Math.min(b,child.endMs-offset);if(to>from)walk(child,[...chain,child],from,to);}
