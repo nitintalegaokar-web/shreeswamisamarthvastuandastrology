@@ -14,7 +14,7 @@ Extract this ZIP completely, then open KP-MASTER/index.html in Chrome or Edge.
 
 Latest updates:
 - Rashi labels appear once in Marathi; bilingual labels contain one pair.
-- Muhurta includes Panchang Nirnay: editable notes, two-person birth-strength checks, and Gopal / Abhijit / Goraj local times.
+- Muhurta includes 70 supplied Panchang references, ceremony-specific search rules and English topics, Matchmaking autofill, compact editable notes, and astrologer credit when sharing or printing.
 - Vedic charts use compact text labels; symbols appear only in the reference and planetary tables.
 - Vedic Kundali has a separate Complete Vedic Report preview for printing all report pages.
 - Transit Results retain planet names on screen and in reports.

@@ -10,6 +10,8 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script','kp-muhurta-supplied-data','vendor/muhurta/supplied-data.js'],
+  ['script','kp-muhurta-supplied-rules','vendor/muhurta/supplied-rules.js'],
   ['script','kp-muhurta-nirnay','vendor/muhurta/nirnay.js'],
   ['script','kp-muhurta-script','vendor/muhurta/engine.js'],
   ['script','kp-selected-report-window','vendor/interface/report-selection.js'],

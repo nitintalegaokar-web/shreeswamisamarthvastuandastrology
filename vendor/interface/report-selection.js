@@ -17,7 +17,7 @@ body>.report-page{display:block!important;margin:0!important;zoom:1!important;bo
 const tr=s=>window.KPLanguage?.translate(s)||s;
 function fail(message){const status=$('report-page-selection-status');status.textContent=message;status.dataset.printError='true';status.tabIndex=-1;status.focus();window.showToast?.(message,'error');}
 function styles(){return [...document.querySelectorAll('style')].map(n=>'<style>'+n.textContent.replace(/#kundali\b/g,'[data-report-id="kundali"]')+'</style>').join('');}
-function normalize(doc){window.KPA4Reports?.prepare(doc);for(const page of doc.querySelectorAll('[data-report-section="event-promise"],[data-report-section="gemstones"],[data-report-section="nadi-astrology"],[data-report-section="kp-fourfold"],[data-report-section="kp-sixfold"],[data-report-section="kp-fourstep-section"]'))window.KPA4Preview?.normalize(doc,page);window.KPLanguage?.localize(doc);}
+function normalize(doc){window.KPDeveloperCredit?.apply(doc);window.KPA4Reports?.prepare(doc);for(const page of doc.querySelectorAll('[data-report-section="event-promise"],[data-report-section="gemstones"],[data-report-section="nadi-astrology"],[data-report-section="kp-fourfold"],[data-report-section="kp-sixfold"],[data-report-section="kp-fourstep-section"]'))window.KPA4Preview?.normalize(doc,page);window.KPLanguage?.localize(doc);}
 async function prepare(options={}){
  // Capture report groups at the click, including pages added by calculation.
  const sections=new Set(KPReportPages.selected().map(p=>p.dataset.reportSection));
