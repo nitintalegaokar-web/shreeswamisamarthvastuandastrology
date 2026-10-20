@@ -7,3 +7,7 @@ Includes the KP Master icon, 209 remedies across 49 subjects, Matrugaya bookings
 Your saved data stays in the browser. Export JSON backups before moving the HTML file, switching browsers or importing replacement data. See `READ-ME.txt` inside the ZIP for use and printing instructions.
 
 Archive SHA-256: `60644c2e9c3a8cc33952f25fe49fb944f11f4f75879ee4167ff17aba068a2dd1`
+
+## Windows installer
+
+For the installed desktop version with Matrugaya bookings, Settings and A5 printing, download `KP-Master-Setup-1.1.0.exe`. See [Windows installation instructions](INSTALL-KP-MASTER.md).
