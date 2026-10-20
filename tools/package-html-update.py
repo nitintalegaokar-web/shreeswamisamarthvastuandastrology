@@ -13,6 +13,8 @@ readme = f'''KP MASTER {version} - Updated HTML
 Extract this ZIP completely, then open KP-MASTER/index.html in Chrome or Edge.
 
 Latest updates:
+- Transit planet selection, All planets and Clear are enabled; selected planets control displayed results.
+- Candidate refinement separately checks Sun/Moon/Jupiter/Saturn, with explicit notes when all planets are significators.
 - Event-significator transit searches include all nine planets and list each Rashi/nakshatra/sub entry and exit within the supported DBA.
 - Candidate event windows distinguish preliminary Moon-PD sub triggers from combined Sun DBA/Jupiter/Saturn support.
 - Transit DBA eligibility follows event-significator membership; repeated lords are not rejected merely for lacking full house-group union coverage.
