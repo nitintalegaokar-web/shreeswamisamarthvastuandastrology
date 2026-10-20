@@ -31,9 +31,9 @@ function update(){
  setText($('tr-handy-csv'),text('Save dates · CSV','दिनांक जतन करा · CSV'));
  setText($('tr-all-planets'),text('All planets','सर्व ग्रह'));setText($('tr-no-planets'),text('Clear','निवड काढा'));
  setText($('tr-handbook-note'),event?text('Selected planets through event-significator star AND sub lords. Best dates have the most simultaneous matches; DBA supplies dates only.','निवडलेल्या तारखांत सर्व नऊ ग्रहांचे कार्येशांच्या नक्षत्र व उपातून गोचर. दशेतून फक्त तारखा घेतल्या जातात.'):dasha?text('All six MD / AD / PD directions, using the selected natal or lord-ruled sectors.','निवडलेल्या जन्मस्थान किंवा स्वामीच्या क्षेत्रातून MD / AD / PD च्या सहाही दिशा.'):text('Sun through MD and AD: MD sign + AD star, and AD sign + MD star.','MD व AD मधून सूर्य: MD राशी + AD नक्षत्र आणि AD राशी + MD नक्षत्र.'));
- const running=$('tr-status').dataset.state==='running',rows=(window.KPTransitWorkspace?.getResults()||KPTransit.getResults()),zero=/No matching intervals|जुळणारे गोचर नाही/.test($('tr-result-rows').textContent),complete=rows.length>0||zero;
+ const running=$('tr-status').dataset.state==='running',rows=(window.KPTransitWorkspace?.getResults()||KPTransit.getResults()),zero=/No matching intervals|जुळणारे गोचर नाही/.test($('tr-result-rows').textContent),complete=rows.length>0||zero||Boolean(window.KPTransitWorkspace?.hasEphemeris());
  const table=$('transit').querySelector('.tr-result-mount');table.hidden=!complete;formatRows(rows);
- $('tr-handy-csv').disabled=!rows.length;$('transit-preview').disabled=running||!complete;
+ $('tr-handy-csv').disabled=!rows.length&&!window.KPTransitWorkspace?.hasEphemeris();$('transit-preview').disabled=running||!complete;
  setText($('tr-run'),running?text('Searching…','शोध सुरू…'):text('Find transit dates','गोचर दिनांक शोधा'));
  if(event&&!matches&&!running)$('tr-run').disabled=true;
  $('tr-event-match-count').classList.toggle('is-empty',Boolean(document.querySelector('[data-tr-event-filter]').value)&&!matches);
@@ -42,6 +42,7 @@ function update(){
 function currentLabel(value){return value==='event'?text('1 · Event significators','१ · घटनेचे कार्येश'):value==='dasha'?text('2 · DBA through each other','२ · परस्पर दशा गोचर'):text('3 · Sun through DBA','३ · दशेतून सूर्य गोचर');}
 function schedule(){if(queued)return;queued=true;queueMicrotask(()=>{queued=false;update();});}
 function csv(){
+ const daily=$('tr-mode').value==='event'?window.KPTransitWorkspace?.getEphemeris():null;if(daily?.days?.length){const records=[['Date / local time','Planet','Sign','DMS','Nakshatra','Pada','SGL','STL','SBL','SSL','Motion','Combust','Match','Daily match count'],...daily.days.flatMap(day=>day.cells.map(c=>[localTime(new Date(day.at).toISOString()),c.id,c.signCode,c.degree,c.nak,c.pada,c.sgl,c.star,c.sub,c.ssl,c.retrograde?'[R]':'D',c.combust?'[C]':'',c.match?'Yes':'No',day.count]))],quote=value=>'"'+String(value).replace(/"/g,'""')+'"',url=URL.createObjectURL(new Blob(['\ufeff'+records.map(row=>row.map(quote).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='KP-MASTER-Transit-Ephemeris.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);return;}
  const rows=(window.KPTransitWorkspace?.getResults()||KPTransit.getResults());if(!rows.length)return;
  const quote=value=>'"'+String(value).replace(/"/g,'""')+'"';
  const columns=['Search mode','Event','Planet','Transit condition','MD','AD','PD','Chain','LSRD rank','RP query UTC','Entry UTC','Exit UTC','Entry local','Exit local','UTC offset minutes'];
