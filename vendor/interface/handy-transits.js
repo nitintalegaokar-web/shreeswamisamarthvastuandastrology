@@ -30,7 +30,7 @@ function update(){
  setText($('tr-event-filter-label'),text('Search event','घटना शोधा'));
  setText($('tr-handy-csv'),text('Save dates · CSV','दिनांक जतन करा · CSV'));
  setText($('tr-all-planets'),text('All planets','सर्व ग्रह'));setText($('tr-no-planets'),text('Clear','निवड काढा'));
- setText($('tr-handbook-note'),event?text('Entry / exit times satisfy the selected transit rule. Use Advanced rules for natal promise and DBA support.','प्रवेश / निर्गमन वेळा निवडलेल्या गोचर नियमाशी जुळतात. जन्मकुंडलीचे वचन व दशा समर्थनासाठी अतिरिक्त नियम वापरा.'):dasha?text('All six MD / AD / PD directions, using the selected natal or lord-ruled sectors.','निवडलेल्या जन्मस्थान किंवा स्वामीच्या क्षेत्रातून MD / AD / PD च्या सहाही दिशा.'):text('Sun through MD and AD: MD sign + AD star, and AD sign + MD star.','MD व AD मधून सूर्य: MD राशी + AD नक्षत्र आणि AD राशी + MD नक्षत्र.'));
+ setText($('tr-handbook-note'),event?text('All nine planets through event-significator star and sub lords. The selected dates are independent of DBA.','निवडलेल्या तारखांत सर्व नऊ ग्रहांचे कार्येशांच्या नक्षत्र व उपातून गोचर. दशेचा संबंध नाही.'):dasha?text('All six MD / AD / PD directions, using the selected natal or lord-ruled sectors.','निवडलेल्या जन्मस्थान किंवा स्वामीच्या क्षेत्रातून MD / AD / PD च्या सहाही दिशा.'):text('Sun through MD and AD: MD sign + AD star, and AD sign + MD star.','MD व AD मधून सूर्य: MD राशी + AD नक्षत्र आणि AD राशी + MD नक्षत्र.'));
  const running=$('tr-status').dataset.state==='running',rows=(window.KPTransitWorkspace?.getResults()||KPTransit.getResults()),zero=/No matching intervals|जुळणारे गोचर नाही/.test($('tr-result-rows').textContent),complete=rows.length>0||zero;
  const table=$('transit').querySelector('.tr-result-mount');table.hidden=!complete;formatRows(rows);
  $('tr-handy-csv').disabled=!rows.length;$('transit-preview').disabled=running||!complete;
@@ -46,7 +46,7 @@ function csv(){
  const quote=value=>'"'+String(value).replace(/"/g,'""')+'"';
  const columns=['Search mode','Event','Planet','Transit condition','MD','AD','PD','Chain','LSRD rank','RP query UTC','Entry UTC','Exit UTC','Entry local','Exit local','UTC offset minutes'];
  const search=$('tr-mode').selectedOptions[0].textContent,event=$('tr-event').selectedOptions[0]?.textContent||'';
- const body=[columns,...rows.map(r=>[search,event,r.planet,r.label,r.DBA?.MD||'',r.DBA?.AD||'',r.DBA?.PD||'',r.chainKind||'',r.rulingRank||'',r.rulingQueryUTC||'',r.start,r.end,localTime(r.start),localTime(r.end),$('tr-timezone').value])].map(r=>r.map(quote).join(',')).join('\r\n');
+ const records=[columns,...rows.map(r=>[search,event,r.planet,r.label,r.DBA?.MD||'',r.DBA?.AD||'',r.DBA?.PD||'',r.chainKind||'',r.rulingRank||'',r.rulingQueryUTC||'',r.start,r.end,localTime(r.start),localTime(r.end),$('tr-timezone').value])];const body=records.map(row=>$('tr-mode').value==='event'?row.filter((_,i)=>i<4||i>=10):row).map(r=>r.map(quote).join(',')).join('\r\n');
  const url=URL.createObjectURL(new Blob(['\ufeff'+body],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='KP-MASTER-Transit-dates.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function init(){
