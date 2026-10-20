@@ -15,7 +15,7 @@ for edition in ['Owner','Customer']:
  name=f'KP-MASTER-{edition}-Web-{version}.zip'
  with zipfile.ZipFile(root/name,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
   z.writestr('index.html',source)
-  z.write(root/'docs/KP-MASTER-User-Tutorial-1.2.10.pdf','docs/KP-MASTER-User-Tutorial-1.2.10.pdf')
+  z.write(root/'docs/KP-MASTER-User-Tutorial-1.2.11.pdf','docs/KP-MASTER-User-Tutorial-1.2.11.pdf')
   for folder in ['Kundali Backup','Report Photos']:
    for p in (root/folder).glob('*'):
     if p.is_file():z.write(p,str(p.relative_to(root)))

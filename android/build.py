@@ -1,7 +1,7 @@
 """Build the approved single-file calculator as two signed, offline Android APKs."""
 from pathlib import Path
 import os,subprocess,shutil,json,hashlib,secrets,zipfile,sys
-ROOT=Path(__file__).resolve().parents[1];APP=ROOT/'android';SDK=Path(os.environ.get('ANDROID_SDK_ROOT','/workspace/kp-android-toolchain/sdk'));TOOLS=SDK/'build-tools/35.0.0';API=SDK/'platforms/android-35/android.jar';VERSION=json.loads((ROOT/'desktop/package.json').read_text())['version'];VERSION_CODE=10214
+ROOT=Path(__file__).resolve().parents[1];APP=ROOT/'android';SDK=Path(os.environ.get('ANDROID_SDK_ROOT','/workspace/kp-android-toolchain/sdk'));TOOLS=SDK/'build-tools/35.0.0';API=SDK/'platforms/android-35/android.jar';VERSION=json.loads((ROOT/'desktop/package.json').read_text())['version'];VERSION_CODE=10215
 FRESH='--fresh-install' in sys.argv
 KEYS=Path(os.environ.get('KP_ANDROID_SIGNING_DIR','/workspace/kp-master-android-signing-fresh-128' if FRESH else '/workspace/kp-master-android-signing'));KEYS.mkdir(exist_ok=True,mode=0o700);store=KEYS/'release.p12';password_file=KEYS/'store-password.txt'
 def run(*args):subprocess.run([str(x) for x in args],check=True,cwd=APP)

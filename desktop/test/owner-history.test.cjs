@@ -14,3 +14,8 @@ test('text export includes all retained entries, excludes removed entries and pr
  const records=Array.from({length:15},(_,i)=>({...first,licenseId:'license-'+i,clientName:'Client '+i}));const removed=changeRemoval(records,'license-1',true),text=historyText(removed,'en',new Date('2026-10-12T10:00:00Z'));assert.equal(text.charCodeAt(0),0xFEFF);assert.match(text,/Entries: 14/);assert.match(text,/Client: Client 14\r\n/);assert.doesNotMatch(text,/Client: Client 1\r\n/);assert.doesNotMatch(text,/do-not-export|unknownSecret/);assert.match(text,/Status revision: 7/);assert.match(text,/does not confirm activation/);
  const marathi=historyText([first],'mr');assert.match(marathi,/परवाना नोंदी/);assert.match(marathi,/निष्क्रियता दिली/);assert.match(marathi,/कायमस्वरूपी/);
 });
+
+test('1.2.11 clears the visible activation history once and retains a local recovery copy',async()=>{
+ const os=require('node:os'),path=require('node:path'),fs=require('node:fs/promises'),H=require('../owner/history.cjs'),dir=await fs.mkdtemp(path.join(os.tmpdir(),'kp-history-reset-')),file=path.join(dir,'issued-licenses.json');
+ try{const old=[{licenseId:'previous',clientName:'Previous customer',removedAt:'2026-10-01'}];await H.writeHistory(file,old);assert.equal(await H.resetHistoryOnce(file,'1.2.11'),true);assert.deepEqual(await H.readHistory(file),[]);assert.deepEqual(JSON.parse(await fs.readFile(file+'.before-reset-1.2.11.bak','utf8')),old);await H.writeHistory(file,[{licenseId:'new'}]);assert.equal(await H.resetHistoryOnce(file,'1.2.11'),false);assert.deepEqual(await H.readHistory(file),[{licenseId:'new'}]);}finally{await fs.rm(dir,{recursive:true,force:true});}
+});

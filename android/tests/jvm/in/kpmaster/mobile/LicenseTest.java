@@ -14,6 +14,10 @@ public class LicenseTest{
   JSONObject off=new JSONObject(read(d,"deactivate.json"));String offCode="KP-S1."+off.getString("payload")+"."+off.getString("signature");LicenseManager fresh=new LicenseManager(new Context(d.toString()),id);fresh.importLicence(LicenseManager.codeEnvelope(code,false));fresh.importControl(LicenseManager.codeEnvelope(offCode,true));rejects(()->fresh.active());
   JSONObject request=new JSONObject(read(d,"owner-request.json"));if(!m.request().contains(request.getString("systemId")))throw new AssertionError();assertions++;
   m.importLicence(read(d,"feature-plan.json"));if(!m.active().getJSONArray("features").getString(0).equals("vedic"))throw new AssertionError();assertions++;rejects(()->m.importLicence(read(d,"invalid-feature.json")));
+  m.importLicence(read(d,"limited.json"));if(!m.active().getString("expiresAt").endsWith("T23:59:59.999Z"))throw new AssertionError("Dated licence lost its expiry");assertions++;
+  rejects(()->m.importLicence(read(d,"future-issued.json")));rejects(()->m.importLicence(read(d,"invalid-expiry.json")));m.active();assertions++;
+  Context stored=new Context(d.toString());stored.getSharedPreferences("activation",0).edit().putString("license",read(d,"expired.json")).commit();LicenseManager expiredSaved=new LicenseManager(stored,id);rejects(()->expiredSaved.active());
+  stored.getSharedPreferences("activation",0).edit().putString("license",read(d,"valid.json")).putLong("lastSeen",System.currentTimeMillis()+86400000).commit();rejects(()->expiredSaved.active());
   System.out.println("Android signed-licence/control compatibility: PASS ("+assertions+" assertions)");
  }
 }

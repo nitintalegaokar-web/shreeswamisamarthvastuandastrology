@@ -3,6 +3,13 @@ const fs=require('node:fs/promises'),path=require('node:path');
 function validate(rows){if(!Array.isArray(rows)||rows.some(row=>!row||typeof row!=='object'||typeof row.licenseId!=='string'||!row.licenseId))throw Error('The saved license history is invalid. Restore a valid history backup before changing entries.');return rows;}
 async function readHistory(file){try{return validate(JSON.parse(await fs.readFile(file,'utf8')));}catch(error){if(error.code==='ENOENT')return [];if(error instanceof SyntaxError)throw Error('The saved license history is invalid. Restore a valid history backup before changing entries.');throw error;}}
 async function writeHistory(file,rows){validate(rows);await fs.mkdir(path.dirname(file),{recursive:true});await fs.writeFile(file+'.tmp',JSON.stringify(rows.slice(0,5000),null,2),{encoding:'utf8',mode:0o600});await fs.rename(file+'.tmp',file);}
+async function resetHistoryOnce(file,release){
+ if(!/^\d+\.\d+\.\d+$/.test(release))throw Error('Invalid history reset version.');
+ const marker=file+'.reset-'+release+'.done';try{await fs.access(marker);return false;}catch(e){if(e.code!=='ENOENT')throw e;}
+ await fs.mkdir(path.dirname(file),{recursive:true});
+ try{await fs.copyFile(file,file+'.before-reset-'+release+'.bak',require('node:fs').constants.COPYFILE_EXCL);}catch(e){if(!['ENOENT','EEXIST'].includes(e.code))throw e;}
+ await writeHistory(file,[]);await fs.writeFile(marker,JSON.stringify({release,resetAt:new Date().toISOString()}),{encoding:'utf8',mode:0o600});return true;
+}
 function changeRemoval(rows,id,removed,now=new Date()){
  if(typeof id!=='string'||!rows.some(row=>row.licenseId===id))throw Error('The issued license was not found.');
  return rows.map(row=>{if(row.licenseId!==id)return row;const updated={...row};if(removed)updated.removedAt=updated.removedAt||now.toISOString();else delete updated.removedAt;return updated;});
@@ -16,4 +23,4 @@ function historyText(rows,language='en',now=new Date()){
  }
  return '\uFEFF'+text.join('\r\n')+'\r\n';
 }
-module.exports={readHistory,writeHistory,changeRemoval,historyText};
+module.exports={readHistory,writeHistory,resetHistoryOnce,changeRemoval,historyText};

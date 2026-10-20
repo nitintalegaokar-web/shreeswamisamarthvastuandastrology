@@ -13,27 +13,17 @@ readme = f'''KP MASTER {version} - Updated HTML
 Extract this ZIP completely, then open KP-MASTER/index.html in Chrome or Edge.
 
 Latest updates:
-- Event significators mode follows only the Transit Reader rule: moving significator, star lord and sub lord must all be event significators. Sign/house position, RP and additional Sun/Moon/Jupiter/Saturn conditions are not used in this mode.
-- Transit planet selection, All planets and Clear are enabled; selected planets control displayed results.
-- Checked event significators are scanned through qualifying nakshatra/sub sectors inside supported DBA periods. No sign-boundary splits are added.
-- Transit DBA eligibility follows event-significator membership; repeated lords are not rejected merely for lacking full house-group union coverage.
-- Ascendant/Moon transitions start from the natal birth timestamp and birth location.
-- Selecting MD/AD/PD sets its actual search dates, including historical periods; stale non-overlapping saved dates recover automatically.
-- Compact Rules editor has fixed action buttons, search/topic filters, a backup menu and Cancel edits.
-- Shared hover cards explain table headings, reveal clipped values, fit the viewport and support keyboard focus/Escape.
-- Planet short-name preference applies to shared labels and report text in English and Marathi.
-- Home birth details stay compact; North Indian planet, Rashi and DMS text follows font zoom.
-- Editing custom transit dates also releases an old Selected DBA lock.
-- RP has selectable historical date, time and UTC offset, previous/next day controls, and a Live reset.
-- Transit searches accept past dates and preserve manual ranges across all three search modes.
-- Rashi labels appear once in Marathi; bilingual labels contain one pair.
-- Dasha Promise admits only event-significator PD lords and refines Sun, Moon or Lagna inside the selected PD. Jupiter/Saturn results are clipped to the same PD.
-- Transit timing automatically searches event-supported future DBA periods, uses natal Rashi lords for node signs, and refines Sun timing through direct/reverse MD-AD or ranked LSRD chains.
-- Muhurta includes 70 supplied Panchang references, ceremony-specific search rules and English topics, Matchmaking autofill, compact editable notes, and astrologer credit when sharing or printing.
-- Vedic charts use compact text labels; symbols appear only in the reference and planetary tables.
-- Vedic Kundali has a separate Complete Vedic Report preview for printing all report pages.
-- Transit Results retain planet names on screen and in reports.
-- Rahu/Ketu use the Rashi lord in Theft Prediction.
+- Datewise ephemeris-style transit results for the selected planets and event.
+- Star lord AND sub lord must be event significators; DBA supplies dates only in Event significators mode.
+- One scan supplies daily positions and exact matching windows; no second scan/progress restart.
+- The requested rule-summary panel and Exact matching periods button are removed.
+- Best matching dates count unique selected planets simultaneously and retain all tied windows.
+- Rahu and Ketu use their natal Rashi lord houses in PD support checks; exclusions have reasons.
+- Existing historical searches, RP selection, reports, customer features and backups are retained.
+
+Daily rows are snapshots at the displayed local time. Exact windows are available under Best matching dates.
+The separate Windows activation tool clears its visible history once on the first 1.2.11 launch, keeping a private local recovery copy and existing signing keys.
+Customer activation checks signed issue/expiry timestamps; dated licences end at 23:59:59.999 UTC on the selected expiry date. Customer apps recheck periodically while open.
 '''
 with ZipFile(archive, 'w', ZIP_DEFLATED, compresslevel=9) as output:
     output.writestr('KP-MASTER/index.html', source)

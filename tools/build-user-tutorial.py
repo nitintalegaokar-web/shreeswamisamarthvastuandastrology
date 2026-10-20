@@ -29,7 +29,7 @@ def page(title,paragraphs,rows=None):
  if rows:items.extend([Spacer(1,5*mm),grid(rows)])
  pages.append(items)
 page('KP MASTER\nUser tutorial'.replace('\n','<br/>'),[
- '<b>Version 1.2.10 · English guide · 20 October 2026</b>',
+ '<b>Version 1.2.11 · English guide · 20 October 2026</b>',
  'Use this guide alongside the software. It explains the main controls, the latest RP settings and the complete report workflow.',
  '## Your first session',
  '<b>1.</b> Extract the ZIP completely and open <b>index.html</b> in Chrome or Edge. The startup logo leads to Home.',
@@ -132,8 +132,8 @@ page('9 · Find transit dates with DBA',[
  'The three methods are <b>Event significators</b>, <b>DBA through each other</b> and <b>Sun through DBA</b>. Use each method separately. Event significators uses only the Transit Reader rule; the other two methods retain their separately labelled DBA-chain calculations.',
  '<b>1.</b> Start with current DBA, or choose MD, AD and PD manually.',
  '<b>2.</b> Check the date range and search method. Choosing a method does not automatically start a search.',
- '<b>3.</b> For Event significators, the moving planet, nakshatra lord and sub lord must all be event significators. Rashi and transit-house positions are not conditions. No ruling-planet or additional Sun/Moon/Jupiter/Saturn gate is applied.',
- '<b>3a.</b> Start the search. Manual DBA and historical date choices are retained. Unchecked planets and checked planets that are not event significators are excluded.',
+ '<b>3.</b> For Event significators, the selected planet’s nakshatra lord and sub lord must both be event significators. Rashi and transit-house positions are not conditions. No ruling-planet or additional Sun/Moon/Jupiter/Saturn gate is applied.',
+ '<b>3a.</b> Start the search. Manual DBA and historical date choices are retained. Unchecked planets are excluded. DBA supplies dates only in this mode. A single scan produces the ephemeris-style daily rows and the exact windows. STL and SBL matches are highlighted; the strongest simultaneous periods are under Best matching dates.',
  '<b>4.</b> Review matching intervals, the event-house evidence and the period lords. Use the preview to inspect and print the result.',
  '## Automatic Horary results sheet',
  'Select the query and theory, then update results. Enter the question and opinion/result notes before generating the A4 single-page report.',
@@ -178,11 +178,11 @@ page('12 · Backup, settings and help',[
  'Open Help → Software tutorial to view or download this PDF. It is bundled with the extracted software and embedded in index.html for offline access.'
 ])
 def frame(canvas,doc):
- canvas.saveState();w,h=A4;canvas.setStrokeColor(colors.HexColor('#355b7b'));canvas.setLineWidth(.7);canvas.rect(12*mm,12*mm,w-24*mm,h-24*mm);canvas.setFont('Guide',8);canvas.setFillColor(colors.HexColor('#526b7e'));canvas.drawString(20*mm,h-19*mm,'KP MASTER 1.2.10 · Software tutorial');canvas.drawRightString(w-20*mm,17*mm,f'{doc.page} / {len(pages)}');canvas.restoreState()
+ canvas.saveState();w,h=A4;canvas.setStrokeColor(colors.HexColor('#355b7b'));canvas.setLineWidth(.7);canvas.rect(12*mm,12*mm,w-24*mm,h-24*mm);canvas.setFont('Guide',8);canvas.setFillColor(colors.HexColor('#526b7e'));canvas.drawString(20*mm,h-19*mm,'KP MASTER 1.2.11 · Software tutorial');canvas.drawRightString(w-20*mm,17*mm,f'{doc.page} / {len(pages)}');canvas.restoreState()
 story=[]
 for i,items in enumerate(pages):
  if i:story.append(PageBreak())
  story.extend(items)
 (ROOT/'docs').mkdir(exist_ok=True)
-SimpleDocTemplate(str(ROOT/'docs/KP-MASTER-User-Tutorial-1.2.10.pdf'),pagesize=A4,leftMargin=22*mm,rightMargin=22*mm,topMargin=28*mm,bottomMargin=25*mm,title='KP MASTER 1.2.10 — Software tutorial',author='KP MASTER',invariant=1).build(story,onFirstPage=frame,onLaterPages=frame)
+SimpleDocTemplate(str(ROOT/'docs/KP-MASTER-User-Tutorial-1.2.11.pdf'),pagesize=A4,leftMargin=22*mm,rightMargin=22*mm,topMargin=28*mm,bottomMargin=25*mm,title='KP MASTER 1.2.11 — Software tutorial',author='KP MASTER',invariant=1).build(story,onFirstPage=frame,onLaterPages=frame)
 print('Built tutorial PDF:',len(pages),'planned pages')

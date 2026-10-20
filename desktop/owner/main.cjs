@@ -5,7 +5,7 @@ const path=require('node:path');
 const crypto=require('node:crypto');
 const {pathToFileURL}=require('node:url');
 const {issue,keyId,issueControl,normalizedId,issueRegistration,issuePurchase}=require('./license-core.cjs');
-const {readHistory,writeHistory,changeRemoval,historyText}=require('./history.cjs');
+const {readHistory,writeHistory,resetHistoryOnce,changeRemoval,historyText}=require('./history.cjs');
 const {toCode,fromCode}=require('./activation-code.cjs');
 const helpContent=require('./help.json');
 const {keyVault}=require('./key-vault.cjs');
@@ -31,6 +31,8 @@ function helpText(lang){const help=helpContent[language(lang)];return '\uFEFF'+[
 if(!app.requestSingleInstanceLock())app.quit();else{
 app.on('second-instance',()=>{if(win){if(win.isMinimized())win.restore();win.focus();}});
 app.whenReady().then(async()=>{
+  // Owner-requested clean list for this release; preserve local recovery and keys.
+  await resetHistoryOnce(historyFile(),'1.2.11');
   vault=keyVault({safeStorage,file:path.join(app.getPath('userData'),'owner-access.dpapi'),approvedKeyIds});
   try{remembered=await vault.exists();const saved=await vault.load();if(saved&&keyId(saved)===accessBundle.ownerKeyId){setKey(saved,'Owner access');rememberedKeyId=keyId(saved);}}catch(error){rememberError=error.message;}
 
