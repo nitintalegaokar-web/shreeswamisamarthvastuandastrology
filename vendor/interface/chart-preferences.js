@@ -48,7 +48,7 @@
    const names=NAMES[id]; if(!names) return original;
    if(settings.planetSymbols) return names[2];
    const marathi=window.KPLanguage?.translate(names[0],'marathi')||names[1];
-   if(settings.planetNotation==='short') return settings.language==='marathi'?marathi:id;
+   if(settings.planetNotation==='short') return window.KPPlanetNotation?.label(id,settings.language)||id;
    if(settings.language==='english') return names[0];
    if(settings.language==='marathi') return marathi;
    if(settings.language!=='bilingual')return window.KPLanguage?.translate(names[0],settings.language)||names[0];

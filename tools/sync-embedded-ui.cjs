@@ -10,6 +10,8 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+  ['script','kp-planet-notation','vendor/interface/planet-notation.js'],
+  ['script', 'kp-interface-languages','vendor/interface/language-engine.js'],
   ['style','kp-pd-transit-refinement-style','vendor/predictions/pd-transit-refinement.css'],
   ['script','kp-pd-transit-refinement','vendor/predictions/pd-transit-refinement.js'],
   ['script','kp-dasha-promise-script','vendor/predictions/dasha-promise.js'],

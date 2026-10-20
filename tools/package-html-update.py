@@ -13,6 +13,9 @@ readme = f'''KP MASTER {version} - Updated HTML
 Extract this ZIP completely, then open KP-MASTER/index.html in Chrome or Edge.
 
 Latest updates:
+- Planet short-name preference applies to shared labels and report text in English and Marathi.
+- Home birth details stay compact; North Indian planet, Rashi and DMS text follows font zoom.
+- Editing custom transit dates also releases an old Selected DBA lock.
 - RP has selectable historical date, time and UTC offset, previous/next day controls, and a Live reset.
 - Transit searches accept past dates and preserve manual ranges across all three search modes.
 - Rashi labels appear once in Marathi; bilingual labels contain one pair.

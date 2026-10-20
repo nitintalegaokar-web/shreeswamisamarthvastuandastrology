@@ -39,10 +39,10 @@ function changed(event){
  const id=event.target.id;if(!ids.includes(id))return;
  if(id==='tr-dba-selection-source'&&source()==='auto-forward'){window.KPTransitWorkspace?.setForwardDates();}
  if(id==='tr-dba-selection-source')$('tr-date-range-source').value=source()==='date'?'custom':source()==='current'?'period':dateSource();
- if(id==='tr-date-range-source'){if(dateSource()==='custom'&&['current','auto-forward'].includes(source()))$('tr-dba-selection-source').value='date';else if(dateSource()==='period'&&source()==='date')$('tr-dba-selection-source').value='selected';}
+ if(id==='tr-date-range-source'){if(dateSource()==='custom'&&['current','auto-forward','selected'].includes(source()))$('tr-dba-selection-source').value='date';else if(dateSource()==='period'&&source()==='date')$('tr-dba-selection-source').value='selected';}
  if(id==='tr-selected-md'||id==='tr-selected-ad'||id==='tr-selected-pd')$('tr-dba-selection-source').value='selected';
  if(id==='tr-selected-md'){$('tr-selected-ad').value='0';$('tr-selected-pd').value='0';}else if(id==='tr-selected-ad')$('tr-selected-pd').value='0';
- if(id==='tr-search-date-start'||id==='tr-search-date-end'){$('tr-date-range-source').value='custom';if(['current','auto-forward'].includes(source()))$('tr-dba-selection-source').value='date';}
+ if(id==='tr-search-date-start'||id==='tr-search-date-end'){$('tr-date-range-source').value='custom';$('tr-dba-selection-source').value='date';}
  sync(true);KPTransit.cancel();KPTransit.refresh();
 }
 function init(){
