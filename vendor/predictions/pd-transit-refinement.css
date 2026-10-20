@@ -1,0 +1,6 @@
+#dasha-promise .dp-sun .dp-pd-toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:end}
+#dasha-promise .dp-sun .dp-pd-toolbar label{display:grid;gap:4px;min-width:0;font-size:11px}
+#dasha-promise .dp-sun .dp-pd-toolbar select{min-width:0;width:100%;box-sizing:border-box}
+#dasha-promise .dp-pd-toolbar label[for=dp-pd-choice]{display:grid;grid-template-columns:auto minmax(100px,1fr);min-width:150px;gap:7px}
+#dasha-promise .dp-pd-toolbar label[for=dp-pd-choice] select{min-width:0}
+@media(max-width:500px){#dasha-promise .dp-sun .dp-pd-toolbar{grid-template-columns:1fr}}
