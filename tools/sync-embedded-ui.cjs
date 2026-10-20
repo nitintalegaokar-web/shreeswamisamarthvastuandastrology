@@ -190,7 +190,7 @@ for (const [tag, id, relative] of assets) {
     html = html.slice(0, at) + block + '\n' + html.slice(at);
   }
 }
-const guideData = JSON.stringify({file:'KP-MASTER-User-Tutorial-1.2.8.pdf',language:'english',base64:fs.readFileSync(path.join(root,'docs/KP-MASTER-User-Tutorial-1.2.8.pdf')).toString('base64')});
+const guideData = JSON.stringify({file:'KP-MASTER-User-Tutorial-1.2.9.pdf',language:'english',base64:fs.readFileSync(path.join(root,'docs/KP-MASTER-User-Tutorial-1.2.9.pdf')).toString('base64')});
 const guideBlock='<script id="kp-user-tutorial-pdf" type="application/json">'+guideData+'</script>';
 if(/<script id="kp-user-tutorial-pdf"[^>]*>[\s\S]*?<\/script>/.test(html))html=html.replace(/<script id="kp-user-tutorial-pdf"[^>]*>[\s\S]*?<\/script>/,()=>guideBlock);else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+guideBlock+'\n'+html.slice(at);}
 const featureCatalog = fs.readFileSync(path.join(root,'desktop/licensing/features.json'),'utf8').trim();

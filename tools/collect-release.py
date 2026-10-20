@@ -1,24 +1,27 @@
-"""Collect verified current Windows/web builds; never substitute stale APKs."""
+"""Collect actual verified release outputs without substituting an older binary."""
 from pathlib import Path
-import json,hashlib,shutil,datetime
+import json,hashlib,shutil,datetime,zipfile
 root=Path(__file__).resolve().parents[1]
-files=[('Windows Customer','desktop/dist/setup/KP-Master-Setup-1.2.8-x64.exe','KP-Master-Customer-Setup-1.2.8-x64.exe'),('Windows Owner','desktop/owner-edition/dist/setup/KP-Master-Owner-Setup-1.2.8-x64.exe','KP-Master-Owner-Setup-1.2.8-x64.exe'),('Windows Owner Activation','desktop/owner/dist/setup/KP-Master-Owner-Activation-Setup-1.2.8-x64.exe','KP-Master-Owner-Activation-Setup-1.2.8-x64.exe')]
+version=json.loads((root/'desktop/package.json').read_text())['version']
+source_hash=hashlib.sha256((root/'index.html').read_bytes()).hexdigest()
+android=json.loads((root/'android/dist/build-manifest.json').read_text())
+assert android['version']==version and android['sourceSHA256']==source_hash
+files=[('Windows Customer',f'desktop/dist/setup/KP-Master-Setup-{version}-x64.exe',f'KP-Master-Customer-Setup-{version}-x64.exe'),('Windows Owner',f'desktop/owner-edition/dist/setup/KP-Master-Owner-Setup-{version}-x64.exe',f'KP-Master-Owner-Setup-{version}-x64.exe'),('Windows Owner Activation',f'desktop/owner/dist/setup/KP-Master-Owner-Activation-Setup-{version}-x64.exe',f'KP-Master-Owner-Activation-Setup-{version}-x64.exe')]
+for edition in ['Owner','Customer']:files.append(('Android '+edition,f'android/dist/KP-Master-{edition}-{version}.apk',f'KP-Master-{edition}-{version}.apk'))
 artifacts=[]
 for edition,source,name in files:
  shutil.copyfile(root/source,root/name)
  artifacts.append({'edition':edition,'file':name})
-# Keep the existing customer download path updated as well.
-shutil.copyfile(root/'KP-Master-Customer-Setup-1.2.8-x64.exe',root/'KP-Master-Setup-1.2.8-x64.exe')
-for edition in ['Customer','Owner']:artifacts.append({'edition':edition+' Web','file':f'KP-MASTER-{edition}-Web-1.2.8.zip'})
-artifacts.append({'edition':'Tutorial PDF','file':'docs/KP-MASTER-User-Tutorial-1.2.8.pdf'})
+for edition in ['Owner','Customer']:artifacts.append({'edition':edition+' Web','file':f'KP-MASTER-{edition}-Web-{version}.zip'})
+artifacts.extend([{'edition':'HTML and available backup data','file':f'KP-MASTER-HTML-All-Data-{version}.zip'},{'edition':'Standalone HTML','file':f'KP-MASTER-Updated-HTML-{version}.zip'},{'edition':'Tutorial PDF','file':f'docs/KP-MASTER-User-Tutorial-{version}.pdf'}])
 for item in artifacts:
  p=root/item['file'];item.update(bytes=p.stat().st_size,sha256=hashlib.sha256(p.read_bytes()).hexdigest())
-meta={'version':'1.2.8','builtAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceSHA256':hashlib.sha256((root/'index.html').read_bytes()).hexdigest(),'artifacts':artifacts,'android':{'status':'blocked','reason':'Original release.p12 and store-password.txt signing files are unavailable; the released signing identity was not replaced.','expectedSigningCertificateSHA256':(root/'android/signing-certificate.sha256').read_text().strip(),'sourceVersionCode':10212,'oldAPKsIncluded':False},'validation':{'unitTestFilesPassed':29,'androidLicenseAssertionsPassed':20,'browserChecks':['gemstone exceptions and colour legend','responsive RP location and complete event houses','RP A4 print borders','expanded report evidence and repeating page frame','English/Marathi Vedic-only symbol legend','Help PDF view and download','owner package selection and customer feature restrictions','signed customer web activation and changed-claims rejection','clipped planet list hover in tables and modal dialogs'],'windowsInstallerPayloadParity':True,'windowsAsarParity':True,'windowsInstallationExecuted':False}}
-fresh_path=root/'KP-MASTER-APK-Fresh-Install-1.2.8.json'
-if fresh_path.exists():
- fresh=json.loads(fresh_path.read_text())
- if fresh.get('sourceSHA256')==meta['sourceSHA256']:
-  meta['android']={'status':'fresh-install-built','version':fresh['version'],'versionCode':fresh['versionCode'],'files':fresh['files'],'signingCertificateSHA256':fresh['signingCertificateSHA256'],'requiresUninstallOfOldApps':True,'sourceParityVerified':True,'physicalDeviceTested':False}
-(root/'KP-MASTER-UPDATED-1.2.8.json').write_text(json.dumps(meta,indent=2)+'\n')
-(root/'KP-MASTER-UPDATED-1.2.8-SHA256SUMS.txt').write_text(''.join(p['sha256']+'  '+p['file']+'\n' for p in artifacts))
-print(json.dumps({'version':'1.2.8','artifacts':[(a['file'],a['bytes']) for a in artifacts],'android':'blocked: original signing files missing'}))
+ assert item['bytes']<100*1024*1024,'Artifact exceeds GitHub ordinary-file limit: '+item['file']
+meta={'version':version,'builtAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceHTMLSHA256':source_hash,'artifacts':artifacts,'android':{'versionCode':android['versionCode'],'signingCertificateSHA256':android['signingCertificateSHA256'],'signingContinuity':'Same certificate as the previously released fresh-install 1.2.8 edition. Original older-certificate apps require backup and reinstall.','minimumAndroid':'9','physicalDeviceTested':False},'iphone':{'nativeIPA':'not built','reason':'macOS/Xcode and Apple signing/provisioning are unavailable in this Linux workspace. APKs cannot install on iPhone.','alternative':'Owner/Customer web archives can be hosted over HTTPS; browser/device testing on iPhone has not been performed.'},'backup':{'included':'Current HTML, available data/vendor/docs files and workspace backup folders; per-file checksums in the ZIP.','unavailable':'Actual saved kundali and report-photo folders contain instructions only. Browser/device-local data and private signing/activation keys are not in this archive.'},'validation':{'desktopUnitTestFiles':40,'androidLicenceAssertions':20,'androidDemo':'passed','mobileBrowserBackupExportsPDF':'passed','androidSignatureAndAlignment':'passed both','windowsInstallerPayloadAndAsarParity':'passed all three','nativeWindowsInstallation':False,'physicalAndroidDevice':False}}
+(root/f'KP-MASTER-RELEASE-{version}.json').write_text(json.dumps(meta,indent=2)+'\n')
+(root/f'KP-MASTER-{version}-SHA256SUMS.txt').write_text(''.join(a['sha256']+'  '+a['file']+'\n' for a in artifacts))
+lines=[f'# KP MASTER {version}', '', 'Release date: 20 October 2026. The requested planet-selection statement has been removed. All calculator updates through this release are included.', '', '| Edition | Download |', '| --- | --- |']
+lines.extend('| '+a['edition']+' | ['+a['file']+']('+a['file']+') |' for a in artifacts)
+lines.extend(['','Windows: Windows 10/11 x64. Owner calculator, activated Customer calculator and the separate Owner Activation tool retain their existing identities. Installers are unsigned; native Windows installation has not been run here.','','Android: Android 9+. Version '+version+', versionCode '+str(android['versionCode'])+'. Uses the same certificate as the prior fresh-install 1.2.8 APKs, so those installations can update. For an app with the older original certificate, export your backup before uninstalling/reinstalling. Physical-phone installation has not been tested here.','','iPhone: no native IPA is included. Native packaging requires macOS/Xcode and Apple signing/provisioning. APK files are Android-only. The web editions require HTTPS hosting for iPhone use and have not been tested on a physical iPhone. Keep the unlocked Owner edition private.','','HTML backup: extract completely and open KP-MASTER/index.html. The ZIP includes all available reference/data sources and a per-file checksum manifest. The workspace Kundali Backup and Report Photos folders contain instructions only; browser/device-local files and private keys are unavailable and are not included.','','Checks: 40 desktop unit-test files; Android licence/demo tests; APK signatures/alignment and byte-parity; mobile browser exports/backups/A4 PDF; all three Windows installer payloads and packaged source verified.'])
+(root/f'KP-MASTER-RELEASE-{version}.md').write_text('\n'.join(lines)+'\n')
+print(json.dumps({'version':version,'artifacts':[(a['file'],a['bytes']) for a in artifacts]}))

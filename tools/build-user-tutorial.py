@@ -29,7 +29,7 @@ def page(title,paragraphs,rows=None):
  if rows:items.extend([Spacer(1,5*mm),grid(rows)])
  pages.append(items)
 page('KP MASTER\nUser tutorial'.replace('\n','<br/>'),[
- '<b>Version 1.2.8 · English guide · 19 October 2026</b>',
+ '<b>Version 1.2.9 · English guide · 20 October 2026</b>',
  'Use this guide alongside the software. It explains the main controls, the latest RP settings and the complete report workflow.',
  '## Your first session',
  '<b>1.</b> Extract the ZIP completely and open <b>index.html</b> in Chrome or Edge. The startup logo leads to Home.',
@@ -177,11 +177,11 @@ page('12 · Backup, settings and help',[
  'Open Help → Software tutorial to view or download this PDF. It is bundled with the extracted software and embedded in index.html for offline access.'
 ])
 def frame(canvas,doc):
- canvas.saveState();w,h=A4;canvas.setStrokeColor(colors.HexColor('#355b7b'));canvas.setLineWidth(.7);canvas.rect(12*mm,12*mm,w-24*mm,h-24*mm);canvas.setFont('Guide',8);canvas.setFillColor(colors.HexColor('#526b7e'));canvas.drawString(20*mm,h-19*mm,'KP MASTER 1.2.8 · Software tutorial');canvas.drawRightString(w-20*mm,17*mm,f'{doc.page} / {len(pages)}');canvas.restoreState()
+ canvas.saveState();w,h=A4;canvas.setStrokeColor(colors.HexColor('#355b7b'));canvas.setLineWidth(.7);canvas.rect(12*mm,12*mm,w-24*mm,h-24*mm);canvas.setFont('Guide',8);canvas.setFillColor(colors.HexColor('#526b7e'));canvas.drawString(20*mm,h-19*mm,'KP MASTER 1.2.9 · Software tutorial');canvas.drawRightString(w-20*mm,17*mm,f'{doc.page} / {len(pages)}');canvas.restoreState()
 story=[]
 for i,items in enumerate(pages):
  if i:story.append(PageBreak())
  story.extend(items)
 (ROOT/'docs').mkdir(exist_ok=True)
-SimpleDocTemplate(str(ROOT/'docs/KP-MASTER-User-Tutorial-1.2.8.pdf'),pagesize=A4,leftMargin=22*mm,rightMargin=22*mm,topMargin=28*mm,bottomMargin=25*mm,title='KP MASTER 1.2.8 — Software tutorial',author='KP MASTER',invariant=1).build(story,onFirstPage=frame,onLaterPages=frame)
+SimpleDocTemplate(str(ROOT/'docs/KP-MASTER-User-Tutorial-1.2.9.pdf'),pagesize=A4,leftMargin=22*mm,rightMargin=22*mm,topMargin=28*mm,bottomMargin=25*mm,title='KP MASTER 1.2.9 — Software tutorial',author='KP MASTER',invariant=1).build(story,onFirstPage=frame,onLaterPages=frame)
 print('Built tutorial PDF:',len(pages),'planned pages')

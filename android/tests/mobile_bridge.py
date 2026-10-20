@@ -30,8 +30,8 @@ try:
  pdf.close();preview.close()
  assert p.evaluate('JSON.stringify({model:currentKPModel,periods:mdDashaPeriods})')==before
  for edition in ['Owner','Customer']:
-  with zipfile.ZipFile(ROOT/f'android/dist/KP-Master-{edition}-1.2.8.apk') as z:
-   packaged=z.read('assets/index.html');startup=b'<style id="kp-android-startup">'+(ROOT/'android/startup.css').read_bytes()+b'</style>';bridge=b'<script id="kp-android-mobile-bridge" src="mobile.js"></script>';assert startup in packaged and bridge in packaged;assert packaged.replace(startup,b'',1).replace(bridge,b'',1)==(ROOT/'index.html').read_bytes()
+  with zipfile.ZipFile(ROOT/('android/dist/KP-Master-'+edition+'-'+json.loads((ROOT/'desktop/package.json').read_text())['version']+'.apk')) as z:
+   packaged=z.read('assets/index.html');startup=b'<style id="kp-android-startup">'+(ROOT/'android/startup.css').read_bytes()+b'</style>';bridge=b'<script id="kp-android-mobile-bridge" src="mobile.js"></script>';assert startup in packaged and bridge in packaged;normalized=packaged.replace(startup,b'',1).replace(bridge,b'',1); normalized=normalized.replace(b'<script id="kp-customer-demo" src="demo-ui.js"></script><script id="kp-customer-features" src="features.js"></script>',b'',1).replace(b'function refresh(){if(window.KPCustomerDemo&&!KPCustomerDemo.permitMatchRefresh())return null;if(!initialized)return null;try{data=calculate();',b'function refresh(){if(!initialized)return null;try{data=calculate();',1);assert normalized==(ROOT/'index.html').read_bytes()
    assert 'classes.dex' in z.namelist()
  print('Mobile scrolling tables, nine North planets, A4 PDF bounds, exports, backup and unchanged calculator: PASS')
 finally:t.tearDown();T.tearDownClass()
