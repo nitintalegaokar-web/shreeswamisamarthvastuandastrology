@@ -10,7 +10,9 @@ Everything needed by this HTML is embedded; keep your existing saved-chart backu
 Windows installers and Android APKs have not been rebuilt for this testing update.
 
 WHAT TO CHECK
-Significators: Four-fold uses the first nonempty A, B, C or D level only. Six-fold uses the same priority through E and F. Lower levels are ignored even when the chosen level does not match the event houses.
+North Indian charts use uniform planet fonts in one selected language without DMS; both remain visible during rotation and fit the single-page report. Calculation columns size to content. South Indian Nadi Significators includes the shared event selector. Ascendant/Moon transition controls retain the natal-date calculation.
+Current RP is calculated for the consultation location. Set RP date/time or click Now; this does not change the natal chart or transit search dates. Click a From–To range on the left to see that planet’s daily Sign/Star/Sub details on the right. Shared Cusp/Search event/Event controls are in one row below the transit results.
+Significators are selected separately for each required event HOUSE: Four-fold uses its first nonempty A, B, C or D level only; six-fold continues through E and F. All lower levels of that house are ignored. Selected planets are combined without duplicates.
 1. Open Transits -> Manually Search Transit. Current MD / AD / PD appear first.
 2. Dasha, Bhukti and Antara are linked to the native timeline. Changing a parent rebuilds valid child periods.
 3. Sookshma has None / Blank. Blank uses the selected full Antara/PD dates and MD/AD/PD target planets only. Choosing Sookshma uses that child's dates.
