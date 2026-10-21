@@ -1,0 +1,11 @@
+{
+  "filename": "KP_TRANSIT_TOOL_A4_REPORT_V2_1900_2500_DATA (1).html",
+  "originalSHA256": "70fbfe05d6349c6b8df38461e7fa668486aa3a5c3ccd3a62f8e61bbd5fd5ba18",
+  "sourceBytes": 19816275,
+  "adaptation": "Current DBA first; connected MD/AD/PD/SD with None / Blank Sookshma; supplied longitudes retained and KP lords recalculated by existing division engine; combined checked level criteria; theme colours and legacy layout; three outer planets from Astronomy Engine aligned to supplied Sun; lazy chunk loading and A4 preview.",
+  "sampleTime": "05:30 IST",
+  "years": [
+    1900,
+    2500
+  ]
+}

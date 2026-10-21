@@ -10,6 +10,11 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+ ['script','kp-transit-significator-priority','vendor/interface/transit-significators.js'],
+ ['script','kp-paired-north','vendor/interface/paired-north.js'],
+ ['style','kp-paired-north-style','vendor/interface/paired-north.css'],
+ ['script','kp-manual-transit','vendor/interface/manual-transit.js'],
+ ['style','kp-manual-transit-style','vendor/interface/manual-transit.css'],
  ['script','kp-transit-event-detail','vendor/interface/transit-event-detail.js'],
  ['style','kp-transit-event-detail-style','vendor/interface/transit-event-detail.css'],
   ['script','kp-planet-notation','vendor/interface/planet-notation.js'],
@@ -196,5 +201,9 @@ if(/<script id="kp-user-tutorial-pdf"[^>]*>[\s\S]*?<\/script>/.test(html))html=h
 const featureCatalog = fs.readFileSync(path.join(root,'desktop/licensing/features.json'),'utf8').trim();
 const featureBlock='<script id="kp-feature-catalog" type="application/json">'+featureCatalog+'</script>';
 if(/<script id="kp-feature-catalog"[^>]*>[\s\S]*?<\/script>/.test(html))html=html.replace(/<script id="kp-feature-catalog"[^>]*>[\s\S]*?<\/script>/,()=>featureBlock);else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+featureBlock+'\n'+html.slice(at);}
+const manualDocument=JSON.stringify(fs.readFileSync(path.join(root,'vendor/transit/manual-tool.html'),'utf8')).replaceAll('<','\\u003c');
+const manualBlock='<script id="kp-manual-transit-document" type="application/json">'+manualDocument+'</script>';
+const manualExpression=/<script id="kp-manual-transit-document"[^>]*>[\s\S]*?<\/script>/;
+if(manualExpression.test(html))html=html.replace(manualExpression,()=>manualBlock);else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+manualBlock+'\n'+html.slice(at);}
 fs.writeFileSync(target, html);
 console.log(`Synchronized ${assets.length} reviewed embedded modules.`);

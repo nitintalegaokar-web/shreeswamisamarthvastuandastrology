@@ -6,7 +6,7 @@ const text=(en,m)=>mr()?m:en;
 function label(id){return $(id)?.closest('label')||$(id)?.parentElement;}
 function dispatch(id){$(id).dispatchEvent(new Event('change',{bubbles:true}));}
 function setText(node,value){if(node&&node.textContent!==value)node.textContent=value;}
-function mode(value){if(!MODES.includes(value))return; $('tr-mode').value=value;dispatch('tr-mode');if($('tr-dba-selection-source')?.value==='auto-forward')window.KPTransitWorkspace?.current();schedule();}
+function mode(value){if(!MODES.includes(value))return;window.KPManualTransit?.close(); $('tr-mode').value=value;dispatch('tr-mode');if($('tr-dba-selection-source')?.value==='auto-forward')window.KPTransitWorkspace?.current();schedule();}
 function filterEvents(){
  const query=document.querySelector('[data-tr-event-filter]')?.value.trim().toLocaleLowerCase()||'',select=$('tr-event');
  const options=[...select.options];let first=null;matches=0;
@@ -23,9 +23,10 @@ function formatRows(rows){
  });
 }
 function update(){
+ if(window.KPManualTransit?.isOpen())return;
  const current=$('tr-mode').value,event=current==='event',dasha=current==='dasha';
  for(const button of document.querySelectorAll('[data-tr-search-mode]')){const active=button.dataset.trSearchMode===current;button.setAttribute('aria-pressed',String(active));setText(button,currentLabel(button.dataset.trSearchMode));}
- $('transit').querySelector('.tr-simple-choice').hidden=false;$('tr-handy-event-rules').hidden=false;label('tr-match').hidden=!event;$('tr-handy-planets').hidden=!event;$('tr-handy-dba-rules').hidden=event;$('tr-mutual-controls').hidden=!dasha;
+ $('transit').querySelector('.tr-simple-choice').hidden=false;$('tr-simple-event-choice').hidden=false;$('tr-simple-cusp-choice').hidden=false;$('tr-handy-event-rules').hidden=false;label('tr-match').hidden=!event;$('tr-handy-planets').hidden=!event;$('tr-handy-dba-rules').hidden=event;$('tr-mutual-controls').hidden=!dasha;
  setText($('tr-handy-title'),text('Find transit dates','गोचर दिनांक शोधा'));
  setText($('tr-event-filter-label'),text('Search event','घटना शोधा'));
  setText($('tr-handy-csv'),text('Save dates · CSV','दिनांक जतन करा · CSV'));
