@@ -209,3 +209,10 @@
 }
 
 @media screen{#kp-enlarge-dialog .kp-enlarge-shell{min-width:0;grid-template-columns:minmax(0,1fr)}#kp-enlarge-dialog .kp-enlarge-viewport{min-width:0}#kp-enlarge-dialog .kp-enlarge-stage:has([data-kp-preserve-transit]){width:100%;min-width:0}}
+/* Enlarged dialogs live outside main: keep paired chart SVGs out of icon sizing rules. */
+@media screen{
+#kp-enlarge-dialog .kp-enlarge-content>:has(>.kp-paired-north){width:min(790px,84vw)!important;min-width:0!important;height:auto!important;max-height:none!important;aspect-ratio:auto!important;overflow:visible!important}
+#kp-enlarge-dialog .kp-enlarge-content .kp-paired-north{display:grid!important;width:100%!important;min-width:0!important;gap:6px}
+#kp-enlarge-dialog .kp-enlarge-content .kp-paired-north-panel{display:block!important;min-width:0!important;height:auto!important;overflow:visible!important}
+#kp-enlarge-dialog .kp-enlarge-content .kp-paired-north-panel>svg{display:block!important;width:100%!important;height:auto!important;min-width:0!important;max-width:none!important;max-height:none!important;aspect-ratio:480/250!important;flex:none!important}
+}
