@@ -7,5 +7,6 @@
   "years": [
     1900,
     2500
-  ]
+  ],
+  "storage": "KPDE1 lossless second-difference varint encoding of daily arcsecond longitudes; unused source lord labels omitted. All Sign/Star/Sub labels are derived by the existing KP engine."
 }

@@ -20,7 +20,7 @@ async function singlePagePDF(){
   renderReport();const source=(singlePreviewDialog?.open?singlePreviewFrame?.contentDocument?.querySelector('.report-page'):null)||document.querySelector('#printReport>[data-report-section="single-page"]');if(!source)throw Error('The single-page kundali is unavailable.');
   frame=document.createElement('iframe');frame.style.cssText='position:fixed;left:-10000px;top:0;width:820px;height:1200px;border:0';document.body.append(frame);const doc=frame.contentDocument;doc.open();doc.write('<!doctype html><html><head><meta charset="utf-8">'+[...document.querySelectorAll('style')].map(n=>'<style>'+n.textContent+'</style>').join('')+'</head><body>'+source.outerHTML+'</body></html>');doc.close();
   KPA4Reports.prepare(doc);KPA4Preview.normalize(doc);await doc.fonts.ready;KPA4Preview.fit(doc);const page=doc.querySelector('.report-page');page.style.setProperty('margin','0','important');
-  const canvas=await html2canvas(page,{scale:2,backgroundColor:'#ffffff',logging:false,windowWidth:820,windowHeight:1200});const pdf=new jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});pdf.addImage(canvas.toDataURL('image/png'),'PNG',10,10,190,277);send(pdf.output('blob'),'KP-Kundali-Single-Page.pdf');
+  const pdf=new jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});await KPA4Reports.addPDFPages(pdf,doc,page);send(pdf.output('blob'),'KP-Kundali-Single-Page.pdf');
  }catch(e){alert('Single-page PDF: '+e.message);}finally{frame?.remove();savingSinglePage=false;}
 }
 let singlePreviewDialog=null,singlePreviewFrame=null;
@@ -32,11 +32,22 @@ function previewSinglePage(){
   if(!singlePreviewDialog.open)singlePreviewDialog.showModal();const doc=singlePreviewFrame.contentDocument;doc.open();doc.write('<!doctype html><html><head><meta charset="utf-8">'+[...document.querySelectorAll('style')].map(n=>'<style>'+n.textContent+'</style>').join('')+'</head><body>'+source.outerHTML+'</body></html>');doc.close();KPA4Reports.prepare(doc);KPA4Preview.normalize(doc);doc.fonts.ready.then(()=>{KPA4Preview.fit(doc);singlePreviewDialog.querySelector('[data-preview-status]').textContent='One A4 page · use + / − to read, or Save PDF.';singlePreviewDialog.querySelector('[data-preview-fit]').click();});
  }catch(e){alert('Kundali preview: '+e.message);}
 }
+let sharingReport=false;
+async function shareWhatsApp(){if(sharingReport)return;if(window.KPCustomerFeatures&&!KPCustomerFeatures.allowed('reports')){alert('Report sharing is not included in this package.');return;}if(window.KPCustomerDemo&&!KPCustomerDemo.authorize('kundali',true))return;if(!KPAndroid.shareFile){alert('Install the updated APK to share reports.');return;}sharingReport=true;let frame;document.querySelectorAll('[data-mobile-whatsapp]').forEach(b=>b.disabled=true);try{
+ let source,extraCSS='';const preview=document.querySelector('#cg-preview-dialog[open] iframe')||document.querySelector('#kp-mobile-kundali-preview[open] iframe');
+ if(preview?.contentDocument){source=preview.contentDocument.querySelector('.cg-page,.report-page');extraCSS=[...preview.contentDocument.querySelectorAll('style')].map(n=>n.textContent).join('\n');}
+ if(!source&&window.KPManualTransit?.isOpen()){const tool=document.getElementById('manual-transit-frame')?.contentWindow?.KPManualTransitTool;if(tool?.getState().last){const report=tool.report();source=document.createElement('section');source.className='report-page';source.innerHTML=report.html;extraCSS=report.css;}}
+ if(!source){renderReport();const active=document.querySelector('main>.tab.active')?.id;source=[...document.querySelectorAll('#printReport>.report-page')].find(n=>n.dataset.reportSection===active)||document.querySelector('#printReport>[data-report-section="single-page"]');}
+ if(!source)throw Error('Calculate a chart or open a report before sharing.');
+ frame=document.createElement('iframe');frame.style.cssText='position:fixed;left:-10000px;top:0;width:820px;height:1200px;border:0';document.body.append(frame);const doc=frame.contentDocument;doc.open();doc.write('<!doctype html><html><head><meta charset="utf-8">'+[...document.querySelectorAll('style')].map(n=>'<style>'+n.textContent+'</style>').join('')+'<style>'+extraCSS+'</style></head><body>'+source.outerHTML+'</body></html>');doc.close();const report=doc.querySelector('.report-page,.cg-page');KPA4Reports.prepare(doc);await doc.fonts.ready;const pdf=new jspdf.jsPDF({orientation:'portrait',unit:'mm',format:'a4'});await KPA4Reports.addPDFPages(pdf,doc,report);const blob=pdf.output('blob');if(blob.size>16*1024*1024)throw Error('Share a smaller report (maximum 16 MB).');const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',')[1]);reader.onerror=reject;reader.readAsDataURL(blob);});KPAndroid.shareFile((document.getElementById('name')?.value||'KP-MASTER')+'-Report.pdf','application/pdf',data);
+ }catch(e){alert('WhatsApp share: '+e.message);}finally{frame?.remove();sharingReport=false;document.querySelectorAll('[data-mobile-whatsapp]').forEach(b=>b.disabled=false);}}
+function ensureShareButtons(){for(const mount of [document.querySelector('.app-sidebar nav'),document.querySelector('#home .home-toolbar-actions'),document.querySelector('#south9 .kundali-toolbar'),document.querySelector('#transit .tr-compact-header'),document.querySelector('#cg-preview-dialog .cg-preview-tools'),document.querySelector('#kp-mobile-kundali-preview .mobile-preview-actions')]){if(!mount||mount.querySelector('[data-mobile-whatsapp]'))continue;const button=document.createElement('button');button.type='button';button.dataset.mobileWhatsapp='true';button.textContent=window.KPPreferences?.get().language==='marathi'?'व्हॉट्सअॅपवर शेअर करा':'Share on WhatsApp';button.style.cssText='min-height:44px;padding:8px 12px;border:1px solid #167d49;border-radius:6px;background:#e7f6ed;color:#145c37;font-size:13px';button.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();shareWhatsApp();});mount.append(button);}}
 function preparePrint(){if(singlePreviewDialog?.open){singlePagePDF();return false;}if(document.querySelector('body>.report-single-page')){KPAndroid.saveSinglePageKundali();return false;}if(document.querySelector('#home.active,#south9.active')){singlePagePDF();return false;}return true;}
-window.KPMobile=Object.freeze({backup,restore,restoreData,singlePagePDF,previewSinglePage,preparePrint});
+window.KPMobile=Object.freeze({backup,restore,restoreData,shareWhatsApp,singlePagePDF,previewSinglePage,preparePrint});
 document.addEventListener('click',event=>{if(event.target.closest('#home-single-page-preview,#south-single-page-preview')){event.preventDefault();event.stopImmediatePropagation();previewSinglePage();return;}if(event.target.closest('#home-single-page-print,#south-single-page-print')){event.preventDefault();event.stopImmediatePropagation();singlePagePDF();}},true);
 // Presentation only: preserve the approved chart and calculation objects.
 function installMobileNavigation(){
+ ensureShareButtons();
  if(!document.getElementById('home'))return;if(window.KPReportPreview&&!KPReportPreview.mobileSinglePreview){const previous=KPReportPreview;window.KPReportPreview=Object.freeze({...previous,mobileSinglePreview:true,open(id){if(id==='single-page'){previewSinglePage();return null;}return previous.open(id);}});}document.body.classList.add('kp-mobile-sidebar-navigation');document.getElementById('kp-compact-navigation')?.remove();document.getElementById('kp-mobile-icons-toggle')?.remove();
  const nav=document.querySelector('.app-sidebar nav');if(nav&&!document.getElementById('kp-mobile-ruling-link')){const button=document.createElement('button');button.id='kp-mobile-ruling-link';button.type='button';button.textContent='Ruling Planet';button.onclick=event=>{event.stopPropagation();document.querySelector('.sidebar-close')?.click();KPRulingFinder.open();};nav.append(button);}
 }
@@ -75,13 +86,13 @@ function readableCharts(){
   if(!chart.parentElement.classList.contains('kp-mobile-chart-scroll')){const wrap=document.createElement('div');wrap.className='kp-mobile-chart-scroll';chart.before(wrap);wrap.append(chart);}
   const wrap=chart.parentElement;
   let list=wrap.nextElementSibling;if(!list?.classList.contains('kp-mobile-planet-list')){list=document.createElement('div');list.className='kp-mobile-planet-list';wrap.after(list);}
-  const entries=[...chart.querySelectorAll('svg text[data-planet]')].map(n=>[n.getAttribute('data-planet'),n.textContent,n.querySelector('title')?.textContent||'']);
+  const entries=[...chart.querySelectorAll('svg text[data-planet]')].map(n=>[n.getAttribute('data-planet'),n.textContent,n.querySelector('title')?.textContent||'']).filter((entry,index,rows)=>rows.findIndex(row=>row[0]===entry[0])===index);
   const signature=JSON.stringify(entries);if(list.dataset.signature===signature)return;list.dataset.signature=signature;list.replaceChildren();
   for(const [id,text,title] of entries){const row=document.createElement('span');row.textContent=title||text||id;list.append(row);}
  });
 }
 let readabilityPending=false;
-new MutationObserver(()=>{if(readabilityPending)return;readabilityPending=true;requestAnimationFrame(()=>{readabilityPending=false;readableCharts();});}).observe(document.body,{childList:true,subtree:true});
+new MutationObserver(()=>{if(readabilityPending)return;readabilityPending=true;requestAnimationFrame(()=>{readabilityPending=false;readableCharts();ensureShareButtons();});}).observe(document.body,{childList:true,subtree:true});
 readableCharts();
 // Long-press opens the same chart/table enlargement as the approved double click.
 let timer,start,target;

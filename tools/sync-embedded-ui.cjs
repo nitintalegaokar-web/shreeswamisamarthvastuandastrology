@@ -10,6 +10,7 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const target = path.join(root, 'index.html');
 const assets = [
+ ['script','kp-manual-ephemeris-codec','vendor/transit/manual-ephemeris-codec.js'],
  ['script','kp-transit-significator-priority','vendor/interface/transit-significators.js'],
  ['script','kp-paired-north','vendor/interface/paired-north.js'],
  ['style','kp-paired-north-style','vendor/interface/paired-north.css'],
@@ -195,7 +196,7 @@ for (const [tag, id, relative] of assets) {
     html = html.slice(0, at) + block + '\n' + html.slice(at);
   }
 }
-const guideData = JSON.stringify({file:'KP-MASTER-User-Tutorial-1.2.11.pdf',language:'english',base64:fs.readFileSync(path.join(root,'docs/KP-MASTER-User-Tutorial-1.2.11.pdf')).toString('base64')});
+const guideData = JSON.stringify({file:'KP-MASTER-User-Tutorial-1.2.11.pdf',language:'english',base64:fs.readFileSync(path.join(root,'docs/KP-MASTER-User-Tutorial-1.2.11.pdf')).toString('base64'),translations:{marathi:{file:'KP-MASTER-User-Tutorial-1.2.11-mr.pdf',language:'marathi',base64:fs.readFileSync(path.join(root,'docs/KP-MASTER-User-Tutorial-1.2.11-mr.pdf')).toString('base64')}}});
 const guideBlock='<script id="kp-user-tutorial-pdf" type="application/json">'+guideData+'</script>';
 if(/<script id="kp-user-tutorial-pdf"[^>]*>[\s\S]*?<\/script>/.test(html))html=html.replace(/<script id="kp-user-tutorial-pdf"[^>]*>[\s\S]*?<\/script>/,()=>guideBlock);else {const at=html.lastIndexOf('</body>');html=html.slice(0,at)+guideBlock+'\n'+html.slice(at);}
 const featureCatalog = fs.readFileSync(path.join(root,'desktop/licensing/features.json'),'utf8').trim();

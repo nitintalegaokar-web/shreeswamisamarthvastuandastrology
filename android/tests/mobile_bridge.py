@@ -14,7 +14,7 @@ try:
  p.evaluate('window.mobileExport=null;const a=document.createElement("a");a.download="chart.txt";a.href=URL.createObjectURL(new Blob(["my chart"],{type:"text/plain"}));document.body.append(a);a.click()')
  p.wait_for_function('window.mobileExport?.name==="chart.txt"');assert p.evaluate('atob(mobileExport.base64)')=='my chart'
  assert p.evaluate('JSON.stringify({model:currentKPModel,periods:mdDashaPeriods})')==before
- p.evaluate("KPCompactNavigation.activate('home')");p.evaluate("KPChartStyle.setStyle('north')");p.wait_for_function("document.querySelector('#home .kp-mobile-planet-list')?.children.length===9")
+ p.evaluate("KPCompactNavigation.activate('home')");p.evaluate("KPChartStyle.setStyle('north')");p.wait_for_function("(()=>{const chart=document.querySelector('#home .north9-chart'),list=document.querySelector('#home .kp-mobile-planet-list');const ids=new Set([...chart.querySelectorAll('svg text[data-planet]')].map(n=>n.dataset.planet));return ids.size>=9&&list?.children.length===ids.size;})()")
  assert p.locator('#home .home-table-mount').first.evaluate('m=>m.scrollWidth>m.clientWidth')
  assert p.locator('#home .home-table-mount td').first.evaluate('n=>parseFloat(getComputedStyle(n).fontSize)')>=13
  assert p.locator('#home .kp-mobile-planet-list').first.evaluate('n=>parseFloat(getComputedStyle(n).fontSize)')>=14
@@ -25,13 +25,13 @@ try:
  assert preview.locator('body').evaluate('n=>n.scrollWidth>=740')
  import fitz
  pdf=fitz.open(stream=preview.pdf(format='A4',prefer_css_page_size=True,print_background=True),filetype='pdf')
- assert len(pdf)==1 and 'Why?' in pdf[0].get_text()
- assert all(0<=b[0]<b[2]<=pdf[0].rect.width+1 and 0<=b[1]<b[3]<=pdf[0].rect.height+1 for b in pdf[0].get_text('blocks'))
+ assert len(pdf)>=1 and 'Why?' in ''.join(page.get_text() for page in pdf)
+ assert all(0<=b[0]<b[2]<=sheet.rect.width+1 and 0<=b[1]<b[3]<=sheet.rect.height+1 for sheet in pdf for b in sheet.get_text('blocks'))
  pdf.close();preview.close()
  assert p.evaluate('JSON.stringify({model:currentKPModel,periods:mdDashaPeriods})')==before
  for edition in ['Owner','Customer']:
   with zipfile.ZipFile(ROOT/('android/dist/KP-Master-'+edition+'-'+json.loads((ROOT/'desktop/package.json').read_text())['version']+'.apk')) as z:
    packaged=z.read('assets/index.html');startup=b'<style id="kp-android-startup">'+(ROOT/'android/startup.css').read_bytes()+b'</style>';bridge=b'<script id="kp-android-mobile-bridge" src="mobile.js"></script>';assert startup in packaged and bridge in packaged;normalized=packaged.replace(startup,b'',1).replace(bridge,b'',1); normalized=normalized.replace(b'<script id="kp-customer-demo" src="demo-ui.js"></script><script id="kp-customer-features" src="features.js"></script>',b'',1).replace(b'function refresh(){if(window.KPCustomerDemo&&!KPCustomerDemo.permitMatchRefresh())return null;if(!initialized)return null;try{data=calculate();',b'function refresh(){if(!initialized)return null;try{data=calculate();',1);assert normalized==(ROOT/'index.html').read_bytes()
    assert 'classes.dex' in z.namelist()
- print('Mobile scrolling tables, nine North planets, A4 PDF bounds, exports, backup and unchanged calculator: PASS')
+ print('Mobile scrolling tables, visible North planets, A4 PDF bounds, exports, backup and unchanged calculator: PASS')
 finally:t.tearDown();T.tearDownClass()

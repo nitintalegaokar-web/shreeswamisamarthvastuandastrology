@@ -10,6 +10,9 @@ Everything needed by this HTML is embedded; keep your existing saved-chart backu
 Windows installers and Android APKs have not been rebuilt for this testing update.
 
 WHAT TO CHECK
+Western aspect table headers, first column and alternating rows follow the selected theme immediately. Aspect quality colours and calculations are preserved.
+Birth-time rectification is labelled Birth Date and Time. Selected event-significator chips remain visible in all four Transit options.
+Help is merged into Help & Shortcuts. Open it using the sidebar button or ? shortcut; the offline tutorial is available in English and Marathi. Select the guide language to view or download its PDF.
 Print/PDF uses A4 with 10 mm margins. Long tables continue at normal scale with repeated column headers. A read-only birth-time RP panel sits above the editable current/selected-time RP panel.
 North Indian charts use uniform planet fonts in one selected language without DMS; both remain visible during rotation and fit the single-page report. Calculation columns size to content. South Indian Nadi Significators includes the shared event selector. Ascendant/Moon transition controls retain the natal-date calculation.
 Current RP is calculated for the consultation location. Set RP date/time or click Now; this does not change the natal chart or transit search dates. Click a From–To range on the left to see that planet’s daily Sign/Star/Sub details on the right. Shared Cusp/Search event/Event controls are in one row below the transit results.

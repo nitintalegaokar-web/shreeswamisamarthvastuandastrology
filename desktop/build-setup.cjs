@@ -23,7 +23,7 @@ async function main() {
   if (at < 0) {
     execFileSync(process.execPath,[path.join(projectDir,'prepare.cjs')],{cwd:__dirname,stdio:'inherit'});
     const cli = require.resolve('electron-builder/out/cli/cli.js');
-    execFileSync(process.execPath,[cli,'--projectDir',projectDir,'--win','dir','--x64','--publish','never'],{stdio:'inherit'});
+    execFileSync(process.execPath,[cli,'--projectDir',projectDir,'--win','dir','--x64','--publish','never',...(process.env.KP_ELECTRON_DIST?['--config.electronDist='+process.env.KP_ELECTRON_DIST]:[])],{stdio:'inherit'});
   }
   const manifest = JSON.parse(asar.extractFile(path.join(unpacked,'resources','app.asar'),'package.json'));
   assert.equal(manifest.name,source.name);
@@ -32,7 +32,7 @@ async function main() {
   const escape = value => value.replace(/\$/g,()=>'$$').replace(/"/g,'$\\"');
   const uninstaller = path.join(folder,'uninstaller.exe');
   const stub = path.join(folder,'stub.nsi'), final = path.join(folder,'setup.nsi');
-  const base = {...source.build,extraMetadata:{version:manifest.version}};
+  const base = {...source.build,compression:'maximum',extraMetadata:{version:manifest.version}};
   const targets = Platform.WINDOWS.createTarget(['nsis'],Arch.x64);
   const options = {projectDir,prepackaged:unpacked,targets,publish:'never'};
   try {
