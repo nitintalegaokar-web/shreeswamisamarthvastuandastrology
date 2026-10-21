@@ -44,7 +44,7 @@ function updateNode(n,lang){
  if(e.dataset.settingsEn)old.source=e.dataset.settingsEn;
  const planetId=e.matches('.kp-planet-label')?e.closest('[data-planet-ref]')?.dataset.planetRef:null;
  const planetEnglish=planetCodes[planetId];
- let desired=planetEnglish&&lang!=='bilingual'?(lang==='english'?planetEnglish:(DATA.packs[lang]?.[planetEnglish]||planetEnglish)):translated(old.source,lang);if(!planetEnglish&&lang!=='english'&&lang!=='bilingual'&&e.closest('button,[role="button"]')&&desired!==old.source){const english=translated(old.source,'english');if(english!==desired)desired+=' · '+english;}desired=window.KPPlanetNotation?.format(desired,lang)??desired;const next=current.slice(0,current.indexOf(trim))+desired+current.slice(current.indexOf(trim)+trim.length);
+ let desired=planetEnglish&&lang!=='bilingual'?(lang==='english'?planetEnglish:(DATA.packs[lang]?.[planetEnglish]||planetEnglish)):translated(old.source,lang);desired=window.KPPlanetNotation?.format(desired,lang)??desired;const next=current.slice(0,current.indexOf(trim))+desired+current.slice(current.indexOf(trim)+trim.length);
  if(next!==current)n.nodeValue=next;originals.set(n,{source:old.source,rendered:next});
 }
 function localize(root=document,lang=language()){
@@ -59,8 +59,14 @@ function localize(root=document,lang=language()){
  root.querySelectorAll?.('[title],[placeholder],[aria-label],[data-hover-detail]').forEach(e=>{
   if(e.closest('[data-no-localize],#setting-language'))return;
   const saved=attributes.get(e)||{};
-  for(const key of ['title','placeholder','aria-label','data-hover-detail']){const value=e.getAttribute(key);if(value===null)continue;const old=saved[key];const source=old&&old.rendered===value?old.source:value,result=translated(source,lang);if(result!==value)e.setAttribute(key,result);saved[key]={source,rendered:result};}
+  for(const key of ['title','placeholder','aria-label','data-hover-detail']){const value=e.getAttribute(key);if(value===null)continue;const old=saved[key];const source=old&&old.rendered===value?old.source:value,result=translated(source,key==='title'&&e.matches('button,[role="button"],input[type=button],input[type=submit]')?'english':lang);if(result!==value)e.setAttribute(key,result);saved[key]={source,rendered:result};}
   attributes.set(e,saved);
+ });
+ root.querySelectorAll?.('button,[role="button"],input[type="button"],input[type="submit"]').forEach(e=>{
+  const walker=owner.createTreeWalker(e,NodeFilter.SHOW_TEXT),parts=[];while(walker.nextNode()){const n=walker.currentNode;if(!n.parentElement.closest('svg,style,script,.nav-index'))parts.push(originals.get(n)?.source||n.nodeValue);}
+  let name=e.dataset.settingsEn||e.dataset.englishLabel||parts.join(' ').trim()||e.value||e.getAttribute('aria-label')||e.title||'';
+  name=translatedFull(name,'english').split(/\s*[·|]\s*/).filter(part=>/[A-Za-z]/.test(part)).join(' · ').trim()||translatedFull(e.getAttribute('aria-label')||e.title||'Action','english');
+  if(name&&e.title!==name)e.title=name;
  });
  window.KPPlanetNotation?.protectedText(root,lang);
  return root;

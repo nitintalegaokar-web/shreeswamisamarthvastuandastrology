@@ -1,8 +1,8 @@
 """Package the review HTML only; native 1.2.11 releases are left unchanged."""
 from pathlib import Path
-import zipfile,hashlib,json,datetime
+import zipfile,hashlib,json,datetime,sys
 root=Path(__file__).resolve().parents[1];source=(root/'index.html').read_bytes()
-manifest={'kind':'HTML testing build','builtAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceSHA256':hashlib.sha256(source).hexdigest(),'nativeInstallersRebuilt':False,'manualData':json.loads((root/'vendor/transit/manual-tool-source.json').read_text())}
+manifest={'kind':'HTML testing build','builtAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'sourceSHA256':hashlib.sha256(source).hexdigest(),'nativeInstallersRebuilt':'--native-release' in sys.argv,'manualData':json.loads((root/'vendor/transit/manual-tool-source.json').read_text())}
 readme='''KP MASTER — HTML TESTING BUILD
 
 Extract this ZIP completely, then open index.html in current Chrome or Edge.
@@ -28,6 +28,7 @@ Significators are selected separately for each required event HOUSE: Four-fold u
 
 TESTING-MANIFEST.json identifies this HTML and the supplied source data.
 '''
+if '--native-release' in sys.argv:readme=readme.replace('Windows installers and Android APKs have not been rebuilt for this testing update.','Windows installers and Android APKs are distributed separately as the final 1.2.11 refresh.')
 out=root/'KP-MASTER-HTML-Testing.zip'
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
  z.writestr('KP-MASTER/index.html',source);z.writestr('KP-MASTER/START-HERE.txt',readme);z.writestr('KP-MASTER/TESTING-MANIFEST.json',json.dumps(manifest,indent=2))

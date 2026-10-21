@@ -9,6 +9,10 @@ const {execFileSync} = require('node:child_process');
 const asar = require('@electron/asar');
 const {build, Platform, Arch} = require('electron-builder');
 const {UninstallerReader} = require('app-builder-lib/out/targets/nsis/nsisUtil');
+// Keep the offline reference data in one compression dictionary.
+const archives=require('app-builder-lib/out/targets/archive'),archive=archives.archive;
+archives.archive=(format,out,dir,options={})=>archive(format,out,dir,format==='7z'&&options.compression!=='store'?{...options,method:'LZMA2:fb=273',dictSize:256}:options);
+
 
 async function main() {
   const args = process.argv.slice(2);

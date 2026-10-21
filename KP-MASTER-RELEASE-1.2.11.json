@@ -1,71 +1,77 @@
 {
   "version": "1.2.11",
-  "builtAt": "2026-10-20T17:45:06.948745+00:00",
-  "sourceHTMLSHA256": "d2a6315432852964bc60a2069f89e4ed7cfacca202d499cf0b8adcc8b793cdf2",
+  "builtAt": "2026-10-21T10:59:19.461706+00:00",
+  "sourceHTMLSHA256": "d816b788fd4ca603905d1b332421619f32e8abc1eba2dde51388c1926ef5b98c",
   "artifacts": [
     {
       "edition": "Windows Customer",
       "file": "KP-Master-Customer-Setup-1.2.11-x64.exe",
-      "bytes": 103830060,
-      "sha256": "0c92f0dcefc547449001be44a70aa301b54801036cd10dd1035581880d8dff19"
+      "bytes": 104630623,
+      "sha256": "a9b7a616827a74f86ddd43bd5bc3c605dcbd7da82a5e36ec2d8eecd5bb4734d8"
     },
     {
       "edition": "Windows Owner",
       "file": "KP-Master-Owner-Setup-1.2.11-x64.exe",
-      "bytes": 103811450,
-      "sha256": "a42b8a58a72d4c16a271604b33ddc2ed5e3fc17195279399e90ec435f5eac770"
+      "bytes": 104610052,
+      "sha256": "fca5108b2cf268949c4e63e0a7daee76bd114fc05098ac9b8b2779b66b71c078"
     },
     {
       "edition": "Windows Owner Activation",
       "file": "KP-Master-Owner-Activation-Setup-1.2.11-x64.exe",
-      "bytes": 91829677,
-      "sha256": "e154ca53c5efbe1a16f4276072aedb862ef3e948290902827c3b6f4db008828b"
+      "bytes": 91916795,
+      "sha256": "382f93bfd67d8bae21e25ad19f2b3e9d5fb26656911db38f3aac68d9914ab32d"
     },
     {
       "edition": "Android Owner",
       "file": "KP-Master-Owner-1.2.11.apk",
-      "bytes": 14803680,
-      "sha256": "cd272a8a8596307496185a0950eeedc200e2607a68dfd01c9f15d9e04799ec35"
+      "bytes": 16175840,
+      "sha256": "8a53ecc596d51252f7db70562c5ce6afda0270a281b6e002539361ffc6992307"
     },
     {
       "edition": "Android Customer",
       "file": "KP-Master-Customer-1.2.11.apk",
-      "bytes": 14807903,
-      "sha256": "e321a0613e4a8e919e32d8ecc0df182c1939eea9d386a551e0e90f58bd451209"
+      "bytes": 16180063,
+      "sha256": "73484cef99c81086d079d2bc3df8e71bc69fbb3e095535c60bc12d71f82000fa"
     },
     {
       "edition": "Owner Web",
       "file": "KP-MASTER-Owner-Web-1.2.11.zip",
-      "bytes": 14949699,
-      "sha256": "1866b4022607acc0bad6b728ccbdcdb553916f4cb21414b35ecb28117c79e13a"
+      "bytes": 16338683,
+      "sha256": "d4c11544045e6882a28b0e686939a6afa26d376a7d73d365bcd60384d9dc548a"
     },
     {
       "edition": "Customer Web",
       "file": "KP-MASTER-Customer-Web-1.2.11.zip",
-      "bytes": 14954620,
-      "sha256": "ea09f0bd434c8b218aa24fef2697ef4fb2aea07328a3a02ed522e84e486197d4"
+      "bytes": 16343412,
+      "sha256": "a5e8dc03db19936da0c0ec0c6c5a8872fa85f93ee4701d453e364d0dbc3d9e78"
     },
     {
       "edition": "HTML and available backup data",
       "file": "KP-MASTER-HTML-All-Data-1.2.11.zip",
-      "bytes": 41272565,
-      "sha256": "ed8df6a280314d0bcd937d2e61eb03c6c83f9b18abde04a780378512165e8f96"
+      "bytes": 44062896,
+      "sha256": "a22a712fa767e7ee45c0a75691529b8cd4e2c748da5a69045bebc36a340406b5"
     },
     {
       "edition": "Standalone HTML",
       "file": "KP-MASTER-Updated-HTML-1.2.11.zip",
-      "bytes": 14742481,
-      "sha256": "c4380cc7c980cca3a8340b0c7feb6142d779fe0279270615544313557f83d922"
+      "bytes": 16111454,
+      "sha256": "8364606c7b041c4e4553db282a598f077fa450a538f765ef5e5b743d6cebf9c8"
     },
     {
       "edition": "Tutorial PDF",
       "file": "docs/KP-MASTER-User-Tutorial-1.2.11.pdf",
       "bytes": 64892,
       "sha256": "0c0729a5114450b199459ed25e41c79c210206f5d7a18fc9781b5dceb5786630"
+    },
+    {
+      "edition": "Marathi Tutorial PDF",
+      "file": "docs/KP-MASTER-User-Tutorial-1.2.11-mr.pdf",
+      "bytes": 144147,
+      "sha256": "a742e4518d9ff0e54248d64d78b3110b5fecda0853d7c5e3102287f55f4e4d95"
     }
   ],
   "android": {
-    "versionCode": 10215,
+    "versionCode": 10216,
     "signingCertificateSHA256": "96ce4efeea93600a90213f9eda7c43fdd9038b139125d492de687e0148aebc74",
     "signingContinuity": "Same certificate as the previously released fresh-install 1.2.8 edition. Original older-certificate apps require backup and reinstall.",
     "minimumAndroid": "9",
@@ -81,13 +87,16 @@
     "unavailable": "Actual saved kundali and report-photo folders contain instructions only. Browser/device-local data and private signing/activation keys are not in this archive."
   },
   "validation": {
-    "desktopUnitTestFiles": 40,
+    "desktopUnitTestFiles": 43,
     "androidLicenceAssertions": 26,
     "androidDemo": "passed",
     "mobileBrowserBackupExportsPDF": "passed",
     "androidSignatureAndAlignment": "passed both",
     "windowsInstallerPayloadAndAsarParity": "passed all three",
     "transitOnePassAndPrint": "passed",
+    "themeAndSharedSignificators": "passed browser checks",
+    "mobileSettings": "Owner and Customer categories, save, narrow portrait and landscape checked in Chromium",
+    "whatsApp": "A4 PDF bridge checked in Chromium; device recipient picker not physically tested",
     "activationExpiryUTC": "desktop exact boundary and Android dated/expired/future issue checks passed",
     "historyReset": "first 1.2.11 launch only; local recovery copy retained",
     "nativeWindowsInstallation": false,

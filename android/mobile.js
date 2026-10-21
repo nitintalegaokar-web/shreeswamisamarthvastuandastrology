@@ -82,7 +82,7 @@ function readableCharts(){
  installMobileNavigation();
  if(!document.getElementById('home')&&document.querySelector('.report-page,.sheet,.kp-preview-tools,.preview-tools'))document.body.classList.add('kp-mobile-report');
  document.querySelectorAll('#home .home-table-mount').forEach(m=>{if(m.dataset.mobileScroll)return;m.dataset.mobileScroll='true';m.tabIndex=0;const hint=document.createElement('p');hint.className='kp-mobile-scroll-hint';hint.textContent='Swipe sideways to see all table columns.';m.before(hint);});
- document.querySelectorAll('#home .north9-chart,#kundali-north').forEach(chart=>{
+ document.querySelectorAll('#home-kundali:has(.kp-paired-north),#kundali-north').forEach(chart=>{
   if(!chart.parentElement.classList.contains('kp-mobile-chart-scroll')){const wrap=document.createElement('div');wrap.className='kp-mobile-chart-scroll';chart.before(wrap);wrap.append(chart);}
   const wrap=chart.parentElement;
   let list=wrap.nextElementSibling;if(!list?.classList.contains('kp-mobile-planet-list')){list=document.createElement('div');list.className='kp-mobile-planet-list';wrap.after(list);}

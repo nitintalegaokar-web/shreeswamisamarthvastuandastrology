@@ -14,7 +14,7 @@ try:
  p.evaluate('window.mobileExport=null;const a=document.createElement("a");a.download="chart.txt";a.href=URL.createObjectURL(new Blob(["my chart"],{type:"text/plain"}));document.body.append(a);a.click()')
  p.wait_for_function('window.mobileExport?.name==="chart.txt"');assert p.evaluate('atob(mobileExport.base64)')=='my chart'
  assert p.evaluate('JSON.stringify({model:currentKPModel,periods:mdDashaPeriods})')==before
- p.evaluate("KPCompactNavigation.activate('home')");p.evaluate("KPChartStyle.setStyle('north')");p.wait_for_function("(()=>{const chart=document.querySelector('#home .north9-chart'),list=document.querySelector('#home .kp-mobile-planet-list');const ids=new Set([...chart.querySelectorAll('svg text[data-planet]')].map(n=>n.dataset.planet));return ids.size>=9&&list?.children.length===ids.size;})()")
+ p.evaluate("KPCompactNavigation.activate('home')");p.evaluate("KPChartStyle.setStyle('north')");p.wait_for_function("(()=>{const chart=document.querySelector('#home-kundali'),list=document.querySelector('#home .kp-mobile-planet-list');const ids=new Set([...chart.querySelectorAll('svg text[data-planet]')].map(n=>n.dataset.planet));return ids.size>=9&&list?.children.length===ids.size;})()")
  assert p.locator('#home .home-table-mount').first.evaluate('m=>m.scrollWidth>m.clientWidth')
  assert p.locator('#home .home-table-mount td').first.evaluate('n=>parseFloat(getComputedStyle(n).fontSize)')>=13
  assert p.locator('#home .kp-mobile-planet-list').first.evaluate('n=>parseFloat(getComputedStyle(n).fontSize)')>=14

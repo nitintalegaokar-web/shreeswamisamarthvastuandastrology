@@ -8,5 +8,5 @@
     1900,
     2500
   ],
-  "storage": "KPDE1 lossless second-difference varint encoding of daily arcsecond longitudes; unused source lord labels omitted. All Sign/Star/Sub labels are derived by the existing KP engine."
+  "storage": "KPDE2 lossless per-planet second-difference varints, encoded as hexadecimal. All original daily arcsecond longitudes are retained; Sign/Star/Sub labels use the existing KP engine."
 }
