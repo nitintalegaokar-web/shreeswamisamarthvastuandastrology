@@ -1,7 +1,7 @@
 """Build the approved single-file calculator as two signed, offline Android APKs."""
 from pathlib import Path
 import os,subprocess,shutil,json,hashlib,secrets,zipfile,sys
-ROOT=Path(__file__).resolve().parents[1];APP=ROOT/'android';SDK=Path(os.environ.get('ANDROID_SDK_ROOT','/workspace/kp-android-toolchain/sdk'));TOOLS=SDK/'build-tools/35.0.0';API=SDK/'platforms/android-35/android.jar';VERSION=json.loads((ROOT/'desktop/package.json').read_text())['version'];VERSION_CODE=10216
+ROOT=Path(__file__).resolve().parents[1];APP=ROOT/'android';SDK=Path(os.environ.get('ANDROID_SDK_ROOT','/workspace/kp-android-toolchain/sdk'));TOOLS=SDK/'build-tools/35.0.0';API=SDK/'platforms/android-35/android.jar';VERSION=json.loads((ROOT/'desktop/package.json').read_text())['version'];VERSION_CODE=10217
 FRESH='--fresh-install' in sys.argv
 KEYS=Path(os.environ.get('KP_ANDROID_SIGNING_DIR','/workspace/kp-master-android-signing-fresh-128' if FRESH else '/workspace/kp-master-android-signing'));KEYS.mkdir(exist_ok=True,mode=0o700);store=KEYS/'release.p12';password_file=KEYS/'store-password.txt'
 def run(*args):subprocess.run([str(x) for x in args],check=True,cwd=APP)
@@ -27,7 +27,7 @@ packagedSource=source[:head]+startup+source[head:body]+bridge+source[body:]
 assert packagedSource.replace(startup,b'',1).replace(bridge,b'',1)==source
 
 for edition in ['owner','customer']:
- b=APP/'build'/edition;b.mkdir(parents=True,exist_ok=True);assets=b/'assets';assets.mkdir(exist_ok=True);(assets/'index.html').write_bytes(packagedSource if edition=='owner' else packagedSource.replace(bridge,bridge+b'<script id="kp-customer-demo" src="demo-ui.js"></script><script id="kp-customer-features" src="features.js"></script>',1).replace(b'function refresh(){if(!initialized)return null;try{data=calculate();',b'function refresh(){if(window.KPCustomerDemo&&!KPCustomerDemo.permitMatchRefresh())return null;if(!initialized)return null;try{data=calculate();',1));shutil.copy(APP/'mobile.js',assets/'mobile.js');shutil.copy(APP/'assets/owner-public-keys.json',assets/'owner-public-keys.json')
+ b=APP/'build'/edition;b.mkdir(parents=True,exist_ok=True);assets=b/'assets';assets.mkdir(exist_ok=True);(assets/'index.html').write_bytes(packagedSource if edition=='owner' else packagedSource.replace(bridge,bridge+b'<script id="kp-customer-demo-script" src="demo-ui.js"></script><script id="kp-customer-features" src="features.js"></script>',1).replace(b'function refresh(){if(!initialized)return null;try{data=calculate();',b'function refresh(){if(window.KPCustomerDemo&&!KPCustomerDemo.permitMatchRefresh())return null;if(!initialized)return null;try{data=calculate();',1));shutil.copy(APP/'mobile.js',assets/'mobile.js');shutil.copy(APP/'assets/owner-public-keys.json',assets/'owner-public-keys.json')
  shutil.copy(ROOT/'desktop/licensing/features.json',assets/'features.json')
  if edition=='customer':
   shutil.copy(ROOT/'customer/demo-ui.js',assets/'demo-ui.js')

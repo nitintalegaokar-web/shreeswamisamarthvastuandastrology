@@ -5,19 +5,19 @@
   "targetAndroidAPI": 35,
   "sourceSHA256": "d816b788fd4ca603905d1b332421619f32e8abc1eba2dde51388c1926ef5b98c",
   "packagedHTMLSHA256": "cda07593d3b712a6be751a27e00996865a3999093ed9d3b570741d7d365752ad",
-  "versionCode": 10216,
+  "versionCode": 10217,
   "mobileBridgeSHA256": "c9d26ab419c51ee15d2308852f0fbcdc86bf2519814c23ccb2db292465eae28b",
   "signingCertificateSHA256": "96ce4efeea93600a90213f9eda7c43fdd9038b139125d492de687e0148aebc74",
   "files": [
     {
       "name": "KP-Master-Customer-1.2.11.apk",
       "bytes": 16180063,
-      "sha256": "73484cef99c81086d079d2bc3df8e71bc69fbb3e095535c60bc12d71f82000fa"
+      "sha256": "0840a71203980ac0f79001eae19037ffd681d39d67de78c94a2c746117f5b0a8"
     },
     {
       "name": "KP-Master-Owner-1.2.11.apk",
       "bytes": 16175840,
-      "sha256": "8a53ecc596d51252f7db70562c5ce6afda0270a281b6e002539361ffc6992307"
+      "sha256": "1c80ed3814888a2adfdcc4be288efd9af65d936807f31b0ae9239a2dc532f04b"
     }
   ]
 }

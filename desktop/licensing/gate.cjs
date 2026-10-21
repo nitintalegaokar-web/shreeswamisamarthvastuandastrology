@@ -2,6 +2,7 @@
 const {ipcMain,dialog,clipboard,BrowserWindow,safeStorage}=require('electron');
 const {DemoStore}=require('./demo.cjs');
 const {entitlements}=require('./feature-policy.cjs');
+const {validateUpgrade}=require('./upgrade.cjs');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const {pathToFileURL}=require('node:url');
@@ -52,7 +53,7 @@ async function createGate(app,win,indexPath){
   }
   const status=()=>({systemId:id,active:Boolean(claims),message,configured:!configurationError,ownerKeyIds:keys.map(keyId),registered:Boolean(registration),demo:canUseDemo()?demoStore.status():null});
   ipcMain.on('kp-demo:request',(event,request)=>{try{if(event.sender!==win.webContents||event.senderFrame?.url.split('#')[0]!==indexURL)throw Error('Untrusted demo request.');if(claims){event.returnValue={allowed:true,paid:true};return;}if(!canUseDemo())throw Error('Registration/purchase activation is required.');event.returnValue={...(request?.action==='status'?demoStore.status():demoStore.use(request?.kind,request?.signature,request?.consume!==false)),registered:Boolean(registration)};}catch(error){event.returnValue={allowed:false,error:error.message};}});
-  ipcMain.handle('kp-license:features',event=>{if(event.sender!==win.webContents||event.senderFrame?.url.split('#')[0]!==indexURL||!hasAccess())throw Error('Untrusted feature request.');return {active:Boolean(claims),demo:!claims,edition:claims?.edition||'Full',features:entitlements(claims)};});
+  ipcMain.handle('kp-license:features',event=>{if(event.sender!==win.webContents||event.senderFrame?.url.split('#')[0]!==indexURL||!hasAccess())throw Error('Untrusted feature request.');return {active:Boolean(claims),demo:!claims,edition:claims?.edition||'Full',features:entitlements(claims),systemId:id,clientName:claims?.clientName||'',expiresAt:claims?.expiresAt||null};});
   ipcMain.handle('kp-demo:continue',async event=>{check(event);if(!canUseDemo())throw Error('Purchase activation is required.');await win.loadFile(indexPath);return true;});
   ipcMain.handle('kp-license:status',event=>{check(event);return status();});
   ipcMain.handle('kp-license:retry',async event=>{
@@ -85,15 +86,29 @@ async function createGate(app,win,indexPath){
     if(selected.canceled||!selected.filePath)return false;
     await fs.writeFile(selected.filePath,'KP MASTER · Activation request · '+app.getVersion()+'\nSystem ID: '+id+'\nAccepted owner Key IDs: '+keys.map(keyId).join(', ')+'\n','utf8');return true;
   });
-  async function installLicense(text){
+  async function installLicense(text,{keepOpen=false}={}){
     let kind='';try{kind=JSON.parse(Buffer.from(JSON.parse(text).payload,'base64url')).kind||'';}catch{}
     if(kind==='customer-registration'){const checked=verifyTrustedRegistration(text,keys,id);await fs.mkdir(path.dirname(registrationPath),{recursive:true});await fs.writeFile(registrationPath+'.tmp',text,{mode:0o600});await fs.rename(registrationPath+'.tmp',registrationPath);registration=checked;message='Registration saved. Enter the separate purchase key to unlock full use.';return {registered:true,active:false};}
     const verified=verifyTrustedLicense(text,keys,id);await checkPurchase(verified,true);await checkControl(verified.claims,verified.key);
     await fs.mkdir(path.dirname(licensePath),{recursive:true});
     await fs.writeFile(licensePath+'.tmp',text,{encoding:'utf8',mode:0o600});await fs.rename(licensePath+'.tmp',licensePath);
     await refresh();if(!claims)throw Error(message);
-    win.setMinimumSize(950,650);win.setSize(1440,950);await win.loadFile(indexPath);return true;
+    if(!keepOpen){win.setMinimumSize(950,650);win.setSize(1440,950);await win.loadFile(indexPath);}return true;
   }
+  let upgrading=false;
+  ipcMain.handle('kp-license:upgrade',async event=>{
+    if(event.sender!==win.webContents||event.senderFrame?.url.split('#')[0]!==indexURL||!claims)throw Error('Open your activated customer package to import an upgrade.');
+    if(upgrading)throw Error('A package upgrade is already in progress.');upgrading=true;
+    try{
+      const selected=await dialog.showOpenDialog(win,{title:'Choose your package upgrade file',properties:['openFile'],filters:[{name:'Signed KP package upgrade',extensions:['kplicense']}]});
+      if(selected.canceled||!selected.filePaths.length)return null;
+      const file=selected.filePaths[0];if((await fs.stat(file)).size>16384)throw Error('The upgrade file is too large.');
+      const text=await fs.readFile(file,'utf8'),current=verifyTrustedLicense(await fs.readFile(licensePath,'utf8'),keys,id),next=verifyTrustedLicense(text,keys,id);
+      await checkControl(current.claims,current.key);validateUpgrade(current,next);await checkPurchase(next,true);await checkControl(next.claims,next.key);
+      await installLicense(text,{keepOpen:true});
+      return {edition:claims.edition,features:entitlements(claims),expiresAt:claims.expiresAt};
+    }finally{upgrading=false;}
+  });
   ipcMain.handle('kp-license:activate',async event=>{
     check(event);if(configurationError)throw Error(configurationError);
     const selected=await dialog.showOpenDialog(win,{title:'Import owner activation license',properties:['openFile'],filters:[{name:'KP Activation License',extensions:['kplicense']}]});

@@ -55,6 +55,14 @@
           "For an upgrade or package change, issue a replacement purchase key for the same name and System ID. Existing keys without feature choices keep full access.",
           "Feature locks require the updated customer application; older builds and standalone HTML do not enforce these package choices."
         ]
+      },
+      {
+        "heading": "Upgrade an existing customer package without another code",
+        "steps": [
+          "Choose Upgrade package in the customer purchase history row, or enter exactly the same registered customer name and System ID.",
+          "Select the newly purchased features. Preserve all existing features and keep or extend the activation period. Click Save package upgrade file.",
+          "Send the .kplicense file to the customer. They choose My Package / Upgrade → Import upgrade file. Their registration and open chart stay in place. This shortcut is for the Windows Customer edition."
+        ]
       }
     ]
   },
@@ -88,6 +96,14 @@
           "सही केलेली खरेदी किल्ली ग्राहकाला पाठवा. ती ग्राहकाने त्याच्या संगणकावर द्यावी.",
           "अपग्रेडसाठी त्याच नाव व System ID साठी नवीन खरेदी किल्ली द्या. सुविधांची निवड नसलेल्या जुन्या किल्ल्यांना पूर्ण प्रवेश राहतो.",
           "सुविधांचे कुलूप अद्ययावत ग्राहक अनुप्रयोगात लागू होते; जुन्या आवृत्ती किंवा स्वतंत्र एचटीएमएलमध्ये नाही."
+        ]
+      },
+      {
+        "heading": "नवीन कोड न देता ग्राहकाचे पॅकेज अपग्रेड करा",
+        "steps": [
+          "ग्राहकाच्या खरेदी नोंदीतील पॅकेज अपग्रेड निवडा किंवा नोंदणीकृत ग्राहकाचे तेच नाव आणि System ID भरा.",
+          "नवीन खरेदी केलेल्या सुविधा निवडा. आधीच्या सर्व सुविधा आणि मुदत कायम ठेवा किंवा मुदत वाढवा. पॅकेज अपग्रेड फाइल जतन करा दाबा.",
+          "ग्राहकाला .kplicense फाइल पाठवा. ग्राहकाने माझे पॅकेज / अपग्रेड → अपग्रेड फाइल उघडा निवडावे. नोंदणी व चालू कुंडली कायम राहतील. हा सोपा पर्याय Windows ग्राहक आवृत्तीसाठी आहे."
         ]
       }
     ]
