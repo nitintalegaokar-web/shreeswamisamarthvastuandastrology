@@ -1,0 +1,58 @@
+{
+  "name": "swami-samarth-remedy-library",
+  "version": "1.3.0",
+  "private": true,
+  "description": "KP Master offline CRM, collections and expenses, Matrugaya bookings, remedies and reports",
+  "author": "Shree Swami Samarth Vastu and Astrology Consultancy",
+  "main": "main.cjs",
+  "scripts": {
+    "stage": "node stage.cjs",
+    "dist:win": "npm run stage && node build-win.cjs"
+  },
+  "devDependencies": {
+    "electron": "44.9.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "com.swamisamarth.remedies",
+    "productName": "KP Master",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.cjs",
+      "app/**/*",
+      "icon.ico"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.ico",
+      "artifactName": "KP-Master-Setup-${version}.${ext}",
+      "signExecutable": false,
+      "electronLanguages": [
+        "en-US",
+        "hi",
+        "mr"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "KP Master",
+      "deleteAppDataOnUninstall": false,
+      "differentialPackage": false
+    },
+    "publish": []
+  }
+}
