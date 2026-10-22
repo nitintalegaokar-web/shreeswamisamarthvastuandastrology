@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="KP MASTER customer login and new customer registration.">
+  <meta name="theme-color" content="#173f37">
+  <title>Customer Account | KP MASTER</title>
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="account-page">
+  <a class="skip-link" href="#account-main">Skip to account form</a>
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="index.html" aria-label="KP MASTER home"><img src="assets/logo.png" alt="" width="42" height="42"><span><strong>KP MASTER</strong><small>Astrology Software</small></span></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span><b>Menu</b></button>
+      <nav id="site-nav" aria-label="Main navigation"><a href="index.html#software">Software</a><a href="index.html#features">Features</a><a href="index.html#plans">Plans</a><a href="index.html#downloads">Downloads</a><a href="index.html#contact">Contact</a><a class="nav-login" href="customer.html" aria-current="page">Customer login</a></nav>
+    </div>
+  </header>
+
+  <main id="account-main" class="account-shell">
+    <section class="account-intro">
+      <p class="eyebrow">KP MASTER customer account</p>
+      <h1>Your software and support in one place.</h1>
+      <p>Use your customer account to review package details, software access, expiry information, upgrades and support requests after the secure online service is launched.</p>
+      <div class="account-benefits"><div><b>Package access</b><span>See active features and available upgrades.</span></div><div><b>Customer downloads</b><span>Get the correct verified installer for your package.</span></div><div><b>Saved support details</b><span>Keep contact and installation information together.</span></div></div>
+      <div class="account-contact"><small>Need help?</small><a class="whatsapp-link" data-message="Hello, I need help with my KP MASTER customer account." href="#">WhatsApp +91 84120 98690</a></div>
+    </section>
+
+    <section class="account-card" aria-labelledby="account-title">
+      <div class="account-tabs" role="tablist" aria-label="Customer account options">
+        <button id="login-tab" type="button" role="tab" aria-selected="true" aria-controls="login-panel">Sign in</button>
+        <button id="register-tab" type="button" role="tab" aria-selected="false" aria-controls="register-panel">New customer registration</button>
+      </div>
+
+      <div id="login-panel" class="account-panel" role="tabpanel" aria-labelledby="login-tab">
+        <p class="form-kicker">Existing customer</p><h2 id="account-title">Sign in to KP MASTER</h2><p class="form-intro">Enter the email address or mobile number connected to your customer account.</p>
+        <form id="customer-login" novalidate>
+          <label for="login-identity">Email ID or mobile number <em>Required</em></label><input id="login-identity" name="identity" autocomplete="username" required placeholder="name@example.com or 84120 98690">
+          <label for="login-password">Password <em>Required</em></label><div class="password-field"><input id="login-password" name="password" type="password" autocomplete="current-password" minlength="8" required><button type="button" data-password-toggle="login-password" aria-label="Show password">Show</button></div>
+          <div class="form-row compact"><label class="check-label"><input type="checkbox" name="remember"> Remember this device</label><button class="text-button" type="button" id="forgot-password">Forgot password?</button></div>
+          <button class="button primary form-submit" type="submit">Sign in</button>
+          <p class="form-status" id="login-status" role="status"></p>
+        </form>
+      </div>
+
+      <div id="register-panel" class="account-panel" role="tabpanel" aria-labelledby="register-tab" hidden>
+        <p class="form-kicker">New customer</p><h2>Create your customer profile</h2><p class="form-intro">Fields marked Required must be completed. Your information will be used only for customer registration, licensing, upgrades and support.</p>
+        <form id="customer-register" novalidate>
+          <fieldset><legend>Personal information</legend><div class="form-grid">
+            <div class="wide"><label for="full-name">Full name <em>Required</em></label><input id="full-name" name="fullName" autocomplete="name" minlength="3" maxlength="100" required placeholder="Your full legal name"></div>
+            <div><label for="mobile">Mobile / WhatsApp number <em>Required</em></label><input id="mobile" name="mobile" type="tel" autocomplete="tel" inputmode="tel" minlength="8" maxlength="20" required placeholder="+91 84120 98690"></div>
+            <div><label for="email">Email ID <em>Required</em></label><input id="email" name="email" type="email" autocomplete="email" maxlength="120" required placeholder="name@example.com"></div>
+          </div></fieldset>
+
+          <fieldset><legend>Postal address</legend><div class="form-grid">
+            <div class="wide"><label for="address-line-1">Address <em>Required</em></label><input id="address-line-1" name="addressLine1" autocomplete="address-line1" maxlength="160" required placeholder="House / flat, building and street"></div>
+            <div class="wide"><label for="address-line-2">Additional address</label><input id="address-line-2" name="addressLine2" autocomplete="address-line2" maxlength="160" placeholder="Area, landmark or village (optional)"></div>
+            <div><label for="city">City / Village <em>Required</em></label><input id="city" name="city" autocomplete="address-level2" maxlength="80" required></div>
+            <div><label for="state">State <em>Required</em></label><input id="state" name="state" autocomplete="address-level1" maxlength="80" required></div>
+            <div><label for="postal-code">PIN / Postal code <em>Required</em></label><input id="postal-code" name="postalCode" autocomplete="postal-code" inputmode="numeric" minlength="3" maxlength="12" required></div>
+            <div><label for="country">Country <em>Required</em></label><input id="country" name="country" autocomplete="country-name" value="India" maxlength="80" required></div>
+          </div></fieldset>
+
+          <fieldset><legend>Software requirements</legend><div class="form-grid">
+            <div><label for="customer-type">How will you use KP MASTER? <em>Required</em></label><select id="customer-type" name="customerType" required><option value="">Select one</option><option>Professional astrologer</option><option>Astrology student</option><option>Astrology institute</option><option>Personal study</option><option>Other</option></select></div>
+            <div><label for="platform">Preferred platform <em>Required</em></label><select id="platform" name="platform" required><option value="">Select one</option><option>Windows</option><option>Android</option><option>Windows and Android</option><option>Online access</option></select></div>
+            <div><label for="package-interest">Package interest <em>Required</em></label><select id="package-interest" name="packageInterest" required><option value="">Select one</option><option>Basic</option><option>Advanced</option><option>Existing customer upgrade</option><option>Need help choosing</option></select></div>
+            <div><label for="preferred-language">Preferred language <em>Required</em></label><select id="preferred-language" name="preferredLanguage" required><option>English</option><option>Marathi</option><option>Hindi</option></select></div>
+            <div class="wide"><label for="business-name">Business / institute name</label><input id="business-name" name="businessName" maxlength="120" placeholder="Optional"></div>
+            <div class="wide"><label for="customer-note">Message or requirement</label><textarea id="customer-note" name="note" rows="3" maxlength="600" placeholder="Tell us which features or package you need (optional)"></textarea></div>
+          </div></fieldset>
+
+          <fieldset><legend>Secure account</legend><div class="form-grid">
+            <div><label for="register-password">Create password <em>Required</em></label><div class="password-field"><input id="register-password" name="password" type="password" autocomplete="new-password" minlength="8" required aria-describedby="password-help"><button type="button" data-password-toggle="register-password" aria-label="Show password">Show</button></div><small id="password-help" class="field-help">Use at least 8 characters with a letter and a number.</small></div>
+            <div><label for="confirm-password">Confirm password <em>Required</em></label><div class="password-field"><input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required><button type="button" data-password-toggle="confirm-password" aria-label="Show password">Show</button></div></div>
+          </div></fieldset>
+
+          <label class="check-label consent"><input id="privacy-consent" name="privacyConsent" type="checkbox" required> <span>I agree that KP MASTER may use this information for account registration, licensing, package upgrades and customer support. <em>Required</em></span></label>
+          <label class="check-label consent"><input name="whatsappUpdates" type="checkbox"> <span>I would like to receive account and support updates on WhatsApp.</span></label>
+          <button class="button primary form-submit" type="submit">Submit registration request</button>
+          <p class="form-status" id="register-status" role="status"></p>
+          <p class="security-note">Passwords must be transmitted and stored only through the secure service when online registration is activated. This review page does not save or send your entries.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="index.html"><img src="assets/logo.png" alt="" width="38" height="38"><span><strong>KP MASTER</strong><small>Astrology Software</small></span></a><p>Professional tools for KP astrology study and reporting.</p><nav aria-label="Footer navigation"><a href="index.html#features">Features</a><a href="index.html#plans">Plans</a><a href="index.html#downloads">Downloads</a><a href="index.html#contact">Contact</a></nav><small>© <span id="year"></span> KP MASTER. All rights reserved.</small></footer>
+  <script src="app.js"></script><script src="customer.js"></script>
+</body>
+</html>
