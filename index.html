@@ -25472,6 +25472,18 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 #kp-enlarge-dialog .kp-enlarge-content .kp-paired-north-panel{display:block!important;min-width:0!important;height:auto!important;overflow:visible!important}
 #kp-enlarge-dialog .kp-enlarge-content .kp-paired-north-panel>svg{display:block!important;width:100%!important;height:auto!important;min-width:0!important;max-width:none!important;max-height:none!important;aspect-ratio:480/250!important;flex:none!important}
 }
+/* Nadi Kundali opens as a complete, centred chart instead of inheriting the
+   large generic Kundali minimum width. Both South and North chart styles fit. */
+@media screen{
+#kp-enlarge-dialog .kp-enlarge-stage:has([data-kp-nadi-preview]){width:100%;min-width:0;align-items:center}
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview]{box-sizing:border-box!important;width:min(720px,calc(100vw - 72px),calc(100vh - 132px))!important;min-width:0!important;max-width:none!important;height:auto!important;max-height:none!important;aspect-ratio:1!important;margin:0 auto!important;overflow:hidden!important;background:#fff!important}
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview]>svg,
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview] .north9-chart,
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview] .north9-chart>svg{display:block!important;width:100%!important;min-width:0!important;max-width:none!important;height:auto!important;max-height:none!important;margin:0 auto!important;background:#fff}
+}
+@media screen and (max-width:760px){
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview]{width:min(680px,calc(100vw - 34px),calc(100vh - 108px))!important}
+}
 </style>
 <script id="kp-chart-interactions-script">/* Chart lord-label sizing, large double-click viewer and manual birth-time nudging. */
 (()=>{'use strict';
@@ -25603,10 +25615,10 @@ function preserveTransitPresentation(source,clone){
   const style=getComputedStyle(source),rect=source.getBoundingClientRect();clone.dataset.kpPreserveTransit='true';clone.style.setProperty('--kp-transit-preview-aspect',String(rect.width/Math.max(1,rect.height)));clone.style.backgroundColor=style.backgroundColor;clone.style.border=style.border;clone.setAttribute('data-no-localize','');return true;
 }
 function openEnlarged(source){
-  if(!(source instanceof Element))return false;dialog=dialog||createDialog();const clone=source.cloneNode(true),preserved=preserveTransitPresentation(source,clone);removeCloneIds(clone,source);copyCanvases(source,clone);
+  if(!(source instanceof Element))return false;dialog=dialog||createDialog();const nadiPreview=Boolean(source.closest('#na-native-chart')),clone=source.cloneNode(true),preserved=preserveTransitPresentation(source,clone);removeCloneIds(clone,source);if(nadiPreview)clone.dataset.kpNadiPreview='true';copyCanvases(source,clone);
   const content=dialog.querySelector('.kp-enlarge-content');content.replaceChildren(clone);dialog.querySelector('#kp-enlarge-title').textContent=sourceTitle(source);
   window.KPHoverDetails?.hide?.();document.body.classList.add('kp-enlarge-open');if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
-  const rect=source.getBoundingClientRect(),available=Math.max(320,Math.min(window.innerWidth*.82,900));setZoom(source.matches('table')||preserved||clone.querySelector('.kp-paired-north')?1:clamp(available/Math.max(rect.width,1),1,1.5));dialog.querySelector('.kp-enlarge-close')?.focus({preventScroll:true});return true;
+  const rect=source.getBoundingClientRect(),available=Math.max(320,Math.min(window.innerWidth*.82,900));setZoom(nadiPreview||source.matches('table')||preserved||clone.querySelector('.kp-paired-north')?1:clamp(available/Math.max(rect.width,1),1,1.5));const viewport=dialog.querySelector('.kp-enlarge-viewport');if(nadiPreview)viewport?.scrollTo({top:0,left:0});dialog.querySelector('.kp-enlarge-close')?.focus({preventScroll:true});return true;
 }
 
 function readBirth(){
