@@ -4,6 +4,7 @@ contextBridge.exposeInMainWorld('KPLicensing',Object.freeze({continueDemo:()=>ip
 contextBridge.exposeInMainWorld('KPDesktopFiles', Object.freeze({
   save:(text,filename) => ipcRenderer.invoke('kp-desktop:save-chart',text,filename),
   open:() => ipcRenderer.invoke('kp-desktop:open-chart')
+  ,shareWhatsApp:text => ipcRenderer.invoke('kp-desktop:whatsapp',text)
 }));
 
 contextBridge.exposeInMainWorld('KPDemoNative',Object.freeze({status:()=>ipcRenderer.sendSync('kp-demo:request',{action:'status'}),use:(kind,signature,consume=true)=>ipcRenderer.sendSync('kp-demo:request',{action:'use',kind,signature,consume})}));

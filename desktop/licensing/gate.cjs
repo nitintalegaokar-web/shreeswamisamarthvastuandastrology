@@ -42,7 +42,7 @@ async function createGate(app,win,indexPath){
   }
   async function checkControl(nextClaims,signingKey){const current=(await controls())[nextClaims.licenseId];if(current&&verifyControl(current,signingKey,id).action==='deactivate')throw Error('This license was deactivated by the owner. Import the latest activation status file.');}
   async function registered(){try{return verifyTrustedRegistration(await fs.readFile(registrationPath,'utf8'),keys,id);}catch(e){if(e.code==='ENOENT')return null;throw e;}}
-  async function checkPurchase(verified,newImport=false){if(verified.claims.kind!=='customer-purchase'){if(newImport)throw Error('Use separate registration and purchase keys for the demo edition.');return;}const r=await registered();if(!r||r.ownerKeyId!==verified.ownerKeyId||r.claims.registrationId!==verified.claims.registrationId)throw Error('Enter the matching registration key before the purchase key.');}
+  async function checkPurchase(verified,newImport=false){if(verified.claims.kind&&verified.claims.kind!=='customer-purchase'&&newImport)throw Error('Enter the KP-A1 activation key supplied by the owner.');}
   async function refresh(){
     if(configurationError){claims=null;return;}
     try{await fs.stat(licensePath);hasStoredLicense=true;}catch(e){if(e.code==='ENOENT')hasStoredLicense=false;else hasStoredLicense=true;}
@@ -58,7 +58,7 @@ async function createGate(app,win,indexPath){
   ipcMain.handle('kp-license:status',event=>{check(event);return status();});
   ipcMain.handle('kp-license:retry',async event=>{
     check(event);await configure();await refresh();const result=status();
-    if(claims){win.setMinimumSize(950,650);win.setSize(1440,950);await win.loadFile(indexPath);}
+    if(claims){win.setMinimumSize(950,650);win.maximize();await win.loadFile(indexPath);}
     return result;
   });
   async function installControl(text,url){
@@ -69,7 +69,7 @@ async function createGate(app,win,indexPath){
     const next=applyControl(await controls(),control,verified.key,id);
     await fs.mkdir(path.dirname(controlsPath),{recursive:true});await fs.writeFile(controlsPath+'.tmp',JSON.stringify(next),{encoding:'utf8',mode:0o600});await fs.rename(controlsPath+'.tmp',controlsPath);await refresh();
     if(!claims){for(const popup of BrowserWindow.getAllWindows())if(popup!==win)popup.destroy();await win.loadFile(activationPath);}
-    else if(url===activationURL){win.setMinimumSize(950,650);win.setSize(1440,950);await win.loadFile(indexPath);}
+    else if(url===activationURL){win.setMinimumSize(950,650);win.maximize();await win.loadFile(indexPath);}
     return {action:command.action,active:Boolean(claims)};
   }
   ipcMain.handle('kp-license:import-control',async event=>{
@@ -93,7 +93,7 @@ async function createGate(app,win,indexPath){
     await fs.mkdir(path.dirname(licensePath),{recursive:true});
     await fs.writeFile(licensePath+'.tmp',text,{encoding:'utf8',mode:0o600});await fs.rename(licensePath+'.tmp',licensePath);
     await refresh();if(!claims)throw Error(message);
-    if(!keepOpen){win.setMinimumSize(950,650);win.setSize(1440,950);await win.loadFile(indexPath);}return true;
+    if(!keepOpen){win.setMinimumSize(950,650);win.maximize();await win.loadFile(indexPath);}return true;
   }
   let upgrading=false;
   ipcMain.handle('kp-license:upgrade',async event=>{

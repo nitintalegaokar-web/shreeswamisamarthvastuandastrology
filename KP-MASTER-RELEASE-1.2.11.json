@@ -1,61 +1,61 @@
 {
   "version": "1.2.11",
-  "builtAt": "2026-10-21T12:32:55.397955+00:00",
-  "sourceHTMLSHA256": "d816b788fd4ca603905d1b332421619f32e8abc1eba2dde51388c1926ef5b98c",
+  "builtAt": "2026-10-23T06:09:31.861328+00:00",
+  "sourceHTMLSHA256": "b5ea6eb01b54d6375a3a70d9d00a9210cacdf22ba587bffc7b44075cf02f9061",
   "artifacts": [
     {
       "edition": "Windows Customer",
       "file": "KP-Master-Customer-Setup-1.2.11-x64.exe",
-      "bytes": 104633939,
-      "sha256": "92af819099565b0df2f014830478e3e9f7cafe6a8057110d57741f41a838a068"
+      "bytes": 104632658,
+      "sha256": "b892388831517e8299e6f974925bd6b7fe16bf914942fe189a4b8178282d6f46"
     },
     {
       "edition": "Windows Owner",
       "file": "KP-Master-Owner-Setup-1.2.11-x64.exe",
-      "bytes": 104610052,
-      "sha256": "fca5108b2cf268949c4e63e0a7daee76bd114fc05098ac9b8b2779b66b71c078"
+      "bytes": 104608831,
+      "sha256": "a43cf0fd41f0fdc142219fc96cc7990a300fc3fc139d231497b2504d191a0319"
     },
     {
       "edition": "Windows Owner Activation",
       "file": "KP-Master-Owner-Activation-Setup-1.2.11-x64.exe",
-      "bytes": 91680138,
-      "sha256": "be0b33324f517ef60fd77ee8c474b097fcfb501bf7d66127565bfa982b4cae93"
+      "bytes": 91681385,
+      "sha256": "d7ed3e20dabc0055707ad272cd18c0d2859116024c2900ec2c6c08a6dd1ebde5"
     },
     {
       "edition": "Android Owner",
       "file": "KP-Master-Owner-1.2.11.apk",
       "bytes": 16175840,
-      "sha256": "1c80ed3814888a2adfdcc4be288efd9af65d936807f31b0ae9239a2dc532f04b"
+      "sha256": "75296c6a514ace0456d2c779a92ab0cf07cd53abf321ffacbd04b0afe95769c1"
     },
     {
       "edition": "Android Customer",
       "file": "KP-Master-Customer-1.2.11.apk",
       "bytes": 16180063,
-      "sha256": "a0a853c36e5f3b2b68af870f28af5260fc0a65be71667ede53adb7aa08cd723d"
+      "sha256": "d17c7b4ae6cdfff3af63ddb33fa23df8868e500992d4e7c155dbb2b696f51b3d"
     },
     {
       "edition": "Owner Web",
       "file": "KP-MASTER-Owner-Web-1.2.11.zip",
-      "bytes": 16338683,
-      "sha256": "29f287f52e169e7f5fca542cc139123ff24c78943e1be35ebe77a424caef740a"
+      "bytes": 16339953,
+      "sha256": "0c2323c09854ea00364547265ba07b6a82f3333b07192ad69005ced971b2cd3d"
     },
     {
       "edition": "Customer Web",
       "file": "KP-MASTER-Customer-Web-1.2.11.zip",
-      "bytes": 16343435,
-      "sha256": "9af2940c9feb52e3b5713c56946d2d83ac8f1987274a2d289074016b7507b23a"
+      "bytes": 16344643,
+      "sha256": "ac703761fb264947289a4d98713fbc7444aa64c837532e9347eef37308f43d52"
     },
     {
       "edition": "HTML and available backup data",
       "file": "KP-MASTER-HTML-All-Data-1.2.11.zip",
-      "bytes": 44063858,
-      "sha256": "f770b0b0eab3cbc411590a9fbcb756c3ddfe6a233ac60c4ed543974a58c88cb3"
+      "bytes": 44065124,
+      "sha256": "7ab0ca914502d87d84ddbaaffc9920dc9c6f87c44d9098fac59364caa4840f0f"
     },
     {
       "edition": "Standalone HTML",
       "file": "KP-MASTER-Updated-HTML-1.2.11.zip",
-      "bytes": 16111454,
-      "sha256": "8364606c7b041c4e4553db282a598f077fa450a538f765ef5e5b743d6cebf9c8"
+      "bytes": 16112238,
+      "sha256": "1ded17351c5c485935915bced69e12fb96794bf774b5a5b4581fb250c6a4c4de"
     },
     {
       "edition": "Tutorial PDF",

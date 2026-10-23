@@ -32,7 +32,7 @@ if(!app.requestSingleInstanceLock())app.quit();else{
 app.on('second-instance',()=>{if(win){if(win.isMinimized())win.restore();win.focus();}});
 app.whenReady().then(async()=>{
   // Owner-requested clean list for this release; preserve local recovery and keys.
-  await resetHistoryOnce(historyFile(),'1.2.11');
+  await resetHistoryOnce(historyFile(),'1.2.11-single-key');
   vault=keyVault({safeStorage,file:path.join(app.getPath('userData'),'owner-access.dpapi'),approvedKeyIds});
   try{remembered=await vault.exists();const saved=await vault.load();if(saved&&keyId(saved)===accessBundle.ownerKeyId){setKey(saved,'Owner access');rememberedKeyId=keyId(saved);}}catch(error){rememberError=error.message;}
 

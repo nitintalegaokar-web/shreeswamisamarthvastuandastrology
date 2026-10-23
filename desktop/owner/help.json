@@ -8,8 +8,8 @@
           "Install Customer 1.2.11 on their PC or phone. Ask them to copy and send their System ID.",
           "On first use only, enter the new owner access code supplied with Activation 1.2.7 and click Continue. No old key file or password is required.",
           "Paste the customer System ID, enter their name and choose Permanent license or an expiry date.",
-          "Choose Registration Key, generate it and send it to the customer to paste first.",
-          "Choose Purchase Key, select Basic, Full Advanced or Custom features, then generate and send it. Both keys must use exactly the same customer name and System ID."
+          "Select Basic, Full Advanced or Custom features and generate the single KP-A1 Activation Key.",
+          "Send that one key to the customer. They paste it once in either the Windows Customer software or Android Customer APK."
         ]
       },
       {
@@ -49,9 +49,9 @@
       {
         "heading": "Packages and paid features",
         "steps": [
-          "After Registration, choose Purchase Key for the same customer name and System ID.",
+          "Enter the customer name and their Windows or Android System ID.",
           "Enter your package name and tick the features purchased by the customer. Core kundali, saving, settings and Help remain available.",
-          "Generate and send the signed purchase key. Offline customers apply it on their own device.",
+          "Generate and send the single signed KP-A1 activation key. Offline customers apply it on their own device.",
           "For an upgrade or package change, issue a replacement purchase key for the same name and System ID. Existing keys without feature choices keep full access.",
           "Feature locks require the updated customer application; older builds and standalone HTML do not enforce these package choices."
         ]
@@ -67,7 +67,7 @@
       {
         "heading": "Purchase key on a pen drive",
         "steps": [
-          "You may copy the Customer installer and generated Registration and Purchase keys to a pen drive for delivery. This is a transport pen drive, not a hardware dongle.",
+          "You may copy the Customer installer and generated KP-A1 activation key to a pen drive for delivery. This is a transport pen drive, not a hardware dongle.",
           "A Purchase Key cannot be generated before receiving the customer computer System ID because every key is cryptographically bound to that computer.",
           "A real USB dongle would require a separate customer-software edition that checks an authorised USB hardware identity whenever the program starts. Copying the current key file to a pen drive does not create that protection."
         ]
@@ -82,8 +82,8 @@
         "steps": [
           "ग्राहकाकडे Customer 1.2.11 स्थापित करा व त्यांचा System ID मागवा.",
           "एकदाच नवीन मालक प्रवेश कोड द्या व पुढे चला दाबा. जुनी किल्ली किंवा पासवर्ड नको.",
-          "त्याच नाव व System ID ने प्रथम नोंदणी किल्ली तयार करून ग्राहकाला द्या.",
-          "नंतर खरेदी किल्ली निवडा, पॅकेज/सुविधा निवडा आणि दुसरी किल्ली द्या."
+          "ग्राहकाचे नाव, System ID आणि पॅकेज/सुविधा निवडा.",
+          "एक KP-A1 सक्रियकरण किल्ली तयार करून ग्राहकाला द्या. Windows किंवा Android मध्ये ती एकदाच पेस्ट करावी."
         ]
       },
       {

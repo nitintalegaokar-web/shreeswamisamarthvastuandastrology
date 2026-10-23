@@ -43,7 +43,7 @@ final class LicenseManager {
  Signed licence(String text)throws Exception{
   Signed s=signed(text);JSONObject c=s.claims;common(c);
   if(!c.optString("kind").isEmpty()&&!"customer-purchase".equals(c.optString("kind")))throw new Exception("Enter a purchase key, not a registration key.");
-  if("customer-purchase".equals(c.optString("kind"))){Signed r=registration(prefs.getString("registration",""));if(!s.key.equals(r.key)||!c.optString("registrationId").equals(r.claims.optString("registrationId")))throw new Exception("Enter the matching registration key first.");}
+  // KP-A1 is a complete signed, device-bound activation. Older KP-R1 registrations remain readable but are no longer required.
   if(c.optString("licenseId").isEmpty()||c.optString("clientName").isEmpty()||!c.has("expiresAt"))throw new Exception("Invalid licence claims.");
   if(!c.isNull("expiresAt")){long expiry=time(c.getString("expiresAt"));if(expiry<time(c.getString("issuedAt")))throw new Exception("Invalid licence expiry.");if(System.currentTimeMillis()>expiry)throw new Exception("Licence expired. Contact the owner.");}
   if(c.has("features")){JSONArray allowed=featureIds(),selected=c.getJSONArray("features");for(int i=0;i<selected.length();i++){boolean found=false;for(int j=0;j<allowed.length();j++)if(allowed.getString(j).equals(selected.getString(i)))found=true;if(!found)throw new Exception("Invalid package feature.");}String edition=c.optString("edition","Custom");if(edition.isEmpty()||edition.length()>80)throw new Exception("Invalid package name.");}
@@ -53,7 +53,7 @@ final class LicenseManager {
  boolean hasStoredLicence(){return !prefs.getString("license","").isEmpty();}
  boolean isRegistered(){try{registration(prefs.getString("registration",""));return true;}catch(Exception e){return false;}}
  private Signed registration(String text)throws Exception{Signed s=signed(text);JSONObject c=s.claims;common(c);if(!"customer-registration".equals(c.optString("kind"))||!c.optString("registrationId").matches("[a-fA-F0-9-]{36}")||!c.optString("registrationId").equals(c.optString("licenseId"))||c.optString("clientName").isEmpty()||!c.has("expiresAt")||!c.isNull("expiresAt"))throw new Exception("Enter a valid registration key for this device.");return s;}
- boolean importKey(String text)throws Exception{Signed s=signed(text);if("customer-registration".equals(s.claims.optString("kind"))){registration(text);if(!prefs.edit().putString("registration",text).commit())throw new Exception("Could not save registration.");return false;}if(!"customer-purchase".equals(s.claims.optString("kind")))throw new Exception("This demo requires separate registration and purchase keys.");importLicence(text);return true;}
+ boolean importKey(String text)throws Exception{Signed s=signed(text);if("customer-registration".equals(s.claims.optString("kind"))){registration(text);if(!prefs.edit().putString("registration",text).commit())throw new Exception("Could not save the legacy registration.");return false;}if(!"customer-purchase".equals(s.claims.optString("kind")))throw new Exception("Enter the KP-A1 activation key supplied by the owner.");importLicence(text);return true;}
  JSONObject active()throws Exception{
   long now=System.currentTimeMillis(),seen=prefs.getLong("lastSeen",0);if(now+300000<seen)throw new Exception("Check the phone date and time before using the app.");
   Signed license=licence(prefs.getString("license",""));JSONObject controls=new JSONObject(prefs.getString("controls","{}"));String id=license.claims.getString("licenseId");

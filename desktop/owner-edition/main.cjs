@@ -58,6 +58,7 @@ else {
       JSON.parse(text);
       return {name:path.basename(chosen), text};
     });
+    ipcMain.handle('kp-desktop:whatsapp',async(event,text)=>{if(!trusted(event))throw Error('Untrusted share request.');const message=String(text||'').slice(0,12000),query=encodeURIComponent(message);try{await shell.openExternal('whatsapp://send?text='+query);}catch{await shell.openExternal('https://wa.me/?text='+query);}return true;});
     // Calculations, fonts, tables, and reports load from the packaged application.
     // Optional online accounts are opened in the user's normal browser.
     session.defaultSession.webRequest.onBeforeRequest({urls:['http://*/*','https://*/*','ws://*/*','wss://*/*']}, (_details, callback) => callback({cancel:true}));
@@ -77,7 +78,7 @@ else {
       webPreferences:{nodeIntegration:false, contextIsolation:true, sandbox:true, webSecurity:true, preload:path.join(__dirname,'preload.cjs')}
     });
     secureWindow(mainWindow);
-    mainWindow.once('ready-to-show', () => mainWindow.show());
+    mainWindow.once('ready-to-show', () => {mainWindow.maximize();mainWindow.show();});
     mainWindow.loadFile(indexPath);
   });
   app.on('window-all-closed', () => app.quit());
