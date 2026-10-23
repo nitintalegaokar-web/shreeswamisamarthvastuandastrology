@@ -29791,12 +29791,14 @@ body.kp-icons-tabs-off .app-sidebar nav button :is(svg,.kp-nav-icon),body.kp-ico
 /* The long KP scoring convention is useful on screen, but is intentionally omitted from matchmaking printouts. */
 .report-page[data-report-section="matchmaking"] .mm-kp-report>details,
 .report-page[data-report-section="matchmaking"] .mm-kp-report>.report-expanded-details{display:none!important}
+.report-page[data-report-section="education-profession"] :is(.report-cover,p,li,td,th,summary),.report-page[data-report-section="disease"] :is(.report-cover,p,li,td,th,summary){font-family:Arial,"Nirmala UI",Mangal,sans-serif!important;font-size:12pt!important;line-height:1.4!important;font-weight:400;overflow-wrap:anywhere!important;word-break:normal!important}
+.report-page[data-report-section="education-profession"] :is(th,strong),.report-page[data-report-section="disease"] :is(th,strong){font-weight:700!important}
 @media print{
  .report-page[data-report-section="matchmaking"] .mm-kp-report>details,
  .report-page[data-report-section="matchmaking"] .mm-kp-report>.report-expanded-details{display:none!important}
- .report-page[data-report-section="education-profession"],.report-page[data-report-section="disease"]{box-sizing:border-box!important;width:190mm!important;height:277mm!important;min-height:277mm!important;max-height:277mm!important;margin:0!important;padding:5mm!important;overflow:hidden!important;break-after:page!important;page-break-after:always!important;font-size:12px!important}
+ .report-page[data-report-section="education-profession"],.report-page[data-report-section="disease"]{box-sizing:border-box!important;width:190mm!important;height:277mm!important;min-height:277mm!important;max-height:277mm!important;margin:0!important;padding:5mm!important;overflow:hidden!important;break-after:page!important;page-break-after:always!important;font-size:12pt!important}
  .report-page[data-report-section="education-profession"] .kp-one-a4-fit,.report-page[data-report-section="disease"] .kp-one-a4-fit{transform-origin:top left!important;overflow:visible!important}
- .report-page[data-report-section="education-profession"] :is(.report-cover,p,li,td,th,summary),.report-page[data-report-section="disease"] :is(.report-cover,p,li,td,th,summary){font-size:12px!important;line-height:1.3!important;overflow-wrap:anywhere!important;word-break:normal!important}
+ .report-page[data-report-section="education-profession"] :is(.report-cover,p,li,td,th,summary),.report-page[data-report-section="disease"] :is(.report-cover,p,li,td,th,summary){font-size:12pt!important;line-height:1.4!important;overflow-wrap:anywhere!important;word-break:normal!important}
  .report-page[data-report-section="education-profession"] :is(td,th),.report-page[data-report-section="disease"] :is(td,th){padding:3px 4px!important;vertical-align:top!important}
  .report-page[data-report-section="education-profession"] :is(.ed-result,.ed-match,.pd-reference,.pd-layer),.report-page[data-report-section="disease"] :is(.pd-reference,.pd-layer){margin:4px 0!important;padding:5px!important;break-inside:avoid!important;page-break-inside:avoid!important}
 }
