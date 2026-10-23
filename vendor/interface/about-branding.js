@@ -181,7 +181,8 @@
     }
 
     const role = profile.querySelector('.developer-role');
-    if (role && !profile.querySelector('.about-advisor')) {
+    // Keep the advisor credit in the Windows desktop editions only.
+    if (window.KPDesktopFiles && role && !profile.querySelector('.about-advisor')) {
       const advisor = document.createElement('p');
       advisor.className = 'about-advisor';
       advisor.dataset.noLocalize = 'true';
