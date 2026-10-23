@@ -5,11 +5,11 @@
       {
         "heading": "Activate a new customer",
         "steps": [
-          "Install Customer 1.2.8 on their PC or phone. Ask them to copy and send their System ID.",
+          "Install Customer 1.2.11 on their PC or phone. Ask them to copy and send their System ID.",
           "On first use only, enter the new owner access code supplied with Activation 1.2.7 and click Continue. No old key file or password is required.",
           "Paste the customer System ID, enter their name and choose Permanent license or an expiry date.",
-          "Click Generate activation key → Copy key. Send the complete KP-A1 key as text.",
-          "Customer pastes the key in Activation key and presses Activate / Apply."
+          "Choose Registration Key, generate it and send it to the customer to paste first.",
+          "Choose Purchase Key, select Basic, Full Advanced or Custom features, then generate and send it. Both keys must use exactly the same customer name and System ID."
         ]
       },
       {
@@ -23,7 +23,7 @@
       {
         "heading": "Activate / Deactivate an existing license",
         "steps": [
-          "Green Activate and red Deactivate generate a KP-S1 status key. Copy it and send it to the customer.",
+          "Create reactivate key and Create deactivate key generate a signed KP-S1 status key. Copy it and send it to the customer.",
           "Customers paste status keys into the same activation screen; running apps provide Enter Activate / Deactivate key in their menu.",
           "The list shows issued status. An offline device changes status only when its customer pastes the status key. Activate does not extend expiry.",
           "Earlier licences remain valid. Status changes require the same issuing owner identity; for older entries without that key, issue a new activation key using the new owner tool."
@@ -32,7 +32,7 @@
       {
         "heading": "Remove incorrect entries and save records",
         "steps": [
-          "Remove hides only that exact history entry. It does not deactivate the customer.",
+          "Delete customer hides only that exact history entry. It does not deactivate the customer computer.",
           "Removed entries → Restore returns it with the same expiry and status revision.",
           "Save list as Text exports every retained row, including rows not yet displayed. Removed rows are excluded.",
           "Copy key or Copy status key lets you resend an existing generated code."
@@ -41,7 +41,7 @@
       {
         "heading": "Device changes and compatibility",
         "steps": [
-          "The customer must install version 1.2.8 for the owner identity. A phone and PC have different System IDs and need separate keys.",
+          "The customer must install version 1.2.11. A phone and PC have different System IDs and need separate keys.",
           "Older approved public identities remain accepted: FFD543E7AFCE69618D61325E, D5909EAD14FB2D4717E98A8C and 77F4455FF0BD330B82760384.",
           "Optional file imports continue to support earlier .kplicense and .kpcontrol files. No calculation formula is changed."
         ]
@@ -49,7 +49,7 @@
       {
         "heading": "Packages and paid features",
         "steps": [
-          "Choose Purchase key or legacy activation after entering the customer details.",
+          "After Registration, choose Purchase Key for the same customer name and System ID.",
           "Enter your package name and tick the features purchased by the customer. Core kundali, saving, settings and Help remain available.",
           "Generate and send the signed purchase key. Offline customers apply it on their own device.",
           "For an upgrade or package change, issue a replacement purchase key for the same name and System ID. Existing keys without feature choices keep full access.",
@@ -63,6 +63,14 @@
           "Select the newly purchased features. Preserve all existing features and keep or extend the activation period. Click Save package upgrade file.",
           "Send the .kplicense file to the customer. They choose My Package / Upgrade → Import upgrade file. Their registration and open chart stay in place. This shortcut is for the Windows Customer edition."
         ]
+      },
+      {
+        "heading": "Purchase key on a pen drive",
+        "steps": [
+          "You may copy the Customer installer and generated Registration and Purchase keys to a pen drive for delivery. This is a transport pen drive, not a hardware dongle.",
+          "A Purchase Key cannot be generated before receiving the customer computer System ID because every key is cryptographically bound to that computer.",
+          "A real USB dongle would require a separate customer-software edition that checks an authorised USB hardware identity whenever the program starts. Copying the current key file to a pen drive does not create that protection."
+        ]
       }
     ]
   },
@@ -72,10 +80,10 @@
       {
         "heading": "नवीन ग्राहक सक्रिय करा",
         "steps": [
-          "ग्राहकाकडे Customer 1.2.8 स्थापित करा व त्यांचा System ID मागवा.",
+          "ग्राहकाकडे Customer 1.2.11 स्थापित करा व त्यांचा System ID मागवा.",
           "एकदाच नवीन मालक प्रवेश कोड द्या व पुढे चला दाबा. जुनी किल्ली किंवा पासवर्ड नको.",
-          "System ID, नाव व मुदत निवडून सक्रियकरण किल्ली तयार करा व कॉपी करा.",
-          "पूर्ण KP-A1 किल्ली ग्राहकाला पाठवा. ग्राहकाने पेस्ट करून सक्रिय करा दाबावे."
+          "त्याच नाव व System ID ने प्रथम नोंदणी किल्ली तयार करून ग्राहकाला द्या.",
+          "नंतर खरेदी किल्ली निवडा, पॅकेज/सुविधा निवडा आणि दुसरी किल्ली द्या."
         ]
       },
       {
@@ -91,7 +99,7 @@
       {
         "heading": "पॅकेज व खरेदी केलेल्या सुविधा",
         "steps": [
-          "ग्राहकाची माहिती देऊन खरेदी किल्ली किंवा जुने सक्रियकरण निवडा.",
+          "नोंदणीनंतर त्याच ग्राहकाचे नाव व System ID वापरून खरेदी किल्ली निवडा.",
           "पॅकेजचे नाव लिहा व खरेदी केलेल्या सुविधा निवडा. मूलभूत कुंडली, जतन, सेटिंग व मदत उपलब्ध राहते.",
           "सही केलेली खरेदी किल्ली ग्राहकाला पाठवा. ती ग्राहकाने त्याच्या संगणकावर द्यावी.",
           "अपग्रेडसाठी त्याच नाव व System ID साठी नवीन खरेदी किल्ली द्या. सुविधांची निवड नसलेल्या जुन्या किल्ल्यांना पूर्ण प्रवेश राहतो.",
@@ -104,6 +112,14 @@
           "ग्राहकाच्या खरेदी नोंदीतील पॅकेज अपग्रेड निवडा किंवा नोंदणीकृत ग्राहकाचे तेच नाव आणि System ID भरा.",
           "नवीन खरेदी केलेल्या सुविधा निवडा. आधीच्या सर्व सुविधा आणि मुदत कायम ठेवा किंवा मुदत वाढवा. पॅकेज अपग्रेड फाइल जतन करा दाबा.",
           "ग्राहकाला .kplicense फाइल पाठवा. ग्राहकाने माझे पॅकेज / अपग्रेड → अपग्रेड फाइल उघडा निवडावे. नोंदणी व चालू कुंडली कायम राहतील. हा सोपा पर्याय Windows ग्राहक आवृत्तीसाठी आहे."
+        ]
+      },
+      {
+        "heading": "पेन ड्राइव्हवर खरेदी किल्ली",
+        "steps": [
+          "ग्राहक Installer, नोंदणी किल्ली आणि खरेदी किल्ली पेन ड्राइव्हवर कॉपी करून देता येतात. हा फक्त फाइल पोहोचवण्याचा पेन ड्राइव्ह आहे; हार्डवेअर डोंगल नाही.",
+          "ग्राहकाच्या संगणकाचा System ID मिळण्यापूर्वी खरेदी किल्ली तयार करता येत नाही, कारण प्रत्येक किल्ली त्या संगणकाशी सुरक्षितपणे जोडलेली असते.",
+          "खरा USB डोंगल करण्यासाठी ग्राहक सॉफ्टवेअरची वेगळी आवृत्ती USB हार्डवेअर ओळख तपासेल अशी तयार करावी लागेल. सध्याची किल्ली पेन ड्राइव्हवर कॉपी केल्याने डोंगल संरक्षण तयार होत नाही."
         ]
       }
     ]

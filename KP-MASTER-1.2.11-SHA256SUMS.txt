@@ -1,6 +1,6 @@
 92af819099565b0df2f014830478e3e9f7cafe6a8057110d57741f41a838a068  KP-Master-Customer-Setup-1.2.11-x64.exe
 fca5108b2cf268949c4e63e0a7daee76bd114fc05098ac9b8b2779b66b71c078  KP-Master-Owner-Setup-1.2.11-x64.exe
-64c4748abff7dd312a2babe30def37cddfb3a77cc976c484f6608ad946c8a2e6  KP-Master-Owner-Activation-Setup-1.2.11-x64.exe
+be0b33324f517ef60fd77ee8c474b097fcfb501bf7d66127565bfa982b4cae93  KP-Master-Owner-Activation-Setup-1.2.11-x64.exe
 1c80ed3814888a2adfdcc4be288efd9af65d936807f31b0ae9239a2dc532f04b  KP-Master-Owner-1.2.11.apk
 0840a71203980ac0f79001eae19037ffd681d39d67de78c94a2c746117f5b0a8  KP-Master-Customer-1.2.11.apk
 29f287f52e169e7f5fca542cc139123ff24c78943e1be35ebe77a424caef740a  KP-MASTER-Owner-Web-1.2.11.zip
