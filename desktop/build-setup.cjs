@@ -29,6 +29,8 @@ async function main() {
     const cli = require.resolve('electron-builder/out/cli/cli.js');
     execFileSync(process.execPath,[cli,'--projectDir',projectDir,'--win','dir','--x64','--publish','never',...(process.env.KP_ELECTRON_DIST?['--config.electronDist='+process.env.KP_ELECTRON_DIST]:[])],{stdio:'inherit'});
   }
+  assert.ok(fs.existsSync(path.join(unpacked,source.build.productName+'.exe')),
+    'Prepackaged application must contain '+source.build.productName+'.exe so installed shortcuts have a valid target.');
   const manifest = JSON.parse(asar.extractFile(path.join(unpacked,'resources','app.asar'),'package.json'));
   assert.equal(manifest.name,source.name);
   const folder = fs.mkdtempSync(path.join(os.tmpdir(),'kp-nsis-build-'));
