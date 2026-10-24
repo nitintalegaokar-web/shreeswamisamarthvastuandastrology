@@ -18,6 +18,8 @@ fs.writeFileSync(path.join(target,'additional-owner-public-keys.json'),JSON.stri
 for (const filename of ['index.html', 'README.md', 'RELEASE_NOTES.md']) {
   fs.copyFileSync(path.join(root, filename), path.join(target, filename));
 }
+fs.mkdirSync(path.join(target, 'assets'), {recursive:true});
+fs.copyFileSync(path.join(root, 'assets', 'about-portrait.jpg'), path.join(target, 'assets', 'about-portrait.jpg'));
 let html = fs.readFileSync(path.join(target,'index.html'),'utf8');
 const matchEntry='function refresh(){if(!initialized)return null;try{data=calculate();';
 if(!html.includes(matchEntry))throw Error('Customer matchmaking guard entry is missing.');

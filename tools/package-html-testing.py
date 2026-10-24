@@ -31,6 +31,6 @@ TESTING-MANIFEST.json identifies this HTML and the supplied source data.
 if '--native-release' in sys.argv:readme=readme.replace('Windows installers and Android APKs have not been rebuilt for this testing update.','Windows installers and Android APKs are distributed separately as the final 1.2.11 refresh.')
 out=root/'KP-MASTER-HTML-Testing.zip'
 with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
- z.writestr('KP-MASTER/index.html',source);z.writestr('KP-MASTER/START-HERE.txt',readme);z.writestr('KP-MASTER/TESTING-MANIFEST.json',json.dumps(manifest,indent=2))
+ z.writestr('KP-MASTER/index.html',source);z.write(root/'assets/about-portrait.jpg','KP-MASTER/assets/about-portrait.jpg');z.writestr('KP-MASTER/START-HERE.txt',readme);z.writestr('KP-MASTER/TESTING-MANIFEST.json',json.dumps(manifest,indent=2))
 with zipfile.ZipFile(out) as z:assert z.testzip() is None;assert hashlib.sha256(z.read('KP-MASTER/index.html')).hexdigest()==manifest['sourceSHA256']
 print(json.dumps({'file':out.name,'bytes':out.stat().st_size,'sha256':hashlib.sha256(out.read_bytes()).hexdigest()}))

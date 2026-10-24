@@ -17,3 +17,4 @@
 @media(max-width:600px){.account-shell{padding:40px 16px 70px}.account-intro h1{font-size:2.7rem}.account-benefits{grid-template-columns:1fr}.account-panel{padding:25px 18px}.account-tabs{grid-template-columns:1fr}.account-tabs button{font-size:.76rem}.form-grid{grid-template-columns:1fr}.form-grid .wide{grid-column:1}.form-row.compact{align-items:flex-start;gap:12px}.account-panel h2{font-size:1.75rem}}
 
 .contact-card>strong{font:700 1.12rem Georgia,serif}.contact-card address{font-style:normal;color:#cbd9d4;font-size:.82rem;margin:0 0 9px}.account-contact{gap:3px}.account-contact small{margin-top:8px}.account-contact strong{color:var(--forest);font-size:.85rem}.account-contact address{font-style:normal;color:var(--muted);font-size:.75rem}
+.contact-card .owner-portrait{width:160px;height:200px;object-fit:cover;object-position:center top;background:#fff;border:3px solid #fff;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.22);margin-bottom:8px}

@@ -3,7 +3,7 @@ from pathlib import Path
 import json,hashlib,zipfile,subprocess
 root=Path(__file__).resolve().parents[1]
 version=json.loads((root/'desktop/package.json').read_text())['version']
-files=[root/'index.html']
+files=[root/'index.html',root/'assets/about-portrait.jpg']
 for folder in ['data','docs','Kundali Backup','Report Photos']:
  files.extend(p for p in (root/folder).rglob('*') if p.is_file() and not p.is_symlink())
 tracked=subprocess.check_output(['git','ls-files','-z','vendor'],cwd=root).decode().split('\0')

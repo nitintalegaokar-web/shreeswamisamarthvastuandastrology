@@ -29,6 +29,8 @@ assert packagedSource.replace(startup,b'',1).replace(bridge,b'',1)==source
 for edition in ['owner','customer']:
  b=APP/'build'/edition;b.mkdir(parents=True,exist_ok=True);assets=b/'assets';assets.mkdir(exist_ok=True);(assets/'index.html').write_bytes(packagedSource if edition=='owner' else packagedSource.replace(bridge,bridge+b'<script id="kp-customer-demo-script" src="demo-ui.js"></script><script id="kp-customer-features" src="features.js"></script>',1).replace(b'function refresh(){if(!initialized)return null;try{data=calculate();',b'function refresh(){if(window.KPCustomerDemo&&!KPCustomerDemo.permitMatchRefresh())return null;if(!initialized)return null;try{data=calculate();',1));shutil.copy(APP/'mobile.js',assets/'mobile.js');shutil.copy(APP/'assets/owner-public-keys.json',assets/'owner-public-keys.json')
  shutil.copy(ROOT/'desktop/licensing/features.json',assets/'features.json')
+ portrait_assets=assets/'assets';portrait_assets.mkdir(exist_ok=True)
+ shutil.copy(ROOT/'assets/about-portrait.jpg',portrait_assets/'about-portrait.jpg')
  if edition=='customer':
   shutil.copy(ROOT/'customer/demo-ui.js',assets/'demo-ui.js')
   shutil.copy(ROOT/'customer/features.js',assets/'features.js')
@@ -42,7 +44,8 @@ for edition in ['owner','customer']:
  run('java','-Xmx2g','-cp',TOOLS/'lib/d8.jar','com.android.tools.r8.R8','--release','--min-api','28','--lib',API,'--pg-conf',APP/'shrink-rules.pro','--output',dex,*classes.rglob('*.class'),APP/'vendor/bcprov-jdk15to18-1.81.jar')
  with zipfile.ZipFile(b/'unsigned.apk','a',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
   for p in dex.glob('*.dex'):z.write(p,p.name)
-  for p in assets.iterdir():z.write(p,'assets/'+p.name)
+  for p in assets.rglob('*'):
+   if p.is_file():z.write(p,'assets/'+p.relative_to(assets).as_posix())
  run(TOOLS/'zipalign','-f','-p','4',b/'unsigned.apk',b/'aligned.apk')
  output=APP/'dist'/('KP-Master-'+edition.title()+'-'+VERSION+'.apk')
  run(TOOLS/'apksigner','sign','--ks',store,'--ks-key-alias','kp-master-android','--ks-pass','file:'+str(password_file),'--out',output,b/'aligned.apk')

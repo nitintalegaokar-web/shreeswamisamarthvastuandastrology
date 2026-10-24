@@ -27,6 +27,7 @@ Customer activation checks signed issue/expiry timestamps; dated licences end at
 '''
 with ZipFile(archive, 'w', ZIP_DEFLATED, compresslevel=9) as output:
     output.writestr('KP-MASTER/index.html', source)
+    output.write(root / 'assets/about-portrait.jpg', 'KP-MASTER/assets/about-portrait.jpg')
     output.writestr('KP-MASTER/START-HERE.txt', readme)
 with ZipFile(archive) as check:
     assert check.testzip() is None

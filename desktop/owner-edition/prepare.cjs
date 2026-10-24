@@ -7,6 +7,8 @@ fs.mkdirSync(target, {recursive:true});
 for (const filename of ['index.html', 'README.md', 'RELEASE_NOTES.md']) {
   fs.copyFileSync(path.join(root, filename), path.join(target, filename));
 }
+fs.mkdirSync(path.join(target, 'assets'), {recursive:true});
+fs.copyFileSync(path.join(root, 'assets', 'about-portrait.jpg'), path.join(target, 'assets', 'about-portrait.jpg'));
 const html = fs.readFileSync(path.join(target,'index.html'),'utf8');
 const files = fs.readFileSync(path.join(__dirname,'files.js'),'utf8');
 // Report templates contain closing body tags inside JavaScript strings.
