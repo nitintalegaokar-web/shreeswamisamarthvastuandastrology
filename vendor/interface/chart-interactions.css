@@ -216,3 +216,17 @@
 #kp-enlarge-dialog .kp-enlarge-content .kp-paired-north-panel{display:block!important;min-width:0!important;height:auto!important;overflow:visible!important}
 #kp-enlarge-dialog .kp-enlarge-content .kp-paired-north-panel>svg{display:block!important;width:100%!important;height:auto!important;min-width:0!important;max-width:none!important;max-height:none!important;aspect-ratio:480/250!important;flex:none!important}
 }
+
+/* Nadi preview always fits one screen; deliberate zooming may still scroll. */
+@media screen{
+#kp-enlarge-dialog:has([data-kp-nadi-preview]){width:min(980px,94vw);height:min(820px,92vh)}
+#kp-enlarge-dialog:has([data-kp-nadi-preview]) .kp-enlarge-toolbar{position:sticky;top:0;z-index:4}
+#kp-enlarge-dialog:has([data-kp-nadi-preview]) .kp-enlarge-viewport{padding:10px}
+#kp-enlarge-dialog .kp-enlarge-stage:has([data-kp-nadi-preview]){width:100%;min-width:0;align-items:center}
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview]{box-sizing:border-box!important;width:min(640px,calc(100vw - 64px),calc(100dvh - 112px))!important;min-width:0!important;max-width:none!important;height:auto!important;max-height:none!important;aspect-ratio:1!important;margin:0 auto!important;overflow:hidden!important;background:#fff!important}
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview]>svg,
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview] .north9-chart,
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview] .north9-chart>svg{display:block!important;width:100%!important;min-width:0!important;max-width:none!important;height:auto!important;max-height:none!important;margin:0 auto!important;background:#fff}
+#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview]:has(.kp-paired-north){width:min(760px,calc(100vw - 64px))!important;aspect-ratio:auto!important;overflow:visible!important}#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview] .kp-paired-north{width:100%!important;gap:5px!important}#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview] .kp-paired-north-panel>svg{width:100%!important;height:auto!important;aspect-ratio:480/250!important}
+}
+@media screen and (max-width:760px){#kp-enlarge-dialog .kp-enlarge-content>[data-kp-nadi-preview]{width:min(600px,calc(100vw - 28px),calc(100dvh - 96px))!important}}

@@ -75,6 +75,7 @@ const CHART_SELECTOR=['.v38-chart','.north9-chart','.tc-diagram','.v-chart','.v-
 function enlargeCandidate(target){
   if(!(target instanceof Element)||target.closest('#kp-enlarge-dialog,#printReport,[contenteditable],button,a'))return null;
   const field=target.closest('input,select,textarea');if(field&&!field.disabled&&!field.readOnly)return null;
+  const nadi=target.closest('#na-native-chart');if(nadi){const complete=nadi.querySelector(':scope > .v38-chart,:scope > .north9-chart,:scope > svg');return complete||nadi;}
   let chart=target.closest(CHART_SELECTOR);
   if(!chart){const possible=target.closest('[id*="chart" i],[class*="chart" i]');if(possible?.querySelector('svg,canvas,.v38-cell'))chart=possible;}
   const table=target.closest('table');const candidate=chart||table;
@@ -128,7 +129,7 @@ function preserveTransitPresentation(source,clone){
   const style=getComputedStyle(source),rect=source.getBoundingClientRect();clone.dataset.kpPreserveTransit='true';clone.style.setProperty('--kp-transit-preview-aspect',String(rect.width/Math.max(1,rect.height)));clone.style.backgroundColor=style.backgroundColor;clone.style.border=style.border;clone.setAttribute('data-no-localize','');return true;
 }
 function openEnlarged(source){
-  if(!(source instanceof Element))return false;dialog=dialog||createDialog();const clone=source.cloneNode(true),preserved=preserveTransitPresentation(source,clone);removeCloneIds(clone,source);copyCanvases(source,clone);
+  if(!(source instanceof Element))return false;dialog=dialog||createDialog();const clone=source.cloneNode(true),preserved=preserveTransitPresentation(source,clone);if(source.matches('#na-native-chart')||source.closest('#na-native-chart'))clone.dataset.kpNadiPreview='true';removeCloneIds(clone,source);copyCanvases(source,clone);
   const content=dialog.querySelector('.kp-enlarge-content');content.replaceChildren(clone);dialog.querySelector('#kp-enlarge-title').textContent=sourceTitle(source);
   window.KPHoverDetails?.hide?.();document.body.classList.add('kp-enlarge-open');if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
   const rect=source.getBoundingClientRect(),available=Math.max(320,Math.min(window.innerWidth*.82,900));setZoom(source.matches('table')||preserved||clone.querySelector('.kp-paired-north')?1:clamp(available/Math.max(rect.width,1),1,1.5));dialog.querySelector('.kp-enlarge-close')?.focus({preventScroll:true});return true;
