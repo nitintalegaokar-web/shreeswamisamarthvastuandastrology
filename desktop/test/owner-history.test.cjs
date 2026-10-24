@@ -19,3 +19,7 @@ test('1.2.11 clears the visible activation history once and retains a local reco
  const os=require('node:os'),path=require('node:path'),fs=require('node:fs/promises'),H=require('../owner/history.cjs'),dir=await fs.mkdtemp(path.join(os.tmpdir(),'kp-history-reset-')),file=path.join(dir,'issued-licenses.json');
  try{const old=[{licenseId:'previous',clientName:'Previous customer',removedAt:'2026-10-01'}];await H.writeHistory(file,old);assert.equal(await H.resetHistoryOnce(file,'1.2.11'),true);assert.deepEqual(await H.readHistory(file),[]);assert.deepEqual(JSON.parse(await fs.readFile(file+'.before-reset-1.2.11.bak','utf8')),old);await H.writeHistory(file,[{licenseId:'new'}]);assert.equal(await H.resetHistoryOnce(file,'1.2.11'),false);assert.deepEqual(await H.readHistory(file),[{licenseId:'new'}]);}finally{await fs.rm(dir,{recursive:true,force:true});}
 });
+test('a filename-safe release migration suffix is accepted',async()=>{
+ const os=require('node:os'),path=require('node:path'),fs=require('node:fs/promises'),H=require('../owner/history.cjs'),dir=await fs.mkdtemp(path.join(os.tmpdir(),'kp-history-suffixed-reset-')),file=path.join(dir,'issued-licenses.json');
+ try{await H.writeHistory(file,[{licenseId:'previous'}]);assert.equal(await H.resetHistoryOnce(file,'1.2.11-single-key'),true);assert.deepEqual(await H.readHistory(file),[]);await fs.access(file+'.reset-1.2.11-single-key.done');await assert.rejects(()=>H.resetHistoryOnce(file,'1.2.11/unsafe'),/Invalid history reset version/);}finally{await fs.rm(dir,{recursive:true,force:true});}
+});

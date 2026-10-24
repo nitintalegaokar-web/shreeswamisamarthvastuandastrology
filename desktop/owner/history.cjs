@@ -4,7 +4,10 @@ function validate(rows){if(!Array.isArray(rows)||rows.some(row=>!row||typeof row
 async function readHistory(file){try{return validate(JSON.parse(await fs.readFile(file,'utf8')));}catch(error){if(error.code==='ENOENT')return [];if(error instanceof SyntaxError)throw Error('The saved license history is invalid. Restore a valid history backup before changing entries.');throw error;}}
 async function writeHistory(file,rows){validate(rows);await fs.mkdir(path.dirname(file),{recursive:true});await fs.writeFile(file+'.tmp',JSON.stringify(rows.slice(0,5000),null,2),{encoding:'utf8',mode:0o600});await fs.rename(file+'.tmp',file);}
 async function resetHistoryOnce(file,release){
- if(!/^\d+\.\d+\.\d+$/.test(release))throw Error('Invalid history reset version.');
+ // A migration can have a descriptive suffix so multiple one-time migrations
+ // may ship in the same release. Keep the value filename-safe because it is
+ // also used in the marker and recovery-backup names.
+ if(!/^\d+\.\d+\.\d+(?:-[a-z0-9]+)*$/i.test(release))throw Error('Invalid history reset version.');
  const marker=file+'.reset-'+release+'.done';try{await fs.access(marker);return false;}catch(e){if(e.code!=='ENOENT')throw e;}
  await fs.mkdir(path.dirname(file),{recursive:true});
  try{await fs.copyFile(file,file+'.before-reset-'+release+'.bak',require('node:fs').constants.COPYFILE_EXCL);}catch(e){if(!['ENOENT','EEXIST'].includes(e.code))throw e;}
