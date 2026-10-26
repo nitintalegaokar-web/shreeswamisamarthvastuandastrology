@@ -11366,7 +11366,7 @@ body.app-ready #nadi-astrology .na-layer>div{grid-column:auto}
 <style id="kp-nadi-reference-complete-style">
 @media screen {
 body.app-ready #nadi-astrology .na-ref-window{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.98fr) minmax(270px,.94fr);grid-template-areas:"main main side" "criteria criteria notes";gap:10px;align-items:start}
-body.app-ready #nadi-astrology .na-reference-main{grid-area:main;min-width:0;display:grid;grid-template-columns:1.05fr .98fr;grid-template-areas:"positions chart" "coordinates chart";gap:10px;align-items:start}
+body.app-ready #nadi-astrology .na-reference-main{grid-area:main;min-width:0;display:grid;grid-template-columns:1.05fr .98fr;grid-template-areas:"positions chart" "coordinates coordinates";gap:10px;align-items:start}
 body.app-ready #nadi-astrology .na-reference-side{grid-area:side;min-width:0;display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
 body.app-ready #nadi-astrology .na-card>h2,body.app-ready #nadi-astrology .na-card>.na-intro{display:none}
 body.app-ready #nadi-astrology .na-reference-dasha button{min-height:18px!important;height:18px;padding:0 3px;margin:0;font-size:11px}
@@ -11386,7 +11386,14 @@ body.app-ready #nadi-astrology #na-reference-planet-table th:nth-child(3){width:
 body.app-ready #nadi-astrology #na-cusp-table th:nth-child(3){width:26%}
 body.app-ready #nadi-astrology .na-table tbody tr{background:white!important}
 body.app-ready #nadi-astrology #na-native-chart{padding:0;border:1px solid #ee65cf;aspect-ratio:1;background:white;overflow:hidden}
-body.app-ready #nadi-astrology #na-native-chart:has(.kp-paired-north){display:block;aspect-ratio:auto;height:max-content;min-height:max-content;max-height:none;align-self:start;overflow:visible}
+body.app-ready #nadi-astrology #na-native-chart:has(.kp-paired-north){aspect-ratio:1;height:auto;max-height:none;margin-bottom:0;overflow:hidden}
+body.app-ready #nadi-astrology #na-native-chart .kp-paired-north{gap:3px}
+body.app-ready #nadi-astrology #na-native-chart .kp-paired-north h4{padding:2px;margin:0 0 1px;line-height:1.15}
+body.app-ready #nadi-astrology #na-native-chart .kp-paired-north-panel>svg{aspect-ratio:480/205!important}
+body.app-ready #nadi-astrology .na-grid{align-items:start!important;grid-auto-rows:max-content!important}
+body.app-ready #nadi-astrology .na-tile{align-self:start!important;height:auto!important;min-height:0!important}
+body.app-ready #nadi-astrology .na-layer{grid-template-columns:52px minmax(45px,70px) minmax(80px,1fr)!important;align-content:start!important}
+body.app-ready #nadi-astrology .na-layer>div{display:flex!important;flex-flow:row wrap!important;align-content:flex-start!important;gap:1px 3px!important}
 body.app-ready #nadi-astrology .na-reference-rashi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr));height:100%;aspect-ratio:1;font-family:Arial,"Mangal",sans-serif;background:white}
 body.app-ready main .kp-coordinate-source{display:none!important}body.app-ready main .kp-coordinate-dms{display:block!important}
 body.app-ready #nadi-astrology .na-reference-sign{border:1px solid #eda355;min-width:0;padding:4px 3px;display:grid;grid-template-columns:1fr 1fr;align-content:center;gap:3px;font-size:10px;line-height:1.35}
@@ -29983,8 +29990,10 @@ window.KPChartWindows=Object.freeze({open,capture,activate,list:()=>[...items.va
 <style id="kp-birth-google-and-matchmaking-print">
 .birth-place-search{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;align-items:stretch}.birth-place-search input{min-width:0}.birth-place-search button{white-space:nowrap;padding:5px 10px;font-size:11px}@media(max-width:620px){.birth-place-search{grid-template-columns:1fr}.birth-place-search button{width:100%}}
 @media print{
- .report-page[data-report-section="matchmaking"]{box-sizing:border-box!important;width:190mm!important;min-width:190mm!important;max-width:190mm!important;height:277mm!important;min-height:277mm!important;max-height:277mm!important;margin:0!important;padding:0!important;overflow:hidden!important;break-after:avoid!important;page-break-after:avoid!important}
- .report-page[data-report-section="matchmaking"] .mm-format-report.mm-traditional-report{box-sizing:border-box!important;width:190mm!important;height:273mm!important;min-height:273mm!important;max-height:273mm!important;margin:0!important;padding:3mm!important;overflow:hidden!important;break-inside:avoid!important;page-break-inside:avoid!important;break-after:avoid!important;page-break-after:avoid!important}
+ @page matchmaking-report{size:A4;margin:12mm}
+ .report-page[data-report-section="matchmaking"]{page:matchmaking-report;box-sizing:border-box!important;width:186mm!important;min-width:186mm!important;max-width:186mm!important;height:273mm!important;min-height:273mm!important;max-height:273mm!important;margin:0!important;padding:0!important;border:0!important;outline:0!important;overflow:hidden!important;break-before:avoid!important;page-break-before:avoid!important;break-after:avoid!important;page-break-after:avoid!important}
+ .report-page[data-report-section="matchmaking"]>.kp-a4-body{box-sizing:border-box!important;width:186mm!important;height:273mm!important;min-height:273mm!important;max-height:273mm!important;margin:0!important;padding:0!important;overflow:hidden!important;break-inside:avoid!important;page-break-inside:avoid!important}
+ .report-page[data-report-section="matchmaking"] .mm-format-report.mm-traditional-report{box-sizing:border-box!important;width:186mm!important;height:269mm!important;min-height:269mm!important;max-height:269mm!important;margin:0!important;padding:3mm!important;overflow:hidden!important;break-inside:avoid!important;page-break-inside:avoid!important;break-after:avoid!important;page-break-after:avoid!important}
  .report-page[data-report-section="matchmaking"] .report-developer-footer{display:none!important}
 }
 </style>
