@@ -29,6 +29,7 @@ const methods=['kp-fourfold','kp-sixfold','kp-fourstep-section','nadi-astrology'
   await popup.waitForLoadState('domcontentloaded');await popup.evaluate(()=>document.fonts.ready);await popup.waitForTimeout(500);
   const layout=await popup.locator('.na-one-page').evaluate(node=>({overflow:node.scrollHeight-node.clientHeight,chart:node.querySelector('.na-report-kundali')?.getBoundingClientRect().height||0,font:parseFloat(getComputedStyle(node).fontSize)}));
   assert.ok(layout.overflow<=2,style+' Nadi report content must remain inside one A4 sheet');assert.ok(layout.chart>=250,style+' Nadi chart must use the available page space');assert.ok(layout.font>=9,style+' Nadi report body must remain readable');
+  if(style==='south'&&process.env.NADI_PREVIEW_SCREENSHOT)await popup.locator('.report-page[data-report-section="nadi-astrology"]').screenshot({path:process.env.NADI_PREVIEW_SCREENSHOT});
   const file='/tmp/kp-nadi-report-'+style+'.pdf';await popup.pdf({path:file,format:'A4',printBackground:true,preferCSSPageSize:true});
   const info=execFileSync('pdfinfo',[file],{encoding:'utf8'}),pages=Number(/^Pages:\s+(\d+)/m.exec(info)?.[1]);assert.equal(pages,1,style+' Nadi report must print exactly one PDF page');
   const text=execFileSync('pdftotext',[file,'-'],{encoding:'utf8'}).replace(/\s+/g,' ').trim();assert.ok(text.length>200,style+' Nadi report PDF must contain its report data');
