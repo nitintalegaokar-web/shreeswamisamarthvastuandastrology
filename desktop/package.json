@@ -1,6 +1,6 @@
 {
   "name": "swami-samarth-remedy-library",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "private": true,
   "description": "KP Master offline CRM, collections and expenses, Matrugaya bookings, remedies and reports",
   "author": "Shree Swami Samarth Vastu and Astrology Consultancy",
@@ -21,6 +21,7 @@
     },
     "files": [
       "main.cjs",
+      "whatsapp.cjs",
       "app/**/*",
       "icon.ico"
     ],

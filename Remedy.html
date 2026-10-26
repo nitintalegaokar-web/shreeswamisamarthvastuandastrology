@@ -198,7 +198,7 @@ header{position:relative;background:transparent;backdrop-filter:none;border:0}.c
     <section id="cards" class="grid"></section>
 
     <div class="footer">
-      <div>Tip: WhatsApp share <code>wa.me</code> लिंकने उघडते.</div>
+      <div>Tip: WhatsApp share स्थापित WhatsApp app मध्ये उघडते.</div>
       <div>
         <button id="btnExport" class="btn">⬇️ Export (JSON)</button>
         <button id="btnImport" class="btn">⬆️ Import</button>
@@ -418,7 +418,7 @@ header{position:relative;background:transparent;backdrop-filter:none;border:0}.c
     }
     function shareWhatsApp(r){
       const txt = encodeURIComponent(buildMessage(r));
-      const url = `https://wa.me/?text=${txt}`;
+      const url = `whatsapp://send?text=${txt}`;
       window.open(url, '_blank', 'noopener');
     }
 

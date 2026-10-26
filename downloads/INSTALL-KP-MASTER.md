@@ -1,6 +1,6 @@
-# KP Master 1.3.0 — Windows installer
+# KP Master 1.3.1 — Windows installer
 
-Download **KP-Master-Setup-1.3.0.exe** from this folder using GitHub's **Download raw file** button. Run it on **64-bit Windows 10 or 11**, choose the installation folder, and open **KP Master** from the desktop or Start menu.
+Download **KP-Master-Setup-1.3.1.exe** from this folder using GitHub's **Download raw file** button. Run it on **64-bit Windows 10 or 11**, choose the installation folder, and open **KP Master** from the desktop or Start menu.
 
 Includes:
 
@@ -24,7 +24,7 @@ Choose A5 paper (148 × 210 mm), Portrait and 100% scale when printing. Long con
 
 This is an unsigned build; Windows may display an unknown publisher. It was cross-built on Linux: packaged application contents, icon metadata, browser workflows, A5 output and installer archive integrity were checked. Native Windows installation, upgrades, shortcuts, uninstallation and printer dialogs have not been tested here.
 
-`KP-Master-Setup-1.3.0.exe.sha256` contains the SHA-256 checksum for verifying the installer download.
+`KP-Master-Setup-1.3.1.exe.sha256` contains the SHA-256 checksum for verifying the installer download.
 
 ## Print a saved-bookings Excel report
 
@@ -41,3 +41,5 @@ In **Collections & Expenses**, record money actually received/spent; booking adv
 In **Quotations & Invoices**, save a draft, finalise a quote or convert it to an invoice. Issue the invoice before recording payment. Invoice payments create one Accounts collection entry and update the balance. Do not record the same receipt again. Correct a receipt by voiding its Accounts entry with a reason and recording a replacement. Issued documents are locked; void and replace when necessary. Quotes/invoices print in **A5 portrait**.
 
 Each section has its own JSON backup. Keep matching Documents and Accounts backups together: invoice payments live in Accounts, not inside document backups. Restoring a backup replaces that section's data. Export all sections regularly before upgrades or transfers.
+
+WhatsApp sharing opens the installed WhatsApp application using its app link. Install and sign in to WhatsApp on this computer before sharing. No WhatsApp Web fallback is used. Browsers may ask permission to open the installed app; the desktop installer opens it through Windows.

@@ -6,9 +6,14 @@ const pageUrl = pathToFileURL(pagePath).href;
 let window;
 // A stable user-data path retains the library across application updates.
 app.setPath('userData', path.join(app.getPath('appData'), 'SwamiSamarthRemedies'));
-const isAllowedExternal = value => {
-  try { const url = new URL(value); return url.protocol === 'https:' && url.hostname === 'wa.me'; }
-  catch { return false; }
+const { isWhatsAppAppUrl } = require('./whatsapp.cjs');
+const openWhatsAppApp = async url => {
+  try { await shell.openExternal(url); }
+  catch { dialog.showMessageBox(window, {
+    type: 'info', title: 'Open WhatsApp',
+    message: 'Install WhatsApp on this computer to share messages.',
+    detail: 'Open WhatsApp and sign in, then try sharing again. KP Master opens the installed app only.'
+  }); }
 };
 if (!app.requestSingleInstanceLock()) app.quit();
 else {
@@ -26,11 +31,14 @@ else {
       webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true }
     });
     window.webContents.setWindowOpenHandler(({ url }) => {
-      if (isAllowedExternal(url)) shell.openExternal(url).catch(() => {});
+      if (isWhatsAppAppUrl(url)) void openWhatsAppApp(url);
       return { action: 'deny' };
     });
     window.webContents.on('will-navigate', (event, url) => {
-      if (url !== pageUrl) event.preventDefault();
+      if (url !== pageUrl) {
+        event.preventDefault();
+        if (isWhatsAppAppUrl(url)) void openWhatsAppApp(url);
+      }
     });
     window.webContents.on('will-attach-webview', event => event.preventDefault());
     Menu.setApplicationMenu(Menu.buildFromTemplate([

@@ -5,6 +5,9 @@ Use the repository's Playwright dev dependency and system Chromium (`/usr/bin/ch
 Run in order:
 
 ```sh
+node desktop/tests/check-whatsapp-app.cjs
+node desktop/tests/check-whatsapp-routing.cjs
+node desktop/tests/check-whatsapp-renderer.cjs
 node desktop/tests/check-crm-finance.cjs
 node desktop/tests/check-billing-whatsapp.cjs
 node desktop/tests/check-data-safety.cjs

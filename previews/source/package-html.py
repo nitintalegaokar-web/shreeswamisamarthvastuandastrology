@@ -14,7 +14,7 @@ for icon_name in ['software-logo.svg','software-logo.png','software-icon.ico']:
  (target/icon_name).write_bytes((root/'previews/source/branding'/icon_name).read_bytes())
 (target/'THIRD-PARTY-NOTICES.txt').write_bytes((root/'previews/source/vendor/THIRD-PARTY-NOTICES.txt').read_bytes())
 (target/'READ-ME.txt').write_text('''SWAMI SAMARTH — REMEDY & MATRUGAYA BOOKING SOFTWARE
-HTML version 1.3.0 — 22 October 2026
+HTML version 1.3.1 — 26 October 2026
 
 GET STARTED
 1. Extract this ZIP to a folder on your computer.
@@ -67,7 +67,8 @@ CRM AND WHATSAPP
 Save the customer, follow-up date/purpose, appointment date/time/location,
 and visit date/time/address/details in Customer CRM. Use WhatsApp follow-up,
 appointment or visit buttons below the form. Review the prepared message
-and press Send in WhatsApp. Only the shareable schedule fields are included;
+and press Send in the installed WhatsApp app. WhatsApp must be installed
+and signed in on this computer; browser versions may ask permission to open it. Only the shareable schedule fields are included;
 private consultation notes and birth details are excluded. Use +country code
 for international mobile numbers. Indian 10-digit mobiles use +91.
 Follow-up reminders appear inside the app; no background alerts are sent.
