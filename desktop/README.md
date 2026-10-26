@@ -1,10 +1,10 @@
-# KP Master Windows installer — 1.3.1
+# KP Master Windows installer — 1.3.2
 
 Packages the combined HTML software from `../downloads/Swami-Samarth-HTML/index.html`: 209 remedies across 49 subjects, Matrugaya bookings, business Settings, configurable print branding, A5 remedy printouts and receipts, Excel booking reports, offline CRM, appointment/visit WhatsApp sharing, collection/expense reports, quotations/invoices and the KP Master icon. The separate floor-plan studio is not included.
 
 ## Install and use
 
-Run `KP-Master-Setup-1.3.1.exe` on 64-bit Windows 10 or 11. The setup wizard lets you choose an installation folder and creates desktop and Start menu shortcuts. The application includes its runtime and needs no browser, Node.js, Python, or web server installed separately.
+Run `KP-Master-Setup-1.3.2.exe` on 64-bit Windows 10 or 11. The setup wizard lets you choose an installation folder and creates desktop and Start menu shortcuts. The application includes its runtime and needs no browser, Node.js, Python, or web server installed separately.
 
 Use Settings to edit the consultancy name, astrologer name, address and mobile. Save settings after choosing which details to print. The master switch toggles astrologer name, address and mobile; consultancy name can be selected independently. These choices affect both remedy and booking printing. WhatsApp signatures retain your saved business contact details.
 
@@ -56,6 +56,8 @@ python3 previews/source/package-html.py
 npm run dist:win --prefix desktop
 ```
 
-Run those commands from the repository root (with the cache environment variables above for this Linux build environment). See `tests/README.md` for browser checks and `../downloads/VALIDATION-1.3.1.md` for validation scope. Keep source edits out of generated `desktop/app/` and `desktop/release/`.
+Run those commands from the repository root (with the cache environment variables above for this Linux build environment). See `tests/README.md` for browser checks and `../downloads/VALIDATION-1.3.2.md` for validation scope. Keep source edits out of generated `desktop/app/` and `desktop/release/`.
 
 WhatsApp sharing opens the installed WhatsApp application using its app link. Install and sign in to WhatsApp on this computer before sharing. No WhatsApp Web fallback is used. Browsers may ask permission to open the installed app; the desktop installer opens it through Windows.
+
+Quotation and invoice printing now starts with **Preview & print**. Choose **A5** or **A4 portrait**, adjust **Top space (mm)** from 4–40 (default 6), review the document, then select **Print / Save PDF**. The preview uses the same document markup as printing. Long documents continue onto additional sheets; the printer dialog shows final page breaks. Choose the matching paper size and 100% scale in the printer dialog, with browser headers/footers off. Printer hardware may enforce its own minimum margins.

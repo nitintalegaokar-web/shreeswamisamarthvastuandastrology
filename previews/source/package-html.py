@@ -14,7 +14,7 @@ for icon_name in ['software-logo.svg','software-logo.png','software-icon.ico']:
  (target/icon_name).write_bytes((root/'previews/source/branding'/icon_name).read_bytes())
 (target/'THIRD-PARTY-NOTICES.txt').write_bytes((root/'previews/source/vendor/THIRD-PARTY-NOTICES.txt').read_bytes())
 (target/'READ-ME.txt').write_text('''SWAMI SAMARTH — REMEDY & MATRUGAYA BOOKING SOFTWARE
-HTML version 1.3.1 — 26 October 2026
+HTML version 1.3.2 — 26 October 2026
 
 GET STARTED
 1. Extract this ZIP to a folder on your computer.
@@ -85,7 +85,9 @@ one collection entry; do not enter the same payment again in Accounts.
 Invoice balances use active linked ledger entries. To correct a receipt, void
 it with a reason in Accounts, then record the correct receipt. Issued documents
 are locked; void and create a replacement if needed. Quotation and invoice
-printouts use A5 portrait; long documents can span multiple pages.
+Preview & print lets you choose A5 or A4 portrait and top space (4-40 mm).
+Review the document, then Print / Save PDF. Select the matching paper in the
+printer dialog, scale 100%, headers/footers off. Long documents span pages.
 
 No server or installation is needed for this HTML version. It works offline,
 except WhatsApp sharing. Marathi rendering requires a suitable installed

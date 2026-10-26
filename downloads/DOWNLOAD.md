@@ -1,6 +1,6 @@
-# KP Master 1.3.1 downloads
+# KP Master 1.3.2 downloads
 
-Download `Swami-Samarth-HTML.zip`, extract it, and open `Swami-Samarth-HTML/index.html` in Microsoft Edge or Chrome. For the installed desktop app, download `KP-Master-Setup-1.3.1.exe` for 64-bit Windows 10/11.
+Download `Swami-Samarth-HTML.zip`, extract it, and open `Swami-Samarth-HTML/index.html` in Microsoft Edge or Chrome. For the installed desktop app, download `KP-Master-Setup-1.3.2.exe` for 64-bit Windows 10/11.
 
 Includes offline CRM with follow-ups, appointment/visit schedules and WhatsApp sharing; collections/expenses with daily/monthly/yearly A5 and Excel reports; quotations/invoices with linked payments; 209 remedies, Matrugaya bookings, Settings, configurable print branding and the supplied KP Master icon.
 
@@ -9,3 +9,5 @@ Data stays on this computer. Export each section's JSON backup before moving fil
 See [Windows installation and usage](INSTALL-KP-MASTER.md) and READ-ME.txt inside the ZIP. SHA-256 checksums are in the adjacent `.sha256` files. The installer is unsigned; native Windows installation and printer dialogs have not been tested on this Linux build machine.
 
 WhatsApp sharing opens the installed WhatsApp application using its app link. Install and sign in to WhatsApp on this computer before sharing. No WhatsApp Web fallback is used. Browsers may ask permission to open the installed app; the desktop installer opens it through Windows.
+
+Quotation and invoice printing now starts with **Preview & print**. Choose **A5** or **A4 portrait**, adjust **Top space (mm)** from 4–40 (default 6), review the document, then select **Print / Save PDF**. The preview uses the same document markup as printing. Long documents continue onto additional sheets; the printer dialog shows final page breaks. Choose the matching paper size and 100% scale in the printer dialog, with browser headers/footers off. Printer hardware may enforce its own minimum margins.

@@ -1,6 +1,6 @@
-# KP Master 1.3.1 — Windows installer
+# KP Master 1.3.2 — Windows installer
 
-Download **KP-Master-Setup-1.3.1.exe** from this folder using GitHub's **Download raw file** button. Run it on **64-bit Windows 10 or 11**, choose the installation folder, and open **KP Master** from the desktop or Start menu.
+Download **KP-Master-Setup-1.3.2.exe** from this folder using GitHub's **Download raw file** button. Run it on **64-bit Windows 10 or 11**, choose the installation folder, and open **KP Master** from the desktop or Start menu.
 
 Includes:
 
@@ -24,7 +24,7 @@ Choose A5 paper (148 × 210 mm), Portrait and 100% scale when printing. Long con
 
 This is an unsigned build; Windows may display an unknown publisher. It was cross-built on Linux: packaged application contents, icon metadata, browser workflows, A5 output and installer archive integrity were checked. Native Windows installation, upgrades, shortcuts, uninstallation and printer dialogs have not been tested here.
 
-`KP-Master-Setup-1.3.1.exe.sha256` contains the SHA-256 checksum for verifying the installer download.
+`KP-Master-Setup-1.3.2.exe.sha256` contains the SHA-256 checksum for verifying the installer download.
 
 ## Print a saved-bookings Excel report
 
@@ -43,3 +43,5 @@ In **Quotations & Invoices**, save a draft, finalise a quote or convert it to an
 Each section has its own JSON backup. Keep matching Documents and Accounts backups together: invoice payments live in Accounts, not inside document backups. Restoring a backup replaces that section's data. Export all sections regularly before upgrades or transfers.
 
 WhatsApp sharing opens the installed WhatsApp application using its app link. Install and sign in to WhatsApp on this computer before sharing. No WhatsApp Web fallback is used. Browsers may ask permission to open the installed app; the desktop installer opens it through Windows.
+
+Quotation and invoice printing now starts with **Preview & print**. Choose **A5** or **A4 portrait**, adjust **Top space (mm)** from 4–40 (default 6), review the document, then select **Print / Save PDF**. The preview uses the same document markup as printing. Long documents continue onto additional sheets; the printer dialog shows final page breaks. Choose the matching paper size and 100% scale in the printer dialog, with browser headers/footers off. Printer hardware may enforce its own minimum margins.
