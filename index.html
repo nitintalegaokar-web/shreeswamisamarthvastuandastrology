@@ -21476,6 +21476,42 @@ body.app-ready #aspects .am-matrix td[data-aspect]{color:var(--am-color)!importa
  .report-page[data-report-section="nadi-astrology"] .kp-a4-body{height:259mm!important;max-height:259mm!important;overflow:hidden!important}
 }
 </style>
+<style id="kp-nadi-a4-polish">
+/* Use the available A4 sheet instead of shrinking Nadi data into the top half. */
+@media screen{
+ body:has(.report-page[data-report-section="nadi-astrology"]) .kp-preview-tools{
+  gap:6px!important;padding:7px 10px!important;min-height:0!important;
+  background:linear-gradient(180deg,#f8fafc,#e9eef5)!important;
+  border-bottom:1px solid #c4cfdd!important;
+ }
+ body:has(.report-page[data-report-section="nadi-astrology"]) .kp-preview-tools button{
+  min-height:30px!important;padding:4px 10px!important;font-size:12px!important;
+  border-radius:5px!important;border-color:#aebdce!important;background:#fff!important;
+ }
+}
+.report-page[data-report-section="nadi-astrology"] .kp-a4-body{height:265mm!important}
+.report-page[data-report-section="nadi-astrology"] .na-one-page{
+ display:flex!important;flex-direction:column!important;height:100%!important;
+ font-size:9px!important;line-height:1.22!important;color:#142a40!important;
+}
+.report-page[data-report-section="nadi-astrology"] .kp-native-mini{margin:3px 0!important}
+.report-page[data-report-section="nadi-astrology"] .kp-native-mini :is(td,th){font-size:8.4px!important;line-height:1.16!important;padding:2.5px 3px!important}
+.report-page[data-report-section="nadi-astrology"] .kp-symbol-key{font-size:7.4px!important;line-height:1.18!important;padding:3px 4px!important;gap:3px 8px!important}
+.report-page[data-report-section="nadi-astrology"] .na-chart-and-cusps{gap:7px!important;margin:5px 0!important}
+.report-page[data-report-section="nadi-astrology"] .na-chart-and-cusps h3{font-size:10.5px!important;line-height:1.15!important;margin:0 0 3px!important;color:#174b73!important}
+.report-page[data-report-section="nadi-astrology"] .na-report-kundali{height:255px!important;min-height:255px!important;max-height:255px!important}
+.report-page[data-report-section="nadi-astrology"] .na-report-cuspal :is(td,th){font-size:7.6px!important;line-height:1.12!important;padding:2px 1.5px!important}
+.report-page[data-report-section="nadi-astrology"] .na-compact-grid{gap:5px!important;margin-top:1px!important}
+.report-page[data-report-section="nadi-astrology"] .na-compact-grid article{padding:4px!important;background:#fbfdff!important;border-color:#9aabbd!important}
+.report-page[data-report-section="nadi-astrology"] .na-compact-grid h3{font-size:9.2px!important;line-height:1.1!important;margin:0 0 3px!important;color:#174b73!important}
+.report-page[data-report-section="nadi-astrology"] .na-compact-grid :is(td,th){font-size:7.5px!important;line-height:1.1!important;padding:1.5px 2px!important}
+.report-page[data-report-section="nadi-astrology"] .na-one-page>h3{font-size:9.5px!important;line-height:1.15!important;margin:5px 0 2px!important;color:#174b73!important;background:#eef3f8!important;padding:3px 5px!important}
+.report-page[data-report-section="nadi-astrology"] .na-one-page>table :is(td,th){font-size:7.6px!important;line-height:1.1!important;padding:2px 3px!important}
+.report-page[data-report-section="nadi-astrology"] .na-one-page>p{font-size:7.4px!important;line-height:1.2!important;margin:3px 0!important}
+@media print{
+ .report-page[data-report-section="nadi-astrology"] .kp-a4-body{height:259mm!important;max-height:259mm!important}
+}
+</style>
 <style id="kp-south-two-page-print">
 .report-page[data-report-section="south9"][data-south-page="kundali"] .south-calculations{display:none!important}
 .report-page[data-report-section="south9"][data-south-page="calculations"] .south-calculations{display:block!important;width:100%!important;max-width:none!important;border:0!important;padding:0!important}
@@ -22472,7 +22508,7 @@ function installNotepad(){let dialog;const key='kpRaphaelNotepadV1',styleKey='kp
     const section=$('prediction'),analysis=document.createElement('div');analysis.id='pred-analysis-panel';while(section.firstChild)analysis.append(section.firstChild);
     const toolbar=document.createElement('div');toolbar.className='pred-workspace-toolbar';toolbar.innerHTML='<h2>Prediction · कुंडली फल</h2><button id="prediction-preview" type="button">Preview</button>';
     const tabs=document.createElement('div');tabs.id='pred-subtabs';tabs.className='pred-subtabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Personal prediction sections');
-    for(const [id,label] of Object.entries(titles)){const b=document.createElement('button');b.id='pred-tab-'+id;b.type='button';b.dataset.predTab=id;b.setAttribute('role','tab');b.textContent=label;tabs.append(b);}
+    for(const [id,label] of Object.entries(titles)){if(id==='event-house-rules')continue;const b=document.createElement('button');b.id='pred-tab-'+id;b.type='button';b.dataset.predTab=id;b.setAttribute('role','tab');b.textContent=label;tabs.append(b);}
     tabs.addEventListener('click',e=>{const b=e.target.closest('[data-pred-tab]');if(!b)return;active=b.dataset.predTab;page=0;refresh();});
     tabs.addEventListener('keydown',e=>{const buttons=[...tabs.querySelectorAll('[data-pred-tab]')],i=buttons.indexOf(e.target);if(i<0||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const n=e.key==='Home'?0:e.key==='End'?buttons.length-1:(i+(e.key==='ArrowRight'?1:-1)+buttons.length)%buttons.length;buttons[n].click();buttons[n].focus();});
     const panel=document.createElement('div');panel.id='pred-personal-panel';panel.className='kp-feature-card';panel.hidden=true;panel.innerHTML='<h2 id="pred-personal-heading"></h2><p id="pred-personal-status" role="status" aria-live="polite"></p><div class="kp-feature-actions"><label id="pred-house-cusp-wrap" for="pred-house-cusp" hidden>Cusp <select id="pred-house-cusp" aria-label="Select house cusp">'+roman.map((r,i)=>'<option value="'+(i+1)+'">'+r+'</option>').join('')+'</select></label><label id="pred-dasha-level-wrap" hidden>Show selected dasha <select id="pred-dasha-level"><option value="MD">MD · Mahadasha</option><option value="AD">AD · Antardasha</option><option value="PD">PD · Pratyantardasha</option></select></label><button id="pred-dba-select" type="button" aria-controls="pred-event-dba" aria-expanded="false" hidden>DBA selection</button><button id="pred-open-gems" type="button" hidden>Gemstone rule</button><button id="pred-personal-prev" type="button">Previous</button><span id="pred-personal-page"></span><button id="pred-personal-next" type="button">Next</button></div><div id="pred-event-dba" class="pred-event-dba" hidden><div class="pred-event-dba-controls"><label>MD / Dasha<select id="pred-event-md"></select></label><label>AD / Bhukti<select id="pred-event-ad"></select></label><label>PD / Antara<select id="pred-event-pd"></select></label><button id="pred-dba-current" type="button">Current DBA</button></div><p id="pred-dba-period"></p></div><div id="pred-personal-results"></div>';
@@ -26722,7 +26758,7 @@ function build(model,options={}) {
  const periodChecks=periods.map(p=>{const row=model[method].planets.find(r=>r.id===p.id),houses=uniq(fields.flatMap(f=>row?.[f]||[])),proofs=analysis.rule.groups.map(required=>({required,matched:required.filter(h=>houses.includes(h)),missing:required.filter(h=>!houses.includes(h))})),best=[...proofs].sort((a,b)=>a.missing.length-b.missing.length)[0],verdict=KPEventOutcome.assess({...analysis,layers:[],houses,proofs,best});return {...p,houses,verdict};});
  return {ready:true,periodChecks,periodMode:options.periodMode||'current',eventId:event.id,query:event.event.en||event.event.mr,method,fields,cusp,supporting,analysis,verdict,levels,total,rp,ruling,common,filterRP:ruling.length>(method==='sixfold'?6:4),punarphoo:links.length>0,punarphooProof:links.join('; ')||'No Moon–Saturn lord, conjunction or aspect connection in the chart model.',periods,periodReason,date,time:v('birthTime'),place:v('birthPlace'),horaryNumber:v('horary-number'),chartKind:v('chart-kind'),question:options.question||'',opinion:options.opinion||''};
 }
-function data(){return build(currentKPModel,{eventId:v('hq-event'),catalogue:$('hq-event')?.dataset.catalogue,cusp:$('hq-event')?.dataset.catalogue==='handbook'?Number(v('ep-cusp')):undefined,method:v('hq-method'),question:v('hq-question'),opinion:v('hq-opinion'),periods:window.KPHoraryDBA?.periods(),periodMode:window.KPHoraryDBA?.mode()});}
+function data(){return build(currentKPModel,{eventId:v('hq-event'),catalogue:$('hq-event')?.dataset.catalogue,cusp:$('hq-event')?.dataset.catalogue==='handbook'?Number(v('hq-cusp')||v('ep-cusp')):undefined,method:v('hq-method'),question:v('hq-question'),opinion:v('hq-opinion'),periods:window.KPHoraryDBA?.periods(),periodMode:window.KPHoraryDBA?.mode()});}
 function snapshot(d=data()) {
  const rows=(a,cols)=>a.map(r=>'<tr>'+cols.map(k=>'<td>'+esc(Array.isArray(r[k])?join(r[k]):r[k]??'—')+'</td>').join('')+'</tr>').join('');
  const title=d.verdict.qualified?'House criteria matched · additional rule review required':d.verdict.promised?'Event is promised by the selected house criteria':'Event is not promised by the selected house criteria';
@@ -26732,9 +26768,10 @@ function refresh(){try{const d=data();window.KPHoraryDBA?.render(d);$('hq-result
 function preview(){const d=refresh();if(!d.ready)return false;const opened=window.KPChildGenderSheet.preview({title:'Automatic Horary results sheet',html:'<article class="cg-page sheet">'+snapshot(d)+'</article>',css:CSS,lang:window.KPPreferences?.get().language||'english'});const frame=document.querySelector('#cg-preview-dialog iframe');frame?.addEventListener('load',()=>{const doc=frame.contentDocument;doc.fonts.ready.then(()=>{const content=doc.querySelector('.content'),sheet=doc.querySelector('.sheet');if(!content||!sheet)return;const available=sheet.clientHeight-46,scale=Math.min(1,available/Math.max(1,content.scrollHeight));content.style.transform='scale('+scale+')';sheet.dataset.fitted='true';});},{once:true});return opened;}
 function init(){
  const section=$('horary-results');if(!section)return;
- const box=document.createElement('article');box.className='card';box.id='hq-panel';box.innerHTML='<h2>Automatic Horary results sheet</h2><div class="actions"><label>Selected query <select id="hq-event"></select></label><label>Theory <select id="hq-method"><option value="fourfold">Four-fold A–D</option><option value="sixfold">Six-fold A–F</option></select></label><button type="button" id="hq-refresh">Update results</button><button type="button" id="hq-preview">A4 single-page report</button></div><label>Question <input id="hq-question" maxlength="700" style="width:100%"></label><label>My opinion &amp; result <textarea id="hq-opinion" maxlength="1500" rows="2" style="width:100%"></textarea></label><p id="hq-status" role="status"></p><details><summary>View automatic results sheet</summary><div id="hq-results"></div></details>';
+ const box=document.createElement('article');box.className='card';box.id='hq-panel';box.innerHTML='<h2>Automatic Horary results sheet</h2><div class="actions"><label>Selected query <select id="hq-event"></select></label><label>Event cusp <select id="hq-cusp">'+Array.from({length:12},(_,i)=>'<option value="'+(i+1)+'">Cusp '+(i+1)+'</option>').join('')+'</select></label><label>Theory <select id="hq-method"><option value="fourfold">Four-fold A–D</option><option value="sixfold">Six-fold A–F</option></select></label><button type="button" id="hq-refresh">Update results</button><button type="button" id="hq-preview">A4 single-page report</button></div><label>Question <input id="hq-question" maxlength="700" style="width:100%"></label><label>My opinion &amp; result <textarea id="hq-opinion" maxlength="1500" rows="2" style="width:100%"></textarea></label><p id="hq-status" role="status"></p><details><summary>View automatic results sheet</summary><div id="hq-results"></div></details>';
  section.append(box);for(const e of KPPrediction.getCatalogue().events){const o=document.createElement('option');o.value=e.id;o.textContent=e.event.en||e.event.mr;$('hq-event').append(o);}
  if([...$('hq-event').options].some(o=>o.value===v('ep-event')))$('hq-event').value=v('ep-event');
+ $('hq-cusp').value=v('ep-cusp')||'1';
  box.addEventListener('change',refresh);$('hq-refresh').onclick=refresh;$('hq-preview').onclick=preview;
  const reportButton=document.createElement('button');reportButton.type='button';reportButton.id='report-horary-sheet';reportButton.textContent='Horary query · Single-page A4';reportButton.onclick=preview;$('report').querySelector('.actions').append(reportButton);
  $('event-promise')?.addEventListener('change',e=>{if(e.target.id==='ep-event'&&[...$('hq-event').options].some(o=>o.value===e.target.value)){$('hq-event').value=e.target.value;refresh();}});
@@ -27738,7 +27775,7 @@ return {evaluate,housePolicy};});
 @media screen {
  #hq-panel{box-sizing:border-box;max-width:1200px;margin:10px auto;padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;min-width:0}
  #hq-panel>h2{grid-column:1/-1;margin:0 0 2px;text-align:left;font-size:18px;line-height:1.3}
- #hq-panel>.actions{grid-column:1/-1;display:grid;grid-template-columns:minmax(200px,1fr) 160px auto auto;gap:8px;align-items:end;margin:0}
+ #hq-panel>.actions{grid-column:1/-1;display:grid;grid-template-columns:minmax(200px,1fr) 105px 140px auto auto;gap:8px;align-items:end;margin:0}
  #hq-panel label{display:flex;flex-direction:column;gap:3px;min-width:0;margin:0;font-size:13px;line-height:1.3}
  #hq-panel :is(input,select,textarea,button){box-sizing:border-box;max-width:100%;min-width:0;margin:0;font-size:13px}
  #hq-panel :is(input,select,button){min-height:33px;padding:5px 8px}
@@ -27759,7 +27796,7 @@ return {evaluate,housePolicy};});
 @media screen{
  #hq-workspace{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(340px,1fr);gap:10px;margin-top:10px;align-items:start}
  #hq-workspace #hq-panel{max-width:none;margin:0;width:100%}
- #hq-workspace #hq-panel>.actions{grid-template-columns:minmax(0,1fr) 140px}
+ #hq-workspace #hq-panel>.actions{grid-template-columns:minmax(0,1fr) 105px 140px}
  #hq-workspace #hq-panel>.actions label:first-child{grid-column:1/-1;min-width:0}
  #hq-dba-panel{box-sizing:border-box;min-width:0;margin:0;padding:12px;font-size:12px}
  #hq-dba-panel header{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -27778,15 +27815,16 @@ return {evaluate,housePolicy};});
 (function(){'use strict';const $=id=>document.getElementById(id);let busy=false;
 function sync(source){if(busy||!$('hq-event')||!$('ep-cusp'))return;busy=true;
 try{const events=KPHandbook.getCatalogue().events;let cusp=Number($('ep-cusp').value),wanted=source==='hq-event'?$('hq-event').value:$('ep-event').value;const chosen=events.find(e=>String(e.id)===wanted);
+ if(source==='hq-cusp')cusp=Number($('hq-cusp').value)||cusp;
  if(source==='ep-category'&&Number($('ep-category').value))cusp=Number($('ep-category').value);
  if(['hq-event','ep-event'].includes(source)&&chosen&&chosen.mainHouses.length&&!chosen.mainHouses.includes(cusp))cusp=chosen.mainHouses[0];
- $('ep-auto-cusp').checked=false;$('ep-cusp').value=String(cusp);$('ep-category').value=String(cusp);if(['ep-cusp','hq-event'].includes(source))$('ep-search').value='';
+ $('ep-auto-cusp').checked=false;$('ep-cusp').value=String(cusp);$('ep-category').value=String(cusp);if($('hq-cusp'))$('hq-cusp').value=String(cusp);if(['ep-cusp','hq-event','hq-cusp'].includes(source))$('ep-search').value='';
  $('ep-category').dispatchEvent(new Event('change',{bubbles:true}));$('ep-event').querySelector('[value="custom"]')?.remove();
  const options=[...$('ep-event').options];for(const option of options)option.textContent=option.textContent.replace(/^\s*\d+\s*[·.:-]\s*/, '');if(!options.some(o=>o.value===wanted))wanted=options[0]?.value||'';
  $('ep-event').value=wanted;$('hq-event').dataset.catalogue='handbook';$('hq-event').replaceChildren(...options.map(o=>new Option(o.textContent,o.value)));$('hq-event').value=wanted;
  $('ep-event').dispatchEvent(new Event('change',{bubbles:true}));$('ep-cusp').value=String(cusp);KPEventPromise.refresh(true);for(const option of $('ep-event').options)option.textContent=option.textContent.replace(/^\s*\d+\s*[·.:-]\s*/, '');window.KPHoraryResults?.refresh();
 }finally{busy=false;}}
-document.addEventListener('change',e=>{if(!busy&&['ep-cusp','ep-category','ep-event','ep-search','hq-event'].includes(e.target.id)){const id=e.target.id;queueMicrotask(()=>sync(id));}});
+document.addEventListener('change',e=>{if(!busy&&['ep-cusp','ep-category','ep-event','ep-search','hq-event','hq-cusp'].includes(e.target.id)){const id=e.target.id;queueMicrotask(()=>sync(id));}});
 function init(){if(!$('hq-event')||!$('ep-cusp'))return false;sync('ep-cusp');return true;}
 if(!init()){const observer=new MutationObserver(()=>{if(init())observer.disconnect();});observer.observe(document,{childList:true,subtree:true});}
 })();
@@ -29949,6 +29987,73 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <style id="kp-life-events-report-style">
 .life-events-report{color:#172b3d;font:10.5pt/1.38 Arial,"Nirmala UI",Mangal,sans-serif}.life-events-report h1{font-size:18pt;margin:0 0 2mm;color:#173f62}.life-events-report h2{font-size:12pt;margin:3mm 0 1mm;padding:1.5mm 2mm;background:#e6eef5;color:#173f62}.life-events-report p{margin:1.2mm 0}.life-events-report table{width:100%;border-collapse:collapse;table-layout:fixed;margin:1mm 0 2mm}.life-events-report :is(th,td){border:1px solid #8fa2b3;padding:1.5mm;font-size:9pt;line-height:1.3;text-align:left;vertical-align:top;overflow-wrap:anywhere}.life-events-report th{background:#234e70;color:#fff}.life-events-report th:nth-child(1){width:19%}.life-events-report th:nth-child(2){width:18%}.life-events-report th:nth-child(3){width:27%}.life-events-report .life-event-no{color:#8d302b}.life-events-report .life-event-yes{color:#17623d}.life-events-report .life-events-note{font-size:8.5pt;border:1px solid #c0ccd6;padding:2mm;background:#f7fafc}.life-events-report tr{break-inside:avoid;page-break-inside:avoid}
 </style>
+<script id="kp-english-navigation-lock">
+(()=>{'use strict';function restore(){const root=document.getElementById('kp-compact-navigation'),api=window.KPCompactNavigation;if(!root||!api)return false;root.dataset.noLocalize='';const groups=api.groups(),items=[...root.querySelectorAll('.kp-main-menu>:scope')];groups.forEach(([name,target],index)=>{const item=items[index];if(!item)return;const heading=item.matches('details')?item.querySelector(':scope>summary'):item;heading.textContent=name;if(Array.isArray(target)){const labels=new Map(target.map(([label,value])=>[value,label]));item.querySelectorAll('[data-kp-menu-action]').forEach(button=>{const label=labels.get(button.dataset.kpMenuAction);if(label)button.textContent=label;});}});return true;}function schedule(){setTimeout(restore,0);setTimeout(restore,120);}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule);else schedule();window.addEventListener('kp-preferences-changed',schedule);})();
+</script>
+<script id="kp-readable-report-continuous-pages">
+(()=>{'use strict';const ids=new Set(['education-profession','disease']);function apply(win,id){const doc=win?.document;if(!doc||!ids.has(id))return;doc.querySelectorAll('.kp-print-page-frame').forEach(node=>node.remove());let style=doc.getElementById('kp-readable-continuous-print');if(!style){style=doc.createElement('style');style.id='kp-readable-continuous-print';doc.head.append(style);}style.textContent='@media print{body::before,body::after,.kp-print-page-frame{display:none!important;content:none!important}.report-page[data-report-section="education-profession"],.report-page[data-report-section="disease"]{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;break-inside:auto!important;page-break-inside:auto!important}.report-page[data-report-section="education-profession"]>.kp-a4-body,.report-page[data-report-section="disease"]>.kp-a4-body,.report-page[data-report-section="education-profession"] .kp-one-a4-fit,.report-page[data-report-section="disease"] .kp-one-a4-fit{display:block!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;break-inside:auto!important;page-break-inside:auto!important;zoom:1!important;transform:none!important}.report-page[data-report-section="education-profession"] :is(article,section,.ed-result,.ed-match,.pd-reference,.pd-layer),.report-page[data-report-section="disease"] :is(article,section,.pd-reference,.pd-layer){break-inside:auto!important;page-break-inside:auto!important}.report-page[data-report-section="education-profession"] :is(h1,h2,h3,h4),.report-page[data-report-section="disease"] :is(h1,h2,h3,h4){break-after:avoid!important;page-break-after:avoid!important}.report-page[data-report-section="education-profession"] tr,.report-page[data-report-section="disease"] tr{break-inside:avoid!important;page-break-inside:avoid!important}}';}function install(){const old=window.KPReportPreview;if(!old)return false;window.KPReportPreview=Object.freeze({...old,open(id){const win=old.open(id);if(win&&ids.has(id)){const run=()=>apply(win,id);for(const delay of [0,100,300,700])win.setTimeout(run,delay);win.addEventListener('load',run);win.addEventListener('beforeprint',run);}return win;}});return true;}let tries=0;const timer=setInterval(()=>{if(install()||++tries>40)clearInterval(timer);},25);})();
+</script>
+<script id="kp-localized-single-page-fit">
+(()=>{'use strict';function fit(win){const doc=win?.document,page=doc?.querySelector('.report-page.report-single-page'),inner=page?.querySelector('.sp-page-inner');if(!page||!inner)return;inner.style.setProperty('zoom','1','important');inner.style.setProperty('width','178mm','important');inner.style.setProperty('height','265mm','important');inner.style.setProperty('min-height','265mm','important');inner.style.setProperty('max-height','265mm','important');inner.style.setProperty('overflow','visible','important');const available=Math.max(1,inner.clientHeight),needed=Math.max(1,inner.scrollHeight),marathi=doc.documentElement.lang==='mr'||doc.documentElement.dataset.kpLanguage==='marathi',scale=Math.min(marathi?.82:1,available/needed*.98);inner.style.setProperty('zoom',String(scale),'important');inner.style.setProperty('width',(178/scale)+'mm','important');inner.style.setProperty('height','265mm','important');inner.style.setProperty('min-height','265mm','important');inner.style.setProperty('max-height','265mm','important');inner.dataset.localizedPrintScale=scale.toFixed(3);}function install(){const old=window.KPReportPreview;if(!old)return false;window.KPReportPreview=Object.freeze({...old,open(id){const win=old.open(id);if(win&&id==='single-page'){const run=()=>fit(win);for(const delay of [0,120,350,800])win.setTimeout(run,delay);win.addEventListener('load',run);win.addEventListener('beforeprint',run);try{win.document.fonts.ready.then(run);}catch(_){}}return win;}});return true;}let tries=0;const timer=setInterval(()=>{if(install()||++tries>50)clearInterval(timer);},25);})();
+</script>
+<style id="kp-western-aspect-two-page-style">
+.report-page[data-report-section="aspects"][data-aspect-page]{height:277mm!important;min-height:277mm!important;max-height:277mm!important;overflow:hidden!important}
+.report-page[data-report-section="aspects"][data-aspect-page] .am-report{height:100%;display:flex;flex-direction:column;gap:3mm}
+.report-page[data-report-section="aspects"][data-aspect-page] .am-report-key{margin-top:auto}
+@media print{
+ .report-page[data-report-section="aspects"][data-aspect-page="planet"]{break-after:page!important;page-break-after:always!important}
+ .report-page[data-report-section="aspects"][data-aspect-page="cusp"]{break-before:page!important;page-break-before:always!important}
+}
+</style>
+<script id="kp-western-aspect-two-page">
+(()=>{'use strict';
+function split(doc){
+ const first=doc?.querySelector('.report-page[data-report-section="aspects"]:not([data-aspect-page])');if(!first)return;
+ const second=first.cloneNode(true),firstTitle=first.querySelector('.report-page-title'),secondTitle=second.querySelector('.report-page-title');
+ first.dataset.aspectPage='planet';second.dataset.aspectPage='cusp';
+ if(firstTitle)firstTitle.textContent='13. Western Aspects · Planet to planet';if(secondTitle)secondTitle.textContent='14. Western Aspects · Planet to cusp';
+ first.querySelector('[data-aspect-chart="cusp"]')?.remove();second.querySelector('[data-aspect-chart="planet"]')?.remove();
+ first.after(second);
+}
+function install(){
+ const render=window.renderReport;if(render)window.renderReport=function(...args){const result=render.apply(this,args);split(document);return result;};window.renderReport?.();
+ const old=window.KPReportPreview;if(!old)return false;window.KPReportPreview=Object.freeze({...old,open(id){const win=old.open(id);if(win&&id==='aspects'){
+  const sources=[...document.querySelectorAll('#printReport>[data-report-section="aspects"]')];
+  if(sources.length>1&&win.document.querySelectorAll('[data-report-section="aspects"]').length===1)win.document.body.append(win.document.importNode(sources[1],true));
+ }return win;}});return true;
+}
+let tries=0;const timer=setInterval(()=>{if(install()||++tries>50)clearInterval(timer);},25);
+})();
+</script>
+<style id="kp-complete-prediction-report-style">
+.prediction-complete-report{font:10px/1.4 Arial,"Nirmala UI",sans-serif;color:#172b43}
+.prediction-complete-report>p{margin:2mm 0}.prediction-complete-report section{margin:0 0 4mm;break-inside:auto;page-break-inside:auto}
+.prediction-complete-report h2{margin:0 0 2mm;padding:2mm 3mm;background:#244f73;color:#fff;font-size:13px;break-after:avoid;page-break-after:avoid}
+.prediction-complete-report article{margin:0 0 2mm;padding:2.5mm 3mm;border:1px solid #afbdca;background:#f8fbfd;break-inside:avoid;page-break-inside:avoid}
+.prediction-complete-report article h3{margin:0 0 1mm;font-size:11px;color:#174b73}.prediction-complete-report article p{margin:1mm 0}
+.prediction-complete-report .prediction-proof{font-size:8.5px;color:#52677a}
+@media print{
+ .report-page[data-report-section="prediction"]:has(.prediction-complete-report){height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;border:0!important;outline:0!important;break-inside:auto!important;page-break-inside:auto!important}
+ .report-page[data-report-section="prediction"]:has(.prediction-complete-report)>.report-cover{overflow:visible!important;max-height:none!important}
+}
+</style>
+<script id="kp-complete-prediction-report">
+(()=>{'use strict';let individualPreview=false;const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function complete(){
+ const api=window.KPPersonalPredictions;if(!api)return window.KPPrediction?.snapshot?.()||'<p>Prediction data is unavailable.</p>';
+ const tabs=[...document.querySelectorAll('#pred-subtabs [data-pred-tab]')].filter(button=>button.dataset.predTab!=='analysis'),sections=[];
+ for(const button of tabs){const category=button.dataset.predTab;let data;try{data=api.matchRules(category);}catch(error){data={ready:false,reason:error.message,rows:[]};}
+  if(!data?.ready||!data.rows?.length)continue;sections.push('<section data-prediction-category="'+esc(category)+'"><h2>'+esc(button.textContent.trim())+' · '+data.rows.length+'</h2>'+data.rows.map(row=>'<article data-prediction-result="'+esc(row.id||row.key||'matched')+'">'+(row.title&&row.title!==row.text?'<h3>'+esc(row.title)+'</h3>':'')+'<p>'+esc(row.text||row.value||row.title||'')+'</p>'+(row.proof?'<p class="prediction-proof">'+esc(row.proof)+'</p>':'')+'</article>').join('')+'</section>');
+ }
+ const name=document.getElementById('name')?.value||'—',dob=document.getElementById('dob')?.value||'—';return '<div class="prediction-complete-report"><p><strong>Native:</strong> '+esc(name)+' · '+esc(dob)+'</p><p>Automatically collected kundali-matched prediction results from every available Prediction section.</p>'+sections.join('')+(sections.length?'':'<p>No matching prediction results are available for this kundali.</p>')+'</div>';
+}
+function install(){
+ const render=window.renderReport;if(render)window.renderReport=function(...args){const result=render.apply(this,args);if(!individualPreview){const cover=document.querySelector('#printReport>[data-report-section="prediction"]>.report-cover');if(cover)cover.innerHTML=complete();}return result;};window.renderReport?.();
+ const old=window.KPReportPreview;if(!old)return false;window.KPReportPreview=Object.freeze({...old,open(id){if(id!=='prediction')return old.open(id);individualPreview=true;try{return old.open(id);}finally{individualPreview=false;}}});return true;
+}
+let tries=0;const timer=setInterval(()=>{if(install()||++tries>50)clearInterval(timer);},25);
+})();
+</script>
 <script id="kp-life-events-report">
 (()=>{'use strict';const $=id=>document.getElementById(id),esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),uniq=a=>[...new Set(a)],code=p=>window.KPDisplay?.idByName?.[p?.lord]||p?.id||p?.lord||'—';
 const MAIN=/(education|study|profession|career|job|service|business|marriage|child|property|house|home|vehicle|finance|wealth|income|travel|foreign|health|disease|promotion|retirement)/i,EXCLUDE=/(death|longevity|short life|middle life|long life)/i;
