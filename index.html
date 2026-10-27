@@ -7111,7 +7111,8 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   window.KPAnnualAyanamsha=Object.freeze({enabled,prepare,at,details,format:dms,getTable:()=>JSON.parse(JSON.stringify(source))});
   document.addEventListener('DOMContentLoaded',()=>{
     renderReview();prepare();
-    const changed=event=>{
+ const changed=event=>{
+  if(document.readyState!=='complete'&&!event.isTrusted)return;
       if(!['dob','kp-ayanamsha-source','dayAyan','daySum'].includes(event.target?.id))return;
       prepare();clearTimeout(timer);timer=setTimeout(()=>window.calculateAll(),90);
     };
@@ -7279,7 +7280,8 @@ return new kd(this.curr.time,a,b)};$jscomp.global.Object.defineProperties(H.prot
   document.addEventListener('input',capture,true);document.addEventListener('change',capture,true);
   document.addEventListener('DOMContentLoaded',()=>{
     prepare();
-    const changed=event=>{
+ const changed=event=>{
+  if(document.readyState!=='complete'&&!event.isTrusted)return;
       const id=event.target?.id||'';
       if(!['dob','birthTime','dayAyan','daySum','kp-ayanamsha-source','stdLon','p6-ephemeris-source','st-ephemeris-source','baseSidereal0530','p6_row_date_1','p6_row_date_2'].includes(id)&&!/^p6_[dt]_\d$/.test(id))return;
       prepare();
@@ -9671,6 +9673,7 @@ body.app-ready #report .almanac-report table :is(td,th),.almanac-report table :i
         for(const key of ['p6_row_date_1','p6_row_date_2']){const field=byId(key);if(field)field.dataset.auto='1';}
       }
       refreshControls();
+      if(document.readyState!=='complete'&&!event.isTrusted)return;
       clearTimeout(timer);timer=setTimeout(()=>window.calculateAll?.(),100);
     };
     document.addEventListener('input',changed);document.addEventListener('change',changed);
@@ -11354,8 +11357,8 @@ body.app-ready #nadi-astrology .na-layer>div{grid-column:auto}
 (()=>{
  function initialize(){
   const mount=document.querySelector('#home .home-chart-mount');if(!mount)return;
-  let scheduled=false;
-  function fit(){scheduled=false;if(!mount.clientWidth)return;
+  let fitTimer=0;
+  function fit(){fitTimer=0;if(!mount.clientWidth)return;
    for(const lane of mount.querySelectorAll('.v38-lane')){
     if(!lane.dataset.homeBaseScale)lane.dataset.homeBaseScale=lane.style.getPropertyValue('--v38-lane-scale')||'1';
     let scale=Number(lane.dataset.homeBaseScale)||1;
@@ -11371,7 +11374,9 @@ body.app-ready #nadi-astrology .na-layer>div{grid-column:auto}
     }
    }
   }
-  function schedule(){if(!scheduled){scheduled=true;requestAnimationFrame(fit);}}
+  // Chart rendering produces a burst of mutations. Measure once after it settles
+  // instead of forcing layout again for every intermediate DOM update.
+  function schedule(){clearTimeout(fitTimer);fitTimer=setTimeout(fit,80);}
   new MutationObserver(schedule).observe(mount,{childList:true,subtree:true});new ResizeObserver(schedule).observe(mount);
   window.addEventListener('resize',schedule);document.addEventListener('change',schedule);schedule();
  }
@@ -22060,7 +22065,8 @@ function apply(){if(working)return;working=true;observer?.disconnect();try{
  document.querySelectorAll('[data-settings-en]').forEach(e=>{const text=lang==='bilingual'?e.dataset.settingsEn+' · '+(e.dataset.settingsMr||e.dataset.settingsEn):translated(e.dataset.settingsEn,lang);if(e.textContent!==text)e.textContent=text;});
  localize(document,lang);
  }finally{working=false;observer?.observe(document.body,{childList:true,subtree:true,characterData:true});}}
-function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply();});}
+// Coalesce calculation/report mutation bursts into one language pass.
+function schedule(){clearTimeout(queued);queued=setTimeout(()=>{queued=false;apply();},80);}
 function initialize(){if(window.KPReportPreview){const old=window.KPReportPreview;window.KPReportPreview=Object.freeze({...old,open(id){const preview=old.open(id);if(preview)localize(preview.document);return preview;}});}observer=new MutationObserver(schedule);window.addEventListener('kp-preferences-changed',schedule);window.addEventListener('chart-saved',schedule);apply();}
 window.KPLanguage=Object.freeze({translate:translated,localize,apply,schedule,languages:DATA.languages.map(x=>({value:x[0],code:x[1],name:x[2]}))});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();
@@ -24433,7 +24439,7 @@ function init(){
  const sync=window.syncKPWorksheetPositions;window.syncKPWorksheetPositions=function(...args){if(enabled())apply();return sync.apply(this,args);};
  const manualEdit=e=>{if(enabled()&&(/^(r5_(large|small)_(10|11|12|1|2|3))$/.test(e.target?.id||'')||['stLargeTime','stSmallTime'].includes(e.target?.id)))set('r5-house-source','manual');};
  document.addEventListener('input',manualEdit,true);document.addEventListener('change',manualEdit,true);
- const changed=e=>{const id=e.target?.id||'';if(id==='r5-house-source'||['birthPlaceSiderealTime','lat','lon','ayanValue','kp-ayanamsha-source'].includes(id)){key='';clearTimeout(timer);timer=setTimeout(()=>window.calculateAll?.(),110);}};
+ const changed=e=>{const id=e.target?.id||'';if(id==='r5-house-source'||['birthPlaceSiderealTime','lat','lon','ayanValue','kp-ayanamsha-source'].includes(id)){key='';if(document.readyState!=='complete'&&!e.isTrusted)return;clearTimeout(timer);timer=setTimeout(()=>window.calculateAll?.(),110);}};
  document.addEventListener('change',changed);document.addEventListener('input',changed);window.addEventListener('kp-preferences-changed',()=>{sourceRows(current);status(current);});window.KPLanguage?.localize(controls);window.calculateAll?.();
 }
 window.KPBhavSadhan=Object.freeze({enabled,apply,fromMoment,lookup,selectLatitude,metadata:table.metadata,getData:()=>copy(current)});

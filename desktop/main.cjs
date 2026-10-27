@@ -80,7 +80,9 @@ else {
       webPreferences:{nodeIntegration:false, contextIsolation:true, sandbox:true, webSecurity:true, preload:path.join(__dirname,'preload.cjs')}
     });
     secureWindow(mainWindow);
-    mainWindow.once('ready-to-show', () => {mainWindow.maximize();mainWindow.show();});
+    // Show the startup/activation screen as soon as its DOM is available.
+    // Hidden report preparation must not hold the whole window invisible.
+    mainWindow.webContents.once('dom-ready', () => {mainWindow.maximize();mainWindow.show();});
     licenseGate=await createGate(app,mainWindow,indexPath);
     if(licenseGate.isActive()){mainWindow.setMinimumSize(950,650);mainWindow.maximize();}
   }).catch(error=>{

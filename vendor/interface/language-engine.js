@@ -77,7 +77,9 @@ function apply(){if(working)return;working=true;observer?.disconnect();try{
  document.querySelectorAll('[data-settings-en]').forEach(e=>{const text=lang==='bilingual'?e.dataset.settingsEn+' · '+(e.dataset.settingsMr||e.dataset.settingsEn):translated(e.dataset.settingsEn,lang);if(e.textContent!==text)e.textContent=text;});
  localize(document,lang);
  }finally{working=false;observer?.observe(document.body,{childList:true,subtree:true,characterData:true});}}
-function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply();});}
+// A single calculation can add hundreds of table cells. Localising after every
+// MutationObserver delivery repeatedly walks the whole application.
+function schedule(){clearTimeout(queued);queued=setTimeout(()=>{queued=false;apply();},80);}
 function initialize(){if(window.KPReportPreview){const old=window.KPReportPreview;window.KPReportPreview=Object.freeze({...old,open(id){const preview=old.open(id);if(preview)localize(preview.document);return preview;}});}observer=new MutationObserver(schedule);window.addEventListener('kp-preferences-changed',schedule);window.addEventListener('chart-saved',schedule);apply();}
 window.KPLanguage=Object.freeze({translate:translated,localize,apply,schedule,languages:DATA.languages.map(x=>({value:x[0],code:x[1],name:x[2]}))});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize);else initialize();

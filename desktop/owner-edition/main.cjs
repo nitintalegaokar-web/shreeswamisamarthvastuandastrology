@@ -78,7 +78,9 @@ else {
       webPreferences:{nodeIntegration:false, contextIsolation:true, sandbox:true, webSecurity:true, preload:path.join(__dirname,'preload.cjs')}
     });
     secureWindow(mainWindow);
-    mainWindow.once('ready-to-show', () => {mainWindow.maximize();mainWindow.show();});
+    // Show the startup screen as soon as its DOM is available. Hidden report
+    // preparation can finish without holding the whole window invisible.
+    mainWindow.webContents.once('dom-ready', () => {mainWindow.maximize();mainWindow.show();});
     mainWindow.loadFile(indexPath);
   });
   app.on('window-all-closed', () => app.quit());
