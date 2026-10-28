@@ -23,6 +23,7 @@
       "main.cjs",
       "policy.cjs",
       "preload.cjs",
+      "icon.ico",
       "app/**/*",
       "package.json"
     ],
@@ -40,7 +41,7 @@
           ]
         }
       ],
-      "icon": "../icon.ico",
+      "icon": "icon.ico",
       "signExecutable": false,
       "artifactName": "KP-Master-Offline-Windows-${version}-${arch}.${ext}"
     },
@@ -60,6 +61,9 @@
       "deleteAppDataOnUninstall": false,
       "packElevateHelper": false,
       "include": "../installer.nsh",
+      "installerIcon": "icon.ico",
+      "uninstallerIcon": "icon.ico",
+      "installerHeaderIcon": "icon.ico",
       "differentialPackage": false
     }
   }

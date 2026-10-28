@@ -75,6 +75,7 @@ else {
     mainWindow = new BrowserWindow({
       width:1440, height:950, minWidth:950, minHeight:650,
       title:'KP MASTER', backgroundColor:'#ffffe8', show:false,
+      icon:path.join(__dirname,'icon.ico'),
       webPreferences:{nodeIntegration:false, contextIsolation:true, sandbox:true, webSecurity:true, preload:path.join(__dirname,'preload.cjs')}
     });
     // Establish the final viewport before Chromium performs its first layout.

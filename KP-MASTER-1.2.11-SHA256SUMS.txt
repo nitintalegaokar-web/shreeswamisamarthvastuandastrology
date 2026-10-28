@@ -1,5 +1,6 @@
 bd4ef277396d805b61436c5ca4b8e343fa9e37082b2608fbfb2e31f87734323e  KP-Master-Customer-Setup-1.2.11-x64.exe
-f51913fc84b8e79a0679b370de8a1cd33eacf4b14805208f22473ceed51495bb  KP-Master-Owner-Setup-1.2.11-x64.exe
+96d414297a07912d84a376bbad2a4928271010a61ce564877215dbcfeaef640b  KP-Master-Owner-Setup-1.2.11-x64.exe
+96d414297a07912d84a376bbad2a4928271010a61ce564877215dbcfeaef640b  KP-Master-Owner-Star-Logo-Setup-1.2.11-x64.exe
 e8fa9d0569d25dfade63287babc44f347e488a1140692487069079e5872a9cfe  KP-Master-Owner-Activation-Setup-1.2.11-x64.exe
 0f69c3e1b8b3ea6788448fce62cf288a8710c1f0c41d5a6e1e42738a1d3caa66  KP-Master-Owner-1.2.11.apk
 1a06546ae893a981b4bca967860a308193d09d1da996d40ddd5218c93e931d84  KP-Master-Customer-1.2.11.apk
