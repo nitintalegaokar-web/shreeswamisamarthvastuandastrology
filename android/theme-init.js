@@ -1,0 +1,2 @@
+window.kpSystemDark=()=>{try{if(window.KPMobile&&typeof KPMobile.isSystemDark==='function')return KPMobile.isSystemDark()}catch{}return matchMedia('(prefers-color-scheme: dark)').matches};
+(()=>{let saved='classic';try{const data=JSON.parse(localStorage.getItem('swami_appearance_v1')||'null');if(data&&data.version===1&&['classic','blue','saffron','dark','system'].includes(data.theme))saved=data.theme}catch{}window.kpThemeSaved=saved;const resolved=saved==='system'?(kpSystemDark()?'dark':'classic'):saved;document.documentElement.setAttribute('data-kp-theme',resolved)})();

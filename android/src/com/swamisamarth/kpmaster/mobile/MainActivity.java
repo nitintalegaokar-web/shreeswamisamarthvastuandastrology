@@ -85,6 +85,8 @@ public final class MainActivity extends Activity {
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);
         settings.setTextZoom(100);
+        if (Build.VERSION.SDK_INT >= 33) settings.setAlgorithmicDarkeningAllowed(false);
+        else if (Build.VERSION.SDK_INT >= 29) settings.setForceDark(WebSettings.FORCE_DARK_OFF);
         settings.setSafeBrowsingEnabled(true);
         web.addJavascriptInterface(new MobileBridge(), "KPMobile");
         web.setWebViewClient(new WebViewClient() {
@@ -173,6 +175,7 @@ public final class MainActivity extends Activity {
         catch (RuntimeException exception) { printBusy=false;web.evaluateJavascript("dispatchEvent(new Event('afterprint'))",null);status("Printing is unavailable. Enable Android Print Services in phone settings."); }
     }
     public final class MobileBridge {
+        @JavascriptInterface public boolean isSystemDark() { return (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES; }
         @JavascriptInterface public void shareWhatsApp(String url) { if(url!=null && url.length()<150000)openWhatsApp(url); }
         @JavascriptInterface public void copyText(String text) { if(text!=null && text.length()<100000)runOnUiThread(()->((ClipboardManager)getSystemService(CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("KP Master",text))); }
         @JavascriptInterface public void printDocument(String name, String paper, boolean landscape) { runOnUiThread(()->startPrint(name,paper,landscape)); }
@@ -199,6 +202,10 @@ public final class MainActivity extends Activity {
             final Uri uri=data.getData();
             new Thread(()->{try(OutputStream out=getContentResolver().openOutputStream(uri,"wt")){if(out==null)throw new IOException();out.write(bytes);status("File saved. Keep a backup outside the app.");}catch(IOException exception){status("Could not save. Choose another folder or check free space.");}finally{exportBusy=false;}},"KP-file-export").start();
         }
+    }
+    @Override public void onConfigurationChanged(android.content.res.Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        web.evaluateJavascript("window.dispatchEvent(new Event('kp-system-theme'))", null);
     }
     @Override public void onBackPressed() {web.evaluateJavascript("typeof kpRequestBack==='function' ? kpRequestBack() : true",value->{if("true".equals(value))finish();});}
     @Override protected void onDestroy() {if(fileCallback!=null)fileCallback.onReceiveValue(null);web.removeJavascriptInterface("KPMobile");web.destroy();super.onDestroy();}

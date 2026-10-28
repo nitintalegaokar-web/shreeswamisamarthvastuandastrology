@@ -1,0 +1,128 @@
+.kp-theme-panel{margin-bottom:24px}.kp-theme-content{padding:8px 16px 20px}.kp-theme-content>label{display:block;font:13px 'Segoe UI',sans-serif;margin-bottom:8px}.kp-theme-content select{width:100%;min-height:48px;border:1px solid #d7ded8;border-radius:8px;padding:10px;font:16px 'Segoe UI',sans-serif}.kp-theme-content>p{font:13px/1.7 'Segoe UI',sans-serif}.kp-theme-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.kp-theme-sample{border:1px solid var(--kp-border,#ddd);border-radius:10px;overflow:hidden;margin-top:16px}.kp-theme-sample-bar{padding:13px;background:var(--kp-nav,#182f3d);color:#fff;font-size:15px}.kp-theme-sample-bar span{float:right;font-size:11px}.kp-theme-sample-card{padding:18px;display:grid;gap:9px;background:var(--kp-surface,#fff);color:var(--kp-text,#284657);font-size:14px}.kp-theme-sample-card>span{color:var(--kp-muted,#647682);font-size:12px}.kp-theme-sample-tag{padding:7px 12px;background:var(--kp-soft,#f5ecdc);border-radius:6px;width:max-content;color:var(--kp-accent,#8c682e)!important}
+@media screen{
+html[data-kp-theme]{--kp-bg:#f5f3ee;--kp-surface:#fff;--kp-soft:#f4ecdc;--kp-input:#fcfdfb;--kp-text:#294554;--kp-muted:#596f7b;--kp-border:#d7ded8;--kp-accent:#8c682e;--kp-nav:#182f3d;--bg:var(--kp-bg);--text:var(--kp-text);--muted:var(--kp-muted);--border:var(--kp-border);--navy:var(--kp-nav);background:var(--kp-bg);color-scheme:light}
+html[data-kp-theme=blue]{--kp-bg:#edf4fa;--kp-soft:#deedf9;--kp-accent:#1e5d96;--kp-nav:#123b60;--kp-border:#cbdce9;--kp-text:#213f59}
+html[data-kp-theme=saffron]{--kp-bg:#fff5e9;--kp-soft:#ffe8cc;--kp-accent:#934515;--kp-nav:#743916;--kp-border:#e9d4bd;--kp-text:#533826}
+html[data-kp-theme=dark]{--kp-bg:#0e1923;--kp-surface:#1b2b38;--kp-soft:#303d42;--kp-input:#12212d;--kp-text:#e8eef4;--kp-muted:#b7c5d0;--kp-border:#465b6b;--kp-accent:#f0c66b;--kp-nav:#091722;color-scheme:dark}
+html[data-kp-theme] body{background:var(--kp-bg);color:var(--kp-text)}
+html[data-kp-theme] .bk-panel,
+html[data-kp-theme] .card,
+html[data-kp-theme] .stat,
+html[data-kp-theme] .bk-stat,
+html[data-kp-theme] .modal,
+html[data-kp-theme] .empty,
+html[data-kp-theme] .kp-mobile-menu{background:var(--kp-surface);border-color:var(--kp-border);color:var(--kp-text)}
+html[data-kp-theme] .bk-heading h1,
+html[data-kp-theme] .hero h1,
+html[data-kp-theme] .kp-remedy-heading h1,
+html[data-kp-theme] .bk-panel-heading h2,
+html[data-kp-theme] .section-heading h2,
+html[data-kp-theme] .crm-directory h2,
+html[data-kp-theme] .bill-directory h2,
+html[data-kp-theme] .modal h2,
+html[data-kp-theme] .card h3,
+html[data-kp-theme] .stat strong,
+html[data-kp-theme] .bk-stat strong{color:var(--kp-text)}
+html[data-kp-theme] .bk-heading p,
+html[data-kp-theme] .hero p,
+html[data-kp-theme] .bk-top,
+html[data-kp-theme] .hint,
+html[data-kp-theme] .crm-helper,
+html[data-kp-theme] .crm-empty,
+html[data-kp-theme] .card .description,
+html[data-kp-theme] .card .muted,
+html[data-kp-theme] .bk-field label,
+html[data-kp-theme] .kp-remedy-field label,
+html[data-kp-theme] .kp-theme-content>p,
+html[data-kp-theme] .kp-theme-content>label,
+html[data-kp-theme] .stat small,
+html[data-kp-theme] .bk-stat small,
+html[data-kp-theme] .settings-print-help,
+html[data-kp-theme] .crm-directory small,
+html[data-kp-theme] .bill-directory small,
+html[data-kp-theme] .crm-history p,
+html[data-kp-theme] .crm-history small,
+html[data-kp-theme] .crm-linked-row,
+html[data-kp-theme] .bill-payment-row{color:var(--kp-muted)}
+html[data-kp-theme] .bk-btn,
+html[data-kp-theme] .btn,
+html[data-kp-theme] .action,
+html[data-kp-theme] .kp-mobile-menu button{background:var(--kp-input);border-color:var(--kp-border);color:var(--kp-text)}
+html[data-kp-theme] .bk-btn-primary,
+html[data-kp-theme] .btn#btnAdd,
+html[data-kp-theme] .btn#btnSave{background:var(--kp-nav);border-color:var(--kp-nav);color:#fff}
+html[data-kp-theme] .chip,
+html[data-kp-theme] .tag,
+html[data-kp-theme] .crm-stage,
+html[data-kp-theme] .bk-btn-gold,
+html[data-kp-theme] .crm-booking-link,
+html[data-kp-theme] .settings-explanation,
+html[data-kp-theme] .bill-totals,
+html[data-kp-theme] .bk-balance,
+html[data-kp-theme] .bk-payment-row,
+html[data-kp-theme] .bk-paper,
+html[data-kp-theme] .settings-toggle{background:var(--kp-soft);border-color:var(--kp-border);color:var(--kp-accent)}
+html[data-kp-theme] .crm-customer,
+html[data-kp-theme] .bill-doc-card{background:var(--kp-surface);color:var(--kp-text)}
+html[data-kp-theme] .crm-customer.active,
+html[data-kp-theme] .bill-doc-card.active{background:var(--kp-soft);border-color:var(--kp-accent)}
+html[data-kp-theme] .crm-customer small,
+html[data-kp-theme] .bill-doc-card small,
+html[data-kp-theme] .crm-due{color:var(--kp-muted)}
+html[data-kp-theme] input:not([type=checkbox]):not([type=radio]),
+html[data-kp-theme] textarea,
+html[data-kp-theme] select{background:var(--kp-input)!important;color:var(--kp-text)!important;border-color:var(--kp-border)!important;accent-color:var(--kp-accent)}
+html[data-kp-theme] input::placeholder,
+html[data-kp-theme] textarea::placeholder{color:var(--kp-muted);opacity:.85}
+html[data-kp-theme] .kp-mobile-nav,
+html[data-kp-theme] .kp-theme-content select{background:var(--kp-surface);border-color:var(--kp-border)}
+html[data-kp-theme] .kp-mobile-nav button{background:var(--kp-surface);color:var(--kp-muted)}
+html[data-kp-theme] .kp-mobile-nav button.active{background:var(--kp-soft);color:var(--kp-accent)}
+html[data-kp-theme] .kp-mobile-header{background:var(--kp-nav)}
+html[data-kp-theme] .kp-mobile-header small,
+html[data-kp-theme] .kp-mobile-header button{color:#f2e5c8}
+html[data-kp-theme] .bk-label,
+html[data-kp-theme] .eyebrow,
+html[data-kp-theme] .bk-number,
+html[data-kp-theme] .bk-id,
+html[data-kp-theme] .bk-preview-label,
+html[data-kp-theme] .crm-feedback,
+html[data-kp-theme] .bk-status{color:var(--kp-accent)}
+html[data-kp-theme] .bk-form fieldset,
+html[data-kp-theme] .bk-form-footer,
+html[data-kp-theme] .bk-top,
+html[data-kp-theme] .crm-directory-head,
+html[data-kp-theme] .crm-directory-footer,
+html[data-kp-theme] .crm-history article,
+html[data-kp-theme] .crm-linked-row,
+html[data-kp-theme] .kp-remedy-tools,
+html[data-kp-theme] .footer,
+html[data-kp-theme] .actions{border-color:var(--kp-border)}
+html[data-kp-theme] .bill-totals .bill-grand,
+html[data-kp-theme] .bk-balance strong,
+html[data-kp-theme] .bk-payment-row strong,
+html[data-kp-theme] .bk-panel-heading h3,
+html[data-kp-theme] .crm-history strong,
+html[data-kp-theme] .bill-payment-row strong,
+html[data-kp-theme] .bill-item-value,
+html[data-kp-theme] .fin-total{color:var(--kp-text)}
+html[data-kp-theme] .bill-preview-dialog,
+html[data-kp-theme] .bill-preview-toolbar{background:var(--kp-surface);color:var(--kp-text)}
+html[data-kp-theme] .bill-preview-hint{color:var(--kp-muted)}
+html[data-kp-theme] .fin-table,
+html[data-kp-theme] .fin-table th,
+html[data-kp-theme] .fin-table td,
+html[data-kp-theme] .fin-table-wrap table,
+html[data-kp-theme] .fin-table-wrap th,
+html[data-kp-theme] .fin-table-wrap td{color:var(--kp-text);border-color:var(--kp-border)}
+html[data-kp-theme] .settings-note,
+html[data-kp-theme] .settings-note p,
+html[data-kp-theme] .settings-note li{color:var(--kp-muted)}
+/* Documents keep a stable white-paper design, including on-screen previews. */
+html[data-kp-theme] .bill-preview-paper,
+/* Documents keep a stable white-paper design, including on-screen previews. */
+html[data-kp-theme] .settings-letterhead,
+/* Documents keep a stable white-paper design, including on-screen previews. */
+html[data-kp-theme] .settings-preview-panel{color-scheme:light;background:white;color:#202b34}
+}
+@media screen{html[data-kp-theme] .fin-table .fin-total td,html[data-kp-theme] .crm-reminder{background:var(--kp-soft);color:var(--kp-text);border-color:var(--kp-border)}html[data-kp-theme] .bk-summary h3,html[data-kp-theme] .bk-tools h3,html[data-kp-theme] .bk-side h3,html[data-kp-theme] .settings-note strong{color:var(--kp-text)}html[data-kp-theme=dark] #finIncome{color:#a7e3bf}html[data-kp-theme=dark] #finExpense{color:#ffb9a8}html[data-kp-theme=dark] #finNet{color:var(--kp-text)}}

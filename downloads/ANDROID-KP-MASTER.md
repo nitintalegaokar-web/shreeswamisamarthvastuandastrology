@@ -1,8 +1,8 @@
-# KP Master for Android — 1.4.1
+# KP Master for Android — 1.4.2
 
 ## Install
 
-1. Download **KP-Master-Android-1.4.1.apk** on your Android phone.
+1. Download **KP-Master-Android-1.4.2.apk** on your Android phone.
 2. Open the APK and allow **Install unknown apps** for the browser/file manager if Android asks. Install KP Master, then open it. You can turn that installation permission off afterward.
 3. Requires Android 8.0 or newer and an updated Android System WebView/Chrome. The app shows an update notice if the installed WebView is too old.
 
@@ -25,7 +25,7 @@ The Android app and Windows/browser software keep **separate offline copies**. T
 
 ## Build and checks
 
-Signed release APK, package `com.swamisamarth.kpmaster.mobile`, version 1.4.1, minimum Android API 26, target API 35. No Internet, contacts, phone or broad storage permissions are requested by KP Master. Android owns the document picker and print dialog. The APK signature and embedded assets are verified; adjacent `.sha256` contains the download checksum.
+Signed release APK, package `com.swamisamarth.kpmaster.mobile`, version 1.4.2, minimum Android API 26, target API 35. No Internet, contacts, phone or broad storage permissions are requested by KP Master. Android owns the document picker and print dialog. The APK signature and embedded assets are verified; adjacent `.sha256` contains the download checksum.
 
 Mobile Chromium checks cover all six workspaces, CRM persistence, booking links, privacy of WhatsApp text, JSON/Excel exports, A5/A4 print bridge calls, afterprint cleanup, settings persistence, older-engine compatibility and phone-width overflow. Excel output was independently read with openpyxl. Device/emulator and physical hardware validation limits are recorded with the delivered release.
 
@@ -40,3 +40,9 @@ Release signing certificate SHA-256: `995dc0871009110ac9f1fe69e2a60e7c0af366d69a
 ## 1.4.1 remedy screen correction
 
 Search, Subject filter and Add remedy are now shown at the top of the Remedies workspace. They were inside a desktop header hidden by the original mobile layout. The controls now live in a dedicated mobile toolbar. New tests confirm that they are visible at 320/390/768 px, and that a newly saved Marathi remedy can be found by keyword after restarting the page. The package, signing certificate and offline storage keys are unchanged; install as an update and keep regular backups.
+
+## Theme settings (1.4.2)
+
+Open **Menu → Settings → Theme**. Choose Classic Gold, Ocean Blue, Saffron, Dark or Follow phone setting, preview the result, then tap **Save theme**. **Restore saved theme** cancels an unsaved preview. Your saved choice remains after reopening. The phone-setting option follows Android light/dark mode. Theme choices affect app screens; paper previews, printed documents and PDFs retain white backgrounds. The theme preference is saved on this phone separately from business-detail backups.
+
+Theme-specific browser checks passed for preview/save/reload, reverting/discarding a preview, system-mode notifications, all workspace widths and white-paper output. Signing and archive checks cover the new release. No additional physical-device validation is claimed beyond the limits above. Install this APK as an update using the same signing certificate; back up your records first.
