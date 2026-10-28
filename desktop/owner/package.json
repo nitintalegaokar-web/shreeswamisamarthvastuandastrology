@@ -32,7 +32,8 @@
       "owner-access.json",
       "feature-policy.cjs",
       "features.json",
-      "feature-catalog.js"
+      "feature-catalog.js",
+      "logo.png"
     ],
     "asar": true,
     "win": {
