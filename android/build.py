@@ -27,7 +27,7 @@ with zipfile.ZipFile(build/'unsigned.apk','a',zipfile.ZIP_DEFLATED) as z:
  for p in sorted((build/'dex').glob('*.dex')):z.write(p,p.name)
 run(tools/'zipalign','-p','-f','4',build/'unsigned.apk',build/'aligned.apk')
 key=Path(os.environ['KP_ANDROID_KEYSTORE']);password=Path(os.environ['KP_ANDROID_PASSWORD_FILE'])
-output=(build/'KP-Master-test.apk') if os.environ.get('KP_ANDROID_DEBUG')=='1' else root.parent/'downloads/KP-Master-Android-1.4.0.apk'
+output=(build/'KP-Master-test.apk') if os.environ.get('KP_ANDROID_DEBUG')=='1' else root.parent/'downloads/KP-Master-Android-1.4.1.apk'
 run(tools/'apksigner','sign','--ks',key,'--ks-key-alias','kp-master','--ks-pass','file:'+str(password),'--v4-signing-enabled','false','--out',output,build/'aligned.apk')
 run(tools/'apksigner','verify','--verbose','--print-certs',output)
 print('Built',output)

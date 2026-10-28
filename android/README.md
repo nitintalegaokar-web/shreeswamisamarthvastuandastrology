@@ -1,4 +1,4 @@
-# KP Master Android 1.4.0
+# KP Master Android 1.4.1
 
 A native Android Activity hosts the complete offline consultancy HTML on a private, intercepted HTTPS origin (`app.kpmaster.local`). No HTTP server runs on the phone. Java/Android SDK APIs handle installed WhatsApp, the Storage Access Framework, clipboard and Android printing. The APK does not request Internet, contacts, phone or broad storage permissions. It is universal Java bytecode, with no ABI-specific native libraries.
 
@@ -13,7 +13,7 @@ KP_ANDROID_PASSWORD_FILE=/private/path/password.txt \
 python3 android/build.py
 ```
 
-The keystore alias is `kp-master`. Use the same private signing key for future updates. A distribution keystore was created outside Git at `/workspace/.kp-master-android-signing/`; it and its password must be kept private and backed up securely. No signing secrets are committed. Output: `downloads/KP-Master-Android-1.4.0.apk`. The manifest is the version source. The production manifest is not debuggable. `KP_ANDROID_DEBUG=1` builds a separate, debuggable `android/build/KP-Master-test.apk` for local emulator checks; do not distribute it.
+The keystore alias is `kp-master`. Use the same private signing key for future updates. A distribution keystore was created outside Git at `/workspace/.kp-master-android-signing/`; it and its password must be kept private and backed up securely. No signing secrets are committed. Output: `downloads/KP-Master-Android-1.4.1.apk`. The manifest is the version source. The production manifest is not debuggable. `KP_ANDROID_DEBUG=1` builds a separate, debuggable `android/build/KP-Master-test.apk` for local emulator checks; do not distribute it.
 
 The build uses aapt2, javac, d8, zipalign and apksigner. For the cloud's manual SDK downloads, official Google repository checksums were verified. The builder accepts normal SDK directory layouts and the temporary zip extraction layout used here. Use SDK tools under their applicable licenses.
 
@@ -36,8 +36,11 @@ Serve the repository on localhost:8086; create `/tmp/kp-mobile-tests`, then run:
 
 ```sh
 python3 android/stage.py
+node android/tests/remedy-controls.cjs
 node android/tests/mobile.cjs
 KP_TEST_LEGACY=1 node android/tests/mobile.cjs
 ```
 
 Tests use synthetic contacts and a mocked native bridge; no WhatsApp messages are sent. Native emulator checks and their limits are documented in `downloads/ANDROID-KP-MASTER.md`. A physical phone, installed WhatsApp and a real printer are required for final hardware verification.
+
+Version 1.4.1 moves the remedy search/filter/Add controls out of the hidden desktop header into the visible remedy workspace. A regression check covers above-fold visibility and saving/searching a new remedy after reload.

@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.swamisamarth.kpmaster.mobile" android:versionCode="14000" android:versionName="1.4.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.swamisamarth.kpmaster.mobile" android:versionCode="14001" android:versionName="1.4.1">
     <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="35" />
     <queries><package android:name="com.whatsapp"/><package android:name="com.whatsapp.w4b"/></queries>
     <application android:label="KP Master" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher" android:theme="@style/AppTheme" android:allowBackup="false" android:enableOnBackInvokedCallback="false" android:usesCleartextTraffic="false" android:supportsRtl="true">
