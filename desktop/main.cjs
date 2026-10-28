@@ -79,10 +79,13 @@ else {
       title:'KP MASTER', backgroundColor:'#ffffe8', show:false,
       webPreferences:{nodeIntegration:false, contextIsolation:true, sandbox:true, webSecurity:true, preload:path.join(__dirname,'preload.cjs')}
     });
+    // Establish the final viewport before Chromium performs its first layout.
+    // This avoids a second full-page reflow and opens maximized on double-click.
+    mainWindow.maximize();
     secureWindow(mainWindow);
     // Show the startup/activation screen as soon as its DOM is available.
     // Hidden report preparation must not hold the whole window invisible.
-    mainWindow.webContents.once('dom-ready', () => {mainWindow.maximize();mainWindow.show();});
+    mainWindow.webContents.once('dom-ready', () => mainWindow.show());
     licenseGate=await createGate(app,mainWindow,indexPath);
     if(licenseGate.isActive()){mainWindow.setMinimumSize(950,650);mainWindow.maximize();}
   }).catch(error=>{

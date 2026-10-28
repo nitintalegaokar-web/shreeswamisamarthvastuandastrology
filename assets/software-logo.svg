@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="KP MASTER orbital astrology logo">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34414c"/>
+      <stop offset="1" stop-color="#19232c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="188" fill="url(#background)"/>
+  <circle cx="512" cy="512" r="362" fill="none" stroke="#7e8b93" stroke-width="22"/>
+  <g fill="none" stroke="#d8dee1" stroke-width="31" stroke-linecap="round">
+    <ellipse cx="512" cy="512" rx="250" ry="108" transform="rotate(18 512 512)" stroke-dasharray="520 82 250 78"/>
+    <ellipse cx="512" cy="512" rx="250" ry="108" transform="rotate(138 512 512)" stroke-dasharray="505 88 265 72"/>
+    <ellipse cx="512" cy="512" rx="250" ry="108" transform="rotate(258 512 512)" stroke-dasharray="535 76 238 82"/>
+  </g>
+  <g fill="#d8dee1">
+    <circle cx="512" cy="512" r="35"/>
+    <circle cx="737" cy="390" r="28"/>
+    <circle cx="316" cy="687" r="28"/>
+    <circle cx="436" cy="255" r="28"/>
+  </g>
+</svg>
