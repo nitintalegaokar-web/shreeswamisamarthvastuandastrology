@@ -1,4 +1,4 @@
-# KP Master Android 1.4.2
+# KP Master Android 1.5.0
 
 A native Android Activity hosts the complete offline consultancy HTML on a private, intercepted HTTPS origin (`app.kpmaster.local`). No HTTP server runs on the phone. Java/Android SDK APIs handle installed WhatsApp, the Storage Access Framework, clipboard and Android printing. The APK does not request Internet, contacts, phone or broad storage permissions. It is universal Java bytecode, with no ABI-specific native libraries.
 
@@ -13,7 +13,7 @@ KP_ANDROID_PASSWORD_FILE=/private/path/password.txt \
 python3 android/build.py
 ```
 
-The keystore alias is `kp-master`. Use the same private signing key for future updates. A distribution keystore was created outside Git at `/workspace/.kp-master-android-signing/`; it and its password must be kept private and backed up securely. No signing secrets are committed. Output: `downloads/KP-Master-Android-1.4.2.apk`. The manifest is the version source. The production manifest is not debuggable. `KP_ANDROID_DEBUG=1` builds a separate, debuggable `android/build/KP-Master-test.apk` for local emulator checks; do not distribute it.
+The keystore alias is `kp-master`. Use the same private signing key for future updates. A distribution keystore was created outside Git at `/workspace/.kp-master-android-signing/`; it and its password must be kept private and backed up securely. No signing secrets are committed. Output: `downloads/KP-Master-Android-1.5.0.apk`. The manifest is the version source. The production manifest is not debuggable. `KP_ANDROID_DEBUG=1` builds a separate, debuggable `android/build/KP-Master-test.apk` for local emulator checks; do not distribute it.
 
 The build uses aapt2, javac, d8, zipalign and apksigner. For the cloud's manual SDK downloads, official Google repository checksums were verified. The builder accepts normal SDK directory layouts and the temporary zip extraction layout used here. Use SDK tools under their applicable licenses.
 
@@ -50,3 +50,9 @@ Version 1.4.1 moves the remedy search/filter/Add controls out of the hidden desk
 Menu → Settings → Theme offers Classic Gold, Ocean Blue, Saffron, Dark and Follow phone setting. Selection previews immediately; Save theme writes only the dedicated `swami_appearance_v1` preference. Restore saved theme discards a preview. Leaving Settings also restores the saved theme. System mode uses Android's configuration through the trusted bridge, with a media-query fallback for browser tests; configuration changes notify the page without recreating the editor. CSS is screen-only and document previews remain white. Theme preference is separate from business-profile backups.
 
 `node android/tests/themes.cjs` checks choices, saving/reload, reverting/discarding, browser/native system-change notifications, print/preview white backgrounds, fallback for invalid preferences and workspace width. Run with the same local server URL override as the other mobile tests.
+
+## Colourful compact layout (1.5.0)
+
+`compact.js/css` add a screen-only compact layout and a Vibrant Colours theme. This is the default when no valid appearance preference exists; explicitly saved themes remain selected. Headers, spacing and cards are smaller while fields retain 16px input text and touch controls retain at least 44px height. Remedy notes are clamped to three lines, with Read full remedy / Show less controls added for truncated text. Sharing and printing still read the full stored remedy. Customer filters are behind an explicit Filter customers disclosure; search and Add remain visible. Jump links scroll to customer forms, current documents, reports or business details without modifying those forms.
+
+`node android/tests/compact.cjs` checks the default theme, expand/collapse/full print content, record immutability, all workspaces at 320/390/768 px, navigation touch targets, filter disclosure, report shortcuts and saved-theme persistence. Compact CSS is screen-only; paper output keeps its previous layout. The native bridge and permissions are unchanged.
