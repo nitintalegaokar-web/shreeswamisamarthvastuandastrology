@@ -1,0 +1,21 @@
+{
+  "name": "KP MASTER",
+  "version": "16.1",
+  "build": "2026-11-14",
+  "activationRequired": true,
+  "logoEmbedded": true,
+  "files": [
+    {
+      "file": "KP-MASTER-Installer.exe",
+      "bytes": 23050640,
+      "sha256": "fa2d92464cb66c78cef6bc9921eba738f76cda09e7c5238a52a89d24dc1f1d73"
+    },
+    {
+      "file": "KP-MASTER-Owner-Activation.exe",
+      "bytes": 1094144,
+      "sha256": "6f5836c195942c54cd81776e330edfcd66a59995aef2ac681a662d04a5feaf04"
+    }
+  ],
+  "installerPayloadTestedUnderWine": true,
+  "nativeWindowsWebView2DisplayTested": false
+}
