@@ -1,11 +1,11 @@
 # KP MASTER — updated software
 
-[**Download KP MASTER software (ZIP)**](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/archive/refs/heads/kp-master-downloads.zip)
+[**Download Windows installer.exe**](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-windows/KP-MASTER-Installer.exe)
 
-[Download the standalone HTML file](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-downloads/KP-MASTER-Updated.html?download=1)
+[Download the browser software (ZIP)](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/archive/refs/heads/kp-master-downloads.zip)
 
-Extract the ZIP, then open **KP-MASTER-Updated.html** in Chrome or Microsoft Edge. Keep the `.html` extension. The file contains the software and calculation data.
+The ZIP contains **KP-MASTER-Updated.html**. Extract it and open that file in Chrome or Microsoft Edge. The software and calculation data are self-contained.
 
-This update fixes Home chart-style navigation, F11 sizing, calculated Kundali hover details, Marathi/Hindi table labels and report printing. It also includes the compact BTR window and the `created by-KP MASTER` print footer.
+The Windows installer is available on the linked `kp-master-windows` branch, with its owner activation tool. It requires 64-bit Windows 10/11 and Microsoft Edge WebView2 Runtime.
 
-This package is a browser application. It does not contain a Windows installer.
+This update embeds the supplied logo and fixes Home chart-style navigation, F11/CT/RT sizing, Kundali hover details, Marathi/Hindi table labels, selected chart styles in Normal/Single/Custom reports, and report-only printing with a `created by-KP MASTER` footer. W. Aspects uses a hidden scrollbar while retaining scrolling.

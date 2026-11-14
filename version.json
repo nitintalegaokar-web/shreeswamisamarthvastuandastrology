@@ -3,6 +3,9 @@
   "updated": "2026-11-14",
   "package": "standalone-html",
   "file": "KP-MASTER-Updated.html",
-  "bytes": 29202771,
-  "sha256": "448954ec63c9484e041e9becd3dbd57a6f226127aa45fce06fe6b5144d51f054"
+  "bytes": 29236895,
+  "sha256": "98618a75666b8a066c52e3e7cf0d261a061e599e9c7269b9c6be0443c4220b78",
+  "logoEmbedded": true,
+  "selectedChartPrintingFixed": true,
+  "RTSizingFixed": true
 }
