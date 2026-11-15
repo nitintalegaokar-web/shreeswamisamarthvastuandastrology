@@ -4,10 +4,16 @@
 
 [Download Owner Activation Tool.exe](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-windows/KP-MASTER-Owner-Activation.exe)
 
-Run the installer on 64-bit Windows 10 or Windows 11, then open KP MASTER from the Desktop or Start menu. Microsoft Edge WebView2 Runtime is required; the application links to Microsoft's runtime download if it is missing.
+Updated 15 November 2026 · version 16.2.2026.1115.
 
-Customer activation uses an owner-issued code bound to the computer and Windows user. The remaining period appears under General Settings → Astrologer Info. The owner tool needs the separate private key file supplied to the owner. The same installer supports an owner activation with no expiry.
+Run the installer on 64-bit Windows 10 or Windows 11. Microsoft Edge WebView2 Runtime is required; the app provides Microsoft's download page if it is missing. The same installer supports customer activation and an owner activation with no expiry. Existing licences continue to use the same owner key. The remaining activation period appears under General Settings → Astrologer Info.
 
-The supplied KP MASTER logo is embedded in the software, desktop icon, installer and activation tool. Normal and Single reports follow the Basic screen's selected Kundali type; Custom reports retain their own selection. CT/RT sizing and F11 readability are corrected. W. Aspects scrolls with a hidden scrollbar.
+Open/Save uses your chosen drive or folder. Import Charts accepts multiple files or a folder. Previous saved browser charts remain accessible. Program data is expanded once during installation for faster opening; all calculation/place data remains included.
 
-The application and licensing were checked in the build environment; install/uninstall were checked under Wine. Full WebView2 display and printing still need validation on native Windows.
+Reports open in a contained window with Minimize, Maximize and Restore. Download Image saves the selected page as PNG. Marathi/Hindi Western aspect tables fit the page; the South Indian single-page chart retains its grid. Custom report settings choose the Kundali type for every matchmaking report. Both matchmaking charts have application chart options instead of the browser page menu.
+
+APPM checks CSL, STL and SBL independently: at least one fruitful significator qualifies, excluding stronger negative-house evidence. Cuspal Adjustment previews and applies the calculated matching birth time. Lagna Progress Finder displays Sign/Star/Sub starting times in cards. Table/chart labels adapt to the available space; truncated cells show their full contents on hover. Buttons, panels and Kundali labels use the selected theme. Asteroid ephemeris is not included, so asteroid positions remain unavailable.
+
+Browser workflow/report checks passed for all four chart styles, English/Marathi/Hindi and normal/F11 layouts. Native Unicode file operations, activation and installer payload were checked under Wine. Full native Windows/WebView2 display and physical printing remain untested.
+
+The private owner key is not included in this repository or the customer installer.
