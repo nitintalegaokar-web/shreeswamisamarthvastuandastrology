@@ -1,11 +1,9 @@
 {
-  "name": "KP MASTER",
-  "updated": "2026-11-14",
-  "package": "standalone-html",
+  "version": "16.2.2026.1115",
+  "updated": "2026-11-15",
   "file": "KP-MASTER-Updated.html",
-  "bytes": 29236895,
-  "sha256": "98618a75666b8a066c52e3e7cf0d261a061e599e9c7269b9c6be0443c4220b78",
-  "logoEmbedded": true,
-  "selectedChartPrintingFixed": true,
-  "RTSizingFixed": true
+  "bytes": 29303439,
+  "sha256": "0508c3c4bb6de975e3d70eb2ccef4db18a88c1ee843288b4fae2dd65532576db",
+  "format": "Standalone HTML",
+  "installerBranch": "kp-master-windows"
 }
