@@ -1,5 +1,25 @@
-KP MASTER 16.3 — 20 November 2026
+Advance KP Master — standalone edition
 
-Open KP-MASTER-Updated.html in Chrome or Microsoft Edge. The file includes all calculation data.
-For faster startup and native drive/folder Open/Save dialogs, use the Windows installer linked in README.md.
-Asteroid ephemeris is not included.
+Download software: https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-downloads/KP-MASTER-Updated.html
+
+Updated 20 November 2026 · version 16.4.2026.1120.
+
+The standalone file contains the same calculation engine, supplied reference library, prediction readings, event-language updates and interface fixes as the Windows installer. The Windows edition provides native drive/folder operations and activation.
+
+The Encyclopedia now includes all 43 supplied Word documents, including the 685-entry English–Marathi–Hindi event reference. It retains paragraphs, tables, supplementary notes and original source text. Select a source or search all supplied sources. Existing KP Theory topics remain available. Missing translations fall back to source English rather than invented text. Custom event names and saved criteria are preserved; reference conditions without an approved automatic rule remain reference material.
+
+Click a visible planet label to open the three-panel Planet Information & Prediction window. It separates general references, actual chart evidence, Vedic readings and approved KP event/DBA evidence. Transit readings use a selectable UTC date/time and conjunction orb, with applying/separating and retrograde evidence. Vedic whole-sign houses counted from the natal Moon remain separate from KP cusps. Source references and readings can be printed through the existing report viewer.
+
+The six latest Word sources are included. Dasha Results, Bhav Predictions, Complete Dasha Phal and Dasha/Nakshatra Upay appear in KP popups and selectable prediction reports in English, Marathi and Hindi. Readings use actual native matched house rules and MD/AD/PD evidence; ambiguous source keys remain reference material. Upay stays in KP Predictions. Event Promise and DBA use statement-style results with supporting/opposing houses; natal promise remains separate from DBA fructification, and PD is not evaluated when MD or AD fails.
+
+Prediction offers Vedic Predictions, KP Predictions and Gemstone. The remedial section includes the nine supplied yantra grids. Rahu and Venus source-number inconsistencies are retained and identified for review. The Transit Chart window follows the supplied three-column layout: native Rashi/Bhava overlays, thirteen planetary points and twelve cusps, abbreviated Nakshatra tables, five expandable Vimshottari levels, local date/time and location controls, slider, Life Events and quick dates. Sections scroll within the screen; the selected theme applies immediately. Date-result actions open a separate compact transit preview. All four chart styles remain in the existing chart right-click menu.
+
+The Significators tab adds Advanced KP Significator Method with the supplied 13-column planetary worksheet and house sequence B, A, C, D, E, F, G, H, J, K, L. Existing methods remain available. Print, PDF Export and Refresh use the existing report viewer. Four-Fold/Six-Fold tables align with RT; South Indian labels respect the independent selected sizes and existing longitude order. Dasha opens in a bounded column beside Basic and retains state when hidden.
+
+BTR Ruling Planets uses the selected judgment date/time/place, requires the three corresponding Moon/Lagna levels and the supplied DNA linkage checks together, and retains original birth history. Update requires confirmation and retains the updated Kundali when BTR closes. Ayanamsha Finder adds Sayan, Raman, True Chitrapaksha, Lahiri and Fagan-Bradley. KP New explicitly reports its missing approved V16 definition. The original horoscope engine's ayanamsha and calculations are unchanged.
+
+Open/Save uses a chosen drive or folder. Bulk import retains each validated chart and reports individual failures. Event selections use cached lists, efficient filtering and keyboard selection. Marriage Matching reports use one compact submenu. Reports retain Minimize/Maximize, PNG Download Image, selected chart styles and the previous Marathi/Hindi aspect and single-page chart fixes. Short Nakshatra names save table space. Planetary and cuspal Aspd/Aspg/Conj visibility is independent, with plain buttons active only in Basic. Planet/Bhava hover starts after 200 ms and stays visible until the pointer leaves. North Indian Rashi placement, Ctrl+Q and hidden Aspects/Arabic Parts scrolling remain included.
+
+112 logic/source regression tests passed, plus 64 staged DBA UI cases, 129 Encyclopedia source/language views, native calculation equivalence, chart hover/zoom, BTR and real A4 PDF checks. Installer payload, activation and profile retention are checked under Wine. Physical Windows/WebView2 display and physical printing remain untested. Asteroid ephemeris is not included. The replacement startup and About pictures still require their original image files; inline conversation previews were not substituted with recreated artwork.
+
+The private owner key is never included in this repository or customer installer.
