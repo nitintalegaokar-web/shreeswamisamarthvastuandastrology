@@ -4,7 +4,7 @@
 
 Updated 20 November 2026 · version 16.4.2026.1120.
 
-The standalone file contains the same calculation engine, supplied reference library, prediction readings, event-language updates and interface fixes as the Windows installer. The Windows edition provides native drive/folder operations and activation.
+The standalone file unpacks in bounded blocks to keep temporary decoder memory small. It contains the same calculation engine, supplied reference library, prediction readings, event-language updates and interface fixes as the Windows installer. The Windows edition provides native drive/folder operations and activation.
 
 The Encyclopedia now includes all 43 supplied Word documents, including the 685-entry English–Marathi–Hindi event reference. It retains paragraphs, tables, supplementary notes and original source text. Select a source or search all supplied sources. Existing KP Theory topics remain available. Missing translations fall back to source English rather than invented text. Custom event names and saved criteria are preserved; reference conditions without an approved automatic rule remain reference material.
 
