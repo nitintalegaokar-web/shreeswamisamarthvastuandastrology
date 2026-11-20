@@ -1,9 +1,9 @@
 {
-  "version": "16.2.2026.1115",
-  "updated": "2026-11-15",
+  "version": "16.3.2026.1120",
+  "updated": "2026-11-20",
   "file": "KP-MASTER-Updated.html",
-  "bytes": 29303439,
-  "sha256": "0508c3c4bb6de975e3d70eb2ccef4db18a88c1ee843288b4fae2dd65532576db",
+  "bytes": 29315067,
+  "sha256": "cbe860c0b87f8157e846a68a4c0d861ed69b51bc1945c35757fb1449c7e09db0",
   "format": "Standalone HTML",
   "installerBranch": "kp-master-windows"
 }
