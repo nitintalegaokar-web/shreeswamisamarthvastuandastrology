@@ -1,14 +1,16 @@
 {
-  "version": "16.4.2026.1120",
-  "updated": "2026-11-20",
+  "version": "16.5.2026.1121",
+  "updated": "2026-11-21",
   "file": "KP-MASTER-Updated.html",
-  "bytes": 32330078,
-  "sha256": "d6ce5f24c1c5a5c811338868a452646dc1cea0603b376a7a1b3c9b9ffe6ed69c",
+  "bytes": 32364322,
+  "sha256": "156452c5dfda7201cf0689c6c3b578c70e4e239d5caa8f1fd50938219f4d5f0a",
   "format": "Standalone HTML",
   "installerBranch": "kp-master-windows",
   "product": "Advance KP Master",
   "suppliedWordDocuments": 43,
-  "logicRegressionTests": 112,
+  "logicRegressionTests": 120,
   "compressionChunks": 14,
-  "maximumUnpackedChunkBytes": 8388608
+  "maximumUnpackedChunkBytes": 8388608,
+  "suppliedTextNotes": 1,
+  "selectionPreferencesPersist": true
 }
