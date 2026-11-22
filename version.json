@@ -1,9 +1,9 @@
 {
-  "version": "16.6.2026.1122",
+  "version": "16.7.2026.1122",
   "updated": "2026-11-22",
   "file": "KP-MASTER-Updated.html",
-  "bytes": 32389006,
-  "sha256": "958117a08dc83dbf7daaf8907baae3fdfeaeecebf72afcb87cf86b410ab53067",
+  "bytes": 32396898,
+  "sha256": "ee5fe6a421f9ccc55c461807432f6d38f9b8006f42d51b6c894521141537e59f",
   "format": "Standalone HTML",
   "installerBranch": "kp-master-windows",
   "product": "Advance KP Master",
@@ -17,5 +17,12 @@
   "southDegreeOrderCorrected": true,
   "transitFollowsChartStyle": true,
   "transitPlaceCompact": true,
-  "combinationFindersActive": true
+  "combinationFindersActive": true,
+  "transitPlaceInline": true,
+  "transitStyleRightClick": true,
+  "transitReportSinglePage": true,
+  "transitVimshottariDefault": true,
+  "eastTransitLabelsFitted": true,
+  "gemstoneTwoPanels": true,
+  "diseaseReportsSixthCuspChainOnly": true
 }
