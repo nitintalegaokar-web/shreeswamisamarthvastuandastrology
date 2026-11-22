@@ -2,7 +2,7 @@
 
 [Download software](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-downloads/KP-MASTER-Updated.html)
 
-Updated 22 November 2026 · version 16.8.2026.1122.
+Updated 22 November 2026 · version 16.9.2026.1122.
 
 The standalone file unpacks in bounded blocks to keep temporary decoder memory small. It contains the same calculation engine, supplied reference library, prediction readings, event-language updates and interface fixes as the Windows installer. The Windows edition provides native drive/folder operations and activation.
 
@@ -61,5 +61,7 @@ The Bhav report identifies each current cuspal sub-lord, its star lord and signi
 Vedic Predictions adds Sade Sati and Dhaiya report pages: actual natal-Moon-relative sidereal Saturn periods, separate retrograde re-entries, phase/date tables, interpretation, native Saturn context and traditional remedies in three languages. Calculation yields during long scans and caches results. Dates stop at the native engine's 1900–2100 limit; a clipped final interval is marked. The metal-image classification has no supplied calculation and is not inferred. Conflicting Saturn recitation counts are identified.
 
 Copy/cut/paste and drag-copy are blocked in application documents, engine/report frames and the desktop WebView clipboard keyboard handler. This is UI protection, not encryption or DRM: screenshots, original files and exported reports remain accessible. The activation utility still supports its necessary code exchange.
+
+The 16.9 correction places every Roman cusp numeral inside its actual KP Bhava polygon, with collision checks against planets, sign numbers and other cusp markers. Cusp degrees stay in the shared factual hover rather than being appended to these short labels. Rotated views keep the correct actual cusp identity. Chart Search retains its 16.8 design and persistent catalogue. The standalone Education choice is removed from KP prediction menus, popup topics, library topics and report checkboxes; reference data remains available internally.
 
 The private owner key is never included in this repository or customer installer.

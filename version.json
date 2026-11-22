@@ -1,9 +1,9 @@
 {
-  "version": "16.8.2026.1122",
+  "version": "16.9.2026.1122",
   "updated": "2026-11-22",
   "file": "KP-MASTER-Updated.html",
-  "bytes": 32420018,
-  "sha256": "8613ad9d5554a1dc4a05317aad940c2334a88bdb1b2029b215075797a01f8abf",
+  "bytes": 32422134,
+  "sha256": "e0173db41b4c7a3167158dc6423932540ed38ed9b20d0baec44e3bd2cfe49f7f",
   "format": "Standalone HTML",
   "installerBranch": "kp-master-windows",
   "product": "Advance KP Master",
@@ -13,7 +13,7 @@
   "maximumUnpackedChunkBytes": 8388608,
   "suppliedTextNotes": 1,
   "selectionPreferencesPersist": true,
-  "chartTopicLanguageViews": 51,
+  "chartTopicLanguageViews": 48,
   "southDegreeOrderCorrected": true,
   "transitFollowsChartStyle": true,
   "transitPlaceCompact": true,
@@ -39,5 +39,11 @@
   "suppliedPDFReferences": 3,
   "sadeSatiEphemerisMaximumYear": 2100,
   "sadeSatiReportLanguages": 3,
-  "privateBackupPublishedPublicly": false
+  "privateBackupPublishedPublicly": false,
+  "northRomanCuspsInCorrectBhava": true,
+  "northRomanCollisionLayoutsVerified": 38,
+  "northRomanCuspDegreesHoverOnly": true,
+  "northRomanReferenceViewsVerified": 12,
+  "standaloneEducationInKP": false,
+  "chartSearchDesignUnchanged": true
 }
