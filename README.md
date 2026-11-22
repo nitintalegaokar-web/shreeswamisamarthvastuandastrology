@@ -4,7 +4,7 @@
 
 [Download Owner Activation Tool.exe](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-windows/KP-MASTER-Owner-Activation.exe)
 
-Updated 22 November 2026 · version 16.6.2026.1122.
+Updated 22 November 2026 · version 16.7.2026.1122.
 
 Install on 64-bit Windows 10 or 11. Microsoft Edge WebView2 Runtime is required; the app opens Microsoft's download page if it is missing. Existing activation codes, owner key, saved charts and settings remain compatible. Activation appears directly below Astrologer Information. “Owner copy · No expiry” is displayed only for a verified non-expiring owner licence.
 
@@ -38,12 +38,18 @@ Saved General Settings, themes and language are restored next time. APPM tabs, e
 
 The South Indian degree sequence now uses the same direction for planets and cusps in all twelve signs. Aquarius Jupiter at 29°16′ appears above Fortuna at 18°24′ and cusp IV at 15°19′ in the supplied natal example. Fitting uses actual text bounds; the birth positions and horoscope calculations remain unchanged.
 
-Transit follows the selected software chart style. North Indian retains the Rashi/Bhava pair; South Indian, East Indian and Western use the selected native overlay. The reference layout includes planetary/cuspal/Nakshatra tables, a native nine-row Dasha end-date table or the compact five-level browser, natal/transit cusps, place selection, Life Events, local date/time, five quick-date rows, step controls, slider, Start/Stop Real Time, native Panchang information, Preview, Print and PDF printing. All functions were exercised against native calculations; no natal positions were changed.
+Transit follows the selected software chart style. North Indian retains the Rashi/Bhava pair; South Indian, East Indian and Western use the selected native overlay. The reference layout includes planetary/cuspal/Nakshatra tables, the compact nine-row, five-level Vimshottari browser by default, with an optional end-date table, natal/transit cusps, place selection, Life Events, local date/time, five quick-date rows, step controls, slider, Start/Stop Real Time, native Panchang information, Preview, Print and PDF printing. All functions were exercised against native calculations; no natal positions were changed.
 
 Vedic Predictions now includes Kundali-linked Manglik formation and defined cancellation conditions, Kala Sarpa and important combinations, conjunctions, active Mahadasha/Antardasha and house-lord periods, native Shadbala and strength evidence, planetary states, actual natural/temporal/five-fold relationships, and applicable traditional remedies. Each topic has separate report, popup and library access. Partner-dependent or undefined conditions are not assumed. Conflicting mantra/fasting entries are identified for verification. KP Predictions adds Progeny evidence, Punarpoo formation/cancellation, 9th-CSL education streams, 8th-CSL placement references and exact Nakshatra/Pada body associations. These traditional associations do not establish medical diagnoses, pregnancy outcomes or lifespan.
 
 Profession Combination and Disease Combination are active with the native catalogues and current Kundali evidence. Planet, sign, house and star filters work together, with search, all/any selection, Use Kundali, Clear, printing, keyboard navigation and saved per-window choices. Partial profession combinations remain explicitly marked for review. Disease references are not diagnoses.
 
-The Transit Place editor is compact (about 430 pixels wide), with four aligned fields and all original actions. Crowded South Indian cells retain one combined degree order for planets and cusps; report labels are refitted to their printed chart dimensions.
+The floating Transit Location dialog has been removed. Place editing appears inline within Transit, with four aligned fields and the original actions. Crowded South Indian cells retain one combined degree order for planets and cusps; report labels are refitted to their printed chart dimensions.
+
+Transit chart styles are selected by right-click inside the Transit window; the style dropdown has been removed. East Indian Transit charts now fit labels inside their actual rectangular and triangular compartments. Preview, Print and PDF use one compact A4 page containing the selected chart, current Dasha view, all thirteen planetary positions, twelve cusps and both abbreviated Nakshatra tables. The Dasha area shows all nine rows without the location card taking its space.
+
+Gemstone opens two panels: Vedic Lagnesh, Panchamesh and Navmesh with gemstone/remedy details, and KP Select Matter using the existing sixteen approved event-house presets and unique-house ranking. Four-Fold/Six-Fold and tied winners remain supported. Each planet has its own expandable Yantra and individual print action. Print Vedic, Print KP and Print both include only their applicable yantras. The selected matter and method are saved.
+
+Disease reports contain only matching Nakshatra/Pada references in the native sixth-cusp and CSL/STL/SBL chain. Full source/category printing applies the same filter; unrelated general planet disease lists stay in the reference library. Supplied reference notes remain intact in Encyclopedia.
 
 The private owner key is never included in this repository or customer installer.

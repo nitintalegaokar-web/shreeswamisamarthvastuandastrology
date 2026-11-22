@@ -1,17 +1,17 @@
 {
-  "version": "16.6.2026.1122",
+  "version": "16.7.2026.1122",
   "updated": "2026-11-22",
   "platform": "Windows 10/11 x64",
   "runtime": "Microsoft Edge WebView2",
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 20826880,
-      "sha256": "61aa324de972753eceb27b14467756cbbf1129209db13bdccf5904c06fd9c5f4"
+      "bytes": 20833143,
+      "sha256": "099d11a5d8842892aeb835cd4999b349c25e4b82c2b61db6788a7ade326c0d05"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
-      "sha256": "689c289dfe4326e306ded54341b6cc1aabf5b284c2394b49a4481bf90a738b07"
+      "sha256": "18410e5a681f98c715bd41c4d8690340f8bfb546344e83d934b8341c9553a0a4"
     }
   },
   "expandedDesktopAssets": 172,
@@ -29,5 +29,12 @@
   "southDegreeOrderCorrected": true,
   "transitFollowsChartStyle": true,
   "transitPlaceCompact": true,
-  "combinationFindersActive": true
+  "combinationFindersActive": true,
+  "transitPlaceInline": true,
+  "transitStyleRightClick": true,
+  "transitReportSinglePage": true,
+  "transitVimshottariDefault": true,
+  "eastTransitLabelsFitted": true,
+  "gemstoneTwoPanels": true,
+  "diseaseReportsSixthCuspChainOnly": true
 }
