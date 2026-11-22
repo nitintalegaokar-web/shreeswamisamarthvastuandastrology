@@ -1,17 +1,17 @@
 {
-  "version": "16.8.2026.1122",
+  "version": "16.9.2026.1122",
   "updated": "2026-11-22",
   "platform": "Windows 10/11 x64",
   "runtime": "Microsoft Edge WebView2",
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 20849085,
-      "sha256": "86e9ee79e73af9fa08b330fc0cd86c1ab516202fe55a6bfd0ff5df992813d479"
+      "bytes": 20851873,
+      "sha256": "083660a54636e391c75fcfefb503f8707095111ae06ba5dbb575e1150f8ca891"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
-      "sha256": "aa8ed64a47452bfcb3f675223765fdc411d45f04ea495e8ad27a6884ef2104cb"
+      "sha256": "9722eb5433b6eb42764331e41d8cc0d1364f8c14668fe5a62850bf5c9ae41f9a"
     }
   },
   "expandedDesktopAssets": 172,
@@ -24,7 +24,7 @@
   "suppliedTextNotes": 1,
   "selectionPreferencesPersist": true,
   "closeAndReopenVerified": true,
-  "chartTopicLanguageViews": 51,
+  "chartTopicLanguageViews": 48,
   "southDegreeOrderCorrected": true,
   "transitFollowsChartStyle": true,
   "transitPlaceCompact": true,
@@ -50,5 +50,11 @@
   "suppliedPDFReferences": 3,
   "sadeSatiEphemerisMaximumYear": 2100,
   "sadeSatiReportLanguages": 3,
-  "privateBackupPublishedPublicly": false
+  "privateBackupPublishedPublicly": false,
+  "northRomanCuspsInCorrectBhava": true,
+  "northRomanCollisionLayoutsVerified": 38,
+  "northRomanCuspDegreesHoverOnly": true,
+  "northRomanReferenceViewsVerified": 12,
+  "standaloneEducationInKP": false,
+  "chartSearchDesignUnchanged": true
 }
