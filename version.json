@@ -1,17 +1,17 @@
 {
-  "version": "16.7.2026.1122",
+  "version": "16.8.2026.1122",
   "updated": "2026-11-22",
   "platform": "Windows 10/11 x64",
   "runtime": "Microsoft Edge WebView2",
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 20833143,
-      "sha256": "099d11a5d8842892aeb835cd4999b349c25e4b82c2b61db6788a7ade326c0d05"
+      "bytes": 20849085,
+      "sha256": "86e9ee79e73af9fa08b330fc0cd86c1ab516202fe55a6bfd0ff5df992813d479"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
-      "sha256": "18410e5a681f98c715bd41c4d8690340f8bfb546344e83d934b8341c9553a0a4"
+      "sha256": "aa8ed64a47452bfcb3f675223765fdc411d45f04ea495e8ad27a6884ef2104cb"
     }
   },
   "expandedDesktopAssets": 172,
@@ -20,12 +20,11 @@
   "product": "Advance KP Master",
   "suppliedWordDocuments": 43,
   "logicRegressionTests": 137,
-  "stagedDBAUICases": 64,
   "encyclopediaLanguageViews": 132,
   "suppliedTextNotes": 1,
   "selectionPreferencesPersist": true,
   "closeAndReopenVerified": true,
-  "chartTopicLanguageViews": 45,
+  "chartTopicLanguageViews": 51,
   "southDegreeOrderCorrected": true,
   "transitFollowsChartStyle": true,
   "transitPlaceCompact": true,
@@ -36,5 +35,20 @@
   "transitVimshottariDefault": true,
   "eastTransitLabelsFitted": true,
   "gemstoneTwoPanels": true,
-  "diseaseReportsSixthCuspChainOnly": true
+  "diseaseReportsSixthCuspChainOnly": true,
+  "appmEventsEnglishOnly": true,
+  "appmVirtualEventPicker": true,
+  "appmSessionResetOnClose": true,
+  "dbaSelectedLevelImmediate": true,
+  "clipboardUIBlocked": true,
+  "desktopClipboardKeysBlocked": true,
+  "boundedPredictionEventDropdown": true,
+  "mahadashaLordInHeadings": true,
+  "northKPCuspsRomanWithHover": true,
+  "chartSearchPersistentCatalogue": true,
+  "compactChartNamePlates": true,
+  "suppliedPDFReferences": 3,
+  "sadeSatiEphemerisMaximumYear": 2100,
+  "sadeSatiReportLanguages": 3,
+  "privateBackupPublishedPublicly": false
 }

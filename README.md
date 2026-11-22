@@ -4,7 +4,7 @@
 
 [Download Owner Activation Tool.exe](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-windows/KP-MASTER-Owner-Activation.exe)
 
-Updated 22 November 2026 · version 16.7.2026.1122.
+Updated 22 November 2026 · version 16.8.2026.1122.
 
 Install on 64-bit Windows 10 or 11. Microsoft Edge WebView2 Runtime is required; the app opens Microsoft's download page if it is missing. Existing activation codes, owner key, saved charts and settings remain compatible. Activation appears directly below Astrologer Information. “Owner copy · No expiry” is displayed only for a verified non-expiring owner licence.
 
@@ -51,5 +51,17 @@ Transit chart styles are selected by right-click inside the Transit window; the 
 Gemstone opens two panels: Vedic Lagnesh, Panchamesh and Navmesh with gemstone/remedy details, and KP Select Matter using the existing sixteen approved event-house presets and unique-house ranking. Four-Fold/Six-Fold and tied winners remain supported. Each planet has its own expandable Yantra and individual print action. Print Vedic, Print KP and Print both include only their applicable yantras. The selected matter and method are saved.
 
 Disease reports contain only matching Nakshatra/Pada references in the native sixth-cusp and CSL/STL/SBL chain. Full source/category printing applies the same filter; unrelated general planet disease lists stay in the reference library. Supplied reference notes remain intact in Encyclopedia.
+
+APPM event names and their rule descriptions stay in English when the software language is Marathi or Hindi. Its event picker uses cached, virtualized rows and the description is excluded from translation to prevent the former translation/description loop. Positive houses initialize from the selected event for House Sig. and Fruitful Sig.; deliberate house edits remain until the event changes. APPM clears session selections, results, search tasks, periods and owned transit popups when closed. Saved general settings and saved option policies remain. DBA checks the selected MD, MD–AD or MD–AD–PD immediately without scanning the whole parent range, using the existing supplied-rule and natal/joint gates.
+
+Prediction event selection uses a bounded searchable dropdown. Active Mahadasha/Antardasha lord names appear in the corresponding prediction headings. North Indian KP cusp charts add Roman cusp numbers with the same factual hover details as South Indian charts; zodiac sign numbers and native planet placement are retained. Duplicate South/North options are removed from View, while chart right-click choices remain.
+
+Chart Search uses a durable IndexedDB catalogue for saved/imported Kundalis, separate from the 40-item recent list, with bounded result pages and theme colours. Existing saved entries are migrated when available. Imported charts from earlier versions that were never retained cannot be recovered without their original files. Chart Manager and Compare Charts use compact name plates with existing controls.
+
+The Bhav report identifies each current cuspal sub-lord, its star lord and signified houses, with matching seventh-house narrative combinations from the supplied PDF in English, Marathi or Hindi. Education/Profession provides the requested 4th/9th/10th-cusp sections using existing native complete combination and profession tables. Example-only course lookup mappings that are not defined by the source remain unassigned rather than being copied to every Kundali.
+
+Vedic Predictions adds Sade Sati and Dhaiya report pages: actual natal-Moon-relative sidereal Saturn periods, separate retrograde re-entries, phase/date tables, interpretation, native Saturn context and traditional remedies in three languages. Calculation yields during long scans and caches results. Dates stop at the native engine's 1900–2100 limit; a clipped final interval is marked. The metal-image classification has no supplied calculation and is not inferred. Conflicting Saturn recitation counts are identified.
+
+Copy/cut/paste and drag-copy are blocked in application documents, engine/report frames and the desktop WebView clipboard keyboard handler. This is UI protection, not encryption or DRM: screenshots, original files and exported reports remain accessible. The activation utility still supports its necessary code exchange.
 
 The private owner key is never included in this repository or customer installer.
