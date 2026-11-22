@@ -1,17 +1,17 @@
 {
-  "version": "16.5.2026.1121",
-  "updated": "2026-11-21",
+  "version": "16.6.2026.1122",
+  "updated": "2026-11-22",
   "platform": "Windows 10/11 x64",
   "runtime": "Microsoft Edge WebView2",
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 20823198,
-      "sha256": "22430cb0d964aab024a41f44452d07fd65f2fc176bf68e8b0cd29ed1fdbb2e86"
+      "bytes": 20826880,
+      "sha256": "61aa324de972753eceb27b14467756cbbf1129209db13bdccf5904c06fd9c5f4"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
-      "sha256": "d3195be234d10ea859c46119f6a26ca75254d70875f39e31e47a0f5956b911f9"
+      "sha256": "689c289dfe4326e306ded54341b6cc1aabf5b284c2394b49a4481bf90a738b07"
     }
   },
   "expandedDesktopAssets": 172,
@@ -19,10 +19,15 @@
   "nativeWindowsWebView2DisplayTested": false,
   "product": "Advance KP Master",
   "suppliedWordDocuments": 43,
-  "logicRegressionTests": 120,
+  "logicRegressionTests": 137,
   "stagedDBAUICases": 64,
   "encyclopediaLanguageViews": 132,
   "suppliedTextNotes": 1,
   "selectionPreferencesPersist": true,
-  "closeAndReopenVerified": true
+  "closeAndReopenVerified": true,
+  "chartTopicLanguageViews": 45,
+  "southDegreeOrderCorrected": true,
+  "transitFollowsChartStyle": true,
+  "transitPlaceCompact": true,
+  "combinationFindersActive": true
 }

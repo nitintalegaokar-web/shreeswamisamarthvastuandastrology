@@ -4,7 +4,7 @@
 
 [Download Owner Activation Tool.exe](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-windows/KP-MASTER-Owner-Activation.exe)
 
-Updated 21 November 2026 · version 16.5.2026.1121.
+Updated 22 November 2026 · version 16.6.2026.1122.
 
 Install on 64-bit Windows 10 or 11. Microsoft Edge WebView2 Runtime is required; the app opens Microsoft's download page if it is missing. Existing activation codes, owner key, saved charts and settings remain compatible. Activation appears directly below Astrologer Information. “Owner copy · No expiry” is displayed only for a verified non-expiring owner licence.
 
@@ -22,7 +22,7 @@ BTR Ruling Planets uses the selected judgment date/time/place, requires the thre
 
 Open/Save uses a chosen drive or folder. Bulk import retains each validated chart and reports individual failures. Event selections use cached lists, efficient filtering and keyboard selection. Marriage Matching reports use one compact submenu. Reports retain Minimize/Maximize, PNG Download Image, selected chart styles and the previous Marathi/Hindi aspect and single-page chart fixes. Short Nakshatra names save table space. Planetary and cuspal Aspd/Aspg/Conj visibility is independent, with plain buttons active only in Basic. Planet/Bhava hover starts after 200 ms and stays visible until the pointer leaves. North Indian Rashi placement, Ctrl+Q and hidden Aspects/Arabic Parts scrolling remain included.
 
-120 logic/source regression tests passed, plus 64 staged DBA UI cases, 132 Encyclopedia source/language views, native calculation equivalence, chart hover/zoom, BTR and real A4 PDF checks. Installer payload, activation and profile retention are checked under Wine. Physical Windows/WebView2 display and physical printing remain untested. Asteroid ephemeris is not included. The replacement startup and About pictures still require their original image files; inline conversation previews were not substituted with recreated artwork.
+137 logic/source regression tests passed, plus 64 staged DBA UI cases, 132 Encyclopedia source/language views, native calculation equivalence, chart hover/zoom, BTR and real A4 PDF checks. Installer payload, activation and profile retention are checked under Wine. Physical Windows/WebView2 display and physical printing remain untested. Asteroid ephemeris is not included. The replacement startup and About pictures still require their original image files; inline conversation previews were not substituted with recreated artwork.
 
 This update removes the Sign–Star–Sub lines below South Indian planet/cusp labels and source filenames from prediction displays and printouts. Planet popups, the compact Prediction Library and Transit report previews now open above their calling dialogs; Print, minimize, restore and close retain the calling view. KP report options close after a successful Preview. The smaller menu bar has one Reports → Predictions submenu with Vedic, KP and Gemstone. Vedic and KP have category submenus for separate printing, plus a searchable topic selector covering the supplied prediction notes. General reference notes are labelled separately from chart-linked readings; KP event-house notes can be selected by event.
 
@@ -35,5 +35,15 @@ Vedic gemstone guidance uses Lagnesh, Panchamesh and Navmesh (houses 1, 5 and 9)
 Manual Transit multi-selects reuse option nodes and update only selected chips, with keyboard filtering, Clear and Select all. Transit Hits uses filled theme-coloured date cards and count badges. Date results use the supplied rounded green-bar style in the three original grade columns; clicking dates retains the existing event/chart actions.
 
 Saved General Settings, themes and language are restored next time. APPM tabs, event choices, Manual Transit filters, report sections, popup/library preferences and transit step choices are saved automatically. Native Dasha and fruitful-significator selections restore only for the same Kundali. Unsaved settings drafts and calculated result lists are not restored. The Windows close action flushes the last pending selection save.
+
+The South Indian degree sequence now uses the same direction for planets and cusps in all twelve signs. Aquarius Jupiter at 29°16′ appears above Fortuna at 18°24′ and cusp IV at 15°19′ in the supplied natal example. Fitting uses actual text bounds; the birth positions and horoscope calculations remain unchanged.
+
+Transit follows the selected software chart style. North Indian retains the Rashi/Bhava pair; South Indian, East Indian and Western use the selected native overlay. The reference layout includes planetary/cuspal/Nakshatra tables, a native nine-row Dasha end-date table or the compact five-level browser, natal/transit cusps, place selection, Life Events, local date/time, five quick-date rows, step controls, slider, Start/Stop Real Time, native Panchang information, Preview, Print and PDF printing. All functions were exercised against native calculations; no natal positions were changed.
+
+Vedic Predictions now includes Kundali-linked Manglik formation and defined cancellation conditions, Kala Sarpa and important combinations, conjunctions, active Mahadasha/Antardasha and house-lord periods, native Shadbala and strength evidence, planetary states, actual natural/temporal/five-fold relationships, and applicable traditional remedies. Each topic has separate report, popup and library access. Partner-dependent or undefined conditions are not assumed. Conflicting mantra/fasting entries are identified for verification. KP Predictions adds Progeny evidence, Punarpoo formation/cancellation, 9th-CSL education streams, 8th-CSL placement references and exact Nakshatra/Pada body associations. These traditional associations do not establish medical diagnoses, pregnancy outcomes or lifespan.
+
+Profession Combination and Disease Combination are active with the native catalogues and current Kundali evidence. Planet, sign, house and star filters work together, with search, all/any selection, Use Kundali, Clear, printing, keyboard navigation and saved per-window choices. Partial profession combinations remain explicitly marked for review. Disease references are not diagnoses.
+
+The Transit Place editor is compact (about 430 pixels wide), with four aligned fields and all original actions. Crowded South Indian cells retain one combined degree order for planets and cusps; report labels are refitted to their printed chart dimensions.
 
 The private owner key is never included in this repository or customer installer.
