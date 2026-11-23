@@ -1,9 +1,9 @@
 {
-  "version": "16.12.2026.1123",
+  "version": "16.13.2026.1123",
   "updated": "2026-11-23",
   "file": "KP-MASTER-Updated.html",
-  "bytes": 32461734,
-  "sha256": "225fcebeef1ca0284c8bb79ce188d21709768f2774a0e448380851b98dbfe361",
+  "bytes": 32464866,
+  "sha256": "066fb8356eaa169dff37145bad40d36e30dbe11534ecfb2429cb46f756a99d66",
   "format": "Standalone HTML",
   "installerBranch": "kp-master-windows",
   "product": "Advance KP Master",
@@ -63,8 +63,8 @@
   "ownerPortraitPendingOriginalFile": true,
   "files": {
     "KP-MASTER-Updated.html": {
-      "bytes": 32461734,
-      "sha256": "225fcebeef1ca0284c8bb79ce188d21709768f2774a0e448380851b98dbfe361"
+      "bytes": 32464866,
+      "sha256": "066fb8356eaa169dff37145bad40d36e30dbe11534ecfb2429cb46f756a99d66"
     }
   },
   "planetNameNotationChartOnly": true,
@@ -72,7 +72,7 @@
   "houseNotationAllChartStyles": true,
   "chartNotationCases": 48,
   "appmOnlyRequestedTwoControlsRemoved": true,
-  "appmHandbookRuleCount": 453,
+  "appmHandbookRuleCount": 0,
   "handbookSourceSHA256": "95439b242cbf010ec6cf938b15a2216e6305dd5fc371e49014b4bd4b580ee31e",
   "encyclopediaOtherRulesRetained": true,
   "encyclopediaAdditionalReferenceEntries": 229,
@@ -83,11 +83,10 @@
   "lokpaPackageReceived": true,
   "lokpaRulesImported": true,
   "appmApprovedEventSources": [
-    "KP Handbook",
     "Lokpa 2018.1.1"
   ],
   "appmLokpaEventCount": 408,
-  "appmApprovedEventCount": 861,
+  "appmApprovedEventCount": 408,
   "lokpaRandomDifferentialFixtures": 1200,
   "lokpaNativeKundaliDbaChains": 729,
   "lokpaAllNormalizedSourceFunctionCasesMatched": true,
@@ -101,5 +100,22 @@
   "lokpaPdIndependentOfMdAd": true,
   "lokpaVendorBinariesExecuted": false,
   "lokpaActivationProtectionModified": false,
-  "dbaSublordFourfoldFilter": true
+  "dbaSublordFourfoldFilter": true,
+  "encyclopediaHandbookRuleCount": 453,
+  "compactTransitPreviewCases": 16,
+  "appmRuleTextContained": true,
+  "appmAdaptiveEventDropdown": true,
+  "eventsCustomListLokpaTemplatesOnly": true,
+  "customEventStoragePreserved": true,
+  "ctRtAspectDetailsInitiallyHidden": true,
+  "ctRtAspectSingleClickHeaders": true,
+  "ctRtAspectVisibilitySaved": true,
+  "appmDuplicateTheoryOptionControlsRemoved": true,
+  "significatorContextAllSevenMethods": true,
+  "significatorContextLanguageSurfaceCases": 42,
+  "auditedRealWindowEntrypoints": 28,
+  "auditedMainViews": 8,
+  "auditedDialogs": 52,
+  "allAuditedDialogsWithin1366x900": true,
+  "windowOpenWorkMaximumMsInTestEnvironment": 111.5
 }

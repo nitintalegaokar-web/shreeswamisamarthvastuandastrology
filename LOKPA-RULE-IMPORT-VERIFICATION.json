@@ -1,5 +1,5 @@
 {
-  "version": "16.12.2026.1123",
+  "version": "16.13.2026.1123",
   "source": {
     "restSHA256": "574943933c1b4861150212db6544fa8075714aad210786590c705921430cf467",
     "restBytes": 18015488,
@@ -21,14 +21,16 @@
     "missingCaseFourInvented": false
   },
   "events": {
-    "handbook": 453,
+    "handbook": 0,
     "lokpa": 408,
-    "total": 861,
+    "total": 408,
     "duplicateUid": 40,
     "duplicateRowsRetainedWithUniqueIds": true,
     "rawRecordsPreserved": true,
     "reviewRequired": 167,
-    "otherRulesInEncyclopedia": true
+    "otherRulesInEncyclopedia": true,
+    "handbookInReference": 453,
+    "activeListsLokpaOnly": true
   },
   "limitations": {
     "optionalNativeSpecialKpAndCustomAspectCalculationRecovered": false,
