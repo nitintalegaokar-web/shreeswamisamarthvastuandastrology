@@ -4,7 +4,7 @@
 
 [Download Owner Activation Tool.exe](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-windows/KP-MASTER-Owner-Activation.exe)
 
-Updated 23 November 2026 · version 16.10.2026.1123.
+Updated 23 November 2026 · version 16.11.2026.1123.
 
 Install on 64-bit Windows 10 or 11. Microsoft Edge WebView2 Runtime is required; the app opens Microsoft's download page if it is missing. Existing activation codes, owner key, saved charts and settings remain compatible. Activation appears directly below Astrologer Information. “Owner copy · No expiry” is displayed only for a verified non-expiring owner licence.
 
@@ -73,3 +73,13 @@ The 16.10 update hides event choices that have neither rule text nor usable even
 APPM retains native date grades and adds matching time windows split at actual transit boundaries, DBA changes and local midnight. Find with DBA calculates the configured Fruitful Significators and filters through natal promise, the supplied MD/AD/PD rules and joint DBA admission. The separate DBA-qualified-only switch is optional. Date cards are paged at 60 per category for responsive large result sets. These are astrological rule matches, not a guarantee of the real-world event date. Original planetary positions, cusp calculations and Chart Search design are unchanged.
 
 The About photo editing buttons are removed. Embedding the owner's new portrait is pending receipt of its original JPG or PNG file; pasted chat images are not included in this build.
+
+The 16.11 update applies Short/Full planet-name choices inside Kundali charts, including distinct Marathi and Hindi abbreviations. Roman/numeric cusp notation works in North, South, East and Western charts. Label changes retain the actual planet/cusp IDs, degrees, hover information and North Bhava geometry.
+
+APPM and the Events predefined/search lists currently use the 453 original rules from the supplied kp handbook.pdf (SHA-256 95439b242cbf010ec6cf938b15a2216e6305dd5fc371e49014b4bd4b580ee31e). The complete earlier reference corpus is retained in the Encyclopedia, with a dedicated Additional event rules and notes collection for the other 229 reference entries and 325 bundled software event-table rows. Compound or unspecified source conditions retain their existing review status. MD/AD/PD period identity, STL/SBL lords, original fourfold rows, failed-stage gating and stale-result invalidation are checked separately. Compact result statements remain.
+
+The newly attached LOKPA.rar exceeded the workspace's 32 MiB per-file transfer limit and could not be downloaded. Its events and DBA algorithm have not been inspected, imported or claimed as implemented. Split archive parts below 32 MiB, or the extracted event/DBA data files, are needed to complete that source-specific integration. Current DBA evaluation remains the existing KP engine plus the previously supplied Marathi DBA note.
+
+Only the two requested APPM controls—Find with DBA and DBA-qualified dates only—are removed from the interface. The normal Find button, date results, matching-time details, DBA checker and underlying calculations remain available. The subsequently supplied resources.pak was inspected as a Chromium DataPack (810 resources); it contained browser assets and no readable astrology/DBA rule matches. Light of KP Astrology.exe also exceeded the 32 MiB transfer limit. The resources/app.asar file or resources/app folder is needed to inspect Lokpa's actual application rules.
+
+The owner subsequently supplied the correct app.asar package, but it too exceeded the 32 MiB transfer limit. Its contents remain unread. app.asar compressed by itself below the limit, or 25 MiB split archive volumes, will allow the Lokpa event/DBA integration to continue.
