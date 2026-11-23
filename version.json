@@ -6,8 +6,8 @@
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 20869459,
-      "sha256": "16af99243a3745f739ca6ec74f28e5e2fe15d6fc8f4f1c1f26007648c5ebc4e2"
+      "bytes": 20865014,
+      "sha256": "bccaf9432be27ac18613ef9c0691e8ef098034ee6269b2a5c462d13ef7a0f993"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
@@ -19,7 +19,7 @@
   "nativeWindowsWebView2DisplayTested": false,
   "product": "Advance KP Master",
   "suppliedWordDocuments": 43,
-  "logicRegressionTests": 151,
+  "logicRegressionTests": 161,
   "encyclopediaLanguageViews": 132,
   "suppliedTextNotes": 1,
   "selectionPreferencesPersist": true,
@@ -88,7 +88,7 @@
   "lokpaPackageReceived": true,
   "lokpaRulesImported": true,
   "appmApprovedEventSources": [
-    "Lokpa 2018.1.1"
+    "Event rules"
   ],
   "appmLokpaEventCount": 408,
   "appmApprovedEventCount": 408,
@@ -97,7 +97,7 @@
   "lokpaAllNormalizedSourceFunctionCasesMatched": true,
   "lokpaOptionalNativeAspectDefinitionsRecovered": false,
   "lokpaUnavailableOptionalAspectVerdict": "Not evaluated unless another source case matches",
-  "lokpaReviewRequiredEventCount": 167,
+  "lokpaReviewRequiredEventCount": 164,
   "lokpaRawSourcePreserved": true,
   "lokpaDuplicateUid40SelectionsSeparated": true,
   "lokpaSunZeroIdPreserved": true,
@@ -110,7 +110,7 @@
   "compactTransitPreviewCases": 16,
   "appmRuleTextContained": true,
   "appmAdaptiveEventDropdown": true,
-  "eventsCustomListLokpaTemplatesOnly": true,
+  "eventsCustomListLokpaTemplatesOnly": false,
   "customEventStoragePreserved": true,
   "ctRtAspectDetailsInitiallyHidden": true,
   "ctRtAspectSingleClickHeaders": true,
@@ -122,5 +122,16 @@
   "auditedMainViews": 8,
   "auditedDialogs": 52,
   "allAuditedDialogsWithin1366x900": true,
-  "windowOpenWorkMaximumMsInTestEnvironment": 111.5
+  "windowOpenWorkMaximumMsInTestEnvironment": 111.5,
+  "customEventsSavedRecordEditor": true,
+  "eventCatalogueEntriesAudited": 408,
+  "eventCatalogueEntriesCorrected": 9,
+  "eventCatalogueAmbiguousEntries": 15,
+  "eventCatalogueHouseOnlyEligibleEntries": 244,
+  "eventPartialHousePromisePrevented": true,
+  "eventAdditionalConditionsRequireReview": true,
+  "visibleSourceBrandRemoved": true,
+  "southIndianMethodHeadingRemoved": true,
+  "aspectHeaderHighlightBoxes": false,
+  "eventsThemeChecks": 6
 }
