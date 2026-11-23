@@ -1,17 +1,17 @@
 {
-  "version": "16.12.2026.1123",
+  "version": "16.13.2026.1123",
   "updated": "2026-11-23",
   "platform": "Windows 10/11 x64",
   "runtime": "Microsoft Edge WebView2",
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 20869266,
-      "sha256": "74f81ad03015c4a863d3e9a66a0e6e22644d7bde655a732e07e739b2bae0b4bb"
+      "bytes": 20870400,
+      "sha256": "ee55dbaeb66fe61edab1dfdb07b2d641a7158f8f2ab79530b449db283c87443d"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
-      "sha256": "a9459ce9acbcb68886a5ef3d86b17f6eed890ccb93bcb6369cd8b3a481dbae0f"
+      "sha256": "a786b1fcdded9c4ea12e680f809a191f4fa4fcaf366ec28aaa2ced36f5aec960"
     }
   },
   "expandedDesktopAssets": 172,
@@ -77,7 +77,7 @@
   "houseNotationAllChartStyles": true,
   "chartNotationCases": 48,
   "appmOnlyRequestedTwoControlsRemoved": true,
-  "appmHandbookRuleCount": 453,
+  "appmHandbookRuleCount": 0,
   "handbookSourceSHA256": "95439b242cbf010ec6cf938b15a2216e6305dd5fc371e49014b4bd4b580ee31e",
   "encyclopediaOtherRulesRetained": true,
   "encyclopediaAdditionalReferenceEntries": 229,
@@ -88,11 +88,10 @@
   "lokpaPackageReceived": true,
   "lokpaRulesImported": true,
   "appmApprovedEventSources": [
-    "KP Handbook",
     "Lokpa 2018.1.1"
   ],
   "appmLokpaEventCount": 408,
-  "appmApprovedEventCount": 861,
+  "appmApprovedEventCount": 408,
   "lokpaRandomDifferentialFixtures": 1200,
   "lokpaNativeKundaliDbaChains": 729,
   "lokpaAllNormalizedSourceFunctionCasesMatched": true,
@@ -106,5 +105,22 @@
   "lokpaPdIndependentOfMdAd": true,
   "lokpaVendorBinariesExecuted": false,
   "lokpaActivationProtectionModified": false,
-  "dbaSublordFourfoldFilter": true
+  "dbaSublordFourfoldFilter": true,
+  "encyclopediaHandbookRuleCount": 453,
+  "compactTransitPreviewCases": 16,
+  "appmRuleTextContained": true,
+  "appmAdaptiveEventDropdown": true,
+  "eventsCustomListLokpaTemplatesOnly": true,
+  "customEventStoragePreserved": true,
+  "ctRtAspectDetailsInitiallyHidden": true,
+  "ctRtAspectSingleClickHeaders": true,
+  "ctRtAspectVisibilitySaved": true,
+  "appmDuplicateTheoryOptionControlsRemoved": true,
+  "significatorContextAllSevenMethods": true,
+  "significatorContextLanguageSurfaceCases": 42,
+  "auditedRealWindowEntrypoints": 28,
+  "auditedMainViews": 8,
+  "auditedDialogs": 52,
+  "allAuditedDialogsWithin1366x900": true,
+  "windowOpenWorkMaximumMsInTestEnvironment": 111.5
 }

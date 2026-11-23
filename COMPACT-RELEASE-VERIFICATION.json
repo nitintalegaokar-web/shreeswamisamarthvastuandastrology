@@ -1,0 +1,21 @@
+{
+  "version": "16.13.2026.1123",
+  "lokpaOnlySelectableEvents": 408,
+  "handbookRulesKeptInEncyclopedia": 453,
+  "customRecordsPreserved": true,
+  "nativeHoroscopeDataUnchanged": true,
+  "previewStyleViewportCases": 16,
+  "ruleLanguageCases": 3,
+  "appmCtRtColumnCases": 6,
+  "duplicateResultDisplayControlsRemoved": true,
+  "significatorMethods": 7,
+  "significatorLanguageAndSurfaceCases": 42,
+  "realWindowEntrypoints": 28,
+  "mainViews": 8,
+  "dialogChromeCases": 52,
+  "dialogsInside1366x900": true,
+  "maximumMeasuredSynchronousOpenMs": 111.5,
+  "pageErrors": [],
+  "logicTests": 151,
+  "physicalWindowsWebView2AndPrinterTested": false
+}
