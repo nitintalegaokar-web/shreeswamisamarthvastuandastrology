@@ -1,0 +1,49 @@
+{
+  "version": "16.12.2026.1123",
+  "source": {
+    "restSHA256": "574943933c1b4861150212db6544fa8075714aad210786590c705921430cf467",
+    "restBytes": 18015488,
+    "wrapperSHA256": "d8c8bc94a8abebace8f44929c5fef175b6f5c0a150ef37fd3d3aa6fef9429b73",
+    "standardEventsSHA256": "8c152a39ed09aa21da458e27b1d8a8b41095a1e323c1e637ff10b5e4b1bf69c2",
+    "sourcePython": "3.6",
+    "staticExtractionOnly": true,
+    "vendorBinariesExecuted": false,
+    "activationProtectionsModified": false
+  },
+  "rules": {
+    "mdAd": "star-lord relationship or node; optional supplied source aspect evidence",
+    "pd": "independent XI-house source cases; optional supplied source Special KP evidence",
+    "fruitfulFilter": "selected period planet sublord fourfold house intersection",
+    "mdOnly": "no original pair verdict; select Bhukti",
+    "sourceIdsNormalized": true,
+    "sunZeroPreserved": true,
+    "xiLordNumericStringCorrection": true,
+    "missingCaseFourInvented": false
+  },
+  "events": {
+    "handbook": 453,
+    "lokpa": 408,
+    "total": 861,
+    "duplicateUid": 40,
+    "duplicateRowsRetainedWithUniqueIds": true,
+    "rawRecordsPreserved": true,
+    "reviewRequired": 167,
+    "otherRulesInEncyclopedia": true
+  },
+  "limitations": {
+    "optionalNativeSpecialKpAndCustomAspectCalculationRecovered": false,
+    "missingAspectEvidence": "Not evaluated if no other source case establishes the result",
+    "originalVendorBinaryParityClaimed": false,
+    "nativeEngineRetained": true
+  },
+  "verification": {
+    "randomDifferentialFixtures": 1200,
+    "realKundaliChains": 729,
+    "allNormalizedOriginalFunctionResultsMatch": true,
+    "randomFixturesAffectedByIntentionalNumericIdCorrection": 93,
+    "logicTests": 151,
+    "actualPeriodSelections": 9,
+    "chartNotationCombinations": 48,
+    "northHouseLayouts": 38
+  }
+}
