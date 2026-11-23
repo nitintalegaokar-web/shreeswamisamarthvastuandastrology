@@ -1,6 +1,6 @@
 from pathlib import Path
 root=Path(__file__).resolve().parent
-source=(root.parent/'downloads/Swami-Samarth-HTML/index.html').read_text()
+source=(root.parent/'downloads/Remedy-CRM-HTML/index.html').read_text()
 assert 'billPreviewDialog' in source and 'whatsapp://send' in source
 source=source.replace('<head>','<head><script>'+(root/'compat.js').read_text()+(root/'theme-init.js').read_text()+'</script>',1)
 source=source.replace('</head>','<style>'+ (root/'mobile.css').read_text()+(root/'theme.css').read_text()+(root/'compact.css').read_text()+'</style></head>',1)

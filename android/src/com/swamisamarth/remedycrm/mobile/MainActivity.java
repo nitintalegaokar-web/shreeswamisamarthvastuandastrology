@@ -1,4 +1,4 @@
-package com.swamisamarth.kpmaster.mobile;
+package com.swamisamarth.remedycrm.mobile;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -43,7 +43,7 @@ import java.util.HashMap;
 import org.json.JSONObject;
 
 public final class MainActivity extends Activity {
-    private static final String HOST = "app.kpmaster.local";
+    private static final String HOST = "app.remedycrm.local";
     private static final String HOME = "https://" + HOST + "/index.html";
     private static final int OPEN_FILE = 10, SAVE_FILE = 11;
     private WebView web;
@@ -119,21 +119,21 @@ public final class MainActivity extends Activity {
                 return true;
             }
             @Override public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-                new AlertDialog.Builder(MainActivity.this).setTitle("KP Master").setMessage(message).setPositiveButton("OK", (d,w)->result.confirm()).setOnCancelListener(d->result.cancel()).show(); return true;
+                new AlertDialog.Builder(MainActivity.this).setTitle("Remedy CRM").setMessage(message).setPositiveButton("OK", (d,w)->result.confirm()).setOnCancelListener(d->result.cancel()).show(); return true;
             }
             @Override public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
-                new AlertDialog.Builder(MainActivity.this).setTitle("KP Master").setMessage(message).setPositiveButton("Continue", (d,w)->result.confirm()).setNegativeButton("Cancel", (d,w)->result.cancel()).setOnCancelListener(d->result.cancel()).show(); return true;
+                new AlertDialog.Builder(MainActivity.this).setTitle("Remedy CRM").setMessage(message).setPositiveButton("Continue", (d,w)->result.confirm()).setNegativeButton("Cancel", (d,w)->result.cancel()).setOnCancelListener(d->result.cancel()).show(); return true;
             }
             @Override public boolean onJsPrompt(WebView view, String url, String message, String value, JsPromptResult result) {
                 EditText input = new EditText(MainActivity.this); input.setText(value);
-                new AlertDialog.Builder(MainActivity.this).setTitle("KP Master").setMessage(message).setView(input).setPositiveButton("Save", (d,w)->result.confirm(input.getText().toString())).setNegativeButton("Cancel", (d,w)->result.cancel()).setOnCancelListener(d->result.cancel()).show(); return true;
+                new AlertDialog.Builder(MainActivity.this).setTitle("Remedy CRM").setMessage(message).setView(input).setPositiveButton("Save", (d,w)->result.confirm(input.getText().toString())).setNegativeButton("Cancel", (d,w)->result.cancel()).setOnCancelListener(d->result.cancel()).show(); return true;
             }
         });
         android.content.pm.PackageInfo engine = WebView.getCurrentWebViewPackage();
         if (engine != null) {
             try {
                 if (Integer.parseInt(engine.versionName.split("\\.")[0]) < 80) {
-                    new AlertDialog.Builder(this).setTitle("Update Android System WebView").setMessage("Update Android System WebView or Google Chrome on this phone, then reopen KP Master. This is needed for the offline software to work correctly.").setPositiveButton("Close", (d,w)->finish()).setCancelable(false).show();
+                    new AlertDialog.Builder(this).setTitle("Update Android System WebView").setMessage("Update Android System WebView or Google Chrome on this phone, then reopen Remedy CRM. This is needed for the offline software to work correctly.").setPositiveButton("Close", (d,w)->finish()).setCancelable(false).show();
                     return;
                 }
             } catch (NumberFormatException ignored) { }
@@ -162,7 +162,7 @@ public final class MainActivity extends Activity {
     private void startPrint(String name, String paper, boolean landscape) {
         if (printBusy) return;
         printBusy = true;
-        PrintDocumentAdapter delegate = web.createPrintDocumentAdapter("KP Master");
+        PrintDocumentAdapter delegate = web.createPrintDocumentAdapter("Remedy CRM");
         PrintDocumentAdapter adapter = new PrintDocumentAdapter() {
             @Override public void onStart() { delegate.onStart(); }
             @Override public void onLayout(PrintAttributes oldAttrs, PrintAttributes newAttrs, CancellationSignal signal, LayoutResultCallback callback, Bundle extras) { delegate.onLayout(oldAttrs,newAttrs,signal,callback,extras); }
@@ -171,13 +171,13 @@ public final class MainActivity extends Activity {
         };
         PrintAttributes.MediaSize size = "A4".equals(paper) ? PrintAttributes.MediaSize.ISO_A4 : PrintAttributes.MediaSize.ISO_A5;
         PrintAttributes attrs = new PrintAttributes.Builder().setMediaSize(landscape?size.asLandscape():size.asPortrait()).setMinMargins(PrintAttributes.Margins.NO_MARGINS).setColorMode(PrintAttributes.COLOR_MODE_COLOR).build();
-        try { ((PrintManager)getSystemService(PRINT_SERVICE)).print("KP Master document",adapter,attrs); }
+        try { ((PrintManager)getSystemService(PRINT_SERVICE)).print("Remedy CRM document",adapter,attrs); }
         catch (RuntimeException exception) { printBusy=false;web.evaluateJavascript("dispatchEvent(new Event('afterprint'))",null);status("Printing is unavailable. Enable Android Print Services in phone settings."); }
     }
     public final class MobileBridge {
         @JavascriptInterface public boolean isSystemDark() { return (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES; }
         @JavascriptInterface public void shareWhatsApp(String url) { if(url!=null && url.length()<150000)openWhatsApp(url); }
-        @JavascriptInterface public void copyText(String text) { if(text!=null && text.length()<100000)runOnUiThread(()->((ClipboardManager)getSystemService(CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("KP Master",text))); }
+        @JavascriptInterface public void copyText(String text) { if(text!=null && text.length()<100000)runOnUiThread(()->((ClipboardManager)getSystemService(CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Remedy CRM",text))); }
         @JavascriptInterface public void printDocument(String name, String paper, boolean landscape) { runOnUiThread(()->startPrint(name,paper,landscape)); }
         @JavascriptInterface public synchronized void saveFile(String name, String mime, String data) {
             if (exportBusy) { status("Finish saving the current file first."); return; }
@@ -186,7 +186,7 @@ public final class MainActivity extends Activity {
             catch(IllegalArgumentException exception) { status("Could not prepare this file."); return; }
             if(exportBytes.length>25*1024*1024) {exportBytes=null;status("File exceeds the 25 MB export limit.");return;}
             exportBusy=true;
-            String sanitizedName=name==null?"KP-Master-backup.json":name.replaceAll("[^\\p{L}\\p{N} ._()-]","_");
+            String sanitizedName=name==null?"Remedy-CRM-backup.json":name.replaceAll("[^\\p{L}\\p{N} ._()-]","_");
             final String safeName=sanitizedName.substring(0,Math.min(sanitizedName.length(),120));
             final String safeMime=(mime!=null&&mime.matches("[a-zA-Z0-9.+-]+/[a-zA-Z0-9.+-]+"))?mime:"application/octet-stream";
             runOnUiThread(()->{try { startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType(safeMime).putExtra(Intent.EXTRA_TITLE,safeName),SAVE_FILE); }

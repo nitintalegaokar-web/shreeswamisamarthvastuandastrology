@@ -10,7 +10,7 @@ const { build, Platform, Arch } = require('electron-builder');
 const { WineVmManager } = require('app-builder-lib/out/vm/WineVm');
 const { UninstallerReader } = require('app-builder-lib/out/targets/nsis/nsisUtil');
 const { version } = require('./package.json');
-const setup = path.join(__dirname, 'release', `KP-Master-Setup-${version}.exe`);
+const setup = path.join(__dirname, 'release', `Remedy-CRM-Setup-${version}.exe`);
 const uninstaller = setup.slice(0, -3) + '__uninstaller.exe';
 const original = WineVmManager.prototype.exec;
 if (process.platform === 'linux') {

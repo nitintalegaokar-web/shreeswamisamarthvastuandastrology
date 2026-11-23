@@ -6,8 +6,8 @@ async function bkExportExcel(){
   if(!rows.length){bkToast('No saved bookings to export. Save a booking first.');return}
   button.disabled=true;button.textContent='Preparing Excel…';
   const book=new ExcelJS.Workbook();
-  book.creator='KP Master';book.created=new Date();book.modified=new Date();book.calcProperties.fullCalcOnLoad=true;
-  const sheet=book.addWorksheet('Booking Report',{views:[{state:'frozen',ySplit:5}],pageSetup:{paperSize:11,orientation:'landscape',fitToPage:true,fitToWidth:1,fitToHeight:0,horizontalCentered:true,margins:{left:0.25,right:0.25,top:0.32,bottom:0.32,header:0.12,footer:0.12}},headerFooter:{oddFooter:'&L&8KP Master&C&8Page &P of &N'}});
+  book.creator='Remedy CRM';book.created=new Date();book.modified=new Date();book.calcProperties.fullCalcOnLoad=true;
+  const sheet=book.addWorksheet('Booking Report',{views:[{state:'frozen',ySplit:5}],pageSetup:{paperSize:11,orientation:'landscape',fitToPage:true,fitToWidth:1,fitToHeight:0,horizontalCentered:true,margins:{left:0.25,right:0.25,top:0.32,bottom:0.32,header:0.12,footer:0.12}},headerFooter:{oddFooter:'&L&8Remedy CRM&C&8Page &P of &N'}});
   sheet.columns=[{width:26},{width:22},{width:17},{width:14},{width:7},{width:13},{width:13},{width:13}];
   sheet.mergeCells('A1:H1');sheet.getCell('A1').value=profile.printConsultancy?profile.consultancy:'Matrugaya Booking Report';sheet.getCell('A1').font={name:'Calibri',size:15,bold:true,color:{argb:'FF182937'}};sheet.getCell('A1').alignment={horizontal:'center',vertical:'middle',wrapText:true};sheet.getRow(1).height=30;
   const details=[profile.printAstrologer?profile.astrologer:'',profile.printAddress?profile.address:'',profile.printMobile?'Mobile: '+profile.mobile:''].filter(Boolean).join(' · ');

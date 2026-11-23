@@ -4,15 +4,17 @@ const { pathToFileURL } = require('node:url');
 const pagePath = path.join(__dirname, 'app', 'Remedy.html');
 const pageUrl = pathToFileURL(pagePath).href;
 let window;
-// A stable user-data path retains the library across application updates.
-app.setPath('userData', path.join(app.getPath('appData'), 'SwamiSamarthRemedies'));
+// Remedy CRM has its own profile; never automatically open/copy another product's data.
+app.setName('Remedy CRM');
+if (process.platform === 'win32') app.setAppUserModelId('com.swamisamarth.remedycrm');
+app.setPath('userData', path.join(app.getPath('appData'), 'RemedyCRM'));
 const { isWhatsAppAppUrl } = require('./whatsapp.cjs');
 const openWhatsAppApp = async url => {
   try { await shell.openExternal(url); }
   catch { dialog.showMessageBox(window, {
     type: 'info', title: 'Open WhatsApp',
     message: 'Install WhatsApp on this computer to share messages.',
-    detail: 'Open WhatsApp and sign in, then try sharing again. KP Master opens the installed app only.'
+    detail: 'Open WhatsApp and sign in, then try sharing again. Remedy CRM opens the installed app only.'
   }); }
 };
 if (!app.requestSingleInstanceLock()) app.quit();
@@ -26,7 +28,7 @@ else {
     });
     window = new BrowserWindow({
       width: 1380, height: 960, minWidth: 760, minHeight: 600,
-      title: 'KP Master', backgroundColor: '#f5f3ee',
+      title: 'Remedy CRM', backgroundColor: '#f5f3ee',
       icon: path.join(__dirname, 'icon.ico'), show: false,
       webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true, webSecurity: true }
     });
@@ -52,7 +54,7 @@ else {
       { label: 'Edit', submenu: [{ role: 'undo' }, { role: 'redo' }, { type: 'separator' }, { role: 'cut' }, { role: 'copy' }, { role: 'paste' }, { role: 'selectAll' }] },
       { label: 'View', submenu: [{ role: 'reload' }, { role: 'resetZoom' }, { role: 'zoomIn' }, { role: 'zoomOut' }, { role: 'togglefullscreen' }] },
       { label: 'Help', submenu: [{ label: 'About', click: () => dialog.showMessageBox(window, {
-          type: 'info', title: 'KP Master',
+          type: 'info', title: 'Remedy CRM',
           message: 'Shree Swami Samarth Vastu & Astrology Consultancy',
           detail: `Version ${app.getVersion()}\n209 bundled remedies · 49 subjects\nCRM · Collections & Expenses · Reports · Invoices\nMatrugaya bookings · Settings · A5 printing\nContact: 8412098690\nWorks offline. WhatsApp sharing requires an Internet connection.`
       }) }] }

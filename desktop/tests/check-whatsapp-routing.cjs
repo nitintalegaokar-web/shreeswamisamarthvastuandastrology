@@ -6,7 +6,7 @@ const path = require('node:path');
   const opened = [], messages = [], handlers = {};
   let ready, fail = false;
   const electron = {
-    app: { setPath() {}, getPath: () => '/tmp', requestSingleInstanceLock: () => true,
+    app: { setName() {}, setAppUserModelId() {}, setPath() {}, getPath: () => '/tmp', requestSingleInstanceLock: () => true,
       on() {}, whenReady: () => ({ then: fn => ready = fn }), getVersion: () => '1.3.1' },
     BrowserWindow: class {
       constructor() { this.webContents = {
@@ -22,7 +22,7 @@ const path = require('node:path');
   };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../main.cjs'), 'utf8'), {
     require: name => name === 'electron' ? electron : name === './whatsapp.cjs' ? require('../whatsapp.cjs') : require(name),
-    __dirname: path.join(__dirname, '..'), URL
+    __dirname: path.join(__dirname, '..'), URL, process
   });
   await ready();
   const url = 'whatsapp://send?phone=919000000000&text=Namaste';

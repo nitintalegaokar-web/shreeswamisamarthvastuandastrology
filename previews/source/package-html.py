@@ -1,7 +1,7 @@
 from pathlib import Path
 import re,zipfile
 root=Path(__file__).resolve().parents[2]
-target=root/'downloads'/'Swami-Samarth-HTML'
+target=root/'downloads'/'Remedy-CRM-HTML'
 target.mkdir(parents=True,exist_ok=True)
 s=(root/'previews'/'consultancy-preview.html').read_text()
 s=s.replace('astroRemedies_a5_design_preview_v1','astroRemedies_v10_bw_dualprint').replace('swami_matrugaya_design_preview_v1','swami_matrugaya_bookings_v1').replace('swami_consultancy_profile_preview_v1','swami_consultancy_profile_v1').replace('swami_crm_design_preview_v1','swami_crm_v1').replace('swami_finance_design_preview_v1','swami_finance_v1').replace('swami_documents_design_preview_v1','swami_documents_v1')
@@ -13,10 +13,13 @@ assert count==1,'Expected sample startup not found'
 for icon_name in ['software-logo.svg','software-logo.png','software-icon.ico']:
  (target/icon_name).write_bytes((root/'previews/source/branding'/icon_name).read_bytes())
 (target/'THIRD-PARTY-NOTICES.txt').write_bytes((root/'previews/source/vendor/THIRD-PARTY-NOTICES.txt').read_bytes())
-(target/'READ-ME.txt').write_text('''SWAMI SAMARTH — REMEDY & MATRUGAYA BOOKING SOFTWARE
-HTML version 1.3.2 — 26 October 2026
+(target/'READ-ME.txt').write_text('''REMEDY CRM — REMEDIES, CUSTOMERS & BOOKINGS
+HTML version 1.6.0 — 22 November 2026
 
 GET STARTED
+This is Remedy CRM, a separate application from Advance KP Master.
+Import your exported section backups to transfer earlier records.
+
 1. Extract this ZIP to a folder on your computer.
 2. Open index.html with Microsoft Edge or Google Chrome.
 3. Open Settings and enter the consultancy name, astrologer name,
@@ -93,14 +96,14 @@ No server or installation is needed for this HTML version. It works offline,
 except WhatsApp sharing. Marathi rendering requires a suitable installed
 font (standard Windows Marathi fonts are supported).
 
-This ZIP does not update the previous Windows installer. It includes a square KP Master icon prepared from your supplied artwork,
+This ZIP does not update the previous Windows installer. It includes a square Remedy CRM icon prepared from your supplied artwork,
 embedded as the browser icon and sidebar logo. PNG, SVG and Windows ICO
 versions are included for future packaging.
 ''')
-zip_path=root/'downloads'/'Swami-Samarth-HTML.zip'
+zip_path=root/'downloads'/'Remedy-CRM-HTML.zip'
 with zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
- for p in sorted(target.iterdir()):z.write(p,'Swami-Samarth-HTML/'+p.name)
+ for p in sorted(target.iterdir()):z.write(p,'Remedy-CRM-HTML/'+p.name)
 with zipfile.ZipFile(zip_path) as z:
  assert z.testzip() is None
- assert z.read('Swami-Samarth-HTML/index.html')==(target/'index.html').read_bytes()
+ assert z.read('Remedy-CRM-HTML/index.html')==(target/'index.html').read_bytes()
 print('ZIP verified:',zip_path,'('+str(zip_path.stat().st_size)+' bytes)')

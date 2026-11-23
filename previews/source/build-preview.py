@@ -2,6 +2,7 @@ from pathlib import Path
 import base64
 root=Path(__file__).resolve().parents[2]
 s=(root/'Remedy.html').read_text()
+s=s.replace('<div class="nav-caption">YOUR WORKSPACE</div>','<div class="nav-caption" style="font-size:17px;letter-spacing:0;color:#efd698;margin-top:25px">Remedy CRM</div>')
 s=s.replace("astroRemedies_v10_bw_dualprint","astroRemedies_a5_design_preview_v1")
 s=s.replace('<title>Shree Swami Samarth Vastu & Astrology Consultancy</title>','<title>Swami Samarth | Booking & A5 Print Preview</title>')
 s=s.replace('</head>','<style>'+(root/'previews/source/booking-preview.css').read_text()+'</style></head>',1)
@@ -16,6 +17,8 @@ s=s.replace('</body>','<script>'+excel_library+'</script><script>'+(root/'previe
 for module in ['crm','finance','billing']:
  s=s.replace('</head>','<style>'+(root/('previews/source/'+module+'.css')).read_text()+'</style></head>',1)
  s=s.replace('</body>',(root/('previews/source/'+module+'.html')).read_text()+'<script>'+(root/('previews/source/'+module+'.js')).read_text()+'</script></body>',1)
+s=s.replace('</head>','<style>'+(root/'previews/source/simple-reports.css').read_text()+'</style></head>',1)
+s=s.replace('</body>','<script>'+(root/'previews/source/simple-reports.js').read_text()+'</script></body>',1)
 logo_data='data:image/png;base64,'  +base64.b64encode((root/'previews/source/branding/software-logo.png').read_bytes()).decode('ascii')
 s=s.replace('</head>','<link rel="icon" type="image/png" sizes="512x512" href="'+logo_data+'"><link rel="apple-touch-icon" href="'+logo_data+'"><style>.brand-symbol{border:0!important;flex-shrink:0;width:64px!important;height:64px!important}.brand-symbol img{display:block;width:64px;height:64px;border-radius:9px;object-fit:contain}</style></head>',1)
 s=s.replace('<div class="brand-symbol">✧</div>','<div class="brand-symbol"><img src="'+logo_data+'" alt="Shree Swami Samarth logo"></div>',1)

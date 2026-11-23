@@ -1,58 +1,32 @@
-# KP Master Android 1.5.0
+# Remedy CRM Android 1.6.0
 
-A native Android Activity hosts the complete offline consultancy HTML on a private, intercepted HTTPS origin (`app.kpmaster.local`). No HTTP server runs on the phone. Java/Android SDK APIs handle installed WhatsApp, the Storage Access Framework, clipboard and Android printing. The APK does not request Internet, contacts, phone or broad storage permissions. It is universal Java bytecode, with no ABI-specific native libraries.
+Native Android Activity with the complete offline consultancy HTML on an intercepted private HTTPS origin, `app.remedycrm.local`. No HTTP server runs on the phone. The installed app is `com.swamisamarth.remedycrm.mobile`, label **Remedy CRM**, with its own signing identity. It is separate from the previous KP Master APK; transfer records using per-section JSON backups. Neither product's data is automatically copied or replaced.
 
 ## Build
 
-Requires JDK 17+ (validated with JDK 21), SDK platform 35 and build-tools 35.0.0. No Gradle, npm or third-party Android libraries are needed. Existing combined HTML must be present at `downloads/Swami-Samarth-HTML/index.html` (build it using the preview/package scripts if needed).
+JDK 17+ (checked with JDK 21), SDK platform 35 and build-tools 35.0.0. No Gradle or third-party Android dependencies are needed. Prepare `downloads/Remedy-CRM-HTML/index.html` using the shared preview/package scripts, then:
 
 ```sh
 KP_ANDROID_SDK=/path/to/android-sdk \
-KP_ANDROID_KEYSTORE=/private/path/kp-master.jks \
+KP_ANDROID_KEYSTORE=/private/path/remedy-crm.jks \
 KP_ANDROID_PASSWORD_FILE=/private/path/password.txt \
 python3 android/build.py
 ```
 
-The keystore alias is `kp-master`. Use the same private signing key for future updates. A distribution keystore was created outside Git at `/workspace/.kp-master-android-signing/`; it and its password must be kept private and backed up securely. No signing secrets are committed. Output: `downloads/KP-Master-Android-1.5.0.apk`. The manifest is the version source. The production manifest is not debuggable. `KP_ANDROID_DEBUG=1` builds a separate, debuggable `android/build/KP-Master-test.apk` for local emulator checks; do not distribute it.
+The legacy build-variable prefix is retained for source compatibility; it does not select the installed app identity. The keystore alias is `remedy-crm`. Current private signing material is outside Git at `/workspace/.remedy-crm-signing/`. Keep it private and back it up securely: future updates to this new package must use the same key. Never commit keystore/password files. Output: `downloads/Remedy-CRM-Android-1.6.0.apk`. `KP_ANDROID_DEBUG=1` builds a separate debuggable test APK under ignored `android/build`; do not distribute that test build.
 
-The build uses aapt2, javac, d8, zipalign and apksigner. For the cloud's manual SDK downloads, official Google repository checksums were verified. The builder accepts normal SDK directory layouts and the temporary zip extraction layout used here. Use SDK tools under their applicable licenses.
+## Features and native boundaries
 
-## Phone design
+- Colourful compact navigation, saved themes, visible remedy search/Add, full-text expansion and page shortcuts. Saved theme choices remain selected. System mode reads Android configuration through the trusted bridge.
+- Essential customer controls first; optional details, schedules, private notes and archive actions remain expandable. Reports follow selected filters and omit private CRM notes/birth details.
+- Snapshot report preview, A5/A4 landscape and optional SVG bar diagrams for follow-ups or collections/expenses. Quotes/invoices use A5/A4 portrait. Remedy/booking A5 headings are compact, with saved top-space control (4–25 mm, default 5).
+- Java opens only explicitly targeted WhatsApp/WhatsApp Business intents, with no web fallback or automatic sending.
+- Exports use Android Create Document and imports use Open Document. No broad storage, contacts, phone or Internet permissions are requested. Export payloads are limited to 25 MB and written only to the selected URI.
+- Android PrintDocumentAdapter uses selected report/document paper size/orientation; afterprint cleans up when the adapter finishes. Hardware/system service behavior needs device checks.
+- Only bundled index content loads. Other navigation/requests are blocked, with restrictive CSP and no remote JavaScript. Web storage is private to this new package/origin. Cloud backup is disabled; export backups regularly. Uninstall/clear data removes local records.
 
-Persistent bottom navigation: Remedies, Customers, Bookings, Accounts, Quotes & invoices. The Menu contains all workspaces, including Settings. Touch controls are larger, forms use one column on phones, customer/document selection scrolls to the editor, and document previews fit the screen with an Actual size toggle. A5/A4 print dimensions remain unchanged. Compatibility helpers cover randomUUID, JSON-only structuredClone and dialog fallback on older engines. Android System WebView 80+ is required; update System WebView/Chrome if prompted.
+## Checks
 
-## Native boundaries
+Serve the repository and set `KP_MOBILE_TEST_URL` (for example `http://127.0.0.1:8091/android/build/assets/index.html`) for `android/tests/mobile.cjs`, `compact.cjs`, `remedy-controls.cjs` and `themes.cjs`. Shared `desktop/tests/check-simple-reports.cjs` and `check-a5-heading.cjs` verify report/print output. Older-engine compatibility covers randomUUID, JSON-only structuredClone and dialog fallbacks; Android System WebView 80+ is required.
 
-- Only the bundled index can load in the WebView. Remote content/navigation is blocked. Inline HTML has a restrictive response CSP. The bridge is exposed only to this bundled content.
-- WhatsApp intents explicitly target WhatsApp or WhatsApp Business; no web fallback or automatic sending.
-- Blob exports become base64 with a 25 MB limit and open Android's Create Document picker. Export bytes are written only to the selected URI. User cancellation does not delete saved app data.
-- Imports use Android's Open Document picker and existing per-section validation/confirmation.
-- Printing delegates to WebView's PrintDocumentAdapter. The native media size defaults to selected A5/A4; Accounts uses A5 landscape. afterprint cleanup runs when the print adapter finishes, including cancellation.
-- Web storage uses a stable package/origin. Cloud backups are disabled; export each module regularly. Uninstalling or clearing app storage removes local data.
-
-## Verification
-
-Serve the repository on localhost:8086; create `/tmp/kp-mobile-tests`, then run:
-
-```sh
-python3 android/stage.py
-node android/tests/remedy-controls.cjs
-node android/tests/mobile.cjs
-KP_TEST_LEGACY=1 node android/tests/mobile.cjs
-```
-
-Tests use synthetic contacts and a mocked native bridge; no WhatsApp messages are sent. Native emulator checks and their limits are documented in `downloads/ANDROID-KP-MASTER.md`. A physical phone, installed WhatsApp and a real printer are required for final hardware verification.
-
-Version 1.4.1 moves the remedy search/filter/Add controls out of the hidden desktop header into the visible remedy workspace. A regression check covers above-fold visibility and saving/searching a new remedy after reload.
-
-## Appearance settings (1.4.2)
-
-Menu → Settings → Theme offers Classic Gold, Ocean Blue, Saffron, Dark and Follow phone setting. Selection previews immediately; Save theme writes only the dedicated `swami_appearance_v1` preference. Restore saved theme discards a preview. Leaving Settings also restores the saved theme. System mode uses Android's configuration through the trusted bridge, with a media-query fallback for browser tests; configuration changes notify the page without recreating the editor. CSS is screen-only and document previews remain white. Theme preference is separate from business-profile backups.
-
-`node android/tests/themes.cjs` checks choices, saving/reload, reverting/discarding, browser/native system-change notifications, print/preview white backgrounds, fallback for invalid preferences and workspace width. Run with the same local server URL override as the other mobile tests.
-
-## Colourful compact layout (1.5.0)
-
-`compact.js/css` add a screen-only compact layout and a Vibrant Colours theme. This is the default when no valid appearance preference exists; explicitly saved themes remain selected. Headers, spacing and cards are smaller while fields retain 16px input text and touch controls retain at least 44px height. Remedy notes are clamped to three lines, with Read full remedy / Show less controls added for truncated text. Sharing and printing still read the full stored remedy. Customer filters are behind an explicit Filter customers disclosure; search and Add remain visible. Jump links scroll to customer forms, current documents, reports or business details without modifying those forms.
-
-`node android/tests/compact.cjs` checks the default theme, expand/collapse/full print content, record immutability, all workspaces at 320/390/768 px, navigation touch targets, filter disclosure, report shortcuts and saved-theme persistence. Compact CSS is screen-only; paper output keeps its previous layout. The native bridge and permissions are unchanged.
+The release APK's signature, manifest identity, non-debuggable/no-permissions properties and exact embedded assets were checked. Browser tests intercept native calls; no WhatsApp messages are sent. No native-device installation, file-picker, print/WhatsApp launch or physical-printer test is claimed. See `downloads/REMEDY-CRM-START-HERE.md` for end-user use and migration.
