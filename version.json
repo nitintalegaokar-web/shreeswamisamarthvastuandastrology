@@ -1,17 +1,17 @@
 {
-  "version": "16.11.2026.1123",
+  "version": "16.12.2026.1123",
   "updated": "2026-11-23",
   "platform": "Windows 10/11 x64",
   "runtime": "Microsoft Edge WebView2",
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 20861586,
-      "sha256": "656cd59c747bfde0191813688f703bbf012b0d939c49023be04f180d761dafe7"
+      "bytes": 20869266,
+      "sha256": "74f81ad03015c4a863d3e9a66a0e6e22644d7bde655a732e07e739b2bae0b4bb"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
-      "sha256": "68ca14938a97e09b7a52c5686477db65e39fe4f88559286b378653788334b55a"
+      "sha256": "a9459ce9acbcb68886a5ef3d86b17f6eed890ccb93bcb6369cd8b3a481dbae0f"
     }
   },
   "expandedDesktopAssets": 172,
@@ -19,7 +19,7 @@
   "nativeWindowsWebView2DisplayTested": false,
   "product": "Advance KP Master",
   "suppliedWordDocuments": 43,
-  "logicRegressionTests": 144,
+  "logicRegressionTests": 151,
   "encyclopediaLanguageViews": 132,
   "suppliedTextNotes": 1,
   "selectionPreferencesPersist": true,
@@ -77,7 +77,6 @@
   "houseNotationAllChartStyles": true,
   "chartNotationCases": 48,
   "appmOnlyRequestedTwoControlsRemoved": true,
-  "appmHandbookOnlyUntilLokpaReadable": true,
   "appmHandbookRuleCount": 453,
   "handbookSourceSHA256": "95439b242cbf010ec6cf938b15a2216e6305dd5fc371e49014b4bd4b580ee31e",
   "encyclopediaOtherRulesRetained": true,
@@ -87,6 +86,25 @@
   "dbaStartEndBoundariesVerified": true,
   "dbaNativeStarSubFourfoldVerified": true,
   "lokpaPackageReceived": true,
-  "lokpaRulesImported": false,
-  "lokpaPendingReason": "Supplied LOKPA.rar, Light of KP Astrology.exe and app.asar exceed the tool 32 MiB per-file transfer limit. Await app.asar compressed below the limit or 25 MiB split archive parts."
+  "lokpaRulesImported": true,
+  "appmApprovedEventSources": [
+    "KP Handbook",
+    "Lokpa 2018.1.1"
+  ],
+  "appmLokpaEventCount": 408,
+  "appmApprovedEventCount": 861,
+  "lokpaRandomDifferentialFixtures": 1200,
+  "lokpaNativeKundaliDbaChains": 729,
+  "lokpaAllNormalizedSourceFunctionCasesMatched": true,
+  "lokpaOptionalNativeAspectDefinitionsRecovered": false,
+  "lokpaUnavailableOptionalAspectVerdict": "Not evaluated unless another source case matches",
+  "lokpaReviewRequiredEventCount": 167,
+  "lokpaRawSourcePreserved": true,
+  "lokpaDuplicateUid40SelectionsSeparated": true,
+  "lokpaSunZeroIdPreserved": true,
+  "lokpaXiLordNumericStringCorrected": true,
+  "lokpaPdIndependentOfMdAd": true,
+  "lokpaVendorBinariesExecuted": false,
+  "lokpaActivationProtectionModified": false,
+  "dbaSublordFourfoldFilter": true
 }
