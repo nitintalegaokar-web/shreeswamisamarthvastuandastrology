@@ -1,5 +1,5 @@
 {
-  "version": "16.10.2026.1123",
+  "version": "16.11.2026.1123",
   "updated": "2026-11-23",
   "file": "KP-MASTER-Updated.html",
   "bytes": 32422134,
@@ -8,7 +8,7 @@
   "installerBranch": "kp-master-windows",
   "product": "Advance KP Master",
   "suppliedWordDocuments": 43,
-  "logicRegressionTests": 143,
+  "logicRegressionTests": 144,
   "compressionChunks": 14,
   "maximumUnpackedChunkBytes": 8388608,
   "suppliedTextNotes": 1,
@@ -55,16 +55,33 @@
   "matchingMarsDoshaLabel": true,
   "matchingExpandViaRightClickOnly": true,
   "appmMatchingTimeWindows": true,
-  "appmFindWithDba": true,
-  "appmOptionalDbaQualifiedFilter": true,
+  "appmFindWithDba": false,
+  "appmOptionalDbaQualifiedFilter": false,
   "appmPagedDates": 60,
   "aboutPhotoEditingControlsRemoved": true,
   "ownerPortraitEmbedded": false,
   "ownerPortraitPendingOriginalFile": true,
   "files": {
     "KP-MASTER-Updated.html": {
-      "bytes": 32430682,
-      "sha256": "b83cd264c75efa28dbfe5392f9fe156944047a3c9cb7fbc7d75f159f21170da7"
+      "bytes": 32433946,
+      "sha256": "6d7f20104e0293c5690388819bf96812d06a6ffac8e2d98a1b117ce81e7b7568"
     }
-  }
+  },
+  "planetNameNotationChartOnly": true,
+  "distinctMarathiHindiShortNames": true,
+  "houseNotationAllChartStyles": true,
+  "chartNotationCases": 48,
+  "appmOnlyRequestedTwoControlsRemoved": true,
+  "appmHandbookOnlyUntilLokpaReadable": true,
+  "appmHandbookRuleCount": 453,
+  "handbookSourceSHA256": "95439b242cbf010ec6cf938b15a2216e6305dd5fc371e49014b4bd4b580ee31e",
+  "encyclopediaOtherRulesRetained": true,
+  "encyclopediaAdditionalReferenceEntries": 229,
+  "encyclopediaSoftwareEventRows": 325,
+  "dbaNativePeriodSelectionChecks": 9,
+  "dbaStartEndBoundariesVerified": true,
+  "dbaNativeStarSubFourfoldVerified": true,
+  "lokpaPackageReceived": true,
+  "lokpaRulesImported": false,
+  "lokpaPendingReason": "Supplied LOKPA.rar, Light of KP Astrology.exe and app.asar exceed the tool 32 MiB per-file transfer limit. Await app.asar compressed below the limit or 25 MiB split archive parts."
 }
