@@ -1,17 +1,17 @@
 {
-  "version": "16.9.2026.1122",
-  "updated": "2026-11-22",
+  "version": "16.10.2026.1123",
+  "updated": "2026-11-23",
   "platform": "Windows 10/11 x64",
   "runtime": "Microsoft Edge WebView2",
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 20851873,
-      "sha256": "083660a54636e391c75fcfefb503f8707095111ae06ba5dbb575e1150f8ca891"
+      "bytes": 20849995,
+      "sha256": "ceb28b0543d6c89d11d77d28996022285f29c9618c4cd99ecef269c2822f60da"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
-      "sha256": "9722eb5433b6eb42764331e41d8cc0d1364f8c14668fe5a62850bf5c9ae41f9a"
+      "sha256": "f4bca35ee7fea1b7f6ef98c6b27eb7e2e1d92578a491dd0fb21b14ade4559854"
     }
   },
   "expandedDesktopAssets": 172,
@@ -19,7 +19,7 @@
   "nativeWindowsWebView2DisplayTested": false,
   "product": "Advance KP Master",
   "suppliedWordDocuments": 43,
-  "logicRegressionTests": 137,
+  "logicRegressionTests": 143,
   "encyclopediaLanguageViews": 132,
   "suppliedTextNotes": 1,
   "selectionPreferencesPersist": true,
@@ -56,5 +56,20 @@
   "northRomanCuspDegreesHoverOnly": true,
   "northRomanReferenceViewsVerified": 12,
   "standaloneEducationInKP": false,
-  "chartSearchDesignUnchanged": true
+  "chartSearchDesignUnchanged": true,
+  "appmBlankEventsHidden": true,
+  "appmRuleDescriptionsEnglish": true,
+  "appmSingleClickNegativeHouses": true,
+  "appmMinimizePreservesSession": true,
+  "appmTransitPopoverBounded": true,
+  "matchingWesternAspectQualityColours": true,
+  "matchingMarsDoshaLabel": true,
+  "matchingExpandViaRightClickOnly": true,
+  "appmMatchingTimeWindows": true,
+  "appmFindWithDba": true,
+  "appmOptionalDbaQualifiedFilter": true,
+  "appmPagedDates": 60,
+  "aboutPhotoEditingControlsRemoved": true,
+  "ownerPortraitEmbedded": false,
+  "ownerPortraitPendingOriginalFile": true
 }

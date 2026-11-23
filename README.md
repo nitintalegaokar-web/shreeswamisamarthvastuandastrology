@@ -4,7 +4,7 @@
 
 [Download Owner Activation Tool.exe](https://github.com/nitintalegaokar-web/shreeswamisamarthvastuandastrology/raw/refs/heads/kp-master-windows/KP-MASTER-Owner-Activation.exe)
 
-Updated 22 November 2026 · version 16.9.2026.1122.
+Updated 23 November 2026 · version 16.10.2026.1123.
 
 Install on 64-bit Windows 10 or 11. Microsoft Edge WebView2 Runtime is required; the app opens Microsoft's download page if it is missing. Existing activation codes, owner key, saved charts and settings remain compatible. Activation appears directly below Astrologer Information. “Owner copy · No expiry” is displayed only for a verified non-expiring owner licence.
 
@@ -67,3 +67,9 @@ Copy/cut/paste and drag-copy are blocked in application documents, engine/report
 The 16.9 correction places every Roman cusp numeral inside its actual KP Bhava polygon, with collision checks against planets, sign numbers and other cusp markers. Cusp degrees stay in the shared factual hover rather than being appended to these short labels. Rotated views keep the correct actual cusp identity. Chart Search retains its 16.8 design and persistent catalogue. The standalone Education choice is removed from KP prediction menus, popup topics, library topics and report checkboxes; reference data remains available internally.
 
 The private owner key is never included in this repository or customer installer.
+
+The 16.10 update hides event choices that have neither rule text nor usable event criteria. Rule descriptions show the English conditions. Negative-house checkboxes toggle with one click. APPM preserves its selection and running searches when minimized; closing it resets the session. Transit date detail popups stay within the module and keep chart actions reachable. Matchmaking omits the duplicate Expand Kundali button, retains right-click expansion, labels Mars Dosha consistently, and renders Western aspect colours from the native calculated quality and palette.
+
+APPM retains native date grades and adds matching time windows split at actual transit boundaries, DBA changes and local midnight. Find with DBA calculates the configured Fruitful Significators and filters through natal promise, the supplied MD/AD/PD rules and joint DBA admission. The separate DBA-qualified-only switch is optional. Date cards are paged at 60 per category for responsive large result sets. These are astrological rule matches, not a guarantee of the real-world event date. Original planetary positions, cusp calculations and Chart Search design are unchanged.
+
+The About photo editing buttons are removed. Embedding the owner's new portrait is pending receipt of its original JPG or PNG file; pasted chat images are not included in this build.
