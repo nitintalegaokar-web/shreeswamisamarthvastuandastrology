@@ -6,8 +6,8 @@
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 20870400,
-      "sha256": "ee55dbaeb66fe61edab1dfdb07b2d641a7158f8f2ab79530b449db283c87443d"
+      "bytes": 20869459,
+      "sha256": "16af99243a3745f739ca6ec74f28e5e2fe15d6fc8f4f1c1f26007648c5ebc4e2"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
