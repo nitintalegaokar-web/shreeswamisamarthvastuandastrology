@@ -1,6 +1,6 @@
 {
-  "version": "16.9.2026.1122",
-  "updated": "2026-11-22",
+  "version": "16.10.2026.1123",
+  "updated": "2026-11-23",
   "file": "KP-MASTER-Updated.html",
   "bytes": 32422134,
   "sha256": "e0173db41b4c7a3167158dc6423932540ed38ed9b20d0baec44e3bd2cfe49f7f",
@@ -8,7 +8,7 @@
   "installerBranch": "kp-master-windows",
   "product": "Advance KP Master",
   "suppliedWordDocuments": 43,
-  "logicRegressionTests": 137,
+  "logicRegressionTests": 143,
   "compressionChunks": 14,
   "maximumUnpackedChunkBytes": 8388608,
   "suppliedTextNotes": 1,
@@ -45,5 +45,26 @@
   "northRomanCuspDegreesHoverOnly": true,
   "northRomanReferenceViewsVerified": 12,
   "standaloneEducationInKP": false,
-  "chartSearchDesignUnchanged": true
+  "chartSearchDesignUnchanged": true,
+  "appmBlankEventsHidden": true,
+  "appmRuleDescriptionsEnglish": true,
+  "appmSingleClickNegativeHouses": true,
+  "appmMinimizePreservesSession": true,
+  "appmTransitPopoverBounded": true,
+  "matchingWesternAspectQualityColours": true,
+  "matchingMarsDoshaLabel": true,
+  "matchingExpandViaRightClickOnly": true,
+  "appmMatchingTimeWindows": true,
+  "appmFindWithDba": true,
+  "appmOptionalDbaQualifiedFilter": true,
+  "appmPagedDates": 60,
+  "aboutPhotoEditingControlsRemoved": true,
+  "ownerPortraitEmbedded": false,
+  "ownerPortraitPendingOriginalFile": true,
+  "files": {
+    "KP-MASTER-Updated.html": {
+      "bytes": 32430682,
+      "sha256": "b83cd264c75efa28dbfe5392f9fe156944047a3c9cb7fbc7d75f159f21170da7"
+    }
+  }
 }
