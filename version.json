@@ -6,8 +6,8 @@
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 21046466,
-      "sha256": "03dcc5555dea87b24636254ae9ecfaa0ac5d97bbda72e228f5246681f5982848"
+      "bytes": 21054571,
+      "sha256": "e2ad084197108cb68db903e0a45f897592457b7e81bd2a4459f3fbee7ffec4ed"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
@@ -19,7 +19,7 @@
   "nativeWindowsWebView2DisplayTested": false,
   "product": "Advance KP Master",
   "suppliedWordDocuments": 45,
-  "logicRegressionTests": 159,
+  "logicRegressionTests": 171,
   "encyclopediaLanguageViews": 141,
   "suppliedTextNotes": 1,
   "selectionPreferencesPersist": true,
@@ -151,5 +151,41 @@
   ],
   "dashaPopupSignificatorSelectionMeaning": "Number of houses in each matching significator combination",
   "dashaPopupSignificatorPreferenceSaved": true,
-  "numericNonEventDropdownLabelsProtected": true
+  "numericNonEventDropdownLabelsProtected": true,
+  "duplicatePredictiveCombinationActionsRemoved": true,
+  "combinationFinderMenuRemoved": true,
+  "originalSourceTextButtonRemoved": true,
+  "compactMenuFontPx": 12,
+  "reportEntryPreviewOnly": true,
+  "reportPrintRequiresExplicitButton": true,
+  "fullscreenChartFittingCached": true,
+  "smallPlanetCuspPopupBottomRight": true,
+  "pointPopupOnlyMatchedKundaliData": true,
+  "predictionPopupGeneralSectionRemoved": true,
+  "predictionPopupDuplicateSignificatorTablesRemoved": true,
+  "predictionLibraryIndependentLanguage": true,
+  "predictionLibraryLanguageOptions": [
+    "english",
+    "marathi",
+    "hindi"
+  ],
+  "handbookSourceEntriesAudited": 453,
+  "handbookFullyParsedPromiseConditions": 261,
+  "handbookFullyParsedTimingConditions": 257,
+  "handbookPositiveWitnessCases": 261,
+  "handbookNegativeWitnessCases": 453,
+  "eventCslStarSubIndependentlyEvaluated": true,
+  "dbaPlanetStarSubForEverySelectedPeriod": true,
+  "dbaNoTimingFallbackFromNatalRule": true,
+  "selectedLanguageEducationProfessionReports": true,
+  "medicalWholeSourceExcludedFromPersonalReports": true,
+  "childbirthCompactMatchedSourceOnly": true,
+  "childbirthTwinSourceRules": 9,
+  "kalaSarpaSourceTypes": 12,
+  "kalaSarpaReportOnlyMatchingType": true,
+  "kalaSarpaLanguages": [
+    "english",
+    "marathi",
+    "hindi"
+  ]
 }
