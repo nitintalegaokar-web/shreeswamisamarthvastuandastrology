@@ -1,13 +1,13 @@
 {
   "version": "16.13.2026.1123",
-  "updated": "2026-11-24",
+  "updated": "2026-11-25",
   "platform": "Windows 10/11 x64",
   "runtime": "Microsoft Edge WebView2",
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 21054571,
-      "sha256": "e2ad084197108cb68db903e0a45f897592457b7e81bd2a4459f3fbee7ffec4ed"
+      "bytes": 21409891,
+      "sha256": "a7b7aecc0731f7ad5876d7d50386064f8f01d6069cc7d4554b0888bde261c993"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
@@ -160,8 +160,8 @@
   "reportPrintRequiresExplicitButton": true,
   "fullscreenChartFittingCached": true,
   "smallPlanetCuspPopupBottomRight": true,
-  "pointPopupOnlyMatchedKundaliData": true,
-  "predictionPopupGeneralSectionRemoved": true,
+  "pointPopupOnlyMatchedKundaliData": false,
+  "predictionPopupGeneralSectionRemoved": false,
   "predictionPopupDuplicateSignificatorTablesRemoved": true,
   "predictionLibraryIndependentLanguage": true,
   "predictionLibraryLanguageOptions": [
@@ -187,5 +187,40 @@
     "english",
     "marathi",
     "hindi"
-  ]
+  ],
+  "encyclopediaIndependentLanguage": true,
+  "encyclopediaLanguageOptions": [
+    "english",
+    "marathi",
+    "hindi"
+  ],
+  "nakshatraPopupMouseKeyboardVerified": true,
+  "nakshatraPopupReopensAfterPlanetOrHouse": true,
+  "transitNakshatraUsesDisplayedModel": true,
+  "selectedPlanetHouseGeneralSignifications": true,
+  "transitResultPopupMaxWidth": 420,
+  "transitResultPopupMaxHeight": 300,
+  "manualTransitCompactResults": true,
+  "transitResultPopupNarrowScreenVerified": true,
+  "ruleOfThreeUsesExplicitSelectedCusps": true,
+  "ruleOfThreeIndependentOfStaleFruitfulResult": true,
+  "ruleOfThreeActualEphemerisScanVerified": true,
+  "windowsFullscreenChangesPostedAfterWebViewCallback": true,
+  "windowsBrowserResizeMessagesCoalesced": true,
+  "nativeWin32WineFullscreenTransitionsVerified": 100,
+  "nativeWin32WineResizeMessagesVerified": 1000,
+  "softwareIconMasterPixels": 1024,
+  "windowsIconSizes": [
+    16,
+    20,
+    24,
+    32,
+    40,
+    48,
+    64,
+    96,
+    128,
+    256
+  ],
+  "smallPopupEscapePreservesParentDialog": true
 }
