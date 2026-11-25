@@ -6,8 +6,8 @@
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 21410904,
-      "sha256": "f0d305cc1514321d378469ca34e565079b68e0777e45f93e4d8e18c3fca4790e"
+      "bytes": 21482268,
+      "sha256": "52145eeb0c220efacb0071ea6e0afe729d0703e570b955f013346236f0acb44b"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
@@ -209,7 +209,7 @@
   "windowsBrowserResizeMessagesCoalesced": true,
   "nativeWin32WineFullscreenTransitionsVerified": 100,
   "nativeWin32WineResizeMessagesVerified": 1000,
-  "softwareIconMasterPixels": 1024,
+  "softwareIconMasterPixels": 256,
   "windowsIconSizes": [
     16,
     20,
@@ -247,5 +247,16 @@
   "compactTransitMatchesSelectedPlanetAndTime": true,
   "compactKalaSarpaOnlyMatchingType": true,
   "compactDashaBhuktiUsesActualMdAdLordsAndDates": true,
-  "compactPointReadingContextGuardVerified": true
+  "compactPointReadingContextGuardVerified": true,
+  "softwareLogoUsesExactOriginalSuppliedImage": true,
+  "softwareLogoSourceSHA256": "ab019f4b21c3421cfd5ab28f636c408d040f77f4230a145150a08b20cea16e4e",
+  "windowsIconFrameFormat": "32-bit Windows DIB bitmap",
+  "windowsIconNativeLoadAndDrawAllSizesVerified": true,
+  "shortcutIconFreshPath": "kp-master-user-logo.ico",
+  "shortcutTargetedShellRefresh": true,
+  "frontendOnlyLogoPayloadChanged": true,
+  "desktopHostSourceUnchangedForLogoUpdate": true,
+  "installerEmbeddedOriginalLogoAllTenSizesVerified": true,
+  "windowsProgramsIconFreshPathVerified": true,
+  "shortcutIconIndex": 0
 }
