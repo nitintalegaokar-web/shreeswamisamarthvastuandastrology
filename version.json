@@ -6,8 +6,8 @@
   "activation": "Owner-issued ECDSA P-256; existing owner key retained",
   "files": {
     "KP-MASTER-Installer.exe": {
-      "bytes": 21409891,
-      "sha256": "a7b7aecc0731f7ad5876d7d50386064f8f01d6069cc7d4554b0888bde261c993"
+      "bytes": 21410904,
+      "sha256": "f0d305cc1514321d378469ca34e565079b68e0777e45f93e4d8e18c3fca4790e"
     },
     "KP-MASTER-Owner-Activation.exe": {
       "bytes": 1094144,
@@ -162,7 +162,7 @@
   "smallPlanetCuspPopupBottomRight": true,
   "pointPopupOnlyMatchedKundaliData": false,
   "predictionPopupGeneralSectionRemoved": false,
-  "predictionPopupDuplicateSignificatorTablesRemoved": true,
+  "predictionPopupDuplicateSignificatorTablesRemoved": false,
   "predictionLibraryIndependentLanguage": true,
   "predictionLibraryLanguageOptions": [
     "english",
@@ -222,5 +222,30 @@
     128,
     256
   ],
-  "smallPopupEscapePreservesParentDialog": true
+  "smallPopupEscapePreservesParentDialog": true,
+  "planetPredictionWindowThreeColumnsPreserved": true,
+  "planetPredictionWindowPanels": [
+    "general",
+    "chart",
+    "reading"
+  ],
+  "planetPredictionWindowFourAndSixFoldTablesRetained": true,
+  "compactPointReadingChoices": [
+    "planet",
+    "rashi",
+    "transit",
+    "kala-sarpa",
+    "dasha-bhukti"
+  ],
+  "compactPointReadingLanguages": [
+    "english",
+    "marathi",
+    "hindi"
+  ],
+  "compactReadingsDoNotChangeLargeWindow": true,
+  "compactRashiMatchesSelectedPoint": true,
+  "compactTransitMatchesSelectedPlanetAndTime": true,
+  "compactKalaSarpaOnlyMatchingType": true,
+  "compactDashaBhuktiUsesActualMdAdLordsAndDates": true,
+  "compactPointReadingContextGuardVerified": true
 }
